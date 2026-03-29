@@ -7,16 +7,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="theme-color" content="#0a0e17"/>
 <title>One Piece D&D</title>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiT25lIFBpZWNlIEQmRCIsInNob3J0X25hbWUiOiJPUCBEJkQiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBhMGUxNyIsInRoZW1lX2NvbG9yIjoiIzBhMGUxNyIsImljb25zIjpbXX0="/>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiT25lIFBpZWNlIEQmRCIsInNob3J0X25hbWUiOiJPUCBEJkQiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBhMGUxNyIsInRoZW1lX2NvbG9yIjoiIzBhMGUxNyJ9"/>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body,#root{height:100%;overflow:hidden}
 body{background:#0a0e17;font-family:'Crimson Text',Georgia,serif;color:#e8dcc8}
 input,textarea,select,button{font-family:inherit;outline:none}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
 </style>
 </head>
 <body>
@@ -27,9 +25,8 @@ input,textarea,select,button{font-family:inherit;outline:none}
 <script type="text/babel">
 const {useState,useEffect,useCallback,useRef}=React;
 
-/* ═══ UTILS ═══ */
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const rollDice=(formula)=>{const results=[];let total=0;const parts=formula.match(/(\d+)d(\d+)/g);const bm=formula.match(/([+\-]\s*\d+)(?!.*d)/);const bonus=bm?parseInt(bm[0].replace(/\s/g,"")):0;if(parts)parts.forEach(p=>{const[n,s]=p.split("d").map(Number);for(let i=0;i<n;i++){const v=Math.floor(Math.random()*s)+1;results.push({sides:s,value:v});total+=v;}});return{results,bonus,total:total+bonus,formula};};
+const rollDice=(formula)=>{const res=[];let tot=0;const parts=formula.match(/(\d+)d(\d+)/g);const bm=formula.match(/([+\-]\s*\d+)(?!.*d)/);const bonus=bm?parseInt(bm[0].replace(/\s/g,"")):0;if(parts)parts.forEach(p=>{const[n,s]=p.split("d").map(Number);for(let i=0;i<n;i++){const v=Math.floor(Math.random()*s)+1;res.push({sides:s,value:v});tot+=v;}});return{results:res,bonus,total:tot+bonus,formula};};
 const d20=()=>Math.floor(Math.random()*20)+1;
 const calcCD=(pb,stats,sk)=>sk?8+pb+(stats[sk]?.mod||0):null;
 const effMax=c=>Math.max(0,c.hpMax-(c.hpPerm||0));
@@ -37,13 +34,13 @@ const oColor=(os,id)=>os.find(o=>o.id===id)?.color||"#c8a95e";
 const sortAbs=(abs,os)=>{const m={};os.forEach((o,i)=>m[o.id]=i);return[...abs].sort((a,b)=>(m[a.originId]??999)-(m[b.originId]??999));};
 
 const PASS="P0rc0di0";
-const STORAGE_KEY="op_dnd_v1";
+const ACC_KEY="op_dnd_accounts";
 const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"}];
 const ACTION_TYPES=["Azione","Azione bonus","Reazione","Passiva","Rituale"];
 const REST_TYPES=[{v:null,l:"Nessuna"},{v:"breve",l:"R. Breve"},{v:"lungo",l:"R. Lungo"}];
 const STAT_KEYS=["FOR","DES","COS","INT","SAG","CAR"];
 const ORIGIN_PAL=["#e74c3c","#e67e22","#3498db","#8e44ad","#1abc9c","#f1c40f","#2ecc71","#e91e63","#00bcd4","#ff5722"];
-const ACCOUNT_COLORS=["#e74c3c","#3498db","#2ecc71","#f39c12","#9b59b6","#1abc9c","#e91e63","#ff5722"];
+const ACC_COLORS=["#e74c3c","#3498db","#2ecc71","#f39c12","#9b59b6","#1abc9c","#e91e63","#ff5722"];
 const DEF_ORIGINS=[{id:"cecchino",name:"Cecchino",color:"#e74c3c"},{id:"carpentiere",name:"Carpentiere",color:"#e67e22"},{id:"navigatore",name:"Navigatore",color:"#3498db"},{id:"haki_arm",name:"Haki Armatura",color:"#8e44ad"},{id:"haki_oss",name:"Haki Osservazione",color:"#1abc9c"},{id:"haki_re",name:"Haki del Re",color:"#f1c40f"}];
 
 function newChar(name){return{
@@ -52,77 +49,68 @@ function newChar(name){return{
   skills:[],origins:[...DEF_ORIGINS],attacks:[],abilities:[],notes:"",diceLog:[]
 };}
 
-function loadData(){try{const d=localStorage.getItem(STORAGE_KEY);return d?JSON.parse(d):null;}catch{return null;}}
-function saveData(d){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}catch{}}
+function loadAccounts(){try{const d=localStorage.getItem(ACC_KEY);return d?JSON.parse(d):null;}catch{return null;}}
+function saveAccounts(a){try{localStorage.setItem(ACC_KEY,JSON.stringify(a));}catch{}}
+const DEF_ACCS=[{id:"master",name:"Master",color:"#c8a95e",isMaster:true},{id:"ciccio",name:"Ciccio",color:"#e74c3c",isMaster:false},{id:"pata",name:"Pata",color:"#3498db",isMaster:false}];
 
-function initData(){return{
-  accounts:[{id:"master",name:"Master",color:"#c8a95e",isMaster:true},{id:"ciccio",name:"Ciccio",color:"#e74c3c",isMaster:false},{id:"pata",name:"Pata",color:"#3498db",isMaster:false}],
-  characters:{master:[],ciccio:[],pata:[]},
-  maxPg:5
-};}
-
-/* ═══ MAIN APP ═══ */
+/* ═══ MAIN ═══ */
 function App(){
-  const[data,setData]=useState(null);
-  const[screen,setScreen]=useState("password"); // password, accounts, characters, sheet
+  const[accounts,setAccounts]=useState(()=>loadAccounts()||DEF_ACCS);
+  const[screen,setScreen]=useState("password");
   const[accId,setAccId]=useState(null);
-  const[charIdx,setCharIdx]=useState(null);
+  const[char,setChar]=useState(null);
 
-  useEffect(()=>{const d=loadData();setData(d||initData());},[]);
-  useEffect(()=>{if(data)saveData(data);},[data]);
+  useEffect(()=>{saveAccounts(accounts);},[accounts]);
 
-  const upData=useCallback(u=>setData(p=>({...p,...u})),[]);
-  const isMaster=data?.accounts?.find(a=>a.id===accId)?.isMaster;
-  const acc=data?.accounts?.find(a=>a.id===accId);
-  const chars=data?.characters?.[accId]||[];
-  const char=charIdx!==null?chars[charIdx]:null;
+  const acc=accounts.find(a=>a.id===accId);
+  const ac=acc?.color||"#c8a95e";
 
-  const setChar=useCallback((updates)=>{
-    setData(p=>{
-      const newChars={...p.characters};
-      const list=[...(newChars[accId]||[])];
-      list[charIdx]={...list[charIdx],...updates};
-      newChars[accId]=list;
-      return{...p,characters:newChars};
-    });
-  },[accId,charIdx]);
+  const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
 
-  const addChar=(name)=>{
-    setData(p=>{
-      const newChars={...p.characters};
-      const list=[...(newChars[accId]||[])];
-      list.push(newChar(name));
-      newChars[accId]=list;
-      return{...p,characters:newChars};
-    });
+  // Export
+  const doExport=()=>{
+    if(!char||!acc)return;
+    const payload={account:acc.name,accountId:acc.id,exportedAt:new Date().toISOString(),character:char};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;a.download=`${char.name.replace(/\s+/g,"_")}_${acc.name}.json`;a.click();
+    URL.revokeObjectURL(url);
   };
 
-  const delChar=(idx)=>{
-    setData(p=>{
-      const newChars={...p.characters};
-      const list=[...(newChars[accId]||[])];
-      list.splice(idx,1);
-      newChars[accId]=list;
-      return{...p,characters:newChars};
-    });
-    setCharIdx(null);
-    setScreen("characters");
+  // Import
+  const fileRef=useRef(null);
+  const doImport=(e)=>{
+    const f=e.target.files[0];if(!f)return;
+    const r=new FileReader();
+    r.onload=(ev)=>{
+      try{
+        const d=JSON.parse(ev.target.result);
+        if(d.character&&d.character.name){
+          setChar(d.character);
+          if(!accId){
+            // if not logged into an account yet, just load char
+          }
+        }else if(d.name&&d.stats){
+          // raw character without wrapper
+          setChar(d);
+        }else{alert("File non valido — assicurati sia un export di questa app.");}
+      }catch{alert("Errore nella lettura del file.");}
+      e.target.value="";
+    };r.readAsText(f);
   };
-
-  if(!data)return null;
 
   if(screen==="password")return<PasswordScreen onSuccess={()=>setScreen("accounts")}/>;
-  if(screen==="accounts")return<AccountsScreen data={data} upData={upData} onSelect={(id)=>{setAccId(id);setScreen("characters");}}/>;
-  if(screen==="characters")return<CharactersScreen acc={acc} chars={chars} maxPg={data.maxPg} onBack={()=>{setAccId(null);setScreen("accounts");}} onSelect={(i)=>{setCharIdx(i);setScreen("sheet");}} onAdd={addChar} onDelete={delChar} data={data} upData={upData}/>;
-  if(screen==="sheet"&&char)return<CharacterSheet char={char} setChar={setChar} accentColor={acc?.color||"#c8a95e"} onBack={()=>{setCharIdx(null);setScreen("characters");}}/>;
+  if(screen==="accounts")return<AccountsScreen accounts={accounts} setAccounts={setAccounts} onSelect={(id)=>{setAccId(id);setChar(null);setScreen("choose");}}/>;
+  if(screen==="choose")return<ChooseScreen acc={acc} ac={ac} onBack={()=>{setAccId(null);setScreen("accounts");}} onNew={()=>{setChar(newChar(""));setScreen("sheet");}} onImport={()=>fileRef.current?.click()} fileRef={fileRef} handleFile={(e)=>{doImport(e);setScreen("sheet");}}/>;
+  if(screen==="sheet"&&char)return<CharacterSheet char={char} up={upChar} ac={ac} acc={acc} onBack={()=>{if(confirm("Hai salvato (esportato) il PG? Le modifiche non salvate andranno perse.")){setChar(null);setScreen("choose");}}} onExport={doExport} onImport={()=>fileRef.current?.click()} fileRef={fileRef} handleFile={(e)=>{doImport(e);}}/>;
+
   return null;
 }
 
-/* ═══ PASSWORD SCREEN ═══ */
+/* ═══ PASSWORD ═══ */
 function PasswordScreen({onSuccess}){
-  const[pw,setPw]=useState("");
-  const[err,setErr]=useState(false);
-  const[show,setShow]=useState(false);
+  const[pw,setPw]=useState("");const[err,setErr]=useState(false);const[show,setShow]=useState(false);
   const check=()=>{if(pw===PASS){setErr(false);onSuccess();}else setErr(true);};
   return(<div style={SS.fullCenter}>
     <div style={{textAlign:"center",maxWidth:320,width:"100%",padding:"0 20px"}}>
@@ -138,200 +126,185 @@ function PasswordScreen({onSuccess}){
   </div>);
 }
 
-/* ═══ ACCOUNTS SCREEN ═══ */
-function AccountsScreen({data,upData,onSelect}){
-  const[showAdd,setShowAdd]=useState(false);
-  const[newName,setNewName]=useState("");
-  const master=data.accounts.find(a=>a.isMaster);
-  const players=data.accounts.filter(a=>!a.isMaster);
-  const addAcc=()=>{if(!newName.trim())return;const id=uid();const color=ACCOUNT_COLORS[(data.accounts.length-1)%ACCOUNT_COLORS.length];upData({accounts:[...data.accounts,{id,name:newName.trim(),color,isMaster:false}],characters:{...data.characters,[id]:[]}});setNewName("");setShowAdd(false);};
-  const delAcc=(id)=>{const nc={...data.characters};delete nc[id];upData({accounts:data.accounts.filter(a=>a.id!==id),characters:nc});};
-
-  // Export/Import
-  const exportData=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="op_dnd_backup.json";a.click();URL.revokeObjectURL(url);};
-  const fileRef=useRef(null);
-  const importData=(e)=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=(ev)=>{try{const d=JSON.parse(ev.target.result);if(d.accounts&&d.characters){upData(d);alert("Dati importati!");}else alert("File non valido");}catch{alert("Errore nel file");}};r.readAsText(f);};
-
+/* ═══ ACCOUNTS ═══ */
+function AccountsScreen({accounts,setAccounts,onSelect}){
+  const[showAdd,setShowAdd]=useState(false);const[nn,setNn]=useState("");
+  const master=accounts.find(a=>a.isMaster);const players=accounts.filter(a=>!a.isMaster);
+  const add=()=>{if(!nn.trim())return;const id=uid();setAccounts([...accounts,{id,name:nn.trim(),color:ACC_COLORS[(accounts.length-1)%ACC_COLORS.length],isMaster:false}]);setNn("");setShowAdd(false);};
+  const del=(id)=>{setAccounts(accounts.filter(a=>a.id!==id));};
   return(<div style={SS.fullScroll}>
     <div style={{padding:"40px 20px 20px",textAlign:"center"}}>
       <h1 style={{fontFamily:"'Cinzel'",fontSize:24,fontWeight:900,color:"#c8a95e",marginBottom:4,letterSpacing:2}}>☠️ Ciurma</h1>
       <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Scegli il tuo account</p>
     </div>
-    <div style={{padding:"0 20px 20px",display:"flex",flexDirection:"column",gap:10,maxWidth:400,margin:"0 auto",width:"100%"}}>
-      {/* Master */}
+    <div style={{padding:"0 20px 40px",display:"flex",flexDirection:"column",gap:10,maxWidth:400,margin:"0 auto",width:"100%"}}>
       <button onClick={()=>onSelect(master.id)} style={{...SS.accCard,borderColor:master.color+"66",background:`linear-gradient(135deg,${master.color}15,${master.color}08)`}}>
-        <div style={{width:44,height:44,borderRadius:"50%",background:master.color+"22",border:`2px solid ${master.color}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>👑</div>
-        <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:master.color}}>{master.name}</span><br/><span style={{fontSize:11,color:"#665a3e"}}>Dungeon Master · {(data.characters[master.id]||[]).length} PG</span></div>
+        <div style={{width:48,height:48,borderRadius:"50%",background:master.color+"22",border:`2px solid ${master.color}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>👑</div>
+        <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:master.color}}>{master.name}</span><br/><span style={{fontSize:11,color:"#665a3e"}}>Dungeon Master</span></div>
       </button>
-      {/* Players */}
       {players.map(a=>(
         <div key={a.id} style={{display:"flex",gap:8,alignItems:"center"}}>
           <button onClick={()=>onSelect(a.id)} style={{...SS.accCard,flex:1,borderColor:a.color+"44",background:`linear-gradient(135deg,${a.color}10,${a.color}05)`}}>
-            <div style={{width:44,height:44,borderRadius:"50%",background:a.color+"22",border:`2px solid ${a.color}`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:18,color:a.color}}>{a.name[0]}</div>
-            <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:"#e8dcc8"}}>{a.name}</span><br/><span style={{fontSize:11,color:"#665a3e"}}>{(data.characters[a.id]||[]).length} personaggi</span></div>
+            <div style={{width:48,height:48,borderRadius:"50%",background:a.color+"22",border:`2px solid ${a.color}`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:20,color:a.color}}>{a.name[0]}</div>
+            <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:"#e8dcc8"}}>{a.name}</span><br/><span style={{fontSize:11,color:"#665a3e"}}>Giocatore</span></div>
           </button>
-          <button onClick={()=>{if(confirm(`Eliminare l'account "${a.name}" e tutti i suoi PG?`))delAcc(a.id);}} style={{width:36,height:36,borderRadius:"50%",border:"1px solid #e74c3c33",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontSize:14,cursor:"pointer",flexShrink:0}}>✕</button>
+          <button onClick={()=>{if(confirm(`Eliminare "${a.name}"?`))del(a.id);}} style={{width:36,height:36,borderRadius:"50%",border:"1px solid #e74c3c33",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontSize:14,cursor:"pointer",flexShrink:0}}>✕</button>
         </div>
       ))}
-      {/* Add account */}
       {showAdd?(<div style={{display:"flex",gap:8}}>
-        <input value={newName} onChange={e=>setNewName(e.target.value)} placeholder="Nome giocatore..." style={{...SS.inp,flex:1}} onKeyDown={e=>e.key==="Enter"&&addAcc()} autoFocus/>
-        <button onClick={addAcc} style={{...SS.btnGreen,padding:"8px 16px"}}>✓</button>
-        <button onClick={()=>{setShowAdd(false);setNewName("");}} style={{...SS.btnRed,padding:"8px 12px"}}>✕</button>
+        <input value={nn} onChange={e=>setNn(e.target.value)} placeholder="Nome giocatore..." style={{...SS.inp,flex:1}} onKeyDown={e=>e.key==="Enter"&&add()} autoFocus/>
+        <button onClick={add} style={{...SS.btnGreen,padding:"8px 16px"}}>✓</button>
+        <button onClick={()=>{setShowAdd(false);setNn("");}} style={{...SS.btnRed,padding:"8px 12px"}}>✕</button>
       </div>):(<button onClick={()=>setShowAdd(true)} style={{...SS.btnGold,width:"100%",padding:"12px 0"}}>+ Aggiungi Giocatore</button>)}
-    </div>
-    {/* Export/Import */}
-    <div style={{padding:"20px",maxWidth:400,margin:"0 auto",width:"100%"}}>
-      <div style={{borderTop:"1px solid #c8a95e15",paddingTop:16,display:"flex",gap:8}}>
-        <button onClick={exportData} style={{...SS.btnGold,flex:1,padding:"10px 0",fontSize:12,opacity:0.7}}>📤 Esporta Backup</button>
-        <button onClick={()=>fileRef.current?.click()} style={{...SS.btnGold,flex:1,padding:"10px 0",fontSize:12,opacity:0.7}}>📥 Importa Backup</button>
-        <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={importData}/>
-      </div>
-      <p style={{fontSize:10,color:"#665a3e44",textAlign:"center",marginTop:8}}>Max {data.maxPg} PG per account</p>
     </div>
   </div>);
 }
 
-/* ═══ CHARACTERS SCREEN ═══ */
-function CharactersScreen({acc,chars,maxPg,onBack,onSelect,onAdd,onDelete,data,upData}){
-  const[newName,setNewName]=useState("");
-  const[adding,setAdding]=useState(false);
-  const ac=acc?.color||"#c8a95e";
-  return(<div style={SS.fullScroll}>
-    <div style={{padding:"16px 20px",display:"flex",alignItems:"center",gap:12,borderBottom:"1px solid #c8a95e15"}}>
-      <button onClick={onBack} style={SS.backBtn}>←</button>
-      <div style={{flex:1}}>
-        <h2 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:700,color:ac,letterSpacing:1}}>{acc?.name}</h2>
-        <p style={{fontSize:11,color:"#665a3e"}}>{chars.length}/{maxPg} personaggi</p>
-      </div>
-      {acc?.isMaster&&<span style={{fontSize:11,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master</span>}
-    </div>
-    <div style={{padding:"16px 20px",display:"flex",flexDirection:"column",gap:10,maxWidth:400,margin:"0 auto",width:"100%"}}>
-      {chars.length===0&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"30px 0"}}>Nessun personaggio ancora. Creane uno!</p>}
-      {chars.map((c,i)=>(
-        <div key={c.id} style={{display:"flex",gap:8,alignItems:"center"}}>
-          <button onClick={()=>onSelect(i)} style={{...SS.accCard,flex:1,borderColor:ac+"33",background:`linear-gradient(135deg,${ac}10,transparent)`}}>
-            <div style={{width:44,height:44,borderRadius:10,background:ac+"18",border:`1.5px solid ${ac}44`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:16,color:ac}}>{c.name?c.name[0]:"?"}</div>
-            <div style={{flex:1,textAlign:"left"}}>
-              <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:15,color:"#e8dcc8"}}>{c.name}</span><br/>
-              <span style={{fontSize:11,color:"#665a3e"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</span>
+/* ═══ CHOOSE SCREEN — Nuovo PG o Apri PG ═══ */
+function ChooseScreen({acc,ac,onBack,onNew,onImport,fileRef,handleFile}){
+  return(<div style={SS.fullCenter}>
+    <div style={{textAlign:"center",maxWidth:360,width:"100%",padding:"0 20px"}}>
+      <button onClick={onBack} style={{...SS.backBtn,borderColor:ac+"44",color:ac,marginBottom:20}}>← Torna agli account</button>
+      <div style={{width:72,height:72,borderRadius:"50%",background:ac+"22",border:`3px solid ${ac}`,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px",fontFamily:"'Cinzel'",fontWeight:900,fontSize:28,color:ac}}>{acc?.isMaster?"👑":acc?.name?.[0]||"?"}</div>
+      <h2 style={{fontFamily:"'Cinzel'",fontSize:22,fontWeight:900,color:ac,letterSpacing:1,marginBottom:6}}>{acc?.name}</h2>
+      <p style={{color:"#665a3e",fontSize:13,marginBottom:36}}>Cosa vuoi fare?</p>
+
+      <div style={{display:"flex",flexDirection:"column",gap:14}}>
+        <button onClick={onNew} style={{padding:"24px 20px",borderRadius:14,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left"}}>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <span style={{fontSize:32}}>✨</span>
+            <div>
+              <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:ac,display:"block"}}>Nuovo PG</span>
+              <span style={{fontSize:12,color:"#998866",lineHeight:1.3,display:"block",marginTop:2}}>Crea un personaggio da zero</span>
             </div>
-            <span style={{fontFamily:"'JetBrains Mono'",fontSize:13,color:"#665a3e"}}>HP {c.hpCurrent}/{effMax(c)}</span>
-          </button>
-          <button onClick={()=>{if(confirm(`Eliminare "${c.name}"?`))onDelete(i);}} style={{width:32,height:32,borderRadius:"50%",border:"1px solid #e74c3c33",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontSize:12,cursor:"pointer",flexShrink:0}}>✕</button>
-        </div>
-      ))}
-      {chars.length<maxPg&&(<>
-        {adding?(<div style={{display:"flex",gap:8}}>
-          <input value={newName} onChange={e=>setNewName(e.target.value)} placeholder="Nome personaggio..." style={{...SS.inp,flex:1}} onKeyDown={e=>{if(e.key==="Enter"&&newName.trim()){onAdd(newName.trim());setNewName("");setAdding(false);}}} autoFocus/>
-          <button onClick={()=>{if(newName.trim()){onAdd(newName.trim());setNewName("");setAdding(false);}}} style={{...SS.btnGreen,padding:"8px 16px"}}>✓</button>
-          <button onClick={()=>{setAdding(false);setNewName("");}} style={{...SS.btnRed,padding:"8px 12px"}}>✕</button>
-        </div>):(<button onClick={()=>setAdding(true)} style={{...SS.btnGold,width:"100%",padding:"12px 0",borderColor:ac+"55",color:ac}}>+ Nuovo Personaggio</button>)}
-      </>)}
+          </div>
+          <div style={{marginTop:12,padding:"8px 12px",borderRadius:8,background:"rgba(243,156,18,0.08)",border:"1px solid rgba(243,156,18,0.2)"}}>
+            <p style={{fontSize:11,color:"#f39c12",lineHeight:1.4}}>⚠️ Ricorda: i dati non vengono salvati automaticamente. Usa il pulsante <b>Esporta</b> in basso per salvare il tuo PG prima di chiudere l'app!</p>
+          </div>
+        </button>
+
+        <button onClick={onImport} style={{padding:"24px 20px",borderRadius:14,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left"}}>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <span style={{fontSize:32}}>📂</span>
+            <div>
+              <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:"#2ecc71",display:"block"}}>Apri PG</span>
+              <span style={{fontSize:12,color:"#998866",lineHeight:1.3,display:"block",marginTop:2}}>Importa un personaggio salvato in precedenza (.json)</span>
+            </div>
+          </div>
+        </button>
+      </div>
+      <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={handleFile}/>
     </div>
   </div>);
 }
 
 /* ═══ CHARACTER SHEET ═══ */
-function CharacterSheet({char:c,setChar:up,accentColor:ac,onBack}){
+function CharacterSheet({char:c,up,ac,acc,onBack,onExport,onImport,fileRef,handleFile}){
   const[tab,setTab]=useState("stats");
   const[edit,setEdit]=useState(false);
   const[popup,setPopup]=useState(null);
   const[modal,setModal]=useState(null);
   const log=c.diceLog||[];
-  const setLog=(l)=>up({diceLog:typeof l==="function"?l(log):l});
   const addLog=useCallback(e=>up({diceLog:[e,...(c.diceLog||[])].slice(0,80)}),[c.diceLog,up]);
 
-  const mkD20=(cfg)=>({...cfg,id:Date.now(),roll1:d20(),roll2:d20(),modifier:cfg.modifier||0,mode:null,chosen:null,total:null});
-  const mkDmg=(cfg)=>{const r=rollDice(cfg.formula);return{...cfg,id:Date.now(),rollResult:r,total:r.total};};
+  const mkD20=cfg=>({...cfg,id:Date.now(),roll1:d20(),roll2:d20(),modifier:cfg.modifier||0,mode:null,chosen:null,total:null});
+  const mkDmg=cfg=>{const r=rollDice(cfg.formula);return{...cfg,id:Date.now(),rollResult:r,total:r.total};};
   const openRoll=useCallback(cfg=>setPopup(cfg.type==="d20"?mkD20(cfg):mkDmg(cfg)),[]);
   const reroll=useCallback(()=>setPopup(p=>p?(p.type==="d20"?mkD20(p):mkDmg(p)):null),[]);
   const pickMode=useCallback(mode=>setPopup(p=>{if(!p)return null;const ch=mode==="vantaggio"?Math.max(p.roll1,p.roll2):mode==="svantaggio"?Math.min(p.roll1,p.roll2):p.roll1;return{...p,mode,chosen:ch,total:ch+p.modifier};}),[]);
   const acceptRoll=useCallback(()=>{if(!popup||(popup.type==="d20"&&!popup.mode))return;addLog({type:popup.type,label:popup.label,total:popup.total,roll1:popup.roll1,roll2:popup.roll2,chosen:popup.chosen,modifier:popup.modifier,mode:popup.mode,isNat20:popup.type==="d20"&&popup.chosen===20,isNat1:popup.type==="d20"&&popup.chosen===1,rollResult:popup.rollResult,cdTarget:popup.cdTarget,timestamp:Date.now()});setPopup(null);},[popup,addLog]);
 
-  return(<div style={{...SS.sheetWrap,background:`linear-gradient(180deg,#0a0e17,#111827,#0f1420)`}}>
+  return(<div style={{...SS.sheetWrap,background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
     {/* Header */}
-    <div style={{background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"12px 16px 10px"}}>
+    <div style={{background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"10px 14px 8px"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-        <div style={{display:"flex",alignItems:"center",gap:10,flex:1}}>
-          <button onClick={onBack} style={{...SS.backBtn,borderColor:ac+"44",color:ac}}>←</button>
+        <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
+          <button onClick={onBack} style={{...SS.backBtn,borderColor:ac+"44",color:ac,width:28,height:28,fontSize:12}}>←</button>
           <div style={{flex:1}}>
             {edit?(<div style={{display:"flex",flexDirection:"column",gap:3}}>
-              <input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,fontFamily:"'Cinzel'",fontSize:18,fontWeight:900,color:ac}}/>
-              <div style={{display:"flex",gap:3}}><input value={c.race} onChange={e=>up({race:e.target.value})} placeholder="Razza" style={{...SS.inp,flex:1,fontSize:11}}/><input type="number" value={c.level} onChange={e=>up({level:parseInt(e.target.value)||1})} style={{...SS.inp,width:36,fontSize:11,textAlign:"center"}}/></div>
-              <input value={c.classes} onChange={e=>up({classes:e.target.value})} placeholder="Classi" style={{...SS.inp,fontSize:11}}/>
+              <input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,fontFamily:"'Cinzel'",fontSize:16,fontWeight:900,color:ac}}/>
+              <div style={{display:"flex",gap:3}}><input value={c.race} onChange={e=>up({race:e.target.value})} placeholder="Razza" style={{...SS.inp,flex:1,fontSize:10}}/><input type="number" value={c.level} onChange={e=>up({level:parseInt(e.target.value)||1})} style={{...SS.inp,width:34,fontSize:10,textAlign:"center"}}/></div>
+              <input value={c.classes} onChange={e=>up({classes:e.target.value})} placeholder="Classi" style={{...SS.inp,fontSize:10}}/>
             </div>):(<>
-              <h1 style={{fontFamily:"'Cinzel'",fontSize:20,fontWeight:900,color:ac,margin:0,letterSpacing:1}}>{c.name||"Senza Nome"}</h1>
-              <p style={{fontSize:11,color:"#998866"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</p>
+              <h1 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:900,color:ac,margin:0,letterSpacing:1}}>{c.name||"Senza Nome"}</h1>
+              <p style={{fontSize:10,color:"#998866"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</p>
             </>)}
           </div>
         </div>
-        <button onClick={()=>setEdit(!edit)} style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button>
+        <div style={{display:"flex",alignItems:"center",gap:6}}>
+          <span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span>
+          <button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button>
+        </div>
       </div>
-      {/* HP */}
       <HPBar c={c} up={up} edit={edit} ac={ac}/>
-      {/* Quick stats */}
-      <div style={{display:"flex",gap:5,marginTop:10}}>
+      <div style={{display:"flex",gap:4,marginTop:8}}>
         {[{l:"CA",k:"ac"},{l:"Vel.",k:"speed"},{l:"Perc.",k:"passivePerception"},{l:"Comp.",k:"profBonus"}].map(i=>(
-          <div key={i.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"4px 3px",border:`1px solid ${ac}15`}}>
-            <span style={{fontSize:8,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700}}>{i.l}</span>
-            {edit?<input type="number" value={c[i.k]} onChange={e=>up({[i.k]:parseInt(e.target.value)||0})} style={{...SS.inp,width:38,textAlign:"center",fontSize:14,fontWeight:700,fontFamily:"'JetBrains Mono'",color:ac,padding:"1px 2px"}}/>
-            :<span style={{fontSize:16,fontWeight:700,color:ac,fontFamily:"'JetBrains Mono'"}}>{i.k==="profBonus"?`+${c[i.k]}`:c[i.k]}</span>}
+          <div key={i.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:6,padding:"4px 2px",border:`1px solid ${ac}15`}}>
+            <span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700}}>{i.l}</span>
+            {edit?<input type="number" value={c[i.k]} onChange={e=>up({[i.k]:parseInt(e.target.value)||0})} style={{...SS.inp,width:36,textAlign:"center",fontSize:14,fontWeight:700,fontFamily:"'JetBrains Mono'",color:ac,padding:"1px 2px"}}/>
+            :<span style={{fontSize:15,fontWeight:700,color:ac,fontFamily:"'JetBrains Mono'"}}>{i.k==="profBonus"?`+${c[i.k]}`:c[i.k]}</span>}
           </div>
         ))}
       </div>
     </div>
 
     {/* Content */}
-    <div style={{flex:1,overflowY:"auto",paddingBottom:60}}>
+    <div style={{flex:1,overflowY:"auto",paddingBottom:120}}>
       {tab==="stats"&&<STab c={c} up={up} edit={edit} openRoll={openRoll} setModal={setModal} ac={ac}/>}
       {tab==="actions"&&<ATab c={c} up={up} setModal={setModal} ac={ac}/>}
-      {tab==="dice"&&<DTab c={c} up={up} log={log} setLog={(l)=>up({diceLog:l})} openRoll={openRoll} ac={ac}/>}
+      {tab==="dice"&&<DTab c={c} up={up} log={log} openRoll={openRoll} ac={ac}/>}
       {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
     </div>
 
-    {/* Popup & Modals */}
     {popup&&<DicePopup p={popup} onMode={pickMode} onAccept={acceptRoll} onReroll={reroll} onRefuse={()=>setPopup(null)} ac={ac}/>}
     {modal?.type==="attack"&&<AttackModal c={c} up={up} data={modal.data} onClose={()=>setModal(null)}/>}
     {modal?.type==="ability"&&<AbilityModal c={c} up={up} data={modal.data} onClose={()=>setModal(null)}/>}
     {modal?.type==="origins"&&<OriginsModal c={c} up={up} onClose={()=>setModal(null)}/>}
 
+    {/* ─── STICKY IMPORT/EXPORT BAR ─── */}
+    <div style={{position:"absolute",bottom:46,left:0,right:0,display:"flex",gap:8,padding:"8px 14px",background:"linear-gradient(180deg,transparent,#0a0e17ee 30%)",zIndex:50}}>
+      <button onClick={onImport} style={{flex:1,padding:"12px 0",borderRadius:10,border:"2px solid #3498db55",background:"linear-gradient(135deg,rgba(52,152,219,0.15),rgba(52,152,219,0.05))",color:"#3498db",fontSize:15,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:1,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+        <span style={{fontSize:20}}>📂</span> Importa PG
+      </button>
+      <button onClick={onExport} style={{flex:1,padding:"12px 0",borderRadius:10,border:`2px solid ${ac}55`,background:`linear-gradient(135deg,${ac}20,${ac}08)`,color:ac,fontSize:15,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:1,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+        <span style={{fontSize:20}}>💾</span> Esporta PG
+      </button>
+    </div>
+    <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={handleFile}/>
+
     {/* Nav */}
-    <nav style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",background:"rgba(10,14,23,0.95)",backdropFilter:"blur(12px)",borderTop:`1px solid ${ac}22`}}>
-      {TABS.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"8px 0 10px",background:"transparent",border:"none",borderTop:tab===t.id?`2px solid ${ac}`:"2px solid transparent",color:tab===t.id?ac:"#665a3e",cursor:"pointer",fontFamily:"'Cinzel'",transition:"color 0.2s"}}><span style={{fontSize:18}}>{t.icon}</span><span style={{fontSize:9,letterSpacing:1,marginTop:1}}>{t.label}</span></button>)}
+    <nav style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",background:"rgba(10,14,23,0.98)",backdropFilter:"blur(12px)",borderTop:`1px solid ${ac}22`,zIndex:60}}>
+      {TABS.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"6px 0 8px",background:"transparent",border:"none",borderTop:tab===t.id?`2px solid ${ac}`:"2px solid transparent",color:tab===t.id?ac:"#665a3e",cursor:"pointer",fontFamily:"'Cinzel'",transition:"color 0.2s"}}><span style={{fontSize:16}}>{t.icon}</span><span style={{fontSize:8,letterSpacing:1,marginTop:1}}>{t.label}</span></button>)}
     </nav>
   </div>);
 }
 
 /* ═══ HP BAR ═══ */
 function HPBar({c,up,edit,ac}){
-  const eM=effMax(c);const pct=eM>0?Math.max(0,(c.hpCurrent/eM)*100):0;
-  const hc=pct>60?"#2ecc71":pct>30?"#f39c12":"#e74c3c";
-  return(<div style={{marginTop:10}}>
-    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4,flexWrap:"wrap"}}>
-      <span style={{fontFamily:"'Cinzel'",fontSize:10,fontWeight:700,color:"#998866",letterSpacing:2}}>HP</span>
+  const eM=effMax(c);const pct=eM>0?Math.max(0,(c.hpCurrent/eM)*100):0;const hc=pct>60?"#2ecc71":pct>30?"#f39c12":"#e74c3c";
+  return(<div style={{marginTop:8}}>
+    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}>
+      <span style={{fontFamily:"'Cinzel'",fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2}}>HP</span>
       {edit?(<div style={{display:"flex",alignItems:"center",gap:3}}>
-        <input type="number" value={c.hpCurrent} onChange={e=>up({hpCurrent:Math.min(parseInt(e.target.value)||0,eM)})} style={{width:44,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:hc,fontFamily:"'JetBrains Mono'",fontSize:16,padding:"1px 4px",textAlign:"center"}}/>
+        <input type="number" value={c.hpCurrent} onChange={e=>up({hpCurrent:Math.min(parseInt(e.target.value)||0,eM)})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:hc,fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/>
         <span style={{color:"#665a3e"}}>/</span>
-        <input type="number" value={c.hpMax} onChange={e=>up({hpMax:parseInt(e.target.value)||1})} style={{width:44,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",fontSize:16,padding:"1px 4px",textAlign:"center"}}/>
-      </div>):(<span style={{fontFamily:"'JetBrains Mono'",fontSize:18,fontWeight:600,color:hc}}>{c.hpCurrent}<span style={{color:"#665a3e"}}>/{eM}</span></span>)}
-      {c.hpTemp>0&&<span style={{fontSize:11,color:"#3498db",fontFamily:"'JetBrains Mono'",background:"rgba(52,152,219,0.12)",padding:"0 5px",borderRadius:3}}>+{c.hpTemp}t</span>}
-      {c.hpPerm>0&&<span style={{fontSize:11,color:"#e74c3c",fontFamily:"'JetBrains Mono'",background:"rgba(231,76,60,0.12)",padding:"0 5px",borderRadius:3}}>-{c.hpPerm}p</span>}
+        <input type="number" value={c.hpMax} onChange={e=>up({hpMax:parseInt(e.target.value)||1})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/>
+      </div>):(<span style={{fontFamily:"'JetBrains Mono'",fontSize:17,fontWeight:600,color:hc}}>{c.hpCurrent}<span style={{color:"#665a3e"}}>/{eM}</span></span>)}
+      {c.hpTemp>0&&<span style={{fontSize:10,color:"#3498db",fontFamily:"'JetBrains Mono'",background:"rgba(52,152,219,0.12)",padding:"0 4px",borderRadius:3}}>+{c.hpTemp}t</span>}
+      {c.hpPerm>0&&<span style={{fontSize:10,color:"#e74c3c",fontFamily:"'JetBrains Mono'",background:"rgba(231,76,60,0.12)",padding:"0 4px",borderRadius:3}}>-{c.hpPerm}p</span>}
     </div>
-    <div style={{height:5,background:"#1a1f2e",borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",borderRadius:3,width:`${pct}%`,background:`linear-gradient(90deg,${hc}cc,${hc})`,transition:"width 0.4s ease"}}/></div>
+    <div style={{height:5,background:"#1a1f2e",borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",borderRadius:3,width:`${pct}%`,background:`linear-gradient(90deg,${hc}cc,${hc})`,transition:"width 0.4s"}}/></div>
     {!edit&&(<>
-      <div style={{display:"flex",gap:4,marginTop:6}}>
-        {[-10,-5,-1,1,5,10].map(n=><button key={n} onClick={()=>{if(n>0)up({hpCurrent:Math.min(c.hpCurrent+n,eM)});else{const d=Math.abs(n);if(c.hpTemp>=d)up({hpTemp:c.hpTemp-d});else up({hpTemp:0,hpCurrent:Math.max(0,c.hpCurrent-(d-c.hpTemp))});}}} style={{flex:1,padding:"4px 0",borderRadius:6,border:"1px solid",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:11,fontWeight:600,background:n>0?"rgba(46,204,113,0.12)":"rgba(231,76,60,0.12)",color:n>0?"#2ecc71":"#e74c3c",borderColor:n>0?"#2ecc7133":"#e74c3c33"}}>{n>0?`+${n}`:n}</button>)}
+      <div style={{display:"flex",gap:3,marginTop:5}}>
+        {[-10,-5,-1,1,5,10].map(n=><button key={n} onClick={()=>{if(n>0)up({hpCurrent:Math.min(c.hpCurrent+n,eM)});else{const d=Math.abs(n);if(c.hpTemp>=d)up({hpTemp:c.hpTemp-d});else up({hpTemp:0,hpCurrent:Math.max(0,c.hpCurrent-(d-c.hpTemp))});}}} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:10,fontWeight:600,background:n>0?"rgba(46,204,113,0.1)":"rgba(231,76,60,0.1)",color:n>0?"#2ecc71":"#e74c3c",borderColor:n>0?"#2ecc7133":"#e74c3c33"}}>{n>0?`+${n}`:n}</button>)}
       </div>
-      <div style={{display:"flex",gap:6,marginTop:6}}>
-        <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:"rgba(200,169,94,0.04)",borderRadius:6,padding:"4px",border:"1px solid #c8a95e10"}}>
-          <span style={{fontSize:8,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700,marginBottom:2}}>TEMP</span>
-          <div style={{display:"flex",alignItems:"center",gap:3}}><button onClick={()=>up({hpTemp:Math.max(0,c.hpTemp-1)})} style={SS.hpSBtn}>−</button><span style={{fontFamily:"'JetBrains Mono'",fontSize:16,fontWeight:700,color:"#3498db",minWidth:24,textAlign:"center"}}>{c.hpTemp}</span><button onClick={()=>up({hpTemp:c.hpTemp+1})} style={SS.hpSBtn}>+</button></div>
-        </div>
-        <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:"rgba(200,169,94,0.04)",borderRadius:6,padding:"4px",border:"1px solid #c8a95e10"}}>
-          <span style={{fontSize:8,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700,marginBottom:2}}>PERM</span>
-          <div style={{display:"flex",alignItems:"center",gap:3}}><button onClick={()=>{const np=Math.max(0,c.hpPerm-1);up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,c.hpMax-np)});}} style={SS.hpSBtn}>−</button><span style={{fontFamily:"'JetBrains Mono'",fontSize:16,fontWeight:700,color:"#e74c3c",minWidth:24,textAlign:"center"}}>{c.hpPerm}</span><button onClick={()=>{const np=c.hpPerm+1;up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,Math.max(0,c.hpMax-np))});}} style={SS.hpSBtn}>+</button></div>
-        </div>
+      <div style={{display:"flex",gap:6,marginTop:5}}>
+        {[{l:"TEMP",v:c.hpTemp,c:"#3498db",dec:()=>up({hpTemp:Math.max(0,c.hpTemp-1)}),inc:()=>up({hpTemp:c.hpTemp+1})},{l:"PERM",v:c.hpPerm,c:"#e74c3c",dec:()=>{const np=Math.max(0,c.hpPerm-1);up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,c.hpMax-np)});},inc:()=>{const np=c.hpPerm+1;up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,Math.max(0,c.hpMax-np))});}}].map(h=>(
+          <div key={h.l} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:"rgba(200,169,94,0.04)",borderRadius:5,padding:"3px",border:"1px solid #c8a95e10"}}>
+            <span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700,marginBottom:1}}>{h.l}</span>
+            <div style={{display:"flex",alignItems:"center",gap:3}}><button onClick={h.dec} style={SS.hpSBtn}>−</button><span style={{fontFamily:"'JetBrains Mono'",fontSize:15,fontWeight:700,color:h.c,minWidth:22,textAlign:"center"}}>{h.v}</span><button onClick={h.inc} style={SS.hpSBtn}>+</button></div>
+          </div>
+        ))}
       </div>
     </>)}
   </div>);
@@ -341,26 +314,26 @@ function HPBar({c,up,edit,ac}){
 function DicePopup({p,onMode,onAccept,onReroll,onRefuse,ac}){
   const isD20=p.type==="d20",hp=isD20&&p.mode,n20=hp&&p.chosen===20,n1=hp&&p.chosen===1;
   return(<div style={SS.popOver} onClick={onRefuse}><div style={SS.popCard} onClick={e=>e.stopPropagation()}>
-    <p style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:ac||"#c8a95e",textAlign:"center",margin:"0 0 14px",letterSpacing:1}}>{p.label}</p>
+    <p style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:ac,textAlign:"center",margin:"0 0 12px",letterSpacing:1}}>{p.label}</p>
     {isD20&&(<>
-      <div style={{display:"flex",gap:14,justifyContent:"center",marginBottom:10}}>
-        {[p.roll1,p.roll2].map((v,i)=><div key={i} style={{width:70,height:70,borderRadius:10,border:`2px solid ${hp?(p.chosen===v?(p.mode==="normale"&&i===0||p.mode!=="normale"?ac:"#333"):"#333"):v===20?"#f1c40f":v===1?"#e74c3c":"#c8a95e44"}`,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(200,169,94,0.06)",opacity:hp&&!(p.mode==="normale"&&i===0)&&p.chosen!==v?0.3:1,transition:"all 0.2s"}}><span style={{fontSize:34,fontWeight:900,fontFamily:"'JetBrains Mono'",color:v===20?"#f1c40f":v===1?"#e74c3c":"#e8dcc8"}}>{v}</span></div>)}
+      <div style={{display:"flex",gap:12,justifyContent:"center",marginBottom:10}}>
+        {[p.roll1,p.roll2].map((v,i)=><div key={i} style={{width:66,height:66,borderRadius:10,border:`2px solid ${hp?(p.chosen===v&&(p.mode==="normale"?i===0:true)?ac:"#333"):v===20?"#f1c40f":v===1?"#e74c3c":"#c8a95e44"}`,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(200,169,94,0.06)",opacity:hp&&!(p.mode==="normale"&&i===0)&&p.chosen!==v?0.3:1,transition:"all 0.2s"}}><span style={{fontSize:32,fontWeight:900,fontFamily:"'JetBrains Mono'",color:v===20?"#f1c40f":v===1?"#e74c3c":"#e8dcc8"}}>{v}</span></div>)}
       </div>
-      <div style={{display:"flex",gap:5,marginBottom:14}}>
-        {[{m:"normale",l:"Normale",c:ac||"#c8a95e"},{m:"vantaggio",l:"Vantaggio",c:"#2ecc71"},{m:"svantaggio",l:"Svantaggio",c:"#e74c3c"}].map(({m,l,c})=><button key={m} onClick={()=>onMode(m)} style={{flex:1,padding:"7px 0",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",border:`1.5px solid ${p.mode===m?c:c+"33"}`,background:p.mode===m?c+"25":"transparent",color:p.mode===m?c:c+"88"}}>{l}</button>)}
+      <div style={{display:"flex",gap:4,marginBottom:12}}>
+        {[{m:"normale",l:"Normale",c:ac},{m:"vantaggio",l:"Vantaggio",c:"#2ecc71"},{m:"svantaggio",l:"Svantaggio",c:"#e74c3c"}].map(({m,l,c})=><button key={m} onClick={()=>onMode(m)} style={{flex:1,padding:"6px 0",borderRadius:6,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",border:`1.5px solid ${p.mode===m?c:c+"33"}`,background:p.mode===m?c+"25":"transparent",color:p.mode===m?c:c+"88"}}>{l}</button>)}
       </div>
       {hp&&<div style={{textAlign:"center",marginBottom:10}}>
-        <span style={{fontSize:52,fontWeight:900,fontFamily:"'JetBrains Mono'",color:n20?"#f1c40f":n1?"#e74c3c":"#e8dcc8",textShadow:n20?"0 0 24px #f1c40f55":n1?"0 0 24px #e74c3c55":"0 2px 12px rgba(0,0,0,0.4)",display:"block",lineHeight:1.1}}>{p.total}</span>
-        {p.modifier!==0&&<p style={{fontSize:12,color:"#998866",margin:"3px 0 0",fontFamily:"'JetBrains Mono'"}}>{p.chosen} {p.modifier>=0?"+":""}{p.modifier}</p>}
-        {n20&&<p style={{color:"#f1c40f",fontFamily:"'Cinzel'",fontWeight:700,fontSize:13,margin:"4px 0 0",letterSpacing:2}}>★ CRITICO ★</p>}
-        {n1&&<p style={{color:"#e74c3c",fontFamily:"'Cinzel'",fontWeight:700,fontSize:13,margin:"4px 0 0",letterSpacing:2}}>✗ FALLIMENTO ✗</p>}
-        {p.cdTarget&&<p style={{fontSize:13,color:p.total>=p.cdTarget?"#2ecc71":"#e74c3c",fontFamily:"'JetBrains Mono'",margin:"6px 0 0",fontWeight:700}}>CD {p.cdTarget} → {p.total>=p.cdTarget?"SUPERATA ✓":"FALLITA ✗"}</p>}
+        <span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:n20?"#f1c40f":n1?"#e74c3c":"#e8dcc8",textShadow:n20?"0 0 20px #f1c40f55":n1?"0 0 20px #e74c3c55":"0 2px 12px rgba(0,0,0,0.4)",display:"block",lineHeight:1.1}}>{p.total}</span>
+        {p.modifier!==0&&<p style={{fontSize:11,color:"#998866",margin:"2px 0 0",fontFamily:"'JetBrains Mono'"}}>{p.chosen} {p.modifier>=0?"+":""}{p.modifier}</p>}
+        {n20&&<p style={{color:"#f1c40f",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0",letterSpacing:2}}>★ CRITICO ★</p>}
+        {n1&&<p style={{color:"#e74c3c",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0",letterSpacing:2}}>✗ FALLIMENTO ✗</p>}
+        {p.cdTarget&&<p style={{fontSize:12,color:p.total>=p.cdTarget?"#2ecc71":"#e74c3c",fontFamily:"'JetBrains Mono'",margin:"6px 0 0",fontWeight:700}}>CD {p.cdTarget} → {p.total>=p.cdTarget?"SUPERATA ✓":"FALLITA ✗"}</p>}
       </div>}
-      {!hp&&<p style={{textAlign:"center",color:"#665a3e",fontSize:11,fontFamily:"'Cinzel'",marginBottom:10}}>Scegli una modalità</p>}
+      {!hp&&<p style={{textAlign:"center",color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'",marginBottom:8}}>Scegli una modalità</p>}
     </>)}
     {!isD20&&p.rollResult&&<div style={{textAlign:"center",marginBottom:10}}>
-      <span style={{fontSize:52,fontWeight:900,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",display:"block",lineHeight:1.1,textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>{p.total}</span>
-      <p style={{fontSize:12,color:"#998866",margin:"4px 0 0",fontFamily:"'JetBrains Mono'"}}>[{p.rollResult.results.map(r=>r.value).join(", ")}]{p.rollResult.bonus?` ${p.rollResult.bonus>=0?"+":""}${p.rollResult.bonus}`:""}</p>
+      <span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",display:"block",lineHeight:1.1}}>{p.total}</span>
+      <p style={{fontSize:11,color:"#998866",margin:"4px 0 0",fontFamily:"'JetBrains Mono'"}}>[{p.rollResult.results.map(r=>r.value).join(", ")}]{p.rollResult.bonus?` ${p.rollResult.bonus>=0?"+":""}${p.rollResult.bonus}`:""}</p>
     </div>}
     <div style={{display:"flex",gap:6,marginTop:10}}>
       <button onClick={onRefuse} style={{...SS.popBtn,background:"rgba(231,76,60,0.12)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Rifiuta</button>
@@ -372,47 +345,39 @@ function DicePopup({p,onMode,onAccept,onReroll,onRefuse,ac}){
 
 /* ═══ STATS TAB ═══ */
 function STab({c,up,edit,openRoll,setModal,ac}){
-  const uStat=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave"){ns[k].save=ns[k].mod+(v?c.profBonus:0);}up({stats:ns});};
-  return(<div style={{padding:"14px 14px 20px"}}>
+  const uStat=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave")ns[k].save=ns[k].mod+(v?c.profBonus:0);up({stats:ns});};
+  return(<div style={{padding:"12px 12px 20px"}}>
     <Sec ac={ac}>Caratteristiche</Sec>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5}}>
       {Object.entries(c.stats).map(([k,v])=>(
-        <div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:8,padding:"8px 4px 6px",border:`1px solid ${ac}15`}}>
-          <span style={{fontSize:10,fontWeight:700,color:"#998866",letterSpacing:2,fontFamily:"'Cinzel'"}}>{k}</span>
-          {edit?(<>
-            <input type="number" value={v.score} onChange={e=>uStat(k,"score",parseInt(e.target.value)||0)} style={{...SS.inp,width:40,fontSize:18,textAlign:"center",fontWeight:700,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",padding:"1px"}}/>
-            <span style={{fontSize:12,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600}}>{v.mod>=0?`+${v.mod}`:v.mod}</span>
-            <label style={{display:"flex",alignItems:"center",gap:2,fontSize:8,color:"#998866",cursor:"pointer",marginTop:3}}>
-              <input type="checkbox" checked={v.profSave} onChange={e=>uStat(k,"profSave",e.target.checked)} style={{width:10,height:10,accentColor:ac}}/>Comp.TS
-            </label>
-          </>):(<>
+        <div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"7px 3px 5px",border:`1px solid ${ac}15`}}>
+          <span style={{fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2,fontFamily:"'Cinzel'"}}>{k}</span>
+          {edit?(<><input type="number" value={v.score} onChange={e=>uStat(k,"score",parseInt(e.target.value)||0)} style={{...SS.inp,width:38,fontSize:17,textAlign:"center",fontWeight:700,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",padding:"1px"}}/><span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600}}>{v.mod>=0?`+${v.mod}`:v.mod}</span><label style={{display:"flex",alignItems:"center",gap:2,fontSize:7,color:"#998866",cursor:"pointer",marginTop:2}}><input type="checkbox" checked={v.profSave} onChange={e=>uStat(k,"profSave",e.target.checked)} style={{width:9,height:9,accentColor:ac}}/>Comp.TS</label></>):(<>
             <button onClick={()=>openRoll({label:`Prova ${k}`,type:"d20",modifier:v.mod})} style={{background:"none",border:"none",cursor:"pointer",padding:0}}>
-              <span style={{fontSize:22,fontWeight:700,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",lineHeight:1.2,display:"block"}}>{v.score}</span>
-              <span style={{fontSize:12,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600,display:"block"}}>{v.mod>=0?`+${v.mod}`:v.mod} 🎲</span>
+              <span style={{fontSize:20,fontWeight:700,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",lineHeight:1.2,display:"block"}}>{v.score}</span>
+              <span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600,display:"block"}}>{v.mod>=0?`+${v.mod}`:v.mod} 🎲</span>
             </button>
-            <button onClick={()=>openRoll({label:`TS ${k}`,type:"d20",modifier:v.save})} style={{marginTop:3,padding:"2px 6px",borderRadius:5,border:`1px solid ${ac}22`,background:`${ac}0d`,color:"#998866",fontSize:10,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>TS {v.save>=0?`+${v.save}`:v.save} 🎲</button>
+            <button onClick={()=>openRoll({label:`TS ${k}`,type:"d20",modifier:v.save})} style={{marginTop:2,padding:"1px 5px",borderRadius:4,border:`1px solid ${ac}22`,background:`${ac}0d`,color:"#998866",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>TS {v.save>=0?`+${v.save}`:v.save} 🎲</button>
           </>)}
         </div>
       ))}
     </div>
     <Sec ac={ac}>Abilità</Sec>
     <div style={{display:"flex",flexDirection:"column",gap:3}}>
-      {c.skills.map((s,i)=><button key={i} onClick={()=>openRoll({label:s.name,type:"d20",modifier:s.mod})} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 10px",background:`${ac}06`,borderRadius:7,border:`1px solid ${ac}10`,cursor:"pointer",width:"100%",textAlign:"left"}}><span style={{fontSize:13,color:"#e8dcc8"}}>{s.name}</span><span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:13}}>{s.mod>=0?`+${s.mod}`:s.mod} 🎲</span></button>)}
+      {c.skills.map((s,i)=><button key={i} onClick={()=>openRoll({label:s.name,type:"d20",modifier:s.mod})} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 9px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",width:"100%",textAlign:"left"}}><span style={{fontSize:12,color:"#e8dcc8"}}>{s.name}</span><span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s.mod>=0?`+${s.mod}`:s.mod} 🎲</span></button>)}
     </div>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:16}}>
-      <Sec ac={ac}>Attacchi</Sec><button onClick={()=>setModal({type:"attack"})} style={{...SS.btnGreen,padding:"4px 12px",fontSize:11}}>+ Nuovo</button>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:14}}>
+      <Sec ac={ac}>Attacchi</Sec><button onClick={()=>setModal({type:"attack"})} style={{...SS.btnGreen,padding:"3px 10px",fontSize:10}}>+ Nuovo</button>
     </div>
     {c.attacks.map(a=>(
-      <div key={a.id} style={{background:`${ac}0a`,borderRadius:8,padding:10,marginBottom:6,border:`1px solid ${ac}15`}}>
+      <div key={a.id} style={{background:`${ac}0a`,borderRadius:7,padding:9,marginBottom:5,border:`1px solid ${ac}15`}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <button onClick={()=>setModal({type:"attack",data:a})} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:5}}>
-            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:13,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:9,color:"#665a3e"}}>✎</span>
-          </button>
-          <span style={{fontSize:10,color:"#998866",fontStyle:"italic"}}>{a.type}</span>
+          <button onClick={()=>setModal({type:"attack",data:a})} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:4}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:8,color:"#665a3e"}}>✎</span></button>
+          <span style={{fontSize:9,color:"#998866",fontStyle:"italic"}}>{a.type}</span>
         </div>
-        <div style={{display:"flex",gap:6,marginTop:6}}>
-          <button onClick={()=>openRoll({label:`${a.name} (colpire)`,type:"d20",modifier:a.hit})} style={{...SS.btnGreen,flex:1,padding:"6px 0",fontSize:11}}>+{a.hit} 🎲</button>
-          <button onClick={()=>openRoll({label:`${a.name} (danno)`,type:"damage",formula:a.damage})} style={{...SS.btnRed,flex:1,padding:"6px 0",fontSize:11}}>{a.damage} 🎲</button>
+        <div style={{display:"flex",gap:5,marginTop:5}}>
+          <button onClick={()=>openRoll({label:`${a.name} (colpire)`,type:"d20",modifier:a.hit})} style={{...SS.btnGreen,flex:1,padding:"5px 0",fontSize:10}}>+{a.hit} 🎲</button>
+          <button onClick={()=>openRoll({label:`${a.name} (danno)`,type:"damage",formula:a.damage})} style={{...SS.btnRed,flex:1,padding:"5px 0",fontSize:10}}>{a.damage} 🎲</button>
         </div>
       </div>
     ))}
@@ -421,28 +386,27 @@ function STab({c,up,edit,openRoll,setModal,ac}){
 
 /* ═══ ACTIONS TAB ═══ */
 function ATab({c,up,setModal,ac}){
-  const sorted=sortAbs(c.abilities,c.origins);
+  const sorted=sortAbs(c.abilities,c.origins);const favs=sorted.filter(a=>a.fav);
   const useA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:a.uses+1}:a)});
   const restA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:Math.max(0,a.uses-1)}:a)});
   const togF=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,fav:!a.fav}:a)});
-  const rest=(t)=>{let u={abilities:c.abilities.map(a=>{if(a.maxUses===-1)return a;if(t==="lungo")return{...a,uses:0};if(t==="breve"&&a.rest==="breve")return{...a,uses:0};return a;})};if(t==="lungo"){u.hpCurrent=c.hpMax;u.hpTemp=0;u.hpPerm=0;}up(u);};
+  const rest=t=>{let u={abilities:c.abilities.map(a=>{if(a.maxUses===-1)return a;if(t==="lungo")return{...a,uses:0};if(t==="breve"&&a.rest==="breve")return{...a,uses:0};return a;})};if(t==="lungo"){u.hpCurrent=c.hpMax;u.hpTemp=0;u.hpPerm=0;}up(u);};
   const groups=c.origins.map(o=>o.id).filter(oid=>sorted.some(a=>a.originId===oid));
-  const favs=sorted.filter(a=>a.fav);
-  return(<div style={{padding:"14px 14px 20px"}}>
-    <div style={{display:"flex",gap:6,marginBottom:10}}>
-      <button onClick={()=>rest("breve")} style={{flex:1,padding:"8px 0",borderRadius:8,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:12,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>☀️ R. Breve</button>
-      <button onClick={()=>rest("lungo")} style={{flex:1,padding:"8px 0",borderRadius:8,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:12,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>🌙 R. Lungo</button>
+  return(<div style={{padding:"12px 12px 20px"}}>
+    <div style={{display:"flex",gap:5,marginBottom:8}}>
+      <button onClick={()=>rest("breve")} style={{flex:1,padding:"7px 0",borderRadius:7,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>☀️ R. Breve</button>
+      <button onClick={()=>rest("lungo")} style={{flex:1,padding:"7px 0",borderRadius:7,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>🌙 R. Lungo</button>
     </div>
-    <div style={{display:"flex",gap:6,marginBottom:14}}>
-      <button onClick={()=>setModal({type:"ability"})} style={{...SS.btnGreen,padding:"5px 12px",fontSize:11}}>+ Azione</button>
-      <button onClick={()=>setModal({type:"origins"})} style={{...SS.btnGold,padding:"5px 12px",fontSize:11}}>⚙ Provenienze</button>
+    <div style={{display:"flex",gap:5,marginBottom:12}}>
+      <button onClick={()=>setModal({type:"ability"})} style={{...SS.btnGreen,padding:"4px 10px",fontSize:10}}>+ Azione</button>
+      <button onClick={()=>setModal({type:"origins"})} style={{...SS.btnGold,padding:"4px 10px",fontSize:10}}>⚙ Provenienze</button>
     </div>
-    {favs.length>0&&<><div style={{borderLeft:`3px solid ${ac}`,paddingLeft:8,marginBottom:6}}><span style={{color:ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,letterSpacing:1}}>★ PREFERITI</span></div>{favs.map(a=><AbC key={a.id+"_f"} a={a} c={c} use={useA} restore={restA} togFav={togF} edit={d=>setModal({type:"ability",data:d})}/>)}<div style={{height:12}}/></>}
+    {favs.length>0&&<><div style={{borderLeft:`3px solid ${ac}`,paddingLeft:7,marginBottom:5}}><span style={{color:ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>★ PREFERITI</span></div>{favs.map(a=><AbC key={a.id+"_f"} a={a} c={c} use={useA} restore={restA} togFav={togF} edit={d=>setModal({type:"ability",data:d})}/>)}<div style={{height:10}}/></>}
     {groups.map(oid=>{const or=c.origins.find(o=>o.id===oid);const abs=sorted.filter(a=>a.originId===oid);const cdA=abs.find(a=>a.cdStat);const cd=cdA?calcCD(c.profBonus,c.stats,cdA.cdStat):null;
-      return(<div key={oid} style={{marginBottom:16}}>
-        <div style={{borderLeft:`3px solid ${or?.color||ac}`,paddingLeft:8,marginBottom:6,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <span style={{color:or?.color||ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,letterSpacing:1}}>{(or?.name||"?").toUpperCase()}</span>
-          {cd&&<span style={{fontSize:12,color:"#fff",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"linear-gradient(135deg,rgba(200,169,94,0.3),rgba(200,169,94,0.15))",padding:"2px 8px",borderRadius:5,border:"1.5px solid #c8a95e88",letterSpacing:1}}>CD {cd}</span>}
+      return(<div key={oid} style={{marginBottom:14}}>
+        <div style={{borderLeft:`3px solid ${or?.color||ac}`,paddingLeft:7,marginBottom:5,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <span style={{color:or?.color||ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>{(or?.name||"?").toUpperCase()}</span>
+          {cd&&<span style={{fontSize:11,color:"#fff",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"linear-gradient(135deg,rgba(200,169,94,0.3),rgba(200,169,94,0.15))",padding:"2px 7px",borderRadius:4,border:"1.5px solid #c8a95e88"}}>CD {cd}</span>}
         </div>
         {abs.map(a=><AbC key={a.id} a={a} c={c} use={useA} restore={restA} togFav={togF} edit={d=>setModal({type:"ability",data:d})}/>)}
       </div>);
@@ -452,70 +416,70 @@ function ATab({c,up,setModal,ac}){
 
 function AbC({a,c,use,restore,togFav,edit}){
   const lim=a.maxUses>0,used=lim&&a.uses>=a.maxUses,cd=a.cdStat?calcCD(c.profBonus,c.stats,a.cdStat):null,oc=oColor(c.origins,a.originId);
-  return(<div style={{background:"rgba(200,169,94,0.04)",borderRadius:8,padding:10,marginBottom:5,border:"1px solid #c8a95e10",opacity:used?0.4:1,transition:"opacity 0.3s"}}>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:6}}>
+  return(<div style={{background:"rgba(200,169,94,0.04)",borderRadius:7,padding:9,marginBottom:4,border:"1px solid #c8a95e10",opacity:used?0.4:1}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}>
       <div style={{flex:1}}>
-        <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
-          <button onClick={()=>togFav(a.id)} style={{background:"none",border:"none",cursor:"pointer",padding:0,fontSize:13,color:a.fav?"#f1c40f":"#555"}}>{a.fav?"★":"☆"}</button>
+        <div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}>
+          <button onClick={()=>togFav(a.id)} style={{background:"none",border:"none",cursor:"pointer",padding:0,fontSize:12,color:a.fav?"#f1c40f":"#555"}}>{a.fav?"★":"☆"}</button>
           <button onClick={()=>edit(a)} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:3}}>
-            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:8,color:"#665a3e"}}>✎</span>
+            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:7,color:"#665a3e"}}>✎</span>
           </button>
-          <span style={{fontSize:9,color:"#998866",fontFamily:"'JetBrains Mono'",background:"rgba(200,169,94,0.1)",padding:"0 5px",borderRadius:3}}>{a.type}</span>
-          {cd&&<span style={{fontSize:9,color:"#f1c40f",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"rgba(241,196,15,0.12)",padding:"0 5px",borderRadius:3,border:"1px solid #f1c40f44"}}>CD {cd}</span>}
+          <span style={{fontSize:8,color:"#998866",fontFamily:"'JetBrains Mono'",background:"rgba(200,169,94,0.1)",padding:"0 4px",borderRadius:3}}>{a.type}</span>
+          {cd&&<span style={{fontSize:8,color:"#f1c40f",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"rgba(241,196,15,0.12)",padding:"0 4px",borderRadius:3,border:"1px solid #f1c40f44"}}>CD {cd}</span>}
         </div>
-        <p style={{fontSize:11.5,color:"#998866",margin:"3px 0 0",lineHeight:1.3}}>{a.desc}</p>
+        <p style={{fontSize:11,color:"#998866",margin:"2px 0 0",lineHeight:1.3}}>{a.desc}</p>
       </div>
-      {lim&&<div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:3,minWidth:44}}>
-        <div style={{display:"flex",gap:2}}>{Array.from({length:a.maxUses}).map((_,i)=><div key={i} style={{width:11,height:11,borderRadius:"50%",background:i<a.uses?"#22222288":oc,border:`1.5px solid ${i<a.uses?"#44444466":oc}`,transition:"all 0.2s"}}/>)}</div>
-        <span style={{fontSize:8,color:"#665a3e",letterSpacing:0.5}}>{a.rest==="breve"?"R.BREVE":"R.LUNGO"}</span>
+      {lim&&<div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,minWidth:40}}>
+        <div style={{display:"flex",gap:2}}>{Array.from({length:a.maxUses}).map((_,i)=><div key={i} style={{width:10,height:10,borderRadius:"50%",background:i<a.uses?"#22222288":oc,border:`1.5px solid ${i<a.uses?"#44444466":oc}`}}/>)}</div>
+        <span style={{fontSize:7,color:"#665a3e"}}>{a.rest==="breve"?"R.BREVE":"R.LUNGO"}</span>
       </div>}
     </div>
-    {lim&&<div style={{display:"flex",gap:5,marginTop:6}}>
-      {!used&&<button onClick={()=>use(a.id)} style={{flex:2,padding:"4px 0",borderRadius:6,border:`1px solid ${oc}44`,background:`${oc}0d`,color:oc,fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",letterSpacing:1,cursor:"pointer",textAlign:"center"}}>Usa</button>}
-      {a.uses>0&&<button onClick={()=>restore(a.id)} style={{flex:1,padding:"4px 0",borderRadius:6,border:"1px solid #2ecc7144",background:"rgba(46,204,113,0.06)",color:"#2ecc71",fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center"}}>↺</button>}
+    {lim&&<div style={{display:"flex",gap:4,marginTop:5}}>
+      {!used&&<button onClick={()=>use(a.id)} style={{flex:2,padding:"3px 0",borderRadius:5,border:`1px solid ${oc}44`,background:`${oc}0d`,color:oc,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center"}}>Usa</button>}
+      {a.uses>0&&<button onClick={()=>restore(a.id)} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid #2ecc7144",background:"rgba(46,204,113,0.06)",color:"#2ecc71",fontSize:9,fontWeight:700,cursor:"pointer",textAlign:"center"}}>↺</button>}
     </div>}
   </div>);
 }
 
 /* ═══ DICE TAB ═══ */
-function DTab({c,up,log,setLog,openRoll,ac}){
+function DTab({c,up,log,openRoll,ac}){
   const[cf,setCf]=useState("");const[cm,setCm]=useState(0);
   const addDie=s=>{const cur=cf.trim();setCf(cur?`${cur}+1d${s}`:`1d${s}`);};
   const roll=()=>{const base=cf.trim()||"1d20";const f=base+(cm?(cm>=0?`+${cm}`:`${cm}`):"");if(base.toLowerCase().includes("d20"))openRoll({label:f,type:"d20",modifier:cm});else openRoll({label:f,type:"damage",formula:f});};
-  return(<div style={{padding:"14px 14px 20px"}}>
+  return(<div style={{padding:"12px 12px 20px"}}>
     <Sec ac={ac}>Tiro Rapido</Sec>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,marginBottom:10}}>
-      {[4,6,8,10,12,20].map(d=><button key={d} onClick={()=>{if(d===20)openRoll({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;openRoll({label:f,type:"damage",formula:f});}}} style={{padding:"14px 0",borderRadius:8,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontFamily:"'Cinzel'",fontSize:16,fontWeight:900,color:ac}}>d{d}</span></button>)}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:8}}>
+      {[4,6,8,10,12,20].map(d=><button key={d} onClick={()=>{if(d===20)openRoll({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;openRoll({label:f,type:"damage",formula:f});}}} style={{padding:"12px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span></button>)}
     </div>
     <Sec ac={ac}>Costruisci Formula</Sec>
-    <div style={{background:`${ac}06`,borderRadius:8,padding:10,border:`1px solid ${ac}15`,marginBottom:14}}>
-      <div style={{display:"flex",gap:3,flexWrap:"wrap",marginBottom:6}}>
-        {[4,6,8,10,12,20].map(s=><button key={s} onClick={()=>addDie(s)} style={{padding:"4px 10px",borderRadius:5,border:`1.5px solid ${ac}33`,background:`${ac}0a`,color:ac,fontSize:11,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}
-        <button onClick={()=>setCf("")} style={{padding:"4px 10px",borderRadius:5,border:"1.5px solid #e74c3c33",background:"rgba(231,76,60,0.06)",color:"#e74c3c",fontSize:11,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>✕</button>
+    <div style={{background:`${ac}06`,borderRadius:7,padding:9,border:`1px solid ${ac}15`,marginBottom:12}}>
+      <div style={{display:"flex",gap:3,flexWrap:"wrap",marginBottom:5}}>
+        {[4,6,8,10,12,20].map(s=><button key={s} onClick={()=>addDie(s)} style={{padding:"3px 8px",borderRadius:4,border:`1.5px solid ${ac}33`,background:`${ac}0a`,color:ac,fontSize:10,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}
+        <button onClick={()=>setCf("")} style={{padding:"3px 8px",borderRadius:4,border:"1.5px solid #e74c3c33",color:"#e74c3c",fontSize:10,cursor:"pointer",background:"transparent"}}>✕</button>
       </div>
-      <input value={cf} onChange={e=>setCf(e.target.value)} placeholder="es. 3d8+1d6+2d4" style={{...SS.inp,width:"100%",marginBottom:6}}/>
-      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:6}}>
-        <span style={{color:"#665a3e",fontSize:11,fontFamily:"'Cinzel'",whiteSpace:"nowrap"}}>Mod.</span>
-        <input type="number" value={cm} onChange={e=>setCm(parseInt(e.target.value)||0)} style={{...SS.inp,width:50,textAlign:"center"}}/>
-        {cf&&<span style={{fontSize:12,color:ac,fontFamily:"'JetBrains Mono'",flex:1}}>{cf}{cm?(cm>=0?`+${cm}`:cm):""}</span>}
+      <input value={cf} onChange={e=>setCf(e.target.value)} placeholder="es. 3d8+1d6+2d4" style={{...SS.inp,width:"100%",marginBottom:5}}/>
+      <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:5}}>
+        <span style={{color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'"}}>Mod.</span>
+        <input type="number" value={cm} onChange={e=>setCm(parseInt(e.target.value)||0)} style={{...SS.inp,width:46,textAlign:"center"}}/>
+        {cf&&<span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",flex:1}}>{cf}{cm?(cm>=0?`+${cm}`:cm):""}</span>}
       </div>
-      <button onClick={roll} style={{...SS.btnGold,width:"100%",padding:"10px 0",fontSize:14,borderColor:ac+"55",color:ac}}>Tira 🎲</button>
+      <button onClick={roll} style={{...SS.btnGold,width:"100%",padding:"9px 0",fontSize:13,borderColor:ac+"55",color:ac}}>Tira 🎲</button>
     </div>
     <Sec ac={ac}>Dado Vita</Sec>
-    <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:14}}>
-      <input value={c.hitDie} onChange={e=>up({hitDie:e.target.value})} placeholder="1d8" style={{...SS.inp,width:70,textAlign:"center"}}/>
-      <button onClick={()=>{const co=c.stats.COS?.mod||0;const f=c.hitDie+(co>=0?`+${co}`:`${co}`);openRoll({label:`Dado Vita (${f})`,type:"damage",formula:f});}} style={{...SS.btnGold,flex:1,padding:"8px 0",fontSize:12,borderColor:ac+"55",color:ac}}>Tira Dado Vita 🎲</button>
+    <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:12}}>
+      <input value={c.hitDie} onChange={e=>up({hitDie:e.target.value})} placeholder="1d8" style={{...SS.inp,width:60,textAlign:"center"}}/>
+      <button onClick={()=>{const co=c.stats.COS?.mod||0;const f=c.hitDie+(co>=0?`+${co}`:`${co}`);openRoll({label:`Dado Vita (${f})`,type:"damage",formula:f});}} style={{...SS.btnGold,flex:1,padding:"7px 0",fontSize:11,borderColor:ac+"55",color:ac}}>Tira Dado Vita 🎲</button>
     </div>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><Sec ac={ac}>Storico</Sec>{log.length>0&&<button onClick={()=>setLog([])} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:10,cursor:"pointer",fontFamily:"'Cinzel'"}}>Pulisci</button>}</div>
-    <div style={{maxHeight:320,overflowY:"auto"}}>
-      {log.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:12}}>Nessun tiro ancora...</p>}
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><Sec ac={ac}>Storico</Sec>{log.length>0&&<button onClick={()=>up({diceLog:[]})} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:9,cursor:"pointer",fontFamily:"'Cinzel'"}}>Pulisci</button>}</div>
+    <div style={{maxHeight:300,overflowY:"auto"}}>
+      {log.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:11}}>Nessun tiro ancora...</p>}
       {log.map((e,i)=>(
-        <div key={e.timestamp+"_"+i} style={{padding:i===0?"12px":"8px 10px",borderRadius:7,background:i===0?`linear-gradient(135deg,${ac}20,${ac}0a)`:`${ac}06`,border:i===0?`2px solid ${ac}55`:`1px solid ${ac}10`,marginBottom:5,boxShadow:i===0?`0 0 16px ${ac}15`:"none"}}>
+        <div key={e.timestamp+"_"+i} style={{padding:i===0?"11px":"7px 9px",borderRadius:6,background:i===0?`linear-gradient(135deg,${ac}20,${ac}0a)`:`${ac}06`,border:i===0?`2px solid ${ac}55`:`1px solid ${ac}10`,marginBottom:4,boxShadow:i===0?`0 0 14px ${ac}15`:"none"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-            <span style={{fontSize:i===0?13:11,color:i===0?ac:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>{e.label}</span>
-            <span style={{fontFamily:"'JetBrains Mono'",fontSize:i===0?26:20,fontWeight:900,color:e.isNat20?"#f1c40f":e.isNat1?"#e74c3c":"#e8dcc8",textShadow:e.isNat20?"0 0 10px #f1c40f88":e.isNat1?"0 0 10px #e74c3c88":"none"}}>{e.isNat20&&"★ "}{e.isNat1&&"✗ "}{e.total}</span>
+            <span style={{fontSize:i===0?12:10,color:i===0?ac:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>{e.label}</span>
+            <span style={{fontFamily:"'JetBrains Mono'",fontSize:i===0?24:18,fontWeight:900,color:e.isNat20?"#f1c40f":e.isNat1?"#e74c3c":"#e8dcc8",textShadow:e.isNat20?"0 0 8px #f1c40f88":e.isNat1?"0 0 8px #e74c3c88":"none"}}>{e.isNat20&&"★ "}{e.isNat1&&"✗ "}{e.total}</span>
           </div>
-          <div style={{fontSize:11,color:"#665a3e",fontFamily:"'JetBrains Mono'",marginTop:1}}>
+          <div style={{fontSize:10,color:"#665a3e",fontFamily:"'JetBrains Mono'",marginTop:1}}>
             {e.type==="d20"?<span>[{e.roll1}] [{e.roll2}]{e.modifier?` ${e.modifier>=0?"+":""}${e.modifier}`:""} ({e.mode==="vantaggio"?"Vant.":e.mode==="svantaggio"?"Svant.":"Norm."})</span>
             :e.rollResult?<span>[{e.rollResult.results.map(r=>r.value).join(", ")}]{e.rollResult.bonus?` ${e.rollResult.bonus>=0?"+":""}${e.rollResult.bonus}`:""}</span>:null}
           </div>
@@ -525,22 +489,18 @@ function DTab({c,up,log,setLog,openRoll,ac}){
   </div>);
 }
 
-/* ═══ NOTES TAB ═══ */
+/* ═══ NOTES ═══ */
 function NTab({c,up,ac}){
-  const[n,setN]=useState(c.notes||"");const[s,setS]=useState(true);const t=useRef(null);
-  const ch=v=>{setN(v);setS(false);clearTimeout(t.current);t.current=setTimeout(()=>{up({notes:v});setS(true);},800);};
-  return(<div style={{padding:"14px 14px 20px"}}>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-      <Sec ac={ac}>Note di Sessione</Sec>
-      <span style={{fontSize:10,color:s?"#2ecc71":"#f39c12",fontFamily:"'JetBrains Mono'"}}>{s?"✓ Salvato":"● ..."}</span>
-    </div>
-    <textarea value={n} onChange={e=>ch(e.target.value)} placeholder="Scrivi qui le tue note..." style={{width:"100%",minHeight:320,padding:12,borderRadius:8,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:14,lineHeight:1.6,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
+  const[n,setN]=useState(c.notes||"");
+  return(<div style={{padding:"12px 12px 20px"}}>
+    <Sec ac={ac}>Note di Sessione</Sec>
+    <textarea value={n} onChange={e=>{setN(e.target.value);up({notes:e.target.value});}} placeholder="Scrivi qui le tue note..." style={{width:"100%",minHeight:300,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
   </div>);
 }
 
 /* ═══ MODALS ═══ */
-function Shell({title,onClose,children}){return<div style={SS.popOver} onClick={onClose}><div style={{...SS.popCard,maxHeight:"85vh",overflowY:"auto",maxWidth:380}} onClick={e=>e.stopPropagation()}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>{title}</span><button onClick={onClose} style={{background:"none",border:"none",color:"#e74c3c",fontSize:16,cursor:"pointer"}}>✕</button></div>{children}</div></div>;}
-function F({l,children}){return<div style={{marginBottom:10}}><label style={{display:"block",fontSize:10,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700,letterSpacing:1,marginBottom:3}}>{l}</label>{children}</div>;}
+function Shell({title,onClose,children}){return<div style={SS.popOver} onClick={onClose}><div style={{...SS.popCard,maxHeight:"85vh",overflowY:"auto",maxWidth:360}} onClick={e=>e.stopPropagation()}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>{title}</span><button onClick={onClose} style={{background:"none",border:"none",color:"#e74c3c",fontSize:15,cursor:"pointer"}}>✕</button></div>{children}</div></div>;}
+function F({l,children}){return<div style={{marginBottom:9}}><label style={{display:"block",fontSize:9,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700,letterSpacing:1,marginBottom:2}}>{l}</label>{children}</div>;}
 
 function AttackModal({c,up,data,onClose}){
   const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",hit:0,damage:"",type:""});
@@ -550,15 +510,11 @@ function AttackModal({c,up,data,onClose}){
   return<Shell title={isE?"Modifica Attacco":"Nuovo Attacco"} onClose={onClose}>
     <F l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Nitro"/></F>
     <F l="Bonus Colpire"><input type="number" value={f.hit} onChange={e=>sf({...f,hit:parseInt(e.target.value)||0})} style={{...SS.inp,width:"100%"}}/></F>
-    <F l="Formula Danno">
-      <input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:4}} placeholder="es. 3d8+1d6+5"/>
-      <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{[4,6,8,10,12].map(s=><button key={s} onClick={()=>addDie(s)} style={{padding:"3px 8px",borderRadius:4,border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.06)",color:"#c8a95e",fontSize:10,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}<button onClick={()=>sf({...f,damage:""})} style={{padding:"3px 8px",borderRadius:4,border:"1px solid #e74c3c33",color:"#e74c3c",fontSize:10,cursor:"pointer",background:"transparent"}}>Pulisci</button></div>
+    <F l="Formula Danno"><input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:3}} placeholder="es. 3d8+1d6+5"/>
+      <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{[4,6,8,10,12].map(s=><button key={s} onClick={()=>addDie(s)} style={{padding:"2px 7px",borderRadius:3,border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.06)",color:"#c8a95e",fontSize:9,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}<button onClick={()=>sf({...f,damage:""})} style={{padding:"2px 7px",borderRadius:3,border:"1px solid #e74c3c33",color:"#e74c3c",fontSize:9,cursor:"pointer",background:"transparent"}}>Pulisci</button></div>
     </F>
-    <F l="Tipo Danno"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. magico"/></F>
-    <div style={{display:"flex",gap:6,marginTop:14}}>
-      {isE&&<button onClick={del} style={{...SS.popBtn,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}
-      <button onClick={save} style={{...SS.popBtn,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button>
-    </div>
+    <F l="Tipo"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. magico"/></F>
+    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={del} style={{...SS.popBtn,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={save} style={{...SS.popBtn,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
   </Shell>;
 }
 
@@ -569,19 +525,15 @@ function AbilityModal({c,up,data,onClose}){
   const del=()=>{up({abilities:c.abilities.filter(a=>a.id!==f.id)});onClose();};
   return<Shell title={isE?"Modifica Azione":"Nuova Azione"} onClose={onClose}>
     <F l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}}/></F>
-    <F l="Descrizione"><textarea value={f.desc} onChange={e=>sf({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:50,resize:"vertical"}}/></F>
-    <F l="Tipo"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{ACTION_TYPES.map(t=><button key={t} onClick={()=>sf({...f,type:t})} style={{padding:"3px 8px",borderRadius:5,border:`1.5px solid ${f.type===t?"#c8a95e":"#c8a95e22"}`,background:f.type===t?"rgba(200,169,94,0.15)":"transparent",color:f.type===t?"#c8a95e":"#998866",fontSize:11,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:f.type===t?700:400}}>{t}</button>)}</div></F>
+    <F l="Descrizione"><textarea value={f.desc} onChange={e=>sf({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:44,resize:"vertical"}}/></F>
+    <F l="Tipo"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{ACTION_TYPES.map(t=><button key={t} onClick={()=>sf({...f,type:t})} style={{padding:"3px 7px",borderRadius:4,border:`1.5px solid ${f.type===t?"#c8a95e":"#c8a95e22"}`,background:f.type===t?"rgba(200,169,94,0.15)":"transparent",color:f.type===t?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:f.type===t?700:400}}>{t}</button>)}</div></F>
     <F l="Provenienza"><select value={f.originId} onChange={e=>sf({...f,originId:e.target.value})} style={{...SS.inp,width:"100%",appearance:"none"}}>{c.origins.map(o=><option key={o.id} value={o.id}>{o.name}</option>)}</select></F>
     <F l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{STAT_KEYS.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}</select></F>
     <F l="Utilizzi">
-      <div style={{display:"flex",gap:4,marginBottom:6}}>{[["u","Illimitati"],["l","Limitati"]].map(([m,l])=><button key={m} onClick={()=>setUm(m)} style={{...SS.popBtn,flex:1,fontSize:10,padding:"5px 0",borderColor:um===m?"#c8a95e":"#c8a95e22",background:um===m?"rgba(200,169,94,0.15)":"transparent",color:um===m?"#c8a95e":"#998866"}}>{l}</button>)}</div>
-      {um==="l"&&<><input type="number" min={1} value={f.maxUses>0?f.maxUses:1} onChange={e=>sf({...f,maxUses:Math.max(1,parseInt(e.target.value)||1)})} style={{...SS.inp,width:60,marginBottom:6}}/>
-      <div style={{display:"flex",gap:3}}>{REST_TYPES.map(r=><button key={r.l} onClick={()=>sf({...f,rest:r.v})} style={{padding:"3px 7px",borderRadius:5,border:`1.5px solid ${f.rest===r.v?"#3498db":"#3498db22"}`,background:f.rest===r.v?"rgba(52,152,219,0.15)":"transparent",color:f.rest===r.v?"#3498db":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>{r.l}</button>)}</div></>}
+      <div style={{display:"flex",gap:3,marginBottom:5}}>{[["u","Illimitati"],["l","Limitati"]].map(([m,l])=><button key={m} onClick={()=>setUm(m)} style={{...SS.popBtn,flex:1,fontSize:9,padding:"4px 0",borderColor:um===m?"#c8a95e":"#c8a95e22",background:um===m?"rgba(200,169,94,0.15)":"transparent",color:um===m?"#c8a95e":"#998866"}}>{l}</button>)}</div>
+      {um==="l"&&<><input type="number" min={1} value={f.maxUses>0?f.maxUses:1} onChange={e=>sf({...f,maxUses:Math.max(1,parseInt(e.target.value)||1)})} style={{...SS.inp,width:55,marginBottom:5}}/><div style={{display:"flex",gap:3}}>{REST_TYPES.map(r=><button key={r.l} onClick={()=>sf({...f,rest:r.v})} style={{padding:"2px 6px",borderRadius:4,border:`1.5px solid ${f.rest===r.v?"#3498db":"#3498db22"}`,background:f.rest===r.v?"rgba(52,152,219,0.15)":"transparent",color:f.rest===r.v?"#3498db":"#998866",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer"}}>{r.l}</button>)}</div></>}
     </F>
-    <div style={{display:"flex",gap:6,marginTop:14}}>
-      {isE&&<button onClick={del} style={{...SS.popBtn,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}
-      <button onClick={save} style={{...SS.popBtn,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button>
-    </div>
+    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={del} style={{...SS.popBtn,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={save} style={{...SS.popBtn,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
   </Shell>;
 }
 
@@ -590,36 +542,32 @@ function OriginsModal({c,up,onClose}){
   const add=()=>{if(!nn.trim())return;setOs([...os,{id:uid(),name:nn.trim(),color:ORIGIN_PAL[os.length%ORIGIN_PAL.length]}]);setNn("");};
   const upd=(id,k,v)=>setOs(os.map(o=>o.id===id?{...o,[k]:v}:o));
   return<Shell title="Provenienze" onClose={onClose}>
-    {os.map(o=><div key={o.id} style={{display:"flex",gap:5,alignItems:"center",marginBottom:6}}>
-      <input type="color" value={o.color} onChange={e=>upd(o.id,"color",e.target.value)} style={{width:28,height:28,border:"none",borderRadius:5,cursor:"pointer",background:"transparent"}}/>
+    {os.map(o=><div key={o.id} style={{display:"flex",gap:4,alignItems:"center",marginBottom:5}}>
+      <input type="color" value={o.color} onChange={e=>upd(o.id,"color",e.target.value)} style={{width:26,height:26,border:"none",borderRadius:4,cursor:"pointer",background:"transparent"}}/>
       <input value={o.name} onChange={e=>upd(o.id,"name",e.target.value)} style={{...SS.inp,flex:1}}/>
-      <button onClick={()=>setOs(os.filter(x=>x.id!==o.id))} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:14,cursor:"pointer"}}>✕</button>
+      <button onClick={()=>setOs(os.filter(x=>x.id!==o.id))} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:13,cursor:"pointer"}}>✕</button>
     </div>)}
-    <div style={{display:"flex",gap:5,marginTop:10}}>
-      <input value={nn} onChange={e=>setNn(e.target.value)} placeholder="Nuova..." style={{...SS.inp,flex:1}} onKeyDown={e=>e.key==="Enter"&&add()}/>
-      <button onClick={add} style={{...SS.popBtn,padding:"6px 12px",background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>+</button>
-    </div>
-    <button onClick={()=>{up({origins:os});onClose();}} style={{...SS.btnGold,width:"100%",marginTop:14,padding:"10px 0"}}>Salva</button>
+    <div style={{display:"flex",gap:4,marginTop:8}}><input value={nn} onChange={e=>setNn(e.target.value)} placeholder="Nuova..." style={{...SS.inp,flex:1}} onKeyDown={e=>e.key==="Enter"&&add()}/><button onClick={add} style={{...SS.popBtn,padding:"5px 10px",background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>+</button></div>
+    <button onClick={()=>{up({origins:os});onClose();}} style={{...SS.btnGold,width:"100%",marginTop:12,padding:"8px 0"}}>Salva</button>
   </Shell>;
 }
 
-function Sec({ac,children}){return<h2 style={{fontFamily:"'Cinzel'",fontSize:12,fontWeight:700,color:ac||"#c8a95e",letterSpacing:2,textTransform:"uppercase",margin:"16px 0 10px",display:"inline-block"}}>{children}</h2>;}
+function Sec({ac,children}){return<h2 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:ac||"#c8a95e",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px",display:"inline-block"}}>{children}</h2>;}
 
-/* ═══ SHARED STYLES ═══ */
 const SS={
   fullCenter:{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"},
   fullScroll:{minHeight:"100vh",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflowY:"auto"},
   sheetWrap:{position:"relative",maxWidth:480,margin:"0 auto",height:"100vh",display:"flex",flexDirection:"column",overflow:"hidden"},
-  inp:{background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:6,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,padding:"6px 8px",outline:"none",boxSizing:"border-box"},
-  btnGold:{borderRadius:8,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",fontSize:13},
-  btnGreen:{borderRadius:6,border:"1.5px solid #2ecc7144",background:"rgba(46,204,113,0.08)",color:"#2ecc71",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",fontSize:12},
-  btnRed:{borderRadius:6,border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:12},
+  inp:{background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:12,padding:"5px 7px",outline:"none",boxSizing:"border-box"},
+  btnGold:{borderRadius:7,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",fontSize:12},
+  btnGreen:{borderRadius:5,border:"1.5px solid #2ecc7144",background:"rgba(46,204,113,0.08)",color:"#2ecc71",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
+  btnRed:{borderRadius:5,border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
   accCard:{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:10,border:"1.5px solid",cursor:"pointer",width:"100%",textAlign:"left",background:"transparent"},
   backBtn:{width:32,height:32,borderRadius:"50%",border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.08)",color:"#c8a95e",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",flexShrink:0,fontWeight:700},
-  hpSBtn:{width:24,height:24,borderRadius:"50%",border:"1px solid #c8a95e22",background:"rgba(200,169,94,0.08)",color:"#c8a95e",fontSize:14,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700},
-  popOver:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.8)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:16},
-  popCard:{background:"linear-gradient(180deg,#151b2e,#0f1420)",border:"1.5px solid #c8a95e55",borderRadius:14,padding:"20px 18px 18px",width:"100%",maxWidth:340,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
-  popBtn:{flex:1,padding:"8px 0",borderRadius:8,border:"1.5px solid",fontSize:12,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
+  hpSBtn:{width:22,height:22,borderRadius:"50%",border:"1px solid #c8a95e22",background:"rgba(200,169,94,0.08)",color:"#c8a95e",fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700},
+  popOver:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.8)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},
+  popCard:{background:"linear-gradient(180deg,#151b2e,#0f1420)",border:"1.5px solid #c8a95e55",borderRadius:12,padding:"18px 16px 16px",width:"100%",maxWidth:320,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
+  popBtn:{flex:1,padding:"7px 0",borderRadius:7,border:"1.5px solid",fontSize:11,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
