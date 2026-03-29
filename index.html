@@ -51,7 +51,7 @@ function newChar(name){return{
 
 function loadAccounts(){try{const d=localStorage.getItem(ACC_KEY);return d?JSON.parse(d):null;}catch{return null;}}
 function saveAccounts(a){try{localStorage.setItem(ACC_KEY,JSON.stringify(a));}catch{}}
-const DEF_ACCS=[{id:"master",name:"Master",color:"#c8a95e",isMaster:true},{id:"ciccio",name:"Ciccio",color:"#e74c3c",isMaster:false},{id:"pata",name:"Pata",color:"#3498db",isMaster:false}];
+const DEF_ACCS=[{id:"ciccio",name:"Ciccio",color:"#3498db",isMaster:true},{id:"pata",name:"Pata",color:"#3498db",isMaster:false},{id:"scala",name:"Scala",color:"#3498db",isMaster:false},{id:"rik",name:"Rik",color:"#3498db",isMaster:false}];
 
 /* ═══ MAIN ═══ */
 function App(){
