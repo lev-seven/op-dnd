@@ -1,14 +1,16 @@
 {
   "accounts": [
-    { "id": "master", "name": "Master", "color": "#c8a95e", "isMaster": true },
-    { "id": "ciccio", "name": "Ciccio", "color": "#e74c3c", "isMaster": false },
-    { "id": "pata", "name": "Pata", "color": "#3498db", "isMaster": false }
+    { "id": "ciccio", "name": "Ciccio", "color": "#e74c3c", "isMaster": true, "h": "a4cb45f5b013a0a46a354be5f1532a79b6e5cf12b7cc3d1de705555d5a0779dc" },
+    { "id": "pata", "name": "Pata", "color": "#3498db", "isMaster": false, "h": "a4cb45f5b013a0a46a354be5f1532a79b6e5cf12b7cc3d1de705555d5a0779dc" },
+    { "id": "scala", "name": "Scala", "color": "#c8a95e", "isMaster": false, "h": "a4cb45f5b013a0a46a354be5f1532a79b6e5cf12b7cc3d1de705555d5a0779dc" },
+    { "id": "rik", "name": "Rik", "color": "#3ff8db", "isMaster": false, "h": "a4cb45f5b013a0a46a354be5f1532a79b6e5cf12b7cc3d1de705555d5a0779dc" }
   ],
   "characters": {
-    "master": [],
     "ciccio": [
       { "file": "eliah_pucci.json", "name": "Eliah Pucci", "preview": "Skypiean · Lv 7 · Navigatore 5 / Cecchino 1 / Carpentiere 1" }
     ],
-    "pata": []
+    "pata": [],
+    "scala": [],
+    "rik": []
   }
 }

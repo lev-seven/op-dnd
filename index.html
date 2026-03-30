@@ -14,14 +14,11 @@ html,body,#root{height:100%;overflow:hidden}
 body{background:#0a0e17;font-family:'Crimson Text',Georgia,serif;color:#e8dcc8}
 input,textarea,select,button{font-family:inherit;outline:none}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 <script>
-/* ╔══════════════════════════════════════════════════════════╗
-   ║  CONFIGURA QUI IL TUO URL DI GITHUB PAGES              ║
-   ║  Esempio: "https://tuonome.github.io/dnd-manager"      ║
-   ║  L'app cercherà i file in /data/ sotto questo URL       ║
-   ╚══════════════════════════════════════════════════════════╝ */
-window.GITHUB_BASE = ""; // ← INSERISCI QUI IL TUO URL (senza / finale)
+// ══ CONFIGURA URL GITHUB PAGES (senza / finale) ══
+window.GITHUB_BASE = "https://lev-seven.github.io/op-dnd/";
 </script>
 </head>
 <body>
@@ -30,210 +27,195 @@ window.GITHUB_BASE = ""; // ← INSERISCI QUI IL TUO URL (senza / finale)
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
-const {useState,useEffect,useCallback,useRef}=React;
+const{useState,useEffect,useCallback,useRef}=React;
 
+/* ═══ UTILS ═══ */
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const rollDice=(formula)=>{const res=[];let tot=0;const parts=formula.match(/(\d+)d(\d+)/g);const bm=formula.match(/([+\-]\s*\d+)(?!.*d)/);const bonus=bm?parseInt(bm[0].replace(/\s/g,"")):0;if(parts)parts.forEach(p=>{const[n,s]=p.split("d").map(Number);for(let i=0;i<n;i++){const v=Math.floor(Math.random()*s)+1;res.push({sides:s,value:v});tot+=v;}});return{results:res,bonus,total:tot+bonus,formula};};
+const rollDice=f=>{const res=[];let t=0;const p=f.match(/(\d+)d(\d+)/g);const bm=f.match(/([+\-]\s*\d+)(?!.*d)/);const b=bm?parseInt(bm[0].replace(/\s/g,"")):0;if(p)p.forEach(x=>{const[n,s]=x.split("d").map(Number);for(let i=0;i<n;i++){const v=Math.floor(Math.random()*s)+1;res.push({sides:s,value:v});t+=v;}});return{results:res,bonus:b,total:t+b,formula:f};};
 const d20=()=>Math.floor(Math.random()*20)+1;
-const calcCD=(pb,stats,sk)=>sk?8+pb+(stats[sk]?.mod||0):null;
+const calcCD=(pb,st,sk)=>sk?8+pb+(st[sk]?.mod||0):null;
 const effMax=c=>Math.max(0,c.hpMax-(c.hpPerm||0));
 const oColor=(os,id)=>os.find(o=>o.id===id)?.color||"#c8a95e";
-const sortAbs=(abs,os)=>{const m={};os.forEach((o,i)=>m[o.id]=i);return[...abs].sort((a,b)=>(m[a.originId]??999)-(m[b.originId]??999));};
-
-const PASS="P0rc0di0";
-const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"}];
-const ACTION_TYPES=["Azione","Azione bonus","Reazione","Passiva","Rituale"];
-const REST_TYPES=[{v:null,l:"Nessuna"},{v:"breve",l:"R. Breve"},{v:"lungo",l:"R. Lungo"}];
-const STAT_KEYS=["FOR","DES","COS","INT","SAG","CAR"];
-const ORIGIN_PAL=["#e74c3c","#e67e22","#3498db","#8e44ad","#1abc9c","#f1c40f","#2ecc71","#e91e63","#00bcd4","#ff5722"];
-const DEF_ORIGINS=[{id:"cecchino",name:"Cecchino",color:"#e74c3c"},{id:"carpentiere",name:"Carpentiere",color:"#e67e22"},{id:"navigatore",name:"Navigatore",color:"#3498db"},{id:"haki_arm",name:"Haki Armatura",color:"#8e44ad"},{id:"haki_oss",name:"Haki Osservazione",color:"#1abc9c"},{id:"haki_re",name:"Haki del Re",color:"#f1c40f"}];
-
+const sortAbs=(a,o)=>{const m={};o.forEach((x,i)=>m[x.id]=i);return[...a].sort((x,y)=>(m[x.originId]??999)-(m[y.originId]??999));};
 const BASE=()=>window.GITHUB_BASE||"";
+async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 
-function newChar(name){return{id:uid(),name:name||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:[],origins:[...DEF_ORIGINS],attacks:[],abilities:[],notes:"",diceLog:[]};}
+// ── SHA-256 ──
+async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
 
-async function fetchJSON(url){try{const r=await fetch(url+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
+const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"}];
+const AT=["Azione","Azione bonus","Reazione","Passiva","Rituale"];
+const RT=[{v:null,l:"Nessuna"},{v:"breve",l:"R. Breve"},{v:"lungo",l:"R. Lungo"}];
+const SK=["FOR","DES","COS","INT","SAG","CAR"];
+const OP=["#e74c3c","#e67e22","#3498db","#8e44ad","#1abc9c","#f1c40f","#2ecc71","#e91e63","#00bcd4","#ff5722"];
+const DO=[{id:"cecchino",name:"Cecchino",color:"#e74c3c"},{id:"carpentiere",name:"Carpentiere",color:"#e67e22"},{id:"navigatore",name:"Navigatore",color:"#3498db"},{id:"haki_arm",name:"Haki Armatura",color:"#8e44ad"},{id:"haki_oss",name:"Haki Osservazione",color:"#1abc9c"},{id:"haki_re",name:"Haki del Re",color:"#f1c40f"}];
+
+function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:[],origins:[...DO],attacks:[],abilities:[],notes:"",diceLog:[]};}
 
 /* ═══ MAIN ═══ */
 function App(){
-  const[screen,setScreen]=useState("password");
+  const[screen,setScreen]=useState("accounts");
   const[manifest,setManifest]=useState(null);
   const[accId,setAccId]=useState(null);
   const[char,setChar]=useState(null);
-  const[loading,setLoading]=useState(false);
+  const[loading,setLoading]=useState(true);
+  const fileRef=useRef(null);
 
-  // Load manifest from GitHub
-  const loadManifest=async()=>{
-    const b=BASE();
-    if(!b)return null;
-    setLoading(true);
-    const m=await fetchJSON(`${b}/data/manifest.json`);
-    setLoading(false);
-    return m;
-  };
-
-  const enterAccounts=async()=>{
-    const m=await loadManifest();
-    setManifest(m);
-    setScreen("accounts");
-  };
+  useEffect(()=>{(async()=>{const b=BASE();if(b){const m=await fetchJ(`${b}/data/manifest.json`);setManifest(m);}setLoading(false);})();},[]);
 
   const acc=manifest?.accounts?.find(a=>a.id===accId);
   const ac=acc?.color||"#c8a95e";
+  const isMaster=acc?.isMaster||false;
   const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
 
-  // Load character from GitHub
-  const loadCharFromGH=async(accId,file)=>{
-    const b=BASE();if(!b)return null;
-    setLoading(true);
-    const c=await fetchJSON(`${b}/data/${accId}/${file}`);
-    setLoading(false);
-    return c;
-  };
+  const loadGH=async(owner,file)=>{const b=BASE();if(!b)return null;setLoading(true);const c=await fetchJ(`${b}/data/${owner}/${file}`);setLoading(false);return c;};
 
-  // Export
-  const doExport=()=>{
-    if(!char)return;
-    const payload={account:acc?.name||"?",accountId:accId,exportedAt:new Date().toISOString(),character:char};
-    const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
-    const url=URL.createObjectURL(blob);const a=document.createElement("a");
-    a.href=url;a.download=`${char.name.replace(/[^a-zA-Z0-9_]/g,"_")}.json`;a.click();URL.revokeObjectURL(url);
-  };
+  const doExport=()=>{if(!char)return;const p={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:char};const bl=new Blob([JSON.stringify(p,null,2)],{type:"application/json"});const u=URL.createObjectURL(bl);const a=document.createElement("a");a.href=u;a.download=`${char.name.replace(/[^a-zA-Z0-9_]/g,"_")}.json`;a.click();URL.revokeObjectURL(u);};
 
-  // Import from file
-  const fileRef=useRef(null);
-  const doImport=(e)=>{
-    const f=e.target.files[0];if(!f)return;
-    const r=new FileReader();r.onload=(ev)=>{try{
-      const d=JSON.parse(ev.target.result);
-      if(d.character?.name){setChar(d.character);setScreen("sheet");}
-      else if(d.name&&d.stats){setChar(d);setScreen("sheet");}
-      else alert("File non valido");
-    }catch{alert("Errore nel file");}e.target.value="";};r.readAsText(f);
-  };
+  const doImport=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.character?.name){setChar(d.character);setScreen("sheet");}else if(d.name&&d.stats){setChar(d);setScreen("sheet");}else alert("File non valido");}catch{alert("Errore nel file");}e.target.value="";};r.readAsText(f);};
 
-  if(screen==="password")return<PasswordScreen onSuccess={enterAccounts}/>;
+  if(loading)return<Ld msg="Caricamento..."/>;
 
-  if(screen==="accounts"){
-    if(loading)return<Loading msg="Caricamento ciurma..."/>;
-    const accs=manifest?.accounts||[{id:"master",name:"Master",color:"#c8a95e",isMaster:true},{id:"ciccio",name:"Ciccio",color:"#e74c3c",isMaster:false},{id:"pata",name:"Pata",color:"#3498db",isMaster:false}];
-    return<AccountsScreen accounts={accs} onSelect={(id)=>{setAccId(id);setScreen("characters");}}/>;
-  }
+  if(screen==="accounts")return<AccountsScreen manifest={manifest} onAuth={(id)=>{setAccId(id);setScreen("characters");}}/>;
 
   if(screen==="characters"){
-    const ghChars=(manifest?.characters?.[accId])||[];
-    return<CharactersScreen acc={acc} ac={ac} ghChars={ghChars}
+    // Build character list based on role
+    let sections=[];
+    const mChars=manifest?.characters||{};
+    if(isMaster){
+      // Master's own first
+      const own=mChars[accId]||[];
+      if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
+      // Then others
+      manifest?.accounts?.filter(a=>a.id!==accId).forEach(a=>{
+        const ch=mChars[a.id]||[];
+        if(ch.length>0)sections.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color});
+      });
+    }else{
+      const own=mChars[accId]||[];
+      if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
+    }
+    return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster}
       onBack={()=>{setAccId(null);setScreen("accounts");}}
       onNew={()=>{setChar(newChar(""));setScreen("sheet");}}
-      onLoadGH={async(file)=>{const c=await loadCharFromGH(accId,file);if(c){setChar(c);setScreen("sheet");}else alert("Errore nel caricamento da GitHub");}}
-      onImportFile={()=>fileRef.current?.click()}
-      loading={loading}
-    />;
+      onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setScreen("sheet");}else alert("Errore caricamento");}}
+      onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
   }
 
-  if(screen==="sheet"&&char)return<CharacterSheet char={char} up={upChar} ac={ac} acc={acc}
-    onBack={()=>{if(confirm("Hai esportato il PG? Le modifiche non salvate andranno perse.")){setChar(null);setScreen("characters");}}}
-    onExport={doExport} onImport={()=>fileRef.current?.click()}/>;
+  if(screen==="sheet"&&char)return<Sheet char={char} up={upChar} ac={ac} acc={acc} onBack={()=>{if(confirm("Hai esportato? Le modifiche non salvate andranno perse.")){setChar(null);setScreen("characters");}}} onExport={doExport} onImport={()=>fileRef.current?.click()}/>;
 
-  <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/>;
-  return null;
+  return<><input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/></>;
 }
 
-function Loading({msg}){return<div style={SS.fullCenter}><div style={{textAlign:"center"}}><div style={{width:40,height:40,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/><p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:14}}>{msg}</p></div><style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style></div>;}
+function Ld({msg}){return<div style={SS.fc}><div style={{textAlign:"center"}}><div style={{width:40,height:40,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/><p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:14}}>{msg}</p></div></div>;}
 
-/* ═══ PASSWORD ═══ */
-function PasswordScreen({onSuccess}){
-  const[pw,setPw]=useState("");const[err,setErr]=useState(false);const[show,setShow]=useState(false);
-  const check=()=>{if(pw===PASS){setErr(false);onSuccess();}else setErr(true);};
-  return(<div style={SS.fullCenter}>
-    <div style={{textAlign:"center",maxWidth:320,width:"100%",padding:"0 20px"}}>
-      <h1 style={{fontFamily:"'Cinzel'",fontSize:28,fontWeight:900,color:"#c8a95e",marginBottom:4,letterSpacing:2,textShadow:"0 2px 20px rgba(200,169,94,0.3)"}}>🎲 DnD Manager</h1>
-      <p style={{color:"#665a3e",fontSize:14,marginBottom:32}}>Inserisci la password per entrare</p>
-      <div style={{position:"relative",marginBottom:16}}>
-        <input type={show?"text":"password"} value={pw} onChange={e=>{setPw(e.target.value);setErr(false);}} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:18,textAlign:"center",padding:"14px 44px 14px 16px",letterSpacing:2}}/>
-        <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#665a3e",fontSize:16,cursor:"pointer"}}>{show?"🙈":"👁"}</button>
+/* ═══ ACCOUNTS (with per-account password) ═══ */
+function AccountsScreen({manifest,onAuth}){
+  const[selAcc,setSelAcc]=useState(null);
+  const[pw,setPw]=useState("");
+  const[err,setErr]=useState(false);
+  const[show,setShow]=useState(false);
+  const[checking,setChecking]=useState(false);
+
+  const accs=manifest?.accounts||[];
+
+  const check=async()=>{
+    if(!selAcc)return;
+    setChecking(true);
+    const hashed=await H(pw);
+    if(hashed===selAcc.h){setErr(false);onAuth(selAcc.id);}
+    else{setErr(true);}
+    setChecking(false);
+  };
+
+  if(selAcc){
+    const ac=selAcc.color||"#c8a95e";
+    return(<div style={SS.fc}>
+      <div style={{textAlign:"center",maxWidth:320,width:"100%",padding:"0 20px"}}>
+        <button onClick={()=>{setSelAcc(null);setPw("");setErr(false);}} style={{...SS.bb,borderColor:ac+"44",color:ac,marginBottom:20}}>← Torna</button>
+        <div style={{width:64,height:64,borderRadius:"50%",background:ac+"22",border:`3px solid ${ac}`,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 12px",fontFamily:"'Cinzel'",fontWeight:900,fontSize:24,color:ac}}>{selAcc.isMaster?"👑":selAcc.name[0]}</div>
+        <h2 style={{fontFamily:"'Cinzel'",fontSize:20,fontWeight:900,color:ac,letterSpacing:1,marginBottom:6}}>{selAcc.name}</h2>
+        <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Inserisci la tua password</p>
+        <div style={{position:"relative",marginBottom:16}}>
+          <input type={show?"text":"password"} value={pw} onChange={e=>{setPw(e.target.value);setErr(false);}} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:16,textAlign:"center",padding:"12px 44px 12px 16px",letterSpacing:1}}/>
+          <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#665a3e",fontSize:16,cursor:"pointer"}}>{show?"🙈":"👁"}</button>
+        </div>
+        {err&&<p style={{color:"#e74c3c",fontSize:13,marginBottom:12,fontFamily:"'Cinzel'"}}>Password errata!</p>}
+        <button onClick={check} disabled={checking} style={{...SS.bg,width:"100%",padding:"12px 0",fontSize:15,borderColor:ac+"66",color:ac,opacity:checking?0.5:1}}>
+          {checking?"Verifica...":"Entra"}
+        </button>
       </div>
-      {err&&<p style={{color:"#e74c3c",fontSize:13,marginBottom:12,fontFamily:"'Cinzel'"}}>Password errata!</p>}
-      <button onClick={check} style={{...SS.btnGold,width:"100%",padding:"14px 0",fontSize:16}}>Entra</button>
-      {!BASE()&&<p style={{marginTop:20,fontSize:11,color:"#e74c3c88",lineHeight:1.4}}>⚠️ GitHub URL non configurato. L'app funzionerà in modalità offline (solo import/export manuale).</p>}
-    </div>
-  </div>);
-}
+    </div>);
+  }
 
-/* ═══ ACCOUNTS ═══ */
-function AccountsScreen({accounts,onSelect}){
-  const master=accounts.find(a=>a.isMaster);const players=accounts.filter(a=>!a.isMaster);
-  return(<div style={SS.fullScroll}>
-    <div style={{padding:"40px 20px 20px",textAlign:"center"}}>
-      <h1 style={{fontFamily:"'Cinzel'",fontSize:24,fontWeight:900,color:"#c8a95e",marginBottom:4,letterSpacing:2}}>🎲 DnD Manager</h1>
+  return(<div style={SS.fs}>
+    <div style={{padding:"40px 20px 16px",textAlign:"center"}}>
+      <h1 style={{fontFamily:"'Cinzel'",fontSize:26,fontWeight:900,color:"#c8a95e",marginBottom:4,letterSpacing:2,textShadow:"0 2px 20px rgba(200,169,94,0.3)"}}>🎲 DnD Manager</h1>
       <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Scegli il tuo account</p>
     </div>
     <div style={{padding:"0 20px 40px",display:"flex",flexDirection:"column",gap:10,maxWidth:400,margin:"0 auto",width:"100%"}}>
-      {master&&<button onClick={()=>onSelect(master.id)} style={{...SS.accCard,borderColor:master.color+"66",background:`linear-gradient(135deg,${master.color}15,${master.color}08)`}}>
-        <div style={{width:48,height:48,borderRadius:"50%",background:master.color+"22",border:`2px solid ${master.color}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>👑</div>
-        <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:master.color}}>{master.name}</span><br/><span style={{fontSize:11,color:"#665a3e"}}>Dungeon Master</span></div>
-      </button>}
-      {players.map(a=>(
-        <button key={a.id} onClick={()=>onSelect(a.id)} style={{...SS.accCard,borderColor:a.color+"44",background:`linear-gradient(135deg,${a.color}10,${a.color}05)`}}>
-          <div style={{width:48,height:48,borderRadius:"50%",background:a.color+"22",border:`2px solid ${a.color}`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:20,color:a.color}}>{a.name[0]}</div>
-          <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:"#e8dcc8"}}>{a.name}</span><br/><span style={{fontSize:11,color:"#665a3e"}}>Giocatore</span></div>
+      {accs.map(a=>(
+        <button key={a.id} onClick={()=>setSelAcc(a)} style={{...SS.ac,borderColor:a.color+"55",background:`linear-gradient(135deg,${a.color}12,${a.color}06)`}}>
+          <div style={{width:48,height:48,borderRadius:"50%",background:a.color+"22",border:`2px solid ${a.color}`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:a.isMaster?22:20,color:a.color}}>{a.isMaster?"👑":a.name[0]}</div>
+          <div style={{flex:1,textAlign:"left"}}>
+            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:a.isMaster?a.color:"#e8dcc8"}}>{a.name}</span><br/>
+            <span style={{fontSize:11,color:"#665a3e"}}>{a.isMaster?"Dungeon Master":"Giocatore"}</span>
+          </div>
+          <span style={{fontSize:14,color:a.color+"88"}}>🔒</span>
         </button>
       ))}
-      <p style={{textAlign:"center",fontSize:10,color:"#665a3e44",marginTop:8}}>Per aggiungere/rimuovere giocatori, modifica manifest.json su GitHub</p>
+      {!BASE()&&<p style={{textAlign:"center",fontSize:10,color:"#e74c3c66",marginTop:12}}>⚠️ GitHub URL non configurato — modalità offline</p>}
     </div>
   </div>);
 }
 
 /* ═══ CHARACTER SELECT ═══ */
-function CharactersScreen({acc,ac,ghChars,onBack,onNew,onLoadGH,onImportFile,loading}){
-  const fileRef=useRef(null);
-  return(<div style={SS.fullScroll}>
-    <div style={{padding:"16px 20px",display:"flex",alignItems:"center",gap:12,borderBottom:"1px solid #c8a95e15"}}>
-      <button onClick={onBack} style={{...SS.backBtn,borderColor:ac+"44",color:ac}}>←</button>
+function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile,loading}){
+  return(<div style={SS.fs}>
+    <div style={{padding:"14px 20px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15"}}>
+      <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
       <div style={{flex:1}}>
-        <h2 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:700,color:ac,letterSpacing:1}}>{acc?.name}</h2>
+        <h2 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:700,color:ac}}>{acc?.name}</h2>
+        {isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master — vedi tutti i PG</span>}
       </div>
     </div>
-    <div style={{padding:"20px",maxWidth:400,margin:"0 auto",width:"100%"}}>
-
-      {/* GitHub characters */}
-      {ghChars.length>0&&(<>
-        <h3 style={{fontFamily:"'Cinzel'",fontSize:12,fontWeight:700,color:"#c8a95e",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>📡 Personaggi su GitHub</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:24}}>
-          {ghChars.map((gc,i)=>(
-            <button key={i} onClick={()=>onLoadGH(gc.file)} disabled={loading} style={{...SS.accCard,borderColor:ac+"44",background:`linear-gradient(135deg,${ac}12,${ac}05)`,opacity:loading?0.5:1}}>
-              <div style={{width:44,height:44,borderRadius:10,background:ac+"18",border:`1.5px solid ${ac}44`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:18,color:ac}}>{gc.name?gc.name[0]:"?"}</div>
-              <div style={{flex:1,textAlign:"left"}}>
-                <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:15,color:"#e8dcc8"}}>{gc.name}</span><br/>
-                <span style={{fontSize:10,color:"#665a3e"}}>{gc.preview||gc.file}</span>
-              </div>
-              <span style={{fontSize:18}}>→</span>
-            </button>
-          ))}
+    <div style={{padding:"16px 20px",maxWidth:400,margin:"0 auto",width:"100%"}}>
+      {/* GitHub sections */}
+      {sections.map((sec,si)=>(
+        <div key={si} style={{marginBottom:20}}>
+          <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}>
+            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span>
+          </div>
+          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+            {sec.chars.map((gc,i)=>(
+              <button key={i} onClick={()=>onLoadGH(sec.owner,gc.file)} disabled={loading} style={{...SS.ac,borderColor:sec.color+"33",background:`linear-gradient(135deg,${sec.color}0c,transparent)`,opacity:loading?0.5:1}}>
+                <div style={{width:40,height:40,borderRadius:8,background:sec.color+"18",border:`1.5px solid ${sec.color}44`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:16,color:sec.color}}>{gc.name?gc.name[0]:"?"}</div>
+                <div style={{flex:1,textAlign:"left"}}>
+                  <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#e8dcc8"}}>{gc.name}</span><br/>
+                  <span style={{fontSize:10,color:"#665a3e"}}>{gc.preview||gc.file}</span>
+                </div>
+                <span style={{fontSize:16,color:sec.color+"66"}}>→</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </>)}
+      ))}
 
-      {ghChars.length===0&&BASE()&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"10px 0 20px",fontSize:13}}>Nessun personaggio salvato su GitHub per questo account.</p>}
+      {sections.length===0&&BASE()&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"10px 0 20px",fontSize:13}}>Nessun personaggio salvato su GitHub.</p>}
 
-      <h3 style={{fontFamily:"'Cinzel'",fontSize:12,fontWeight:700,color:"#c8a95e",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Oppure...</h3>
-
-      <div style={{display:"flex",flexDirection:"column",gap:12}}>
-        <button onClick={onNew} style={{padding:"20px",borderRadius:12,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left"}}>
+      <h3 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:"#c8a95e88",letterSpacing:2,textTransform:"uppercase",marginTop:16,marginBottom:10}}>Oppure...</h3>
+      <div style={{display:"flex",flexDirection:"column",gap:10}}>
+        <button onClick={onNew} style={{padding:"18px",borderRadius:12,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left"}}>
           <div style={{display:"flex",alignItems:"center",gap:10}}>
-            <span style={{fontSize:28}}>✨</span>
-            <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:15,color:ac,display:"block"}}>Nuovo PG</span>
-            <span style={{fontSize:11,color:"#998866"}}>Crea un personaggio da zero</span></div>
+            <span style={{fontSize:26}}>✨</span>
+            <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:ac,display:"block"}}>Nuovo PG</span><span style={{fontSize:11,color:"#998866"}}>Crea un personaggio da zero</span></div>
           </div>
-          <div style={{marginTop:10,padding:"6px 10px",borderRadius:6,background:"rgba(243,156,18,0.08)",border:"1px solid rgba(243,156,18,0.2)"}}>
-            <p style={{fontSize:10,color:"#f39c12",lineHeight:1.3}}>⚠️ Ricorda di esportare il PG e caricarlo su GitHub!</p>
-          </div>
+          <div style={{marginTop:8,padding:"5px 8px",borderRadius:5,background:"rgba(243,156,18,0.08)",border:"1px solid rgba(243,156,18,0.2)"}}><p style={{fontSize:9,color:"#f39c12",lineHeight:1.3}}>⚠️ Ricorda di esportare e caricare su GitHub!</p></div>
         </button>
-
-        <button onClick={onImportFile} style={{padding:"20px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left"}}>
+        <button onClick={onImportFile} style={{padding:"18px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left"}}>
           <div style={{display:"flex",alignItems:"center",gap:10}}>
-            <span style={{fontSize:28}}>📂</span>
-            <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:15,color:"#2ecc71",display:"block"}}>Importa da File</span>
-            <span style={{fontSize:11,color:"#998866"}}>Carica un JSON salvato in locale</span></div>
+            <span style={{fontSize:26}}>📂</span>
+            <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale</span></div>
           </div>
         </button>
       </div>
@@ -241,214 +223,188 @@ function CharactersScreen({acc,ac,ghChars,onBack,onNew,onLoadGH,onImportFile,loa
   </div>);
 }
 
-/* ═══ CHARACTER SHEET (same as before, with sticky export) ═══ */
-function CharacterSheet({char:c,up,ac,acc,onBack,onExport,onImport}){
+/* ═══ CHARACTER SHEET ═══ */
+function Sheet({char:c,up,ac,acc,onBack,onExport,onImport}){
   const[tab,setTab]=useState("stats");const[edit,setEdit]=useState(false);const[popup,setPopup]=useState(null);const[modal,setModal]=useState(null);
   const log=c.diceLog||[];
   const addLog=useCallback(e=>up({diceLog:[e,...(c.diceLog||[])].slice(0,80)}),[c.diceLog,up]);
-  const mkD20=cfg=>({...cfg,id:Date.now(),roll1:d20(),roll2:d20(),modifier:cfg.modifier||0,mode:null,chosen:null,total:null});
-  const mkDmg=cfg=>{const r=rollDice(cfg.formula);return{...cfg,id:Date.now(),rollResult:r,total:r.total};};
-  const openRoll=useCallback(cfg=>setPopup(cfg.type==="d20"?mkD20(cfg):mkDmg(cfg)),[]);
-  const reroll=useCallback(()=>setPopup(p=>p?(p.type==="d20"?mkD20(p):mkDmg(p)):null),[]);
-  const pickMode=useCallback(mode=>setPopup(p=>{if(!p)return null;const ch=mode==="vantaggio"?Math.max(p.roll1,p.roll2):mode==="svantaggio"?Math.min(p.roll1,p.roll2):p.roll1;return{...p,mode,chosen:ch,total:ch+p.modifier};}),[]);
-  const acceptRoll=useCallback(()=>{if(!popup||(popup.type==="d20"&&!popup.mode))return;addLog({type:popup.type,label:popup.label,total:popup.total,roll1:popup.roll1,roll2:popup.roll2,chosen:popup.chosen,modifier:popup.modifier,mode:popup.mode,isNat20:popup.type==="d20"&&popup.chosen===20,isNat1:popup.type==="d20"&&popup.chosen===1,rollResult:popup.rollResult,cdTarget:popup.cdTarget,timestamp:Date.now()});setPopup(null);},[popup,addLog]);
+  const mk20=cfg=>({...cfg,id:Date.now(),roll1:d20(),roll2:d20(),modifier:cfg.modifier||0,mode:null,chosen:null,total:null});
+  const mkD=cfg=>{const r=rollDice(cfg.formula);return{...cfg,id:Date.now(),rollResult:r,total:r.total};};
+  const oR=useCallback(cfg=>setPopup(cfg.type==="d20"?mk20(cfg):mkD(cfg)),[]);
+  const rr=useCallback(()=>setPopup(p=>p?(p.type==="d20"?mk20(p):mkD(p)):null),[]);
+  const pM=useCallback(m=>setPopup(p=>{if(!p)return null;const ch=m==="vantaggio"?Math.max(p.roll1,p.roll2):m==="svantaggio"?Math.min(p.roll1,p.roll2):p.roll1;return{...p,mode:m,chosen:ch,total:ch+p.modifier};}),[]);
+  const aR=useCallback(()=>{if(!popup||(popup.type==="d20"&&!popup.mode))return;addLog({type:popup.type,label:popup.label,total:popup.total,roll1:popup.roll1,roll2:popup.roll2,chosen:popup.chosen,modifier:popup.modifier,mode:popup.mode,isNat20:popup.type==="d20"&&popup.chosen===20,isNat1:popup.type==="d20"&&popup.chosen===1,rollResult:popup.rollResult,cdTarget:popup.cdTarget,timestamp:Date.now()});setPopup(null);},[popup,addLog]);
 
-  return(<div style={{...SS.sheetWrap,background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
+  return(<div style={{...SS.sw,background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
     <div style={{background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"10px 14px 8px"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
         <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
-          <button onClick={onBack} style={{...SS.backBtn,borderColor:ac+"44",color:ac,width:28,height:28,fontSize:12}}>←</button>
+          <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac,width:28,height:28,fontSize:12}}>←</button>
           <div style={{flex:1}}>
-            {edit?(<div style={{display:"flex",flexDirection:"column",gap:3}}>
-              <input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,fontFamily:"'Cinzel'",fontSize:16,fontWeight:900,color:ac}}/>
-              <div style={{display:"flex",gap:3}}><input value={c.race} onChange={e=>up({race:e.target.value})} placeholder="Razza" style={{...SS.inp,flex:1,fontSize:10}}/><input type="number" value={c.level} onChange={e=>up({level:parseInt(e.target.value)||1})} style={{...SS.inp,width:34,fontSize:10,textAlign:"center"}}/></div>
-              <input value={c.classes} onChange={e=>up({classes:e.target.value})} placeholder="Classi" style={{...SS.inp,fontSize:10}}/>
-            </div>):(<><h1 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:900,color:ac,margin:0,letterSpacing:1}}>{c.name||"Senza Nome"}</h1><p style={{fontSize:10,color:"#998866"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</p></>)}
+            {edit?(<div style={{display:"flex",flexDirection:"column",gap:3}}><input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,fontFamily:"'Cinzel'",fontSize:16,fontWeight:900,color:ac}}/><div style={{display:"flex",gap:3}}><input value={c.race} onChange={e=>up({race:e.target.value})} placeholder="Razza" style={{...SS.inp,flex:1,fontSize:10}}/><input type="number" value={c.level} onChange={e=>up({level:parseInt(e.target.value)||1})} style={{...SS.inp,width:34,fontSize:10,textAlign:"center"}}/></div><input value={c.classes} onChange={e=>up({classes:e.target.value})} placeholder="Classi" style={{...SS.inp,fontSize:10}}/></div>):(<><h1 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:900,color:ac,margin:0,letterSpacing:1}}>{c.name||"Senza Nome"}</h1><p style={{fontSize:10,color:"#998866"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</p></>)}
           </div>
         </div>
-        <div style={{display:"flex",alignItems:"center",gap:6}}>
-          <span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span>
-          <button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button>
-        </div>
+        <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span><button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button></div>
       </div>
       <HPBar c={c} up={up} edit={edit} ac={ac}/>
-      <div style={{display:"flex",gap:4,marginTop:8}}>
-        {[{l:"CA",k:"ac"},{l:"Vel.",k:"speed"},{l:"Perc.",k:"passivePerception"},{l:"Comp.",k:"profBonus"}].map(i=>(
-          <div key={i.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:6,padding:"4px 2px",border:`1px solid ${ac}15`}}>
-            <span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700}}>{i.l}</span>
-            {edit?<input type="number" value={c[i.k]} onChange={e=>up({[i.k]:parseInt(e.target.value)||0})} style={{...SS.inp,width:36,textAlign:"center",fontSize:14,fontWeight:700,fontFamily:"'JetBrains Mono'",color:ac,padding:"1px 2px"}}/>
-            :<span style={{fontSize:15,fontWeight:700,color:ac,fontFamily:"'JetBrains Mono'"}}>{i.k==="profBonus"?`+${c[i.k]}`:c[i.k]}</span>}
-          </div>
-        ))}
-      </div>
+      <div style={{display:"flex",gap:4,marginTop:8}}>{[{l:"CA",k:"ac"},{l:"Vel.",k:"speed"},{l:"Perc.",k:"passivePerception"},{l:"Comp.",k:"profBonus"}].map(i=><div key={i.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:6,padding:"4px 2px",border:`1px solid ${ac}15`}}><span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700}}>{i.l}</span>{edit?<input type="number" value={c[i.k]} onChange={e=>up({[i.k]:parseInt(e.target.value)||0})} style={{...SS.inp,width:36,textAlign:"center",fontSize:14,fontWeight:700,fontFamily:"'JetBrains Mono'",color:ac,padding:"1px 2px"}}/>:<span style={{fontSize:15,fontWeight:700,color:ac,fontFamily:"'JetBrains Mono'"}}>{i.k==="profBonus"?`+${c[i.k]}`:c[i.k]}</span>}</div>)}</div>
     </div>
     <div style={{flex:1,overflowY:"auto",paddingBottom:120}}>
-      {tab==="stats"&&<STab c={c} up={up} edit={edit} openRoll={openRoll} setModal={setModal} ac={ac}/>}
-      {tab==="actions"&&<ATab c={c} up={up} setModal={setModal} ac={ac}/>}
-      {tab==="dice"&&<DTab c={c} up={up} log={log} openRoll={openRoll} ac={ac}/>}
+      {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
+      {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
+      {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
       {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
     </div>
-    {popup&&<DicePopup p={popup} onMode={pickMode} onAccept={acceptRoll} onReroll={reroll} onRefuse={()=>setPopup(null)} ac={ac}/>}
-    {modal?.type==="attack"&&<AttackModal c={c} up={up} data={modal.data} onClose={()=>setModal(null)}/>}
-    {modal?.type==="ability"&&<AbilityModal c={c} up={up} data={modal.data} onClose={()=>setModal(null)}/>}
-    {modal?.type==="origins"&&<OriginsModal c={c} up={up} onClose={()=>setModal(null)}/>}
-    {/* STICKY EXPORT */}
+    {popup&&<DP p={popup} oM={pM} oA={aR} oRR={rr} oX={()=>setPopup(null)} ac={ac}/>}
+    {modal?.type==="attack"&&<AM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
+    {modal?.type==="ability"&&<BM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
+    {modal?.type==="origins"&&<OM c={c} up={up} oC={()=>setModal(null)}/>}
     <div style={{position:"absolute",bottom:44,left:0,right:0,padding:"8px 14px",background:"linear-gradient(180deg,transparent,#0a0e17ee 30%)",zIndex:50}}>
-      <button onClick={onExport} style={{width:"100%",padding:"14px 0",borderRadius:10,border:`2px solid ${ac}66`,background:`linear-gradient(135deg,${ac}22,${ac}0a)`,color:ac,fontSize:16,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:1,display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
-        <span style={{fontSize:22}}>💾</span> Esporta PG
-      </button>
+      <button onClick={onExport} style={{width:"100%",padding:"14px 0",borderRadius:10,border:`2px solid ${ac}66`,background:`linear-gradient(135deg,${ac}22,${ac}0a)`,color:ac,fontSize:16,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:1,display:"flex",alignItems:"center",justifyContent:"center",gap:10}}><span style={{fontSize:22}}>💾</span> Esporta PG</button>
     </div>
-    <nav style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",background:"rgba(10,14,23,0.98)",backdropFilter:"blur(12px)",borderTop:`1px solid ${ac}22`,zIndex:60}}>
-      {TABS.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"6px 0 8px",background:"transparent",border:"none",borderTop:tab===t.id?`2px solid ${ac}`:"2px solid transparent",color:tab===t.id?ac:"#665a3e",cursor:"pointer",fontFamily:"'Cinzel'"}}><span style={{fontSize:16}}>{t.icon}</span><span style={{fontSize:8,letterSpacing:1,marginTop:1}}>{t.label}</span></button>)}
-    </nav>
+    <nav style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",background:"rgba(10,14,23,0.98)",backdropFilter:"blur(12px)",borderTop:`1px solid ${ac}22`,zIndex:60}}>{TABS.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"6px 0 8px",background:"transparent",border:"none",borderTop:tab===t.id?`2px solid ${ac}`:"2px solid transparent",color:tab===t.id?ac:"#665a3e",cursor:"pointer",fontFamily:"'Cinzel'"}}><span style={{fontSize:16}}>{t.icon}</span><span style={{fontSize:8,letterSpacing:1,marginTop:1}}>{t.label}</span></button>)}</nav>
   </div>);
 }
 
 /* ═══ HP BAR ═══ */
 function HPBar({c,up,edit,ac}){
-  const eM=effMax(c);const pct=eM>0?Math.max(0,(c.hpCurrent/eM)*100):0;const hc=pct>60?"#2ecc71":pct>30?"#f39c12":"#e74c3c";
+  const eM=effMax(c),pct=eM>0?Math.max(0,(c.hpCurrent/eM)*100):0,hc=pct>60?"#2ecc71":pct>30?"#f39c12":"#e74c3c";
   return(<div style={{marginTop:8}}>
-    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}>
-      <span style={{fontFamily:"'Cinzel'",fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2}}>HP</span>
-      {edit?(<div style={{display:"flex",alignItems:"center",gap:3}}><input type="number" value={c.hpCurrent} onChange={e=>up({hpCurrent:Math.min(parseInt(e.target.value)||0,eM)})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:hc,fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/><span style={{color:"#665a3e"}}>/</span><input type="number" value={c.hpMax} onChange={e=>up({hpMax:parseInt(e.target.value)||1})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/></div>):(<span style={{fontFamily:"'JetBrains Mono'",fontSize:17,fontWeight:600,color:hc}}>{c.hpCurrent}<span style={{color:"#665a3e"}}>/{eM}</span></span>)}
-      {c.hpTemp>0&&<span style={{fontSize:10,color:"#3498db",fontFamily:"'JetBrains Mono'",background:"rgba(52,152,219,0.12)",padding:"0 4px",borderRadius:3}}>+{c.hpTemp}t</span>}
-      {c.hpPerm>0&&<span style={{fontSize:10,color:"#e74c3c",fontFamily:"'JetBrains Mono'",background:"rgba(231,76,60,0.12)",padding:"0 4px",borderRadius:3}}>-{c.hpPerm}p</span>}
-    </div>
+    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}><span style={{fontFamily:"'Cinzel'",fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2}}>HP</span>{edit?<div style={{display:"flex",alignItems:"center",gap:3}}><input type="number" value={c.hpCurrent} onChange={e=>up({hpCurrent:Math.min(parseInt(e.target.value)||0,eM)})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:hc,fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/><span style={{color:"#665a3e"}}>/</span><input type="number" value={c.hpMax} onChange={e=>up({hpMax:parseInt(e.target.value)||1})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/></div>:<span style={{fontFamily:"'JetBrains Mono'",fontSize:17,fontWeight:600,color:hc}}>{c.hpCurrent}<span style={{color:"#665a3e"}}>/{eM}</span></span>}{c.hpTemp>0&&<span style={{fontSize:10,color:"#3498db",fontFamily:"'JetBrains Mono'",background:"rgba(52,152,219,0.12)",padding:"0 4px",borderRadius:3}}>+{c.hpTemp}t</span>}{c.hpPerm>0&&<span style={{fontSize:10,color:"#e74c3c",fontFamily:"'JetBrains Mono'",background:"rgba(231,76,60,0.12)",padding:"0 4px",borderRadius:3}}>-{c.hpPerm}p</span>}</div>
     <div style={{height:5,background:"#1a1f2e",borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",borderRadius:3,width:`${pct}%`,background:`linear-gradient(90deg,${hc}cc,${hc})`,transition:"width 0.4s"}}/></div>
-    {!edit&&(<><div style={{display:"flex",gap:3,marginTop:5}}>{[-10,-5,-1,1,5,10].map(n=><button key={n} onClick={()=>{if(n>0)up({hpCurrent:Math.min(c.hpCurrent+n,eM)});else{const d=Math.abs(n);if(c.hpTemp>=d)up({hpTemp:c.hpTemp-d});else up({hpTemp:0,hpCurrent:Math.max(0,c.hpCurrent-(d-c.hpTemp))});}}} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:10,fontWeight:600,background:n>0?"rgba(46,204,113,0.1)":"rgba(231,76,60,0.1)",color:n>0?"#2ecc71":"#e74c3c",borderColor:n>0?"#2ecc7133":"#e74c3c33"}}>{n>0?`+${n}`:n}</button>)}</div>
-    <div style={{display:"flex",gap:6,marginTop:5}}>{[{l:"TEMP",v:c.hpTemp,c:"#3498db",dec:()=>up({hpTemp:Math.max(0,c.hpTemp-1)}),inc:()=>up({hpTemp:c.hpTemp+1})},{l:"PERM",v:c.hpPerm,c:"#e74c3c",dec:()=>{const np=Math.max(0,c.hpPerm-1);up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,c.hpMax-np)});},inc:()=>{const np=c.hpPerm+1;up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,Math.max(0,c.hpMax-np))});}}].map(h=><div key={h.l} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:"rgba(200,169,94,0.04)",borderRadius:5,padding:"3px",border:"1px solid #c8a95e10"}}><span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700,marginBottom:1}}>{h.l}</span><div style={{display:"flex",alignItems:"center",gap:3}}><button onClick={h.dec} style={SS.hpSBtn}>−</button><span style={{fontFamily:"'JetBrains Mono'",fontSize:15,fontWeight:700,color:h.c,minWidth:22,textAlign:"center"}}>{h.v}</span><button onClick={h.inc} style={SS.hpSBtn}>+</button></div></div>)}</div></>)}
+    {!edit&&<><div style={{display:"flex",gap:3,marginTop:5}}>{[-10,-5,-1,1,5,10].map(n=><button key={n} onClick={()=>{if(n>0)up({hpCurrent:Math.min(c.hpCurrent+n,eM)});else{const d=Math.abs(n);if(c.hpTemp>=d)up({hpTemp:c.hpTemp-d});else up({hpTemp:0,hpCurrent:Math.max(0,c.hpCurrent-(d-c.hpTemp))});}}} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:10,fontWeight:600,background:n>0?"rgba(46,204,113,0.1)":"rgba(231,76,60,0.1)",color:n>0?"#2ecc71":"#e74c3c",borderColor:n>0?"#2ecc7133":"#e74c3c33"}}>{n>0?`+${n}`:n}</button>)}</div>
+    <div style={{display:"flex",gap:6,marginTop:5}}>{[{l:"TEMP",v:c.hpTemp,c:"#3498db",d:()=>up({hpTemp:Math.max(0,c.hpTemp-1)}),i:()=>up({hpTemp:c.hpTemp+1})},{l:"PERM",v:c.hpPerm,c:"#e74c3c",d:()=>{const np=Math.max(0,c.hpPerm-1);up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,c.hpMax-np)});},i:()=>{const np=c.hpPerm+1;up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,Math.max(0,c.hpMax-np))});}}].map(h=><div key={h.l} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:"rgba(200,169,94,0.04)",borderRadius:5,padding:"3px",border:"1px solid #c8a95e10"}}><span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700,marginBottom:1}}>{h.l}</span><div style={{display:"flex",alignItems:"center",gap:3}}><button onClick={h.d} style={SS.hs}>−</button><span style={{fontFamily:"'JetBrains Mono'",fontSize:15,fontWeight:700,color:h.c,minWidth:22,textAlign:"center"}}>{h.v}</span><button onClick={h.i} style={SS.hs}>+</button></div></div>)}</div></>}
   </div>);
 }
 
 /* ═══ DICE POPUP ═══ */
-function DicePopup({p,onMode,onAccept,onReroll,onRefuse,ac}){
-  const isD20=p.type==="d20",hp=isD20&&p.mode,n20=hp&&p.chosen===20,n1=hp&&p.chosen===1;
-  return(<div style={SS.popOver} onClick={onRefuse}><div style={SS.popCard} onClick={e=>e.stopPropagation()}>
+function DP({p,oM,oA,oRR,oX,ac}){
+  const is20=p.type==="d20",hp=is20&&p.mode,n20=hp&&p.chosen===20,n1=hp&&p.chosen===1;
+  return(<div style={SS.po} onClick={oX}><div style={SS.pc} onClick={e=>e.stopPropagation()}>
     <p style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:ac,textAlign:"center",margin:"0 0 12px",letterSpacing:1}}>{p.label}</p>
-    {isD20&&(<><div style={{display:"flex",gap:12,justifyContent:"center",marginBottom:10}}>{[p.roll1,p.roll2].map((v,i)=><div key={i} style={{width:66,height:66,borderRadius:10,border:`2px solid ${hp?(p.chosen===v&&(p.mode==="normale"?i===0:true)?ac:"#333"):v===20?"#f1c40f":v===1?"#e74c3c":"#c8a95e44"}`,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(200,169,94,0.06)",opacity:hp&&!(p.mode==="normale"&&i===0)&&p.chosen!==v?0.3:1,transition:"all 0.2s"}}><span style={{fontSize:32,fontWeight:900,fontFamily:"'JetBrains Mono'",color:v===20?"#f1c40f":v===1?"#e74c3c":"#e8dcc8"}}>{v}</span></div>)}</div>
-    <div style={{display:"flex",gap:4,marginBottom:12}}>{[{m:"normale",l:"Normale",c:ac},{m:"vantaggio",l:"Vantaggio",c:"#2ecc71"},{m:"svantaggio",l:"Svantaggio",c:"#e74c3c"}].map(({m,l,c})=><button key={m} onClick={()=>onMode(m)} style={{flex:1,padding:"6px 0",borderRadius:6,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",border:`1.5px solid ${p.mode===m?c:c+"33"}`,background:p.mode===m?c+"25":"transparent",color:p.mode===m?c:c+"88"}}>{l}</button>)}</div>
-    {hp&&<div style={{textAlign:"center",marginBottom:10}}><span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:n20?"#f1c40f":n1?"#e74c3c":"#e8dcc8",textShadow:n20?"0 0 20px #f1c40f55":n1?"0 0 20px #e74c3c55":"0 2px 12px rgba(0,0,0,0.4)",display:"block",lineHeight:1.1}}>{p.total}</span>{p.modifier!==0&&<p style={{fontSize:11,color:"#998866",margin:"2px 0 0",fontFamily:"'JetBrains Mono'"}}>{p.chosen} {p.modifier>=0?"+":""}{p.modifier}</p>}{n20&&<p style={{color:"#f1c40f",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0"}}>★ CRITICO ★</p>}{n1&&<p style={{color:"#e74c3c",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0"}}>✗ FALLIMENTO ✗</p>}{p.cdTarget&&<p style={{fontSize:12,color:p.total>=p.cdTarget?"#2ecc71":"#e74c3c",fontFamily:"'JetBrains Mono'",margin:"6px 0 0",fontWeight:700}}>CD {p.cdTarget} → {p.total>=p.cdTarget?"SUPERATA ✓":"FALLITA ✗"}</p>}</div>}
-    {!hp&&<p style={{textAlign:"center",color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'",marginBottom:8}}>Scegli modalità</p>}</>)}
-    {!isD20&&p.rollResult&&<div style={{textAlign:"center",marginBottom:10}}><span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",display:"block",lineHeight:1.1}}>{p.total}</span><p style={{fontSize:11,color:"#998866",margin:"4px 0 0",fontFamily:"'JetBrains Mono'"}}>[{p.rollResult.results.map(r=>r.value).join(", ")}]{p.rollResult.bonus?` ${p.rollResult.bonus>=0?"+":""}${p.rollResult.bonus}`:""}</p></div>}
-    <div style={{display:"flex",gap:6,marginTop:10}}><button onClick={onRefuse} style={{...SS.popBtn,background:"rgba(231,76,60,0.12)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Rifiuta</button><button onClick={onReroll} style={{...SS.popBtn,background:"rgba(200,169,94,0.12)",borderColor:"#c8a95e44",color:"#c8a95e"}}>Rilancia</button><button onClick={onAccept} disabled={isD20&&!hp} style={{...SS.popBtn,background:isD20&&!hp?"rgba(46,204,113,0.05)":"rgba(46,204,113,0.18)",borderColor:isD20&&!hp?"#2ecc7122":"#2ecc71",color:isD20&&!hp?"#2ecc7144":"#2ecc71",fontWeight:700}}>Accetta</button></div>
+    {is20&&<><div style={{display:"flex",gap:12,justifyContent:"center",marginBottom:10}}>{[p.roll1,p.roll2].map((v,i)=><div key={i} style={{width:66,height:66,borderRadius:10,border:`2px solid ${hp?(p.chosen===v&&(p.mode==="normale"?i===0:true)?ac:"#333"):v===20?"#f1c40f":v===1?"#e74c3c":"#c8a95e44"}`,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(200,169,94,0.06)",opacity:hp&&!(p.mode==="normale"&&i===0)&&p.chosen!==v?0.3:1,transition:"all 0.2s"}}><span style={{fontSize:32,fontWeight:900,fontFamily:"'JetBrains Mono'",color:v===20?"#f1c40f":v===1?"#e74c3c":"#e8dcc8"}}>{v}</span></div>)}</div>
+    <div style={{display:"flex",gap:4,marginBottom:12}}>{[{m:"normale",l:"Normale",c:ac},{m:"vantaggio",l:"Vantaggio",c:"#2ecc71"},{m:"svantaggio",l:"Svantaggio",c:"#e74c3c"}].map(({m,l,c})=><button key={m} onClick={()=>oM(m)} style={{flex:1,padding:"6px 0",borderRadius:6,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",border:`1.5px solid ${p.mode===m?c:c+"33"}`,background:p.mode===m?c+"25":"transparent",color:p.mode===m?c:c+"88"}}>{l}</button>)}</div>
+    {hp&&<div style={{textAlign:"center",marginBottom:10}}><span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:n20?"#f1c40f":n1?"#e74c3c":"#e8dcc8",textShadow:n20?"0 0 20px #f1c40f55":n1?"0 0 20px #e74c3c55":"0 2px 12px rgba(0,0,0,0.4)",display:"block",lineHeight:1.1}}>{p.total}</span>{p.modifier!==0&&<p style={{fontSize:11,color:"#998866",margin:"2px 0 0",fontFamily:"'JetBrains Mono'"}}>{p.chosen} {p.modifier>=0?"+":""}{p.modifier}</p>}{n20&&<p style={{color:"#f1c40f",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0"}}>★ CRITICO ★</p>}{n1&&<p style={{color:"#e74c3c",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0"}}>✗ FALLIMENTO ✗</p>}{p.cdTarget&&<p style={{fontSize:12,color:p.total>=p.cdTarget?"#2ecc71":"#e74c3c",fontFamily:"'JetBrains Mono'",margin:"6px 0 0",fontWeight:700}}>CD {p.cdTarget} → {p.total>=p.cdTarget?"✓":"✗"}</p>}</div>}
+    {!hp&&<p style={{textAlign:"center",color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'",marginBottom:8}}>Scegli modalità</p>}</>}
+    {!is20&&p.rollResult&&<div style={{textAlign:"center",marginBottom:10}}><span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",display:"block",lineHeight:1.1}}>{p.total}</span><p style={{fontSize:11,color:"#998866",margin:"4px 0 0",fontFamily:"'JetBrains Mono'"}}>[{p.rollResult.results.map(r=>r.value).join(", ")}]{p.rollResult.bonus?` ${p.rollResult.bonus>=0?"+":""}${p.rollResult.bonus}`:""}</p></div>}
+    <div style={{display:"flex",gap:6,marginTop:10}}><button onClick={oX} style={{...SS.pb,background:"rgba(231,76,60,0.12)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Rifiuta</button><button onClick={oRR} style={{...SS.pb,background:"rgba(200,169,94,0.12)",borderColor:"#c8a95e44",color:"#c8a95e"}}>Rilancia</button><button onClick={oA} disabled={is20&&!hp} style={{...SS.pb,background:is20&&!hp?"rgba(46,204,113,0.05)":"rgba(46,204,113,0.18)",borderColor:is20&&!hp?"#2ecc7122":"#2ecc71",color:is20&&!hp?"#2ecc7144":"#2ecc71",fontWeight:700}}>Accetta</button></div>
   </div></div>);
 }
 
-/* ═══ TABS ═══ */
-function STab({c,up,edit,openRoll,setModal,ac}){
-  const uStat=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave")ns[k].save=ns[k].mod+(v?c.profBonus:0);up({stats:ns});};
+/* ═══ STAT TAB ═══ */
+function STab({c,up,edit,oR,sM,ac}){
+  const uS=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave")ns[k].save=ns[k].mod+(v?c.profBonus:0);up({stats:ns});};
   return(<div style={{padding:"12px 12px 20px"}}>
     <Sec ac={ac}>Caratteristiche</Sec>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5}}>{Object.entries(c.stats).map(([k,v])=>(<div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"7px 3px 5px",border:`1px solid ${ac}15`}}><span style={{fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2,fontFamily:"'Cinzel'"}}>{k}</span>{edit?(<><input type="number" value={v.score} onChange={e=>uStat(k,"score",parseInt(e.target.value)||0)} style={{...SS.inp,width:38,fontSize:17,textAlign:"center",fontWeight:700,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",padding:"1px"}}/><span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600}}>{v.mod>=0?`+${v.mod}`:v.mod}</span><label style={{display:"flex",alignItems:"center",gap:2,fontSize:7,color:"#998866",cursor:"pointer",marginTop:2}}><input type="checkbox" checked={v.profSave} onChange={e=>uStat(k,"profSave",e.target.checked)} style={{width:9,height:9,accentColor:ac}}/>Comp.TS</label></>):(<><button onClick={()=>openRoll({label:`Prova ${k}`,type:"d20",modifier:v.mod})} style={{background:"none",border:"none",cursor:"pointer",padding:0}}><span style={{fontSize:20,fontWeight:700,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",lineHeight:1.2,display:"block"}}>{v.score}</span><span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600,display:"block"}}>{v.mod>=0?`+${v.mod}`:v.mod} 🎲</span></button><button onClick={()=>openRoll({label:`TS ${k}`,type:"d20",modifier:v.save})} style={{marginTop:2,padding:"1px 5px",borderRadius:4,border:`1px solid ${ac}22`,background:`${ac}0d`,color:"#998866",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>TS {v.save>=0?`+${v.save}`:v.save} 🎲</button></>)}</div>))}</div>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5}}>{Object.entries(c.stats).map(([k,v])=><div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"7px 3px 5px",border:`1px solid ${ac}15`}}><span style={{fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2,fontFamily:"'Cinzel'"}}>{k}</span>{edit?<><input type="number" value={v.score} onChange={e=>uS(k,"score",parseInt(e.target.value)||0)} style={{...SS.inp,width:38,fontSize:17,textAlign:"center",fontWeight:700,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",padding:"1px"}}/><span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600}}>{v.mod>=0?`+${v.mod}`:v.mod}</span><label style={{display:"flex",alignItems:"center",gap:2,fontSize:7,color:"#998866",cursor:"pointer",marginTop:2}}><input type="checkbox" checked={v.profSave} onChange={e=>uS(k,"profSave",e.target.checked)} style={{width:9,height:9,accentColor:ac}}/>Comp.TS</label></>:<><button onClick={()=>oR({label:`Prova ${k}`,type:"d20",modifier:v.mod})} style={{background:"none",border:"none",cursor:"pointer",padding:0}}><span style={{fontSize:20,fontWeight:700,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",lineHeight:1.2,display:"block"}}>{v.score}</span><span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600,display:"block"}}>{v.mod>=0?`+${v.mod}`:v.mod} 🎲</span></button><button onClick={()=>oR({label:`TS ${k}`,type:"d20",modifier:v.save})} style={{marginTop:2,padding:"1px 5px",borderRadius:4,border:`1px solid ${ac}22`,background:`${ac}0d`,color:"#998866",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>TS {v.save>=0?`+${v.save}`:v.save} 🎲</button></>}</div>)}</div>
     <Sec ac={ac}>Abilità</Sec>
-    <div style={{display:"flex",flexDirection:"column",gap:3}}>{c.skills.map((s,i)=><button key={i} onClick={()=>openRoll({label:s.name,type:"d20",modifier:s.mod})} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 9px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",width:"100%",textAlign:"left"}}><span style={{fontSize:12,color:"#e8dcc8"}}>{s.name}</span><span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s.mod>=0?`+${s.mod}`:s.mod} 🎲</span></button>)}</div>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:14}}><Sec ac={ac}>Attacchi</Sec><button onClick={()=>setModal({type:"attack"})} style={{...SS.btnGreen,padding:"3px 10px",fontSize:10}}>+ Nuovo</button></div>
-    {c.attacks.map(a=><div key={a.id} style={{background:`${ac}0a`,borderRadius:7,padding:9,marginBottom:5,border:`1px solid ${ac}15`}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><button onClick={()=>setModal({type:"attack",data:a})} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:4}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:8,color:"#665a3e"}}>✎</span></button><span style={{fontSize:9,color:"#998866",fontStyle:"italic"}}>{a.type}</span></div><div style={{display:"flex",gap:5,marginTop:5}}><button onClick={()=>openRoll({label:`${a.name} (colpire)`,type:"d20",modifier:a.hit})} style={{...SS.btnGreen,flex:1,padding:"5px 0",fontSize:10}}>+{a.hit} 🎲</button><button onClick={()=>openRoll({label:`${a.name} (danno)`,type:"damage",formula:a.damage})} style={{...SS.btnRed,flex:1,padding:"5px 0",fontSize:10}}>{a.damage} 🎲</button></div></div>)}
+    <div style={{display:"flex",flexDirection:"column",gap:3}}>{c.skills.map((s,i)=><button key={i} onClick={()=>oR({label:s.name,type:"d20",modifier:s.mod})} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 9px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",width:"100%",textAlign:"left"}}><span style={{fontSize:12,color:"#e8dcc8"}}>{s.name}</span><span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s.mod>=0?`+${s.mod}`:s.mod} 🎲</span></button>)}</div>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:14}}><Sec ac={ac}>Attacchi</Sec><button onClick={()=>sM({type:"attack"})} style={{...SS.gn,padding:"3px 10px",fontSize:10}}>+ Nuovo</button></div>
+    {c.attacks.map(a=><div key={a.id} style={{background:`${ac}0a`,borderRadius:7,padding:9,marginBottom:5,border:`1px solid ${ac}15`}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><button onClick={()=>sM({type:"attack",data:a})} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:4}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:8,color:"#665a3e"}}>✎</span></button><span style={{fontSize:9,color:"#998866",fontStyle:"italic"}}>{a.type}</span></div><div style={{display:"flex",gap:5,marginTop:5}}><button onClick={()=>oR({label:`${a.name} (colpire)`,type:"d20",modifier:a.hit})} style={{...SS.gn,flex:1,padding:"5px 0",fontSize:10}}>+{a.hit} 🎲</button><button onClick={()=>oR({label:`${a.name} (danno)`,type:"damage",formula:a.damage})} style={{...SS.rd,flex:1,padding:"5px 0",fontSize:10}}>{a.damage} 🎲</button></div></div>)}
   </div>);
 }
 
-function ATab({c,up,setModal,ac}){
-  const sorted=sortAbs(c.abilities,c.origins);const favs=sorted.filter(a=>a.fav);
-  const useA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:a.uses+1}:a)});
-  const restA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:Math.max(0,a.uses-1)}:a)});
-  const togF=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,fav:!a.fav}:a)});
+/* ═══ ACTIONS TAB ═══ */
+function ATab({c,up,sM,ac}){
+  const sorted=sortAbs(c.abilities,c.origins),favs=sorted.filter(a=>a.fav);
+  const uA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:a.uses+1}:a)});
+  const rA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:Math.max(0,a.uses-1)}:a)});
+  const tF=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,fav:!a.fav}:a)});
   const rest=t=>{let u={abilities:c.abilities.map(a=>{if(a.maxUses===-1)return a;if(t==="lungo")return{...a,uses:0};if(t==="breve"&&a.rest==="breve")return{...a,uses:0};return a;})};if(t==="lungo"){u.hpCurrent=c.hpMax;u.hpTemp=0;u.hpPerm=0;}up(u);};
   const groups=c.origins.map(o=>o.id).filter(oid=>sorted.some(a=>a.originId===oid));
   return(<div style={{padding:"12px 12px 20px"}}>
     <div style={{display:"flex",gap:5,marginBottom:8}}><button onClick={()=>rest("breve")} style={{flex:1,padding:"7px 0",borderRadius:7,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>☀️ R. Breve</button><button onClick={()=>rest("lungo")} style={{flex:1,padding:"7px 0",borderRadius:7,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>🌙 R. Lungo</button></div>
-    <div style={{display:"flex",gap:5,marginBottom:12}}><button onClick={()=>setModal({type:"ability"})} style={{...SS.btnGreen,padding:"4px 10px",fontSize:10}}>+ Azione</button><button onClick={()=>setModal({type:"origins"})} style={{...SS.btnGold,padding:"4px 10px",fontSize:10}}>⚙ Provenienze</button></div>
-    {favs.length>0&&<><div style={{borderLeft:`3px solid ${ac}`,paddingLeft:7,marginBottom:5}}><span style={{color:ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>★ PREFERITI</span></div>{favs.map(a=><AbC key={a.id+"_f"} a={a} c={c} use={useA} restore={restA} togFav={togF} edit={d=>setModal({type:"ability",data:d})}/>)}<div style={{height:10}}/></>}
-    {groups.map(oid=>{const or=c.origins.find(o=>o.id===oid);const abs=sorted.filter(a=>a.originId===oid);const cdA=abs.find(a=>a.cdStat);const cd=cdA?calcCD(c.profBonus,c.stats,cdA.cdStat):null;return(<div key={oid} style={{marginBottom:14}}><div style={{borderLeft:`3px solid ${or?.color||ac}`,paddingLeft:7,marginBottom:5,display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{color:or?.color||ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>{(or?.name||"?").toUpperCase()}</span>{cd&&<span style={{fontSize:11,color:"#fff",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"linear-gradient(135deg,rgba(200,169,94,0.3),rgba(200,169,94,0.15))",padding:"2px 7px",borderRadius:4,border:"1.5px solid #c8a95e88"}}>CD {cd}</span>}</div>{abs.map(a=><AbC key={a.id} a={a} c={c} use={useA} restore={restA} togFav={togF} edit={d=>setModal({type:"ability",data:d})}/>)}</div>);})}
+    <div style={{display:"flex",gap:5,marginBottom:12}}><button onClick={()=>sM({type:"ability"})} style={{...SS.gn,padding:"4px 10px",fontSize:10}}>+ Azione</button><button onClick={()=>sM({type:"origins"})} style={{...SS.bg,padding:"4px 10px",fontSize:10}}>⚙ Provenienze</button></div>
+    {favs.length>0&&<><div style={{borderLeft:`3px solid ${ac}`,paddingLeft:7,marginBottom:5}}><span style={{color:ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>★ PREFERITI</span></div>{favs.map(a=><AbC key={a.id+"f"} a={a} c={c} u={uA} r={rA} t={tF} e={d=>sM({type:"ability",data:d})}/>)}<div style={{height:10}}/></>}
+    {groups.map(oid=>{const or=c.origins.find(o=>o.id===oid),abs=sorted.filter(a=>a.originId===oid),cdA=abs.find(a=>a.cdStat),cd=cdA?calcCD(c.profBonus,c.stats,cdA.cdStat):null;return<div key={oid} style={{marginBottom:14}}><div style={{borderLeft:`3px solid ${or?.color||ac}`,paddingLeft:7,marginBottom:5,display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{color:or?.color||ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>{(or?.name||"?").toUpperCase()}</span>{cd&&<span style={{fontSize:11,color:"#fff",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"linear-gradient(135deg,rgba(200,169,94,0.3),rgba(200,169,94,0.15))",padding:"2px 7px",borderRadius:4,border:"1.5px solid #c8a95e88"}}>CD {cd}</span>}</div>{abs.map(a=><AbC key={a.id} a={a} c={c} u={uA} r={rA} t={tF} e={d=>sM({type:"ability",data:d})}/>)}</div>;})}
   </div>);
 }
 
-function AbC({a,c,use,restore,togFav,edit}){
+function AbC({a,c,u,r,t,e}){
   const lim=a.maxUses>0,used=lim&&a.uses>=a.maxUses,cd=a.cdStat?calcCD(c.profBonus,c.stats,a.cdStat):null,oc=oColor(c.origins,a.originId);
-  return(<div style={{background:"rgba(200,169,94,0.04)",borderRadius:7,padding:9,marginBottom:4,border:"1px solid #c8a95e10",opacity:used?0.4:1}}>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}><div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}><button onClick={()=>togFav(a.id)} style={{background:"none",border:"none",cursor:"pointer",padding:0,fontSize:12,color:a.fav?"#f1c40f":"#555"}}>{a.fav?"★":"☆"}</button><button onClick={()=>edit(a)} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:3}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:7,color:"#665a3e"}}>✎</span></button><span style={{fontSize:8,color:"#998866",fontFamily:"'JetBrains Mono'",background:"rgba(200,169,94,0.1)",padding:"0 4px",borderRadius:3}}>{a.type}</span>{cd&&<span style={{fontSize:8,color:"#f1c40f",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"rgba(241,196,15,0.12)",padding:"0 4px",borderRadius:3,border:"1px solid #f1c40f44"}}>CD {cd}</span>}</div><p style={{fontSize:11,color:"#998866",margin:"2px 0 0",lineHeight:1.3}}>{a.desc}</p></div>
+  return<div style={{background:"rgba(200,169,94,0.04)",borderRadius:7,padding:9,marginBottom:4,border:"1px solid #c8a95e10",opacity:used?0.4:1}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}><div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}><button onClick={()=>t(a.id)} style={{background:"none",border:"none",cursor:"pointer",padding:0,fontSize:12,color:a.fav?"#f1c40f":"#555"}}>{a.fav?"★":"☆"}</button><button onClick={()=>e(a)} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:3}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:7,color:"#665a3e"}}>✎</span></button><span style={{fontSize:8,color:"#998866",fontFamily:"'JetBrains Mono'",background:"rgba(200,169,94,0.1)",padding:"0 4px",borderRadius:3}}>{a.type}</span>{cd&&<span style={{fontSize:8,color:"#f1c40f",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"rgba(241,196,15,0.12)",padding:"0 4px",borderRadius:3,border:"1px solid #f1c40f44"}}>CD {cd}</span>}</div><p style={{fontSize:11,color:"#998866",margin:"2px 0 0",lineHeight:1.3}}>{a.desc}</p></div>
     {lim&&<div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,minWidth:40}}><div style={{display:"flex",gap:2}}>{Array.from({length:a.maxUses}).map((_,i)=><div key={i} style={{width:10,height:10,borderRadius:"50%",background:i<a.uses?"#22222288":oc,border:`1.5px solid ${i<a.uses?"#44444466":oc}`}}/>)}</div><span style={{fontSize:7,color:"#665a3e"}}>{a.rest==="breve"?"R.BREVE":"R.LUNGO"}</span></div>}</div>
-    {lim&&<div style={{display:"flex",gap:4,marginTop:5}}>{!used&&<button onClick={()=>use(a.id)} style={{flex:2,padding:"3px 0",borderRadius:5,border:`1px solid ${oc}44`,background:`${oc}0d`,color:oc,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center"}}>Usa</button>}{a.uses>0&&<button onClick={()=>restore(a.id)} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid #2ecc7144",background:"rgba(46,204,113,0.06)",color:"#2ecc71",fontSize:9,fontWeight:700,cursor:"pointer",textAlign:"center"}}>↺</button>}</div>}
-  </div>);
+    {lim&&<div style={{display:"flex",gap:4,marginTop:5}}>{!used&&<button onClick={()=>u(a.id)} style={{flex:2,padding:"3px 0",borderRadius:5,border:`1px solid ${oc}44`,background:`${oc}0d`,color:oc,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center"}}>Usa</button>}{a.uses>0&&<button onClick={()=>r(a.id)} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid #2ecc7144",background:"rgba(46,204,113,0.06)",color:"#2ecc71",fontSize:9,fontWeight:700,cursor:"pointer",textAlign:"center"}}>↺</button>}</div>}
+  </div>;
 }
 
-function DTab({c,up,log,openRoll,ac}){
-  const[cf,setCf]=useState("");const[cm,setCm]=useState(0);
-  const addDie=s=>{const cur=cf.trim();setCf(cur?`${cur}+1d${s}`:`1d${s}`);};
-  const roll=()=>{const base=cf.trim()||"1d20";const f=base+(cm?(cm>=0?`+${cm}`:`${cm}`):"");if(base.toLowerCase().includes("d20"))openRoll({label:f,type:"d20",modifier:cm});else openRoll({label:f,type:"damage",formula:f});};
+/* ═══ DICE TAB ═══ */
+function DTab({c,up,log,oR,ac}){
+  const[cf,sCf]=useState("");const[cm,sCm]=useState(0);
+  const aD=s=>{const cur=cf.trim();sCf(cur?`${cur}+1d${s}`:`1d${s}`);};
+  const rl=()=>{const b=cf.trim()||"1d20",f=b+(cm?(cm>=0?`+${cm}`:`${cm}`):"");if(b.toLowerCase().includes("d20"))oR({label:f,type:"d20",modifier:cm});else oR({label:f,type:"damage",formula:f});};
   return(<div style={{padding:"12px 12px 20px"}}>
     <Sec ac={ac}>Tiro Rapido</Sec>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:8}}>{[4,6,8,10,12,20].map(d=><button key={d} onClick={()=>{if(d===20)openRoll({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;openRoll({label:f,type:"damage",formula:f});}}} style={{padding:"12px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span></button>)}</div>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:8}}>{[4,6,8,10,12,20].map(d=><button key={d} onClick={()=>{if(d===20)oR({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;oR({label:f,type:"damage",formula:f});}}} style={{padding:"12px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span></button>)}</div>
     <Sec ac={ac}>Costruisci Formula</Sec>
-    <div style={{background:`${ac}06`,borderRadius:7,padding:9,border:`1px solid ${ac}15`,marginBottom:12}}><div style={{display:"flex",gap:3,flexWrap:"wrap",marginBottom:5}}>{[4,6,8,10,12,20].map(s=><button key={s} onClick={()=>addDie(s)} style={{padding:"3px 8px",borderRadius:4,border:`1.5px solid ${ac}33`,background:`${ac}0a`,color:ac,fontSize:10,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}<button onClick={()=>setCf("")} style={{padding:"3px 8px",borderRadius:4,border:"1.5px solid #e74c3c33",color:"#e74c3c",fontSize:10,cursor:"pointer",background:"transparent"}}>✕</button></div><input value={cf} onChange={e=>setCf(e.target.value)} placeholder="es. 3d8+1d6+2d4" style={{...SS.inp,width:"100%",marginBottom:5}}/><div style={{display:"flex",gap:5,alignItems:"center",marginBottom:5}}><span style={{color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'"}}>Mod.</span><input type="number" value={cm} onChange={e=>setCm(parseInt(e.target.value)||0)} style={{...SS.inp,width:46,textAlign:"center"}}/>{cf&&<span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",flex:1}}>{cf}{cm?(cm>=0?`+${cm}`:cm):""}</span>}</div><button onClick={roll} style={{...SS.btnGold,width:"100%",padding:"9px 0",fontSize:13,borderColor:ac+"55",color:ac}}>Tira 🎲</button></div>
+    <div style={{background:`${ac}06`,borderRadius:7,padding:9,border:`1px solid ${ac}15`,marginBottom:12}}><div style={{display:"flex",gap:3,flexWrap:"wrap",marginBottom:5}}>{[4,6,8,10,12,20].map(s=><button key={s} onClick={()=>aD(s)} style={{padding:"3px 8px",borderRadius:4,border:`1.5px solid ${ac}33`,background:`${ac}0a`,color:ac,fontSize:10,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}<button onClick={()=>sCf("")} style={{padding:"3px 8px",borderRadius:4,border:"1.5px solid #e74c3c33",color:"#e74c3c",fontSize:10,cursor:"pointer",background:"transparent"}}>✕</button></div><input value={cf} onChange={e=>sCf(e.target.value)} placeholder="es. 3d8+1d6" style={{...SS.inp,width:"100%",marginBottom:5}}/><div style={{display:"flex",gap:5,alignItems:"center",marginBottom:5}}><span style={{color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'"}}>Mod.</span><input type="number" value={cm} onChange={e=>sCm(parseInt(e.target.value)||0)} style={{...SS.inp,width:46,textAlign:"center"}}/>{cf&&<span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",flex:1}}>{cf}{cm?(cm>=0?`+${cm}`:cm):""}</span>}</div><button onClick={rl} style={{...SS.bg,width:"100%",padding:"9px 0",fontSize:13,borderColor:ac+"55",color:ac}}>Tira 🎲</button></div>
     <Sec ac={ac}>Dado Vita</Sec>
-    <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:12}}><input value={c.hitDie} onChange={e=>up({hitDie:e.target.value})} placeholder="1d8" style={{...SS.inp,width:60,textAlign:"center"}}/><button onClick={()=>{const co=c.stats.COS?.mod||0;const f=c.hitDie+(co>=0?`+${co}`:`${co}`);openRoll({label:`Dado Vita (${f})`,type:"damage",formula:f});}} style={{...SS.btnGold,flex:1,padding:"7px 0",fontSize:11,borderColor:ac+"55",color:ac}}>Tira Dado Vita 🎲</button></div>
+    <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:12}}><input value={c.hitDie} onChange={e=>up({hitDie:e.target.value})} placeholder="1d8" style={{...SS.inp,width:60,textAlign:"center"}}/><button onClick={()=>{const co=c.stats.COS?.mod||0,f=c.hitDie+(co>=0?`+${co}`:`${co}`);oR({label:`DV (${f})`,type:"damage",formula:f});}} style={{...SS.bg,flex:1,padding:"7px 0",fontSize:11,borderColor:ac+"55",color:ac}}>Dado Vita 🎲</button></div>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><Sec ac={ac}>Storico</Sec>{log.length>0&&<button onClick={()=>up({diceLog:[]})} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:9,cursor:"pointer",fontFamily:"'Cinzel'"}}>Pulisci</button>}</div>
-    <div style={{maxHeight:300,overflowY:"auto"}}>{log.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:11}}>Nessun tiro ancora...</p>}{log.map((e,i)=><div key={e.timestamp+"_"+i} style={{padding:i===0?"11px":"7px 9px",borderRadius:6,background:i===0?`linear-gradient(135deg,${ac}20,${ac}0a)`:`${ac}06`,border:i===0?`2px solid ${ac}55`:`1px solid ${ac}10`,marginBottom:4,boxShadow:i===0?`0 0 14px ${ac}15`:"none"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{fontSize:i===0?12:10,color:i===0?ac:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>{e.label}</span><span style={{fontFamily:"'JetBrains Mono'",fontSize:i===0?24:18,fontWeight:900,color:e.isNat20?"#f1c40f":e.isNat1?"#e74c3c":"#e8dcc8"}}>{e.isNat20&&"★ "}{e.isNat1&&"✗ "}{e.total}</span></div><div style={{fontSize:10,color:"#665a3e",fontFamily:"'JetBrains Mono'",marginTop:1}}>{e.type==="d20"?<span>[{e.roll1}] [{e.roll2}]{e.modifier?` ${e.modifier>=0?"+":""}${e.modifier}`:""} ({e.mode==="vantaggio"?"Vant.":e.mode==="svantaggio"?"Svant.":"Norm."})</span>:e.rollResult?<span>[{e.rollResult.results.map(r=>r.value).join(", ")}]{e.rollResult.bonus?` ${e.rollResult.bonus>=0?"+":""}${e.rollResult.bonus}`:""}</span>:null}</div></div>)}</div>
+    <div style={{maxHeight:300,overflowY:"auto"}}>{log.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:11}}>Nessun tiro...</p>}{log.map((e,i)=><div key={e.timestamp+"_"+i} style={{padding:i===0?"11px":"7px 9px",borderRadius:6,background:i===0?`linear-gradient(135deg,${ac}20,${ac}0a)`:`${ac}06`,border:i===0?`2px solid ${ac}55`:`1px solid ${ac}10`,marginBottom:4,boxShadow:i===0?`0 0 14px ${ac}15`:"none"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{fontSize:i===0?12:10,color:i===0?ac:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>{e.label}</span><span style={{fontFamily:"'JetBrains Mono'",fontSize:i===0?24:18,fontWeight:900,color:e.isNat20?"#f1c40f":e.isNat1?"#e74c3c":"#e8dcc8"}}>{e.isNat20&&"★ "}{e.isNat1&&"✗ "}{e.total}</span></div><div style={{fontSize:10,color:"#665a3e",fontFamily:"'JetBrains Mono'",marginTop:1}}>{e.type==="d20"?<span>[{e.roll1}] [{e.roll2}]{e.modifier?` ${e.modifier>=0?"+":""}${e.modifier}`:""} ({e.mode==="vantaggio"?"V":e.mode==="svantaggio"?"S":"N"})</span>:e.rollResult?<span>[{e.rollResult.results.map(r=>r.value).join(",")}]{e.rollResult.bonus?` ${e.rollResult.bonus>=0?"+":""}${e.rollResult.bonus}`:""}</span>:null}</div></div>)}</div>
   </div>);
 }
 
-function NTab({c,up,ac}){
-  const[n,setN]=useState(c.notes||"");
-  return(<div style={{padding:"12px 12px 20px"}}><Sec ac={ac}>Note di Sessione</Sec><textarea value={n} onChange={e=>{setN(e.target.value);up({notes:e.target.value});}} placeholder="Scrivi qui le tue note..." style={{width:"100%",minHeight:300,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/></div>);
-}
+function NTab({c,up,ac}){const[n,sN]=useState(c.notes||"");return<div style={{padding:"12px 12px 20px"}}><Sec ac={ac}>Note</Sec><textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Scrivi qui..." style={{width:"100%",minHeight:300,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/></div>;}
 
 /* ═══ MODALS ═══ */
-function Shell({title,onClose,children}){return<div style={SS.popOver} onClick={onClose}><div style={{...SS.popCard,maxHeight:"85vh",overflowY:"auto",maxWidth:360}} onClick={e=>e.stopPropagation()}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>{title}</span><button onClick={onClose} style={{background:"none",border:"none",color:"#e74c3c",fontSize:15,cursor:"pointer"}}>✕</button></div>{children}</div></div>;}
-function F({l,children}){return<div style={{marginBottom:9}}><label style={{display:"block",fontSize:9,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700,letterSpacing:1,marginBottom:2}}>{l}</label>{children}</div>;}
+function Sh({t,oC,children}){return<div style={SS.po} onClick={oC}><div style={{...SS.pc,maxHeight:"85vh",overflowY:"auto",maxWidth:360}} onClick={e=>e.stopPropagation()}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>{t}</span><button onClick={oC} style={{background:"none",border:"none",color:"#e74c3c",fontSize:15,cursor:"pointer"}}>✕</button></div>{children}</div></div>;}
+function Fl({l,children}){return<div style={{marginBottom:9}}><label style={{display:"block",fontSize:9,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700,letterSpacing:1,marginBottom:2}}>{l}</label>{children}</div>;}
 
-function AttackModal({c,up,data,onClose}){
+function AM({c,up,data,oC}){
   const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",hit:0,damage:"",type:""});
-  const save=()=>{if(!f.name)return;if(isE)up({attacks:c.attacks.map(a=>a.id===f.id?f:a)});else up({attacks:[...c.attacks,f]});onClose();};
-  const del=()=>{up({attacks:c.attacks.filter(a=>a.id!==f.id)});onClose();};
-  const addDie=s=>{const cur=f.damage.trim();sf({...f,damage:cur?`${cur}+1d${s}`:`1d${s}`});};
-  return<Shell title={isE?"Modifica Attacco":"Nuovo Attacco"} onClose={onClose}>
-    <F l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Nitro"/></F>
-    <F l="Bonus Colpire"><input type="number" value={f.hit} onChange={e=>sf({...f,hit:parseInt(e.target.value)||0})} style={{...SS.inp,width:"100%"}}/></F>
-    <F l="Formula Danno"><input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:3}} placeholder="es. 3d8+1d6+5"/><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{[4,6,8,10,12].map(s=><button key={s} onClick={()=>addDie(s)} style={{padding:"2px 7px",borderRadius:3,border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.06)",color:"#c8a95e",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}<button onClick={()=>sf({...f,damage:""})} style={{padding:"2px 7px",borderRadius:3,border:"1px solid #e74c3c33",color:"#e74c3c",fontSize:9,cursor:"pointer",background:"transparent"}}>✕</button></div></F>
-    <F l="Tipo"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. magico"/></F>
-    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={del} style={{...SS.popBtn,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={save} style={{...SS.popBtn,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
-  </Shell>;
+  const sv=()=>{if(!f.name)return;if(isE)up({attacks:c.attacks.map(a=>a.id===f.id?f:a)});else up({attacks:[...c.attacks,f]});oC();};
+  const dl=()=>{up({attacks:c.attacks.filter(a=>a.id!==f.id)});oC();};
+  const aD=s=>{const cur=f.damage.trim();sf({...f,damage:cur?`${cur}+1d${s}`:`1d${s}`});};
+  return<Sh t={isE?"Modifica Attacco":"Nuovo Attacco"} oC={oC}>
+    <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Nitro"/></Fl>
+    <Fl l="Bonus Colpire"><input type="number" value={f.hit} onChange={e=>sf({...f,hit:parseInt(e.target.value)||0})} style={{...SS.inp,width:"100%"}}/></Fl>
+    <Fl l="Formula Danno"><input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:3}} placeholder="es. 3d8+1d6+5"/><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{[4,6,8,10,12].map(s=><button key={s} onClick={()=>aD(s)} style={{padding:"2px 7px",borderRadius:3,border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.06)",color:"#c8a95e",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}<button onClick={()=>sf({...f,damage:""})} style={{padding:"2px 7px",borderRadius:3,border:"1px solid #e74c3c33",color:"#e74c3c",fontSize:9,cursor:"pointer",background:"transparent"}}>✕</button></div></Fl>
+    <Fl l="Tipo"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. magico"/></Fl>
+    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
+  </Sh>;
 }
 
-function AbilityModal({c,up,data,onClose}){
+function BM({c,up,data,oC}){
   const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",originId:c.origins[0]?.id||"",type:"Azione",desc:"",maxUses:-1,uses:0,rest:null,cdStat:null,fav:false});
-  const[um,setUm]=useState(f.maxUses===-1?"u":"l");
-  const save=()=>{if(!f.name)return;const fin={...f,maxUses:um==="u"?-1:(f.maxUses>0?f.maxUses:1)};if(um==="u"){fin.rest=null;fin.uses=0;}if(isE)up({abilities:c.abilities.map(a=>a.id===fin.id?fin:a)});else up({abilities:[...c.abilities,fin]});onClose();};
-  const del=()=>{up({abilities:c.abilities.filter(a=>a.id!==f.id)});onClose();};
-  return<Shell title={isE?"Modifica Azione":"Nuova Azione"} onClose={onClose}>
-    <F l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}}/></F>
-    <F l="Descrizione"><textarea value={f.desc} onChange={e=>sf({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:44,resize:"vertical"}}/></F>
-    <F l="Tipo"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{ACTION_TYPES.map(t=><button key={t} onClick={()=>sf({...f,type:t})} style={{padding:"3px 7px",borderRadius:4,border:`1.5px solid ${f.type===t?"#c8a95e":"#c8a95e22"}`,background:f.type===t?"rgba(200,169,94,0.15)":"transparent",color:f.type===t?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>{t}</button>)}</div></F>
-    <F l="Provenienza"><select value={f.originId} onChange={e=>sf({...f,originId:e.target.value})} style={{...SS.inp,width:"100%",appearance:"none"}}>{c.origins.map(o=><option key={o.id} value={o.id}>{o.name}</option>)}</select></F>
-    <F l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{STAT_KEYS.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}</select></F>
-    <F l="Utilizzi"><div style={{display:"flex",gap:3,marginBottom:5}}>{[["u","Illimitati"],["l","Limitati"]].map(([m,l])=><button key={m} onClick={()=>setUm(m)} style={{...SS.popBtn,flex:1,fontSize:9,padding:"4px 0",borderColor:um===m?"#c8a95e":"#c8a95e22",background:um===m?"rgba(200,169,94,0.15)":"transparent",color:um===m?"#c8a95e":"#998866"}}>{l}</button>)}</div>{um==="l"&&<><input type="number" min={1} value={f.maxUses>0?f.maxUses:1} onChange={e=>sf({...f,maxUses:Math.max(1,parseInt(e.target.value)||1)})} style={{...SS.inp,width:55,marginBottom:5}}/><div style={{display:"flex",gap:3}}>{REST_TYPES.map(r=><button key={r.l} onClick={()=>sf({...f,rest:r.v})} style={{padding:"2px 6px",borderRadius:4,border:`1.5px solid ${f.rest===r.v?"#3498db":"#3498db22"}`,background:f.rest===r.v?"rgba(52,152,219,0.15)":"transparent",color:f.rest===r.v?"#3498db":"#998866",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer"}}>{r.l}</button>)}</div></>}</F>
-    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={del} style={{...SS.popBtn,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={save} style={{...SS.popBtn,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
-  </Shell>;
+  const[um,sUm]=useState(f.maxUses===-1?"u":"l");
+  const sv=()=>{if(!f.name)return;const fin={...f,maxUses:um==="u"?-1:(f.maxUses>0?f.maxUses:1)};if(um==="u"){fin.rest=null;fin.uses=0;}if(isE)up({abilities:c.abilities.map(a=>a.id===fin.id?fin:a)});else up({abilities:[...c.abilities,fin]});oC();};
+  const dl=()=>{up({abilities:c.abilities.filter(a=>a.id!==f.id)});oC();};
+  return<Sh t={isE?"Modifica Azione":"Nuova Azione"} oC={oC}>
+    <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}}/></Fl>
+    <Fl l="Descrizione"><textarea value={f.desc} onChange={e=>sf({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:44,resize:"vertical"}}/></Fl>
+    <Fl l="Tipo"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{AT.map(t=><button key={t} onClick={()=>sf({...f,type:t})} style={{padding:"3px 7px",borderRadius:4,border:`1.5px solid ${f.type===t?"#c8a95e":"#c8a95e22"}`,background:f.type===t?"rgba(200,169,94,0.15)":"transparent",color:f.type===t?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>{t}</button>)}</div></Fl>
+    <Fl l="Provenienza"><select value={f.originId} onChange={e=>sf({...f,originId:e.target.value})} style={{...SS.inp,width:"100%",appearance:"none"}}>{c.origins.map(o=><option key={o.id} value={o.id}>{o.name}</option>)}</select></Fl>
+    <Fl l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{SK.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}</select></Fl>
+    <Fl l="Utilizzi"><div style={{display:"flex",gap:3,marginBottom:5}}>{[["u","Illimitati"],["l","Limitati"]].map(([m,l])=><button key={m} onClick={()=>sUm(m)} style={{...SS.pb,flex:1,fontSize:9,padding:"4px 0",borderColor:um===m?"#c8a95e":"#c8a95e22",background:um===m?"rgba(200,169,94,0.15)":"transparent",color:um===m?"#c8a95e":"#998866"}}>{l}</button>)}</div>{um==="l"&&<><input type="number" min={1} value={f.maxUses>0?f.maxUses:1} onChange={e=>sf({...f,maxUses:Math.max(1,parseInt(e.target.value)||1)})} style={{...SS.inp,width:55,marginBottom:5}}/><div style={{display:"flex",gap:3}}>{RT.map(r=><button key={r.l} onClick={()=>sf({...f,rest:r.v})} style={{padding:"2px 6px",borderRadius:4,border:`1.5px solid ${f.rest===r.v?"#3498db":"#3498db22"}`,background:f.rest===r.v?"rgba(52,152,219,0.15)":"transparent",color:f.rest===r.v?"#3498db":"#998866",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer"}}>{r.l}</button>)}</div></>}</Fl>
+    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
+  </Sh>;
 }
 
-function OriginsModal({c,up,onClose}){
-  const[os,setOs]=useState([...c.origins]);const[nn,setNn]=useState("");
-  const add=()=>{if(!nn.trim())return;setOs([...os,{id:uid(),name:nn.trim(),color:ORIGIN_PAL[os.length%ORIGIN_PAL.length]}]);setNn("");};
-  const upd=(id,k,v)=>setOs(os.map(o=>o.id===id?{...o,[k]:v}:o));
-  return<Shell title="Provenienze" onClose={onClose}>{os.map(o=><div key={o.id} style={{display:"flex",gap:4,alignItems:"center",marginBottom:5}}><input type="color" value={o.color} onChange={e=>upd(o.id,"color",e.target.value)} style={{width:26,height:26,border:"none",borderRadius:4,cursor:"pointer",background:"transparent"}}/><input value={o.name} onChange={e=>upd(o.id,"name",e.target.value)} style={{...SS.inp,flex:1}}/><button onClick={()=>setOs(os.filter(x=>x.id!==o.id))} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:13,cursor:"pointer"}}>✕</button></div>)}<div style={{display:"flex",gap:4,marginTop:8}}><input value={nn} onChange={e=>setNn(e.target.value)} placeholder="Nuova..." style={{...SS.inp,flex:1}} onKeyDown={e=>e.key==="Enter"&&add()}/><button onClick={add} style={{...SS.popBtn,padding:"5px 10px",background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>+</button></div><button onClick={()=>{up({origins:os});onClose();}} style={{...SS.btnGold,width:"100%",marginTop:12,padding:"8px 0"}}>Salva</button></Shell>;
+function OM({c,up,oC}){
+  const[os,sOs]=useState([...c.origins]);const[nn,sNn]=useState("");
+  const add=()=>{if(!nn.trim())return;sOs([...os,{id:uid(),name:nn.trim(),color:OP[os.length%OP.length]}]);sNn("");};
+  const upd=(id,k,v)=>sOs(os.map(o=>o.id===id?{...o,[k]:v}:o));
+  return<Sh t="Provenienze" oC={oC}>{os.map(o=><div key={o.id} style={{display:"flex",gap:4,alignItems:"center",marginBottom:5}}><input type="color" value={o.color} onChange={e=>upd(o.id,"color",e.target.value)} style={{width:26,height:26,border:"none",borderRadius:4,cursor:"pointer",background:"transparent"}}/><input value={o.name} onChange={e=>upd(o.id,"name",e.target.value)} style={{...SS.inp,flex:1}}/><button onClick={()=>sOs(os.filter(x=>x.id!==o.id))} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:13,cursor:"pointer"}}>✕</button></div>)}<div style={{display:"flex",gap:4,marginTop:8}}><input value={nn} onChange={e=>sNn(e.target.value)} placeholder="Nuova..." style={{...SS.inp,flex:1}} onKeyDown={e=>e.key==="Enter"&&add()}/><button onClick={add} style={{...SS.pb,padding:"5px 10px",background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>+</button></div><button onClick={()=>{up({origins:os});oC();}} style={{...SS.bg,width:"100%",marginTop:12,padding:"8px 0"}}>Salva</button></Sh>;
 }
 
 function Sec({ac,children}){return<h2 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:ac||"#c8a95e",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px",display:"inline-block"}}>{children}</h2>;}
 
 const SS={
-  fullCenter:{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"},
-  fullScroll:{minHeight:"100vh",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflowY:"auto"},
-  sheetWrap:{position:"relative",maxWidth:480,margin:"0 auto",height:"100vh",display:"flex",flexDirection:"column",overflow:"hidden"},
+  fc:{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"},
+  fs:{minHeight:"100vh",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflowY:"auto"},
+  sw:{position:"relative",maxWidth:480,margin:"0 auto",height:"100vh",display:"flex",flexDirection:"column",overflow:"hidden"},
   inp:{background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:12,padding:"5px 7px",outline:"none",boxSizing:"border-box"},
-  btnGold:{borderRadius:7,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",fontSize:12},
-  btnGreen:{borderRadius:5,border:"1.5px solid #2ecc7144",background:"rgba(46,204,113,0.08)",color:"#2ecc71",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
-  btnRed:{borderRadius:5,border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
-  accCard:{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:10,border:"1.5px solid",cursor:"pointer",width:"100%",textAlign:"left",background:"transparent"},
-  backBtn:{width:32,height:32,borderRadius:"50%",border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.08)",color:"#c8a95e",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",flexShrink:0,fontWeight:700},
-  hpSBtn:{width:22,height:22,borderRadius:"50%",border:"1px solid #c8a95e22",background:"rgba(200,169,94,0.08)",color:"#c8a95e",fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700},
-  popOver:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.8)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},
-  popCard:{background:"linear-gradient(180deg,#151b2e,#0f1420)",border:"1.5px solid #c8a95e55",borderRadius:12,padding:"18px 16px 16px",width:"100%",maxWidth:320,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
-  popBtn:{flex:1,padding:"7px 0",borderRadius:7,border:"1.5px solid",fontSize:11,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
+  bg:{borderRadius:7,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",fontSize:12},
+  gn:{borderRadius:5,border:"1.5px solid #2ecc7144",background:"rgba(46,204,113,0.08)",color:"#2ecc71",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
+  rd:{borderRadius:5,border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
+  ac:{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:10,border:"1.5px solid",cursor:"pointer",width:"100%",textAlign:"left",background:"transparent"},
+  bb:{width:32,height:32,borderRadius:"50%",border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.08)",color:"#c8a95e",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",flexShrink:0,fontWeight:700},
+  hs:{width:22,height:22,borderRadius:"50%",border:"1px solid #c8a95e22",background:"rgba(200,169,94,0.08)",color:"#c8a95e",fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700},
+  po:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.8)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},
+  pc:{background:"linear-gradient(180deg,#151b2e,#0f1420)",border:"1.5px solid #c8a95e55",borderRadius:12,padding:"18px 16px 16px",width:"100%",maxWidth:320,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
+  pb:{flex:1,padding:"7px 0",borderRadius:7,border:"1.5px solid",fontSize:11,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
