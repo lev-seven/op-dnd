@@ -1,6 +1,6 @@
 {
   "accounts": [
-    { "id": "ciccio", "name": "Ciccio", "color": "#e74c3c", "isMaster": true, "h": "a4cb45f5b013a0a46a354be5f1532a79b6e5cf12b7cc3d1de705555d5a0779dc" },
+    { "id": "ciccio", "name": "Ciccio", "color": "#e74c3c", "isMaster": true, "h": "a6b3799b7ad26f0006c800ff1f02a15fd16e847c2aa72b652ad896ae61e88f4a" },
     { "id": "pata", "name": "Pata", "color": "#3498db", "isMaster": false, "h": "abc" },
     { "id": "scala", "name": "Scala", "color": "#c8a95e", "isMaster": false, "h": "abc" },
     { "id": "rik", "name": "Rik", "color": "#3ff8db", "isMaster": false, "h": "abc" }
