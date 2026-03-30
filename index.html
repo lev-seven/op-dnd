@@ -39,6 +39,20 @@ const sortAbs=(a,o)=>{const m={};o.forEach((x,i)=>m[x.id]=i);return[...a].sort((
 const BASE=()=>window.GITHUB_BASE||"";
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 
+/* ═══ NORMALIZZA JSON ═══
+   Gestisce sia il formato "bare" { id, name, ... }
+   sia il formato "esportato" { account, accountId, exportedAt, character: { ... } }
+   Restituisce sempre l'oggetto personaggio, o null se non valido.
+*/
+function normalizeCharJSON(data){
+  if(!data) return null;
+  // formato esportato con wrapper
+  if(data.character && data.character.name && data.character.stats) return data.character;
+  // formato bare
+  if(data.name && data.stats) return data;
+  return null;
+}
+
 // ── SHA-256 ──
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
 
@@ -76,25 +90,62 @@ function App(){
   const isMaster=acc?.isMaster||false;
   const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
 
-  const loadGH=async(owner,file)=>{const b=BASE();if(!b)return null;setLoading(true);const c=await fetchJ(`${b}/data/${owner}/${file}`);setLoading(false);return c;};
+  const loadGH=async(owner,file)=>{
+    const b=BASE();
+    if(!b)return null;
+    setLoading(true);
+    const raw=await fetchJ(`${b}/data/${owner}/${file}`);
+    setLoading(false);
+    // ← usa normalizeCharJSON per supportare entrambi i formati
+    return normalizeCharJSON(raw);
+  };
 
-  const doExport=()=>{if(!char)return;const p={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:char};const bl=new Blob([JSON.stringify(p,null,2)],{type:"application/json"});const u=URL.createObjectURL(bl);const a=document.createElement("a");a.href=u;a.download=`${char.name.replace(/[^a-zA-Z0-9_]/g,"_")}.json`;a.click();URL.revokeObjectURL(u);};
+  const doExport=()=>{
+    if(!char)return;
+    // esporta sempre nel formato con wrapper, così è consistente
+    const p={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:char};
+    const bl=new Blob([JSON.stringify(p,null,2)],{type:"application/json"});
+    const u=URL.createObjectURL(bl);
+    const a=document.createElement("a");
+    a.href=u;
+    a.download=`${char.name.replace(/[^a-zA-Z0-9_]/g,"_")}.json`;
+    a.click();
+    URL.revokeObjectURL(u);
+  };
 
-  const doImport=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.character?.name){setChar(d.character);setScreen("sheet");}else if(d.name&&d.stats){setChar(d);setScreen("sheet");}else alert("File non valido");}catch{alert("Errore nel file");}e.target.value="";};r.readAsText(f);};
+  const doImport=e=>{
+    const f=e.target.files[0];
+    if(!f)return;
+    const r=new FileReader();
+    r.onload=ev=>{
+      try{
+        const raw=JSON.parse(ev.target.result);
+        // ← usa normalizeCharJSON per supportare entrambi i formati
+        const ch=normalizeCharJSON(raw);
+        if(ch){
+          setChar(ch);
+          setScreen("sheet");
+        }else{
+          alert("File non valido: mancano i campi name o stats.");
+        }
+      }catch{
+        alert("Errore nel parsing del file JSON.");
+      }
+      e.target.value="";
+    };
+    r.readAsText(f);
+  };
 
   if(loading)return<Ld msg="Caricamento..."/>;
 
   if(screen==="accounts")return<AccountsScreen manifest={manifest} onAuth={(id)=>{setAccId(id);setScreen("characters");}}/>;
 
   if(screen==="characters"){
-    // Build character list based on role
     let sections=[];
     const mChars=manifest?.characters||{};
     if(isMaster){
-      // Master's own first
       const own=mChars[accId]||[];
       if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
-      // Then others
       manifest?.accounts?.filter(a=>a.id!==accId).forEach(a=>{
         const ch=mChars[a.id]||[];
         if(ch.length>0)sections.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color});
@@ -106,13 +157,113 @@ function App(){
     return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster}
       onBack={()=>{setAccId(null);setScreen("accounts");}}
       onNew={()=>{setChar(newChar(""));setScreen("sheet");}}
-      onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setScreen("sheet");}else alert("Errore caricamento");}}
+      onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setScreen("sheet");}else alert("Errore caricamento: file non valido o non raggiungibile.");}}
       onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
   }
 
   if(screen==="sheet"&&char)return<Sheet char={char} up={upChar} ac={ac} acc={acc} onBack={()=>{if(confirm("Hai esportato? Le modifiche non salvate andranno perse.")){setChar(null);setScreen("characters");}}} onExport={doExport} onImport={()=>fileRef.current?.click()}/>;
 
   return<><input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/></>;
+}
+
+// ← input file deve stare SEMPRE nel DOM, non solo in alcuni screen
+// Fix: lo spostiamo fuori dai branch condizionali
+function AppWrapper(){
+  const fileRef=useRef(null);
+  const[screen,setScreen]=useState("accounts");
+  const[manifest,setManifest]=useState(null);
+  const[accId,setAccId]=useState(null);
+  const[char,setChar]=useState(null);
+  const[loading,setLoading]=useState(true);
+
+  useEffect(()=>{(async()=>{const b=BASE();if(b){const m=await fetchJ(`${b}/data/manifest.json`);setManifest(m);}setLoading(false);})();},[]);
+
+  const acc=manifest?.accounts?.find(a=>a.id===accId);
+  const ac=acc?.color||"#c8a95e";
+  const isMaster=acc?.isMaster||false;
+  const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
+
+  const loadGH=async(owner,file)=>{
+    const b=BASE();
+    if(!b)return null;
+    setLoading(true);
+    const raw=await fetchJ(`${b}/data/${owner}/${file}`);
+    setLoading(false);
+    return normalizeCharJSON(raw);
+  };
+
+  const doExport=()=>{
+    if(!char)return;
+    const p={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:char};
+    const bl=new Blob([JSON.stringify(p,null,2)],{type:"application/json"});
+    const u=URL.createObjectURL(bl);
+    const a=document.createElement("a");
+    a.href=u;
+    a.download=`${char.name.replace(/[^a-zA-Z0-9_]/g,"_")}.json`;
+    a.click();
+    URL.revokeObjectURL(u);
+  };
+
+  const doImport=e=>{
+    const f=e.target.files[0];
+    if(!f)return;
+    const r=new FileReader();
+    r.onload=ev=>{
+      try{
+        const raw=JSON.parse(ev.target.result);
+        const ch=normalizeCharJSON(raw);
+        if(ch){
+          setChar(ch);
+          setScreen("sheet");
+        }else{
+          alert("File non valido: mancano i campi name o stats.");
+        }
+      }catch{
+        alert("Errore nel parsing del file JSON.");
+      }
+      e.target.value="";
+    };
+    r.readAsText(f);
+  };
+
+  return(
+    <>
+      {/* input file SEMPRE nel DOM così fileRef funziona da qualsiasi screen */}
+      <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/>
+
+      {loading&&<Ld msg="Caricamento..."/>}
+
+      {!loading&&screen==="accounts"&&
+        <AccountsScreen manifest={manifest} onAuth={(id)=>{setAccId(id);setScreen("characters");}}/>}
+
+      {!loading&&screen==="characters"&&(()=>{
+        let sections=[];
+        const mChars=manifest?.characters||{};
+        if(isMaster){
+          const own=mChars[accId]||[];
+          if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
+          manifest?.accounts?.filter(a=>a.id!==accId).forEach(a=>{
+            const ch=mChars[a.id]||[];
+            if(ch.length>0)sections.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color});
+          });
+        }else{
+          const own=mChars[accId]||[];
+          if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
+        }
+        return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster}
+          onBack={()=>{setAccId(null);setScreen("accounts");}}
+          onNew={()=>{setChar(newChar(""));setScreen("sheet");}}
+          onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setScreen("sheet");}else alert("Errore caricamento: file non valido o non raggiungibile.");}}
+          onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
+      })()}
+
+      {!loading&&screen==="sheet"&&char&&
+        <Sheet char={char} up={upChar} ac={ac} acc={acc}
+          onBack={()=>{if(confirm("Hai esportato? Le modifiche non salvate andranno perse.")){setChar(null);setScreen("characters");}}}
+          onExport={doExport}
+          onImport={()=>fileRef.current?.click()}/>}
+    </>
+  );
 }
 
 function Ld({msg}){return<div style={SS.fc}><div style={{textAlign:"center"}}><div style={{width:40,height:40,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/><p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:14}}>{msg}</p></div></div>;}
@@ -188,7 +339,6 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
       </div>
     </div>
     <div style={{padding:"16px 20px",maxWidth:400,margin:"0 auto",width:"100%"}}>
-      {/* GitHub sections */}
       {sections.map((sec,si)=>(
         <div key={si} style={{marginBottom:20}}>
           <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}>
@@ -223,7 +373,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
         <button onClick={onImportFile} style={{padding:"18px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left"}}>
           <div style={{display:"flex",alignItems:"center",gap:10}}>
             <span style={{fontSize:26}}>📂</span>
-            <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale</span></div>
+            <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale (entrambi i formati supportati)</span></div>
           </div>
         </button>
       </div>
@@ -331,7 +481,7 @@ function ATab({c,up,sM,ac}){
 function AbC({a,c,u,r,t,e}){
   const lim=a.maxUses>0,used=lim&&a.uses>=a.maxUses,cd=a.cdStat?calcCD(c.profBonus,c.stats,a.cdStat):null,oc=oColor(c.origins,a.originId);
   return<div style={{background:"rgba(200,169,94,0.04)",borderRadius:7,padding:9,marginBottom:4,border:"1px solid #c8a95e10",opacity:used?0.4:1}}>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}><div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}><button onClick={()=>t(a.id)} style={{background:"none",border:"none",cursor:"pointer",padding:0,fontSize:12,color:a.fav?"#f1c40f":"#555"}}>{a.fav?"★":"☆"}</button><button onClick={()=>e(a)} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:3}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:7,color:"#665a3e"}}>✎</span></button><span style={{fontSize:8,color:"#998866",fontFamily:"'JetBrains Mono'",background:"rgba(200,169,94,0.1)",padding:"0 4px",borderRadius:3}}>{a.type}</span>{cd&&<span style={{fontSize:8,color:"#f1c40f",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"rgba(241,196,15,0.12)",padding:"0 4px",borderRadius:3,border:"1px solid #f1c40f44"}}>CD {cd}</span>}</div><p style={{fontSize:11,color:"#998866",margin:"2px 0 0",lineHeight:1.3, whiteSpace: 'pre-line'}}>{a.desc}</p></div>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}><div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}><button onClick={()=>t(a.id)} style={{background:"none",border:"none",cursor:"pointer",padding:0,fontSize:12,color:a.fav?"#f1c40f":"#555"}}>{a.fav?"★":"☆"}</button><button onClick={()=>e(a)} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:3}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:7,color:"#665a3e"}}>✎</span></button><span style={{fontSize:8,color:"#998866",fontFamily:"'JetBrains Mono'",background:"rgba(200,169,94,0.1)",padding:"0 4px",borderRadius:3}}>{a.type}</span>{cd&&<span style={{fontSize:8,color:"#f1c40f",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"rgba(241,196,15,0.12)",padding:"0 4px",borderRadius:3,border:"1px solid #f1c40f44"}}>CD {cd}</span>}</div><p style={{fontSize:11,color:"#998866",margin:"2px 0 0",lineHeight:1.3,whiteSpace:"pre-line"}}>{a.desc}</p></div>
     {lim&&<div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,minWidth:40}}><div style={{display:"flex",gap:2}}>{Array.from({length:a.maxUses}).map((_,i)=><div key={i} style={{width:10,height:10,borderRadius:"50%",background:i<a.uses?"#22222288":oc,border:`1.5px solid ${i<a.uses?"#44444466":oc}`}}/>)}</div><span style={{fontSize:7,color:"#665a3e"}}>{a.rest==="breve"?"R.BREVE":"R.LUNGO"}</span></div>}</div>
     {lim&&<div style={{display:"flex",gap:4,marginTop:5}}>{!used&&<button onClick={()=>u(a.id)} style={{flex:2,padding:"3px 0",borderRadius:5,border:`1px solid ${oc}44`,background:`${oc}0d`,color:oc,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center"}}>Usa</button>}{a.uses>0&&<button onClick={()=>r(a.id)} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid #2ecc7144",background:"rgba(46,204,113,0.06)",color:"#2ecc71",fontSize:9,fontWeight:700,cursor:"pointer",textAlign:"center"}}>↺</button>}</div>}
   </div>;
@@ -415,7 +565,7 @@ const SS={
   pb:{flex:1,padding:"7px 0",borderRadius:7,border:"1.5px solid",fontSize:11,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
 };
 
-ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(AppWrapper));
 </script>
 </body>
 </html>
