@@ -149,7 +149,7 @@ function AppWrapper(){
   return(
     <>
       <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/>
-      <div style={{position:"fixed",top:4,left:6,fontSize:9,color:"#c8a95e22",fontFamily:"'JetBrains Mono'",zIndex:999,pointerEvents:"none"}}>{APP_VERSION}</div>
+      <div style={{position:"fixed",top:4,left:6,fontSize:9,color:"#000000",fontFamily:"'JetBrains Mono'",zIndex:999,pointerEvents:"none"}}>{APP_VERSION}</div>
 
       {loading&&<Ld msg="Caricamento..."/>}
 
