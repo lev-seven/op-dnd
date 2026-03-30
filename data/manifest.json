@@ -1,0 +1,14 @@
+{
+  "accounts": [
+    { "id": "master", "name": "Master", "color": "#c8a95e", "isMaster": true },
+    { "id": "ciccio", "name": "Ciccio", "color": "#e74c3c", "isMaster": false },
+    { "id": "pata", "name": "Pata", "color": "#3498db", "isMaster": false }
+  ],
+  "characters": {
+    "master": [],
+    "ciccio": [
+      { "file": "eliah_pucci.json", "name": "Eliah Pucci", "preview": "Skypiean · Lv 7 · Navigatore 5 / Cecchino 1 / Carpentiere 1" }
+    ],
+    "pata": []
+  }
+}
