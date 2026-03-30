@@ -1,75 +1,440 @@
 {
-  "id": "eliah_pucci_001",
-  "name": "Eliah Pucci",
-  "race": "Skypiean",
-  "level": 7,
-  "classes": "Navigatore 5 / Cecchino 1 / Carpentiere 1",
-  "ac": 17,
-  "hpMax": 58,
-  "hpCurrent": 58,
-  "hpTemp": 0,
-  "hpPerm": 0,
-  "speed": 28,
-  "passivePerception": 16,
-  "profBonus": 3,
-  "hitDie": "1d8",
-  "stats": {
-    "FOR": { "score": 8, "mod": -1, "save": 2, "profSave": true },
-    "DES": { "score": 17, "mod": 3, "save": 6, "profSave": true },
-    "COS": { "score": 11, "mod": 0, "save": 3, "profSave": true },
-    "INT": { "score": 14, "mod": 2, "save": 5, "profSave": true },
-    "SAG": { "score": 12, "mod": 1, "save": 1, "profSave": false },
-    "CAR": { "score": 11, "mod": 0, "save": 0, "profSave": false }
-  },
-  "skills": [
-    { "name": "Navigazione", "mod": 5 },
-    { "name": "Atletica", "mod": 9 },
-    { "name": "Natura", "mod": 4 },
-    { "name": "Sopravvivenza", "mod": 4 },
-    { "name": "Percezione", "mod": 5 },
-    { "name": "Artigianato", "mod": 5 },
-    { "name": "Intimidire", "mod": 3 },
-    { "name": "Storia", "mod": 4 }
-  ],
-  "origins": [
-    { "id": "cecchino", "name": "Cecchino", "color": "#e74c3c" },
-    { "id": "carpentiere", "name": "Carpentiere", "color": "#e67e22" },
-    { "id": "navigatore", "name": "Navigatore", "color": "#3498db" },
-    { "id": "haki_arm", "name": "Haki Armatura", "color": "#8e44ad" },
-    { "id": "haki_oss", "name": "Haki Osservazione", "color": "#1abc9c" },
-    { "id": "haki_re", "name": "Haki del Re", "color": "#f1c40f" }
-  ],
-  "attacks": [
-    { "id": "atk1", "name": "Balestra", "hit": 6, "damage": "3d6+3", "type": "perforante" },
-    { "id": "atk2", "name": "Pattini (contundente)", "hit": 6, "damage": "1d8+3", "type": "contundente" },
-    { "id": "atk3", "name": "Pattini (tagliente)", "hit": 6, "damage": "1d6+3", "type": "tagliente" }
-  ],
-  "abilities": [
-    { "id": "a1", "name": "Colpo Letale", "originId": "cecchino", "type": "Passiva", "desc": "+1d6 a distanza\nUna volta per turno, aggiungi 1d6 al danno di un attacco a distanza.", "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": null },
-    { "id": "a2", "name": "Colpo con la Punta", "originId": "carpentiere", "type": "Azione", "desc": "+1d8 contundente melee\nColpo speciale con martello che infligge 1d8 danni contundenti aggiuntivi.", "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": null },
-    { "id": "a3", "name": "Riparazione Rapida", "originId": "carpentiere", "type": "Azione", "desc": "Ripara oggetti/strutture\nRipristina fino a 10 PF su oggetti o strutture danneggiate.", "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null },
-    { "id": "a4", "name": "Guida Impeccabile", "originId": "navigatore", "type": "Azione", "desc": "Vantaggio a un alleato\nConcedi vantaggio a un alleato su un TS o prova legata al movimento.", "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": null },
-    { "id": "a5", "name": "Controllo del Vento", "originId": "navigatore", "type": "Azione", "desc": "Raffiche di vento offensive\nCrea raffiche che rallentano o spingono i nemici entro 9m.", "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null },
-    { "id": "a6", "name": "Velocità di Fuga", "originId": "navigatore", "type": "Passiva", "desc": "Mobilità aumentata\n+3m di movimento e Disimpegno disponibile come azione bonus.", "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null },
-    { "id": "a7", "name": "Chiamata degli Elementi", "originId": "navigatore", "type": "Azione", "desc": "Tempesta elementale ad area\nEvoca una tempesta che infligge 3d8 danni (fulmine/vento/acqua) in un'area di 6m.", "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": null },
-    { "id": "a8", "name": "Aura di Vita", "originId": "haki_arm", "type": "Azione", "desc": "PF temporanei da spirito\nGuadagna 1d6 + COS + livello PF temporanei. Usabile 3× per riposo lungo.", "maxUses": 3, "uses": 0, "rest": "lungo", "cdStat": "COS", "fav": true },
-    { "id": "a9", "name": "Armatura dell'Anima", "originId": "haki_arm", "type": "Azione", "desc": "CA spirituale senza armatura\nLa tua CA diventa 13 + mod. COS per 8 ore, solo se non indossi armature. Usabile 1× per riposo lungo.", "maxUses": 1, "uses": 0, "rest": "lungo", "cdStat": "COS", "fav": false },
-    { "id": "a10", "name": "Esplosione Spirituale", "originId": "haki_arm", "type": "Passiva", "desc": "+2d8 forza in mischia\nUna volta per round, un colpo melee infligge 2d8 danni forza aggiuntivi. Usabile 3× per riposo lungo.", "maxUses": 3, "uses": 0, "rest": "lungo", "cdStat": "COS", "fav": true },
-    { "id": "a11", "name": "Indurimento delle Armi", "originId": "haki_arm", "type": "Azione bonus", "desc": "Arma magica +1 per 1 minuto\nRicopri un'arma con l'haki: diventa magica con +1 a colpire e ai danni per 1 min. Usabile 3× per riposo lungo.", "maxUses": 3, "uses": 0, "rest": "lungo", "cdStat": "COS", "fav": true },
-    { "id": "a12", "name": "Vaso della Resilienza", "originId": "haki_arm", "type": "Azione", "desc": "Resistenza fisica per 1 minuto\nResistenza ai danni fisici non magici e vantaggio ai TS su COS per 1 min. Usabile 1× per riposo lungo.", "maxUses": 1, "uses": 0, "rest": "lungo", "cdStat": "COS", "fav": false },
-    { "id": "a13", "name": "Conquista del Re", "originId": "haki_arm", "type": "Azione bonus", "desc": "Portata +3m, spinge e stordisce\nAttiva con Indurimento: portata +3m, i colpi spingono 3m e stordiscono (TS COS), +danno forza 1×/round. Usabile 1× per riposo lungo.", "maxUses": 1, "uses": 0, "rest": "lungo", "cdStat": "COS", "fav": true },
-    { "id": "a14", "name": "Vista Lontana", "originId": "haki_oss", "type": "Azione bonus", "desc": "Gittata doppia per 1 minuto\nRaddoppia la gittata delle armi a distanza ed elimina lo svantaggio da lunga distanza. Usabile 1× per riposo lungo.", "maxUses": 1, "uses": 0, "rest": "lungo", "cdStat": "SAG", "fav": true },
-    { "id": "a15", "name": "Colpo Echeggiante", "originId": "haki_oss", "type": "Azione bonus", "desc": "Rimbalza su altro bersaglio\nSe manchi un attacco a distanza, ritira contro un bersaglio diverso in gittata. Usabile 3× per riposo lungo.", "maxUses": 3, "uses": 0, "rest": "lungo", "cdStat": "SAG", "fav": false },
-    { "id": "a16", "name": "Prevedi il Risultato", "originId": "haki_oss", "type": "Reazione", "desc": "Rilancia qualsiasi d20\nPrima dell'esito, forza un rilancio su un tiro tuo o di chi ti attacca. Usabile 1× per riposo lungo.", "maxUses": 1, "uses": 0, "rest": "lungo", "cdStat": "SAG", "fav": true },
-    { "id": "a17", "name": "Senso Spirituale", "originId": "haki_oss", "type": "Azione", "desc": "Percepisce creature nascoste\nRivela creature invisibili o nascoste entro 18m (no copertura totale). Usabile 3× per riposo lungo.", "maxUses": 3, "uses": 0, "rest": "lungo", "cdStat": "SAG", "fav": false },
-    { "id": "a18", "name": "Attacco Predittivo", "originId": "haki_oss", "type": "Reazione", "desc": "Contrattacca chi ti manca\nQuando un nemico ti manca in mischia, esegui subito un attacco melee di risposta. Usabile 3× per riposo lungo.", "maxUses": 3, "uses": 0, "rest": "lungo", "cdStat": "SAG", "fav": false },
-    { "id": "a19", "name": "La Richiesta del Signore", "originId": "haki_re", "type": "Azione", "desc": "Comando verbale obbligato\nImpartisci un comando (max 10 parole) a una creatura entro 18m: TS SAG o lo esegue. Usabile 1× per riposo breve.", "maxUses": 1, "uses": 0, "rest": "breve", "cdStat": "CAR", "fav": true },
-    { "id": "a20", "name": "La Risolutezza del Re", "originId": "haki_re", "type": "Reazione", "desc": "Sopravvivi a 0 PF\nQuando saresti ridotto a 0 PF, scendi invece a 1 PF. Usabile 1× per riposo lungo.", "maxUses": 1, "uses": 0, "rest": "lungo", "cdStat": "CAR", "fav": true },
-    { "id": "a21", "name": "Il Ruggito del Monarca", "originId": "haki_re", "type": "Azione", "desc": "Urlo che assorda e stordisce\nCono di 4,5m: TS COS o le creature sono assordate e stordite fino al tuo prossimo turno. Usabile 1× per riposo lungo.", "maxUses": 1, "uses": 0, "rest": "lungo", "cdStat": "CAR", "fav": true },
-    { "id": "a22", "name": "Voce Influente", "originId": "haki_re", "type": "Azione", "desc": "Fascino senza slot\nLancia Fascino su Persona senza consumare slot incantesimo. Usabile 3× per riposo lungo.", "maxUses": 3, "uses": 0, "rest": "lungo", "cdStat": "CAR", "fav": false },
-    { "id": "a23", "name": "Sguardo Spaventoso", "originId": "haki_re", "type": "Azione", "desc": "Paura senza slot\nLancia Causare Paura senza consumare slot incantesimo. Usabile 3× per riposo lungo.", "maxUses": 3, "uses": 0, "rest": "lungo", "cdStat": "CAR", "fav": false },
-    { "id": "a24", "name": "Compagno del Re", "originId": "haki_re", "type": "Rituale", "desc": "Famiglio che può attaccare\nEvoca un famiglio come rituale senza materiali; può attaccare al posto di uno dei tuoi attacchi.", "maxUses": -1, "uses": 0, "rest": null, "cdStat": "CAR", "fav": false }
-  ],
-  "notes": "",
-  "diceLog": []
+  "account": "Ciccio",
+  "accountId": "ciccio",
+  "exportedAt": "2026-03-30T11:03:05.324Z",
+  "character": {
+    "id": "eliah_pucci_001",
+    "name": "Eliah Pucci",
+    "race": "Skypiean",
+    "level": 7,
+    "classes": "Navigatore 5 / Cecchino 1 / Carpentiere 1",
+    "ac": 17,
+    "hpMax": 58,
+    "hpCurrent": 58,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 28,
+    "passivePerception": 16,
+    "profBonus": 3,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 8,
+        "mod": -1,
+        "save": 2,
+        "profSave": true
+      },
+      "DES": {
+        "score": 17,
+        "mod": 3,
+        "save": 6,
+        "profSave": true
+      },
+      "COS": {
+        "score": 11,
+        "mod": 0,
+        "save": 3,
+        "profSave": true
+      },
+      "INT": {
+        "score": 14,
+        "mod": 2,
+        "save": 5,
+        "profSave": true
+      },
+      "SAG": {
+        "score": 12,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Navigazione",
+        "mod": 5
+      },
+      {
+        "name": "Atletica",
+        "mod": 9
+      },
+      {
+        "name": "Natura",
+        "mod": 4
+      },
+      {
+        "name": "Sopravvivenza",
+        "mod": 4
+      },
+      {
+        "name": "Percezione",
+        "mod": 5
+      },
+      {
+        "name": "Artigianato",
+        "mod": 5
+      },
+      {
+        "name": "Intimidire",
+        "mod": 3
+      },
+      {
+        "name": "Storia",
+        "mod": 4
+      }
+    ],
+    "origins": [
+      {
+        "id": "cecchino",
+        "name": "Cecchino",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "carpentiere",
+        "name": "Carpentiere",
+        "color": "#e67e22"
+      },
+      {
+        "id": "navigatore",
+        "name": "Navigatore",
+        "color": "#3498db"
+      },
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "atk1",
+        "name": "Balestra",
+        "hit": 6,
+        "damage": "3d6+3",
+        "type": "perforante"
+      },
+      {
+        "id": "atk2",
+        "name": "Pattini (contundente)",
+        "hit": 6,
+        "damage": "1d8+3",
+        "type": "contundente"
+      },
+      {
+        "id": "atk3",
+        "name": "Pattini (tagliente)",
+        "hit": 6,
+        "damage": "1d6+3",
+        "type": "tagliente"
+      }
+    ],
+    "abilities": [
+      {
+        "id": "a1",
+        "name": "Colpo Letale",
+        "originId": "cecchino",
+        "type": "Passiva",
+        "desc": "+1d6 a distanza\nUna volta per turno, aggiungi 1d6 al danno di un attacco a distanza.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a2",
+        "name": "Colpo con la Punta",
+        "originId": "carpentiere",
+        "type": "Azione",
+        "desc": "+1d8 contundente melee\nColpo speciale con martello che infligge 1d8 danni contundenti aggiuntivi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a3",
+        "name": "Riparazione Rapida",
+        "originId": "carpentiere",
+        "type": "Azione",
+        "desc": "Ripara oggetti/strutture\nRipristina fino a 10 PF su oggetti o strutture danneggiate.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a4",
+        "name": "Guida Impeccabile",
+        "originId": "navigatore",
+        "type": "Azione",
+        "desc": "Vantaggio a un alleato\nConcedi vantaggio a un alleato su un TS o prova legata al movimento.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a5",
+        "name": "Controllo del Vento",
+        "originId": "navigatore",
+        "type": "Azione",
+        "desc": "Raffiche di vento offensive\nCrea raffiche che rallentano o spingono i nemici entro 9m.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a6",
+        "name": "Velocità di Fuga",
+        "originId": "navigatore",
+        "type": "Passiva",
+        "desc": "Mobilità aumentata\n+3m di movimento e Disimpegno disponibile come azione bonus.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a7",
+        "name": "Chiamata degli Elementi",
+        "originId": "navigatore",
+        "type": "Azione",
+        "desc": "Tempesta elementale ad area\nEvoca una tempesta che infligge 3d8 danni (fulmine/vento/acqua) in un'area di 6m.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a8",
+        "name": "Aura di Vita",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "PF temporanei da spirito\nGuadagna 1d6 + COS + livello PF temporanei. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a9",
+        "name": "Armatura dell'Anima",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "CA spirituale senza armatura\nLa tua CA diventa 13 + mod. COS per 8 ore, solo se non indossi armature. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a10",
+        "name": "Esplosione Spirituale",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "+2d8 forza in mischia\nUna volta per round, un colpo melee infligge 2d8 danni forza aggiuntivi. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a11",
+        "name": "Indurimento delle Armi",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Arma magica +1 per 1 minuto\nRicopri un'arma con l'haki: diventa magica con +1 a colpire e ai danni per 1 min. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a12",
+        "name": "Vaso della Resilienza",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Resistenza fisica per 1 minuto\nResistenza ai danni fisici non magici e vantaggio ai TS su COS per 1 min. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a13",
+        "name": "Conquista del Re",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Portata +3m, spinge e stordisce\nAttiva con Indurimento: portata +3m, i colpi spingono 3m e stordiscono (TS COS), +danno forza 1×/round. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a14",
+        "name": "Vista Lontana",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Gittata doppia per 1 minuto\nRaddoppia la gittata delle armi a distanza ed elimina lo svantaggio da lunga distanza. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a15",
+        "name": "Colpo Echeggiante",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Rimbalza su altro bersaglio\nSe manchi un attacco a distanza, ritira contro un bersaglio diverso in gittata. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a16",
+        "name": "Prevedi il Risultato",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Rilancia qualsiasi d20\nPrima dell'esito, forza un rilancio su un tiro tuo o di chi ti attacca. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a17",
+        "name": "Senso Spirituale",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Percepisce creature nascoste\nRivela creature invisibili o nascoste entro 18m (no copertura totale). Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a18",
+        "name": "Attacco Predittivo",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Contrattacca chi ti manca\nQuando un nemico ti manca in mischia, esegui subito un attacco melee di risposta. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a19",
+        "name": "La Richiesta del Signore",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Comando verbale obbligato\nImpartisci un comando (max 10 parole) a una creatura entro 18m: TS SAG o lo esegue. Usabile 1× per riposo breve.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a20",
+        "name": "La Risolutezza del Re",
+        "originId": "haki_re",
+        "type": "Reazione",
+        "desc": "Sopravvivi a 0 PF\nQuando saresti ridotto a 0 PF, scendi invece a 1 PF. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a21",
+        "name": "Il Ruggito del Monarca",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Urlo che assorda e stordisce\nCono di 4,5m: TS COS o le creature sono assordate e stordite fino al tuo prossimo turno. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a22",
+        "name": "Voce Influente",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Fascino senza slot\nLancia Fascino su Persona senza consumare slot incantesimo. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a23",
+        "name": "Sguardo Spaventoso",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Paura senza slot\nLancia Causare Paura senza consumare slot incantesimo. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a24",
+        "name": "Compagno del Re",
+        "originId": "haki_re",
+        "type": "Rituale",
+        "desc": "Famiglio che può attaccare\nEvoca un famiglio come rituale senza materiali; può attaccare al posto di uno dei tuoi attacchi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": false
+      }
+    ],
+    "notes": "",
+    "diceLog": []
+  }
 }
