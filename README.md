@@ -10,41 +10,9 @@ dnd-manager/
 ├── data/
 │   ├── manifest.json   ← Lista account e personaggi
 │   ├── master/         ← Cartella PG del Master
-│   ├── ciccio/         ← Cartella PG di Ciccio
+│   ├── lev/         ← Cartella PG di Lev
 │   │   └── eliah_pucci.json
-│   └── pata/           ← Cartella PG di Pata
 ```
-
-## Setup passo-passo
-
-### 1. Crea il repository
-- Vai su github.com → "New repository"
-- Nome: `dnd-manager`
-- Public (necessario per GitHub Pages)
-- Clicca "Create repository"
-
-### 2. Carica i file
-- Clicca "Add file" → "Upload files"
-- Carica `index.html` nella root
-- Crea la cartella `data/` e carica `manifest.json`
-- Crea `data/ciccio/` e carica `eliah_pucci.json`
-- Crea `data/master/` e `data/pata/` (vuote per ora)
-
-### 3. Configura l'URL nell'app
-- Apri `index.html` su GitHub
-- Clicca l'icona matita (Edit)
-- Cerca la riga: `window.GITHUB_BASE = "";`
-- Sostituisci con: `window.GITHUB_BASE = "https://TUONOME.github.io/dnd-manager";`
-- Commit changes
-
-### 4. Attiva GitHub Pages
-- Settings → Pages → Source: "Deploy from a branch"
-- Branch: `main`, cartella `/ (root)` → Save
-- Aspetta 2 minuti, il sito sarà su `https://TUONOME.github.io/dnd-manager/`
-
-### 5. Installa sul telefono
-- Apri il link in Chrome/Safari
-- Menu → "Aggiungi a schermata Home"
 
 ## Come funziona a sessione
 
@@ -75,15 +43,13 @@ dnd-manager/
 {
   "accounts": [
     { "id": "master", "name": "Master", "color": "#c8a95e", "isMaster": true },
-    { "id": "ciccio", "name": "Ciccio", "color": "#e74c3c", "isMaster": false },
-    { "id": "pata", "name": "Pata", "color": "#3498db", "isMaster": false }
+    { "id": "lev", "name": "Lev", "color": "#e74c3c", "isMaster": false }
   ],
   "characters": {
     "master": [],
-    "ciccio": [
+    "lev": [
       { "file": "eliah_pucci.json", "name": "Eliah Pucci", "preview": "Skypiean · Lv 7" }
-    ],
-    "pata": []
+    ]
   }
 }
 ```
