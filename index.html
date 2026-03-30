@@ -10,11 +10,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body,#root{height:100%;overflow:hidden}
-body{background:#0a0e17;font-family:'Crimson Text',Georgia,serif;color:#e8dcc8}
+
+/* FIX MOBILE: usa 100dvh dove supportato, fallback su 100vh con env() */
+:root {
+  --app-h: 100vh;
+  --app-h: 100dvh;
+  --nav-h: calc(56px + env(safe-area-inset-bottom, 0px));
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html { height: var(--app-h); overflow: hidden; }
+body { height: var(--app-h); overflow: hidden; font-family:'Crimson Text',Georgia,serif; color:#e8dcc8; background:#0a0e17; }
+#root { height: 100%; overflow: hidden; }
+
 input,textarea,select,button{font-family:inherit;outline:none}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Prevenzione selezione testo accidentale su mobile */
+button { -webkit-user-select: none; user-select: none; }
 </style>
 <script>
 window.GITHUB_BASE = "https://lev-seven.github.io/op-dnd/"; 
@@ -26,7 +43,7 @@ window.GITHUB_BASE = "https://lev-seven.github.io/op-dnd/";
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
-const{useState,useEffect,useCallback,useRef}=React;
+const{useState,useEffect,useCallback,useRef,useMemo}=React;
 
 /* ═══ UTILS ═══ */
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
@@ -47,15 +64,12 @@ function normalizeCharJSON(data){
 }
 
 /* ═══ AVATAR URL HELPERS ═══ */
-// Account photo: /data/{accountId}/{accountId}.jpg
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
-// Character photo: /data/{owner}/{charFileName without .json}.jpg
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
 const APP_VERSION="v1.17";
 
 /* ═══ AVATAR COMPONENT ═══ */
-// Shows image if available, falls back to text (initial or emoji)
 function Av({src,fallback,size,color,round,style:extra}){
   const[ok,setOk]=useState(true);
   const sz=size||48;
@@ -64,7 +78,6 @@ function Av({src,fallback,size,color,round,style:extra}){
   return React.createElement("div",{style:{width:sz,height:sz,borderRadius:radius,background:(color||"#c8a95e")+"22",border:`2px solid ${color||"#c8a95e"}`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:sz*0.42,color:color||"#c8a95e",flexShrink:0,...extra}},fallback);
 }
 
-// ── SHA-256 ──
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
 
 const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"},{id:"export",icon:"💾",label:"Esporta"}];
@@ -72,17 +85,17 @@ const AT=["Azione","Azione bonus","Reazione","Passiva","Rituale"];
 const RT=[{v:null,l:"Nessuna"},{v:"breve",l:"R. Breve"},{v:"lungo",l:"R. Lungo"}];
 const SK=["FOR","DES","COS","INT","SAG","CAR"];
 const OP=["#e74c3c","#e67e22","#3498db","#8e44ad","#1abc9c","#f1c40f","#2ecc71","#e91e63","#00bcd4","#ff5722"];
-const DO = [
-  { id: "cecchino", name: "Cecchino", color: "#e74c3c" },
-  { id: "carpentiere", name: "Carpentiere", color: "#e67e22" },
-  { id: "navigatore", name: "Navigatore", color: "#3498db" },
-  { id: "haki_arm", name: "Haki Armatura", color: "#8e44ad" },
-  { id: "haki_oss", name: "Haki Osservazione", color: "#1abc9c" },
-  { id: "haki_re", name: "Haki del Re", color: "#f1c40f" },
-  { id: "brawler", name: "Brawler", color: "#2ecc71" },      
-  { id: "spadaccino", name: "Spadaccino", color: "#34495e" }, 
-  { id: "medico", name: "Medico", color: "#ff66cc" },  
-  { id: "fdd", name: "Frutto del diavolo", color: "#f46fc1" }        
+const DO=[
+  {id:"cecchino",name:"Cecchino",color:"#e74c3c"},
+  {id:"carpentiere",name:"Carpentiere",color:"#e67e22"},
+  {id:"navigatore",name:"Navigatore",color:"#3498db"},
+  {id:"haki_arm",name:"Haki Armatura",color:"#8e44ad"},
+  {id:"haki_oss",name:"Haki Osservazione",color:"#1abc9c"},
+  {id:"haki_re",name:"Haki del Re",color:"#f1c40f"},
+  {id:"brawler",name:"Brawler",color:"#2ecc71"},
+  {id:"spadaccino",name:"Spadaccino",color:"#34495e"},
+  {id:"medico",name:"Medico",color:"#ff66cc"},
+  {id:"fdd",name:"Frutto del diavolo",color:"#f46fc1"}
 ];
 function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:[],origins:[...DO],attacks:[],abilities:[],notes:"",diceLog:[]};}
 
@@ -93,7 +106,7 @@ function AppWrapper(){
   const[manifest,setManifest]=useState(null);
   const[accId,setAccId]=useState(null);
   const[char,setChar]=useState(null);
-  const[charMeta,setCharMeta]=useState(null); // {owner, file} — per costruire URL avatar/html
+  const[charMeta,setCharMeta]=useState(null);
   const[loading,setLoading]=useState(true);
 
   useEffect(()=>{(async()=>{const b=BASE();if(b){const m=await fetchJ(`${b}/data/manifest.json`);setManifest(m);}setLoading(false);})();},[]);
@@ -132,16 +145,9 @@ function AppWrapper(){
       try{
         const raw=JSON.parse(ev.target.result);
         const ch=normalizeCharJSON(raw);
-        if(ch){
-          setChar(ch);
-          setCharMeta(null);
-          setScreen("sheet");
-        }else{
-          alert("File non valido: mancano i campi name o stats.");
-        }
-      }catch{
-        alert("Errore nel parsing del file JSON.");
-      }
+        if(ch){setChar(ch);setCharMeta(null);setScreen("sheet");}
+        else{alert("File non valido: mancano i campi name o stats.");}
+      }catch{alert("Errore nel parsing del file JSON.");}
       e.target.value="";
     };
     r.readAsText(f);
@@ -150,13 +156,9 @@ function AppWrapper(){
   return(
     <>
       <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/>
-      <div style={{position:"fixed",top:4,left:6,fontSize:9,color:"#ffffff",fontFamily:"'JetBrains Mono'",zIndex:999,pointerEvents:"none"}}>{APP_VERSION}</div>
-
+      <div style={{position:"fixed",top:6,left:8,fontSize:9,color:"#ffffff44",fontFamily:"'JetBrains Mono'",zIndex:999,pointerEvents:"none"}}>{APP_VERSION}</div>
       {loading&&<Ld msg="Caricamento..."/>}
-
-      {!loading&&screen==="accounts"&&
-        <AccountsScreen manifest={manifest} onAuth={(id)=>{setAccId(id);setScreen("characters");}}/>}
-
+      {!loading&&screen==="accounts"&&<AccountsScreen manifest={manifest} onAuth={(id)=>{setAccId(id);setScreen("characters");}}/>}
       {!loading&&screen==="characters"&&(()=>{
         let sections=[];
         const mChars=manifest?.characters||{};
@@ -177,7 +179,6 @@ function AppWrapper(){
           onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento: file non valido o non raggiungibile.");}}
           onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
       })()}
-
       {!loading&&screen==="sheet"&&char&&
         <Sheet char={char} up={upChar} ac={ac} acc={acc} charMeta={charMeta}
           onBack={()=>{if(confirm("Hai esportato? Le modifiche non salvate andranno perse.")){setChar(null);setCharMeta(null);setScreen("characters");}}}
@@ -187,7 +188,14 @@ function AppWrapper(){
   );
 }
 
-function Ld({msg}){return<div style={SS.fc}><div style={{textAlign:"center"}}><div style={{width:40,height:40,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/><p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:14}}>{msg}</p></div></div>;}
+function Ld({msg}){
+  return<div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827)"}}>
+    <div style={{textAlign:"center"}}>
+      <div style={{width:40,height:40,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/>
+      <p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:14}}>{msg}</p>
+    </div>
+  </div>;
+}
 
 /* ═══ ACCOUNTS ═══ */
 function AccountsScreen({manifest,onAuth}){
@@ -196,7 +204,6 @@ function AccountsScreen({manifest,onAuth}){
   const[err,setErr]=useState(false);
   const[show,setShow]=useState(false);
   const[checking,setChecking]=useState(false);
-
   const accs=manifest?.accounts||[];
 
   const check=async()=>{
@@ -210,102 +217,110 @@ function AccountsScreen({manifest,onAuth}){
 
   if(selAcc){
     const ac=selAcc.color||"#c8a95e";
-    return(<div style={SS.fc}>
-      <div style={{textAlign:"center",maxWidth:320,width:"100%",padding:"0 20px"}}>
-        <button onClick={()=>{setSelAcc(null);setPw("");setErr(false);}} style={{...SS.bb,borderColor:ac+"44",color:ac,marginBottom:20}}>← Torna</button>
-        <Av src={accAvatarUrl(selAcc.id)} fallback={selAcc.isMaster?"👑":selAcc.name[0]} size={64} color={ac} style={{margin:"0 auto 12px"}}/>
-        <h2 style={{fontFamily:"'Cinzel'",fontSize:20,fontWeight:900,color:ac,letterSpacing:1,marginBottom:6}}>{selAcc.name}</h2>
-        <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Inserisci la tua password</p>
-        <div style={{position:"relative",marginBottom:16}}>
-          <input type={show?"text":"password"} value={pw} onChange={e=>{setPw(e.target.value);setErr(false);}} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:16,textAlign:"center",padding:"12px 44px 12px 16px",letterSpacing:1}}/>
-          <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#665a3e",fontSize:16,cursor:"pointer"}}>{show?"🙈":"👁"}</button>
+    return(
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",padding:"0 20px"}}>
+        <div style={{textAlign:"center",maxWidth:320,width:"100%"}}>
+          <button onClick={()=>{setSelAcc(null);setPw("");setErr(false);}} style={{...SS.bb,borderColor:ac+"44",color:ac,marginBottom:20}}>← Torna</button>
+          <Av src={accAvatarUrl(selAcc.id)} fallback={selAcc.isMaster?"👑":selAcc.name[0]} size={64} color={ac} style={{margin:"0 auto 12px"}}/>
+          <h2 style={{fontFamily:"'Cinzel'",fontSize:20,fontWeight:900,color:ac,letterSpacing:1,marginBottom:6}}>{selAcc.name}</h2>
+          <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Inserisci la tua password</p>
+          <div style={{position:"relative",marginBottom:16}}>
+            <input type={show?"text":"password"} value={pw} onChange={e=>{setPw(e.target.value);setErr(false);}} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:16,textAlign:"center",padding:"12px 44px 12px 16px",letterSpacing:1}}/>
+            <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#665a3e",fontSize:16,cursor:"pointer"}}>{show?"🙈":"👁"}</button>
+          </div>
+          {err&&<p style={{color:"#e74c3c",fontSize:13,marginBottom:12,fontFamily:"'Cinzel'"}}>Password errata!</p>}
+          <button onClick={check} disabled={checking} style={{...SS.bg,width:"100%",padding:"12px 0",fontSize:15,borderColor:ac+"66",color:ac,opacity:checking?0.5:1}}>
+            {checking?"Verifica...":"Entra"}
+          </button>
         </div>
-        {err&&<p style={{color:"#e74c3c",fontSize:13,marginBottom:12,fontFamily:"'Cinzel'"}}>Password errata!</p>}
-        <button onClick={check} disabled={checking} style={{...SS.bg,width:"100%",padding:"12px 0",fontSize:15,borderColor:ac+"66",color:ac,opacity:checking?0.5:1}}>
-          {checking?"Verifica...":"Entra"}
-        </button>
       </div>
-    </div>);
+    );
   }
 
-  return(<div style={SS.fs}>
-    <div style={{padding:"40px 20px 16px",textAlign:"center"}}>
-      <h1 style={{fontFamily:"'Cinzel'",fontSize:26,fontWeight:900,color:"#c8a95e",marginBottom:4,letterSpacing:2,textShadow:"0 2px 20px rgba(200,169,94,0.3)"}}>🎲 DnD Manager</h1>
-      <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Scegli il tuo account</p>
+  return(
+    <div style={{minHeight:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
+      <div style={{padding:"48px 20px 16px",textAlign:"center"}}>
+        <h1 style={{fontFamily:"'Cinzel'",fontSize:26,fontWeight:900,color:"#c8a95e",marginBottom:4,letterSpacing:2,textShadow:"0 2px 20px rgba(200,169,94,0.3)"}}>🎲 DnD Manager</h1>
+        <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Scegli il tuo account</p>
+      </div>
+      <div style={{padding:"0 20px",paddingBottom:"calc(40px + var(--safe-bottom))",display:"flex",flexDirection:"column",gap:10,maxWidth:400,margin:"0 auto",width:"100%"}}>
+        {accs.map(a=>(
+          <button key={a.id} onClick={()=>setSelAcc(a)} style={{...SS.ac,borderColor:a.color+"55",background:`linear-gradient(135deg,${a.color}12,${a.color}06)`}}>
+            <Av src={accAvatarUrl(a.id)} fallback={a.isMaster?"👑":a.name[0]} size={48} color={a.color}/>
+            <div style={{flex:1,textAlign:"left"}}>
+              <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:a.isMaster?a.color:"#e8dcc8"}}>{a.name}</span><br/>
+              <span style={{fontSize:11,color:"#665a3e"}}>{a.isMaster?"Master":"User"}</span>
+            </div>
+            <span style={{fontSize:14,color:a.color+"88"}}>🔒</span>
+          </button>
+        ))}
+        {!BASE()&&<p style={{textAlign:"center",fontSize:10,color:"#e74c3c66",marginTop:12}}>⚠️ GitHub URL non configurato — modalità offline</p>}
+      </div>
     </div>
-    <div style={{padding:"0 20px 40px",display:"flex",flexDirection:"column",gap:10,maxWidth:400,margin:"0 auto",width:"100%"}}>
-      {accs.map(a=>(
-        <button key={a.id} onClick={()=>setSelAcc(a)} style={{...SS.ac,borderColor:a.color+"55",background:`linear-gradient(135deg,${a.color}12,${a.color}06)`}}>
-          <Av src={accAvatarUrl(a.id)} fallback={a.isMaster?"👑":a.name[0]} size={48} color={a.color}/>
-          <div style={{flex:1,textAlign:"left"}}>
-            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:a.isMaster?a.color:"#e8dcc8"}}>{a.name}</span><br/>
-            <span style={{fontSize:11,color:"#665a3e"}}>{a.isMaster?"Master":"User"}</span>
-          </div>
-          <span style={{fontSize:14,color:a.color+"88"}}>🔒</span>
-        </button>
-      ))}
-      {!BASE()&&<p style={{textAlign:"center",fontSize:10,color:"#e74c3c66",marginTop:12}}>⚠️ GitHub URL non configurato — modalità offline</p>}
-    </div>
-  </div>);
+  );
 }
 
 /* ═══ CHARACTER SELECT ═══ */
 function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile,loading}){
-  return(<div style={SS.fs}>
-    <div style={{padding:"14px 20px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15"}}>
-      <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
-      <Av src={accAvatarUrl(acc?.id)} fallback={acc?.isMaster?"👑":acc?.name?.[0]||"?"} size={36} color={ac}/>
-      <div style={{flex:1}}>
-        <h2 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:700,color:ac}}>{acc?.name}</h2>
-        {isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master — vedi tutti i PG</span>}
-      </div>
-    </div>
-    <div style={{padding:"16px 20px",maxWidth:400,margin:"0 auto",width:"100%"}}>
-      {sections.map((sec,si)=>(
-        <div key={si} style={{marginBottom:20}}>
-          <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}>
-            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span>
-          </div>
-          <div style={{display:"flex",flexDirection:"column",gap:8}}>
-            {sec.chars.map((gc,i)=>(
-              <button key={i} onClick={()=>onLoadGH(sec.owner,gc.file)} disabled={loading} style={{...SS.ac,borderColor:sec.color+"33",background:`linear-gradient(135deg,${sec.color}0c,transparent)`,opacity:loading?0.5:1}}>
-                <Av src={charAvatarUrl(sec.owner,gc.file)} fallback={gc.name?gc.name[0]:"?"} size={40} color={sec.color} round={false}/>
-                <div style={{flex:1,textAlign:"left"}}>
-                  <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#e8dcc8"}}>{gc.name}</span><br/>
-                  <span style={{fontSize:10,color:"#665a3e"}}>{gc.preview||gc.file}</span>
-                </div>
-                <span style={{fontSize:16,color:sec.color+"66"}}>→</span>
-              </button>
-            ))}
-          </div>
+  return(
+    <div style={{minHeight:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
+      <div style={{padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",position:"sticky",top:0,background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10}}>
+        <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
+        <Av src={accAvatarUrl(acc?.id)} fallback={acc?.isMaster?"👑":acc?.name?.[0]||"?"} size={36} color={ac}/>
+        <div style={{flex:1}}>
+          <h2 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:700,color:ac}}>{acc?.name}</h2>
+          {isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master</span>}
         </div>
-      ))}
-
-      {sections.length===0&&BASE()&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"10px 0 20px",fontSize:13}}>Nessun personaggio salvato su GitHub.</p>}
-
-      <h3 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:"#c8a95e88",letterSpacing:2,textTransform:"uppercase",marginTop:16,marginBottom:10}}>Oppure...</h3>
-      <div style={{display:"flex",flexDirection:"column",gap:10}}>
-        <button onClick={onNew} style={{padding:"18px",borderRadius:12,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left"}}>
-          <div style={{display:"flex",alignItems:"center",gap:10}}>
-            <span style={{fontSize:26}}>✨</span>
-            <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:ac,display:"block"}}>Nuovo PG</span><span style={{fontSize:11,color:"#998866"}}>Crea un personaggio da zero</span></div>
+      </div>
+      <div style={{padding:"16px 16px",paddingBottom:"calc(32px + var(--safe-bottom))",maxWidth:400,margin:"0 auto",width:"100%"}}>
+        {sections.map((sec,si)=>(
+          <div key={si} style={{marginBottom:20}}>
+            <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}>
+              <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span>
+            </div>
+            <div style={{display:"flex",flexDirection:"column",gap:8}}>
+              {sec.chars.map((gc,i)=>(
+                <button key={i} onClick={()=>onLoadGH(sec.owner,gc.file)} disabled={loading} style={{...SS.ac,borderColor:sec.color+"33",background:`linear-gradient(135deg,${sec.color}0c,transparent)`,opacity:loading?0.5:1}}>
+                  <Av src={charAvatarUrl(sec.owner,gc.file)} fallback={gc.name?gc.name[0]:"?"} size={40} color={sec.color} round={false}/>
+                  <div style={{flex:1,textAlign:"left"}}>
+                    <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#e8dcc8"}}>{gc.name}</span><br/>
+                    <span style={{fontSize:10,color:"#665a3e"}}>{gc.preview||gc.file}</span>
+                  </div>
+                  <span style={{fontSize:16,color:sec.color+"66"}}>→</span>
+                </button>
+              ))}
+            </div>
           </div>
-          <div style={{marginTop:8,padding:"5px 8px",borderRadius:5,background:"rgba(243,156,18,0.08)",border:"1px solid rgba(243,156,18,0.2)"}}><p style={{fontSize:9,color:"#f39c12",lineHeight:1.3}}>⚠️ Ricorda di esportare e caricare su GitHub!</p></div>
-        </button>
-        <button onClick={onImportFile} style={{padding:"18px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left"}}>
-          <div style={{display:"flex",alignItems:"center",gap:10}}>
-            <span style={{fontSize:26}}>📂</span>
-            <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale (entrambi i formati supportati)</span></div>
-          </div>
-        </button>
+        ))}
+        {sections.length===0&&BASE()&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"10px 0 20px",fontSize:13}}>Nessun personaggio salvato su GitHub.</p>}
+        <h3 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:"#c8a95e88",letterSpacing:2,textTransform:"uppercase",marginTop:16,marginBottom:10}}>Oppure...</h3>
+        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+          <button onClick={onNew} style={{padding:"16px",borderRadius:12,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left",width:"100%"}}>
+            <div style={{display:"flex",alignItems:"center",gap:10}}>
+              <span style={{fontSize:26}}>✨</span>
+              <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:ac,display:"block"}}>Nuovo PG</span><span style={{fontSize:11,color:"#998866"}}>Crea un personaggio da zero</span></div>
+            </div>
+            <div style={{marginTop:8,padding:"5px 8px",borderRadius:5,background:"rgba(243,156,18,0.08)",border:"1px solid rgba(243,156,18,0.2)"}}><p style={{fontSize:9,color:"#f39c12",lineHeight:1.3}}>⚠️ Ricorda di esportare e caricare su GitHub!</p></div>
+          </button>
+          <button onClick={onImportFile} style={{padding:"16px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left",width:"100%"}}>
+            <div style={{display:"flex",alignItems:"center",gap:10}}>
+              <span style={{fontSize:26}}>📂</span>
+              <div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale</span></div>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
-  </div>);
+  );
 }
 
-/* ═══ CHARACTER SHEET ═══ */
+/* ═══ CHARACTER SHEET — FIX PRINCIPALE ═══ */
 function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
-  const[tab,setTab]=useState("stats");const[edit,setEdit]=useState(false);const[popup,setPopup]=useState(null);const[modal,setModal]=useState(null);const[avZoom,setAvZoom]=useState(false);
+  const[tab,setTab]=useState("stats");
+  const[edit,setEdit]=useState(false);
+  const[popup,setPopup]=useState(null);
+  const[modal,setModal]=useState(null);
+  const[avZoom,setAvZoom]=useState(false);
   const log=c.diceLog||[];
   const addLog=useCallback(e=>up({diceLog:[e,...(c.diceLog||[])].slice(0,80)}),[c.diceLog,up]);
   const mk20=cfg=>({...cfg,id:Date.now(),roll1:d20(),roll2:d20(),modifier:cfg.modifier||0,mode:null,chosen:null,total:null});
@@ -315,82 +330,297 @@ function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
   const pM=useCallback(m=>setPopup(p=>{if(!p)return null;const ch=m==="vantaggio"?Math.max(p.roll1,p.roll2):m==="svantaggio"?Math.min(p.roll1,p.roll2):p.roll1;return{...p,mode:m,chosen:ch,total:ch+p.modifier};}),[]);
   const aR=useCallback(()=>{if(!popup||(popup.type==="d20"&&!popup.mode))return;addLog({type:popup.type,label:popup.label,total:popup.total,roll1:popup.roll1,roll2:popup.roll2,chosen:popup.chosen,modifier:popup.modifier,mode:popup.mode,isNat20:popup.type==="d20"&&popup.chosen===20,isNat1:popup.type==="d20"&&popup.chosen===1,rollResult:popup.rollResult,cdTarget:popup.cdTarget,timestamp:Date.now()});setPopup(null);},[popup,addLog]);
 
-  // Avatar URL for this character (only if loaded from GitHub)
   const avatarUrl=charMeta?charAvatarUrl(charMeta.owner,charMeta.file):null;
   const htmlUrl=charMeta?charHtmlUrl(charMeta.owner,charMeta.file):null;
 
-  return(<div style={{...SS.sw,background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
-    <div style={{background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"10px 14px 8px"}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-        <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
-          <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac,width:28,height:28,fontSize:12}}>←</button>
-          {avatarUrl&&<div onClick={()=>setAvZoom(true)} style={{cursor:"pointer"}}><Av src={avatarUrl} fallback={c.name?c.name[0]:"?"} size={34} color={ac} round={false}/></div>}
-          <div style={{flex:1}}>
-            {edit?(<div style={{display:"flex",flexDirection:"column",gap:3}}><input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,fontFamily:"'Cinzel'",fontSize:16,fontWeight:900,color:ac}}/><div style={{display:"flex",gap:3}}><input value={c.race} onChange={e=>up({race:e.target.value})} placeholder="Razza" style={{...SS.inp,flex:1,fontSize:10}}/><input type="number" value={c.level} onChange={e=>up({level:parseInt(e.target.value)||1})} style={{...SS.inp,width:34,fontSize:10,textAlign:"center"}}/></div><input value={c.classes} onChange={e=>up({classes:e.target.value})} placeholder="Classi" style={{...SS.inp,fontSize:10}}/></div>):(<><h1 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:900,color:ac,margin:0,letterSpacing:1}}>{c.name||"Senza Nome"}</h1><p style={{fontSize:10,color:"#998866"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</p></>)}
+  /* 
+    FIX LAYOUT MOBILE:
+    - Il container usa height: var(--app-h) invece di 100vh
+    - La nav è position:fixed con padding-bottom per safe area (iPhone notch)
+    - Il contenuto scrollabile ha padding-bottom pari all'altezza della nav
+    - Il wrapper header è sticky per non sparire
+  */
+  const NAV_HEIGHT = 56; // px visivi della nav
+
+  return(
+    <div style={{
+      position:"relative",
+      maxWidth:480,
+      margin:"0 auto",
+      height:"var(--app-h)",
+      display:"flex",
+      flexDirection:"column",
+      overflow:"hidden",
+      background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"
+    }}>
+      {/* HEADER — fisso in cima */}
+      <div style={{
+        flexShrink:0,
+        background:`linear-gradient(180deg,${ac}11,transparent)`,
+        borderBottom:`1px solid ${ac}22`,
+        padding:"10px 14px 8px"
+      }}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
+            <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac,width:28,height:28,fontSize:12}}>←</button>
+            {avatarUrl&&<div onClick={()=>setAvZoom(true)} style={{cursor:"pointer"}}><Av src={avatarUrl} fallback={c.name?c.name[0]:"?"} size={34} color={ac} round={false}/></div>}
+            <div style={{flex:1,minWidth:0}}>
+              {edit?(
+                <div style={{display:"flex",flexDirection:"column",gap:3}}>
+                  <input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}/>
+                  <div style={{display:"flex",gap:3}}>
+                    <input value={c.race} onChange={e=>up({race:e.target.value})} placeholder="Razza" style={{...SS.inp,flex:1,fontSize:10}}/>
+                    <input type="number" value={c.level} onChange={e=>up({level:parseInt(e.target.value)||1})} style={{...SS.inp,width:34,fontSize:10,textAlign:"center"}}/>
+                  </div>
+                  <input value={c.classes} onChange={e=>up({classes:e.target.value})} placeholder="Classi" style={{...SS.inp,fontSize:10}}/>
+                </div>
+              ):(
+                <>
+                  <h1 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:900,color:ac,margin:0,letterSpacing:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{c.name||"Senza Nome"}</h1>
+                  <p style={{fontSize:10,color:"#998866"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</p>
+                </>
+              )}
+            </div>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:4,flexShrink:0}}>
+            <span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span>
+            {htmlUrl&&<button onClick={()=>window.open(htmlUrl,"_blank")} title="Scheda Completa" style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,cursor:"pointer",flexShrink:0}}>📖</button>}
+            <button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button>
           </div>
         </div>
-        <div style={{display:"flex",alignItems:"center",gap:4}}><span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span>{htmlUrl&&<button onClick={()=>window.open(htmlUrl,"_blank")} title="Scheda Completa" style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,cursor:"pointer",flexShrink:0}}>📖</button>}<button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button></div>
+        <HPBar c={c} up={up} edit={edit} ac={ac}/>
+        <div style={{display:"flex",gap:4,marginTop:8}}>
+          {[{l:"CA",k:"ac"},{l:"Vel.",k:"speed"},{l:"Perc.",k:"passivePerception"},{l:"Comp.",k:"profBonus"}].map(i=>(
+            <div key={i.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:6,padding:"4px 2px",border:`1px solid ${ac}15`}}>
+              <span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700}}>{i.l}</span>
+              {edit
+                ?<input type="number" value={c[i.k]} onChange={e=>up({[i.k]:parseInt(e.target.value)||0})} style={{...SS.inp,width:36,textAlign:"center",fontSize:14,fontWeight:700,fontFamily:"'JetBrains Mono'",color:ac,padding:"1px 2px"}}/>
+                :<span style={{fontSize:15,fontWeight:700,color:ac,fontFamily:"'JetBrains Mono'"}}>{i.k==="profBonus"?`+${c[i.k]}`:c[i.k]}</span>
+              }
+            </div>
+          ))}
+        </div>
       </div>
-      <HPBar c={c} up={up} edit={edit} ac={ac}/>
-      <div style={{display:"flex",gap:4,marginTop:8}}>{[{l:"CA",k:"ac"},{l:"Vel.",k:"speed"},{l:"Perc.",k:"passivePerception"},{l:"Comp.",k:"profBonus"}].map(i=><div key={i.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:6,padding:"4px 2px",border:`1px solid ${ac}15`}}><span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700}}>{i.l}</span>{edit?<input type="number" value={c[i.k]} onChange={e=>up({[i.k]:parseInt(e.target.value)||0})} style={{...SS.inp,width:36,textAlign:"center",fontSize:14,fontWeight:700,fontFamily:"'JetBrains Mono'",color:ac,padding:"1px 2px"}}/>:<span style={{fontSize:15,fontWeight:700,color:ac,fontFamily:"'JetBrains Mono'"}}>{i.k==="profBonus"?`+${c[i.k]}`:c[i.k]}</span>}</div>)}</div>
+
+      {/* CONTENUTO SCROLLABILE — flex:1 con overflow */}
+      <div style={{
+        flex:1,
+        overflowY:"auto",
+        WebkitOverflowScrolling:"touch",
+        paddingBottom:`calc(${NAV_HEIGHT}px + var(--safe-bottom) + 8px)`
+      }}>
+        {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
+        {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
+        {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
+        {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
+        {tab==="export"&&(()=>{onExport();setTab("stats");return<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>✅ File esportato!</div>;})()}
+      </div>
+
+      {/* BOTTOM NAV — position absolute rispetto al container, non fixed globale */}
+      <nav style={{
+        position:"absolute",
+        bottom:0,
+        left:0,
+        right:0,
+        display:"flex",
+        background:"rgba(8,12,20,0.98)",
+        backdropFilter:"blur(16px)",
+        borderTop:`1px solid ${ac}22`,
+        zIndex:60,
+        paddingBottom:"var(--safe-bottom)"
+      }}>
+        {TABS.map(t=>(
+          <button key={t.id} onClick={()=>setTab(t.id)} style={{
+            flex:1,
+            display:"flex",
+            flexDirection:"column",
+            alignItems:"center",
+            justifyContent:"center",
+            padding:"8px 0 6px",
+            background:"transparent",
+            border:"none",
+            borderTop:tab===t.id?`2px solid ${ac}`:"2px solid transparent",
+            color:tab===t.id?ac:"#4a4030",
+            cursor:"pointer",
+            fontFamily:"'Cinzel'",
+            transition:"color 0.15s,border-color 0.15s",
+            minHeight:NAV_HEIGHT,
+            touchAction:"manipulation"
+          }}>
+            <span style={{fontSize:18,lineHeight:1}}>{t.icon}</span>
+            <span style={{fontSize:8,letterSpacing:0.5,marginTop:3,fontWeight:tab===t.id?700:400}}>{t.label}</span>
+          </button>
+        ))}
+      </nav>
+
+      {popup&&<DP p={popup} oM={pM} oA={aR} oRR={rr} oX={()=>setPopup(null)} ac={ac}/>}
+      {modal?.type==="attack"&&<AM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
+      {modal?.type==="ability"&&<BM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
+      {modal?.type==="origins"&&<OM c={c} up={up} oC={()=>setModal(null)}/>}
+      {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><img src={avatarUrl} style={{maxWidth:"85vw",maxHeight:"85vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/></div>}
     </div>
-    <div style={{flex:1,overflowY:"auto",paddingBottom:120}}>
-      {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
-      {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
-      {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
-      {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
-      {tab==="export"&&(
-        (() => {
-          onExport();
-          return null;
-        })()
-      )}
-    </div>
-    {popup&&<DP p={popup} oM={pM} oA={aR} oRR={rr} oX={()=>setPopup(null)} ac={ac}/>}
-    {modal?.type==="attack"&&<AM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
-    {modal?.type==="ability"&&<BM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
-    {modal?.type==="origins"&&<OM c={c} up={up} oC={()=>setModal(null)}/>}
-    {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><img src={avatarUrl} style={{maxWidth:"85vw",maxHeight:"85vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/></div>}
-    <nav style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",background:"rgba(10,14,23,0.98)",backdropFilter:"blur(12px)",borderTop:`1px solid ${ac}22`,zIndex:60}}>{TABS.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"6px 0 8px",background:"transparent",border:"none",borderTop:tab===t.id?`2px solid ${ac}`:"2px solid transparent",color:tab===t.id?ac:"#665a3e",cursor:"pointer",fontFamily:"'Cinzel'"}}><span style={{fontSize:16}}>{t.icon}</span><span style={{fontSize:8,letterSpacing:1,marginTop:1}}>{t.label}</span></button>)}</nav>
-  </div>);
+  );
 }
 
 /* ═══ HP BAR ═══ */
 function HPBar({c,up,edit,ac}){
   const eM=effMax(c),pct=eM>0?Math.max(0,(c.hpCurrent/eM)*100):0,hc=pct>60?"#2ecc71":pct>30?"#f39c12":"#e74c3c";
-  return(<div style={{marginTop:8}}>
-    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}><span style={{fontFamily:"'Cinzel'",fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2}}>HP</span>{edit?<div style={{display:"flex",alignItems:"center",gap:3}}><input type="number" value={c.hpCurrent} onChange={e=>up({hpCurrent:Math.min(parseInt(e.target.value)||0,eM)})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:hc,fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/><span style={{color:"#665a3e"}}>/</span><input type="number" value={c.hpMax} onChange={e=>up({hpMax:parseInt(e.target.value)||1})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/></div>:<span style={{fontFamily:"'JetBrains Mono'",fontSize:17,fontWeight:600,color:hc}}>{c.hpCurrent}<span style={{color:"#665a3e"}}>/{eM}</span></span>}{c.hpTemp>0&&<span style={{fontSize:10,color:"#3498db",fontFamily:"'JetBrains Mono'",background:"rgba(52,152,219,0.12)",padding:"0 4px",borderRadius:3}}>+{c.hpTemp}t</span>}{c.hpPerm>0&&<span style={{fontSize:10,color:"#e74c3c",fontFamily:"'JetBrains Mono'",background:"rgba(231,76,60,0.12)",padding:"0 4px",borderRadius:3}}>-{c.hpPerm}p</span>}</div>
-    <div style={{height:5,background:"#1a1f2e",borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",borderRadius:3,width:`${pct}%`,background:`linear-gradient(90deg,${hc}cc,${hc})`,transition:"width 0.4s"}}/></div>
-    {!edit&&<><div style={{display:"flex",gap:3,marginTop:5}}>{[-10,-5,-1,1,5,10].map(n=><button key={n} onClick={()=>{if(n>0)up({hpCurrent:Math.min(c.hpCurrent+n,eM)});else{const d=Math.abs(n);if(c.hpTemp>=d)up({hpTemp:c.hpTemp-d});else up({hpTemp:0,hpCurrent:Math.max(0,c.hpCurrent-(d-c.hpTemp))});}}} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:10,fontWeight:600,background:n>0?"rgba(46,204,113,0.1)":"rgba(231,76,60,0.1)",color:n>0?"#2ecc71":"#e74c3c",borderColor:n>0?"#2ecc7133":"#e74c3c33"}}>{n>0?`+${n}`:n}</button>)}</div>
-    <div style={{display:"flex",gap:6,marginTop:5}}>{[{l:"TEMP",v:c.hpTemp,c:"#3498db",d:()=>up({hpTemp:Math.max(0,c.hpTemp-1)}),i:()=>up({hpTemp:c.hpTemp+1})},{l:"PERM",v:c.hpPerm,c:"#e74c3c",d:()=>{const np=Math.max(0,c.hpPerm-1);up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,c.hpMax-np)});},i:()=>{const np=c.hpPerm+1;up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,Math.max(0,c.hpMax-np))});}}].map(h=><div key={h.l} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:"rgba(200,169,94,0.04)",borderRadius:5,padding:"3px",border:"1px solid #c8a95e10"}}><span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700,marginBottom:1}}>{h.l}</span><div style={{display:"flex",alignItems:"center",gap:3}}><button onClick={h.d} style={SS.hs}>−</button><span style={{fontFamily:"'JetBrains Mono'",fontSize:15,fontWeight:700,color:h.c,minWidth:22,textAlign:"center"}}>{h.v}</span><button onClick={h.i} style={SS.hs}>+</button></div></div>)}</div></>}
-  </div>);
+  return(
+    <div style={{marginTop:8}}>
+      <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}>
+        <span style={{fontFamily:"'Cinzel'",fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2}}>HP</span>
+        {edit?(
+          <div style={{display:"flex",alignItems:"center",gap:3}}>
+            <input type="number" value={c.hpCurrent} onChange={e=>up({hpCurrent:Math.min(parseInt(e.target.value)||0,eM)})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:hc,fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/>
+            <span style={{color:"#665a3e"}}>/</span>
+            <input type="number" value={c.hpMax} onChange={e=>up({hpMax:parseInt(e.target.value)||1})} style={{width:40,background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",fontSize:15,padding:"1px 3px",textAlign:"center"}}/>
+          </div>
+        ):(
+          <span style={{fontFamily:"'JetBrains Mono'",fontSize:17,fontWeight:600,color:hc}}>{c.hpCurrent}<span style={{color:"#665a3e"}}>/{eM}</span></span>
+        )}
+        {c.hpTemp>0&&<span style={{fontSize:10,color:"#3498db",fontFamily:"'JetBrains Mono'",background:"rgba(52,152,219,0.12)",padding:"0 4px",borderRadius:3}}>+{c.hpTemp}t</span>}
+        {c.hpPerm>0&&<span style={{fontSize:10,color:"#e74c3c",fontFamily:"'JetBrains Mono'",background:"rgba(231,76,60,0.12)",padding:"0 4px",borderRadius:3}}>-{c.hpPerm}p</span>}
+      </div>
+      <div style={{height:5,background:"#1a1f2e",borderRadius:3,overflow:"hidden"}}>
+        <div style={{height:"100%",borderRadius:3,width:`${pct}%`,background:`linear-gradient(90deg,${hc}cc,${hc})`,transition:"width 0.4s"}}/>
+      </div>
+      {!edit&&(
+        <>
+          <div style={{display:"flex",gap:3,marginTop:5}}>
+            {[-10,-5,-1,1,5,10].map(n=>(
+              <button key={n} onClick={()=>{if(n>0)up({hpCurrent:Math.min(c.hpCurrent+n,eM)});else{const d=Math.abs(n);if(c.hpTemp>=d)up({hpTemp:c.hpTemp-d});else up({hpTemp:0,hpCurrent:Math.max(0,c.hpCurrent-(d-c.hpTemp))});}}}
+                style={{flex:1,padding:"4px 0",borderRadius:5,border:"1px solid",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:11,fontWeight:600,background:n>0?"rgba(46,204,113,0.1)":"rgba(231,76,60,0.1)",color:n>0?"#2ecc71":"#e74c3c",borderColor:n>0?"#2ecc7133":"#e74c3c33",touchAction:"manipulation"}}>
+                {n>0?`+${n}`:n}
+              </button>
+            ))}
+          </div>
+          <div style={{display:"flex",gap:6,marginTop:5}}>
+            {[{l:"TEMP",v:c.hpTemp,c:"#3498db",d:()=>up({hpTemp:Math.max(0,c.hpTemp-1)}),i:()=>up({hpTemp:c.hpTemp+1})},{l:"PERM",v:c.hpPerm,c:"#e74c3c",d:()=>{const np=Math.max(0,c.hpPerm-1);up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,c.hpMax-np)});},i:()=>{const np=c.hpPerm+1;up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,Math.max(0,c.hpMax-np))});}}].map(h=>(
+              <div key={h.l} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:"rgba(200,169,94,0.04)",borderRadius:5,padding:"3px",border:"1px solid #c8a95e10"}}>
+                <span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700,marginBottom:1}}>{h.l}</span>
+                <div style={{display:"flex",alignItems:"center",gap:3}}>
+                  <button onClick={h.d} style={SS.hs}>−</button>
+                  <span style={{fontFamily:"'JetBrains Mono'",fontSize:15,fontWeight:700,color:h.c,minWidth:22,textAlign:"center"}}>{h.v}</span>
+                  <button onClick={h.i} style={SS.hs}>+</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 /* ═══ DICE POPUP ═══ */
 function DP({p,oM,oA,oRR,oX,ac}){
   const is20=p.type==="d20",hp=is20&&p.mode,n20=hp&&p.chosen===20,n1=hp&&p.chosen===1;
-  return(<div style={SS.po} onClick={oX}><div style={SS.pc} onClick={e=>e.stopPropagation()}>
-    <p style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:ac,textAlign:"center",margin:"0 0 12px",letterSpacing:1}}>{p.label}</p>
-    {is20&&<><div style={{display:"flex",gap:12,justifyContent:"center",marginBottom:10}}>{[p.roll1,p.roll2].map((v,i)=><div key={i} style={{width:66,height:66,borderRadius:10,border:`2px solid ${hp?(p.chosen===v&&(p.mode==="normale"?i===0:true)?ac:"#333"):v===20?"#f1c40f":v===1?"#e74c3c":"#c8a95e44"}`,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(200,169,94,0.06)",opacity:hp&&!(p.mode==="normale"&&i===0)&&p.chosen!==v?0.3:1,transition:"all 0.2s"}}><span style={{fontSize:32,fontWeight:900,fontFamily:"'JetBrains Mono'",color:v===20?"#f1c40f":v===1?"#e74c3c":"#e8dcc8"}}>{v}</span></div>)}</div>
-    <div style={{display:"flex",gap:4,marginBottom:12}}>{[{m:"normale",l:"Normale",c:ac},{m:"vantaggio",l:"Vantaggio",c:"#2ecc71"},{m:"svantaggio",l:"Svantaggio",c:"#e74c3c"}].map(({m,l,c})=><button key={m} onClick={()=>oM(m)} style={{flex:1,padding:"6px 0",borderRadius:6,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",border:`1.5px solid ${p.mode===m?c:c+"33"}`,background:p.mode===m?c+"25":"transparent",color:p.mode===m?c:c+"88"}}>{l}</button>)}</div>
-    {hp&&<div style={{textAlign:"center",marginBottom:10}}><span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:n20?"#f1c40f":n1?"#e74c3c":"#e8dcc8",textShadow:n20?"0 0 20px #f1c40f55":n1?"0 0 20px #e74c3c55":"0 2px 12px rgba(0,0,0,0.4)",display:"block",lineHeight:1.1}}>{p.total}</span>{p.modifier!==0&&<p style={{fontSize:11,color:"#998866",margin:"2px 0 0",fontFamily:"'JetBrains Mono'"}}>{p.chosen} {p.modifier>=0?"+":""}{p.modifier}</p>}{n20&&<p style={{color:"#f1c40f",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0"}}>★ CRITICO ★</p>}{n1&&<p style={{color:"#e74c3c",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0"}}>✗ FALLIMENTO ✗</p>}{p.cdTarget&&<p style={{fontSize:12,color:p.total>=p.cdTarget?"#2ecc71":"#e74c3c",fontFamily:"'JetBrains Mono'",margin:"6px 0 0",fontWeight:700}}>CD {p.cdTarget} → {p.total>=p.cdTarget?"✓":"✗"}</p>}</div>}
-    {!hp&&<p style={{textAlign:"center",color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'",marginBottom:8}}>Scegli modalità</p>}</>}
-    {!is20&&p.rollResult&&<div style={{textAlign:"center",marginBottom:10}}><span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",display:"block",lineHeight:1.1}}>{p.total}</span><p style={{fontSize:11,color:"#998866",margin:"4px 0 0",fontFamily:"'JetBrains Mono'"}}>[{p.rollResult.results.map(r=>r.value).join(", ")}]{p.rollResult.bonus?` ${p.rollResult.bonus>=0?"+":""}${p.rollResult.bonus}`:""}</p></div>}
-    <div style={{display:"flex",gap:6,marginTop:10}}><button onClick={oX} style={{...SS.pb,background:"rgba(231,76,60,0.12)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Rifiuta</button><button onClick={oRR} style={{...SS.pb,background:"rgba(200,169,94,0.12)",borderColor:"#c8a95e44",color:"#c8a95e"}}>Rilancia</button><button onClick={oA} disabled={is20&&!hp} style={{...SS.pb,background:is20&&!hp?"rgba(46,204,113,0.05)":"rgba(46,204,113,0.18)",borderColor:is20&&!hp?"#2ecc7122":"#2ecc71",color:is20&&!hp?"#2ecc7144":"#2ecc71",fontWeight:700}}>Accetta</button></div>
-  </div></div>);
+  return(
+    <div style={SS.po} onClick={oX}>
+      <div style={SS.pc} onClick={e=>e.stopPropagation()}>
+        <p style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:ac,textAlign:"center",margin:"0 0 12px",letterSpacing:1}}>{p.label}</p>
+        {is20&&(
+          <>
+            <div style={{display:"flex",gap:12,justifyContent:"center",marginBottom:10}}>
+              {[p.roll1,p.roll2].map((v,i)=>(
+                <div key={i} style={{width:66,height:66,borderRadius:10,border:`2px solid ${hp?(p.chosen===v&&(p.mode==="normale"?i===0:true)?ac:"#333"):v===20?"#f1c40f":v===1?"#e74c3c":"#c8a95e44"}`,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(200,169,94,0.06)",opacity:hp&&!(p.mode==="normale"&&i===0)&&p.chosen!==v?0.3:1,transition:"all 0.2s"}}>
+                  <span style={{fontSize:32,fontWeight:900,fontFamily:"'JetBrains Mono'",color:v===20?"#f1c40f":v===1?"#e74c3c":"#e8dcc8"}}>{v}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{display:"flex",gap:4,marginBottom:12}}>
+              {[{m:"normale",l:"Normale",c:ac},{m:"vantaggio",l:"Vantaggio",c:"#2ecc71"},{m:"svantaggio",l:"Svantaggio",c:"#e74c3c"}].map(({m,l,c})=>(
+                <button key={m} onClick={()=>oM(m)} style={{flex:1,padding:"6px 0",borderRadius:6,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",border:`1.5px solid ${p.mode===m?c:c+"33"}`,background:p.mode===m?c+"25":"transparent",color:p.mode===m?c:c+"88",touchAction:"manipulation"}}>{l}</button>
+              ))}
+            </div>
+            {hp&&(
+              <div style={{textAlign:"center",marginBottom:10}}>
+                <span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:n20?"#f1c40f":n1?"#e74c3c":"#e8dcc8",textShadow:n20?"0 0 20px #f1c40f55":n1?"0 0 20px #e74c3c55":"0 2px 12px rgba(0,0,0,0.4)",display:"block",lineHeight:1.1}}>{p.total}</span>
+                {p.modifier!==0&&<p style={{fontSize:11,color:"#998866",margin:"2px 0 0",fontFamily:"'JetBrains Mono'"}}>{p.chosen} {p.modifier>=0?"+":""}{p.modifier}</p>}
+                {n20&&<p style={{color:"#f1c40f",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0"}}>★ CRITICO ★</p>}
+                {n1&&<p style={{color:"#e74c3c",fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,margin:"4px 0 0"}}>✗ FALLIMENTO ✗</p>}
+                {p.cdTarget&&<p style={{fontSize:12,color:p.total>=p.cdTarget?"#2ecc71":"#e74c3c",fontFamily:"'JetBrains Mono'",margin:"6px 0 0",fontWeight:700}}>CD {p.cdTarget} → {p.total>=p.cdTarget?"✓":"✗"}</p>}
+              </div>
+            )}
+            {!hp&&<p style={{textAlign:"center",color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'",marginBottom:8}}>Scegli modalità</p>}
+          </>
+        )}
+        {!is20&&p.rollResult&&(
+          <div style={{textAlign:"center",marginBottom:10}}>
+            <span style={{fontSize:50,fontWeight:900,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",display:"block",lineHeight:1.1}}>{p.total}</span>
+            <p style={{fontSize:11,color:"#998866",margin:"4px 0 0",fontFamily:"'JetBrains Mono'"}}>[{p.rollResult.results.map(r=>r.value).join(", ")}]{p.rollResult.bonus?` ${p.rollResult.bonus>=0?"+":""}${p.rollResult.bonus}`:""}</p>
+          </div>
+        )}
+        <div style={{display:"flex",gap:6,marginTop:10}}>
+          <button onClick={oX} style={{...SS.pb,background:"rgba(231,76,60,0.12)",borderColor:"#e74c3c44",color:"#e74c3c",touchAction:"manipulation"}}>Rifiuta</button>
+          <button onClick={oRR} style={{...SS.pb,background:"rgba(200,169,94,0.12)",borderColor:"#c8a95e44",color:"#c8a95e",touchAction:"manipulation"}}>Rilancia</button>
+          <button onClick={oA} disabled={is20&&!hp} style={{...SS.pb,background:is20&&!hp?"rgba(46,204,113,0.05)":"rgba(46,204,113,0.18)",borderColor:is20&&!hp?"#2ecc7122":"#2ecc71",color:is20&&!hp?"#2ecc7144":"#2ecc71",fontWeight:700,touchAction:"manipulation"}}>Accetta</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 /* ═══ STAT TAB ═══ */
 function STab({c,up,edit,oR,sM,ac}){
   const uS=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave")ns[k].save=ns[k].mod+(v?c.profBonus:0);up({stats:ns});};
-  return(<div style={{padding:"12px 12px 20px"}}>
-    <Sec ac={ac}>Caratteristiche</Sec>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5}}>{Object.entries(c.stats).map(([k,v])=><div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"7px 3px 5px",border:`1px solid ${ac}15`}}><span style={{fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2,fontFamily:"'Cinzel'"}}>{k}</span>{edit?<><input type="number" value={v.score} onChange={e=>uS(k,"score",parseInt(e.target.value)||0)} style={{...SS.inp,width:38,fontSize:17,textAlign:"center",fontWeight:700,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",padding:"1px"}}/><span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600}}>{v.mod>=0?`+${v.mod}`:v.mod}</span><label style={{display:"flex",alignItems:"center",gap:2,fontSize:7,color:"#998866",cursor:"pointer",marginTop:2}}><input type="checkbox" checked={v.profSave} onChange={e=>uS(k,"profSave",e.target.checked)} style={{width:9,height:9,accentColor:ac}}/>Comp.TS</label></>:<><button onClick={()=>oR({label:`Prova ${k}`,type:"d20",modifier:v.mod})} style={{background:"none",border:"none",cursor:"pointer",padding:0}}><span style={{fontSize:20,fontWeight:700,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",lineHeight:1.2,display:"block"}}>{v.score}</span><span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600,display:"block"}}>{v.mod>=0?`+${v.mod}`:v.mod} 🎲</span></button><button onClick={()=>oR({label:`TS ${k}`,type:"d20",modifier:v.save})} style={{marginTop:2,padding:"1px 5px",borderRadius:4,border:`1px solid ${ac}22`,background:`${ac}0d`,color:"#998866",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>TS {v.save>=0?`+${v.save}`:v.save} 🎲</button></>}</div>)}</div>
-    <Sec ac={ac}>Abilità</Sec>
-    <div style={{display:"flex",flexDirection:"column",gap:3}}>{c.skills.map((s,i)=><button key={i} onClick={()=>oR({label:s.name,type:"d20",modifier:s.mod})} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 9px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",width:"100%",textAlign:"left"}}><span style={{fontSize:12,color:"#e8dcc8"}}>{s.name}</span><span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s.mod>=0?`+${s.mod}`:s.mod} 🎲</span></button>)}</div>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:14}}><Sec ac={ac}>Attacchi</Sec><button onClick={()=>sM({type:"attack"})} style={{...SS.gn,padding:"3px 10px",fontSize:10}}>+ Nuovo</button></div>
-    {c.attacks.map(a=><div key={a.id} style={{background:`${ac}0a`,borderRadius:7,padding:9,marginBottom:5,border:`1px solid ${ac}15`}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><button onClick={()=>sM({type:"attack",data:a})} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:4}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:8,color:"#665a3e"}}>✎</span></button><span style={{fontSize:9,color:"#998866",fontStyle:"italic"}}>{a.type}</span></div><div style={{display:"flex",gap:5,marginTop:5}}><button onClick={()=>oR({label:`${a.name} (colpire)`,type:"d20",modifier:a.hit})} style={{...SS.gn,flex:1,padding:"5px 0",fontSize:10}}>+{a.hit} 🎲</button><button onClick={()=>oR({label:`${a.name} (danno)`,type:"damage",formula:a.damage})} style={{...SS.rd,flex:1,padding:"5px 0",fontSize:10}}>{a.damage} 🎲</button></div></div>)}
-  </div>);
+  return(
+    <div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+      <Sec ac={ac}>Caratteristiche</Sec>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5}}>
+        {Object.entries(c.stats).map(([k,v])=>(
+          <div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"7px 3px 5px",border:`1px solid ${ac}15`}}>
+            <span style={{fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2,fontFamily:"'Cinzel'"}}>{k}</span>
+            {edit?(
+              <>
+                <input type="number" value={v.score} onChange={e=>uS(k,"score",parseInt(e.target.value)||0)} style={{...SS.inp,width:38,fontSize:17,textAlign:"center",fontWeight:700,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",padding:"1px"}}/>
+                <span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600}}>{v.mod>=0?`+${v.mod}`:v.mod}</span>
+                <label style={{display:"flex",alignItems:"center",gap:2,fontSize:7,color:"#998866",cursor:"pointer",marginTop:2}}>
+                  <input type="checkbox" checked={v.profSave} onChange={e=>uS(k,"profSave",e.target.checked)} style={{width:9,height:9,accentColor:ac}}/>Comp.TS
+                </label>
+              </>
+            ):(
+              <>
+                <button onClick={()=>oR({label:`Prova ${k}`,type:"d20",modifier:v.mod})} style={{background:"none",border:"none",cursor:"pointer",padding:0,touchAction:"manipulation"}}>
+                  <span style={{fontSize:20,fontWeight:700,color:"#e8dcc8",fontFamily:"'JetBrains Mono'",lineHeight:1.2,display:"block"}}>{v.score}</span>
+                  <span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600,display:"block"}}>{v.mod>=0?`+${v.mod}`:v.mod} 🎲</span>
+                </button>
+                <button onClick={()=>oR({label:`TS ${k}`,type:"d20",modifier:v.save})} style={{marginTop:2,padding:"1px 5px",borderRadius:4,border:`1px solid ${ac}22`,background:`${ac}0d`,color:"#998866",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer",touchAction:"manipulation"}}>TS {v.save>=0?`+${v.save}`:v.save} 🎲</button>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+      <Sec ac={ac}>Abilità</Sec>
+      <div style={{display:"flex",flexDirection:"column",gap:3}}>
+        {c.skills.map((s,i)=>(
+          <button key={i} onClick={()=>oR({label:s.name,type:"d20",modifier:s.mod})} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 10px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",width:"100%",textAlign:"left",touchAction:"manipulation"}}>
+            <span style={{fontSize:12,color:"#e8dcc8"}}>{s.name}</span>
+            <span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s.mod>=0?`+${s.mod}`:s.mod} 🎲</span>
+          </button>
+        ))}
+      </div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:14}}>
+        <Sec ac={ac}>Attacchi</Sec>
+        <button onClick={()=>sM({type:"attack"})} style={{...SS.gn,padding:"4px 12px",fontSize:10}}>+ Nuovo</button>
+      </div>
+      {c.attacks.map(a=>(
+        <div key={a.id} style={{background:`${ac}0a`,borderRadius:7,padding:9,marginBottom:5,border:`1px solid ${ac}15`}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <button onClick={()=>sM({type:"attack",data:a})} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:4}}>
+              <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{a.name}</span>
+              <span style={{fontSize:8,color:"#665a3e"}}>✎</span>
+            </button>
+            <span style={{fontSize:9,color:"#998866",fontStyle:"italic"}}>{a.type}</span>
+          </div>
+          <div style={{display:"flex",gap:5,marginTop:5}}>
+            <button onClick={()=>oR({label:`${a.name} (colpire)`,type:"d20",modifier:a.hit})} style={{...SS.gn,flex:1,padding:"6px 0",fontSize:10,touchAction:"manipulation"}}>+{a.hit} 🎲</button>
+            <button onClick={()=>oR({label:`${a.name} (danno)`,type:"damage",formula:a.damage})} style={{...SS.rd,flex:1,padding:"6px 0",fontSize:10,touchAction:"manipulation"}}>{a.damage} 🎲</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 /* ═══ ACTIONS TAB ═══ */
@@ -401,89 +631,258 @@ function ATab({c,up,sM,ac}){
   const tF=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,fav:!a.fav}:a)});
   const rest=t=>{let u={abilities:c.abilities.map(a=>{if(a.maxUses===-1)return a;if(t==="lungo")return{...a,uses:0};if(t==="breve"&&a.rest==="breve")return{...a,uses:0};return a;})};if(t==="lungo"){u.hpCurrent=c.hpMax;u.hpTemp=0;u.hpPerm=0;}up(u);};
   const groups=c.origins.map(o=>o.id).filter(oid=>sorted.some(a=>a.originId===oid));
-  return(<div style={{padding:"12px 12px 20px"}}>
-    <div style={{display:"flex",gap:5,marginBottom:8}}><button onClick={()=>rest("breve")} style={{flex:1,padding:"7px 0",borderRadius:7,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>☀️ R. Breve</button><button onClick={()=>rest("lungo")} style={{flex:1,padding:"7px 0",borderRadius:7,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>🌙 R. Lungo</button></div>
-    <div style={{display:"flex",gap:5,marginBottom:12}}><button onClick={()=>sM({type:"ability"})} style={{...SS.gn,padding:"4px 10px",fontSize:10}}>+ Azione</button><button onClick={()=>sM({type:"origins"})} style={{...SS.bg,padding:"4px 10px",fontSize:10}}>⚙ Provenienze</button></div>
-    {favs.length>0&&<><div style={{borderLeft:`3px solid ${ac}`,paddingLeft:7,marginBottom:5}}><span style={{color:ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>★ PREFERITI</span></div>{favs.map(a=><AbC key={a.id+"f"} a={a} c={c} u={uA} r={rA} t={tF} e={d=>sM({type:"ability",data:d})}/>)}<div style={{height:10}}/></>}
-    {groups.map(oid=>{const or=c.origins.find(o=>o.id===oid),abs=sorted.filter(a=>a.originId===oid),cdA=abs.find(a=>a.cdStat),cd=cdA?calcCD(c.profBonus,c.stats,cdA.cdStat):null;return<div key={oid} style={{marginBottom:14}}><div style={{borderLeft:`3px solid ${or?.color||ac}`,paddingLeft:7,marginBottom:5,display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{color:or?.color||ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>{(or?.name||"?").toUpperCase()}</span>{cd&&<span style={{fontSize:11,color:"#fff",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"linear-gradient(135deg,rgba(200,169,94,0.3),rgba(200,169,94,0.15))",padding:"2px 7px",borderRadius:4,border:"1.5px solid #c8a95e88"}}>CD {cd}</span>}</div>{abs.map(a=><AbC key={a.id} a={a} c={c} u={uA} r={rA} t={tF} e={d=>sM({type:"ability",data:d})}/>)}</div>;})}
-  </div>);
+  return(
+    <div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+      <div style={{display:"flex",gap:5,marginBottom:8}}>
+        <button onClick={()=>rest("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>☀️ R. Breve</button>
+        <button onClick={()=>rest("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>🌙 R. Lungo</button>
+      </div>
+      <div style={{display:"flex",gap:5,marginBottom:12}}>
+        <button onClick={()=>sM({type:"ability"})} style={{...SS.gn,padding:"5px 12px",fontSize:10}}>+ Azione</button>
+        <button onClick={()=>sM({type:"origins"})} style={{...SS.bg,padding:"5px 12px",fontSize:10}}>⚙ Provenienze</button>
+      </div>
+      {favs.length>0&&(
+        <>
+          <div style={{borderLeft:`3px solid ${ac}`,paddingLeft:7,marginBottom:5}}>
+            <span style={{color:ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>★ PREFERITI</span>
+          </div>
+          {favs.map(a=><AbC key={a.id+"f"} a={a} c={c} u={uA} r={rA} t={tF} e={d=>sM({type:"ability",data:d})}/>)}
+          <div style={{height:10}}/>
+        </>
+      )}
+      {groups.map(oid=>{
+        const or=c.origins.find(o=>o.id===oid),abs=sorted.filter(a=>a.originId===oid),cdA=abs.find(a=>a.cdStat),cd=cdA?calcCD(c.profBonus,c.stats,cdA.cdStat):null;
+        return(
+          <div key={oid} style={{marginBottom:14}}>
+            <div style={{borderLeft:`3px solid ${or?.color||ac}`,paddingLeft:7,marginBottom:5,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <span style={{color:or?.color||ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>{(or?.name||"?").toUpperCase()}</span>
+              {cd&&<span style={{fontSize:11,color:"#fff",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"linear-gradient(135deg,rgba(200,169,94,0.3),rgba(200,169,94,0.15))",padding:"2px 7px",borderRadius:4,border:"1.5px solid #c8a95e88"}}>CD {cd}</span>}
+            </div>
+            {abs.map(a=><AbC key={a.id} a={a} c={c} u={uA} r={rA} t={tF} e={d=>sM({type:"ability",data:d})}/>)}
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function AbC({a,c,u,r,t,e}){
   const lim=a.maxUses>0,used=lim&&a.uses>=a.maxUses,cd=a.cdStat?calcCD(c.profBonus,c.stats,a.cdStat):null,oc=oColor(c.origins,a.originId);
-  return<div style={{background:"rgba(200,169,94,0.04)",borderRadius:7,padding:9,marginBottom:4,border:"1px solid #c8a95e10",opacity:used?0.4:1}}>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}><div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}><button onClick={()=>t(a.id)} style={{background:"none",border:"none",cursor:"pointer",padding:0,fontSize:12,color:a.fav?"#f1c40f":"#555"}}>{a.fav?"★":"☆"}</button><button onClick={()=>e(a)} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:3}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:"#e8dcc8"}}>{a.name}</span><span style={{fontSize:7,color:"#665a3e"}}>✎</span></button><span style={{fontSize:8,color:"#998866",fontFamily:"'JetBrains Mono'",background:"rgba(200,169,94,0.1)",padding:"0 4px",borderRadius:3}}>{a.type}</span>{cd&&<span style={{fontSize:8,color:"#f1c40f",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"rgba(241,196,15,0.12)",padding:"0 4px",borderRadius:3,border:"1px solid #f1c40f44"}}>CD {cd}</span>}</div><p style={{fontSize:11,color:"#998866",margin:"2px 0 0",lineHeight:1.3,whiteSpace:"pre-line"}}>{a.desc}</p></div>
-    {lim&&<div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,minWidth:40}}><div style={{display:"flex",gap:2}}>{Array.from({length:a.maxUses}).map((_,i)=><div key={i} style={{width:10,height:10,borderRadius:"50%",background:i<a.uses?"#22222288":oc,border:`1.5px solid ${i<a.uses?"#44444466":oc}`}}/>)}</div><span style={{fontSize:7,color:"#665a3e"}}>{a.rest==="breve"?"R.BREVE":"R.LUNGO"}</span></div>}</div>
-    {lim&&<div style={{display:"flex",gap:4,marginTop:5}}>{!used&&<button onClick={()=>u(a.id)} style={{flex:2,padding:"3px 0",borderRadius:5,border:`1px solid ${oc}44`,background:`${oc}0d`,color:oc,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center"}}>Usa</button>}{a.uses>0&&<button onClick={()=>r(a.id)} style={{flex:1,padding:"3px 0",borderRadius:5,border:"1px solid #2ecc7144",background:"rgba(46,204,113,0.06)",color:"#2ecc71",fontSize:9,fontWeight:700,cursor:"pointer",textAlign:"center"}}>↺</button>}</div>}
-  </div>;
+  return(
+    <div style={{background:"rgba(200,169,94,0.04)",borderRadius:7,padding:9,marginBottom:4,border:"1px solid #c8a95e10",opacity:used?0.4:1}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}>
+        <div style={{flex:1}}>
+          <div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}>
+            <button onClick={()=>t(a.id)} style={{background:"none",border:"none",cursor:"pointer",padding:0,fontSize:14,color:a.fav?"#f1c40f":"#555",touchAction:"manipulation"}}>{a.fav?"★":"☆"}</button>
+            <button onClick={()=>e(a)} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:3}}>
+              <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:"#e8dcc8"}}>{a.name}</span>
+              <span style={{fontSize:7,color:"#665a3e"}}>✎</span>
+            </button>
+            <span style={{fontSize:8,color:"#998866",fontFamily:"'JetBrains Mono'",background:"rgba(200,169,94,0.1)",padding:"0 4px",borderRadius:3}}>{a.type}</span>
+            {cd&&<span style={{fontSize:8,color:"#f1c40f",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"rgba(241,196,15,0.12)",padding:"0 4px",borderRadius:3,border:"1px solid #f1c40f44"}}>CD {cd}</span>}
+          </div>
+          <p style={{fontSize:11,color:"#998866",margin:"2px 0 0",lineHeight:1.3,whiteSpace:"pre-line"}}>{a.desc}</p>
+        </div>
+        {lim&&(
+          <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,minWidth:40}}>
+            <div style={{display:"flex",gap:2}}>
+              {Array.from({length:a.maxUses}).map((_,i)=>(
+                <div key={i} style={{width:10,height:10,borderRadius:"50%",background:i<a.uses?"#22222288":oc,border:`1.5px solid ${i<a.uses?"#44444466":oc}`}}/>
+              ))}
+            </div>
+            <span style={{fontSize:7,color:"#665a3e"}}>{a.rest==="breve"?"R.BREVE":"R.LUNGO"}</span>
+          </div>
+        )}
+      </div>
+      {lim&&(
+        <div style={{display:"flex",gap:4,marginTop:5}}>
+          {!used&&<button onClick={()=>u(a.id)} style={{flex:2,padding:"4px 0",borderRadius:5,border:`1px solid ${oc}44`,background:`${oc}0d`,color:oc,fontSize:10,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",touchAction:"manipulation"}}>Usa</button>}
+          {a.uses>0&&<button onClick={()=>r(a.id)} style={{flex:1,padding:"4px 0",borderRadius:5,border:"1px solid #2ecc7144",background:"rgba(46,204,113,0.06)",color:"#2ecc71",fontSize:9,fontWeight:700,cursor:"pointer",textAlign:"center",touchAction:"manipulation"}}>↺</button>}
+        </div>
+      )}
+    </div>
+  );
 }
 
 /* ═══ DICE TAB ═══ */
 function DTab({c,up,log,oR,ac}){
-  const[cf,sCf]=useState("");const[cm,sCm]=useState(0);
+  const[cf,sCf]=useState("");
+  const[cm,sCm]=useState(0);
   const aD=s=>{const cur=cf.trim();sCf(cur?`${cur}+1d${s}`:`1d${s}`);};
   const rl=()=>{const b=cf.trim()||"1d20",f=b+(cm?(cm>=0?`+${cm}`:`${cm}`):"");if(b.toLowerCase().includes("d20"))oR({label:f,type:"d20",modifier:cm});else oR({label:f,type:"damage",formula:f});};
-  return(<div style={{padding:"12px 12px 20px"}}>
-    <Sec ac={ac}>Tiro Rapido</Sec>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:8}}>{[4,6,8,10,12,20].map(d=><button key={d} onClick={()=>{if(d===20)oR({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;oR({label:f,type:"damage",formula:f});}}} style={{padding:"12px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span></button>)}</div>
-    <Sec ac={ac}>Costruisci Formula</Sec>
-    <div style={{background:`${ac}06`,borderRadius:7,padding:9,border:`1px solid ${ac}15`,marginBottom:12}}><div style={{display:"flex",gap:3,flexWrap:"wrap",marginBottom:5}}>{[4,6,8,10,12,20].map(s=><button key={s} onClick={()=>aD(s)} style={{padding:"3px 8px",borderRadius:4,border:`1.5px solid ${ac}33`,background:`${ac}0a`,color:ac,fontSize:10,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}<button onClick={()=>sCf("")} style={{padding:"3px 8px",borderRadius:4,border:"1.5px solid #e74c3c33",color:"#e74c3c",fontSize:10,cursor:"pointer",background:"transparent"}}>✕</button></div><input value={cf} onChange={e=>sCf(e.target.value)} placeholder="es. 3d8+1d6" style={{...SS.inp,width:"100%",marginBottom:5}}/><div style={{display:"flex",gap:5,alignItems:"center",marginBottom:5}}><span style={{color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'"}}>Mod.</span><input type="number" value={cm} onChange={e=>sCm(parseInt(e.target.value)||0)} style={{...SS.inp,width:46,textAlign:"center"}}/>{cf&&<span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",flex:1}}>{cf}{cm?(cm>=0?`+${cm}`:cm):""}</span>}</div><button onClick={rl} style={{...SS.bg,width:"100%",padding:"9px 0",fontSize:13,borderColor:ac+"55",color:ac}}>Tira 🎲</button></div>
-    <Sec ac={ac}>Dado Vita</Sec>
-    <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:12}}><input value={c.hitDie} onChange={e=>up({hitDie:e.target.value})} placeholder="1d8" style={{...SS.inp,width:60,textAlign:"center"}}/><button onClick={()=>{const co=c.stats.COS?.mod||0,f=c.hitDie+(co>=0?`+${co}`:`${co}`);oR({label:`DV (${f})`,type:"damage",formula:f});}} style={{...SS.bg,flex:1,padding:"7px 0",fontSize:11,borderColor:ac+"55",color:ac}}>Dado Vita 🎲</button></div>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><Sec ac={ac}>Storico</Sec>{log.length>0&&<button onClick={()=>up({diceLog:[]})} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:9,cursor:"pointer",fontFamily:"'Cinzel'"}}>Pulisci</button>}</div>
-    <div style={{maxHeight:300,overflowY:"auto"}}>{log.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:11}}>Nessun tiro...</p>}{log.map((e,i)=><div key={e.timestamp+"_"+i} style={{padding:i===0?"11px":"7px 9px",borderRadius:6,background:i===0?`linear-gradient(135deg,${ac}20,${ac}0a)`:`${ac}06`,border:i===0?`2px solid ${ac}55`:`1px solid ${ac}10`,marginBottom:4,boxShadow:i===0?`0 0 14px ${ac}15`:"none"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{fontSize:i===0?12:10,color:i===0?ac:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>{e.label}</span><span style={{fontFamily:"'JetBrains Mono'",fontSize:i===0?24:18,fontWeight:900,color:e.isNat20?"#f1c40f":e.isNat1?"#e74c3c":"#e8dcc8"}}>{e.isNat20&&"★ "}{e.isNat1&&"✗ "}{e.total}</span></div><div style={{fontSize:10,color:"#665a3e",fontFamily:"'JetBrains Mono'",marginTop:1}}>{e.type==="d20"?<span>[{e.roll1}] [{e.roll2}]{e.modifier?` ${e.modifier>=0?"+":""}${e.modifier}`:""} ({e.mode==="vantaggio"?"V":e.mode==="svantaggio"?"S":"N"})</span>:e.rollResult?<span>[{e.rollResult.results.map(r=>r.value).join(",")}]{e.rollResult.bonus?` ${e.rollResult.bonus>=0?"+":""}${e.rollResult.bonus}`:""}</span>:null}</div></div>)}</div>
-  </div>);
+  return(
+    <div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+      <Sec ac={ac}>Tiro Rapido</Sec>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:8}}>
+        {[4,6,8,10,12,20].map(d=>(
+          <button key={d} onClick={()=>{if(d===20)oR({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;oR({label:f,type:"damage",formula:f});}}}
+            style={{padding:"14px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",touchAction:"manipulation"}}>
+            <span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span>
+          </button>
+        ))}
+      </div>
+      <Sec ac={ac}>Costruisci Formula</Sec>
+      <div style={{background:`${ac}06`,borderRadius:7,padding:9,border:`1px solid ${ac}15`,marginBottom:12}}>
+        <div style={{display:"flex",gap:3,flexWrap:"wrap",marginBottom:5}}>
+          {[4,6,8,10,12,20].map(s=>(
+            <button key={s} onClick={()=>aD(s)} style={{padding:"4px 9px",borderRadius:4,border:`1.5px solid ${ac}33`,background:`${ac}0a`,color:ac,fontSize:10,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer",touchAction:"manipulation"}}>+d{s}</button>
+          ))}
+          <button onClick={()=>sCf("")} style={{padding:"4px 9px",borderRadius:4,border:"1.5px solid #e74c3c33",color:"#e74c3c",fontSize:10,cursor:"pointer",background:"transparent"}}>✕</button>
+        </div>
+        <input value={cf} onChange={e=>sCf(e.target.value)} placeholder="es. 3d8+1d6" style={{...SS.inp,width:"100%",marginBottom:5}}/>
+        <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:5}}>
+          <span style={{color:"#665a3e",fontSize:10,fontFamily:"'Cinzel'"}}>Mod.</span>
+          <input type="number" value={cm} onChange={e=>sCm(parseInt(e.target.value)||0)} style={{...SS.inp,width:46,textAlign:"center"}}/>
+          {cf&&<span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",flex:1}}>{cf}{cm?(cm>=0?`+${cm}`:cm):""}</span>}
+        </div>
+        <button onClick={rl} style={{...SS.bg,width:"100%",padding:"10px 0",fontSize:13,borderColor:ac+"55",color:ac}}>Tira 🎲</button>
+      </div>
+      <Sec ac={ac}>Dado Vita</Sec>
+      <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:12}}>
+        <input value={c.hitDie} onChange={e=>up({hitDie:e.target.value})} placeholder="1d8" style={{...SS.inp,width:60,textAlign:"center"}}/>
+        <button onClick={()=>{const co=c.stats.COS?.mod||0,f=c.hitDie+(co>=0?`+${co}`:`${co}`);oR({label:`DV (${f})`,type:"damage",formula:f});}} style={{...SS.bg,flex:1,padding:"8px 0",fontSize:11,borderColor:ac+"55",color:ac}}>Dado Vita 🎲</button>
+      </div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <Sec ac={ac}>Storico</Sec>
+        {log.length>0&&<button onClick={()=>up({diceLog:[]})} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:9,cursor:"pointer",fontFamily:"'Cinzel'"}}>Pulisci</button>}
+      </div>
+      <div style={{maxHeight:280,overflowY:"auto"}}>
+        {log.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:11}}>Nessun tiro...</p>}
+        {log.map((e,i)=>(
+          <div key={e.timestamp+"_"+i} style={{padding:i===0?"11px":"7px 9px",borderRadius:6,background:i===0?`linear-gradient(135deg,${ac}20,${ac}0a)`:`${ac}06`,border:i===0?`2px solid ${ac}55`:`1px solid ${ac}10`,marginBottom:4,boxShadow:i===0?`0 0 14px ${ac}15`:"none"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <span style={{fontSize:i===0?12:10,color:i===0?ac:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>{e.label}</span>
+              <span style={{fontFamily:"'JetBrains Mono'",fontSize:i===0?24:18,fontWeight:900,color:e.isNat20?"#f1c40f":e.isNat1?"#e74c3c":"#e8dcc8"}}>{e.isNat20&&"★ "}{e.isNat1&&"✗ "}{e.total}</span>
+            </div>
+            <div style={{fontSize:10,color:"#665a3e",fontFamily:"'JetBrains Mono'",marginTop:1}}>
+              {e.type==="d20"?<span>[{e.roll1}] [{e.roll2}]{e.modifier?` ${e.modifier>=0?"+":""}${e.modifier}`:""} ({e.mode==="vantaggio"?"V":e.mode==="svantaggio"?"S":"N"})</span>:e.rollResult?<span>[{e.rollResult.results.map(r=>r.value).join(",")}]{e.rollResult.bonus?` ${e.rollResult.bonus>=0?"+":""}${e.rollResult.bonus}`:""}</span>:null}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-function NTab({c,up,ac}){const[n,sN]=useState(c.notes||"");return<div style={{padding:"12px 12px 20px"}}><Sec ac={ac}>Note</Sec><textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Scrivi qui..." style={{width:"100%",minHeight:300,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/></div>;}
+function NTab({c,up,ac}){
+  const[n,sN]=useState(c.notes||"");
+  return(
+    <div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+      <Sec ac={ac}>Note</Sec>
+      <textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Scrivi qui..."
+        style={{width:"100%",minHeight:280,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
+    </div>
+  );
+}
 
 /* ═══ MODALS ═══ */
-function Sh({t,oC,children}){return<div style={SS.po} onClick={oC}><div style={{...SS.pc,maxHeight:"85vh",overflowY:"auto",maxWidth:360}} onClick={e=>e.stopPropagation()}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>{t}</span><button onClick={oC} style={{background:"none",border:"none",color:"#e74c3c",fontSize:15,cursor:"pointer"}}>✕</button></div>{children}</div></div>;}
+function Sh({t,oC,children}){
+  return(
+    <div style={SS.po} onClick={oC}>
+      <div style={{...SS.pc,maxHeight:"80vh",overflowY:"auto",maxWidth:360}} onClick={e=>e.stopPropagation()}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+          <span style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>{t}</span>
+          <button onClick={oC} style={{background:"none",border:"none",color:"#e74c3c",fontSize:15,cursor:"pointer"}}>✕</button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
 function Fl({l,children}){return<div style={{marginBottom:9}}><label style={{display:"block",fontSize:9,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700,letterSpacing:1,marginBottom:2}}>{l}</label>{children}</div>;}
 
 function AM({c,up,data,oC}){
-  const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",hit:0,damage:"",type:""});
+  const isE=!!data;
+  const[f,sf]=useState(data||{id:uid(),name:"",hit:0,damage:"",type:""});
   const sv=()=>{if(!f.name)return;if(isE)up({attacks:c.attacks.map(a=>a.id===f.id?f:a)});else up({attacks:[...c.attacks,f]});oC();};
   const dl=()=>{up({attacks:c.attacks.filter(a=>a.id!==f.id)});oC();};
   const aD=s=>{const cur=f.damage.trim();sf({...f,damage:cur?`${cur}+1d${s}`:`1d${s}`});};
-  return<Sh t={isE?"Modifica Attacco":"Nuovo Attacco"} oC={oC}>
-    <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Nitro"/></Fl>
-    <Fl l="Bonus Colpire"><input type="number" value={f.hit} onChange={e=>sf({...f,hit:parseInt(e.target.value)||0})} style={{...SS.inp,width:"100%"}}/></Fl>
-    <Fl l="Formula Danno"><input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:3}} placeholder="es. 3d8+1d6+5"/><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{[4,6,8,10,12].map(s=><button key={s} onClick={()=>aD(s)} style={{padding:"2px 7px",borderRadius:3,border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.06)",color:"#c8a95e",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer"}}>+d{s}</button>)}<button onClick={()=>sf({...f,damage:""})} style={{padding:"2px 7px",borderRadius:3,border:"1px solid #e74c3c33",color:"#e74c3c",fontSize:9,cursor:"pointer",background:"transparent"}}>✕</button></div></Fl>
-    <Fl l="Tipo"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. magico"/></Fl>
-    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
-  </Sh>;
+  return(
+    <Sh t={isE?"Modifica Attacco":"Nuovo Attacco"} oC={oC}>
+      <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Nitro"/></Fl>
+      <Fl l="Bonus Colpire"><input type="number" value={f.hit} onChange={e=>sf({...f,hit:parseInt(e.target.value)||0})} style={{...SS.inp,width:"100%"}}/></Fl>
+      <Fl l="Formula Danno">
+        <input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:3}} placeholder="es. 3d8+1d6+5"/>
+        <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
+          {[4,6,8,10,12].map(s=><button key={s} onClick={()=>aD(s)} style={{padding:"3px 8px",borderRadius:3,border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.06)",color:"#c8a95e",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer",touchAction:"manipulation"}}>+d{s}</button>)}
+          <button onClick={()=>sf({...f,damage:""})} style={{padding:"3px 8px",borderRadius:3,border:"1px solid #e74c3c33",color:"#e74c3c",fontSize:9,cursor:"pointer",background:"transparent"}}>✕</button>
+        </div>
+      </Fl>
+      <Fl l="Tipo"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. magico"/></Fl>
+      <div style={{display:"flex",gap:5,marginTop:12}}>
+        {isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}
+        <button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button>
+      </div>
+    </Sh>
+  );
 }
 
 function BM({c,up,data,oC}){
-  const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",originId:c.origins[0]?.id||"",type:"Azione",desc:"",maxUses:-1,uses:0,rest:null,cdStat:null,fav:false});
+  const isE=!!data;
+  const[f,sf]=useState(data||{id:uid(),name:"",originId:c.origins[0]?.id||"",type:"Azione",desc:"",maxUses:-1,uses:0,rest:null,cdStat:null,fav:false});
   const[um,sUm]=useState(f.maxUses===-1?"u":"l");
   const sv=()=>{if(!f.name)return;const fin={...f,maxUses:um==="u"?-1:(f.maxUses>0?f.maxUses:1)};if(um==="u"){fin.rest=null;fin.uses=0;}if(isE)up({abilities:c.abilities.map(a=>a.id===fin.id?fin:a)});else up({abilities:[...c.abilities,fin]});oC();};
   const dl=()=>{up({abilities:c.abilities.filter(a=>a.id!==f.id)});oC();};
-  return<Sh t={isE?"Modifica Azione":"Nuova Azione"} oC={oC}>
-    <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}}/></Fl>
-    <Fl l="Descrizione"><textarea value={f.desc} onChange={e=>sf({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:44,resize:"vertical"}}/></Fl>
-    <Fl l="Tipo"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{AT.map(t=><button key={t} onClick={()=>sf({...f,type:t})} style={{padding:"3px 7px",borderRadius:4,border:`1.5px solid ${f.type===t?"#c8a95e":"#c8a95e22"}`,background:f.type===t?"rgba(200,169,94,0.15)":"transparent",color:f.type===t?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>{t}</button>)}</div></Fl>
-    <Fl l="Provenienza"><select value={f.originId} onChange={e=>sf({...f,originId:e.target.value})} style={{...SS.inp,width:"100%",appearance:"none"}}>{c.origins.map(o=><option key={o.id} value={o.id}>{o.name}</option>)}</select></Fl>
-    <Fl l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{SK.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}</select></Fl>
-    <Fl l="Utilizzi"><div style={{display:"flex",gap:3,marginBottom:5}}>{[["u","Illimitati"],["l","Limitati"]].map(([m,l])=><button key={m} onClick={()=>sUm(m)} style={{...SS.pb,flex:1,fontSize:9,padding:"4px 0",borderColor:um===m?"#c8a95e":"#c8a95e22",background:um===m?"rgba(200,169,94,0.15)":"transparent",color:um===m?"#c8a95e":"#998866"}}>{l}</button>)}</div>{um==="l"&&<><input type="number" min={1} value={f.maxUses>0?f.maxUses:1} onChange={e=>sf({...f,maxUses:Math.max(1,parseInt(e.target.value)||1)})} style={{...SS.inp,width:55,marginBottom:5}}/><div style={{display:"flex",gap:3}}>{RT.map(r=><button key={r.l} onClick={()=>sf({...f,rest:r.v})} style={{padding:"2px 6px",borderRadius:4,border:`1.5px solid ${f.rest===r.v?"#3498db":"#3498db22"}`,background:f.rest===r.v?"rgba(52,152,219,0.15)":"transparent",color:f.rest===r.v?"#3498db":"#998866",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer"}}>{r.l}</button>)}</div></>}</Fl>
-    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
-  </Sh>;
+  return(
+    <Sh t={isE?"Modifica Azione":"Nuova Azione"} oC={oC}>
+      <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}}/></Fl>
+      <Fl l="Descrizione"><textarea value={f.desc} onChange={e=>sf({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:44,resize:"vertical"}}/></Fl>
+      <Fl l="Tipo">
+        <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
+          {AT.map(t=><button key={t} onClick={()=>sf({...f,type:t})} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${f.type===t?"#c8a95e":"#c8a95e22"}`,background:f.type===t?"rgba(200,169,94,0.15)":"transparent",color:f.type===t?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>{t}</button>)}
+        </div>
+      </Fl>
+      <Fl l="Provenienza"><select value={f.originId} onChange={e=>sf({...f,originId:e.target.value})} style={{...SS.inp,width:"100%",appearance:"none"}}>{c.origins.map(o=><option key={o.id} value={o.id}>{o.name}</option>)}</select></Fl>
+      <Fl l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{SK.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}</select></Fl>
+      <Fl l="Utilizzi">
+        <div style={{display:"flex",gap:3,marginBottom:5}}>
+          {[["u","Illimitati"],["l","Limitati"]].map(([m,l])=><button key={m} onClick={()=>sUm(m)} style={{...SS.pb,flex:1,fontSize:9,padding:"5px 0",borderColor:um===m?"#c8a95e":"#c8a95e22",background:um===m?"rgba(200,169,94,0.15)":"transparent",color:um===m?"#c8a95e":"#998866",touchAction:"manipulation"}}>{l}</button>)}
+        </div>
+        {um==="l"&&(
+          <>
+            <input type="number" min={1} value={f.maxUses>0?f.maxUses:1} onChange={e=>sf({...f,maxUses:Math.max(1,parseInt(e.target.value)||1)})} style={{...SS.inp,width:55,marginBottom:5}}/>
+            <div style={{display:"flex",gap:3}}>
+              {RT.map(r=><button key={r.l} onClick={()=>sf({...f,rest:r.v})} style={{padding:"3px 7px",borderRadius:4,border:`1.5px solid ${f.rest===r.v?"#3498db":"#3498db22"}`,background:f.rest===r.v?"rgba(52,152,219,0.15)":"transparent",color:f.rest===r.v?"#3498db":"#998866",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>{r.l}</button>)}
+            </div>
+          </>
+        )}
+      </Fl>
+      <div style={{display:"flex",gap:5,marginTop:12}}>
+        {isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}
+        <button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button>
+      </div>
+    </Sh>
+  );
 }
 
 function OM({c,up,oC}){
-  const[os,sOs]=useState([...c.origins]);const[nn,sNn]=useState("");
+  const[os,sOs]=useState([...c.origins]);
+  const[nn,sNn]=useState("");
   const add=()=>{if(!nn.trim())return;sOs([...os,{id:uid(),name:nn.trim(),color:OP[os.length%OP.length]}]);sNn("");};
   const upd=(id,k,v)=>sOs(os.map(o=>o.id===id?{...o,[k]:v}:o));
-  return<Sh t="Provenienze" oC={oC}>{os.map(o=><div key={o.id} style={{display:"flex",gap:4,alignItems:"center",marginBottom:5}}><input type="color" value={o.color} onChange={e=>upd(o.id,"color",e.target.value)} style={{width:26,height:26,border:"none",borderRadius:4,cursor:"pointer",background:"transparent"}}/><input value={o.name} onChange={e=>upd(o.id,"name",e.target.value)} style={{...SS.inp,flex:1}}/><button onClick={()=>sOs(os.filter(x=>x.id!==o.id))} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:13,cursor:"pointer"}}>✕</button></div>)}<div style={{display:"flex",gap:4,marginTop:8}}><input value={nn} onChange={e=>sNn(e.target.value)} placeholder="Nuova..." style={{...SS.inp,flex:1}} onKeyDown={e=>e.key==="Enter"&&add()}/><button onClick={add} style={{...SS.pb,padding:"5px 10px",background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>+</button></div><button onClick={()=>{up({origins:os});oC();}} style={{...SS.bg,width:"100%",marginTop:12,padding:"8px 0"}}>Salva</button></Sh>;
+  return(
+    <Sh t="Provenienze" oC={oC}>
+      {os.map(o=>(
+        <div key={o.id} style={{display:"flex",gap:4,alignItems:"center",marginBottom:5}}>
+          <input type="color" value={o.color} onChange={e=>upd(o.id,"color",e.target.value)} style={{width:26,height:26,border:"none",borderRadius:4,cursor:"pointer",background:"transparent"}}/>
+          <input value={o.name} onChange={e=>upd(o.id,"name",e.target.value)} style={{...SS.inp,flex:1}}/>
+          <button onClick={()=>sOs(os.filter(x=>x.id!==o.id))} style={{background:"none",border:"none",color:"#e74c3c88",fontSize:13,cursor:"pointer"}}>✕</button>
+        </div>
+      ))}
+      <div style={{display:"flex",gap:4,marginTop:8}}>
+        <input value={nn} onChange={e=>sNn(e.target.value)} placeholder="Nuova..." style={{...SS.inp,flex:1}} onKeyDown={e=>e.key==="Enter"&&add()}/>
+        <button onClick={add} style={{...SS.pb,padding:"5px 12px",background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>+</button>
+      </div>
+      <button onClick={()=>{up({origins:os});oC();}} style={{...SS.bg,width:"100%",marginTop:12,padding:"9px 0"}}>Salva</button>
+    </Sh>
+  );
 }
 
-function Sec({ac,children}){return<h2 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:ac||"#c8a95e",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px",display:"inline-block"}}>{children}</h2>;}
+function Sec({ac,children}){
+  return<h2 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:ac||"#c8a95e",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px",display:"inline-block"}}>{children}</h2>;
+}
 
 const SS={
-  fc:{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"},
-  fs:{minHeight:"100vh",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflowY:"auto"},
-  sw:{position:"relative",maxWidth:480,margin:"0 auto",height:"100vh",display:"flex",flexDirection:"column",overflow:"hidden"},
   inp:{background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:12,padding:"5px 7px",outline:"none",boxSizing:"border-box"},
   bg:{borderRadius:7,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",fontSize:12},
   gn:{borderRadius:5,border:"1.5px solid #2ecc7144",background:"rgba(46,204,113,0.08)",color:"#2ecc71",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
@@ -491,7 +890,7 @@ const SS={
   ac:{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:10,border:"1.5px solid",cursor:"pointer",width:"100%",textAlign:"left",background:"transparent"},
   bb:{width:32,height:32,borderRadius:"50%",border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.08)",color:"#c8a95e",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",flexShrink:0,fontWeight:700},
   hs:{width:22,height:22,borderRadius:"50%",border:"1px solid #c8a95e22",background:"rgba(200,169,94,0.08)",color:"#c8a95e",fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700},
-  po:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.8)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},
+  po:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.85)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},
   pc:{background:"linear-gradient(180deg,#151b2e,#0f1420)",border:"1.5px solid #c8a95e55",borderRadius:12,padding:"18px 16px 16px",width:"100%",maxWidth:320,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
   pb:{flex:1,padding:"7px 0",borderRadius:7,border:"1.5px solid",fontSize:11,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
 };
