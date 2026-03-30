@@ -52,7 +52,7 @@ function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId
 // Character photo: /data/{owner}/{charFileName without .json}.jpg
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v15";
+const APP_VERSION="v1.15";
 
 /* ═══ AVATAR COMPONENT ═══ */
 // Shows image if available, falls back to text (initial or emoji)
@@ -81,7 +81,8 @@ const DO = [
   { id: "haki_re", name: "Haki del Re", color: "#f1c40f" },
   { id: "brawler", name: "Brawler", color: "#2ecc71" },      
   { id: "spadaccino", name: "Spadaccino", color: "#34495e" }, 
-  { id: "medico", name: "Medico", color: "#ff66cc" }          
+  { id: "medico", name: "Medico", color: "#ff66cc" },  
+  { id: "fdd", name: "Frutto del diavolo", color: "#f46fc1" }        
 ];
 function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:[],origins:[...DO],attacks:[],abilities:[],notes:"",diceLog:[]};}
 
