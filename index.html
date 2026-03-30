@@ -52,7 +52,7 @@ function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId
 // Character photo: /data/{owner}/{charFileName without .json}.jpg
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.2";
+const APP_VERSION="v1.3";
 
 /* ═══ AVATAR COMPONENT ═══ */
 // Shows image if available, falls back to text (initial or emoji)
