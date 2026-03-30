@@ -11,7 +11,3 @@
 1. 💾 Esporta PG
 2. Su GitHub: `data/tuonome/` → carica il JSON aggiornato (sovrascrive il vecchio)
 3. Se hai aggiunto un nuovo PG, aggiorna anche `manifest.json`
-
-## Master
-L'account Master (Ciccio) vede TUTTI i PG di tutti gli account.
-Gli altri vedono solo i propri.
