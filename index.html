@@ -51,6 +51,8 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 // Character photo: /data/{owner}/{charFileName without .json}.jpg
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
+function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
+const APP_VERSION="v1.2";
 
 /* ═══ AVATAR COMPONENT ═══ */
 // Shows image if available, falls back to text (initial or emoji)
@@ -147,6 +149,7 @@ function AppWrapper(){
   return(
     <>
       <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/>
+      <div style={{position:"fixed",top:4,left:6,fontSize:9,color:"#c8a95e22",fontFamily:"'JetBrains Mono'",zIndex:999,pointerEvents:"none"}}>{APP_VERSION}</div>
 
       {loading&&<Ld msg="Caricamento..."/>}
 
@@ -313,6 +316,7 @@ function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
 
   // Avatar URL for this character (only if loaded from GitHub)
   const avatarUrl=charMeta?charAvatarUrl(charMeta.owner,charMeta.file):null;
+  const htmlUrl=charMeta?charHtmlUrl(charMeta.owner,charMeta.file):null;
 
   return(<div style={{...SS.sw,background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
     <div style={{background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"10px 14px 8px"}}>
@@ -324,7 +328,7 @@ function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
             {edit?(<div style={{display:"flex",flexDirection:"column",gap:3}}><input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,fontFamily:"'Cinzel'",fontSize:16,fontWeight:900,color:ac}}/><div style={{display:"flex",gap:3}}><input value={c.race} onChange={e=>up({race:e.target.value})} placeholder="Razza" style={{...SS.inp,flex:1,fontSize:10}}/><input type="number" value={c.level} onChange={e=>up({level:parseInt(e.target.value)||1})} style={{...SS.inp,width:34,fontSize:10,textAlign:"center"}}/></div><input value={c.classes} onChange={e=>up({classes:e.target.value})} placeholder="Classi" style={{...SS.inp,fontSize:10}}/></div>):(<><h1 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:900,color:ac,margin:0,letterSpacing:1}}>{c.name||"Senza Nome"}</h1><p style={{fontSize:10,color:"#998866"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</p></>)}
           </div>
         </div>
-        <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span><button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button></div>
+        <div style={{display:"flex",alignItems:"center",gap:4}}><span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span>{htmlUrl&&<button onClick={()=>window.open(htmlUrl,"_blank")} title="Scheda Completa" style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,cursor:"pointer",flexShrink:0}}>📖</button>}<button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button></div>
       </div>
       <HPBar c={c} up={up} edit={edit} ac={ac}/>
       <div style={{display:"flex",gap:4,marginTop:8}}>{[{l:"CA",k:"ac"},{l:"Vel.",k:"speed"},{l:"Perc.",k:"passivePerception"},{l:"Comp.",k:"profBonus"}].map(i=><div key={i.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:6,padding:"4px 2px",border:`1px solid ${ac}15`}}><span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700}}>{i.l}</span>{edit?<input type="number" value={c[i.k]} onChange={e=>up({[i.k]:parseInt(e.target.value)||0})} style={{...SS.inp,width:36,textAlign:"center",fontSize:14,fontWeight:700,fontFamily:"'JetBrains Mono'",color:ac,padding:"1px 2px"}}/>:<span style={{fontSize:15,fontWeight:700,color:ac,fontFamily:"'JetBrains Mono'"}}>{i.k==="profBonus"?`+${c[i.k]}`:c[i.k]}</span>}</div>)}</div>

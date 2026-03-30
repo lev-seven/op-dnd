@@ -1,1184 +1,698 @@
 <!DOCTYPE html>
+<!--
+  TEMPLATE SCHEDA PERSONAGGIO — Solo Visualizzazione
+  Compatibile con JSON formato export: { account, character: {...} }
+  e formato bare: { name, stats, ... }
+
+  ISTRUZIONI:
+  1. Copia questo file e rinominalo come il PG: nome_personaggio.html
+  2. Sostituisci il blocco "const charData = { ... }" con i dati del JSON
+  3. Se usi il formato export (con wrapper), incolla tutto — il template lo unwrappa
+  4. Modifica getRacialTraits() per i tratti razziali (non sono nel JSON)
+  5. Carica su GitHub nella cartella del giocatore
+-->
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eliah Pucci — Scheda Personaggio</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<title>Scheda Personaggio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:        #0a0c14;
-    --bg2:       #0f1220;
-    --bg3:       #141828;
-    --panel:     #111525;
-    --border:    #2a3050;
-    --border2:   #1e2640;
-    --gold:      #c9a84c;
-    --gold2:     #e8c96a;
-    --gold3:     #7a5c1e;
-    --teal:      #3ab8b0;
-    --teal2:     #1e6e68;
-    --red:       #c0392b;
-    --purple:    #8e44ad;
-    --blue:      #3498db;
-    --orange:    #e67e22;
-    --yellow:    #f1c40f;
-    --green:     #1abc9c;
-    --text:      #d4cbb8;
-    --text2:     #9a9070;
-    --text3:     #6a6050;
-    --white:     #f0ead8;
-    --shadow:    rgba(0,0,0,0.7);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 16px;
-    line-height: 1.6;
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 20% 10%, rgba(58,184,176,0.04) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 90%, rgba(201,168,76,0.05) 0%, transparent 50%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-  }
-
-  /* ── HEADER ─────────────────────────────────── */
-  .sheet-header {
-    background: linear-gradient(180deg, #080b14 0%, var(--bg2) 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 2.5rem 2rem 2rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .sheet-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse at 20% 50%, rgba(58,184,176,0.04) 0%, transparent 40%);
-    pointer-events: none;
-  }
-  .header-compass {
-    font-size: 2.8rem;
-    margin-bottom: 0.4rem;
-    filter: drop-shadow(0 0 12px rgba(201,168,76,0.5));
-    animation: floatCompass 6s ease-in-out infinite;
-  }
-  @keyframes floatCompass {
-    0%,100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-4px) rotate(3deg); }
-  }
-  .char-name {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 700;
-    color: var(--gold2);
-    letter-spacing: 0.08em;
-    text-shadow: 0 0 30px rgba(201,168,76,0.4), 0 2px 4px rgba(0,0,0,0.8);
-    line-height: 1.2;
-  }
-  .char-subtitle {
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    color: var(--teal);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-top: 0.4rem;
-  }
-  .header-divider {
-    width: 200px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold3), var(--gold), var(--gold3), transparent);
-    margin: 1rem auto 0;
-  }
-  .header-badges {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-  }
-  .badge {
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    background: rgba(255,255,255,0.03);
-    color: var(--text2);
-  }
-
-  /* ── LAYOUT ─────────────────────────────────── */
-  .sheet-body {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1.5rem;
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 1.5rem;
-    align-items: start;
-  }
-  @media (max-width: 900px) {
-    .sheet-body { grid-template-columns: 1fr; }
-  }
-
-  .sidebar { display: flex; flex-direction: column; gap: 1.2rem; }
-  .main-col { display: flex; flex-direction: column; gap: 1.2rem; }
-
-  /* ── PANEL ──────────────────────────────────── */
-  .panel {
-    background: var(--panel);
-    border: 1px solid var(--border2);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-  }
-  .panel::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold3), transparent);
-  }
-  .panel-title {
-    font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    padding: 0.65rem 1rem 0.5rem;
-    border-bottom: 1px solid var(--border2);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(201,168,76,0.03);
-  }
-  .panel-title::before {
-    content: '';
-    width: 4px; height: 4px;
-    background: var(--gold);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .panel-body { padding: 1rem; }
-
-  /* ── COMBAT STATS ───────────────────────────── */
-  .combat-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.6rem;
-  }
-  .combat-stat {
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 3px;
-    padding: 0.6rem 0.4rem;
-    text-align: center;
-  }
-  .combat-stat .val {
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1;
-  }
-  .combat-stat .lbl {
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin-top: 0.2rem;
-  }
-  .combat-stat.ac .val { color: var(--teal); }
-  .combat-stat.hp .val { color: #e74c3c; }
-  .combat-stat.spd .val { color: var(--gold); }
-
-  /* HP Bar */
-  .hp-bar-wrap {
-    margin-top: 0.8rem;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 2px;
-    height: 8px;
-    overflow: hidden;
-  }
-  .hp-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #c0392b, #e74c3c);
-    width: 100%;
-    transition: width 0.5s ease;
-    border-radius: 2px;
-  }
-
-  /* ── STATS ──────────────────────────────────── */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-  }
-  .stat-block {
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 3px;
-    padding: 0.5rem 0.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-  .stat-block .sname {
-    font-family: 'Cinzel', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text3);
-  }
-  .stat-block .sval {
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--white);
-    line-height: 1;
-  }
-  .stat-block .smod {
-    font-size: 0.75rem;
-    color: var(--text2);
-  }
-  .stat-block .ssave {
-    font-size: 0.65rem;
-    color: var(--teal);
-    letter-spacing: 0.05em;
-  }
-  .stat-right { text-align: right; }
-
-  /* ── SKILLS ─────────────────────────────────── */
-  .skills-list { display: flex; flex-direction: column; gap: 0.3rem; }
-  .skill-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.25rem 0.4rem;
-    border-radius: 2px;
-    transition: background 0.15s;
-  }
-  .skill-row:hover { background: rgba(255,255,255,0.03); }
-  .skill-row .sk-name {
-    font-size: 0.85rem;
-    color: var(--text);
-    font-style: italic;
-  }
-  .skill-row .sk-mod {
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--gold);
-    min-width: 32px;
-    text-align: right;
-  }
-
-  /* ── ATTACKS ────────────────────────────────── */
-  .attacks-list { display: flex; flex-direction: column; gap: 0.5rem; }
-  .attack-card {
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 3px;
-    padding: 0.6rem 0.8rem;
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    gap: 0.8rem;
-    transition: border-color 0.2s;
-  }
-  .attack-card:hover { border-color: var(--gold3); }
-  .atk-name {
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    color: var(--white);
-  }
-  .atk-hit {
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    color: var(--teal);
-    text-align: center;
-  }
-  .atk-hit span { font-size: 0.6rem; display: block; color: var(--text3); letter-spacing: 0.1em; }
-  .atk-dmg {
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    color: #e74c3c;
-    text-align: right;
-  }
-  .atk-dmg span { font-size: 0.6rem; display: block; color: var(--text3); letter-spacing: 0.05em; text-transform: capitalize; }
-
-  /* ── ABILITIES ──────────────────────────────── */
-  .abilities-section { display: flex; flex-direction: column; gap: 1.2rem; }
-
-  .origin-group {}
-  .origin-header {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 0.6rem;
-  }
-  .origin-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .origin-name {
-    font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text2);
-  }
-  .origin-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border2);
-  }
-
-  .abilities-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 0.7rem;
-  }
-
-  .ability-card {
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 4px;
-    padding: 0.75rem 0.9rem;
-    position: relative;
-    cursor: default;
-    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
-    overflow: hidden;
-  }
-  .ability-card::after {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    border-radius: 3px 0 0 3px;
-  }
-  .ability-card:hover {
-    border-color: var(--border);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-  }
-  .ability-card.used {
-    opacity: 0.45;
-    filter: grayscale(0.5);
-  }
-
-  .ab-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-bottom: 0.4rem;
-  }
-  .ab-name {
-    font-family: 'Cinzel', serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--white);
-    line-height: 1.3;
-  }
-  .ab-type {
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.15rem 0.4rem;
-    border-radius: 2px;
-    border: 1px solid;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .type-passiva  { color: #7f8c8d; border-color: #2c3e50; background: rgba(127,140,141,0.1); }
-  .type-azione   { color: var(--teal); border-color: var(--teal2); background: rgba(58,184,176,0.07); }
-  .type-bonus    { color: var(--gold); border-color: var(--gold3); background: rgba(201,168,76,0.07); }
-  .type-reazione { color: #e67e22; border-color: #7d4e0c; background: rgba(230,126,34,0.08); }
-  .type-rituale  { color: #8e44ad; border-color: #5a1e8c; background: rgba(142,68,173,0.1); }
-
-  .ab-desc {
-    font-size: 0.83rem;
-    color: var(--text2);
-    line-height: 1.55;
-    white-space: pre-line;
-    font-family: 'Crimson Pro', serif;
-  }
-  .ab-desc strong {
-    color: var(--text);
-    font-weight: 600;
-  }
-
-  .ab-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0.6rem;
-    gap: 0.5rem;
-  }
-  .ab-uses {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-  }
-  .use-pip {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: transparent;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .use-pip.filled { background: var(--gold); border-color: var(--gold); }
-  .use-pip:hover { border-color: var(--gold2); }
-
-  .ab-rest {
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text3);
-  }
-  .ab-rest.lungo { color: #8e44ad; }
-  .ab-rest.breve { color: #e67e22; }
-
-  .ab-stat-cd {
-    font-size: 0.62rem;
-    color: var(--text3);
-    letter-spacing: 0.08em;
-  }
-
-  /* Fav star */
-  .ab-fav {
-    position: absolute;
-    top: 0.5rem;
-    right: 2.8rem;
-    font-size: 0.7rem;
-    color: var(--gold);
-    opacity: 0.6;
-  }
-
-  /* ── TABS ───────────────────────────────────── */
-  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border2); }
-  .tab-btn {
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text3);
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    padding: 0.6rem 1rem;
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
-    margin-bottom: -1px;
-  }
-  .tab-btn:hover { color: var(--text2); }
-  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
-  .tab-pane { display: none; padding: 1rem; }
-  .tab-pane.active { display: block; }
-
-  /* ── REST BUTTONS ───────────────────────────── */
-  .rest-row {
-    display: flex;
-    gap: 0.6rem;
-    padding: 0.8rem 1rem;
-    border-top: 1px solid var(--border2);
-    background: rgba(0,0,0,0.2);
-  }
-  .rest-btn {
-    font-family: 'Cinzel', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.4rem 0.8rem;
-    border-radius: 2px;
-    border: 1px solid;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-  }
-  .rest-btn.breve {
-    color: #e67e22;
-    border-color: #7d4e0c;
-    background: rgba(230,126,34,0.07);
-  }
-  .rest-btn.breve:hover { background: rgba(230,126,34,0.18); }
-  .rest-btn.lungo {
-    color: #8e44ad;
-    border-color: #5a1e8c;
-    background: rgba(142,68,173,0.07);
-  }
-  .rest-btn.lungo:hover { background: rgba(142,68,173,0.18); }
-
-  /* ── RACIAL TRAITS ──────────────────────────── */
-  .traits-list { display: flex; flex-direction: column; gap: 0.8rem; }
-  .trait-item {}
-  .trait-name {
-    font-family: 'Cinzel', serif;
-    font-size: 0.78rem;
-    color: var(--teal);
-    margin-bottom: 0.2rem;
-    letter-spacing: 0.05em;
-  }
-  .trait-desc {
-    font-size: 0.83rem;
-    color: var(--text2);
-    line-height: 1.55;
-    font-style: italic;
-  }
-
-  /* ── PERCEPTION ─────────────────────────────── */
-  .perc-block {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 3px;
-    padding: 0.5rem 0.8rem;
-  }
-  .perc-label { font-size: 0.75rem; color: var(--text2); font-style: italic; }
-  .perc-val {
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    color: var(--teal);
-    font-weight: 600;
-  }
-
-  /* ── DICE ROLLER ────────────────────────────── */
-  .dice-area {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  .dice-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-  .dice-btn {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    padding: 0.4rem 0.7rem;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 3px;
-    color: var(--text2);
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.05em;
-  }
-  .dice-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--gold3); color: var(--gold); }
-  .dice-result {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 2rem;
-    color: var(--gold2);
-    text-align: center;
-    min-height: 2.5rem;
-    text-shadow: 0 0 20px rgba(201,168,76,0.4);
-    transition: all 0.2s;
-  }
-  .dice-log {
-    font-size: 0.75rem;
-    color: var(--text3);
-    font-style: italic;
-    text-align: center;
-    min-height: 1rem;
-  }
-
-  /* ── NOTES ──────────────────────────────────── */
-  .notes-area {
-    width: 100%;
-    min-height: 120px;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 3px;
-    color: var(--text);
-    font-family: 'Crimson Pro', serif;
-    font-size: 0.9rem;
-    padding: 0.6rem 0.8rem;
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.2s;
-    line-height: 1.6;
-  }
-  .notes-area:focus { border-color: var(--gold3); }
-  .notes-area::placeholder { color: var(--text3); font-style: italic; }
-
-  /* ── SCROLLBAR ──────────────────────────────── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-  /* ── ANIMATIONS ─────────────────────────────── */
-  @keyframes rollBounce {
-    0% { transform: scale(0.6) rotate(-10deg); opacity: 0; }
-    60% { transform: scale(1.15) rotate(3deg); }
-    100% { transform: scale(1) rotate(0deg); opacity: 1; }
-  }
-  .rolling { animation: rollBounce 0.35s ease forwards; }
-
-  .section-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 0.2rem 0;
-  }
+:root{--bg:#0a0c14;--bg2:#0f1220;--bg3:#141828;--panel:#111525;--border:#2a3050;--border2:#1e2640;--gold:#c9a84c;--gold2:#e8c96a;--gold3:#7a5c1e;--teal:#3ab8b0;--teal2:#1e6e68;--text:#d4cbb8;--text2:#9a9070;--text3:#6a6050;--white:#f0ead8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:16px;line-height:1.6;min-height:100vh;background-image:radial-gradient(ellipse at 20% 10%,rgba(58,184,176,0.04) 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(201,168,76,0.05) 0%,transparent 50%)}
+.header{background:linear-gradient(180deg,#080b14,var(--bg2));border-bottom:1px solid var(--border);padding:2.5rem 2rem 2rem;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.08) 0%,transparent 60%);pointer-events:none}
+.header-icon{font-size:2.8rem;margin-bottom:.4rem;filter:drop-shadow(0 0 12px rgba(201,168,76,0.5))}
+.char-name{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--gold2);letter-spacing:.08em;text-shadow:0 0 30px rgba(201,168,76,0.4),0 2px 4px rgba(0,0,0,0.8);line-height:1.2}
+.char-sub{font-family:'Cinzel',serif;font-size:.85rem;color:var(--teal);letter-spacing:.3em;text-transform:uppercase;margin-top:.4rem}
+.hline{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold3),var(--gold),var(--gold3),transparent);margin:1rem auto 0}
+.badges{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.badge{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;padding:.25rem .75rem;border:1px solid var(--border);border-radius:2px;background:rgba(255,255,255,0.03);color:var(--text2)}
+.body{max-width:1400px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:280px 1fr;gap:1.5rem;align-items:start}
+@media(max-width:900px){.body{grid-template-columns:1fr}}
+.side,.main{display:flex;flex-direction:column;gap:1.2rem}
+.panel{background:var(--panel);border:1px solid var(--border2);border-radius:4px;overflow:hidden;position:relative}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold3),transparent)}
+.pt{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);padding:.65rem 1rem .5rem;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:.5rem;background:rgba(201,168,76,0.03)}
+.pt::before{content:'';width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0}
+.pb{padding:1rem}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.cstat{background:var(--bg3);border:1px solid var(--border2);border-radius:3px;padding:.6rem .4rem;text-align:center}
+.cstat .v{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700;line-height:1}
+.cstat .l{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-top:.2rem}
+.cstat.ac .v{color:var(--teal)}.cstat.hp .v{color:#e74c3c}.cstat.sp .v{color:var(--gold)}
+.hpbar{margin-top:.8rem;background:var(--bg3);border:1px solid var(--border2);border-radius:2px;height:8px;overflow:hidden}
+.hpfill{height:100%;background:linear-gradient(90deg,#c0392b99,#e74c3c);border-radius:2px}
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+.sblk{background:var(--bg3);border:1px solid var(--border2);border-radius:3px;padding:.5rem .6rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.sblk .sn{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.sblk .sv{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--white);line-height:1}
+.sblk .sm{font-size:.75rem;color:var(--text2)}
+.sblk .ss{font-size:.65rem;letter-spacing:.05em}
+.sr{text-align:right}
+.skl{display:flex;flex-direction:column;gap:.3rem}
+.skr{display:flex;align-items:center;justify-content:space-between;padding:.25rem .4rem;border-radius:2px}
+.skr:hover{background:rgba(255,255,255,0.03)}
+.skr .kn{font-size:.85rem;color:var(--text);font-style:italic}
+.skr .km{font-family:'Cinzel',serif;font-size:.8rem;font-weight:600;color:var(--gold);min-width:32px;text-align:right}
+.atks{display:flex;flex-direction:column;gap:.5rem}
+.atkc{background:var(--bg3);border:1px solid var(--border2);border-radius:3px;padding:.6rem .8rem;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.8rem}
+.atkc:hover{border-color:var(--gold3)}
+.an{font-family:'Cinzel',serif;font-size:.85rem;color:var(--white)}
+.ah{font-family:'Cinzel',serif;font-size:.8rem;color:var(--teal);text-align:center}
+.ah span{font-size:.6rem;display:block;color:var(--text3);letter-spacing:.1em}
+.ad{font-family:'Cinzel',serif;font-size:.85rem;color:#e74c3c;text-align:right}
+.ad span{font-size:.6rem;display:block;color:var(--text3);text-transform:capitalize}
+.abg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.7rem}
+.abc{background:var(--bg3);border:1px solid var(--border2);border-radius:4px;padding:.75rem .9rem;position:relative;overflow:hidden;transition:border-color .2s,transform .15s,box-shadow .2s}
+.abc:hover{border-color:var(--border);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.4)}
+.abt{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.4rem}
+.abn{font-family:'Cinzel',serif;font-size:.82rem;font-weight:600;color:var(--white);line-height:1.3}
+.abty{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.15rem .4rem;border-radius:2px;border:1px solid;white-space:nowrap;flex-shrink:0}
+.t-pas{color:#7f8c8d;border-color:#2c3e50;background:rgba(127,140,141,0.1)}
+.t-az{color:var(--teal);border-color:var(--teal2);background:rgba(58,184,176,0.07)}
+.t-bon{color:var(--gold);border-color:var(--gold3);background:rgba(201,168,76,0.07)}
+.t-rea{color:#e67e22;border-color:#7d4e0c;background:rgba(230,126,34,0.08)}
+.t-rit{color:#8e44ad;border-color:#5a1e8c;background:rgba(142,68,173,0.1)}
+.abd{font-size:.83rem;color:var(--text2);line-height:1.55;white-space:pre-line;font-family:'Crimson Pro',serif}
+.abf{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem;gap:.5rem}
+.pips{display:flex;align-items:center;gap:.35rem}
+.pip{width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:transparent}
+.abr{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.abr.lungo{color:#8e44ad}.abr.breve{color:#e67e22}
+.abcd{font-size:.62rem;color:var(--text3);letter-spacing:.08em}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border2);flex-wrap:wrap}
+.tbtn{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);background:none;border:none;border-bottom:2px solid transparent;padding:.6rem 1rem;cursor:pointer;margin-bottom:-1px;transition:color .2s,border-color .2s}
+.tbtn:hover{color:var(--text2)}.tbtn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tpane{display:none;padding:1rem}.tpane.active{display:block}
+.ohead{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
+.odot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.oname{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text2)}
+.oline{flex:1;height:1px;background:var(--border2)}
+.pblk{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border2);border-radius:3px;padding:.5rem .8rem}
+.plb{font-size:.75rem;color:var(--text2);font-style:italic}
+.pvl{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--teal);font-weight:600}
+.trl{display:flex;flex-direction:column;gap:.8rem}
+.trn{font-family:'Cinzel',serif;font-size:.78rem;color:var(--teal);margin-bottom:.2rem;letter-spacing:.05em}
+.trd{font-size:.83rem;color:var(--text2);line-height:1.55;font-style:italic}
+.dice-area{display:flex;flex-direction:column;gap:.6rem}
+.dice-row{display:flex;flex-wrap:wrap;gap:.4rem}
+.dbtn{font-family:'Cinzel',serif;font-size:.75rem;padding:.4rem .7rem;background:var(--bg3);border:1px solid var(--border2);border-radius:3px;color:var(--text2);cursor:pointer;transition:all .15s;letter-spacing:.05em}
+.dbtn:hover{background:rgba(201,168,76,0.1);border-color:var(--gold3);color:var(--gold)}
+.dres{font-family:'Cinzel Decorative',serif;font-size:2rem;color:var(--gold2);text-align:center;min-height:2.5rem;text-shadow:0 0 20px rgba(201,168,76,0.4)}
+.dlog{font-size:.75rem;color:var(--text3);font-style:italic;text-align:center;min-height:1rem}
+@keyframes rollB{0%{transform:scale(.6) rotate(-10deg);opacity:0}60%{transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.rolling{animation:rollB .35s ease forwards}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 </style>
 </head>
 <body>
-
-<!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
-<div class="sheet-header">
-  <div class="header-compass">🧭</div>
-  <div class="char-name">Eliah Pucci</div>
-  <div class="char-subtitle">Skypiean · Livello 7</div>
-  <div class="header-divider"></div>
-  <div class="header-badges">
-    <span class="badge">Navigatore 5</span>
-    <span class="badge">Cecchino 1</span>
-    <span class="badge">Carpentiere 1</span>
-    <span class="badge">Competenza +3</span>
-    <span class="badge">Dado Vita 1d8</span>
+<div class="header">
+  <div class="header-icon" id="hicon">⚔️</div>
+  <div class="char-name" id="cname"></div>
+  <div class="char-sub" id="csub"></div>
+  <div class="hline"></div>
+  <div class="badges" id="badges"></div>
+</div>
+<div class="body">
+  <div class="side">
+    <div class="panel"><div class="pt">Statistiche di Combattimento</div><div class="pb">
+      <div class="cgrid">
+        <div class="cstat ac"><div class="v" id="vac">—</div><div class="l">CA</div></div>
+        <div class="cstat hp"><div class="v" id="vhp">—</div><div class="l">PF</div></div>
+        <div class="cstat sp"><div class="v" id="vsp">—</div><div class="l">Vel.</div></div>
+      </div>
+      <div class="hpbar"><div class="hpfill" id="hpbar"></div></div>
+      <div style="margin-top:.8rem"><div class="pblk"><span class="plb">Percezione Passiva</span><span class="pvl" id="vpp">—</span></div></div>
+    </div></div>
+    <div class="panel"><div class="pt">Caratteristiche</div><div class="pb"><div class="sgrid" id="sgrid"></div><div style="margin-top:.5rem;font-size:.65rem;color:var(--text3);font-style:italic;text-align:right">✦ = TS con competenza</div></div></div>
+    <div class="panel"><div class="pt">Abilità</div><div class="pb" style="padding:.6rem .8rem"><div class="skl" id="skills"></div></div></div>
+    <div class="panel"><div class="pt" id="rtitle">🧬 Tratti Razziali</div><div class="pb"><div class="trl" id="traits"></div></div></div>
+    <div class="panel"><div class="pt">🎲 Tira Dado</div><div class="pb"><div class="dice-area"><div class="dice-row"><button class="dbtn" onclick="roll(4)">d4</button><button class="dbtn" onclick="roll(6)">d6</button><button class="dbtn" onclick="roll(8)">d8</button><button class="dbtn" onclick="roll(10)">d10</button><button class="dbtn" onclick="roll(12)">d12</button><button class="dbtn" onclick="roll(20)">d20</button><button class="dbtn" onclick="roll(100)">d100</button></div><div class="dres" id="dres">—</div><div class="dlog" id="dlog"></div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="panel"><div class="pt">⚔️ Attacchi</div><div class="pb"><div class="atks" id="attacks"></div></div></div>
+    <div class="panel"><div class="tabs" id="tabs"></div><div id="tcontent"></div></div>
+    <div class="panel" id="notesPanel" style="display:none"><div class="pt">📜 Note</div><div class="pb"><div id="notes" style="font-size:.9rem;color:var(--text2);white-space:pre-line;line-height:1.6"></div></div></div>
   </div>
 </div>
 
-<!-- ══ BODY ════════════════════════════════════════════════════════════ -->
-<div class="sheet-body">
-
-  <!-- ── SIDEBAR ─────────────────────────────── -->
-  <div class="sidebar">
-
-    <!-- Combat Stats -->
-    <div class="panel">
-      <div class="panel-title">Statistiche di Combattimento</div>
-      <div class="panel-body">
-        <div class="combat-grid">
-          <div class="combat-stat ac">
-            <div class="val">17</div>
-            <div class="lbl">CA</div>
-          </div>
-          <div class="combat-stat hp">
-            <div class="val" id="hp-display">58</div>
-            <div class="lbl">PF</div>
-          </div>
-          <div class="combat-stat spd">
-            <div class="val">28m</div>
-            <div class="lbl">Vel.</div>
-          </div>
-        </div>
-        <div class="hp-bar-wrap" style="margin-top:0.8rem">
-          <div class="hp-bar-fill" id="hp-bar"></div>
-        </div>
-        <div style="display:flex;gap:0.4rem;margin-top:0.6rem">
-          <button onclick="changeHp(-1)" style="flex:1;font-family:'Cinzel',serif;font-size:0.7rem;padding:0.3rem;background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.3);color:#e74c3c;border-radius:2px;cursor:pointer;letter-spacing:0.1em;">− PF</button>
-          <button onclick="changeHp(1)"  style="flex:1;font-family:'Cinzel',serif;font-size:0.7rem;padding:0.3rem;background:rgba(39,174,96,0.12);border:1px solid rgba(39,174,96,0.25);color:#27ae60;border-radius:2px;cursor:pointer;letter-spacing:0.1em;">+ PF</button>
-          <button onclick="resetHp()"    style="flex:1;font-family:'Cinzel',serif;font-size:0.7rem;padding:0.3rem;background:rgba(201,168,76,0.08);border:1px solid var(--gold3);color:var(--gold);border-radius:2px;cursor:pointer;letter-spacing:0.1em;">Reset</button>
-        </div>
-        <div style="margin-top:0.8rem">
-          <div class="perc-block">
-            <span class="perc-label">Percezione Passiva</span>
-            <span class="perc-val">16</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Caratteristiche -->
-    <div class="panel">
-      <div class="panel-title">Caratteristiche</div>
-      <div class="panel-body">
-        <div class="stats-grid">
-          <div class="stat-block">
-            <div>
-              <div class="sname">Forza</div>
-              <div class="sval">8</div>
-              <div class="smod">−1</div>
-            </div>
-            <div class="stat-right">
-              <div class="ssave">TS +2 ✦</div>
-            </div>
-          </div>
-          <div class="stat-block">
-            <div>
-              <div class="sname">Destrezza</div>
-              <div class="sval">17</div>
-              <div class="smod">+3</div>
-            </div>
-            <div class="stat-right">
-              <div class="ssave">TS +6 ✦</div>
-            </div>
-          </div>
-          <div class="stat-block">
-            <div>
-              <div class="sname">Costituzione</div>
-              <div class="sval">11</div>
-              <div class="smod">+0</div>
-            </div>
-            <div class="stat-right">
-              <div class="ssave">TS +3 ✦</div>
-            </div>
-          </div>
-          <div class="stat-block">
-            <div>
-              <div class="sname">Intelligenza</div>
-              <div class="sval">14</div>
-              <div class="smod">+2</div>
-            </div>
-            <div class="stat-right">
-              <div class="ssave">TS +5 ✦</div>
-            </div>
-          </div>
-          <div class="stat-block">
-            <div>
-              <div class="sname">Saggezza</div>
-              <div class="sval">12</div>
-              <div class="smod">+1</div>
-            </div>
-            <div class="stat-right">
-              <div class="ssave" style="color:var(--text3)">TS +1</div>
-            </div>
-          </div>
-          <div class="stat-block">
-            <div>
-              <div class="sname">Carisma</div>
-              <div class="sval">11</div>
-              <div class="smod">+0</div>
-            </div>
-            <div class="stat-right">
-              <div class="ssave" style="color:var(--text3)">TS +0</div>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:0.5rem;font-size:0.65rem;color:var(--text3);font-style:italic;text-align:right">✦ = tiro salvezza con competenza</div>
-      </div>
-    </div>
-
-    <!-- Abilità -->
-    <div class="panel">
-      <div class="panel-title">Abilità</div>
-      <div class="panel-body" style="padding:0.6rem 0.8rem">
-        <div class="skills-list" id="skills-list"></div>
-      </div>
-    </div>
-
-    <!-- Razza -->
-    <div class="panel">
-      <div class="panel-title">☁️ Tratti Razziali — Skypiean</div>
-      <div class="panel-body">
-        <div class="traits-list">
-          <div class="trait-item">
-            <div class="trait-name">Volo</div>
-            <div class="trait-desc">Velocità di volo 12m (40 piedi), utilizzabile per un'ora al giorno.</div>
-          </div>
-          <div class="trait-item">
-            <div class="trait-name">Spirito del Vento</div>
-            <div class="trait-desc">Vantaggio nelle prove di Acrobazia quando sei in volo.</div>
-          </div>
-          <div class="trait-item">
-            <div class="trait-name">Agilità Aerea</div>
-            <div class="trait-desc">Puoi effettuare un'azione di acrobazia o slancio come <em>azione bonus</em> quando sei in volo.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dado -->
-    <div class="panel">
-      <div class="panel-title">🎲 Tira Dado</div>
-      <div class="panel-body">
-        <div class="dice-area">
-          <div class="dice-row">
-            <button class="dice-btn" onclick="rollDice(4)">d4</button>
-            <button class="dice-btn" onclick="rollDice(6)">d6</button>
-            <button class="dice-btn" onclick="rollDice(8)">d8</button>
-            <button class="dice-btn" onclick="rollDice(10)">d10</button>
-            <button class="dice-btn" onclick="rollDice(12)">d12</button>
-            <button class="dice-btn" onclick="rollDice(20)">d20</button>
-            <button class="dice-btn" onclick="rollDice(100)">d100</button>
-          </div>
-          <div class="dice-result" id="dice-result">—</div>
-          <div class="dice-log" id="dice-log"></div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /sidebar -->
-
-  <!-- ── MAIN COLUMN ──────────────────────────── -->
-  <div class="main-col">
-
-    <!-- Attacchi -->
-    <div class="panel">
-      <div class="panel-title">⚔️ Attacchi</div>
-      <div class="panel-body">
-        <div class="attacks-list" id="attacks-list"></div>
-      </div>
-    </div>
-
-    <!-- Abilità Tabs -->
-    <div class="panel">
-      <div class="tabs" id="tabs-bar"></div>
-      <div id="tab-content"></div>
-      <div class="rest-row">
-        <button class="rest-btn breve" onclick="doRest('breve')">🌙 Riposo Breve</button>
-        <button class="rest-btn lungo" onclick="doRest('lungo')">⭐ Riposo Lungo</button>
-      </div>
-    </div>
-
-    <!-- Note -->
-    <div class="panel">
-      <div class="panel-title">📜 Note</div>
-      <div class="panel-body">
-        <textarea class="notes-area" placeholder="Scrivi note, promemoria o dettagli della sessione…" id="notes-area"></textarea>
-      </div>
-    </div>
-
-  </div><!-- /main-col -->
-</div><!-- /sheet-body -->
-
 <script>
-// ══ DATA ══════════════════════════════════════════════════════════════
-const char = {
-  hpMax: 58, hpCurrent: 58,
-  skills: [
-    { name: "Navigazione", mod: 5 },
-    { name: "Atletica", mod: 9 },
-    { name: "Natura", mod: 4 },
-    { name: "Sopravvivenza", mod: 4 },
-    { name: "Percezione", mod: 5 },
-    { name: "Artigianato", mod: 5 },
-    { name: "Intimidire", mod: 3 },
-    { name: "Storia", mod: 4 }
-  ],
-  attacks: [
-    { id:"atk1", name:"Balestra",            hit:6, damage:"3d6+3", type:"perforante" },
-    { id:"atk2", name:"Pattini (contundente)",hit:6, damage:"1d8+3", type:"contundente" },
-    { id:"atk3", name:"Pattini (tagliente)",  hit:6, damage:"1d6+3", type:"tagliente" }
-  ],
-  origins: [
-    { id:"cecchino",   name:"Cecchino",          color:"#e74c3c" },
-    { id:"carpentiere",name:"Carpentiere",        color:"#e67e22" },
-    { id:"navigatore", name:"Navigatore",         color:"#3498db" },
-    { id:"haki_arm",   name:"Haki Armatura",      color:"#8e44ad" },
-    { id:"haki_oss",   name:"Haki Osservazione",  color:"#1abc9c" },
-    { id:"haki_re",    name:"Haki del Re",        color:"#f1c40f" }
-  ],
-  abilities: [
-    {
-      id:"a1", name:"Colpo Letale", originId:"cecchino", type:"Passiva",
-      desc:"Una volta per turno, aggiungi 1d6 al danno di un attacco a distanza.",
-      maxUses:-1, uses:0, rest:null, fav:true, cdStat:null
+/* ══════════════════════════════════════════════════════════════
+   DATA — INCOLLA QUI IL JSON DEL PERSONAGGIO
+   Supporta sia il formato export { account, character: {...} }
+   sia il formato bare { name, stats, ... }
+   ══════════════════════════════════════════════════════════════ */
+const charData = {
+  "account": "Ciccio",
+  "accountId": "ciccio",
+  "exportedAt": "2026-03-30T11:03:05.324Z",
+  "character": {
+    "id": "eliah_pucci_001",
+    "name": "Eliah Pucci",
+    "race": "Skypiean",
+    "level": 7,
+    "classes": "Navigatore 5 / Cecchino 1 / Carpentiere 1",
+    "ac": 17,
+    "hpMax": 58,
+    "hpCurrent": 58,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 28,
+    "passivePerception": 16,
+    "profBonus": 3,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 8,
+        "mod": -1,
+        "save": 2,
+        "profSave": true
+      },
+      "DES": {
+        "score": 17,
+        "mod": 3,
+        "save": 6,
+        "profSave": true
+      },
+      "COS": {
+        "score": 11,
+        "mod": 0,
+        "save": 3,
+        "profSave": true
+      },
+      "INT": {
+        "score": 14,
+        "mod": 2,
+        "save": 5,
+        "profSave": true
+      },
+      "SAG": {
+        "score": 12,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      }
     },
-    {
-      id:"a2", name:"Colpo con la Punta", originId:"carpentiere", type:"Azione",
-      desc:"Infliggi 1d8 danni contundenti aggiuntivi con un'arma da mischia (martello o equivalente).",
-      maxUses:-1, uses:0, rest:null, fav:true, cdStat:null
-    },
-    {
-      id:"a3", name:"Riparazione Rapida", originId:"carpentiere", type:"Azione",
-      desc:"Ripara un oggetto o struttura ripristinando fino a 10 PF.",
-      maxUses:-1, uses:0, rest:null, fav:false, cdStat:null
-    },
-    {
-      id:"a4", name:"Guida Impeccabile", originId:"navigatore", type:"Azione",
-      desc:"Concedi vantaggio a un alleato su un tiro salvezza o una prova di abilità legata al movimento.",
-      maxUses:-1, uses:0, rest:null, fav:true, cdStat:null
-    },
-    {
-      id:"a5", name:"Controllo del Vento", originId:"navigatore", type:"Azione",
-      desc:"Crea raffiche di vento che rallentano o spingono i nemici entro 9m (30 piedi).",
-      maxUses:-1, uses:0, rest:null, fav:false, cdStat:null
-    },
-    {
-      id:"a6", name:"Velocità di Fuga", originId:"navigatore", type:"Passiva",
-      desc:"+3m alla velocità di movimento. Puoi Disimpegnarti come azione bonus.",
-      maxUses:-1, uses:0, rest:null, fav:false, cdStat:null
-    },
-    {
-      id:"a7", name:"Chiamata degli Elementi", originId:"navigatore", type:"Azione",
-      desc:"Evoca una tempesta locale: 3d8 danni elementali a scelta (fulmine, vento o acqua) a tutti i nemici in un'area di 6m (20 piedi).",
-      maxUses:-1, uses:0, rest:null, fav:true, cdStat:null
-    },
-    {
-      id:"a8", name:"Aura di Vita", originId:"haki_arm", type:"Azione",
-      desc:"Ottieni 1d6 + punteggio COS + livello del personaggio in PF temporanei.\nUso: 3× — Recupero: riposo lungo.",
-      maxUses:3, uses:0, rest:"lungo", fav:true, cdStat:"COS"
-    },
-    {
-      id:"a9", name:"Armatura dell'Anima", originId:"haki_arm", type:"Azione",
-      desc:"La tua CA diventa 13 + modificatore COS per 8 ore. Funziona solo se non indossi armature.\nUso: 1× — Recupero: riposo lungo.",
-      maxUses:1, uses:0, rest:"lungo", fav:false, cdStat:"COS"
-    },
-    {
-      id:"a10", name:"Esplosione Spirituale", originId:"haki_arm", type:"Passiva",
-      desc:"Quando colpisci con un attacco melee o senz'armi, puoi infliggere 2d8 danni da forza aggiuntivi. Solo 1 volta per round, durante il tuo turno.\nUso: 3× — Recupero: riposo lungo.",
-      maxUses:3, uses:0, rest:"lungo", fav:true, cdStat:"COS"
-    },
-    {
-      id:"a11", name:"Indurimento delle Armi", originId:"haki_arm", type:"Azione bonus",
-      desc:"Un'arma o attacco senz'armi a scelta diventa magico con +1 ai tiri per colpire e ai danni per 1 minuto. L'effetto termina se perdi conoscenza, lo usi di nuovo, lo annulli come azione bonus, o inizi il turno senza tenere l'arma.\nUso: 3× — Recupero: riposo lungo.",
-      maxUses:3, uses:0, rest:"lungo", fav:true, cdStat:"COS"
-    },
-    {
-      id:"a12", name:"Vaso della Resilienza", originId:"haki_arm", type:"Azione",
-      desc:"Per 1 minuto: resistenza ai danni contundenti, perforanti e taglienti da attacchi non magici + vantaggio ai TS su Costituzione.\nUso: 1× — Recupero: riposo lungo.",
-      maxUses:1, uses:0, rest:"lungo", fav:false, cdStat:"COS"
-    },
-    {
-      id:"a13", name:"Conquista del Re", originId:"haki_arm", type:"Azione bonus",
-      desc:"Si attiva insieme a Indurimento delle Armi. Per 1 minuto:\n• Portata dell'arma +3m.\n• Ogni colpo può spingere il bersaglio fino a 3m.\n• Il bersaglio è stordito fino al tuo prossimo turno (TS COS annulla).\n• 1×/round: infliggi danni forza extra pari a (2 × bonus competenza) + mod. COS.\nUso: 1× — Recupero: riposo lungo.",
-      maxUses:1, uses:0, rest:"lungo", fav:true, cdStat:"COS"
-    },
-    {
-      id:"a14", name:"Vista Lontana", originId:"haki_oss", type:"Azione bonus",
-      desc:"Per 1 minuto: gittata di tutte le armi a distanza raddoppiata + nessuno svantaggio per attacchi a lunga distanza.\nUso: 1× — Recupero: riposo lungo.",
-      maxUses:1, uses:0, rest:"lungo", fav:true, cdStat:"SAG"
-    },
-    {
-      id:"a15", name:"Colpo Echeggiante", originId:"haki_oss", type:"Azione bonus",
-      desc:"Se manchi un attacco a distanza, puoi usare l'azione bonus per ritirare il dado contro una creatura diversa entro la gittata. Il colpo rimbalza su una superficie solida prima di colpire.\nUso: 3× — Recupero: riposo lungo.",
-      maxUses:3, uses:0, rest:"lungo", fav:false, cdStat:"SAG"
-    },
-    {
-      id:"a16", name:"Prevedi il Risultato", originId:"haki_oss", type:"Reazione",
-      desc:"Prima che venga determinato l'esito di un tiro, forza un rilancio del d20 — tuo o di chi ti attacca/fa TS contro di te. Se il tiro era con vantaggio/svantaggio, vengono rilanciati entrambi i d20.\nUso: 1× — Recupero: riposo lungo.",
-      maxUses:1, uses:0, rest:"lungo", fav:true, cdStat:"SAG"
-    },
-    {
-      id:"a17", name:"Senso Spirituale", originId:"haki_oss", type:"Azione",
-      desc:"Percepisci la presenza di creature invisibili, nascoste o camuffate entro 18m, purché non ci sia una copertura totale tra voi.\nUso: 3× — Recupero: riposo lungo.",
-      maxUses:3, uses:0, rest:"lungo", fav:false, cdStat:"SAG"
-    },
-    {
-      id:"a18", name:"Attacco Predittivo", originId:"haki_oss", type:"Reazione",
-      desc:"Quando una creatura ti manca con un attacco in mischia, puoi immediatamente effettuare un attacco melee di risposta contro di essa.\nUso: 3× — Recupero: riposo lungo.",
-      maxUses:3, uses:0, rest:"lungo", fav:false, cdStat:"SAG"
-    },
-    {
-      id:"a19", name:"La Richiesta del Signore", originId:"haki_re", type:"Azione",
-      desc:"Impartisci un comando verbale (max 10 parole) a una creatura visibile entro 18m. TS Saggezza: se fallisce, esegue il comando nel suo prossimo turno al meglio delle sue capacità.\nUso: 1× — Recupero: riposo breve o lungo.",
-      maxUses:1, uses:0, rest:"breve", fav:true, cdStat:"CAR"
-    },
-    {
-      id:"a20", name:"La Risolutezza del Re", originId:"haki_re", type:"Reazione",
-      desc:"Quando saresti ridotto a 0 PF senza essere ucciso sul colpo, scendi invece a 1 PF.\nUso: 1× — Recupero: riposo lungo.",
-      maxUses:1, uses:0, rest:"lungo", fav:true, cdStat:"CAR"
-    },
-    {
-      id:"a21", name:"Il Ruggito del Monarca", originId:"haki_re", type:"Azione",
-      desc:"Emetti un urlo fragoroso in un cono di 4,5m. Ogni creatura nel cono deve fare un TS Costituzione o essere assordata e stordita fino alla fine del tuo prossimo turno.\nUso: 1× — Recupero: riposo lungo.",
-      maxUses:1, uses:0, rest:"lungo", fav:true, cdStat:"CAR"
-    },
-    {
-      id:"a22", name:"Voce Influente", originId:"haki_re", type:"Azione",
-      desc:"Lancia Fascino su Persona senza consumare slot incantesimo né componenti materiali.\nUso: 3× — Recupero: riposo lungo.",
-      maxUses:3, uses:0, rest:"lungo", fav:false, cdStat:"CAR"
-    },
-    {
-      id:"a23", name:"Sguardo Spaventoso", originId:"haki_re", type:"Azione",
-      desc:"Lancia Causare Paura senza consumare slot incantesimo né componenti materiali.\nUso: 3× — Recupero: riposo lungo.",
-      maxUses:3, uses:0, rest:"lungo", fav:false, cdStat:"CAR"
-    },
-    {
-      id:"a24", name:"Compagno del Re", originId:"haki_re", type:"Rituale",
-      desc:"Lancia Trova Famiglio come rituale senza componenti materiali. Il famiglio può avere l'aspetto di qualsiasi piccola creatura.\nQuando effettui l'azione di Attacco, puoi rinunciare a uno dei tuoi attacchi per far attaccare il famiglio con la sua reazione.",
-      maxUses:-1, uses:0, rest:null, fav:false, cdStat:"CAR"
-    }
-  ]
+    "skills": [
+      {
+        "name": "Navigazione",
+        "mod": 5
+      },
+      {
+        "name": "Atletica",
+        "mod": 9
+      },
+      {
+        "name": "Natura",
+        "mod": 4
+      },
+      {
+        "name": "Sopravvivenza",
+        "mod": 4
+      },
+      {
+        "name": "Percezione",
+        "mod": 5
+      },
+      {
+        "name": "Artigianato",
+        "mod": 5
+      },
+      {
+        "name": "Intimidire",
+        "mod": 3
+      },
+      {
+        "name": "Storia",
+        "mod": 4
+      }
+    ],
+    "origins": [
+      {
+        "id": "cecchino",
+        "name": "Cecchino",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "carpentiere",
+        "name": "Carpentiere",
+        "color": "#e67e22"
+      },
+      {
+        "id": "navigatore",
+        "name": "Navigatore",
+        "color": "#3498db"
+      },
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "atk1",
+        "name": "Balestra",
+        "hit": 6,
+        "damage": "3d6+3",
+        "type": "perforante"
+      },
+      {
+        "id": "atk2",
+        "name": "Pattini (contundente)",
+        "hit": 6,
+        "damage": "1d8+3",
+        "type": "contundente"
+      },
+      {
+        "id": "atk3",
+        "name": "Pattini (tagliente)",
+        "hit": 6,
+        "damage": "1d6+3",
+        "type": "tagliente"
+      }
+    ],
+    "abilities": [
+      {
+        "id": "a1",
+        "name": "Colpo Letale",
+        "originId": "cecchino",
+        "type": "Passiva",
+        "desc": "+1d6 a distanza\nUna volta per turno, aggiungi 1d6 al danno di un attacco a distanza.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a2",
+        "name": "Colpo con la Punta",
+        "originId": "carpentiere",
+        "type": "Azione",
+        "desc": "+1d8 contundente melee\nColpo speciale con martello che infligge 1d8 danni contundenti aggiuntivi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a3",
+        "name": "Riparazione Rapida",
+        "originId": "carpentiere",
+        "type": "Azione",
+        "desc": "Ripara oggetti/strutture\nRipristina fino a 10 PF su oggetti o strutture danneggiate.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a4",
+        "name": "Guida Impeccabile",
+        "originId": "navigatore",
+        "type": "Azione",
+        "desc": "Vantaggio a un alleato\nConcedi vantaggio a un alleato su un TS o prova legata al movimento.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a5",
+        "name": "Controllo del Vento",
+        "originId": "navigatore",
+        "type": "Azione",
+        "desc": "Raffiche di vento offensive\nCrea raffiche che rallentano o spingono i nemici entro 9m.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a6",
+        "name": "Velocità di Fuga",
+        "originId": "navigatore",
+        "type": "Passiva",
+        "desc": "Mobilità aumentata\n+3m di movimento e Disimpegno disponibile come azione bonus.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a7",
+        "name": "Chiamata degli Elementi",
+        "originId": "navigatore",
+        "type": "Azione",
+        "desc": "Tempesta elementale ad area\nEvoca una tempesta che infligge 3d8 danni (fulmine/vento/acqua) in un'area di 6m.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "a8",
+        "name": "Aura di Vita",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "PF temporanei da spirito\nGuadagna 1d6 + COS + livello PF temporanei. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a9",
+        "name": "Armatura dell'Anima",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "CA spirituale senza armatura\nLa tua CA diventa 13 + mod. COS per 8 ore, solo se non indossi armature. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a10",
+        "name": "Esplosione Spirituale",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "+2d8 forza in mischia\nUna volta per round, un colpo melee infligge 2d8 danni forza aggiuntivi. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a11",
+        "name": "Indurimento delle Armi",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Arma magica +1 per 1 minuto\nRicopri un'arma con l'haki: diventa magica con +1 a colpire e ai danni per 1 min. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a12",
+        "name": "Vaso della Resilienza",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Resistenza fisica per 1 minuto\nResistenza ai danni fisici non magici e vantaggio ai TS su COS per 1 min. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a13",
+        "name": "Conquista del Re",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Portata +3m, spinge e stordisce\nAttiva con Indurimento: portata +3m, i colpi spingono 3m e stordiscono (TS COS), +danno forza 1×/round. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "COS",
+        "fav": false
+      },
+      {
+        "id": "a14",
+        "name": "Vista Lontana",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Gittata doppia per 1 minuto\nRaddoppia la gittata delle armi a distanza ed elimina lo svantaggio da lunga distanza. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a15",
+        "name": "Colpo Echeggiante",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Rimbalza su altro bersaglio\nSe manchi un attacco a distanza, ritira contro un bersaglio diverso in gittata. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a16",
+        "name": "Prevedi il Risultato",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Rilancia qualsiasi d20\nPrima dell'esito, forza un rilancio su un tiro tuo o di chi ti attacca. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a17",
+        "name": "Senso Spirituale",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Percepisce creature nascoste\nRivela creature invisibili o nascoste entro 18m (no copertura totale). Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a18",
+        "name": "Attacco Predittivo",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Contrattacca chi ti manca\nQuando un nemico ti manca in mischia, esegui subito un attacco melee di risposta. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": false
+      },
+      {
+        "id": "a19",
+        "name": "La Richiesta del Signore",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Comando verbale obbligato\nImpartisci un comando (max 10 parole) a una creatura entro 18m: TS SAG o lo esegue. Usabile 1× per riposo breve.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a20",
+        "name": "La Risolutezza del Re",
+        "originId": "haki_re",
+        "type": "Reazione",
+        "desc": "Sopravvivi a 0 PF\nQuando saresti ridotto a 0 PF, scendi invece a 1 PF. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a21",
+        "name": "Il Ruggito del Monarca",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Urlo che assorda e stordisce\nCono di 4,5m: TS COS o le creature sono assordate e stordite fino al tuo prossimo turno. Usabile 1× per riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a22",
+        "name": "Voce Influente",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Fascino senza slot\nLancia Fascino su Persona senza consumare slot incantesimo. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a23",
+        "name": "Sguardo Spaventoso",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Paura senza slot\nLancia Causare Paura senza consumare slot incantesimo. Usabile 3× per riposo lungo.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "a24",
+        "name": "Compagno del Re",
+        "originId": "haki_re",
+        "type": "Rituale",
+        "desc": "Famiglio che può attaccare\nEvoca un famiglio come rituale senza materiali; può attaccare al posto di uno dei tuoi attacchi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": false
+      }
+    ],
+    "notes": "",
+    "diceLog": []
+  }
 };
 
-// ══ STATE ═════════════════════════════════════════════════════════════
-let hpCurrent = char.hpMax;
-let abilityUses = {};
-char.abilities.forEach(a => { abilityUses[a.id] = a.uses || 0; });
-let notes = '';
-let activeTab = char.origins[0].id;
-
-// ══ HP ════════════════════════════════════════════════════════════════
-function updateHpUI() {
-  const pct = Math.max(0, Math.min(100, (hpCurrent / char.hpMax) * 100));
-  document.getElementById('hp-display').textContent = hpCurrent;
-  document.getElementById('hp-bar').style.width = pct + '%';
-  const c = pct > 50 ? '#e74c3c' : pct > 25 ? '#e67e22' : '#c0392b';
-  document.getElementById('hp-bar').style.background = `linear-gradient(90deg, ${c}99, ${c})`;
-}
-function changeHp(delta) {
-  const v = parseInt(prompt(delta > 0 ? 'Quanti PF recuperi?' : 'Quanti PF perdi?') || '0');
-  if (isNaN(v) || v <= 0) return;
-  hpCurrent = Math.max(0, Math.min(char.hpMax, hpCurrent + (delta > 0 ? v : -v)));
-  updateHpUI();
-}
-function resetHp() { hpCurrent = char.hpMax; updateHpUI(); }
-
-// ══ SKILLS ════════════════════════════════════════════════════════════
-function renderSkills() {
-  const el = document.getElementById('skills-list');
-  el.innerHTML = char.skills.map(s => `
-    <div class="skill-row">
-      <span class="sk-name">${s.name}</span>
-      <span class="sk-mod">${s.mod >= 0 ? '+' : ''}${s.mod}</span>
-    </div>
-  `).join('');
+/* ══════════════════════════════════════════════════════════════
+   TRATTI RAZZIALI — Modifica manualmente
+   ══════════════════════════════════════════════════════════════ */
+function getRacialTraits(){
+  return {
+    emoji: "🧬",
+    traits: [
+      // { name: "Nome Tratto", desc: "Descrizione." },
+    ]
+  };
 }
 
-// ══ ATTACKS ═══════════════════════════════════════════════════════════
-function renderAttacks() {
-  const el = document.getElementById('attacks-list');
-  el.innerHTML = char.attacks.map(a => `
-    <div class="attack-card">
-      <div class="atk-name">${a.name}</div>
-      <div class="atk-hit">+${a.hit}<span>per colpire</span></div>
-      <div class="atk-dmg">${a.damage}<span>${a.type}</span></div>
-    </div>
-  `).join('');
-}
+/* ══════════════════════════════════════════════════════════════
+   LOGICA — Non modificare
+   ══════════════════════════════════════════════════════════════ */
+// Unwrap
+const char = (charData.character && charData.character.name) ? charData.character : charData;
+let activeTab = '';
 
-// ══ ABILITIES ══════════════════════════════════════════════════════════
-function getTypeClass(type) {
-  const t = type.toLowerCase();
-  if (t === 'passiva') return 'type-passiva';
-  if (t === 'azione bonus') return 'type-bonus';
-  if (t === 'reazione') return 'type-reazione';
-  if (t === 'rituale') return 'type-rituale';
-  return 'type-azione';
-}
+function typeClass(t){t=(t||'').toLowerCase();if(t==='passiva')return't-pas';if(t==='azione bonus')return't-bon';if(t==='reazione')return't-rea';if(t==='rituale')return't-rit';return't-az';}
+function fmt(n){return n>=0?'+'+n:n;}
+function cdVal(stat){return stat?8+(char.profBonus||0)+(char.stats[stat]?.mod||0):null;}
 
-function renderPips(ab) {
-  if (ab.maxUses <= 0) return '';
-  let html = '<div class="ab-uses">';
-  for (let i = 0; i < ab.maxUses; i++) {
-    const filled = i < abilityUses[ab.id] ? 'filled' : '';
-    html += `<div class="use-pip ${filled}" onclick="toggleUse('${ab.id}', ${i})"></div>`;
-  }
-  html += '</div>';
-  return html;
-}
+function init(){
+  if(!char||!char.name){document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#e74c3c;font-family:Cinzel,serif;font-size:1.2rem;text-align:center;padding:2rem">Errore: dati personaggio non trovati.<br>Incolla il JSON nel blocco charData.</div>';return;}
 
-function toggleUse(id, idx) {
-  const ab = char.abilities.find(a => a.id === id);
-  if (!ab) return;
-  abilityUses[id] = (abilityUses[id] === idx + 1) ? idx : idx + 1;
+  document.title=char.name+' — Scheda Completa';
+  document.getElementById('cname').textContent=char.name;
+  document.getElementById('csub').textContent=(char.race||'?')+' · Livello '+(char.level||1);
+
+  // Badges
+  const bh=document.getElementById('badges');
+  const cls=(char.classes||'').split('/').map(c=>`<span class="badge">${c.trim()}</span>`).join('');
+  bh.innerHTML=cls+`<span class="badge">Competenza +${char.profBonus||2}</span>`+(char.hitDie?`<span class="badge">Dado Vita ${char.hitDie}</span>`:'');
+
+  // Combat
+  const eMax=Math.max(0,(char.hpMax||0)-(char.hpPerm||0));
+  document.getElementById('vac').textContent=char.ac||'?';
+  document.getElementById('vhp').textContent=(char.hpCurrent||char.hpMax||'?')+'/'+eMax;
+  document.getElementById('vsp').textContent=(char.speed||'?')+'m';
+  document.getElementById('vpp').textContent=char.passivePerception||'?';
+  const pct=eMax>0?Math.max(0,((char.hpCurrent||char.hpMax||0)/eMax)*100):100;
+  document.getElementById('hpbar').style.width=pct+'%';
+
+  // Stats
+  const labels={FOR:'Forza',DES:'Destrezza',COS:'Costituzione',INT:'Intelligenza',SAG:'Saggezza',CAR:'Carisma'};
+  document.getElementById('sgrid').innerHTML=Object.entries(char.stats||{}).map(([k,s])=>{
+    const sc=s.profSave?'color:var(--teal)':'color:var(--text3)';
+    return`<div class="sblk"><div><div class="sn">${labels[k]||k}</div><div class="sv">${s.score}</div><div class="sm">${fmt(s.mod)}</div></div><div class="sr"><div class="ss" style="${sc}">TS ${fmt(s.save)}${s.profSave?' ✦':''}</div></div></div>`;
+  }).join('');
+
+  // Skills
+  document.getElementById('skills').innerHTML=(char.skills||[]).map(s=>`<div class="skr"><span class="kn">${s.name}</span><span class="km">${fmt(s.mod)}</span></div>`).join('');
+
+  // Racial traits
+  const rt=getRacialTraits();
+  document.getElementById('rtitle').textContent=rt.emoji+' Tratti Razziali — '+(char.race||'?');
+  const tEl=document.getElementById('traits');
+  if(!rt.traits.length){tEl.innerHTML='<div style="font-size:.8rem;color:var(--text3);font-style:italic">Nessun tratto definito.</div>';}
+  else{tEl.innerHTML=rt.traits.map(t=>`<div><div class="trn">${t.name}</div><div class="trd">${t.desc}</div></div>`).join('');}
+
+  // Attacks
+  document.getElementById('attacks').innerHTML=(char.attacks||[]).map(a=>`<div class="atkc"><div class="an">${a.name}</div><div class="ah">+${a.hit}<span>per colpire</span></div><div class="ad">${a.damage}<span>${a.type||''}</span></div></div>`).join('');
+
+  // Abilities tabs
+  const origins=char.origins||[];
+  activeTab=origins.length?origins[0].id:'all';
   renderTabs();
+
+  // Notes
+  if(char.notes){document.getElementById('notesPanel').style.display='block';document.getElementById('notes').textContent=char.notes;}
 }
 
-function renderAbilityCard(ab) {
-  const color = char.origins.find(o => o.id === ab.originId)?.color || '#666';
-  const used = ab.maxUses > 0 && abilityUses[ab.id] >= ab.maxUses;
-  const restLabel = ab.rest === 'lungo' ? 'Riposo lungo' : ab.rest === 'breve' ? 'Riposo breve' : '';
-  const restClass = ab.rest || '';
-  const cdInfo = ab.cdStat ? `<span class="ab-stat-cd">CD: 8+Comp+${ab.cdStat}</span>` : '';
-
-  return `
-    <div class="ability-card ${used ? 'used' : ''}" style="--card-color:${color}">
-      <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:${color};border-radius:3px 0 0 3px;opacity:${used?0.3:0.8}"></div>
-      <div class="ab-top">
-        <div class="ab-name">${ab.fav ? '★ ' : ''}${ab.name}</div>
-        <div class="ab-type ${getTypeClass(ab.type)}">${ab.type}</div>
-      </div>
-      <div class="ab-desc">${ab.desc}</div>
-      <div class="ab-footer">
-        ${renderPips(ab)}
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-left:auto">
-          ${cdInfo}
-          ${restLabel ? `<span class="ab-rest ${restClass}">${restLabel}</span>` : ''}
-        </div>
-      </div>
-    </div>
-  `;
+function renderAbCard(ab){
+  const origin=(char.origins||[]).find(o=>o.id===ab.originId);
+  const color=origin?.color||'#666';
+  const rest=ab.rest==='lungo'?'Riposo lungo':ab.rest==='breve'?'Riposo breve':'';
+  const cd=cdVal(ab.cdStat);
+  let pips='';
+  if(ab.maxUses>0){pips='<div class="pips">';for(let i=0;i<ab.maxUses;i++)pips+='<div class="pip"></div>';pips+='</div>';}
+  return`<div class="abc"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:${color};border-radius:3px 0 0 3px;opacity:.8"></div><div class="abt"><div class="abn">${ab.fav?'★ ':''}${ab.name}</div><div class="abty ${typeClass(ab.type)}">${ab.type}</div></div><div class="abd">${ab.desc||''}</div><div class="abf">${pips}<div style="display:flex;align-items:center;gap:.5rem;margin-left:auto">${cd?`<span class="abcd">CD ${cd}</span>`:''}${rest?`<span class="abr ${ab.rest}">${rest}</span>`:''}</div></div></div>`;
 }
 
-function renderTabs() {
-  const tabBar = document.getElementById('tabs-bar');
-  const tabContent = document.getElementById('tab-content');
+function renderTabs(){
+  const origins=char.origins||[];
+  const all=[{id:'all',name:'Tutte'},...origins];
+  document.getElementById('tabs').innerHTML=all.map(o=>`<button class="tbtn ${activeTab===o.id?'active':''}" onclick="switchTab('${o.id}')">${o.name}</button>`).join('');
 
-  // Tab "Tutti"
-  const allTab = { id: 'all', name: 'Tutte' };
-  const allOrigins = [allTab, ...char.origins];
-
-  tabBar.innerHTML = allOrigins.map(o => `
-    <button class="tab-btn ${activeTab === o.id ? 'active' : ''}" onclick="switchTab('${o.id}')">${o.name}</button>
-  `).join('');
-
-  let html = '';
-  if (activeTab === 'all') {
-    html = '<div class="tab-pane active"><div class="abilities-section">';
-    char.origins.forEach(origin => {
-      const abs = char.abilities.filter(a => a.originId === origin.id);
-      if (!abs.length) return;
-      html += `
-        <div class="origin-group">
-          <div class="origin-header">
-            <div class="origin-dot" style="background:${origin.color}"></div>
-            <div class="origin-name">${origin.name}</div>
-            <div class="origin-line"></div>
-          </div>
-          <div class="abilities-grid">
-            ${abs.map(renderAbilityCard).join('')}
-          </div>
-        </div>
-      `;
+  let html='';
+  if(activeTab==='all'){
+    html='<div class="tpane active"><div style="display:flex;flex-direction:column;gap:1.2rem">';
+    origins.forEach(o=>{
+      const abs=(char.abilities||[]).filter(a=>a.originId===o.id);
+      if(!abs.length)return;
+      html+=`<div><div class="ohead"><div class="odot" style="background:${o.color}"></div><div class="oname">${o.name}</div><div class="oline"></div></div><div class="abg">${abs.map(renderAbCard).join('')}</div></div>`;
     });
-    html += '</div></div>';
-  } else {
-    const origin = char.origins.find(o => o.id === activeTab);
-    const abs = char.abilities.filter(a => a.originId === activeTab);
-    html = `<div class="tab-pane active">
-      <div class="abilities-grid">${abs.map(renderAbilityCard).join('')}</div>
-    </div>`;
+    html+='</div></div>';
+  }else{
+    const abs=(char.abilities||[]).filter(a=>a.originId===activeTab);
+    html=`<div class="tpane active"><div class="abg">${abs.map(renderAbCard).join('')}</div></div>`;
   }
-  tabContent.innerHTML = html;
+  document.getElementById('tcontent').innerHTML=html;
 }
 
-function switchTab(id) {
-  activeTab = id;
-  renderTabs();
-}
+function switchTab(id){activeTab=id;renderTabs();}
+function roll(s){const r=Math.floor(Math.random()*s)+1;const el=document.getElementById('dres');el.textContent=r;el.classList.remove('rolling');void el.offsetWidth;el.classList.add('rolling');document.getElementById('dlog').textContent=`d${s} → ${r}`;}
 
-// ══ REST ══════════════════════════════════════════════════════════════
-function doRest(type) {
-  char.abilities.forEach(ab => {
-    if (type === 'lungo' && (ab.rest === 'lungo' || ab.rest === 'breve')) {
-      abilityUses[ab.id] = 0;
-    } else if (type === 'breve' && ab.rest === 'breve') {
-      abilityUses[ab.id] = 0;
-    }
-  });
-  if (type === 'lungo') { hpCurrent = char.hpMax; updateHpUI(); }
-  renderTabs();
-  // Flash feedback
-  const btn = document.querySelector(`.rest-btn.${type}`);
-  const orig = btn.textContent;
-  btn.textContent = '✓ Recuperato!';
-  setTimeout(() => btn.textContent = orig, 1500);
-}
-
-// ══ DICE ══════════════════════════════════════════════════════════════
-function rollDice(sides) {
-  const result = Math.floor(Math.random() * sides) + 1;
-  const el = document.getElementById('dice-result');
-  el.textContent = result;
-  el.classList.remove('rolling');
-  void el.offsetWidth;
-  el.classList.add('rolling');
-  document.getElementById('dice-log').textContent = `d${sides} → ${result}`;
-}
-
-// ══ INIT ══════════════════════════════════════════════════════════════
-renderSkills();
-renderAttacks();
-renderTabs();
-updateHpUI();
+init();
 </script>
 </body>
 </html>
