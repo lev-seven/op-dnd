@@ -52,7 +52,7 @@ function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId
 // Character photo: /data/{owner}/{charFileName without .json}.jpg
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.4";
+const APP_VERSION="v15";
 
 /* ═══ AVATAR COMPONENT ═══ */
 // Shows image if available, falls back to text (initial or emoji)
@@ -433,7 +433,6 @@ function DTab({c,up,log,oR,ac}){
     <div style={{maxHeight:300,overflowY:"auto"}}>{log.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:11}}>Nessun tiro...</p>}{log.map((e,i)=><div key={e.timestamp+"_"+i} style={{padding:i===0?"11px":"7px 9px",borderRadius:6,background:i===0?`linear-gradient(135deg,${ac}20,${ac}0a)`:`${ac}06`,border:i===0?`2px solid ${ac}55`:`1px solid ${ac}10`,marginBottom:4,boxShadow:i===0?`0 0 14px ${ac}15`:"none"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{fontSize:i===0?12:10,color:i===0?ac:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>{e.label}</span><span style={{fontFamily:"'JetBrains Mono'",fontSize:i===0?24:18,fontWeight:900,color:e.isNat20?"#f1c40f":e.isNat1?"#e74c3c":"#e8dcc8"}}>{e.isNat20&&"★ "}{e.isNat1&&"✗ "}{e.total}</span></div><div style={{fontSize:10,color:"#665a3e",fontFamily:"'JetBrains Mono'",marginTop:1}}>{e.type==="d20"?<span>[{e.roll1}] [{e.roll2}]{e.modifier?` ${e.modifier>=0?"+":""}${e.modifier}`:""} ({e.mode==="vantaggio"?"V":e.mode==="svantaggio"?"S":"N"})</span>:e.rollResult?<span>[{e.rollResult.results.map(r=>r.value).join(",")}]{e.rollResult.bonus?` ${e.rollResult.bonus>=0?"+":""}${e.rollResult.bonus}`:""}</span>:null}</div></div>)}</div>
   </div>);
 }
-
 
 function NTab({c,up,ac}){const[n,sN]=useState(c.notes||"");return<div style={{padding:"12px 12px 20px"}}><Sec ac={ac}>Note</Sec><textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Scrivi qui..." style={{width:"100%",minHeight:300,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/></div>;}
 
