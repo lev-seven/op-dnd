@@ -67,7 +67,7 @@ function Av({src,fallback,size,color,round,style:extra}){
 // ── SHA-256 ──
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
 
-const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"}];
+const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"},{id:"export",icon:"💾",label:"Esporta"}];
 const AT=["Azione","Azione bonus","Reazione","Passiva","Rituale"];
 const RT=[{v:null,l:"Nessuna"},{v:"breve",l:"R. Breve"},{v:"lungo",l:"R. Lungo"}];
 const SK=["FOR","DES","COS","INT","SAG","CAR"];
@@ -338,15 +338,19 @@ function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
       {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
       {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
       {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
+      {tab==="export"&&<NTab c={c} up={up} ac={ac} onClick={onExport}/>}
     </div>
     {popup&&<DP p={popup} oM={pM} oA={aR} oRR={rr} oX={()=>setPopup(null)} ac={ac}/>}
     {modal?.type==="attack"&&<AM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
     {modal?.type==="ability"&&<BM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
     {modal?.type==="origins"&&<OM c={c} up={up} oC={()=>setModal(null)}/>}
     {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><img src={avatarUrl} style={{maxWidth:"85vw",maxHeight:"85vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/></div>}
+    
+    <!--
     <div style={{position:"absolute",bottom:44,left:0,right:0,padding:"8px 14px",background:"linear-gradient(180deg,transparent,#0a0e17ee 30%)",zIndex:50}}>
       <button onClick={onExport} style={{width:"100%",padding:"14px 0",borderRadius:10,border:`2px solid ${ac}66`,background:`linear-gradient(135deg,${ac}22,${ac}0a)`,color:ac,fontSize:16,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:1,display:"flex",alignItems:"center",justifyContent:"center",gap:10}}><span style={{fontSize:22}}>💾</span> Esporta PG</button>
     </div>
+    -->
     <nav style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",background:"rgba(10,14,23,0.98)",backdropFilter:"blur(12px)",borderTop:`1px solid ${ac}22`,zIndex:60}}>{TABS.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"6px 0 8px",background:"transparent",border:"none",borderTop:tab===t.id?`2px solid ${ac}`:"2px solid transparent",color:tab===t.id?ac:"#665a3e",cursor:"pointer",fontFamily:"'Cinzel'"}}><span style={{fontSize:16}}>{t.icon}</span><span style={{fontSize:8,letterSpacing:1,marginTop:1}}>{t.label}</span></button>)}</nav>
   </div>);
 }
