@@ -47,8 +47,17 @@ const AT=["Azione","Azione bonus","Reazione","Passiva","Rituale"];
 const RT=[{v:null,l:"Nessuna"},{v:"breve",l:"R. Breve"},{v:"lungo",l:"R. Lungo"}];
 const SK=["FOR","DES","COS","INT","SAG","CAR"];
 const OP=["#e74c3c","#e67e22","#3498db","#8e44ad","#1abc9c","#f1c40f","#2ecc71","#e91e63","#00bcd4","#ff5722"];
-const DO=[{id:"cecchino",name:"Cecchino",color:"#e74c3c"},{id:"carpentiere",name:"Carpentiere",color:"#e67e22"},{id:"navigatore",name:"Navigatore",color:"#3498db"},{id:"haki_arm",name:"Haki Armatura",color:"#8e44ad"},{id:"haki_oss",name:"Haki Osservazione",color:"#1abc9c"},{id:"haki_re",name:"Haki del Re",color:"#f1c40f"}];
-
+const DO = [
+  { id: "cecchino", name: "Cecchino", color: "#e74c3c" },
+  { id: "carpentiere", name: "Carpentiere", color: "#e67e22" },
+  { id: "navigatore", name: "Navigatore", color: "#3498db" },
+  { id: "haki_arm", name: "Haki Armatura", color: "#8e44ad" },
+  { id: "haki_oss", name: "Haki Osservazione", color: "#1abc9c" },
+  { id: "haki_re", name: "Haki del Re", color: "#f1c40f" },
+  { id: "brawler", name: "Brawler", color: "#2ecc71" },      
+  { id: "spadaccino", name: "Spadaccino", color: "#34495e" }, 
+  { id: "medico", name: "Medico", color: "#ff66cc" }          
+];
 function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:[],origins:[...DO],attacks:[],abilities:[],notes:"",diceLog:[]};}
 
 /* ═══ MAIN ═══ */
