@@ -238,7 +238,7 @@ function AccountsScreen({manifest,onAuth}){
           <Av src={accAvatarUrl(a.id)} fallback={a.isMaster?"👑":a.name[0]} size={48} color={a.color}/>
           <div style={{flex:1,textAlign:"left"}}>
             <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:a.isMaster?a.color:"#e8dcc8"}}>{a.name}</span><br/>
-            <span style={{fontSize:11,color:"#665a3e"}}>{a.isMaster?"Dungeon Master":"Giocatore"}</span>
+            <span style={{fontSize:11,color:"#665a3e"}}>{a.isMaster?"Master":"User"}</span>
           </div>
           <span style={{fontSize:14,color:a.color+"88"}}>🔒</span>
         </button>
