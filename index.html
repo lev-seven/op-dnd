@@ -52,7 +52,7 @@ function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId
 // Character photo: /data/{owner}/{charFileName without .json}.jpg
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.16";
+const APP_VERSION="v1.17";
 
 /* ═══ AVATAR COMPONENT ═══ */
 // Shows image if available, falls back to text (initial or emoji)
@@ -333,20 +333,19 @@ function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
       </div>
       <HPBar c={c} up={up} edit={edit} ac={ac}/>
       <div style={{display:"flex",gap:4,marginTop:8}}>{[{l:"CA",k:"ac"},{l:"Vel.",k:"speed"},{l:"Perc.",k:"passivePerception"},{l:"Comp.",k:"profBonus"}].map(i=><div key={i.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:6,padding:"4px 2px",border:`1px solid ${ac}15`}}><span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700}}>{i.l}</span>{edit?<input type="number" value={c[i.k]} onChange={e=>up({[i.k]:parseInt(e.target.value)||0})} style={{...SS.inp,width:36,textAlign:"center",fontSize:14,fontWeight:700,fontFamily:"'JetBrains Mono'",color:ac,padding:"1px 2px"}}/>:<span style={{fontSize:15,fontWeight:700,color:ac,fontFamily:"'JetBrains Mono'"}}>{i.k==="profBonus"?`+${c[i.k]}`:c[i.k]}</span>}</div>)}</div>
-      <div style={{flex:1,overflowY:"auto",paddingBottom:120}}>
-        {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
-        {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
-        {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
-        {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
-        {tab==="export"&&(
-          (() => {
-            onExport();
-            return null;
-          })()
-        )}
-      </div>
     </div>
-    
+    <div style={{flex:1,overflowY:"auto",paddingBottom:120}}>
+      {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
+      {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
+      {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
+      {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
+      {tab==="export"&&(
+        (() => {
+          onExport();
+          return null;
+        })()
+      )}
+    </div>
     {popup&&<DP p={popup} oM={pM} oA={aR} oRR={rr} oX={()=>setPopup(null)} ac={ac}/>}
     {modal?.type==="attack"&&<AM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
     {modal?.type==="ability"&&<BM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
