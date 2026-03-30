@@ -36,21 +36,30 @@ const calcCD=(pb,st,sk)=>sk?8+pb+(st[sk]?.mod||0):null;
 const effMax=c=>Math.max(0,c.hpMax-(c.hpPerm||0));
 const oColor=(os,id)=>os.find(o=>o.id===id)?.color||"#c8a95e";
 const sortAbs=(a,o)=>{const m={};o.forEach((x,i)=>m[x.id]=i);return[...a].sort((x,y)=>(m[x.originId]??999)-(m[y.originId]??999));};
-const BASE=()=>window.GITHUB_BASE||"";
+const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 
-/* ═══ NORMALIZZA JSON ═══
-   Gestisce sia il formato "bare" { id, name, ... }
-   sia il formato "esportato" { account, accountId, exportedAt, character: { ... } }
-   Restituisce sempre l'oggetto personaggio, o null se non valido.
-*/
 function normalizeCharJSON(data){
   if(!data) return null;
-  // formato esportato con wrapper
   if(data.character && data.character.name && data.character.stats) return data.character;
-  // formato bare
   if(data.name && data.stats) return data;
   return null;
+}
+
+/* ═══ AVATAR URL HELPERS ═══ */
+// Account photo: /data/{accountId}/{accountId}.jpg
+function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
+// Character photo: /data/{owner}/{charFileName without .json}.jpg
+function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
+
+/* ═══ AVATAR COMPONENT ═══ */
+// Shows image if available, falls back to text (initial or emoji)
+function Av({src,fallback,size,color,round,style:extra}){
+  const[ok,setOk]=useState(true);
+  const sz=size||48;
+  const radius=round===false?"8px":"50%";
+  if(src&&ok)return React.createElement("img",{src,onError:()=>setOk(false),style:{width:sz,height:sz,borderRadius:radius,objectFit:"cover",border:`2px solid ${color||"#c8a95e"}`,flexShrink:0,background:"rgba(200,169,94,0.08)",...extra}});
+  return React.createElement("div",{style:{width:sz,height:sz,borderRadius:radius,background:(color||"#c8a95e")+"22",border:`2px solid ${color||"#c8a95e"}`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:sz*0.42,color:color||"#c8a95e",flexShrink:0,...extra}},fallback);
 }
 
 // ── SHA-256 ──
@@ -74,106 +83,14 @@ const DO = [
 ];
 function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:[],origins:[...DO],attacks:[],abilities:[],notes:"",diceLog:[]};}
 
-/* ═══ MAIN ═══ */
-function App(){
-  const[screen,setScreen]=useState("accounts");
-  const[manifest,setManifest]=useState(null);
-  const[accId,setAccId]=useState(null);
-  const[char,setChar]=useState(null);
-  const[loading,setLoading]=useState(true);
-  const fileRef=useRef(null);
-
-  useEffect(()=>{(async()=>{const b=BASE();if(b){const m=await fetchJ(`${b}/data/manifest.json`);setManifest(m);}setLoading(false);})();},[]);
-
-  const acc=manifest?.accounts?.find(a=>a.id===accId);
-  const ac=acc?.color||"#c8a95e";
-  const isMaster=acc?.isMaster||false;
-  const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
-
-  const loadGH=async(owner,file)=>{
-    const b=BASE();
-    if(!b)return null;
-    setLoading(true);
-    const raw=await fetchJ(`${b}/data/${owner}/${file}`);
-    setLoading(false);
-    // ← usa normalizeCharJSON per supportare entrambi i formati
-    return normalizeCharJSON(raw);
-  };
-
-  const doExport=()=>{
-    if(!char)return;
-    // esporta sempre nel formato con wrapper, così è consistente
-    const p={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:char};
-    const bl=new Blob([JSON.stringify(p,null,2)],{type:"application/json"});
-    const u=URL.createObjectURL(bl);
-    const a=document.createElement("a");
-    a.href=u;
-    a.download=`${char.name.replace(/[^a-zA-Z0-9_]/g,"_")}.json`;
-    a.click();
-    URL.revokeObjectURL(u);
-  };
-
-  const doImport=e=>{
-    const f=e.target.files[0];
-    if(!f)return;
-    const r=new FileReader();
-    r.onload=ev=>{
-      try{
-        const raw=JSON.parse(ev.target.result);
-        // ← usa normalizeCharJSON per supportare entrambi i formati
-        const ch=normalizeCharJSON(raw);
-        if(ch){
-          setChar(ch);
-          setScreen("sheet");
-        }else{
-          alert("File non valido: mancano i campi name o stats.");
-        }
-      }catch{
-        alert("Errore nel parsing del file JSON.");
-      }
-      e.target.value="";
-    };
-    r.readAsText(f);
-  };
-
-  if(loading)return<Ld msg="Caricamento..."/>;
-
-  if(screen==="accounts")return<AccountsScreen manifest={manifest} onAuth={(id)=>{setAccId(id);setScreen("characters");}}/>;
-
-  if(screen==="characters"){
-    let sections=[];
-    const mChars=manifest?.characters||{};
-    if(isMaster){
-      const own=mChars[accId]||[];
-      if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
-      manifest?.accounts?.filter(a=>a.id!==accId).forEach(a=>{
-        const ch=mChars[a.id]||[];
-        if(ch.length>0)sections.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color});
-      });
-    }else{
-      const own=mChars[accId]||[];
-      if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
-    }
-    return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster}
-      onBack={()=>{setAccId(null);setScreen("accounts");}}
-      onNew={()=>{setChar(newChar(""));setScreen("sheet");}}
-      onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setScreen("sheet");}else alert("Errore caricamento: file non valido o non raggiungibile.");}}
-      onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
-  }
-
-  if(screen==="sheet"&&char)return<Sheet char={char} up={upChar} ac={ac} acc={acc} onBack={()=>{if(confirm("Hai esportato? Le modifiche non salvate andranno perse.")){setChar(null);setScreen("characters");}}} onExport={doExport} onImport={()=>fileRef.current?.click()}/>;
-
-  return<><input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/></>;
-}
-
-// ← input file deve stare SEMPRE nel DOM, non solo in alcuni screen
-// Fix: lo spostiamo fuori dai branch condizionali
+/* ═══ APP WRAPPER ═══ */
 function AppWrapper(){
   const fileRef=useRef(null);
   const[screen,setScreen]=useState("accounts");
   const[manifest,setManifest]=useState(null);
   const[accId,setAccId]=useState(null);
   const[char,setChar]=useState(null);
+  const[charMeta,setCharMeta]=useState(null); // {owner, file} — per costruire URL avatar/html
   const[loading,setLoading]=useState(true);
 
   useEffect(()=>{(async()=>{const b=BASE();if(b){const m=await fetchJ(`${b}/data/manifest.json`);setManifest(m);}setLoading(false);})();},[]);
@@ -214,6 +131,7 @@ function AppWrapper(){
         const ch=normalizeCharJSON(raw);
         if(ch){
           setChar(ch);
+          setCharMeta(null);
           setScreen("sheet");
         }else{
           alert("File non valido: mancano i campi name o stats.");
@@ -228,7 +146,6 @@ function AppWrapper(){
 
   return(
     <>
-      {/* input file SEMPRE nel DOM così fileRef funziona da qualsiasi screen */}
       <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/>
 
       {loading&&<Ld msg="Caricamento..."/>}
@@ -252,14 +169,14 @@ function AppWrapper(){
         }
         return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster}
           onBack={()=>{setAccId(null);setScreen("accounts");}}
-          onNew={()=>{setChar(newChar(""));setScreen("sheet");}}
-          onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setScreen("sheet");}else alert("Errore caricamento: file non valido o non raggiungibile.");}}
+          onNew={()=>{setChar(newChar(""));setCharMeta(null);setScreen("sheet");}}
+          onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento: file non valido o non raggiungibile.");}}
           onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
       })()}
 
       {!loading&&screen==="sheet"&&char&&
-        <Sheet char={char} up={upChar} ac={ac} acc={acc}
-          onBack={()=>{if(confirm("Hai esportato? Le modifiche non salvate andranno perse.")){setChar(null);setScreen("characters");}}}
+        <Sheet char={char} up={upChar} ac={ac} acc={acc} charMeta={charMeta}
+          onBack={()=>{if(confirm("Hai esportato? Le modifiche non salvate andranno perse.")){setChar(null);setCharMeta(null);setScreen("characters");}}}
           onExport={doExport}
           onImport={()=>fileRef.current?.click()}/>}
     </>
@@ -268,7 +185,7 @@ function AppWrapper(){
 
 function Ld({msg}){return<div style={SS.fc}><div style={{textAlign:"center"}}><div style={{width:40,height:40,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/><p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:14}}>{msg}</p></div></div>;}
 
-/* ═══ ACCOUNTS (with per-account password) ═══ */
+/* ═══ ACCOUNTS ═══ */
 function AccountsScreen({manifest,onAuth}){
   const[selAcc,setSelAcc]=useState(null);
   const[pw,setPw]=useState("");
@@ -292,7 +209,7 @@ function AccountsScreen({manifest,onAuth}){
     return(<div style={SS.fc}>
       <div style={{textAlign:"center",maxWidth:320,width:"100%",padding:"0 20px"}}>
         <button onClick={()=>{setSelAcc(null);setPw("");setErr(false);}} style={{...SS.bb,borderColor:ac+"44",color:ac,marginBottom:20}}>← Torna</button>
-        <div style={{width:64,height:64,borderRadius:"50%",background:ac+"22",border:`3px solid ${ac}`,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 12px",fontFamily:"'Cinzel'",fontWeight:900,fontSize:24,color:ac}}>{selAcc.isMaster?"👑":selAcc.name[0]}</div>
+        <Av src={accAvatarUrl(selAcc.id)} fallback={selAcc.isMaster?"👑":selAcc.name[0]} size={64} color={ac} style={{margin:"0 auto 12px"}}/>
         <h2 style={{fontFamily:"'Cinzel'",fontSize:20,fontWeight:900,color:ac,letterSpacing:1,marginBottom:6}}>{selAcc.name}</h2>
         <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Inserisci la tua password</p>
         <div style={{position:"relative",marginBottom:16}}>
@@ -315,7 +232,7 @@ function AccountsScreen({manifest,onAuth}){
     <div style={{padding:"0 20px 40px",display:"flex",flexDirection:"column",gap:10,maxWidth:400,margin:"0 auto",width:"100%"}}>
       {accs.map(a=>(
         <button key={a.id} onClick={()=>setSelAcc(a)} style={{...SS.ac,borderColor:a.color+"55",background:`linear-gradient(135deg,${a.color}12,${a.color}06)`}}>
-          <div style={{width:48,height:48,borderRadius:"50%",background:a.color+"22",border:`2px solid ${a.color}`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:a.isMaster?22:20,color:a.color}}>{a.isMaster?"👑":a.name[0]}</div>
+          <Av src={accAvatarUrl(a.id)} fallback={a.isMaster?"👑":a.name[0]} size={48} color={a.color}/>
           <div style={{flex:1,textAlign:"left"}}>
             <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:a.isMaster?a.color:"#e8dcc8"}}>{a.name}</span><br/>
             <span style={{fontSize:11,color:"#665a3e"}}>{a.isMaster?"Dungeon Master":"Giocatore"}</span>
@@ -333,6 +250,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
   return(<div style={SS.fs}>
     <div style={{padding:"14px 20px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15"}}>
       <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
+      <Av src={accAvatarUrl(acc?.id)} fallback={acc?.isMaster?"👑":acc?.name?.[0]||"?"} size={36} color={ac}/>
       <div style={{flex:1}}>
         <h2 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:700,color:ac}}>{acc?.name}</h2>
         {isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master — vedi tutti i PG</span>}
@@ -347,7 +265,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
           <div style={{display:"flex",flexDirection:"column",gap:8}}>
             {sec.chars.map((gc,i)=>(
               <button key={i} onClick={()=>onLoadGH(sec.owner,gc.file)} disabled={loading} style={{...SS.ac,borderColor:sec.color+"33",background:`linear-gradient(135deg,${sec.color}0c,transparent)`,opacity:loading?0.5:1}}>
-                <div style={{width:40,height:40,borderRadius:8,background:sec.color+"18",border:`1.5px solid ${sec.color}44`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Cinzel'",fontWeight:900,fontSize:16,color:sec.color}}>{gc.name?gc.name[0]:"?"}</div>
+                <Av src={charAvatarUrl(sec.owner,gc.file)} fallback={gc.name?gc.name[0]:"?"} size={40} color={sec.color} round={false}/>
                 <div style={{flex:1,textAlign:"left"}}>
                   <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#e8dcc8"}}>{gc.name}</span><br/>
                   <span style={{fontSize:10,color:"#665a3e"}}>{gc.preview||gc.file}</span>
@@ -382,7 +300,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
 }
 
 /* ═══ CHARACTER SHEET ═══ */
-function Sheet({char:c,up,ac,acc,onBack,onExport,onImport}){
+function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
   const[tab,setTab]=useState("stats");const[edit,setEdit]=useState(false);const[popup,setPopup]=useState(null);const[modal,setModal]=useState(null);
   const log=c.diceLog||[];
   const addLog=useCallback(e=>up({diceLog:[e,...(c.diceLog||[])].slice(0,80)}),[c.diceLog,up]);
@@ -393,11 +311,15 @@ function Sheet({char:c,up,ac,acc,onBack,onExport,onImport}){
   const pM=useCallback(m=>setPopup(p=>{if(!p)return null;const ch=m==="vantaggio"?Math.max(p.roll1,p.roll2):m==="svantaggio"?Math.min(p.roll1,p.roll2):p.roll1;return{...p,mode:m,chosen:ch,total:ch+p.modifier};}),[]);
   const aR=useCallback(()=>{if(!popup||(popup.type==="d20"&&!popup.mode))return;addLog({type:popup.type,label:popup.label,total:popup.total,roll1:popup.roll1,roll2:popup.roll2,chosen:popup.chosen,modifier:popup.modifier,mode:popup.mode,isNat20:popup.type==="d20"&&popup.chosen===20,isNat1:popup.type==="d20"&&popup.chosen===1,rollResult:popup.rollResult,cdTarget:popup.cdTarget,timestamp:Date.now()});setPopup(null);},[popup,addLog]);
 
+  // Avatar URL for this character (only if loaded from GitHub)
+  const avatarUrl=charMeta?charAvatarUrl(charMeta.owner,charMeta.file):null;
+
   return(<div style={{...SS.sw,background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
     <div style={{background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"10px 14px 8px"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
         <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
           <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac,width:28,height:28,fontSize:12}}>←</button>
+          {avatarUrl&&<Av src={avatarUrl} fallback={c.name?c.name[0]:"?"} size={34} color={ac} round={false}/>}
           <div style={{flex:1}}>
             {edit?(<div style={{display:"flex",flexDirection:"column",gap:3}}><input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,fontFamily:"'Cinzel'",fontSize:16,fontWeight:900,color:ac}}/><div style={{display:"flex",gap:3}}><input value={c.race} onChange={e=>up({race:e.target.value})} placeholder="Razza" style={{...SS.inp,flex:1,fontSize:10}}/><input type="number" value={c.level} onChange={e=>up({level:parseInt(e.target.value)||1})} style={{...SS.inp,width:34,fontSize:10,textAlign:"center"}}/></div><input value={c.classes} onChange={e=>up({classes:e.target.value})} placeholder="Classi" style={{...SS.inp,fontSize:10}}/></div>):(<><h1 style={{fontFamily:"'Cinzel'",fontSize:18,fontWeight:900,color:ac,margin:0,letterSpacing:1}}>{c.name||"Senza Nome"}</h1><p style={{fontSize:10,color:"#998866"}}>{c.race?`${c.race} · `:""}Lv {c.level}{c.classes?` · ${c.classes}`:""}</p></>)}
           </div>
