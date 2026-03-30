@@ -338,7 +338,12 @@ function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
       {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
       {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
       {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
-      {tab==="export"&&<ETab ac={ac} onExport={onExport}/>}
+      {tab==="export"&&(
+        (() => {
+          onExport();
+          return null;
+        })()
+      )}
     </div>
     {popup&&<DP p={popup} oM={pM} oA={aR} oRR={rr} oX={()=>setPopup(null)} ac={ac}/>}
     {modal?.type==="attack"&&<AM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
@@ -429,46 +434,6 @@ function DTab({c,up,log,oR,ac}){
   </div>);
 }
 
-function ETab({ ac, onExport }) {
-  return (
-    <div style={{ padding: "12px 12px 20px", position: "relative" }}>
-      <div
-        style={{
-          position: "absolute",
-          bottom: 44,
-          left: 0,
-          right: 0,
-          padding: "8px 14px",
-          background: "linear-gradient(180deg,transparent,#0a0e17ee 30%)",
-          zIndex: 50
-        }}
-      >
-        <button
-          onClick={onExport}
-          style={{
-            width: "100%",
-            padding: "14px 0",
-            borderRadius: 10,
-            border: `2px solid ${ac}66`,
-            background: `linear-gradient(135deg,${ac}22,${ac}0a)`,
-            color: ac,
-            fontSize: 16,
-            fontWeight: 700,
-            fontFamily: "'Cinzel'",
-            cursor: "pointer",
-            letterSpacing: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 10
-          }}
-        >
-          <span style={{ fontSize: 22 }}>💾</span> Esporta PG
-        </button>
-      </div>
-    </div>
-  );
-}
 
 function NTab({c,up,ac}){const[n,sN]=useState(c.notes||"");return<div style={{padding:"12px 12px 20px"}}><Sec ac={ac}>Note</Sec><textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Scrivi qui..." style={{width:"100%",minHeight:300,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/></div>;}
 
