@@ -67,7 +67,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.24";
+const APP_VERSION="v1.25";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -154,6 +154,27 @@ function AppWrapper(){
     if(ok)clearSession();
     return ok;
   };
+  const saveNewToGH=async(charObj)=>{
+    if(!ghToken||!BASE()||!accId)return null;
+    const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
+    const owner=accId;
+    const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
+    const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken);
+    if(!ok)return null;
+    // Update manifest
+    try{
+      const b=BASE();
+      const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now()).then(r=>r.json());
+      if(!mRaw.characters[owner])mRaw.characters[owner]=[];
+      if(!mRaw.characters[owner].find(c=>c.file===fname)){
+        mRaw.characters[owner].push({file:fname,name:charObj.name,preview:`${charObj.race||"?"} · Lv ${charObj.level||1}${charObj.classes?" · "+charObj.classes:""}`});
+        await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken);
+        setManifest(mRaw);
+      }
+    }catch{}
+    clearSession();
+    return{owner,file:fname};
+  };
   const sessionChar=accId?loadSession(accId):null;
 
   const loadGH=async(owner,file)=>{
@@ -220,7 +241,7 @@ function AppWrapper(){
           onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
       })()}
       {!loading&&screen==="sheet"&&char&&
-        <Sheet char={char} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} accId={accId}
+        <Sheet char={char} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} saveNewToGH={saveNewToGH} setCharMeta={setCharMeta} accId={accId}
           onBack={()=>{if(confirm("Hai salvato? Le modifiche non salvate andranno perse.")){clearSession();setChar(null);setCharMeta(null);setScreen("characters");}}}
           onExport={doExport}
           onImport={()=>fileRef.current?.click()}/>}
@@ -340,6 +361,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
           <h2 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:700,color:ac}}>{acc?.name}</h2>
           {isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master</span>}
         </div>
+        {isMaster&&<button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Tracker Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>}
       </div>
       <div style={{padding:"16px 16px",paddingBottom:"calc(32px + var(--safe-bottom))",maxWidth:400,margin:"0 auto",width:"100%"}}>
         {sections.map((sec,si)=>(
@@ -384,7 +406,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
 }
 
 /* ═══ CHARACTER SHEET — FIX PRINCIPALE ═══ */
-function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,accId,onBack,onExport,onImport}){
+function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMeta,accId,onBack,onExport,onImport}){
   const[tab,setTab]=useState("stats");
   const[edit,setEdit]=useState(false);
   const[popup,setPopup]=useState(null);
@@ -406,16 +428,23 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,accId,onBack,onExport
 
   useEffect(()=>{if(accId&&c)saveSession(accId,c);},[c,accId]);
   const doSave=async()=>{
-    if(!charMeta||!ghToken){onExport();return;}
+    if(!ghToken){onExport();return;}
     setSaving(true);setSaveOk(null);
-    const ok=await saveToGH(charMeta.owner,charMeta.file,c);
+    let ok;
+    if(charMeta){
+      ok=await saveToGH(charMeta.owner,charMeta.file,c);
+    }else{
+      const res=await saveNewToGH(c);
+      ok=!!res;
+      if(res)setCharMeta(res);
+    }
     setSaving(false);setSaveOk(ok);
     setTimeout(()=>setSaveOk(null),2500);
   };
 
   useEffect(()=>{
     if(tab!=="export")return;
-    if(ghToken&&charMeta){
+    if(ghToken){
       doSave().then(()=>setTimeout(()=>setTab("stats"),2000));
     }else{
       onExport();
@@ -504,7 +533,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,accId,onBack,onExport
         {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
         {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
-        {tab==="export"&&<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{saving?"⏳ Salvataggio...":(saveOk===true?(ghToken&&charMeta?"✅ Salvato su GitHub!":"✅ File esportato!"):saveOk===false?"❌ Errore salvataggio":"⏳ Elaborazione...")}</div>}
+        {tab==="export"&&<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{saving?"⏳ Salvataggio...":(saveOk===true?(ghToken?"✅ Salvato su GitHub!":"✅ File esportato!"):saveOk===false?"❌ Errore salvataggio":"⏳ Elaborazione...")}</div>}
       </div>
 
       {/* BOTTOM NAV — position absolute rispetto al container, non fixed globale */}
