@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T22:56:07.792Z",
+  "exportedAt": "2026-03-31T23:06:20.538Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -285,9 +285,17 @@
       },
       {
         "id": "atk8",
-        "name": "Shatter",
+        "name": "Shatter [TS CON 13]",
         "damage": "3d8",
-        "type": "tuono"
+        "type": "tuono",
+        "hit": 0
+      },
+      {
+        "id": "mnf7xve55qz4",
+        "name": "Nitro Kicks",
+        "hit": 6,
+        "damage": "2d6+6",
+        "type": "contundente "
       }
     ],
     "abilities": [
@@ -428,7 +436,7 @@
         "name": "Colpi a Raffica [Furia]",
         "originId": "bruiser",
         "type": "Azione bonus",
-        "desc": "Subito dopo l'azione Attacco, puoi spendere 1 punto Furia per effettuare due attacchi senz'armi extra come azione bonus.",
+        "desc": "Subito dopo aver eseguito l'azione Attacco al tuo turno, puoi spendere 1 punto furia per eseguire due colpi a mani nude o attacchi con armi da bruiser come Azione Bonus.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
