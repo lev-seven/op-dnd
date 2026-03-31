@@ -140,13 +140,33 @@ body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,se
 
 <script>
 /* ══════════════════════════════════════════════════════════════
-   DATA — INCOLLA QUI IL JSON DEL PERSONAGGIO
-   Supporta sia il formato export { account, character: {...} }
-   sia il formato bare { name, stats, ... }
+   LOAD JSON DINAMICO DA URL
+   Usa il nome file HTML per costruire il path al JSON
    ══════════════════════════════════════════════════════════════ */
-const charData = {
-  // ← INCOLLA QUI IL CONTENUTO DEL JSON
-};
+
+async function loadCharacter(){
+  try{
+    const fileName = window.location.pathname.split('/').pop().replace('.html','');
+    const pathParts = window.location.pathname.split('/');
+    const account = pathParts[pathParts.length - 2]; 
+    const jsonUrl = `https://lev-seven.github.io/op-dnd/data/${account}/${fileName}_completo.json`;
+    const res = await fetch(jsonUrl);
+    if(!res.ok) throw new Error('JSON non trovato');
+    const data = await res.json();
+    const char = (data.character && data.character.name) ? data.character : data;
+
+    init(char);
+
+  }catch(err){
+    document.body.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#e74c3c;font-family:Cinzel,serif;font-size:1.2rem;text-align:center;padding:2rem">
+        Errore caricamento JSON.<br>
+        Controlla il percorso o il nome file.<br><br>
+        ${err.message}
+      </div>
+    `;
+  }
+}
 
 /* ══════════════════════════════════════════════════════════════
    TRATTI RAZZIALI — Modifica manualmente
