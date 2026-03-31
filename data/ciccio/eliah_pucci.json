@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T15:04:58.114Z",
+  "exportedAt": "2026-03-31T15:16:45.048Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -60,7 +60,7 @@
         "name": "Navigazione",
         "stat": null,
         "mod": 2,
-        "prof": true
+        "prof": false
       },
       {
         "name": "Atletica",
@@ -86,7 +86,7 @@
         "name": "Artigianato",
         "stat": null,
         "mod": 2,
-        "prof": true
+        "prof": false
       },
       {
         "name": "Intimidire",
@@ -100,8 +100,7 @@
       },
       {
         "name": "Acrobazia",
-        "stat": null,
-        "mod": 6,
+        "stat": "DES",
         "prof": true
       },
       {
@@ -341,7 +340,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "COS",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a11",
@@ -353,7 +352,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "COS",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a12",
@@ -377,7 +376,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "COS",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a14",
@@ -401,7 +400,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "SAG",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a16",
@@ -413,7 +412,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "SAG",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a17",
@@ -437,7 +436,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "SAG",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a19",
@@ -449,7 +448,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": "CAR",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a20",
@@ -485,7 +484,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "CAR",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a23",
@@ -497,7 +496,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "CAR",
-        "fav": false
+        "fav": true
       },
       {
         "id": "a24",
@@ -509,7 +508,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": "CAR",
-        "fav": false
+        "fav": true
       }
     ],
     "notes": "",
