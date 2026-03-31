@@ -236,28 +236,60 @@
       }
     ],
     "attacks": [
-      {
-        "id": "atk1",
-        "name": "Calcio (senz'armi)",
-        "hit": 6,
-        "damage": "1d6+3",
-        "type": "contundente"
-      },
-      {
-        "id": "atk2",
-        "name": "Coltello",
-        "hit": 6,
-        "damage": "1d6+3",
-        "type": "tagliente"
-      },
-      {
-        "id": "atk3",
-        "name": "Balestra",
-        "hit": 6,
-        "damage": "1d6-3+1d6",
-        "type": "perforante"
-      }
-    ],
+    {
+      "id": "atk1",
+      "name": "Calcio (senz'armi)",
+      "hit": 6,
+      "damage": "1d6+3",
+      "type": "contundente"
+    },
+    {
+      "id": "atk2",
+      "name": "Coltello",
+      "hit": 6,
+      "damage": "1d6+3",
+      "type": "tagliente"
+    },
+    {
+      "id": "atk3",
+      "name": "Balestra",
+      "hit": 6,
+      "damage": "1d6+1d6-3",
+      "type": "perforante"
+    },
+    {
+      "id": "atk4",
+      "name": "Toll the Dead",
+      "damage": "1d12",
+      "type": "necrotico"
+    },
+    {
+      "id": "atk5",
+      "name": "Shocking Grasp",
+      "hit": 5,
+      "damage": "1d8",
+      "type": "fulmine"
+    },
+    {
+      "id": "atk6",
+      "name": "Magic Missile",
+      "damage": "3d4+3",
+      "type": "forza"
+    },
+    {
+      "id": "atk7",
+      "name": "Scorching Ray",
+      "hit": 5,
+      "damage": "2d6+2d6+2d6",
+      "type": "fuoco"
+    },
+    {
+      "id": "atk8",
+      "name": "Shatter",
+      "damage": "3d8",
+      "type": "tuono"
+    }
+  ],
     "abilities": [
       {
         "id": "r1",
