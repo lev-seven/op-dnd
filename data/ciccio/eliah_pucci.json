@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T13:22:13.081Z",
+  "exportedAt": "2026-03-31T14:25:02.441Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -58,35 +58,45 @@
     "skills": [
       {
         "name": "Navigazione",
-        "mod": 5
+        "stat": null,
+        "mod": 5,
+        "prof": false
       },
       {
         "name": "Atletica",
-        "mod": 9
+        "stat": "FOR",
+        "prof": true
       },
       {
         "name": "Natura",
-        "mod": 4
+        "stat": "INT",
+        "prof": true
       },
       {
         "name": "Sopravvivenza",
-        "mod": 4
+        "stat": "SAG",
+        "prof": true
       },
       {
         "name": "Percezione",
-        "mod": 5
+        "stat": "SAG",
+        "prof": true
       },
       {
         "name": "Artigianato",
-        "mod": 5
+        "stat": null,
+        "mod": 5,
+        "prof": false
       },
       {
         "name": "Intimidire",
-        "mod": 3
+        "stat": "CAR",
+        "prof": true
       },
       {
         "name": "Storia",
-        "mod": 4
+        "stat": "INT",
+        "prof": true
       }
     ],
     "origins": [
