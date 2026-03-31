@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0a0e17">
+<title>Tracker Iniziativa — DnD Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0e17;--bg2:#111827;--bg3:#1a1f2e;--gold:#c8a95e;--gold2:#e8c96a;--teal:#3ab8b0;--red:#e74c3c;--green:#2ecc71;--text:#e8dcc8;--text2:#998866;--text3:#665a3e;--border:#c8a95e22}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Text',Georgia,serif;min-height:100vh;background-image:radial-gradient(ellipse at 20% 10%,rgba(58,184,176,0.03) 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(200,169,94,0.04) 0%,transparent 50%)}
+button{font-family:inherit;outline:none;cursor:pointer;-webkit-user-select:none;user-select:none}
+input{font-family:inherit;outline:none}
+.wrap{max-width:480px;margin:0 auto;padding:16px}
+.hdr{text-align:center;padding:24px 0 16px}
+.hdr h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:2px}
+.hdr p{color:var(--text3);font-size:12px;margin-top:4px}
+.add-row{display:flex;gap:6px;margin-bottom:16px}
+.add-row input{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text);font-size:14px}
+.add-row input[type=number]{width:60px;flex:none;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:600}
+.add-row select{padding:10px 8px;border-radius:8px;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text);font-size:12px;appearance:none;font-family:'Cinzel',serif}
+.btn{padding:10px 16px;border-radius:8px;border:1.5px solid;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:0.5px}
+.btn-gold{border-color:rgba(200,169,94,0.4);background:rgba(200,169,94,0.1);color:var(--gold)}
+.btn-green{border-color:rgba(46,204,113,0.4);background:rgba(46,204,113,0.08);color:var(--green)}
+.btn-red{border-color:rgba(231,76,60,0.3);background:rgba(231,76,60,0.08);color:var(--red)}
+.btn-teal{border-color:rgba(58,184,176,0.4);background:rgba(58,184,176,0.08);color:var(--teal)}
+.controls{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.list{display:flex;flex-direction:column;gap:6px}
+.entry{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1.5px solid transparent;background:var(--bg3);transition:all 0.2s}
+.entry.active{border-color:var(--gold);background:rgba(200,169,94,0.08);box-shadow:0 0 16px rgba(200,169,94,0.1)}
+.entry.dead{opacity:0.3;text-decoration:line-through}
+.entry .init{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--gold2);min-width:32px;text-align:center}
+.entry.monster .init{color:var(--red)}
+.entry .info{flex:1;min-width:0}
+.entry .name{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.entry .tag{font-size:9px;color:var(--text3);font-family:'Cinzel',serif;letter-spacing:1px;text-transform:uppercase}
+.entry.monster .name{color:#e88}
+.entry .hp-mini{display:flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.entry .hp-mini .cur{color:var(--green)}.entry .hp-mini .sep{color:var(--text3)}.entry .hp-mini .max{color:var(--text3)}
+.entry .acts{display:flex;gap:4px}
+.entry .acts button{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text2);font-size:12px;display:flex;align-items:center;justify-content:center}
+.round-badge{text-align:center;margin-bottom:12px;font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:2px}
+.empty{text-align:center;color:var(--text3);font-style:italic;padding:40px 0;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <h1>⚔️ Iniziativa</h1>
+    <p>Tracker combattimento — DnD Manager</p>
+  </div>
+  <div class="add-row">
+    <input type="text" id="aName" placeholder="Nome...">
+    <input type="number" id="aInit" placeholder="Init" min="0" max="30">
+    <select id="aType"><option value="pg">PG</option><option value="monster">Mostro</option></select>
+    <button class="btn btn-green" onclick="addEntry()">+</button>
+  </div>
+  <div class="controls">
+    <button class="btn btn-teal" onclick="nextTurn()">▶ Prossimo</button>
+    <button class="btn btn-gold" onclick="sortAll()">↕ Riordina</button>
+    <button class="btn btn-red" onclick="resetAll()">✕ Reset</button>
+  </div>
+  <div class="round-badge" id="roundBadge">Round 1</div>
+  <div class="list" id="list"></div>
+  <div class="empty" id="emptyMsg">Aggiungi PG e mostri per iniziare il combattimento</div>
+</div>
+<script>
+let entries=JSON.parse(localStorage.getItem("dnd_init")||"[]");
+let activeIdx=parseInt(localStorage.getItem("dnd_init_active")||"0");
+let round=parseInt(localStorage.getItem("dnd_init_round")||"1");
+
+function save(){localStorage.setItem("dnd_init",JSON.stringify(entries));localStorage.setItem("dnd_init_active",activeIdx);localStorage.setItem("dnd_init_round",round);}
+
+function addEntry(){
+  const n=document.getElementById("aName").value.trim();
+  const i=parseInt(document.getElementById("aInit").value)||0;
+  const t=document.getElementById("aType").value;
+  if(!n)return;
+  entries.push({name:n,init:i,type:t,hp:null,hpMax:null,dead:false});
+  entries.sort((a,b)=>b.init-a.init);
+  activeIdx=0;
+  document.getElementById("aName").value="";
+  document.getElementById("aInit").value="";
+  save();render();
+}
+
+function sortAll(){entries.sort((a,b)=>b.init-a.init);activeIdx=0;save();render();}
+function resetAll(){if(!confirm("Resettare tutto?"))return;entries=[];activeIdx=0;round=1;save();render();}
+
+function nextTurn(){
+  if(!entries.length)return;
+  let tries=0;
+  do{activeIdx=(activeIdx+1)%entries.length;tries++;if(activeIdx===0)round++;}while(entries[activeIdx].dead&&tries<entries.length);
+  save();render();
+}
+
+function removeEntry(i){entries.splice(i,1);if(activeIdx>=entries.length)activeIdx=0;save();render();}
+function toggleDead(i){entries[i].dead=!entries[i].dead;save();render();}
+function editInit(i){const v=prompt("Nuova iniziativa:",entries[i].init);if(v!==null){entries[i].init=parseInt(v)||0;entries.sort((a,b)=>b.init-a.init);activeIdx=0;save();render();}}
+
+function render(){
+  document.getElementById("roundBadge").textContent="Round "+round;
+  const list=document.getElementById("list");
+  const empty=document.getElementById("emptyMsg");
+  if(!entries.length){list.innerHTML="";empty.style.display="block";return;}
+  empty.style.display="none";
+  list.innerHTML=entries.map((e,i)=>{
+    const cls=["entry"];
+    if(e.type==="monster")cls.push("monster");
+    if(i===activeIdx&&!e.dead)cls.push("active");
+    if(e.dead)cls.push("dead");
+    return`<div class="${cls.join(" ")}">
+      <div class="init" onclick="editInit(${i})" style="cursor:pointer" title="Modifica iniziativa">${e.init}</div>
+      <div class="info">
+        <div class="name">${e.name}</div>
+        <div class="tag">${e.type==="monster"?"Mostro":"Giocatore"}${i===activeIdx&&!e.dead?" · ▶ TURNO":""}</div>
+      </div>
+      <div class="acts">
+        <button onclick="toggleDead(${i})" title="${e.dead?"Rianima":"Abbatti"}">${e.dead?"💚":"💀"}</button>
+        <button onclick="removeEntry(${i})" title="Rimuovi">✕</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+render();
+</script>
+</body>
+</html>
