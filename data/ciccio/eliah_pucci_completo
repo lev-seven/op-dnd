@@ -1,0 +1,440 @@
+{
+  "account": "Ciccio",
+  "accountId": "ciccio",
+  "exportedAt": "2026-03-30T11:03:05.324Z",
+  "character": {
+    "id": "eliah_pucci_001",
+    "name": "Eliah Pucci",
+    "race": "Skypiean",
+    "level": 7,
+    "classes": "Navigatore 5 / Cecchino 1 / Carpentiere 1",
+    "ac": 17,
+    "hpMax": 58,
+    "hpCurrent": 58,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 28,
+    "passivePerception": 16,
+    "profBonus": 3,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 8,
+        "mod": -1,
+        "save": 2,
+        "profSave": true
+      },
+      "DES": {
+        "score": 17,
+        "mod": 3,
+        "save": 6,
+        "profSave": true
+      },
+      "COS": {
+        "score": 11,
+        "mod": 0,
+        "save": 3,
+        "profSave": true
+      },
+      "INT": {
+        "score": 14,
+        "mod": 2,
+        "save": 5,
+        "profSave": true
+      },
+      "SAG": {
+        "score": 12,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Navigazione",
+        "mod": 5
+      },
+      {
+        "name": "Atletica",
+        "mod": 9
+      },
+      {
+        "name": "Natura",
+        "mod": 4
+      },
+      {
+        "name": "Sopravvivenza",
+        "mod": 4
+      },
+      {
+        "name": "Percezione",
+        "mod": 5
+      },
+      {
+        "name": "Artigianato",
+        "mod": 5
+      },
+      {
+        "name": "Intimidire",
+        "mod": 3
+      },
+      {
+        "name": "Storia",
+        "mod": 4
+      }
+    ],
+    "origins": [
+      {
+        "id": "cecchino",
+        "name": "Cecchino",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "carpentiere",
+        "name": "Carpentiere",
+        "color": "#e67e22"
+      },
+      {
+        "id": "navigatore",
+        "name": "Navigatore",
+        "color": "#3498db"
+      },
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "atk1",
+        "name": "Balestra",
+        "hit": 6,
+        "damage": "3d6+3",
+        "type": "perforante"
+      },
+      {
+        "id": "atk2",
+        "name": "Pattini (contundente)",
+        "hit": 6,
+        "damage": "1d8+3",
+        "type": "contundente"
+      },
+      {
+        "id": "atk3",
+        "name": "Pattini (tagliente)",
+        "hit": 6,
+        "damage": "1d6+3",
+        "type": "tagliente"
+      }
+    ],
+    "abilities": [
+    {
+      "id": "a1",
+      "name": "Colpo Letale",
+      "originId": "cecchino",
+      "type": "Passiva",
+      "desc": "Una volta per turno, aggiungi 1d6 al danno di un attacco a distanza.",
+      "maxUses": -1,
+      "uses": 0,
+      "rest": null,
+      "fav": false,
+      "cdStat": null
+    },
+    {
+      "id": "a2",
+      "name": "Colpo con la Punta",
+      "originId": "carpentiere",
+      "type": "Azione",
+      "desc": "Come azione speciale, puoi infliggere 1d8 danni contundenti aggiuntivi utilizzando un martello.",
+      "maxUses": -1,
+      "uses": 0,
+      "rest": null,
+      "fav": false,
+      "cdStat": null
+    },
+    {
+      "id": "a3",
+      "name": "Riparazione Rapida",
+      "originId": "carpentiere",
+      "type": "Azione",
+      "desc": "Puoi utilizzare un'azione per riparare oggetti o strutture fino a 10 punti ferita.",
+      "maxUses": -1,
+      "uses": 0,
+      "rest": null,
+      "fav": false,
+      "cdStat": null
+    },
+    {
+      "id": "a4",
+      "name": "Guida Impeccabile",
+      "originId": "navigatore",
+      "type": "Azione",
+      "desc": "Puoi utilizzare un'azione speciale per concedere vantaggio a un alleato su un tiro salvezza o una prova di abilità relativa al movimento.",
+      "maxUses": -1,
+      "uses": 0,
+      "rest": null,
+      "fav": false,
+      "cdStat": null
+    },
+    {
+      "id": "a5",
+      "name": "Controllo del Vento",
+      "originId": "navigatore",
+      "type": "Azione",
+      "desc": "Puoi creare raffiche che rallentano o spingono i nemici entro 30 piedi (9m).",
+      "maxUses": -1,
+      "uses": 0,
+      "rest": null,
+      "fav": false,
+      "cdStat": null
+    },
+    {
+      "id": "a6",
+      "name": "Velocità di Fuga",
+      "originId": "navigatore",
+      "type": "Passiva",
+      "desc": "Aumenta la tua velocità di movimento di 10 piedi (3m) e puoi Disimpegnarti come azione bonus.",
+      "maxUses": -1,
+      "uses": 0,
+      "rest": null,
+      "fav": false,
+      "cdStat": null
+    },
+    {
+      "id": "a7",
+      "name": "Chiamata degli Elementi",
+      "originId": "navigatore",
+      "type": "Azione",
+      "desc": "Puoi utilizzare un'azione speciale per evocare una tempesta locale che infligge 3d8 danni elementali (fulmine, vento o acqua) ai nemici in un'area di 20 piedi (6m).",
+      "maxUses": -1,
+      "uses": 0,
+      "rest": null,
+      "fav": false,
+      "cdStat": null
+    },
+    {
+      "id": "a8",
+      "name": "Aura di Vita",
+      "originId": "haki_arm",
+      "type": "Azione",
+      "desc": "Puoi spendere un'azione per ottenere 1d6 + il tuo punteggio di Costituzione + il tuo livello del personaggio in punti ferita temporanei. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Non puoi usare di nuovo questa capacità finché non completi un riposo lungo.",
+      "maxUses": 3,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "COS",
+      "fav": false
+    },
+    {
+      "id": "a9",
+      "name": "Armatura dell'Anima",
+      "originId": "haki_arm",
+      "type": "Azione",
+      "desc": "Come azione, avvolgi il tuo corpo con questa armatura, rendendo la tua CA pari a 13 + il tuo modificatore di Costituzione quando non indossi armature. Questa armatura dura 8 ore. Non puoi usare di nuovo questa capacità finché non completi un riposo lungo.",
+      "maxUses": 1,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "COS",
+      "fav": false
+    },
+    {
+      "id": "a10",
+      "name": "Esplosione Spirituale",
+      "originId": "haki_arm",
+      "type": "Passiva",
+      "desc": "Quando colpisci una creatura con un attacco con arma da mischia o con un attacco senz'armi, puoi sprigionare un'ondata di energia spirituale per infliggere 2d8 danni da forza aggiuntivi al bersaglio. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.",
+      "maxUses": 3,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "COS",
+      "fav": false
+    },
+    {
+      "id": "a11",
+      "name": "Indurimento delle Armi",
+      "originId": "haki_arm",
+      "type": "Azione bonus",
+      "desc": "Come azione bonus, incanali l'haki nel tuo corpo o in un'arma a tua scelta. Per 1 minuto, i tuoi attacchi con l'arma scelta sono considerati magici con un bonus di +1 ai tiri per colpire e ai tiri per i danni. L'effetto termina prima se perdi conoscenza, lo usi di nuovo, lo termini come azione bonus o inizi il tuo turno senza impugnare l'arma. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.",
+      "maxUses": 3,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "COS",
+      "fav": false
+    },
+    {
+      "id": "a12",
+      "name": "Vaso della Resilienza",
+      "originId": "haki_arm",
+      "type": "Azione",
+      "desc": "Come azione, puoi potenziare le tue difese per 1 minuto. Durante questo periodo, hai resistenza ai danni contundenti, perforanti e taglienti derivanti da attacchi non magici e hai vantaggio ai tiri salvezza su Costituzione. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
+      "maxUses": 1,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "COS",
+      "fav": false
+    },
+    {
+      "id": "a13",
+      "name": "Conquista del Re",
+      "originId": "haki_arm",
+      "type": "Azione bonus",
+      "desc": "Quando usi Indurimento delle Armi su un'arma che stai impugnando, puoi scegliere di attivare Conquista del Re. Per 1 minuto, la tua portata con quell'arma aumenta di 3 metri. Quando colpisci una creatura, puoi spingerla fino a 3 metri; la creatura è anche stordita fino all'inizio del tuo prossimo turno, a meno che non superi un TS su Costituzione contro la CD Haki dell'Armatura. Una volta per round puoi infliggere danni da forza aggiuntivi pari al doppio del tuo bonus di competenza + mod. COS. Una volta utilizzata, non puoi usarla di nuovo finché non completi un riposo lungo.",
+      "maxUses": 1,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "COS",
+      "fav": false
+    },
+    {
+      "id": "a14",
+      "name": "Vista Lontana",
+      "originId": "haki_oss",
+      "type": "Azione bonus",
+      "desc": "Come azione bonus, puoi estendere la gittata delle tue armi a distanza per 1 minuto o finché non sei incapacitato. La gittata dei tuoi attacchi con armi a distanza è raddoppiata e non subisci alcun svantaggio per gli attacchi a lunga distanza per tutta la durata. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
+      "maxUses": 1,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "SAG",
+      "fav": false
+    },
+    {
+      "id": "a15",
+      "name": "Colpo Echeggiante",
+      "originId": "haki_oss",
+      "type": "Azione bonus",
+      "desc": "Quando effettui un attacco con un'arma a distanza e manchi il bersaglio, puoi usare la tua azione bonus per ritirare il dado contro una creatura diversa entro la portata. Il nuovo attacco rimbalza su una superficie solida prima di dirigersi verso il nuovo bersaglio. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi al termine di un riposo lungo.",
+      "maxUses": 3,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "SAG",
+      "fav": false
+    },
+    {
+      "id": "a16",
+      "name": "Prevedi il Risultato",
+      "originId": "haki_oss",
+      "type": "Reazione",
+      "desc": "Quando effettui un tiro per colpire, una prova di caratteristica o un tiro salvezza, puoi scegliere di ritirare il d20 prima che venga determinato l'esito. In alternativa, quando una creatura che puoi vedere effettua un attacco contro di te o un TS contro una tua capacità, puoi costringerla a ritirare il tiro. Se il tiro viene effettuato con vantaggio o svantaggio, entrambi i d20 vengono rilanciati. Una volta utilizzata, non puoi usarla di nuovo fino al termine di un riposo lungo.",
+      "maxUses": 1,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "SAG",
+      "fav": false
+    },
+    {
+      "id": "a17",
+      "name": "Senso Spirituale",
+      "originId": "haki_oss",
+      "type": "Azione",
+      "desc": "Come azione, puoi percepire la presenza di creature che non puoi vedere entro 18 metri da te, a condizione che tu e la creatura non siate separati da una copertura totale. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi al termine di un riposo lungo.",
+      "maxUses": 3,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "SAG",
+      "fav": false
+    },
+    {
+      "id": "a18",
+      "name": "Attacco Predittivo",
+      "originId": "haki_oss",
+      "type": "Reazione",
+      "desc": "Quando una creatura ti manca con un attacco in mischia, puoi usare la tua reazione per effettuare un attacco in mischia contro la creatura. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi al termine di un riposo lungo.",
+      "maxUses": 3,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "SAG",
+      "fav": false
+    },
+    {
+      "id": "a19",
+      "name": "La Richiesta del Signore",
+      "originId": "haki_re",
+      "type": "Azione",
+      "desc": "Come azione, puoi impartire un comando a una creatura che puoi vedere entro 18 metri da te. Il comando deve essere una frase di non più di dieci parole. Il bersaglio deve superare un tiro salvezza su Saggezza o eseguire il comando nel suo prossimo turno al meglio delle sue capacità. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo breve o lungo.",
+      "maxUses": 1,
+      "uses": 0,
+      "rest": "breve",
+      "cdStat": "CAR",
+      "fav": false
+    },
+    {
+      "id": "a20",
+      "name": "La Risolutezza del Re",
+      "originId": "haki_re",
+      "type": "Reazione",
+      "desc": "Come reazione, quando i tuoi punti ferita vengono ridotti a 0 ma non vieni ucciso sul colpo, puoi invece scendere a 1 punto ferita. Una volta utilizzata questa capacità, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
+      "maxUses": 1,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "CAR",
+      "fav": false
+    },
+    {
+      "id": "a21",
+      "name": "Il Ruggito del Monarca",
+      "originId": "haki_re",
+      "type": "Azione",
+      "desc": "Come azione, puoi emettere un urlo fragoroso. Ogni creatura entro un cono di 4,5 metri deve effettuare un tiro salvezza su Costituzione o essere assordata e stordita fino alla fine del tuo prossimo turno. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
+      "maxUses": 1,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "CAR",
+      "fav": false
+    },
+    {
+      "id": "a22",
+      "name": "Voce Influente",
+      "originId": "haki_re",
+      "type": "Azione",
+      "desc": "Ottieni competenza nelle abilità di Inganno e Persuasione. Puoi lanciare l'incantesimo Fascino su Persona senza consumare slot incantesimo o componenti materiali. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
+      "maxUses": 3,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "CAR",
+      "fav": false
+    },
+    {
+      "id": "a23",
+      "name": "Sguardo Spaventoso",
+      "originId": "haki_re",
+      "type": "Azione",
+      "desc": "Ottieni competenza nell'abilità Intimidazione. Puoi lanciare l'incantesimo Causare Paura senza consumare uno slot incantesimo o componenti materiali. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
+      "maxUses": 3,
+      "uses": 0,
+      "rest": "lungo",
+      "cdStat": "CAR",
+      "fav": false
+    },
+    {
+      "id": "a24",
+      "name": "Compagno del Re",
+      "originId": "haki_re",
+      "type": "Rituale",
+      "desc": "Puoi lanciare l'incantesimo Trova Famiglio come rituale senza utilizzare componenti materiali. Il famiglio può apparire come qualsiasi piccola creatura tu desideri. Inoltre, quando effettui l'azione di Attacco nel tuo turno, puoi rinunciare a uno dei tuoi attacchi per permettere al tuo famiglio di effettuare un attacco a sua volta con la sua reazione.",
+      "maxUses": -1,
+      "uses": 0,
+      "rest": null,
+      "cdStat": "CAR",
+      "fav": false
+    }
+    ],
+    "notes": "",
+    "diceLog": []
+  }
+};
