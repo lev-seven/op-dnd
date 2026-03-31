@@ -69,7 +69,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.27";
+const APP_VERSION="v1.28";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -151,7 +151,7 @@ const DEFAULT_SKILLS=[
 ];
 
 // Calcola mod skill: se ha stat, auto-calcola; altrimenti usa mod fisso (retrocompat)
-function skMod(s,stats,pb){if(s.stat&&stats[s.stat])return stats[s.stat].mod+(s.prof?pb:0);return s.mod||0;}
+function skMod(s,stats,pb){if(s.stat&&stats[s.stat])return stats[s.stat].mod+(s.prof?pb:0);return(s.mod||0)+(s.prof?pb:0);}
 
 // Auto-migra skill vecchio formato → nuovo. Matcha per nome con le default.
 function migrateSkills(skills){
@@ -725,6 +725,25 @@ function DP({p,oM,oA,oRR,oX,ac}){
 }
 
 /* ═══ STAT TAB ═══ */
+const SK_SORTS=[{id:"az",l:"A-Z"},{id:"mod",l:"Mod ↓"},{id:"prof",l:"Comp."}];
+function SkillList({skills,stats,pb,ac,oR,sM}){
+  const[sort,setSort]=useState("az");
+  const indexed=skills.map((s,i)=>({...s,idx:i,_m:skMod(s,stats,pb)}));
+  const sorted=sort==="mod"?[...indexed].sort((a,b)=>b._m-a._m):sort==="prof"?[...indexed].sort((a,b)=>(b.prof?1:0)-(a.prof?1:0)||a.name.localeCompare(b.name)):[...indexed].sort((a,b)=>a.name.localeCompare(b.name));
+  return<>
+    <div style={{display:"flex",gap:3,marginBottom:4}}>{SK_SORTS.map(s=><button key={s.id} onClick={()=>setSort(s.id)} style={{padding:"2px 7px",borderRadius:4,border:`1px solid ${sort===s.id?ac+"66":ac+"22"}`,background:sort===s.id?ac+"15":"transparent",color:sort===s.id?ac:"#665a3e",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:sort===s.id?700:400}}>{s.l}</button>)}</div>
+    <div style={{display:"flex",flexDirection:"column",gap:3}}>{sorted.map(s=>(
+      <div key={s.idx} style={{display:"flex",alignItems:"center",gap:4}}>
+        <button onClick={()=>oR({label:s.name,type:"d20",modifier:s._m})} style={{flex:1,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 10px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",textAlign:"left",touchAction:"manipulation"}}>
+          <span style={{fontSize:12,color:"#e8dcc8"}}>{s.prof?"● ":""}{s.name}{s.stat?<span style={{fontSize:9,color:"#665a3e",marginLeft:4}}>({s.stat})</span>:null}</span>
+          <span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s._m>=0?`+${s._m}`:s._m} 🎲</span>
+        </button>
+        <button onClick={()=>sM({type:"skill",data:{...s,idx:s.idx}})} style={{width:24,height:24,borderRadius:"50%",border:`1px solid ${ac}22`,background:`${ac}0a`,color:ac,fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✎</button>
+      </div>
+    ))}</div>
+  </>;
+}
+
 function STab({c,up,edit,oR,sM,ac}){
   const uS=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave")ns[k].save=ns[k].mod+(v?c.profBonus:0);up({stats:ns});};
   return(
@@ -758,17 +777,7 @@ function STab({c,up,edit,oR,sM,ac}){
         <Sec ac={ac}>Abilità</Sec>
         <button onClick={()=>sM({type:"skill"})} style={{...SS.gn,padding:"4px 12px",fontSize:10}}>+ Nuova</button>
       </div>
-      <div style={{display:"flex",flexDirection:"column",gap:3}}>
-        {c.skills.map((s,i)=>{const m=skMod(s,c.stats,c.profBonus);return(
-          <div key={i} style={{display:"flex",alignItems:"center",gap:4}}>
-            <button onClick={()=>oR({label:s.name,type:"d20",modifier:m})} style={{flex:1,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 10px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",textAlign:"left",touchAction:"manipulation"}}>
-              <span style={{fontSize:12,color:"#e8dcc8"}}>{s.prof?"● ":""}{s.name}{s.stat?<span style={{fontSize:9,color:"#665a3e",marginLeft:4}}>({s.stat})</span>:null}</span>
-              <span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{m>=0?`+${m}`:m} 🎲</span>
-            </button>
-            <button onClick={()=>sM({type:"skill",data:{...s,idx:i}})} style={{width:24,height:24,borderRadius:"50%",border:`1px solid ${ac}22`,background:`${ac}0a`,color:ac,fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✎</button>
-          </div>
-        );})}
-      </div>
+      <SkillList skills={c.skills} stats={c.stats} pb={c.profBonus} ac={ac} oR={oR} sM={sM}/>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:14}}>
         <Sec ac={ac}>Attacchi</Sec>
         <button onClick={()=>sM({type:"attack"})} style={{...SS.gn,padding:"4px 12px",fontSize:10}}>+ Nuovo</button>
@@ -1082,7 +1091,7 @@ function SM({c,up,data,oC}){
   const[st,setSt]=useState(data?.stat||"");
   const[pr,setPr]=useState(data?.prof||false);
   const[md,setMd]=useState(data?.mod||0);
-  const sv=()=>{if(!nm.trim())return;const s=st?{name:nm.trim(),stat:st,prof:pr}:{name:nm.trim(),stat:null,mod:parseInt(md)||0,prof:false};if(isE){const sk=[...c.skills];sk[data.idx]=s;up({skills:sk});}else{up({skills:[...c.skills,s]});}oC();};
+  const sv=()=>{if(!nm.trim())return;const s=st?{name:nm.trim(),stat:st,prof:pr}:{name:nm.trim(),stat:null,mod:parseInt(md)||0,prof:pr};if(isE){const sk=[...c.skills];sk[data.idx]=s;up({skills:sk});}else{up({skills:[...c.skills,s]});}oC();};
   const dl=()=>{if(!isE)return;up({skills:c.skills.filter((_,i)=>i!==data.idx)});oC();};
   const preview=st?((c.stats[st]?.mod||0)+(pr?c.profBonus:0)):parseInt(md)||0;
   return<Sh t={isE?"Modifica Abilità":"Nuova Abilità"} oC={oC}>
@@ -1091,8 +1100,8 @@ function SM({c,up,data,oC}){
       {["FOR","DES","COS","INT","SAG","CAR"].map(k=><button key={k} onClick={()=>setSt(k)} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${st===k?"#c8a95e":"#c8a95e22"}`,background:st===k?"rgba(200,169,94,0.15)":"transparent",color:st===k?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:st===k?700:400}}>{k}</button>)}
       <button onClick={()=>setSt("")} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${!st?"#3498db":"#3498db22"}`,background:!st?"rgba(52,152,219,0.12)":"transparent",color:!st?"#3498db":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>Custom</button>
     </div></Fl>
-    {st?<Fl l="Competenza"><button onClick={()=>setPr(!pr)} style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",borderRadius:5,border:`1.5px solid ${pr?"#2ecc7166":"#c8a95e22"}`,background:pr?"rgba(46,204,113,0.1)":"transparent",color:pr?"#2ecc71":"#998866",fontSize:11,fontFamily:"'Cinzel'",cursor:"pointer",width:"100%"}}>{pr?"✓ Competente":"○ Non competente"}</button></Fl>
-    :<Fl l="Modificatore Fisso"><input type="number" value={md} onChange={e=>setMd(parseInt(e.target.value)||0)} style={{...SS.inp,width:"100%"}}/></Fl>}
+    <Fl l="Competenza"><button onClick={()=>setPr(!pr)} style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",borderRadius:5,border:`1.5px solid ${pr?"#2ecc7166":"#c8a95e22"}`,background:pr?"rgba(46,204,113,0.1)":"transparent",color:pr?"#2ecc71":"#998866",fontSize:11,fontFamily:"'Cinzel'",cursor:"pointer",width:"100%"}}>{pr?"✓ Competente":"○ Non competente"}</button></Fl>
+    {!st&&<Fl l="Modificatore Fisso"><input type="number" value={md} onChange={e=>setMd(parseInt(e.target.value)||0)} style={{...SS.inp,width:"100%"}}/></Fl>}
     <div style={{textAlign:"center",padding:"8px 0",fontFamily:"'JetBrains Mono'",fontSize:16,fontWeight:700,color:"#c8a95e"}}>Mod: {preview>=0?"+":""}{preview}</div>
     <div style={{display:"flex",gap:5,marginTop:8}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
   </Sh>;
