@@ -155,7 +155,7 @@ async function loadCharacter(){
   try{
     var path=window.location.pathname;
     var htmlFile=path.split('/').pop();
-    var jsonFile = htmlFile.replace(/\.html$/, '') + '_completo.json';
+    var jsonFile = htmlFile.replace(/\.html$/, '.json');
     var basePath=path.substring(0,path.lastIndexOf('/')+1);
     var jsonUrl=window.location.origin+basePath+jsonFile+'?t='+Date.now();
     var res=await fetch(jsonUrl);
