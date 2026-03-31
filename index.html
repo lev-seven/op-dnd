@@ -67,7 +67,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.20";
+const APP_VERSION="v1.21";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -92,7 +92,7 @@ async function ghPut(path,content,token){
   const hd={"Authorization":`token ${token}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
   // GET current file SHA (required for update)
   let sha=null;
-  try{const r=await fetch(api,{headers:hd});if(r.ok){const j=await r.json();sha=j.sha;}}catch{}
+  try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok){const j=await r.json();sha=j.sha;}}catch{}
   const body={message:`Update ${path}`,content:btoa(unescape(encodeURIComponent(content)))};
   if(sha)body.sha=sha;
   const res=await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)});
