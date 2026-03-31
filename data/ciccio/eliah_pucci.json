@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T15:46:12.641Z",
+  "exportedAt": "2026-03-31T15:56:28.247Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -60,7 +60,7 @@
         "name": "Navigazione",
         "stat": null,
         "mod": 2,
-        "prof": true
+        "prof": false
       },
       {
         "name": "Atletica",
@@ -519,21 +519,7 @@
       }
     ],
     "notes": "",
-    "diceLog": [
-      {
-        "type": "d20",
-        "label": "Prova FOR",
-        "total": 17,
-        "roll1": 18,
-        "roll2": 14,
-        "chosen": 18,
-        "modifier": -1,
-        "mode": "normale",
-        "isNat20": false,
-        "isNat1": false,
-        "timestamp": 1774971754647
-      }
-    ],
+    "diceLog": [],
     "effects": []
   }
 }
