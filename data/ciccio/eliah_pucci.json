@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T20:24:44.902Z",
+  "exportedAt": "2026-03-31T21:01:13.141Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -94,7 +94,7 @@
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intrattenere",
@@ -268,7 +268,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "breve",
-        "fav": false,
+        "fav": true,
         "cdStat": null
       },
       {
@@ -328,7 +328,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": null
       },
       {
@@ -352,7 +352,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": false,
+        "fav": true,
         "cdStat": null
       },
       {
@@ -388,7 +388,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "breve",
-        "fav": false,
+        "fav": true,
         "cdStat": "COS"
       },
       {
@@ -400,7 +400,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": false,
+        "fav": true,
         "cdStat": null
       },
       {
@@ -412,7 +412,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": false,
+        "fav": true,
         "cdStat": null
       },
       {
@@ -424,7 +424,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": false,
+        "fav": true,
         "cdStat": null
       },
       {
@@ -448,7 +448,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "breve",
-        "fav": false,
+        "fav": true,
         "cdStat": null
       },
       {
@@ -472,7 +472,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": false,
+        "fav": true,
         "cdStat": null
       },
       {
@@ -484,7 +484,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "COS"
       },
       {
@@ -508,7 +508,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "COS"
       },
       {
@@ -520,7 +520,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "COS"
       },
       {
@@ -532,7 +532,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "COS"
       },
       {
@@ -544,7 +544,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "COS"
       },
       {
@@ -580,7 +580,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "SAG"
       },
       {
@@ -604,7 +604,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "SAG"
       },
       {
@@ -640,7 +640,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "SAG"
       },
       {
@@ -738,6 +738,30 @@
         "rest": null,
         "fav": false,
         "cdStat": null
+      },
+      {
+        "id": "mnf39085c741",
+        "name": "Copiare una Creazione nei Progetti",
+        "originId": "tinkerer",
+        "type": "Rituale",
+        "desc": "Quando trovi una Creazione di 1° livello o superiore, puoi aggiungerla ai tuoi Progetti se hai tempo per decifrarla e copiarla.\nPer ogni livello dell’incantesimo: 2 ore e ฿500.000.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnf3aypo8npm",
+        "name": "Sostuire Progetti o Congegno",
+        "originId": "tinkerer",
+        "type": "Azione",
+        "desc": "Puoi copiare i tuoi Progetti su un altro set più facilmente (1 ora e ฿100.000 per livello).\nSe perdi i Progetti, puoi trascrivere quelli preparati.\nRicostruire il congegno richiede almeno 1 ora durante un riposo breve o lungo.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
       }
     ],
     "notes": "Attrezzi da cartografo\nAttrezzi da lavoro e meccanica\nOmbrelli\nLogpose+torcia+balestra a mano\nCorda 15m\nChiodi / Dardi\nPezzo di metallo strano\n\nSirano\n\nProspero \nClement\nAlthea\nElios\nNun\nVein\n\nAiterius Rex\n\nZigzag\nNeive \nRenzo\nGregory\n\nDjango\n\nMurai -\nRiobe\nPetunia ❤️\nLaila\nIria 🗺️\n\nShinra x\nWilson x\nAda x\n\nRina ❤️\nDixon \n\nKizuna",
