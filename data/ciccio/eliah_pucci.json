@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T19:49:00.469Z",
+  "exportedAt": "2026-03-31T19:49:16.678Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -304,7 +304,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": true,
+        "fav": false,
         "cdStat": "INT"
       },
       {
@@ -352,7 +352,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": true,
+        "fav": false,
         "cdStat": null
       },
       {
@@ -364,7 +364,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": true,
+        "fav": false,
         "cdStat": null
       },
       {
@@ -388,7 +388,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "breve",
-        "fav": true,
+        "fav": false,
         "cdStat": "COS"
       },
       {
@@ -400,7 +400,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": true,
+        "fav": false,
         "cdStat": null
       },
       {
@@ -472,7 +472,7 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "fav": true,
+        "fav": false,
         "cdStat": null
       },
       {
@@ -484,7 +484,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "lungo",
-        "fav": true,
+        "fav": false,
         "cdStat": "COS"
       },
       {
@@ -508,7 +508,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "lungo",
-        "fav": true,
+        "fav": false,
         "cdStat": "COS"
       },
       {
@@ -520,7 +520,7 @@
         "maxUses": 3,
         "uses": 0,
         "rest": "lungo",
-        "fav": true,
+        "fav": false,
         "cdStat": "COS"
       },
       {
@@ -544,7 +544,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": true,
+        "fav": false,
         "cdStat": "COS"
       },
       {
@@ -580,7 +580,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": true,
+        "fav": false,
         "cdStat": "SAG"
       },
       {
@@ -628,7 +628,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": true,
+        "fav": false,
         "cdStat": "SAG"
       },
       {
@@ -664,7 +664,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "breve",
-        "fav": true,
+        "fav": false,
         "cdStat": "CAR"
       },
       {
@@ -676,7 +676,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": true,
+        "fav": false,
         "cdStat": "CAR"
       },
       {
@@ -688,7 +688,7 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "fav": true,
+        "fav": false,
         "cdStat": "CAR"
       },
       {
