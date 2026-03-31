@@ -56,49 +56,109 @@
       }
     },
     "skills": [
-      {
-        "name": "Navigazione",
-        "stat": null,
-        "mod": 5,
-        "prof": false
-      },
-      {
-        "name": "Atletica",
-        "stat": "FOR",
-        "prof": true
-      },
-      {
-        "name": "Natura",
-        "stat": "INT",
-        "prof": true
-      },
-      {
-        "name": "Sopravvivenza",
-        "stat": "SAG",
-        "prof": true
-      },
-      {
-        "name": "Percezione",
-        "stat": "SAG",
-        "prof": true
-      },
-      {
-        "name": "Artigianato",
-        "stat": null,
-        "mod": 5,
-        "prof": false
-      },
-      {
-        "name": "Intimidire",
-        "stat": "CAR",
-        "prof": true
-      },
-      {
-        "name": "Storia",
-        "stat": "INT",
-        "prof": true
-      }
-    ],
+    {
+      "name": "Navigazione",
+      "stat": null,
+      "mod": 5,
+      "prof": false
+    },
+    {
+      "name": "Atletica",
+      "stat": "FOR",
+      "prof": true
+    },
+    {
+      "name": "Natura",
+      "stat": "INT",
+      "prof": true
+    },
+    {
+      "name": "Sopravvivenza",
+      "stat": "SAG",
+      "prof": true
+    },
+    {
+      "name": "Percezione",
+      "stat": "SAG",
+      "prof": true
+    },
+    {
+      "name": "Artigianato",
+      "stat": null,
+      "mod": 5,
+      "prof": false
+    },
+    {
+      "name": "Intimidire",
+      "stat": "CAR",
+      "prof": true
+    },
+    {
+      "name": "Storia",
+      "stat": "INT",
+      "prof": true
+    },
+    {
+      "name": "Acrobazia",
+      "stat": "DES",
+      "prof": false
+    },
+    {
+      "name": "Addestrare Animali",
+      "stat": "SAG",
+      "prof": false
+    },
+    {
+      "name": "Intrattenere",
+      "stat": "CAR",
+      "prof": false
+    },
+    {
+      "name": "Arcano",
+      "stat": "INT",
+      "prof": false
+    },
+    {
+      "name": "Intuizione",
+      "stat": "SAG",
+      "prof": false
+    },
+    {
+      "name": "Medicina",
+      "stat": "SAG",
+      "prof": false
+    },
+    {
+      "name": "Furtività",
+      "stat": "DES",
+      "prof": false
+    },
+    {
+      "name": "Indagare",
+      "stat": "INT",
+      "prof": false
+    },
+    {
+      "name": "Inganno",
+      "stat": "CAR",
+      "prof": false
+    },
+    {
+      "name": "Persuasione",
+      "stat": "CAR",
+      "prof": false
+    },
+    {
+      "name": "Rapidità di Mano",
+      "stat": "DES",
+      "prof": false
+    },
+    {
+      "name": "Religione",
+      "stat": "INT",
+      "prof": false
+    }
+  ],
     "origins": [
       {
         "id": "cecchino",
