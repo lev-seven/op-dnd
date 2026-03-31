@@ -812,8 +812,8 @@
       "components": { "v": true, "s": false, "m": null },
       "duration": "Istantanea",
       "concentration": false,
-      "desc": "Indichi una creatura che puoi vedere entro gittata e il suono di una campana dolorosa la avvolge. Il bersaglio deve superare un tiro salvezza su Saggezza o subire 1d8 danni necrotici. Se il bersaglio ha già perso almeno un punto ferita, subisce invece 1d12 danni necrotici. Il danno aumenta con il livello.",
-      "higherLevels": "Il danno aumenta di un dado quando raggiungi livelli più alti.",
+      "desc": "Indichi una creatura che puoi vedere entro gittata e il suono di una campana dolorosa la avvolge. Il bersaglio deve superare un tiro salvezza su Saggezza o subire 1d8 danni necrotici. Se il bersaglio ha già perso almeno un punto ferita, subisce invece 1d12 danni necrotici.",
+      "higherLevels": "Il danno aumenta di un dado quando raggiungi il 5° livello (2d8/2d12), 11° livello (3d8/3d12) e 17° livello (4d8/4d12).",
       "prepared": true
     },
     {
@@ -827,7 +827,7 @@
       "components": { "v": true, "s": true, "m": "due calamite" },
       "duration": "Istantanea",
       "concentration": false,
-      "desc": "Ripari una rottura o uno strappo in un oggetto che tocchi. Puoi riparare un oggetto rotto o strappato, come una catena spezzata, un mantello strappato o una fuga in un recipiente. L'incantesimo può riparare un singolo strappo o rottura non più grande di 30 cm.",
+      "desc": "Questo incantesimo ripara una singola rottura o strappo in un oggetto che tocchi, come una catena spezzata, un mantello strappato o una perdita in un contenitore. La rottura non può essere più grande di 30 cm in qualsiasi dimensione.",
       "higherLevels": null,
       "prepared": true
     },
@@ -842,8 +842,8 @@
       "components": { "v": true, "s": true, "m": null },
       "duration": "Istantanea",
       "concentration": false,
-      "desc": "Una scarica elettrica colpisce una creatura che tocchi. Effettua un attacco con incantesimo in mischia. Se colpisce, il bersaglio subisce 1d8 danni da fulmine e non può effettuare reazioni fino all'inizio del suo prossimo turno. Hai vantaggio se il bersaglio indossa armatura metallica.",
-      "higherLevels": "Il danno aumenta con il livello.",
+      "desc": "Una scarica elettrica scaturisce dalla tua mano e colpisce una creatura che tocchi. Effettua un attacco con incantesimo in mischia. Se colpisce, il bersaglio subisce 1d8 danni da fulmine e non può effettuare reazioni fino all'inizio del suo prossimo turno. Hai vantaggio se il bersaglio indossa armatura metallica.",
+      "higherLevels": "Il danno aumenta a 2d8 al 5° livello, 3d8 all’11° livello e 4d8 al 17° livello.",
       "prepared": true
     },
     {
@@ -857,7 +857,7 @@
       "components": { "v": true, "s": true, "m": null },
       "duration": "Istantanea",
       "concentration": false,
-      "desc": "Crei una raffica di vento che può spingere una creatura o muovere oggetti leggeri o creare effetti sensoriali legati al vento.",
+      "desc": "Crei una raffica di vento che può spingere una creatura di taglia Media o inferiore di 1,5 metri (TS su Forza nega), muovere un oggetto leggero o creare effetti sensoriali come far sventolare abiti o spegnere piccole fiamme.",
       "higherLevels": null,
       "prepared": true
     },
@@ -872,7 +872,7 @@
       "components": { "v": true, "s": true, "m": null },
       "duration": "1 round",
       "concentration": false,
-      "desc": "Una barriera magica invisibile ti protegge. Ottieni +5 alla CA fino all'inizio del tuo prossimo turno e non subisci danni da Magic Missile.",
+      "desc": "Una barriera invisibile di forza magica appare e ti protegge. Fino all'inizio del tuo prossimo turno, hai un bonus di +5 alla CA, inclusa contro l'attacco che ha innescato la reazione, e non subisci danni da Magic Missile.",
       "higherLevels": null,
       "prepared": true
     },
@@ -887,8 +887,8 @@
       "components": { "v": true, "s": true, "m": null },
       "duration": "Istantanea",
       "concentration": false,
-      "desc": "Crei tre dardi di energia magica che colpiscono automaticamente. Ogni dardo infligge 1d4+1 danni da forza.",
-      "higherLevels": "Crei un dardo extra per ogni livello sopra il 1°.",
+      "desc": "Crei tre dardi luminosi di forza magica. Ogni dardo colpisce automaticamente una creatura a tua scelta entro gittata e infligge 1d4+1 danni da forza. I dardi possono essere diretti sullo stesso bersaglio o su bersagli diversi.",
+      "higherLevels": "Quando lanci questo incantesimo usando uno slot di livello superiore, crei un dardo aggiuntivo per ogni livello sopra il 1°.",
       "prepared": true
     },
     {
@@ -902,8 +902,8 @@
       "components": { "v": true, "s": true, "m": null },
       "duration": "Istantanea",
       "concentration": false,
-      "desc": "Crei tre raggi di fuoco e li lanci contro bersagli. Ogni raggio infligge 2d6 danni da fuoco.",
-      "higherLevels": "Crei un raggio aggiuntivo per ogni livello superiore al 2°.",
+      "desc": "Crei tre raggi di fuoco e li scagli contro bersagli entro gittata. Puoi indirizzarli contro uno o più bersagli. Effettua un attacco con incantesimo a distanza per ogni raggio. Se colpisce, il bersaglio subisce 2d6 danni da fuoco.",
+      "higherLevels": "Quando lanci questo incantesimo usando uno slot di livello superiore, crei un raggio aggiuntivo per ogni livello sopra il 2°.",
       "prepared": true
     },
     {
@@ -917,7 +917,7 @@
       "components": { "v": true, "s": false, "m": null },
       "duration": "Istantanea",
       "concentration": false,
-      "desc": "Ti teletrasporti magicamente fino a 9 metri in uno spazio libero che puoi vedere.",
+      "desc": "Ti avvolgi brevemente in una nebbia argentea e ti teletrasporti fino a 9 metri in uno spazio libero che puoi vedere.",
       "higherLevels": null,
       "prepared": true
     },
@@ -932,7 +932,7 @@
       "components": { "v": true, "s": true, "m": null },
       "duration": "Concentrazione, fino a 10 minuti",
       "concentration": true,
-      "desc": "Per la durata, percepisci la presenza di magia entro 9 metri. Puoi usare un'azione per vedere un'aura attorno a creature o oggetti magici.",
+      "desc": "Per la durata, percepisci la presenza di magia entro 9 metri da te. Se percepisci magia, puoi usare un'azione per vedere una debole aura attorno a qualsiasi creatura o oggetto visibile nell'area che ne è pervaso e apprenderne la scuola di magia.",
       "higherLevels": null,
       "prepared": true
     },
@@ -947,8 +947,8 @@
       "components": { "v": true, "s": true, "m": null },
       "duration": "Istantanea",
       "concentration": false,
-      "desc": "Un forte suono esplosivo danneggia creature in un'area. Infligge 3d8 danni da tuono, tiro salvezza su Costituzione per dimezzare.",
-      "higherLevels": "Il danno aumenta di 1d8 per livello superiore.",
+      "desc": "Un improvviso suono fragoroso si diffonde da un punto a tua scelta entro gittata. Ogni creatura in una sfera di 3 metri deve effettuare un tiro salvezza su Costituzione. Subisce 3d8 danni da tuono se fallisce, o metà danno se riesce. Le creature fatte di materiale inorganico hanno svantaggio al tiro.",
+      "higherLevels": "Il danno aumenta di 1d8 per ogni livello dello slot superiore al 2°.",
       "prepared": true
     },
     {
@@ -962,10 +962,10 @@
       "components": { "v": true, "s": true, "m": null },
       "duration": "Concentrazione, fino a 1 minuto",
       "concentration": true,
-      "desc": "Una linea di vento forte soffia da te. Le creature devono superare un TS su Forza o essere spinte indietro. L'area è difficile da attraversare.",
+      "desc": "Una linea di vento forte lunga 18 metri e larga 3 metri soffia da te in una direzione scelta. Le creature nella linea devono superare un tiro salvezza su Forza o essere spinte di 4,5 metri lontano da te. L'area è terreno difficile e disperde gas e vapori.",
       "higherLevels": null,
       "prepared": true
     }
   ]
-  }
+}
 }

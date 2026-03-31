@@ -12,21 +12,21 @@
       "name": "Pata",
       "color": "#3498db",
       "isMaster": false,
-      "h": "abc"
+      "h": "0e73e994ccda52b65938bc6e1ec305f61ab8e2c6188458420f2b46932d118f21"
     },
     {
       "id": "scala",
       "name": "Scala",
       "color": "#c8a95e",
       "isMaster": false,
-      "h": "abc"
+      "h": "77696c7a64e9bc7de8f7f65e22148af210e3a6204f877307f9c8df34220118ec"
     },
     {
       "id": "rik",
       "name": "Rik",
       "color": "#3ff8db",
       "isMaster": false,
-      "h": "abc"
+      "h": "d496e428da1a2c630dd31abab757ec1d25f6e6ab9bacc504747601a0f4fcabc7"
     }
   ],
   "characters": {
