@@ -67,7 +67,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.25";
+const APP_VERSION="v1.26";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -568,7 +568,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
             touchAction:"manipulation"
           }}>
             <span style={{fontSize:18,lineHeight:1}}>{t.icon}</span>
-            <span style={{fontSize:8,letterSpacing:0.5,marginTop:3,fontWeight:tab===t.id?700:400}}>{t.label}</span>
+            <span style={{fontSize:8,letterSpacing:0.5,marginTop:3,fontWeight:tab===t.id?700:400}}>{t.id==="export"&&ghToken?"Salva":t.label}</span>
           </button>
         ))}
       </nav>
@@ -577,6 +577,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
       {modal?.type==="attack"&&<AM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {modal?.type==="ability"&&<BM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {modal?.type==="origins"&&<OM c={c} up={up} oC={()=>setModal(null)}/>}
+      {modal?.type==="skill"&&<SM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><img src={avatarUrl} style={{maxWidth:"85vw",maxHeight:"85vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/></div>}
     </div>
   );
@@ -711,13 +712,19 @@ function STab({c,up,edit,oR,sM,ac}){
           </div>
         ))}
       </div>
-      <Sec ac={ac}>Abilità</Sec>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <Sec ac={ac}>Abilità</Sec>
+        <button onClick={()=>sM({type:"skill"})} style={{...SS.gn,padding:"4px 12px",fontSize:10}}>+ Nuova</button>
+      </div>
       <div style={{display:"flex",flexDirection:"column",gap:3}}>
         {c.skills.map((s,i)=>(
-          <button key={i} onClick={()=>oR({label:s.name,type:"d20",modifier:s.mod})} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 10px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",width:"100%",textAlign:"left",touchAction:"manipulation"}}>
-            <span style={{fontSize:12,color:"#e8dcc8"}}>{s.name}</span>
-            <span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s.mod>=0?`+${s.mod}`:s.mod} 🎲</span>
-          </button>
+          <div key={i} style={{display:"flex",alignItems:"center",gap:4}}>
+            <button onClick={()=>oR({label:s.name,type:"d20",modifier:s.mod})} style={{flex:1,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 10px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",textAlign:"left",touchAction:"manipulation"}}>
+              <span style={{fontSize:12,color:"#e8dcc8"}}>{s.name}</span>
+              <span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s.mod>=0?`+${s.mod}`:s.mod} 🎲</span>
+            </button>
+            <button onClick={()=>sM({type:"skill",data:{...s,idx:i}})} style={{width:24,height:24,borderRadius:"50%",border:`1px solid ${ac}22`,background:`${ac}0a`,color:ac,fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✎</button>
+          </div>
         ))}
       </div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:14}}>
@@ -744,6 +751,34 @@ function STab({c,up,edit,oR,sM,ac}){
 }
 
 /* ═══ ACTIONS TAB ═══ */
+/* ═══ EFFECTS TRACKER ═══ */
+function EfxTracker({effects,onChange,ac}){
+  const[adding,setAdding]=useState(false);const[nm,setNm]=useState("");const[rd,setRd]=useState(10);
+  const add=()=>{if(!nm.trim())return;onChange([...effects,{id:uid(),name:nm.trim(),rounds:parseInt(rd)||1}]);setNm("");setRd(10);setAdding(false);};
+  const dec=id=>onChange(effects.map(e=>e.id===id?{...e,rounds:Math.max(0,e.rounds-1)}:e));
+  const inc=id=>onChange(effects.map(e=>e.id===id?{...e,rounds:e.rounds+1}:e));
+  const rm=id=>onChange(effects.filter(e=>e.id!==id));
+  if(!effects.length&&!adding)return<button onClick={()=>setAdding(true)} style={{width:"100%",padding:"6px 0",marginBottom:8,borderRadius:6,border:`1px dashed ${ac}33`,background:"transparent",color:ac+"88",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>+ Effetto / Concentrazione</button>;
+  return(<div style={{marginBottom:10}}>
+    {effects.length>0&&<div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:adding?6:0}}>
+      {effects.map(e=><div key={e.id} style={{display:"flex",alignItems:"center",gap:3,padding:"3px 6px 3px 8px",borderRadius:6,background:e.rounds===0?"rgba(231,76,60,0.12)":"rgba(200,169,94,0.08)",border:`1px solid ${e.rounds===0?"#e74c3c44":ac+"22"}`}}>
+        <span style={{fontSize:10,color:e.rounds===0?"#e74c3c":"#e8dcc8",fontFamily:"'Cinzel'",fontWeight:600,maxWidth:90,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{e.name}</span>
+        <button onClick={()=>dec(e.id)} style={{width:18,height:18,borderRadius:"50%",border:"none",background:"rgba(231,76,60,0.15)",color:"#e74c3c",fontSize:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>−</button>
+        <span style={{fontSize:12,fontFamily:"'JetBrains Mono'",fontWeight:700,color:e.rounds===0?"#e74c3c":ac,minWidth:14,textAlign:"center"}}>{e.rounds}</span>
+        <button onClick={()=>inc(e.id)} style={{width:18,height:18,borderRadius:"50%",border:"none",background:"rgba(46,204,113,0.12)",color:"#2ecc71",fontSize:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button>
+        <button onClick={()=>rm(e.id)} style={{width:18,height:18,borderRadius:"50%",border:"none",background:"rgba(231,76,60,0.08)",color:"#e74c3c88",fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+      </div>)}
+      <button onClick={()=>setAdding(true)} style={{padding:"3px 8px",borderRadius:6,border:`1px dashed ${ac}33`,background:"transparent",color:ac+"88",fontSize:10,cursor:"pointer"}}>+</button>
+    </div>}
+    {adding&&<div style={{display:"flex",gap:4,alignItems:"center",marginTop:effects.length?4:0}}>
+      <input value={nm} onChange={e=>setNm(e.target.value)} placeholder="Nome effetto..." onKeyDown={e=>e.key==="Enter"&&add()} style={{...SS.inp,flex:1,fontSize:11}}/>
+      <input type="number" value={rd} onChange={e=>setRd(e.target.value)} style={{...SS.inp,width:40,textAlign:"center",fontSize:11}} min="1"/>
+      <button onClick={add} style={{padding:"5px 8px",borderRadius:5,border:"1px solid #2ecc7144",background:"rgba(46,204,113,0.1)",color:"#2ecc71",fontSize:10,fontWeight:700,cursor:"pointer"}}>✓</button>
+      <button onClick={()=>setAdding(false)} style={{padding:"5px 6px",borderRadius:5,border:"1px solid #e74c3c33",background:"transparent",color:"#e74c3c88",fontSize:10,cursor:"pointer"}}>✕</button>
+    </div>}
+  </div>);
+}
+
 function ATab({c,up,sM,ac}){
   const sorted=sortAbs(c.abilities,c.origins),favs=sorted.filter(a=>a.fav);
   const uA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:a.uses+1}:a)});
@@ -757,6 +792,7 @@ function ATab({c,up,sM,ac}){
         <button onClick={()=>rest("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>☀️ R. Breve</button>
         <button onClick={()=>rest("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>🌙 R. Lungo</button>
       </div>
+      <EfxTracker effects={c.effects||[]} onChange={fx=>up({effects:fx})} ac={ac}/>
       <div style={{display:"flex",gap:5,marginBottom:12}}>
         <button onClick={()=>sM({type:"ability"})} style={{...SS.gn,padding:"5px 12px",fontSize:10}}>+ Azione</button>
         <button onClick={()=>sM({type:"origins"})} style={{...SS.bg,padding:"5px 12px",fontSize:10}}>⚙ Provenienze</button>
@@ -996,6 +1032,19 @@ function OM({c,up,oC}){
       <button onClick={()=>{up({origins:os});oC();}} style={{...SS.bg,width:"100%",marginTop:12,padding:"9px 0"}}>Salva</button>
     </Sh>
   );
+}
+
+function SM({c,up,data,oC}){
+  const isE=!!data;
+  const[nm,setNm]=useState(data?.name||"");
+  const[md,setMd]=useState(data?.mod||0);
+  const sv=()=>{if(!nm.trim())return;const s={name:nm.trim(),mod:parseInt(md)||0};if(isE){const sk=[...c.skills];sk[data.idx]=s;up({skills:sk});}else{up({skills:[...c.skills,s]});}oC();};
+  const dl=()=>{if(!isE)return;up({skills:c.skills.filter((_,i)=>i!==data.idx)});oC();};
+  return<Sh t={isE?"Modifica Abilità":"Nuova Abilità"} oC={oC}>
+    <Fl l="Nome"><input value={nm} onChange={e=>setNm(e.target.value)} style={{...SS.inp,width:"100%"}} placeholder="es. Percezione"/></Fl>
+    <Fl l="Modificatore"><input type="number" value={md} onChange={e=>setMd(parseInt(e.target.value)||0)} style={{...SS.inp,width:"100%"}}/></Fl>
+    <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
+  </Sh>;
 }
 
 function Sec({ac,children}){
