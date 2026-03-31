@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T19:49:16.678Z",
+  "exportedAt": "2026-03-31T19:53:29.902Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -741,7 +741,7 @@
       }
     ],
     "notes": "",
-    "backstory": "",
+    "backstory": "Eliah è uno Birkan nato a Borgo Fornari, un paese sospeso nel cielo, piccolo ma ben collegato alle rotte aeree. È cresciuto in una famiglia solida, anche se con idee molto diverse al suo interno.\n\nSuo padre Freddy Fazbear è uno Skypean cartografo esperto e un buon ingegnere. Ha passato gran parte della vita a studiare correnti, disegnare mappe e progettare strumenti per la navigazione. Fin da piccolo Eliah gli è sempre stato accanto, imparando a leggere una mappa e a capire come funziona una barca prima ancora di saperle usare davvero. Da lui ha ereditato la curiosità e il gusto per l’ingegneria.\n\nLa madre Vanessa Afton, Birkan, proviene da un ambiente ricco e privilegiato. In gioventù ha vissuto senza troppi limiti, approfittando delle possibilità che il denaro e le conoscenze le offrivano. Ama suo figlio, ma porta con sé una mentalità chiusa, fatta di pregiudizi e vecchie convinzioni che cerca, più o meno consapevolmente, di trasmettergli. Eliah, però, non le ha mai fatte proprie e ha sempre preso le distanze da quel modo di vedere il mondo.\n\nQuando compie 14 anni, Eliah sente che restare a Borgo Fornari non gli basta più. Parla con i genitori e chiede di partire per conto suo. Dopo qualche discussione, ottiene il loro consenso. Freddy gli affida una piccola barca volante e alcune mappe da completare, mentre Vanessa gli consegna un po’ di denaro per non partire a mani vuote.\n\nCon poche certezze e tanta voglia di scoprire, Eliah lascia il suo paese, deciso a costruirsi un futuro lontano dalle idee con cui è cresciuto, seguendo il cielo e le rotte che ancora non esistono.\n\nDurante uno dei primi spostamenti, una tempesta improvvisa mette fuori uso la barca di Eliah e lo lascia gravemente ferito alla deriva; viene raccolto e soccorso da Naive, un uomo pesce squalo che esercita come dottore, il quale si prende cura di lui fino a rimetterlo in forze, segnando l’inizio del loro cammino condiviso.",
     "diceLog": [],
     "effects": [],
     "spells": [
@@ -895,7 +895,7 @@
         "concentration": true,
         "desc": "Per la durata, percepisci la presenza di magia entro 9m da te. Se percepisci magia, puoi usare un'azione per vedere un'aura debole attorno a qualsiasi creatura o oggetto visibile nell'area che emette magia, e ne impari la scuola. Penetra la maggior parte delle barriere ma è bloccato da 30 cm di pietra, 2,5 cm di metallo, o un sottile foglio di piombo.",
         "higherLevels": null,
-        "prepared": false
+        "prepared": true
       },
       {
         "id": "sp9",
