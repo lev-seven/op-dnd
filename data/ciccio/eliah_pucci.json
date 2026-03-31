@@ -43,7 +43,7 @@
       { "name": "Rapidità di Mano", "stat": "DES", "prof": "none" },
       { "name": "Religione", "stat": "INT", "prof": "none" },
       { "name": "Sopravvivenza", "stat": "SAG", "prof": "prof" },
-      { "name": "Storia", "stat": "INT", "prof": "prof" },
+      { "name": "Storia", "stat": "INT", "prof": "prof" }
     ],
     "spellSlots": {
       "cantrips": 4,
