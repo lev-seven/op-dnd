@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T21:03:34.277Z",
+  "exportedAt": "2026-03-31T22:56:07.792Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -236,60 +236,60 @@
       }
     ],
     "attacks": [
-    {
-      "id": "atk1",
-      "name": "Calcio (senz'armi)",
-      "hit": 6,
-      "damage": "1d6+3",
-      "type": "contundente"
-    },
-    {
-      "id": "atk2",
-      "name": "Coltello",
-      "hit": 6,
-      "damage": "1d6+3",
-      "type": "tagliente"
-    },
-    {
-      "id": "atk3",
-      "name": "Balestra",
-      "hit": 6,
-      "damage": "1d6+1d6-3",
-      "type": "perforante"
-    },
-    {
-      "id": "atk4",
-      "name": "Toll the Dead",
-      "damage": "1d12",
-      "type": "necrotico"
-    },
-    {
-      "id": "atk5",
-      "name": "Shocking Grasp",
-      "hit": 5,
-      "damage": "1d8",
-      "type": "fulmine"
-    },
-    {
-      "id": "atk6",
-      "name": "Magic Missile",
-      "damage": "3d4+3",
-      "type": "forza"
-    },
-    {
-      "id": "atk7",
-      "name": "Scorching Ray",
-      "hit": 5,
-      "damage": "2d6+2d6+2d6",
-      "type": "fuoco"
-    },
-    {
-      "id": "atk8",
-      "name": "Shatter",
-      "damage": "3d8",
-      "type": "tuono"
-    }
-  ],
+      {
+        "id": "atk1",
+        "name": "Calcio (senz'armi)",
+        "hit": 6,
+        "damage": "1d6+3",
+        "type": "contundente"
+      },
+      {
+        "id": "atk2",
+        "name": "Coltello",
+        "hit": 6,
+        "damage": "1d6+3",
+        "type": "tagliente"
+      },
+      {
+        "id": "atk3",
+        "name": "Balestra",
+        "hit": 6,
+        "damage": "1d6+1d6-3",
+        "type": "perforante"
+      },
+      {
+        "id": "atk4",
+        "name": "Toll the Dead",
+        "damage": "1d12",
+        "type": "necrotico"
+      },
+      {
+        "id": "atk5",
+        "name": "Shocking Grasp",
+        "hit": 5,
+        "damage": "1d8",
+        "type": "fulmine"
+      },
+      {
+        "id": "atk6",
+        "name": "Magic Missile",
+        "damage": "3d4+3",
+        "type": "forza"
+      },
+      {
+        "id": "atk7",
+        "name": "Scorching Ray",
+        "hit": 5,
+        "damage": "2d6+2d6+2d6",
+        "type": "fuoco"
+      },
+      {
+        "id": "atk8",
+        "name": "Shatter",
+        "damage": "3d8",
+        "type": "tuono"
+      }
+    ],
     "abilities": [
       {
         "id": "r1",
@@ -801,171 +801,215 @@
     "diceLog": [],
     "effects": [],
     "spells": [
-    {
-      "id": "sp1",
-      "name": "Toll the Dead",
-      "level": 0,
-      "school": "Necromanzia",
-      "castingTime": "action",
-      "ritual": false,
-      "range": "18m",
-      "components": { "v": true, "s": false, "m": null },
-      "duration": "Istantanea",
-      "concentration": false,
-      "desc": "Indichi una creatura che puoi vedere entro gittata e il suono di una campana dolorosa la avvolge. Il bersaglio deve superare un tiro salvezza su Saggezza o subire 1d8 danni necrotici. Se il bersaglio ha già perso almeno un punto ferita, subisce invece 1d12 danni necrotici.",
-      "higherLevels": "Il danno aumenta di un dado quando raggiungi il 5° livello (2d8/2d12), 11° livello (3d8/3d12) e 17° livello (4d8/4d12).",
-      "prepared": true
-    },
-    {
-      "id": "sp2",
-      "name": "Mending",
-      "level": 0,
-      "school": "Trasmutazione",
-      "castingTime": "1 minuto",
-      "ritual": false,
-      "range": "Contatto",
-      "components": { "v": true, "s": true, "m": "due calamite" },
-      "duration": "Istantanea",
-      "concentration": false,
-      "desc": "Questo incantesimo ripara una singola rottura o strappo in un oggetto che tocchi, come una catena spezzata, un mantello strappato o una perdita in un contenitore. La rottura non può essere più grande di 30 cm in qualsiasi dimensione.",
-      "higherLevels": null,
-      "prepared": true
-    },
-    {
-      "id": "sp3",
-      "name": "Shocking Grasp",
-      "level": 0,
-      "school": "Invocazione",
-      "castingTime": "action",
-      "ritual": false,
-      "range": "Contatto",
-      "components": { "v": true, "s": true, "m": null },
-      "duration": "Istantanea",
-      "concentration": false,
-      "desc": "Una scarica elettrica scaturisce dalla tua mano e colpisce una creatura che tocchi. Effettua un attacco con incantesimo in mischia. Se colpisce, il bersaglio subisce 1d8 danni da fulmine e non può effettuare reazioni fino all'inizio del suo prossimo turno. Hai vantaggio se il bersaglio indossa armatura metallica.",
-      "higherLevels": "Il danno aumenta a 2d8 al 5° livello, 3d8 all’11° livello e 4d8 al 17° livello.",
-      "prepared": true
-    },
-    {
-      "id": "sp4",
-      "name": "Gust",
-      "level": 0,
-      "school": "Trasmutazione",
-      "castingTime": "action",
-      "ritual": false,
-      "range": "9m",
-      "components": { "v": true, "s": true, "m": null },
-      "duration": "Istantanea",
-      "concentration": false,
-      "desc": "Crei una raffica di vento che può spingere una creatura di taglia Media o inferiore di 1,5 metri (TS su Forza nega), muovere un oggetto leggero o creare effetti sensoriali come far sventolare abiti o spegnere piccole fiamme.",
-      "higherLevels": null,
-      "prepared": true
-    },
-    {
-      "id": "sp5",
-      "name": "Shield",
-      "level": 1,
-      "school": "Abiurazione",
-      "castingTime": "reaction",
-      "ritual": false,
-      "range": "Personale",
-      "components": { "v": true, "s": true, "m": null },
-      "duration": "1 round",
-      "concentration": false,
-      "desc": "Una barriera invisibile di forza magica appare e ti protegge. Fino all'inizio del tuo prossimo turno, hai un bonus di +5 alla CA, inclusa contro l'attacco che ha innescato la reazione, e non subisci danni da Magic Missile.",
-      "higherLevels": null,
-      "prepared": true
-    },
-    {
-      "id": "sp6",
-      "name": "Magic Missile",
-      "level": 1,
-      "school": "Invocazione",
-      "castingTime": "action",
-      "ritual": false,
-      "range": "36m",
-      "components": { "v": true, "s": true, "m": null },
-      "duration": "Istantanea",
-      "concentration": false,
-      "desc": "Crei tre dardi luminosi di forza magica. Ogni dardo colpisce automaticamente una creatura a tua scelta entro gittata e infligge 1d4+1 danni da forza. I dardi possono essere diretti sullo stesso bersaglio o su bersagli diversi.",
-      "higherLevels": "Quando lanci questo incantesimo usando uno slot di livello superiore, crei un dardo aggiuntivo per ogni livello sopra il 1°.",
-      "prepared": true
-    },
-    {
-      "id": "sp7",
-      "name": "Scorching Ray",
-      "level": 2,
-      "school": "Invocazione",
-      "castingTime": "action",
-      "ritual": false,
-      "range": "36m",
-      "components": { "v": true, "s": true, "m": null },
-      "duration": "Istantanea",
-      "concentration": false,
-      "desc": "Crei tre raggi di fuoco e li scagli contro bersagli entro gittata. Puoi indirizzarli contro uno o più bersagli. Effettua un attacco con incantesimo a distanza per ogni raggio. Se colpisce, il bersaglio subisce 2d6 danni da fuoco.",
-      "higherLevels": "Quando lanci questo incantesimo usando uno slot di livello superiore, crei un raggio aggiuntivo per ogni livello sopra il 2°.",
-      "prepared": true
-    },
-    {
-      "id": "sp8",
-      "name": "Misty Step",
-      "level": 2,
-      "school": "Evocazione",
-      "castingTime": "bonus action",
-      "ritual": false,
-      "range": "Personale",
-      "components": { "v": true, "s": false, "m": null },
-      "duration": "Istantanea",
-      "concentration": false,
-      "desc": "Ti avvolgi brevemente in una nebbia argentea e ti teletrasporti fino a 9 metri in uno spazio libero che puoi vedere.",
-      "higherLevels": null,
-      "prepared": true
-    },
-    {
-      "id": "sp9",
-      "name": "Detect Magic",
-      "level": 1,
-      "school": "Divinazione",
-      "castingTime": "action",
-      "ritual": true,
-      "range": "Personale",
-      "components": { "v": true, "s": true, "m": null },
-      "duration": "Concentrazione, fino a 10 minuti",
-      "concentration": true,
-      "desc": "Per la durata, percepisci la presenza di magia entro 9 metri da te. Se percepisci magia, puoi usare un'azione per vedere una debole aura attorno a qualsiasi creatura o oggetto visibile nell'area che ne è pervaso e apprenderne la scuola di magia.",
-      "higherLevels": null,
-      "prepared": true
-    },
-    {
-      "id": "sp10",
-      "name": "Shatter",
-      "level": 2,
-      "school": "Invocazione",
-      "castingTime": "action",
-      "ritual": false,
-      "range": "18m",
-      "components": { "v": true, "s": true, "m": null },
-      "duration": "Istantanea",
-      "concentration": false,
-      "desc": "Un improvviso suono fragoroso si diffonde da un punto a tua scelta entro gittata. Ogni creatura in una sfera di 3 metri deve effettuare un tiro salvezza su Costituzione. Subisce 3d8 danni da tuono se fallisce, o metà danno se riesce. Le creature fatte di materiale inorganico hanno svantaggio al tiro.",
-      "higherLevels": "Il danno aumenta di 1d8 per ogni livello dello slot superiore al 2°.",
-      "prepared": true
-    },
-    {
-      "id": "sp11",
-      "name": "Gust of Wind",
-      "level": 2,
-      "school": "Invocazione",
-      "castingTime": "action",
-      "ritual": false,
-      "range": "Personale",
-      "components": { "v": true, "s": true, "m": null },
-      "duration": "Concentrazione, fino a 1 minuto",
-      "concentration": true,
-      "desc": "Una linea di vento forte lunga 18 metri e larga 3 metri soffia da te in una direzione scelta. Le creature nella linea devono superare un tiro salvezza su Forza o essere spinte di 4,5 metri lontano da te. L'area è terreno difficile e disperde gas e vapori.",
-      "higherLevels": null,
-      "prepared": true
-    }
-  ]
-}
+      {
+        "id": "sp1",
+        "name": "Toll the Dead",
+        "level": 0,
+        "school": "Necromanzia",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Indichi una creatura che puoi vedere entro gittata e il suono di una campana dolorosa la avvolge. Il bersaglio deve superare un tiro salvezza su Saggezza o subire 1d8 danni necrotici. Se il bersaglio ha già perso almeno un punto ferita, subisce invece 1d12 danni necrotici.",
+        "higherLevels": "Il danno aumenta di un dado quando raggiungi il 5° livello (2d8/2d12), 11° livello (3d8/3d12) e 17° livello (4d8/4d12).",
+        "prepared": true
+      },
+      {
+        "id": "sp2",
+        "name": "Mending",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": "due calamite"
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Questo incantesimo ripara una singola rottura o strappo in un oggetto che tocchi, come una catena spezzata, un mantello strappato o una perdita in un contenitore. La rottura non può essere più grande di 30 cm in qualsiasi dimensione.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp3",
+        "name": "Shocking Grasp",
+        "level": 0,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una scarica elettrica scaturisce dalla tua mano e colpisce una creatura che tocchi. Effettua un attacco con incantesimo in mischia. Se colpisce, il bersaglio subisce 1d8 danni da fulmine e non può effettuare reazioni fino all'inizio del suo prossimo turno. Hai vantaggio se il bersaglio indossa armatura metallica.",
+        "higherLevels": "Il danno aumenta a 2d8 al 5° livello, 3d8 all’11° livello e 4d8 al 17° livello.",
+        "prepared": true
+      },
+      {
+        "id": "sp4",
+        "name": "Gust",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei una raffica di vento che può spingere una creatura di taglia Media o inferiore di 1,5 metri (TS su Forza nega), muovere un oggetto leggero o creare effetti sensoriali come far sventolare abiti o spegnere piccole fiamme.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp5",
+        "name": "Shield",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 round",
+        "concentration": false,
+        "desc": "Una barriera invisibile di forza magica appare e ti protegge. Fino all'inizio del tuo prossimo turno, hai un bonus di +5 alla CA, inclusa contro l'attacco che ha innescato la reazione, e non subisci danni da Magic Missile.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp6",
+        "name": "Magic Missile",
+        "level": 1,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei tre dardi luminosi di forza magica. Ogni dardo colpisce automaticamente una creatura a tua scelta entro gittata e infligge 1d4+1 danni da forza. I dardi possono essere diretti sullo stesso bersaglio o su bersagli diversi.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot di livello superiore, crei un dardo aggiuntivo per ogni livello sopra il 1°.",
+        "prepared": true
+      },
+      {
+        "id": "sp7",
+        "name": "Scorching Ray",
+        "level": 2,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei tre raggi di fuoco e li scagli contro bersagli entro gittata. Puoi indirizzarli contro uno o più bersagli. Effettua un attacco con incantesimo a distanza per ogni raggio. Se colpisce, il bersaglio subisce 2d6 danni da fuoco.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot di livello superiore, crei un raggio aggiuntivo per ogni livello sopra il 2°.",
+        "prepared": true
+      },
+      {
+        "id": "sp8",
+        "name": "Misty Step",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "bonus action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Ti avvolgi brevemente in una nebbia argentea e ti teletrasporti fino a 9 metri in uno spazio libero che puoi vedere.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp9",
+        "name": "Detect Magic",
+        "level": 1,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": true,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Concentrazione, fino a 10 minuti",
+        "concentration": true,
+        "desc": "Per la durata, percepisci la presenza di magia entro 9 metri da te. Se percepisci magia, puoi usare un'azione per vedere una debole aura attorno a qualsiasi creatura o oggetto visibile nell'area che ne è pervaso e apprenderne la scuola di magia.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp10",
+        "name": "Shatter",
+        "level": 2,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Un improvviso suono fragoroso si diffonde da un punto a tua scelta entro gittata. Ogni creatura in una sfera di 3 metri deve effettuare un tiro salvezza su Costituzione. Subisce 3d8 danni da tuono se fallisce, o metà danno se riesce. Le creature fatte di materiale inorganico hanno svantaggio al tiro.",
+        "higherLevels": "Il danno aumenta di 1d8 per ogni livello dello slot superiore al 2°.",
+        "prepared": true
+      },
+      {
+        "id": "sp11",
+        "name": "Gust of Wind",
+        "level": 2,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Concentrazione, fino a 1 minuto",
+        "concentration": true,
+        "desc": "Una linea di vento forte lunga 18 metri e larga 3 metri soffia da te in una direzione scelta. Le creature nella linea devono superare un tiro salvezza su Forza o essere spinte di 4,5 metri lontano da te. L'area è terreno difficile e disperde gas e vapori.",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ]
+  }
 }
