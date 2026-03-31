@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T19:48:06.674Z",
+  "exportedAt": "2026-03-31T19:49:00.469Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -238,24 +238,24 @@
     "attacks": [
       {
         "id": "atk1",
-        "name": "Pugno (senz'armi)",
+        "name": "Calcio (senz'armi)",
         "hit": 6,
         "damage": "1d6+3",
         "type": "contundente"
       },
       {
         "id": "atk2",
-        "name": "Sciabola",
+        "name": "Coltello",
         "hit": 6,
         "damage": "1d6+3",
         "type": "tagliente"
       },
       {
         "id": "atk3",
-        "name": "Bastone Ferrato",
-        "hit": 0,
-        "damage": "1d6-3",
-        "type": "contundente"
+        "name": "Balestra",
+        "hit": 6,
+        "damage": "1d6-3+1d6",
+        "type": "perforante"
       }
     ],
     "abilities": [
