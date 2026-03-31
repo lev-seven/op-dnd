@@ -44,8 +44,6 @@
       { "name": "Religione", "stat": "INT", "prof": "none" },
       { "name": "Sopravvivenza", "stat": "SAG", "prof": "prof" },
       { "name": "Storia", "stat": "INT", "prof": "prof" },
-      { "name": "Navigazione", "stat": null, "mod": 5, "prof": "prof" },
-      { "name": "Artigianato", "stat": "INT", "prof": "prof" }
     ],
     "spellSlots": {
       "cantrips": 4,
