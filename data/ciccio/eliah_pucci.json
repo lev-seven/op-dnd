@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T15:03:47.768Z",
+  "exportedAt": "2026-03-31T15:04:35.192Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -204,7 +204,7 @@
         "id": "atk2",
         "name": "Pattini (contundente)",
         "hit": 6,
-        "damage": "1d8+3",
+        "damage": "1d8+3+1d8",
         "type": "contundente"
       },
       {
@@ -218,7 +218,7 @@
         "id": "mneqy2tcelo4",
         "name": "Nitro",
         "hit": 0,
-        "damage": "1d8+1d8+1d8+1d8+1d6",
+        "damage": "3d8+1d8+1d6",
         "type": "Elementale"
       }
     ],
