@@ -1,0 +1,100 @@
+{
+  "account": "",
+  "accountId": "",
+  "exportedAt": "",
+  "character": {
+    "id": "",
+    "name": "",
+    "race": "",
+    "level": 0,
+    "classes": "",
+    "ac": 0,
+    "hpMax": 0,
+    "hpCurrent": 0,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 0,
+    "passivePerception": 0,
+    "profBonus": 0,
+    "hitDie": "",
+    "stats": {
+      "FOR": {
+        "score": 0,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "DES": {
+        "score": 0,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "COS": {
+        "score": 0,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "INT": {
+        "score": 0,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 0,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 0,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "",
+        "stat": null,
+        "mod": 0,
+        "prof": false
+      }
+    ],
+    "origins": [
+      {
+        "id": "",
+        "name": "",
+        "color": ""
+      }
+    ],
+    "attacks": [
+      {
+        "id": "",
+        "name": "",
+        "hit": 0,
+        "damage": "",
+        "type": ""
+      }
+    ],
+    "abilities": [
+      {
+        "id": "",
+        "name": "",
+        "originId": "",
+        "type": "",
+        "desc": "",
+        "maxUses": 0,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      }
+    ],
+    "notes": "",
+    "diceLog": [],
+    "effects": []
+  }
+}
