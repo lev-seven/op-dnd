@@ -67,7 +67,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.21";
+const APP_VERSION="v1.22";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -136,6 +136,7 @@ function AppWrapper(){
   const[ghToken,setGhToken]=useState(null);
   const[passHash,setPassHash]=useState(null);
   const[showTkSetup,setShowTkSetup]=useState(false);
+  const[sessDismissed,setSessDismissed]=useState(false);
 
   useEffect(()=>{(async()=>{const b=BASE();if(b){const m=await fetchJ(`${b}/data/manifest.json`);setManifest(m);}setLoading(false);})();},[]);
 
@@ -225,12 +226,12 @@ function AppWrapper(){
           onImport={()=>fileRef.current?.click()}/>}
 
       {/* Session recovery prompt */}
-      {!loading&&screen==="characters"&&!char&&sessionChar&&(()=>{
+      {!loading&&screen==="characters"&&!char&&sessionChar&&!sessDismissed&&(()=>{
         return<div style={{position:"fixed",bottom:60,left:"50%",transform:"translateX(-50%)",zIndex:80,maxWidth:380,width:"calc(100% - 40px)",padding:"14px 16px",borderRadius:12,background:"linear-gradient(135deg,#1a2040,#151b2e)",border:"1.5px solid #f39c1266",boxShadow:"0 8px 32px rgba(0,0,0,0.6)",animation:"fadeIn 0.3s ease"}}>
           <p style={{fontSize:13,color:"#f39c12",fontFamily:"'Cinzel'",fontWeight:700,marginBottom:8}}>⚡ Sessione precedente trovata</p>
           <p style={{fontSize:11,color:"#998866",marginBottom:10}}>Vuoi riprendere {sessionChar.name||"il PG"} da dove avevi lasciato?</p>
           <div style={{display:"flex",gap:6}}>
-            <button onClick={()=>clearSession()} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #e74c3c33",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>Ignora</button>
+            <button onClick={()=>{clearSession();setSessDismissed(true);}} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #e74c3c33",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>Ignora</button>
             <button onClick={()=>{setChar(sessionChar);setCharMeta(null);setScreen("sheet");}} style={{flex:2,padding:"8px 0",borderRadius:7,border:"1px solid #2ecc7166",background:"rgba(46,204,113,0.12)",color:"#2ecc71",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>Riprendi</button>
           </div>
         </div>;
@@ -492,7 +493,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,accId,onBack,onExport
         {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
         {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
-        {tab==="export"&&(()=>{if(ghToken&&charMeta){doSave();}else{onExport();}setTab("stats");return<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{ghToken&&charMeta?"⏳ Salvataggio su GitHub...":"✅ File esportato!"}</div>;})()}
+        {tab==="export"&&(()=>{if(ghToken&&charMeta){doSave().then(()=>setTimeout(()=>setTab("stats"),1800));return<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{saving?"⏳ Salvataggio...":saveOk===true?"✅ Salvato su GitHub!":saveOk===false?"❌ Errore salvataggio":"⏳ Salvataggio..."}</div>;}else{onExport();setTimeout(()=>setTab("stats"),1200);return<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>✅ File esportato!</div>;}})()}
       </div>
 
       {/* BOTTOM NAV — position absolute rispetto al container, non fixed globale */}
