@@ -109,7 +109,6 @@ body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,se
 </head>
 <body>
 <div class="header">
-  <span>v1.30</span>
   <div class="header-icon" id="hicon">⚔️</div>
   <div class="char-name" id="cname"></div>
   <div class="char-sub" id="csub"></div>
@@ -146,51 +145,19 @@ body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,se
    ══════════════════════════════════════════════════════════════ */
 
 async function loadCharacter(){
-  console.log("=== LOAD CHARACTER START ===");
-
   try{
-    const pathname = window.location.pathname;
-    console.log("Pathname:", pathname);
-
-    const fileName = pathname.split('/').pop().replace('.html','');
-    console.log("File name:", fileName);
-
-    const pathParts = pathname.split('/');
-    console.log("Path parts:", pathParts);
-
-    const account = pathParts[pathParts.length - 2];
-    console.log("Account:", account);
-
+    const fileName = window.location.pathname.split('/').pop().replace('.html','');
+    const pathParts = window.location.pathname.split('/');
+    const account = pathParts[pathParts.length - 2]; 
     const jsonUrl = `https://lev-seven.github.io/op-dnd/data/${account}/${fileName}_completo.json`;
-    console.log("JSON URL:", jsonUrl);
-
     const res = await fetch(jsonUrl);
-    console.log("Fetch response:", res);
-
-    if(!res.ok){
-      console.error("Fetch fallita:", res.status, res.statusText);
-      throw new Error(`JSON non trovato (${res.status})`);
-    }
-
+    if(!res.ok) throw new Error('JSON non trovato');
     const data = await res.json();
-    console.log("JSON ricevuto:", data);
-
     const char = (data.character && data.character.name) ? data.character : data;
-    console.log("Character estratto:", char);
 
-    if(!char || !char.name){
-      console.warn("⚠️ Il personaggio non ha nome o struttura valida");
-    }
-
-    console.log("Init chiamato...");
     init(char);
 
-    console.log("=== LOAD CHARACTER SUCCESS ===");
-
   }catch(err){
-    console.error("=== LOAD CHARACTER ERROR ===");
-    console.error(err);
-
     document.body.innerHTML = `
       <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#e74c3c;font-family:Cinzel,serif;font-size:1.2rem;text-align:center;padding:2rem">
         Errore caricamento JSON.<br>
@@ -217,14 +184,17 @@ function getRacialTraits(){
    LOGICA — Non modificare
    ══════════════════════════════════════════════════════════════ */
 // Unwrap
-const char = (charData.character && charData.character.name) ? charData.character : charData;
+//const char = (charData.character && charData.character.name) ? charData.character : charData;
+
+
 let activeTab = '';
 
 function typeClass(t){t=(t||'').toLowerCase();if(t==='passiva')return't-pas';if(t==='azione bonus')return't-bon';if(t==='reazione')return't-rea';if(t==='rituale')return't-rit';return't-az';}
 function fmt(n){return n>=0?'+'+n:n;}
 function cdVal(stat){return stat?8+(char.profBonus||0)+(char.stats[stat]?.mod||0):null;}
-
-function init(){
+let char;
+function init(char){
+  char = arguments[0];
   if(!char||!char.name){document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#e74c3c;font-family:Cinzel,serif;font-size:1.2rem;text-align:center;padding:2rem">Errore: dati personaggio non trovati.<br>Incolla il JSON nel blocco charData.</div>';return;}
 
   document.title=char.name+' — Scheda Completa';
@@ -308,7 +278,7 @@ function renderTabs(){
 function switchTab(id){activeTab=id;renderTabs();}
 function roll(s){const r=Math.floor(Math.random()*s)+1;const el=document.getElementById('dres');el.textContent=r;el.classList.remove('rolling');void el.offsetWidth;el.classList.add('rolling');document.getElementById('dlog').textContent=`d${s} → ${r}`;}
 
-init();
+window.addEventListener('DOMContentLoaded', loadCharacter);
 </script>
 </body>
 </html>
