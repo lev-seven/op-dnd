@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T12:44:21.729Z",
+  "exportedAt": "2026-03-31T12:57:47.369Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,9 +10,9 @@
     "classes": "Navigatore 5 / Cecchino 1 / Carpentiere 1",
     "ac": 17,
     "hpMax": 58,
-    "hpCurrent": 53,
+    "hpCurrent": 58,
     "hpTemp": 4,
-    "hpPerm": 1,
+    "hpPerm": 0,
     "speed": 28,
     "passivePerception": 16,
     "profBonus": 3,
