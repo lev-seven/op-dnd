@@ -67,7 +67,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.18";
+const APP_VERSION="v1.19";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -79,6 +79,29 @@ function Av({src,fallback,size,color,round,style:extra}){
 }
 
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
+
+/* ═══ CRYPTO: AES-GCM token storage ═══ */
+function hex2b(h){const b=new Uint8Array(h.length/2);for(let i=0;i<h.length;i+=2)b[i/2]=parseInt(h.substr(i,2),16);return b;}
+async function aesEnc(text,passHash){const k=await crypto.subtle.importKey("raw",hex2b(passHash).slice(0,32),{name:"AES-GCM"},false,["encrypt"]);const iv=crypto.getRandomValues(new Uint8Array(12));const enc=await crypto.subtle.encrypt({name:"AES-GCM",iv},k,new TextEncoder().encode(text));return JSON.stringify({i:Array.from(iv),d:Array.from(new Uint8Array(enc))});}
+async function aesDec(stored,passHash){try{const{i,d}=JSON.parse(stored);const k=await crypto.subtle.importKey("raw",hex2b(passHash).slice(0,32),{name:"AES-GCM"},false,["decrypt"]);const dec=await crypto.subtle.decrypt({name:"AES-GCM",iv:new Uint8Array(i)},k,new Uint8Array(d));return new TextDecoder().decode(dec);}catch{return null;}}
+
+/* ═══ GITHUB API: save file with SHA conflict check ═══ */
+async function ghPut(path,content,token){
+  const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+  const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  const hd={"Authorization":`Bearer ${token}`,"Content-Type":"application/json"};
+  const cur=await fetch(api,{headers:hd}).then(r=>r.ok?r.json():null).catch(()=>null);
+  const body={message:`Update ${path}`,content:btoa(unescape(encodeURIComponent(content)))};
+  if(cur?.sha)body.sha=cur.sha;
+  const res=await fetch(api,{method:"PUT",headers:hd,body:JSON.stringify(body)});
+  return res.ok;
+}
+
+/* ═══ SESSION RECOVERY ═══ */
+const SESS_KEY="dnd_session";
+function saveSession(accId,char){try{sessionStorage.setItem(SESS_KEY,JSON.stringify({accId,char,ts:Date.now()}));}catch{}}
+function loadSession(accId){try{const d=JSON.parse(sessionStorage.getItem(SESS_KEY));if(d&&d.accId===accId&&d.char&&(Date.now()-d.ts)<3600000)return d.char;return null;}catch{return null;}}
+function clearSession(){try{sessionStorage.removeItem(SESS_KEY);}catch{}}
 
 const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"},{id:"export",icon:"💾",label:"Esporta"}];
 const AT=["Azione","Azione bonus","Reazione","Passiva","Rituale"];
@@ -108,6 +131,9 @@ function AppWrapper(){
   const[char,setChar]=useState(null);
   const[charMeta,setCharMeta]=useState(null);
   const[loading,setLoading]=useState(true);
+  const[ghToken,setGhToken]=useState(null);
+  const[passHash,setPassHash]=useState(null);
+  const[showTkSetup,setShowTkSetup]=useState(false);
 
   useEffect(()=>{(async()=>{const b=BASE();if(b){const m=await fetchJ(`${b}/data/manifest.json`);setManifest(m);}setLoading(false);})();},[]);
 
@@ -115,6 +141,17 @@ function AppWrapper(){
   const ac=acc?.color||"#c8a95e";
   const isMaster=acc?.isMaster||false;
   const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
+
+  const loadToken=async(aid,ph)=>{const s=localStorage.getItem("tk_"+aid);if(!s)return null;return await aesDec(s,ph);};
+  const storeToken=async(aid,ph,token)=>{const enc=await aesEnc(token,ph);localStorage.setItem("tk_"+aid,enc);};
+  const saveToGH=async(owner,file,charObj)=>{
+    if(!ghToken||!BASE())return false;
+    const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
+    const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken);
+    if(ok)clearSession();
+    return ok;
+  };
+  const sessionChar=accId?loadSession(accId):null;
 
   const loadGH=async(owner,file)=>{
     const b=BASE();
@@ -158,7 +195,7 @@ function AppWrapper(){
       <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/>
       <div style={{position:"fixed",top:6,left:8,fontSize:9,color:"#ffffff44",fontFamily:"'JetBrains Mono'",zIndex:999,pointerEvents:"none"}}>{APP_VERSION}</div>
       {loading&&<Ld msg="Caricamento..."/>}
-      {!loading&&screen==="accounts"&&<AccountsScreen manifest={manifest} onAuth={(id)=>{setAccId(id);setScreen("characters");}}/>}
+      {!loading&&screen==="accounts"&&<AccountsScreen manifest={manifest} onAuth={async(id,ph)=>{setAccId(id);setPassHash(ph);const tk=await loadToken(id,ph);if(tk){setGhToken(tk);}else if(BASE()){setShowTkSetup(true);}setScreen("characters");}}/>}
       {!loading&&screen==="characters"&&(()=>{
         let sections=[];
         const mChars=manifest?.characters||{};
@@ -180,10 +217,25 @@ function AppWrapper(){
           onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
       })()}
       {!loading&&screen==="sheet"&&char&&
-        <Sheet char={char} up={upChar} ac={ac} acc={acc} charMeta={charMeta}
-          onBack={()=>{if(confirm("Hai esportato? Le modifiche non salvate andranno perse.")){setChar(null);setCharMeta(null);setScreen("characters");}}}
+        <Sheet char={char} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} accId={accId}
+          onBack={()=>{if(confirm("Hai salvato? Le modifiche non salvate andranno perse.")){clearSession();setChar(null);setCharMeta(null);setScreen("characters");}}}
           onExport={doExport}
           onImport={()=>fileRef.current?.click()}/>}
+
+      {/* Session recovery prompt */}
+      {!loading&&screen==="characters"&&!char&&sessionChar&&(()=>{
+        return<div style={{position:"fixed",bottom:60,left:"50%",transform:"translateX(-50%)",zIndex:80,maxWidth:380,width:"calc(100% - 40px)",padding:"14px 16px",borderRadius:12,background:"linear-gradient(135deg,#1a2040,#151b2e)",border:"1.5px solid #f39c1266",boxShadow:"0 8px 32px rgba(0,0,0,0.6)",animation:"fadeIn 0.3s ease"}}>
+          <p style={{fontSize:13,color:"#f39c12",fontFamily:"'Cinzel'",fontWeight:700,marginBottom:8}}>⚡ Sessione precedente trovata</p>
+          <p style={{fontSize:11,color:"#998866",marginBottom:10}}>Vuoi riprendere {sessionChar.name||"il PG"} da dove avevi lasciato?</p>
+          <div style={{display:"flex",gap:6}}>
+            <button onClick={()=>clearSession()} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #e74c3c33",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>Ignora</button>
+            <button onClick={()=>{setChar(sessionChar);setCharMeta(null);setScreen("sheet");}} style={{flex:2,padding:"8px 0",borderRadius:7,border:"1px solid #2ecc7166",background:"rgba(46,204,113,0.12)",color:"#2ecc71",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer"}}>Riprendi</button>
+          </div>
+        </div>;
+      })()}
+
+      {/* Token setup modal */}
+      {showTkSetup&&<TkSetup onSave={async(tk)=>{if(passHash&&accId){await storeToken(accId,passHash,tk);setGhToken(tk);}setShowTkSetup(false);}} onSkip={()=>setShowTkSetup(false)}/>}
     </>
   );
 }
@@ -195,6 +247,20 @@ function Ld({msg}){
       <p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:14}}>{msg}</p>
     </div>
   </div>;
+}
+
+/* ═══ TOKEN SETUP MODAL ═══ */
+function TkSetup({onSave,onSkip}){
+  const[tk,setTk]=useState("");
+  return<div style={SS.po} onClick={onSkip}><div style={{...SS.pc,maxWidth:340}} onClick={e=>e.stopPropagation()}>
+    <p style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:700,color:"#c8a95e",marginBottom:6}}>🔑 Configura Salvataggio</p>
+    <p style={{fontSize:12,color:"#998866",marginBottom:14,lineHeight:1.4}}>Per salvare direttamente su GitHub, inserisci il token. Chiedilo al Master se non ce l'hai. Verrà criptato con la tua password e salvato solo su questo dispositivo.</p>
+    <input value={tk} onChange={e=>setTk(e.target.value)} placeholder="github_pat_..." style={{...SS.inp,width:"100%",fontSize:11,fontFamily:"'JetBrains Mono'",marginBottom:12,letterSpacing:0}}/>
+    <div style={{display:"flex",gap:6}}>
+      <button onClick={onSkip} style={{...SS.pb,background:"rgba(200,169,94,0.08)",borderColor:"#c8a95e33",color:"#998866"}}>Dopo</button>
+      <button onClick={()=>{if(tk.trim())onSave(tk.trim());}} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva Token</button>
+    </div>
+  </div></div>;
 }
 
 /* ═══ ACCOUNTS ═══ */
@@ -210,7 +276,7 @@ function AccountsScreen({manifest,onAuth}){
     if(!selAcc)return;
     setChecking(true);
     const hashed=await H(pw);
-    if(hashed===selAcc.h){setErr(false);onAuth(selAcc.id);}
+    if(hashed===selAcc.h){setErr(false);onAuth(selAcc.id,hashed);}
     else{setErr(true);}
     setChecking(false);
   };
@@ -315,12 +381,14 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
 }
 
 /* ═══ CHARACTER SHEET — FIX PRINCIPALE ═══ */
-function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
+function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,accId,onBack,onExport,onImport}){
   const[tab,setTab]=useState("stats");
   const[edit,setEdit]=useState(false);
   const[popup,setPopup]=useState(null);
   const[modal,setModal]=useState(null);
   const[avZoom,setAvZoom]=useState(false);
+  const[saving,setSaving]=useState(false);
+  const[saveOk,setSaveOk]=useState(null);
   const log=c.diceLog||[];
   const addLog=useCallback(e=>up({diceLog:[e,...(c.diceLog||[])].slice(0,80)}),[c.diceLog,up]);
   const mk20=cfg=>({...cfg,id:Date.now(),roll1:d20(),roll2:d20(),modifier:cfg.modifier||0,mode:null,chosen:null,total:null});
@@ -332,6 +400,15 @@ function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
 
   const avatarUrl=charMeta?charAvatarUrl(charMeta.owner,charMeta.file):null;
   const htmlUrl=charMeta?charHtmlUrl(charMeta.owner,charMeta.file):null;
+
+  useEffect(()=>{if(accId&&c)saveSession(accId,c);},[c,accId]);
+  const doSave=async()=>{
+    if(!charMeta||!ghToken){onExport();return;}
+    setSaving(true);setSaveOk(null);
+    const ok=await saveToGH(charMeta.owner,charMeta.file,c);
+    setSaving(false);setSaveOk(ok);
+    setTimeout(()=>setSaveOk(null),2500);
+  };
 
   /* 
     FIX LAYOUT MOBILE:
@@ -413,7 +490,7 @@ function Sheet({char:c,up,ac,acc,charMeta,onBack,onExport,onImport}){
         {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
         {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
-        {tab==="export"&&(()=>{onExport();setTab("stats");return<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>✅ File esportato!</div>;})()}
+        {tab==="export"&&(()=>{if(ghToken&&charMeta){doSave();}else{onExport();}setTab("stats");return<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{ghToken&&charMeta?"⏳ Salvataggio su GitHub...":"✅ File esportato!"}</div>;})()}
       </div>
 
       {/* BOTTOM NAV — position absolute rispetto al container, non fixed globale */}
