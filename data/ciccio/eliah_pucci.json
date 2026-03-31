@@ -1,525 +1,439 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T15:56:28.247Z",
+  "exportedAt": "2026-03-31T14:00:00.000Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
-    "race": "Skypiean",
+    "race": "Sky Islander [Birkan]",
     "level": 7,
-    "classes": "Navigatore 5 / Cecchino 1 / Carpentiere 1",
-    "ac": 17,
-    "hpMax": 58,
-    "hpCurrent": 58,
+    "classes": "Tinkerer 4 / Bruiser 3",
+    "ac": 16,
+    "hpMax": 70,
+    "hpCurrent": 70,
     "hpTemp": 0,
     "hpPerm": 0,
-    "speed": 28,
-    "passivePerception": 16,
+    "speed": 15,
+    "passivePerception": 14,
     "profBonus": 3,
-    "hitDie": "1d8",
+    "hitDie": "3d12+4d6",
     "stats": {
-      "FOR": {
-        "score": 8,
-        "mod": -1,
-        "save": 2,
-        "profSave": true
-      },
-      "DES": {
-        "score": 17,
-        "mod": 3,
-        "save": 6,
-        "profSave": true
-      },
-      "COS": {
-        "score": 11,
-        "mod": 0,
-        "save": 3,
-        "profSave": true
-      },
-      "INT": {
-        "score": 14,
-        "mod": 2,
-        "save": 5,
-        "profSave": true
-      },
-      "SAG": {
-        "score": 12,
-        "mod": 1,
-        "save": 1,
-        "profSave": false
-      },
-      "CAR": {
-        "score": 11,
-        "mod": 0,
-        "save": 0,
-        "profSave": false
-      }
+      "FOR": { "score": 4, "mod": -3, "save": 0, "profSave": true },
+      "DES": { "score": 16, "mod": 3, "save": 3, "profSave": false },
+      "COS": { "score": 16, "mod": 3, "save": 6, "profSave": true },
+      "INT": { "score": 14, "mod": 2, "save": 5, "profSave": true },
+      "SAG": { "score": 12, "mod": 1, "save": 4, "profSave": true },
+      "CAR": { "score": 11, "mod": 0, "save": 0, "profSave": false }
     },
     "skills": [
-      {
-        "name": "Navigazione",
-        "stat": null,
-        "mod": 2,
-        "prof": false
-      },
-      {
-        "name": "Atletica",
-        "stat": "FOR",
-        "prof": true
-      },
-      {
-        "name": "Natura",
-        "stat": "INT",
-        "prof": true
-      },
-      {
-        "name": "Sopravvivenza",
-        "stat": "SAG",
-        "prof": true
-      },
-      {
-        "name": "Percezione",
-        "stat": "SAG",
-        "prof": true
-      },
-      {
-        "name": "Artigianato",
-        "stat": null,
-        "mod": 2,
-        "prof": false
-      },
-      {
-        "name": "Intimidire",
-        "stat": "CAR",
-        "prof": true
-      },
-      {
-        "name": "Storia",
-        "stat": "INT",
-        "prof": true
-      },
-      {
-        "name": "Acrobazia",
-        "stat": "DES",
-        "prof": true
-      },
-      {
-        "name": "Addestrare Animali",
-        "stat": "SAG",
-        "prof": false
-      },
-      {
-        "name": "Intrattenere",
-        "stat": "CAR",
-        "prof": false
-      },
-      {
-        "name": "Arcano",
-        "stat": "INT",
-        "prof": false
-      },
-      {
-        "name": "Intuizione",
-        "stat": "SAG",
-        "prof": false
-      },
-      {
-        "name": "Medicina",
-        "stat": "SAG",
-        "prof": false
-      },
-      {
-        "name": "Furtività",
-        "stat": "DES",
-        "prof": false
-      },
-      {
-        "name": "Indagare",
-        "stat": "INT",
-        "prof": false
-      },
-      {
-        "name": "Inganno",
-        "stat": "CAR",
-        "prof": false
-      },
-      {
-        "name": "Persuasione",
-        "stat": "CAR",
-        "prof": false
-      },
-      {
-        "name": "Rapidità di Mano",
-        "stat": "DES",
-        "prof": false
-      },
-      {
-        "name": "Religione",
-        "stat": "INT",
-        "prof": false
-      }
+      { "name": "Acrobazia", "stat": "DES", "prof": "prof" },
+      { "name": "Addestrare Animali", "stat": "SAG", "prof": "none" },
+      { "name": "Arcano", "stat": "INT", "prof": "none" },
+      { "name": "Atletica", "stat": "FOR", "prof": "prof" },
+      { "name": "Furtività", "stat": "DES", "prof": "none" },
+      { "name": "Indagare", "stat": "INT", "prof": "prof" },
+      { "name": "Inganno", "stat": "CAR", "prof": "prof" },
+      { "name": "Intimidire", "stat": "CAR", "prof": "prof" },
+      { "name": "Intrattenere", "stat": "CAR", "prof": "none" },
+      { "name": "Intuizione", "stat": "SAG", "prof": "none" },
+      { "name": "Medicina", "stat": "SAG", "prof": "none" },
+      { "name": "Natura", "stat": "INT", "prof": "prof" },
+      { "name": "Percezione", "stat": "SAG", "prof": "prof" },
+      { "name": "Persuasione", "stat": "CAR", "prof": "prof" },
+      { "name": "Rapidità di Mano", "stat": "DES", "prof": "none" },
+      { "name": "Religione", "stat": "INT", "prof": "none" },
+      { "name": "Sopravvivenza", "stat": "SAG", "prof": "prof" },
+      { "name": "Storia", "stat": "INT", "prof": "prof" },
+      { "name": "Navigazione", "stat": null, "mod": 5, "prof": "prof" },
+      { "name": "Artigianato", "stat": "INT", "prof": "prof" }
     ],
-    "origins": [
-      {
-        "id": "cecchino",
-        "name": "Cecchino",
-        "color": "#e74c3c"
-      },
-      {
-        "id": "carpentiere",
-        "name": "Carpentiere",
-        "color": "#e67e22"
-      },
-      {
-        "id": "navigatore",
-        "name": "Navigatore",
-        "color": "#3498db"
-      },
-      {
-        "id": "haki_arm",
-        "name": "Haki Armatura",
-        "color": "#8e44ad"
-      },
-      {
-        "id": "haki_oss",
-        "name": "Haki Osservazione",
-        "color": "#1abc9c"
-      },
-      {
-        "id": "haki_re",
-        "name": "Haki del Re",
-        "color": "#f1c40f"
+    "spellSlots": {
+      "cantrips": 4,
+      "slots": {
+        "1": { "max": 4, "used": 0 },
+        "2": { "max": 3, "used": 0 },
+        "3": { "max": 0, "used": 0 },
+        "4": { "max": 0, "used": 0 },
+        "5": { "max": 0, "used": 0 },
+        "6": { "max": 0, "used": 0 },
+        "7": { "max": 0, "used": 0 },
+        "8": { "max": 0, "used": 0 },
+        "9": { "max": 0, "used": 0 }
       }
+    },
+    "origins": [
+      { "id": "tinkerer", "name": "Tinkerer", "color": "#3498db" },
+      { "id": "tinkerer_meteo", "name": "Meteorologia", "color": "#5dade2" },
+      { "id": "bruiser", "name": "Bruiser", "color": "#e67e22" },
+      { "id": "bruiser_pugno", "name": "Pugno Nero", "color": "#d35400" },
+      { "id": "haki_arm", "name": "Haki Armatura", "color": "#8e44ad" },
+      { "id": "haki_oss", "name": "Haki Osservazione", "color": "#1abc9c" },
+      { "id": "haki_re", "name": "Haki del Re", "color": "#f1c40f" },
+      { "id": "razza", "name": "Razza (Birkan)", "color": "#95a5a6" },
+      { "id": "talenti", "name": "Talenti", "color": "#e74c3c" }
     ],
     "attacks": [
-      {
-        "id": "atk1",
-        "name": "Balestra",
-        "hit": 6,
-        "damage": "3d6+3",
-        "type": "perforante"
-      },
-      {
-        "id": "atk2",
-        "name": "Pattini (contundente)",
-        "hit": 6,
-        "damage": "1d8+3+1d8",
-        "type": "contundente"
-      },
-      {
-        "id": "atk3",
-        "name": "Pattini (tagliente)",
-        "hit": 6,
-        "damage": "1d6+3",
-        "type": "tagliente"
-      },
-      {
-        "id": "mneqy2tcelo4",
-        "name": "Nitro",
-        "hit": 0,
-        "damage": "3d8+1d8+1d6",
-        "type": "Elementale"
-      },
-      {
-        "id": "mnergb0oscti",
-        "name": "Colpo Melee Pattino + Haki [Esplosione Spirituale]",
-        "hit": 6,
-        "damage": "1d8+1d8+2d8+3",
-        "type": "Haki"
-      }
+      { "id": "atk1", "name": "Pugno (senz'armi)", "hit": 6, "damage": "1d6+3", "type": "contundente" },
+      { "id": "atk2", "name": "Sciabola", "hit": 6, "damage": "1d6+3", "type": "tagliente" },
+      { "id": "atk3", "name": "Bastone Ferrato", "hit": 0, "damage": "1d6-3", "type": "contundente" }
     ],
     "abilities": [
       {
-        "id": "a1",
-        "name": "Colpo Letale",
-        "originId": "cecchino",
-        "type": "Passiva",
-        "desc": "+1d6 a distanza\nUna volta per turno, aggiungi 1d6 al danno di un attacco a distanza.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "fav": false,
-        "cdStat": null
+        "id": "r1", "name": "Protezione dalle Nuvole", "originId": "razza", "type": "Reazione",
+        "desc": "Puoi formare soffici nuvole fluttuanti intorno a te per ridurre la velocità della caduta. Ottieni la capacità di lanciare Feather Fall.\nUso: 1× — Recupero: riposo breve o lungo.",
+        "maxUses": 1, "uses": 0, "rest": "breve", "fav": false, "cdStat": null
       },
       {
-        "id": "a2",
-        "name": "Colpo con la Punta",
-        "originId": "carpentiere",
-        "type": "Azione",
-        "desc": "+1d8 contundente melee\nColpo speciale con martello che infligge 1d8 danni contundenti aggiuntivi.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "fav": false,
-        "cdStat": null
+        "id": "r2", "name": "Competenza con i Dial", "originId": "razza", "type": "Passiva",
+        "desc": "Comprendi istintivamente i dial provenienti dalle Isole del Cielo e puoi portarne uno con te.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a3",
-        "name": "Riparazione Rapida",
-        "originId": "carpentiere",
-        "type": "Azione",
-        "desc": "Ripara oggetti/strutture\nRipristina fino a 10 PF su oggetti o strutture danneggiate.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "fav": false,
-        "cdStat": null
+        "id": "r3", "name": "Specialista di Mantra", "originId": "razza", "type": "Passiva",
+        "desc": "Puoi scegliere di prendere il talento Color of Observation Training se soddisfi i prerequisiti.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a4",
-        "name": "Guida Impeccabile",
-        "originId": "navigatore",
-        "type": "Azione",
-        "desc": "Vantaggio a un alleato\nConcedi vantaggio a un alleato su un TS o prova legata al movimento.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "fav": false,
-        "cdStat": null
+        "id": "t1", "name": "Potere di Creazione", "originId": "tinkerer", "type": "Passiva",
+        "desc": "Lancio di incantesimi Tinkerer. Usa INT come caratteristica da incantatore.\nCD tiro salvezza = 8 + competenza + mod INT = 13\nMod attacco = competenza + mod INT = +5\nPrepari un numero di incantesimi pari a mod INT + livello Tinkerer (minimo 1) = 6 incantesimi al giorno.\nPuoi modificare la lista dopo un riposo lungo.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": "INT"
       },
       {
-        "id": "a5",
-        "name": "Controllo del Vento",
-        "originId": "navigatore",
-        "type": "Azione",
-        "desc": "Raffiche di vento offensive\nCrea raffiche che rallentano o spingono i nemici entro 9m.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "fav": false,
-        "cdStat": null
+        "id": "t2", "name": "Lancio Rituale", "originId": "tinkerer", "type": "Passiva",
+        "desc": "Puoi lanciare una Creazione come rituale se ha il tag rituale e si trova nei tuoi Progetti, senza consumare slot.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a6",
-        "name": "Velocità di Fuga",
-        "originId": "navigatore",
-        "type": "Passiva",
-        "desc": "Mobilità aumentata\n+3m di movimento e Disimpegno disponibile come azione bonus.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "fav": false,
-        "cdStat": null
+        "id": "t3", "name": "Ricarica", "originId": "tinkerer", "type": "Passiva",
+        "desc": "Durante un riposo breve, una volta al giorno, puoi recuperare slot incantesimo per un totale di livelli pari a metà del tuo livello da Tinkerer (arrotondato per eccesso) = 2 livelli di slot.",
+        "maxUses": 1, "uses": 0, "rest": "lungo", "fav": false, "cdStat": null
       },
       {
-        "id": "a7",
-        "name": "Chiamata degli Elementi",
-        "originId": "navigatore",
-        "type": "Azione",
-        "desc": "Tempesta elementale ad area\nEvoca una tempesta che infligge 3d8 danni (fulmine/vento/acqua) in un'area di 6m.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "fav": false,
-        "cdStat": null
+        "id": "t4", "name": "Tecnologia Adattiva dei Trucchetti", "originId": "tinkerer", "type": "Passiva",
+        "desc": "Dal 3° livello puoi sostituire un trucchetto conosciuto con un altro dalla lista Tinkerer dopo un riposo lungo.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a8",
-        "name": "Aura di Vita",
-        "originId": "haki_arm",
-        "type": "Azione",
-        "desc": "PF temporanei da spirito\nGuadagna 1d6 + COS + livello PF temporanei. Usabile 3× per riposo lungo.",
-        "maxUses": 3,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "COS",
-        "fav": false
+        "id": "tm1", "name": "Surf sulle Nuvole", "originId": "tinkerer_meteo", "type": "Azione bonus",
+        "desc": "Dopo aver lanciato un incantesimo di 1° livello o superiore, puoi creare una nuvola sotto di te come azione bonus che ti permette di volare fino a 3 metri (10 piedi) in qualsiasi direzione.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": null
       },
       {
-        "id": "a9",
-        "name": "Armatura dell'Anima",
-        "originId": "haki_arm",
-        "type": "Azione",
-        "desc": "CA spirituale senza armatura\nLa tua CA diventa 13 + mod. COS per 8 ore, solo se non indossi armature. Usabile 1× per riposo lungo.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "COS",
-        "fav": false
+        "id": "b1", "name": "Attaccabrighe", "originId": "bruiser", "type": "Passiva",
+        "desc": "Maestria nel combattimento senz'armi e con armi da bruiser.\n• Danno senz'armi = 1d6 (aumenta con i livelli).\n• Dopo l'azione Attacco, puoi effettuare un colpo senz'armi o tentare una lotta come azione bonus.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": null
       },
       {
-        "id": "a10",
-        "name": "Esplosione Spirituale",
-        "originId": "haki_arm",
-        "type": "Passiva",
-        "desc": "+2d8 forza in mischia\nUna volta per round, un colpo melee infligge 2d8 danni forza aggiuntivi. Usabile 3× per riposo lungo.",
-        "maxUses": 3,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "COS",
-        "fav": true
+        "id": "b2", "name": "Difesa Senza Armatura", "originId": "bruiser", "type": "Passiva",
+        "desc": "Quando non indossi armatura né scudo, la tua CA = 10 + mod DES + mod COS = 16.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a11",
-        "name": "Indurimento delle Armi",
-        "originId": "haki_arm",
-        "type": "Azione bonus",
-        "desc": "Arma magica +1 per 1 minuto\nRicopri un'arma con l'haki: diventa magica con +1 a colpire e ai danni per 1 min. Usabile 3× per riposo lungo.",
-        "maxUses": 3,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "COS",
-        "fav": true
+        "id": "b3", "name": "Furia", "originId": "bruiser", "type": "Passiva",
+        "desc": "Punti Furia disponibili per alimentare abilità speciali. Recuperi tutto al termine di un riposo.\nCD Furia = 8 + competenza + mod COS = 14.\nPunti: bonus competenza = 3.",
+        "maxUses": 3, "uses": 0, "rest": "breve", "fav": true, "cdStat": "COS"
       },
       {
-        "id": "a12",
-        "name": "Vaso della Resilienza",
-        "originId": "haki_arm",
-        "type": "Azione",
-        "desc": "Resistenza fisica per 1 minuto\nResistenza ai danni fisici non magici e vantaggio ai TS su COS per 1 min. Usabile 1× per riposo lungo.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "COS",
-        "fav": false
+        "id": "b4", "name": "Colpi a Raffica", "originId": "bruiser", "type": "Azione bonus",
+        "desc": "Subito dopo l'azione Attacco, puoi spendere 1 punto Furia per effettuare due attacchi senz'armi extra come azione bonus.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": null
       },
       {
-        "id": "a13",
-        "name": "Conquista del Re",
-        "originId": "haki_arm",
-        "type": "Azione bonus",
-        "desc": "Portata +3m, spinge e stordisce\nAttiva con Indurimento: portata +3m, i colpi spingono 3m e stordiscono (TS COS), +danno forza 1×/round. Usabile 1× per riposo lungo.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "COS",
-        "fav": true
+        "id": "b5", "name": "Forza Bruta", "originId": "bruiser", "type": "Azione bonus",
+        "desc": "Puoi usare l'azione bonus per effettuare una spinta o per eseguire l'azione Scatto.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a14",
-        "name": "Vista Lontana",
-        "originId": "haki_oss",
-        "type": "Azione bonus",
-        "desc": "Gittata doppia per 1 minuto\nRaddoppia la gittata delle armi a distanza ed elimina lo svantaggio da lunga distanza. Usabile 1× per riposo lungo.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "SAG",
-        "fav": false
+        "id": "b6", "name": "Prepararsi all'Impatto", "originId": "bruiser", "type": "Azione bonus",
+        "desc": "Puoi usare l'azione bonus per ottenere punti ferita temporanei.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a15",
-        "name": "Colpo Echeggiante",
-        "originId": "haki_oss",
-        "type": "Azione bonus",
-        "desc": "Rimbalza su altro bersaglio\nSe manchi un attacco a distanza, ritira contro un bersaglio diverso in gittata. Usabile 3× per riposo lungo.",
-        "maxUses": 3,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "SAG",
-        "fav": true
+        "id": "b7", "name": "Carica Inarrestabile", "originId": "bruiser", "type": "Passiva",
+        "desc": "Finché hai almeno 1 punto Furia, hai vantaggio ai tiri salvezza su Costituzione contro effetti che infliggono danni.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a16",
-        "name": "Prevedi il Risultato",
-        "originId": "haki_oss",
-        "type": "Reazione",
-        "desc": "Rilancia qualsiasi d20\nPrima dell'esito, forza un rilancio su un tiro tuo o di chi ti attacca. Usabile 1× per riposo lungo.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "SAG",
-        "fav": true
+        "id": "b8", "name": "Sangue per la Forza", "originId": "bruiser", "type": "Passiva",
+        "desc": "Quando i tuoi PF scendono a metà o meno del massimo, puoi ottenere PF temporanei e recuperare punti Furia.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a17",
-        "name": "Senso Spirituale",
-        "originId": "haki_oss",
-        "type": "Azione",
-        "desc": "Percepisce creature nascoste\nRivela creature invisibili o nascoste entro 18m (no copertura totale). Usabile 3× per riposo lungo.",
-        "maxUses": 3,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "SAG",
-        "fav": false
+        "id": "bp1", "name": "Competenza Bonus (Atletica)", "originId": "bruiser_pugno", "type": "Passiva",
+        "desc": "Ottieni competenza in Atletica. Se già competente, scegli un'altra abilità tra quelle del Bruiser.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       },
       {
-        "id": "a18",
-        "name": "Attacco Predittivo",
-        "originId": "haki_oss",
-        "type": "Reazione",
-        "desc": "Contrattacca chi ti manca\nQuando un nemico ti manca in mischia, esegui subito un attacco melee di risposta. Usabile 3× per riposo lungo.",
-        "maxUses": 3,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "SAG",
-        "fav": true
+        "id": "bp2", "name": "Posizione Demoniaca", "originId": "bruiser_pugno", "type": "Passiva",
+        "desc": "Quando riduci una creatura ostile a 0 PF, ottieni punti ferita temporanei pari al tuo mod COS + il tuo livello da Bruiser = 6 PF temporanei.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": true, "cdStat": null
       },
       {
-        "id": "a19",
-        "name": "La Richiesta del Signore",
-        "originId": "haki_re",
-        "type": "Azione",
-        "desc": "Comando verbale obbligato\nImpartisci un comando (max 10 parole) a una creatura entro 18m: TS SAG o lo esegue. Usabile 1× per riposo breve.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "breve",
-        "cdStat": "CAR",
-        "fav": true
+        "id": "ha1", "name": "Aura di Vita", "originId": "haki_arm", "type": "Azione",
+        "desc": "Puoi spendere un'azione per ottenere 1d6 + il tuo punteggio di Costituzione + il tuo livello del personaggio in punti ferita temporanei.\n= 1d6 + 16 + 7 = 1d6+23 PF temporanei.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": true, "cdStat": "COS"
       },
       {
-        "id": "a20",
-        "name": "La Risolutezza del Re",
-        "originId": "haki_re",
-        "type": "Reazione",
-        "desc": "Sopravvivi a 0 PF\nQuando saresti ridotto a 0 PF, scendi invece a 1 PF. Usabile 1× per riposo lungo.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "CAR",
-        "fav": false
+        "id": "ha2", "name": "Armatura dell'Anima", "originId": "haki_arm", "type": "Azione",
+        "desc": "Come azione, avvolgi il tuo corpo con un'armatura spirituale invisibile. La tua CA diventa 13 + mod COS = 16 quando non indossi armature. Dura 8 ore.\nUso: 1× — Recupero: riposo lungo.",
+        "maxUses": 1, "uses": 0, "rest": "lungo", "fav": false, "cdStat": "COS"
       },
       {
-        "id": "a21",
-        "name": "Il Ruggito del Monarca",
-        "originId": "haki_re",
-        "type": "Azione",
-        "desc": "Urlo che assorda e stordisce\nCono di 4,5m: TS COS o le creature sono assordate e stordite fino al tuo prossimo turno. Usabile 1× per riposo lungo.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "CAR",
-        "fav": false
+        "id": "ha3", "name": "Esplosione Spirituale", "originId": "haki_arm", "type": "Passiva",
+        "desc": "Quando colpisci con un attacco melee o senz'armi, puoi sprigionare un'ondata di energia per infliggere 2d8 danni da forza aggiuntivi. Solo 1×/round durante il tuo turno.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": true, "cdStat": "COS"
       },
       {
-        "id": "a22",
-        "name": "Voce Influente",
-        "originId": "haki_re",
-        "type": "Azione",
-        "desc": "Fascino senza slot\nLancia Fascino su Persona senza consumare slot incantesimo. Usabile 3× per riposo lungo.",
-        "maxUses": 3,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "CAR",
-        "fav": true
+        "id": "ha4", "name": "Indurimento delle Armi", "originId": "haki_arm", "type": "Azione bonus",
+        "desc": "Come azione bonus, incanali l'haki in un'arma o nei tuoi attacchi senz'armi. Per 1 minuto, l'arma è considerata magica con +1 ai tiri per colpire e ai danni.\nL'effetto termina se perdi conoscenza, lo usi di nuovo, lo annulli come azione bonus, o inizi il turno senza l'arma.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": true, "cdStat": "COS"
       },
       {
-        "id": "a23",
-        "name": "Sguardo Spaventoso",
-        "originId": "haki_re",
-        "type": "Azione",
-        "desc": "Paura senza slot\nLancia Causare Paura senza consumare slot incantesimo. Usabile 3× per riposo lungo.",
-        "maxUses": 3,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": "CAR",
-        "fav": true
+        "id": "ha5", "name": "Vaso della Resilienza", "originId": "haki_arm", "type": "Azione",
+        "desc": "Come azione, potenzi le tue difese per 1 minuto. Ottieni resistenza ai danni contundenti, perforanti e taglienti da attacchi non magici e vantaggio ai tiri salvezza su Costituzione.\nUso: 1× — Recupero: riposo lungo.",
+        "maxUses": 1, "uses": 0, "rest": "lungo", "fav": false, "cdStat": "COS"
       },
       {
-        "id": "a24",
-        "name": "Compagno del Re",
-        "originId": "haki_re",
-        "type": "Rituale",
-        "desc": "Famiglio che può attaccare\nEvoca un famiglio come rituale senza materiali; può attaccare al posto di uno dei tuoi attacchi.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "cdStat": "CAR",
-        "fav": true
+        "id": "ha6", "name": "La Conquista del Re", "originId": "haki_arm", "type": "Azione bonus",
+        "desc": "Si attiva insieme a Indurimento delle Armi su un'arma impugnata. Per 1 minuto:\n• Portata dell'arma +3 metri.\n• Ogni colpo può spingere il bersaglio fino a 3m.\n• Il bersaglio è stordito fino al tuo prossimo turno (TS COS CD 14 annulla).\n• 1×/round: infliggi danni forza extra pari a (2 × bonus competenza) + mod COS = 9.\nPrerequisiti: Qualità di un Re, Indurimento delle Armi.\nUso: 1× — Recupero: riposo lungo.",
+        "maxUses": 1, "uses": 0, "rest": "lungo", "fav": true, "cdStat": "COS"
+      },
+      {
+        "id": "ho1", "name": "Visione della Luce", "originId": "haki_oss", "type": "Passiva",
+        "desc": "Ottieni Visione Oscura entro 36 metri (120 piedi). In scarsa illuminazione vedi come luce intensa; al buio come scarsa illuminazione (solo sfumature di grigio).",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
+      },
+      {
+        "id": "ho2", "name": "Rilevamento dell'Aura", "originId": "haki_oss", "type": "Azione",
+        "desc": "Puoi lanciare Individuazione della Magia a volontà, senza consumare slot incantesimo o componenti materiali.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
+      },
+      {
+        "id": "ho3", "name": "Prevedi il Risultato", "originId": "haki_oss", "type": "Reazione",
+        "desc": "Puoi ritirare un d20 su un tiro per colpire, prova di caratteristica o tiro salvezza prima che l'esito venga determinato.\nIn alternativa, puoi costringere una creatura che vedi a ritirare un attacco contro di te o un TS contro una tua capacità.\nSe il tiro originale era con vantaggio/svantaggio, entrambi i d20 vengono rilanciati.\nUso: 1× — Recupero: riposo lungo.",
+        "maxUses": 1, "uses": 0, "rest": "lungo", "fav": true, "cdStat": "SAG"
+      },
+      {
+        "id": "ho4", "name": "Senso Spirituale", "originId": "haki_oss", "type": "Azione",
+        "desc": "Puoi percepire la presenza di creature invisibili, nascoste o camuffate entro 18 metri, purché non ci sia copertura totale tra voi.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": false, "cdStat": "SAG"
+      },
+      {
+        "id": "ho5", "name": "Attacco Predittivo", "originId": "haki_oss", "type": "Reazione",
+        "desc": "Quando una creatura ti manca con un attacco in mischia, puoi usare la tua reazione per effettuare un attacco in mischia contro di essa.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": false, "cdStat": "SAG"
+      },
+      {
+        "id": "ho6", "name": "Lettura dell'Aura", "originId": "haki_oss", "type": "Azione",
+        "desc": "Puoi lanciare Individua Veleni e Malattie o Individua Male e Bene senza consumare slot incantesimo o componenti materiali.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": false, "cdStat": "SAG"
+      },
+      {
+        "id": "ho7", "name": "Vista Lontana", "originId": "haki_oss", "type": "Azione bonus",
+        "desc": "Per 1 minuto o finché non sei incapacitato: la gittata delle armi a distanza è raddoppiata e non subisci svantaggio per attacchi a lunga distanza.\nUso: 1× — Recupero: riposo lungo.",
+        "maxUses": 1, "uses": 0, "rest": "lungo", "fav": true, "cdStat": "SAG"
+      },
+      {
+        "id": "ho8", "name": "Colpo Echeggiante", "originId": "haki_oss", "type": "Azione bonus",
+        "desc": "Quando manchi un attacco con un'arma a distanza, puoi usare l'azione bonus per ritirare il dado contro una creatura diversa entro la gittata. Il colpo rimbalza su una superficie solida prima di colpire il nuovo bersaglio.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": false, "cdStat": "SAG"
+      },
+      {
+        "id": "hr1", "name": "Voce Influente", "originId": "haki_re", "type": "Azione",
+        "desc": "Ottieni competenza in Inganno e Persuasione. Puoi lanciare Fascino su Persona senza consumare slot incantesimo né componenti materiali.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": false, "cdStat": "CAR"
+      },
+      {
+        "id": "hr2", "name": "La Richiesta del Signore", "originId": "haki_re", "type": "Azione",
+        "desc": "Impartisci un comando verbale (max 10 parole) a una creatura visibile entro 18 metri. TS Saggezza: se fallisce, esegue il comando nel suo prossimo turno al meglio delle sue capacità.\nUso: 1× — Recupero: riposo breve o lungo.",
+        "maxUses": 1, "uses": 0, "rest": "breve", "fav": true, "cdStat": "CAR"
+      },
+      {
+        "id": "hr3", "name": "La Risolutezza del Re", "originId": "haki_re", "type": "Reazione",
+        "desc": "Quando i tuoi PF vengono ridotti a 0 senza essere ucciso sul colpo, puoi invece scendere a 1 PF.\nUso: 1× — Recupero: riposo lungo.",
+        "maxUses": 1, "uses": 0, "rest": "lungo", "fav": true, "cdStat": "CAR"
+      },
+      {
+        "id": "hr4", "name": "Il Ruggito del Monarca", "originId": "haki_re", "type": "Azione",
+        "desc": "Emetti un urlo fragoroso in un cono di 4,5 metri. Ogni creatura nel cono deve effettuare un TS Costituzione o essere assordata e stordita fino alla fine del tuo prossimo turno.\nUso: 1× — Recupero: riposo lungo.",
+        "maxUses": 1, "uses": 0, "rest": "lungo", "fav": true, "cdStat": "CAR"
+      },
+      {
+        "id": "hr5", "name": "Sguardo Spaventoso", "originId": "haki_re", "type": "Azione",
+        "desc": "Ottieni competenza in Intimidazione. Puoi lanciare Causare Paura senza consumare slot incantesimo né componenti materiali.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
+        "maxUses": 3, "uses": 0, "rest": "lungo", "fav": false, "cdStat": "CAR"
+      },
+      {
+        "id": "hr6", "name": "Compagno del Re", "originId": "haki_re", "type": "Rituale",
+        "desc": "Lancia Trova Famiglio come rituale senza componenti materiali. Il famiglio può apparire come qualsiasi piccola creatura.\nQuando effettui l'azione di Attacco, puoi rinunciare a uno dei tuoi attacchi per permettere al famiglio di attaccare con la sua reazione.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": "CAR"
+      },
+      {
+        "id": "ta1", "name": "Mobile", "originId": "talenti", "type": "Passiva",
+        "desc": "Talento (Lv 1).\n• La tua velocità aumenta di 10 piedi (3m).\n• Quando usi Scatto (Dash), il terreno difficile non costa movimento extra.\n• Quando effettui un attacco corpo a corpo contro una creatura, non provochi attacchi di opportunità da quella creatura per il resto del turno, che tu colpisca o meno.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
+      },
+      {
+        "id": "ta2", "name": "Skilled", "originId": "talenti", "type": "Passiva",
+        "desc": "Talento (Lv 4).\nOttieni competenza in una qualsiasi combinazione di tre abilità o strumenti a tua scelta.",
+        "maxUses": -1, "uses": 0, "rest": null, "fav": false, "cdStat": null
       }
     ],
     "notes": "",
+    "backstory": "",
     "diceLog": [],
-    "effects": []
+    "effects": [],
+    "spells": [
+      {
+        "id": "sp1",
+        "name": "Gust",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": { "v": true, "s": true, "m": null },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei una raffica di vento che colpisce una creatura o un oggetto. Una creatura di taglia Media o inferiore deve superare un TS su Forza o essere spinta di 1,5m. In alternativa, puoi creare un piccolo vortice d'aria capace di muovere un oggetto non fissato di peso non superiore a 2,5 kg di 3m, o creare un effetto sensoriale di vento.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp2",
+        "name": "Mending",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "Contatto",
+        "components": { "v": true, "s": true, "m": null },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Ripari una singola rottura o strappo in un oggetto che tocchi, come un anello di catena rotto, una chiave spezzata, un mantello strappato o un otre che perde. Purché la rottura non sia più grande di 30 cm in qualsiasi dimensione, la ripari senza lasciare traccia del danno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp3",
+        "name": "Shocking Grasp",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": { "v": true, "s": true, "m": null },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Un fulmine scaturisce dalla tua mano per colpire una creatura. Effettua un attacco incantesimo in mischia. Hai vantaggio se il bersaglio indossa armature metalliche. Se colpisci, infliggi 2d8 danni da fulmine e il bersaglio non può effettuare reazioni fino al suo prossimo turno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp4",
+        "name": "Message",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": { "v": true, "s": true, "m": "un pezzetto di filo di rame" },
+        "duration": "1 round",
+        "concentration": false,
+        "desc": "Punti il dito verso una creatura entro la gittata e sussurri un messaggio. Il bersaglio (e solo il bersaglio) sente il messaggio e può rispondere in un sussurro udibile solo a te. Puoi lanciarlo attraverso oggetti solidi se conosci il bersaglio e sai che è oltre la barriera.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp5",
+        "name": "Thunderwave",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale (cubo 4,5m)",
+        "components": { "v": true, "s": true, "m": null },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Un'ondata di forza tonante si sprigiona da te. Ogni creatura in un cubo di 4,5 metri deve effettuare un TS su Costituzione. Se fallisce, subisce 2d8 danni da tuono e viene spinta di 3m da te. Se supera, subisce metà danni e non viene spinta. Anche gli oggetti non fissati vengono spinti automaticamente.",
+        "higherLevels": "+1d8 danni per ogni livello di slot sopra il 1°.",
+        "prepared": true
+      },
+      {
+        "id": "sp6",
+        "name": "Shield",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "Personale",
+        "components": { "v": true, "s": true, "m": null },
+        "duration": "1 round",
+        "concentration": false,
+        "desc": "Una barriera invisibile di forza magica appare e ti protegge. Fino all'inizio del tuo prossimo turno, ottieni +5 alla CA, incluso contro l'attacco che ha innescato questa reazione, e non subisci danni da Magic Missile.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp7",
+        "name": "Fog Cloud",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": { "v": true, "s": true, "m": null },
+        "duration": "Concentrazione, fino a 1 ora",
+        "concentration": true,
+        "desc": "Crei una sfera di nebbia di raggio 6m centrata su un punto entro gittata. La sfera si diffonde attorno agli angoli e la sua area è pesantemente oscurata. Dura per la durata o finché un vento moderato o più forte la disperde.",
+        "higherLevels": "Il raggio aumenta di 6m per ogni livello sopra il 1°.",
+        "prepared": true
+      },
+      {
+        "id": "sp8",
+        "name": "Detect Magic",
+        "level": 1,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": true,
+        "range": "Personale",
+        "components": { "v": true, "s": true, "m": null },
+        "duration": "Concentrazione, fino a 10 minuti",
+        "concentration": true,
+        "desc": "Per la durata, percepisci la presenza di magia entro 9m da te. Se percepisci magia, puoi usare un'azione per vedere un'aura debole attorno a qualsiasi creatura o oggetto visibile nell'area che emette magia, e ne impari la scuola. Penetra la maggior parte delle barriere ma è bloccato da 30 cm di pietra, 2,5 cm di metallo, o un sottile foglio di piombo.",
+        "higherLevels": null,
+        "prepared": false
+      },
+      {
+        "id": "sp9",
+        "name": "Gust of Wind",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale (linea 18m)",
+        "components": { "v": true, "s": true, "m": "un seme di legume" },
+        "duration": "Concentrazione, fino a 1 minuto",
+        "concentration": true,
+        "desc": "Una linea di forte vento lunga 18m e larga 3m si sprigiona da te in una direzione a tua scelta per la durata. Ogni creatura che inizia il turno nella linea deve superare un TS su Forza o essere spinta di 4,5m nella direzione del vento. Ogni creatura nella linea deve spendere 2 unità di movimento per ogni metro in cui si avvicina a te. Il vento disperde gas e vapori e spegne fiamme non protette.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "sp10",
+        "name": "Shatter",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": { "v": true, "s": true, "m": "un chip di mica" },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Un suono improvviso e dolorosamente intenso risuona da un punto a tua scelta entro gittata. Ogni creatura in una sfera di raggio 3m centrata su quel punto deve effettuare un TS su Costituzione. Subisce 3d8 danni da tuono se fallisce, o metà danni se supera. Una creatura fatta di materiale inorganico (pietra, cristallo, metallo) ha svantaggio al TS. Un oggetto non magico non portato o indossato subisce sempre i danni.",
+        "higherLevels": "+1d8 danni per ogni livello sopra il 2°.",
+        "prepared": true
+      }
+    ]
   }
 }
