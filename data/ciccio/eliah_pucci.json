@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T23:06:20.538Z",
+  "exportedAt": "2026-03-31T23:09:43.561Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -259,7 +259,7 @@
       },
       {
         "id": "atk4",
-        "name": "Toll the Dead",
+        "name": "Toll the Dead [TS SAG 13]",
         "damage": "1d12",
         "type": "necrotico"
       },
