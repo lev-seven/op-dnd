@@ -67,7 +67,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.22";
+const APP_VERSION="v1.23";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -413,6 +413,17 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,accId,onBack,onExport
     setTimeout(()=>setSaveOk(null),2500);
   };
 
+  useEffect(()=>{
+    if(tab!=="export")return;
+    if(ghToken&&charMeta){
+      doSave().then(()=>setTimeout(()=>setTab("stats"),2000));
+    }else{
+      onExport();
+      setSaveOk(true);
+      setTimeout(()=>{setSaveOk(null);setTab("stats");},1500);
+    }
+  },[tab]);
+
   /* 
     FIX LAYOUT MOBILE:
     - Il container usa height: var(--app-h) invece di 100vh
@@ -493,7 +504,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,accId,onBack,onExport
         {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
         {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
-        {tab==="export"&&(()=>{if(ghToken&&charMeta){doSave().then(()=>setTimeout(()=>setTab("stats"),1800));return<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{saving?"⏳ Salvataggio...":saveOk===true?"✅ Salvato su GitHub!":saveOk===false?"❌ Errore salvataggio":"⏳ Salvataggio..."}</div>;}else{onExport();setTimeout(()=>setTab("stats"),1200);return<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>✅ File esportato!</div>;}})()}
+        {tab==="export"&&<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{saving?"⏳ Salvataggio...":(saveOk===true?(ghToken&&charMeta?"✅ Salvato su GitHub!":"✅ File esportato!"):saveOk===false?"❌ Errore salvataggio":"⏳ Elaborazione...")}</div>}
       </div>
 
       {/* BOTTOM NAV — position absolute rispetto al container, non fixed globale */}
