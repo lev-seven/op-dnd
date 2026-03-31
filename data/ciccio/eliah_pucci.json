@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T15:18:57.480Z",
+  "exportedAt": "2026-03-31T15:45:35.128Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -519,7 +519,21 @@
       }
     ],
     "notes": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "d20",
+        "label": "Prova FOR",
+        "total": 17,
+        "roll1": 18,
+        "roll2": 14,
+        "chosen": 18,
+        "modifier": -1,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1774971754647
+      }
+    ],
     "effects": []
   }
 }
