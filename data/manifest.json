@@ -1,13 +1,46 @@
 {
   "accounts": [
-    { "id": "ciccio", "name": "Ciccio", "color": "#e74c3c", "isMaster": true, "h": "a6b3799b7ad26f0006c800ff1f02a15fd16e847c2aa72b652ad896ae61e88f4a" },
-    { "id": "pata", "name": "Pata", "color": "#3498db", "isMaster": false, "h": "abc" },
-    { "id": "scala", "name": "Scala", "color": "#c8a95e", "isMaster": false, "h": "abc" },
-    { "id": "rik", "name": "Rik", "color": "#3ff8db", "isMaster": false, "h": "abc" }
+    {
+      "id": "ciccio",
+      "name": "Ciccio",
+      "color": "#e74c3c",
+      "isMaster": true,
+      "h": "a6b3799b7ad26f0006c800ff1f02a15fd16e847c2aa72b652ad896ae61e88f4a"
+    },
+    {
+      "id": "pata",
+      "name": "Pata",
+      "color": "#3498db",
+      "isMaster": false,
+      "h": "abc"
+    },
+    {
+      "id": "scala",
+      "name": "Scala",
+      "color": "#c8a95e",
+      "isMaster": false,
+      "h": "abc"
+    },
+    {
+      "id": "rik",
+      "name": "Rik",
+      "color": "#3ff8db",
+      "isMaster": false,
+      "h": "abc"
+    }
   ],
   "characters": {
     "ciccio": [
-      { "file": "eliah_pucci.json", "name": "Eliah Pucci", "preview": "Skypiean · Lv 7 · Navigatore 5 / Cecchino 1 / Carpentiere 1" }
+      {
+        "file": "eliah_pucci.json",
+        "name": "Eliah Pucci",
+        "preview": "Skypiean · Lv 7 · Navigatore 5 / Cecchino 1 / Carpentiere 1"
+      },
+      {
+        "file": "nuovo_pg.json",
+        "name": "Nuovo PG",
+        "preview": "? · Lv 1"
+      }
     ],
     "pata": [],
     "scala": [],
