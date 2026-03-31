@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T19:46:59.009Z",
+  "exportedAt": "2026-03-31T19:48:06.674Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -14,7 +14,7 @@
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 15,
-    "passivePerception": 14,
+    "passivePerception": 17,
     "profBonus": 3,
     "hitDie": "3d12+4d6",
     "stats": {
