@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <!--
-  TEMPLATE SCHEDA PERSONAGGIO — Solo Visualizzazione
-  Compatibile con JSON formato export: { account, character: {...} }
-  e formato bare: { name, stats, ... }
-
-  ISTRUZIONI:
-  1. Copia questo file e rinominalo come il PG: nome_personaggio.html
-  2. Sostituisci il blocco "const charData = { ... }" con i dati del JSON
-  3. Se usi il formato export (con wrapper), incolla tutto — il template lo unwrappa
-  4. Modifica getRacialTraits() per i tratti razziali (non sono nel JSON)
-  5. Carica su GitHub nella cartella del giocatore
+  TEMPLATE SCHEDA PERSONAGGIO — Solo Visualizzazione v1.31
+  Carica automaticamente il JSON con lo STESSO NOME dalla stessa cartella.
+  Esempio: eliah_pucci.html → cerca eliah_pucci.json
+  Compatibile con formato export {account,character:{...}} e bare {name,stats,...}
 -->
 <html lang="it">
 <head>
@@ -54,7 +48,7 @@ body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,se
 .skl{display:flex;flex-direction:column;gap:.3rem}
 .skr{display:flex;align-items:center;justify-content:space-between;padding:.25rem .4rem;border-radius:2px}
 .skr:hover{background:rgba(255,255,255,0.03)}
-.skr .kn{font-size:.85rem;color:var(--text);font-style:italic}
+.skr .kn{font-size:.85rem;color:var(--text)}
 .skr .km{font-family:'Cinzel',serif;font-size:.8rem;font-weight:600;color:var(--gold);min-width:32px;text-align:right}
 .atks{display:flex;flex-direction:column;gap:.5rem}
 .atkc{background:var(--bg3);border:1px solid var(--border2);border-radius:3px;padding:.6rem .8rem;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.8rem}
@@ -102,6 +96,20 @@ body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,se
 .dbtn:hover{background:rgba(201,168,76,0.1);border-color:var(--gold3);color:var(--gold)}
 .dres{font-family:'Cinzel Decorative',serif;font-size:2rem;color:var(--gold2);text-align:center;min-height:2.5rem;text-shadow:0 0 20px rgba(201,168,76,0.4)}
 .dlog{font-size:.75rem;color:var(--text3);font-style:italic;text-align:center;min-height:1rem}
+.slotbar{display:flex;flex-wrap:wrap;gap:.4rem}
+.slotitem{background:var(--bg3);border:1px solid var(--border2);border-radius:3px;padding:.3rem .6rem;display:flex;align-items:center;gap:.4rem}
+.slotitem .slbl{font-family:'Cinzel',serif;font-size:.65rem;color:var(--text3);letter-spacing:.1em}
+.slotitem .sval{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;color:var(--gold)}
+.spcard{background:var(--bg3);border:1px solid var(--border2);border-radius:4px;padding:.6rem .8rem;margin-bottom:.5rem;cursor:pointer;transition:border-color .2s}
+.spcard:hover{border-color:var(--gold3)}
+.spcard .sph{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.spcard .spn{font-family:'Cinzel',serif;font-size:.82rem;font-weight:600;color:var(--white)}
+.spcard .spm{font-size:.75rem;color:var(--text3);margin-top:.2rem}
+.spcard .spd{font-size:.83rem;color:var(--text2);line-height:1.5;white-space:pre-line;margin-top:.5rem;border-top:1px solid var(--border2);padding-top:.5rem;display:none}
+.spcard.open .spd{display:block}
+.sptag{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:.1rem .3rem;border-radius:2px;font-weight:700}
+.sptag.conc{color:#f39c12;background:rgba(243,156,18,0.12)}
+.sptag.rit{color:#8e44ad;background:rgba(142,68,173,0.12)}
 @keyframes rollB{0%{transform:scale(.6) rotate(-10deg);opacity:0}60%{transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0);opacity:1}}
 .rolling{animation:rollB .35s ease forwards}
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
@@ -110,7 +118,7 @@ body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,se
 <body>
 <div class="header">
   <div class="header-icon" id="hicon">⚔️</div>
-  <div class="char-name" id="cname"></div>
+  <div class="char-name" id="cname">Caricamento...</div>
   <div class="char-sub" id="csub"></div>
   <div class="hline"></div>
   <div class="badges" id="badges"></div>
@@ -126,159 +134,125 @@ body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,se
       <div class="hpbar"><div class="hpfill" id="hpbar"></div></div>
       <div style="margin-top:.8rem"><div class="pblk"><span class="plb">Percezione Passiva</span><span class="pvl" id="vpp">—</span></div></div>
     </div></div>
-    <div class="panel"><div class="pt">Caratteristiche</div><div class="pb"><div class="sgrid" id="sgrid"></div><div style="margin-top:.5rem;font-size:.65rem;color:var(--text3);font-style:italic;text-align:right">✦ = TS con competenza</div></div></div>
+    <div class="panel"><div class="pt">Caratteristiche</div><div class="pb"><div class="sgrid" id="sgrid"></div><div style="margin-top:.5rem;font-size:.65rem;color:var(--text3);font-style:italic;text-align:right">✦ = TS competenza · ★ = maestria</div></div></div>
     <div class="panel"><div class="pt">Abilità</div><div class="pb" style="padding:.6rem .8rem"><div class="skl" id="skills"></div></div></div>
     <div class="panel"><div class="pt" id="rtitle">🧬 Tratti Razziali</div><div class="pb"><div class="trl" id="traits"></div></div></div>
     <div class="panel"><div class="pt">🎲 Tira Dado</div><div class="pb"><div class="dice-area"><div class="dice-row"><button class="dbtn" onclick="roll(4)">d4</button><button class="dbtn" onclick="roll(6)">d6</button><button class="dbtn" onclick="roll(8)">d8</button><button class="dbtn" onclick="roll(10)">d10</button><button class="dbtn" onclick="roll(12)">d12</button><button class="dbtn" onclick="roll(20)">d20</button><button class="dbtn" onclick="roll(100)">d100</button></div><div class="dres" id="dres">—</div><div class="dlog" id="dlog"></div></div></div></div>
   </div>
   <div class="main">
+    <div class="panel" id="slotsPanel" style="display:none"><div class="pt">📕 Slot Incantesimo</div><div class="pb"><div id="slotsContent"></div></div></div>
     <div class="panel"><div class="pt">⚔️ Attacchi</div><div class="pb"><div class="atks" id="attacks"></div></div></div>
     <div class="panel"><div class="tabs" id="tabs"></div><div id="tcontent"></div></div>
-    <div class="panel" id="notesPanel" style="display:none"><div class="pt">📜 Note</div><div class="pb"><div id="notes" style="font-size:.9rem;color:var(--text2);white-space:pre-line;line-height:1.6"></div></div></div>
+    <div class="panel" id="spellsPanel" style="display:none"><div class="pt">📕 Libro degli Incantesimi</div><div class="pb"><div id="spellsList"></div></div></div>
+    <div class="panel" id="notesPanel" style="display:none"><div class="pt">📜 Note e Storia</div><div class="pb"><div id="notesContent"></div></div></div>
   </div>
 </div>
-
 <script>
-/* ══════════════════════════════════════════════════════════════
-   LOAD JSON DINAMICO DA URL
-   Usa il nome file HTML per costruire il path al JSON
-   ══════════════════════════════════════════════════════════════ */
+var char,activeTab='';
 
+/* ═══ AUTO-LOADER: stesso nome file, stessa cartella ═══ */
 async function loadCharacter(){
   try{
-    const fileName = window.location.pathname.split('/').pop().replace('.html','');
-    const pathParts = window.location.pathname.split('/');
-    const account = pathParts[pathParts.length - 2]; 
-    const jsonUrl = `https://lev-seven.github.io/op-dnd/data/${account}/${fileName}_completo.json`;
-    const res = await fetch(jsonUrl);
-    if(!res.ok) throw new Error('JSON non trovato');
-    const data = await res.json();
-    const char = (data.character && data.character.name) ? data.character : data;
-
-    init(char);
-
+    var path=window.location.pathname;
+    var htmlFile=path.split('/').pop();
+    var jsonFile=htmlFile.replace('.html','.json');
+    var basePath=path.substring(0,path.lastIndexOf('/')+1);
+    var jsonUrl=window.location.origin+basePath+jsonFile+'?t='+Date.now();
+    var res=await fetch(jsonUrl);
+    if(!res.ok)throw new Error('JSON non trovato: '+jsonFile);
+    var data=await res.json();
+    char=(data.character&&data.character.name)?data.character:data;
+    init();
   }catch(err){
-    document.body.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#e74c3c;font-family:Cinzel,serif;font-size:1.2rem;text-align:center;padding:2rem">
-        Errore caricamento JSON.<br>
-        Controlla il percorso o il nome file.<br><br>
-        ${err.message}
-      </div>
-    `;
+    document.body.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;color:#e74c3c;font-family:Cinzel,serif;text-align:center;padding:2rem;gap:1rem"><div style="font-size:1.2rem">Errore caricamento</div><div style="font-size:.8rem;color:#998866">'+err.message+'</div></div>';
   }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   TRATTI RAZZIALI — Modifica manualmente
-   ══════════════════════════════════════════════════════════════ */
-function getRacialTraits(){
-  return {
-    emoji: "🧬",
-    traits: [
-      // { name: "Nome Tratto", desc: "Descrizione." },
-    ]
-  };
-}
+function getRacialTraits(){return{emoji:"🧬",traits:[]};}
 
-/* ══════════════════════════════════════════════════════════════
-   LOGICA — Non modificare
-   ══════════════════════════════════════════════════════════════ */
-// Unwrap
-//const char = (charData.character && charData.character.name) ? charData.character : charData;
+/* ═══ HELPERS ═══ */
+function tc(t){t=(t||'').toLowerCase();if(t==='passiva')return't-pas';if(t==='azione bonus')return't-bon';if(t==='reazione')return't-rea';if(t==='rituale')return't-rit';return't-az';}
+function fmt(n){return n>=0?'+'+n:''+n;}
+function np(p){if(p===true)return"prof";if(p===false||!p)return"none";return p;}
+function skm(s){var p=np(s.prof),pb=char.profBonus||0,b=p==="mastery"?pb*2:p==="prof"?pb:0;if(s.stat&&char.stats[s.stat])return char.stats[s.stat].mod+b;return(s.mod||0)+b;}
+function cdv(st){return st?8+(char.profBonus||0)+(char.stats[st]?.mod||0):null;}
+function ctl(v){return v==="action"?"Azione":v==="bonus"?"Az. Bonus":v==="reaction"?"Reazione":v;}
 
-
-let activeTab = '';
-
-function typeClass(t){t=(t||'').toLowerCase();if(t==='passiva')return't-pas';if(t==='azione bonus')return't-bon';if(t==='reazione')return't-rea';if(t==='rituale')return't-rit';return't-az';}
-function fmt(n){return n>=0?'+'+n:n;}
-function cdVal(stat){return stat?8+(char.profBonus||0)+(char.stats[stat]?.mod||0):null;}
-let char;
-function init(char){
-  char = arguments[0];
-  if(!char||!char.name){document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#e74c3c;font-family:Cinzel,serif;font-size:1.2rem;text-align:center;padding:2rem">Errore: dati personaggio non trovati.<br>Incolla il JSON nel blocco charData.</div>';return;}
-
+/* ═══ INIT ═══ */
+function init(){
+  if(!char||!char.name)return;
   document.title=char.name+' — Scheda Completa';
   document.getElementById('cname').textContent=char.name;
   document.getElementById('csub').textContent=(char.race||'?')+' · Livello '+(char.level||1);
-
-  // Badges
-  const bh=document.getElementById('badges');
-  const cls=(char.classes||'').split('/').map(c=>`<span class="badge">${c.trim()}</span>`).join('');
-  bh.innerHTML=cls+`<span class="badge">Competenza +${char.profBonus||2}</span>`+(char.hitDie?`<span class="badge">Dado Vita ${char.hitDie}</span>`:'');
+  var bh=document.getElementById('badges');
+  bh.innerHTML=(char.classes||'').split('/').map(function(c){return'<span class="badge">'+c.trim()+'</span>';}).join('')+'<span class="badge">Competenza +'+(char.profBonus||2)+'</span>'+(char.hitDie?'<span class="badge">DV '+char.hitDie+'</span>':'');
 
   // Combat
-  const eMax=Math.max(0,(char.hpMax||0)-(char.hpPerm||0));
+  var eMax=Math.max(0,(char.hpMax||0)-(char.hpPerm||0));
   document.getElementById('vac').textContent=char.ac||'?';
   document.getElementById('vhp').textContent=(char.hpCurrent||char.hpMax||'?')+'/'+eMax;
   document.getElementById('vsp').textContent=(char.speed||'?')+'m';
   document.getElementById('vpp').textContent=char.passivePerception||'?';
-  const pct=eMax>0?Math.max(0,((char.hpCurrent||char.hpMax||0)/eMax)*100):100;
-  document.getElementById('hpbar').style.width=pct+'%';
+  document.getElementById('hpbar').style.width=(eMax>0?Math.max(0,((char.hpCurrent||char.hpMax||0)/eMax)*100):100)+'%';
 
   // Stats
-  const labels={FOR:'Forza',DES:'Destrezza',COS:'Costituzione',INT:'Intelligenza',SAG:'Saggezza',CAR:'Carisma'};
-  document.getElementById('sgrid').innerHTML=Object.entries(char.stats||{}).map(([k,s])=>{
-    const sc=s.profSave?'color:var(--teal)':'color:var(--text3)';
-    return`<div class="sblk"><div><div class="sn">${labels[k]||k}</div><div class="sv">${s.score}</div><div class="sm">${fmt(s.mod)}</div></div><div class="sr"><div class="ss" style="${sc}">TS ${fmt(s.save)}${s.profSave?' ✦':''}</div></div></div>`;
-  }).join('');
+  var lb={FOR:'Forza',DES:'Destrezza',COS:'Costituzione',INT:'Intelligenza',SAG:'Saggezza',CAR:'Carisma'};
+  document.getElementById('sgrid').innerHTML=Object.entries(char.stats||{}).map(function(e){var k=e[0],s=e[1],sc=s.profSave?'color:var(--teal)':'color:var(--text3)';return'<div class="sblk"><div><div class="sn">'+(lb[k]||k)+'</div><div class="sv">'+s.score+'</div><div class="sm">'+fmt(s.mod)+'</div></div><div class="sr"><div class="ss" style="'+sc+'">TS '+fmt(s.save)+(s.profSave?' ✦':'')+'</div></div></div>';}).join('');
 
   // Skills
-  document.getElementById('skills').innerHTML=(char.skills||[]).map(s=>`<div class="skr"><span class="kn">${s.name}</span><span class="km">${fmt(s.mod)}</span></div>`).join('');
+  var sk=(char.skills||[]).slice().sort(function(a,b){return a.name.localeCompare(b.name);});
+  document.getElementById('skills').innerHTML=sk.map(function(s){var m=skm(s),p=np(s.prof);var ic=p==="mastery"?'<span style="color:#f1c40f">★</span> ':p==="prof"?'<span style="color:var(--gold)">●</span> ':'';var st=s.stat?' <span style="font-size:.65rem;color:var(--text3)">('+s.stat+')</span>':'';return'<div class="skr"><span class="kn">'+ic+s.name+st+'</span><span class="km">'+fmt(m)+'</span></div>';}).join('');
 
   // Racial traits
-  const rt=getRacialTraits();
-  document.getElementById('rtitle').textContent=rt.emoji+' Tratti Razziali — '+(char.race||'?');
-  const tEl=document.getElementById('traits');
-  if(!rt.traits.length){tEl.innerHTML='<div style="font-size:.8rem;color:var(--text3);font-style:italic">Nessun tratto definito.</div>';}
-  else{tEl.innerHTML=rt.traits.map(t=>`<div><div class="trn">${t.name}</div><div class="trd">${t.desc}</div></div>`).join('');}
+  var rt=getRacialTraits();document.getElementById('rtitle').textContent=rt.emoji+' Tratti Razziali — '+(char.race||'?');
+  var tEl=document.getElementById('traits');
+  tEl.innerHTML=rt.traits.length?rt.traits.map(function(t){return'<div><div class="trn">'+t.name+'</div><div class="trd">'+t.desc+'</div></div>';}).join(''):'<div style="font-size:.8rem;color:var(--text3);font-style:italic">Nessun tratto definito.</div>';
 
   // Attacks
-  document.getElementById('attacks').innerHTML=(char.attacks||[]).map(a=>`<div class="atkc"><div class="an">${a.name}</div><div class="ah">+${a.hit}<span>per colpire</span></div><div class="ad">${a.damage}<span>${a.type||''}</span></div></div>`).join('');
+  document.getElementById('attacks').innerHTML=(char.attacks||[]).map(function(a){return'<div class="atkc"><div class="an">'+a.name+'</div><div class="ah">+'+a.hit+'<span>per colpire</span></div><div class="ad">'+a.damage+'<span>'+(a.type||'')+'</span></div></div>';}).join('');
+
+  // Spell Slots
+  var ss=char.spellSlots;
+  if(ss){var has=ss.cantrips>0||Object.values(ss.slots||{}).some(function(v){return v.max>0;});
+  if(has){document.getElementById('slotsPanel').style.display='block';var sh='<div class="slotbar">';
+  if(ss.cantrips>0)sh+='<div class="slotitem"><span class="slbl">TRUC.</span><span class="sval">'+ss.cantrips+'</span></div>';
+  Object.entries(ss.slots||{}).forEach(function(e){if(e[1].max>0){var av=e[1].max-e[1].used;sh+='<div class="slotitem"><span class="slbl">LV'+e[0]+'</span><span class="sval" style="color:'+(av===0?'#e74c3c':'var(--gold)')+'">'+av+'/'+e[1].max+'</span></div>';}});
+  sh+='</div>';document.getElementById('slotsContent').innerHTML=sh;}}
 
   // Abilities tabs
-  const origins=char.origins||[];
-  activeTab=origins.length?origins[0].id:'all';
-  renderTabs();
+  activeTab=(char.origins||[]).length?char.origins[0].id:'all';renderTabs();
 
-  // Notes
-  if(char.notes){document.getElementById('notesPanel').style.display='block';document.getElementById('notes').textContent=char.notes;}
+  // Spells
+  var spells=(char.spells||[]).filter(function(s){return s.prepared;});
+  if(spells.length){document.getElementById('spellsPanel').style.display='block';
+  var gr={};spells.forEach(function(s){var k=s.level||0;if(!gr[k])gr[k]=[];gr[k].push(s);});
+  var lks=Object.keys(gr).map(Number).sort(function(a,b){return a-b;});var sph='';
+  lks.forEach(function(lv){sph+='<div style="margin-bottom:.8rem"><div style="font-family:Cinzel,serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;border-left:3px solid '+(lv===0?'#7f8c8d':'var(--gold)')+';padding-left:.5rem">'+(lv===0?'TRUCCHETTI':'LIVELLO '+lv)+'</div>';
+  gr[lv].forEach(function(sp){var comp=[sp.components?.v&&'V',sp.components?.s&&'S',sp.components?.m&&'M'].filter(Boolean).join(', ');var tags='';if(sp.concentration)tags+='<span class="sptag conc">CONC</span> ';if(sp.ritual)tags+='<span class="sptag rit">RIT</span>';
+  sph+='<div class="spcard" onclick="this.classList.toggle(\'open\')"><div class="sph"><div><div class="spn">'+sp.name+'</div><div class="spm">'+ctl(sp.castingTime)+' · '+sp.range+' · '+comp+' · '+sp.duration+'</div></div><div>'+tags+'</div></div><div class="spd"><div style="font-size:.65rem;color:var(--text3);font-family:Cinzel,serif;margin-bottom:.3rem">'+(sp.school||'')+'</div>'+sp.desc+(sp.higherLevels?'<div style="font-size:.78rem;color:#3498db;font-style:italic;margin-top:.3rem">A livelli superiori: '+sp.higherLevels+'</div>':'')+'</div></div>';});sph+='</div>';});
+  document.getElementById('spellsList').innerHTML=sph;}
+
+  // Notes + Backstory
+  if(char.notes||char.backstory){document.getElementById('notesPanel').style.display='block';
+  var nh='';if(char.notes)nh+='<div style="font-family:Cinzel,serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem">Note di Sessione</div><div style="font-size:.9rem;color:var(--text2);white-space:pre-line;line-height:1.6">'+char.notes+'</div>';
+  if(char.backstory)nh+='<div style="margin-top:1rem;border-top:1px solid var(--border2);padding-top:.8rem"><div style="font-family:Cinzel,serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem">📜 Storia del Personaggio</div><div style="font-size:.9rem;color:var(--text2);white-space:pre-line;line-height:1.6">'+char.backstory+'</div></div>';
+  document.getElementById('notesContent').innerHTML=nh;}
 }
 
-function renderAbCard(ab){
-  const origin=(char.origins||[]).find(o=>o.id===ab.originId);
-  const color=origin?.color||'#666';
-  const rest=ab.rest==='lungo'?'Riposo lungo':ab.rest==='breve'?'Riposo breve':'';
-  const cd=cdVal(ab.cdStat);
-  let pips='';
-  if(ab.maxUses>0){pips='<div class="pips">';for(let i=0;i<ab.maxUses;i++)pips+='<div class="pip"></div>';pips+='</div>';}
-  return`<div class="abc"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:${color};border-radius:3px 0 0 3px;opacity:.8"></div><div class="abt"><div class="abn">${ab.fav?'★ ':''}${ab.name}</div><div class="abty ${typeClass(ab.type)}">${ab.type}</div></div><div class="abd">${ab.desc||''}</div><div class="abf">${pips}<div style="display:flex;align-items:center;gap:.5rem;margin-left:auto">${cd?`<span class="abcd">CD ${cd}</span>`:''}${rest?`<span class="abr ${ab.rest}">${rest}</span>`:''}</div></div></div>`;
-}
+function rAb(ab){var o=(char.origins||[]).find(function(x){return x.id===ab.originId;}),co=o?o.color:'#666',rs=ab.rest==='lungo'?'Riposo lungo':ab.rest==='breve'?'Riposo breve':'',cd=cdv(ab.cdStat),pp='';
+if(ab.maxUses>0){pp='<div class="pips">';for(var i=0;i<ab.maxUses;i++)pp+='<div class="pip"></div>';pp+='</div>';}
+return'<div class="abc"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:'+co+';border-radius:3px 0 0 3px;opacity:.8"></div><div class="abt"><div class="abn">'+(ab.fav?'★ ':'')+ab.name+'</div><div class="abty '+tc(ab.type)+'">'+ab.type+'</div></div><div class="abd">'+(ab.desc||'')+'</div><div class="abf">'+pp+'<div style="display:flex;align-items:center;gap:.5rem;margin-left:auto">'+(cd?'<span class="abcd">CD '+cd+'</span>':'')+(rs?'<span class="abr '+ab.rest+'">'+rs+'</span>':'')+'</div></div></div>';}
 
-function renderTabs(){
-  const origins=char.origins||[];
-  const all=[{id:'all',name:'Tutte'},...origins];
-  document.getElementById('tabs').innerHTML=all.map(o=>`<button class="tbtn ${activeTab===o.id?'active':''}" onclick="switchTab('${o.id}')">${o.name}</button>`).join('');
-
-  let html='';
-  if(activeTab==='all'){
-    html='<div class="tpane active"><div style="display:flex;flex-direction:column;gap:1.2rem">';
-    origins.forEach(o=>{
-      const abs=(char.abilities||[]).filter(a=>a.originId===o.id);
-      if(!abs.length)return;
-      html+=`<div><div class="ohead"><div class="odot" style="background:${o.color}"></div><div class="oname">${o.name}</div><div class="oline"></div></div><div class="abg">${abs.map(renderAbCard).join('')}</div></div>`;
-    });
-    html+='</div></div>';
-  }else{
-    const abs=(char.abilities||[]).filter(a=>a.originId===activeTab);
-    html=`<div class="tpane active"><div class="abg">${abs.map(renderAbCard).join('')}</div></div>`;
-  }
-  document.getElementById('tcontent').innerHTML=html;
-}
+function renderTabs(){var or=char.origins||[],all=[{id:'all',name:'Tutte'}].concat(or);
+document.getElementById('tabs').innerHTML=all.map(function(o){return'<button class="tbtn '+(activeTab===o.id?'active':'')+'" onclick="switchTab(\''+o.id+'\')">'+o.name+'</button>';}).join('');
+var h='';if(activeTab==='all'){h='<div class="tpane active"><div style="display:flex;flex-direction:column;gap:1.2rem">';or.forEach(function(o){var ab=(char.abilities||[]).filter(function(a){return a.originId===o.id;});if(!ab.length)return;h+='<div><div class="ohead"><div class="odot" style="background:'+o.color+'"></div><div class="oname">'+o.name+'</div><div class="oline"></div></div><div class="abg">'+ab.map(rAb).join('')+'</div></div>';});h+='</div></div>';}
+else{var ab=(char.abilities||[]).filter(function(a){return a.originId===activeTab;});h='<div class="tpane active"><div class="abg">'+ab.map(rAb).join('')+'</div></div>';}
+document.getElementById('tcontent').innerHTML=h;}
 
 function switchTab(id){activeTab=id;renderTabs();}
-function roll(s){const r=Math.floor(Math.random()*s)+1;const el=document.getElementById('dres');el.textContent=r;el.classList.remove('rolling');void el.offsetWidth;el.classList.add('rolling');document.getElementById('dlog').textContent=`d${s} → ${r}`;}
+function roll(s){var r=Math.floor(Math.random()*s)+1,el=document.getElementById('dres');el.textContent=r;el.classList.remove('rolling');void el.offsetWidth;el.classList.add('rolling');document.getElementById('dlog').textContent='d'+s+' → '+r;}
 
-window.addEventListener('DOMContentLoaded', loadCharacter);
+window.addEventListener('DOMContentLoaded',loadCharacter);
 </script>
 </body>
 </html>

@@ -69,7 +69,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.30";
+const APP_VERSION="v1.31";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -107,7 +107,7 @@ function saveSession(accId,char){try{sessionStorage.setItem(SESS_KEY,JSON.string
 function loadSession(accId){try{const d=JSON.parse(sessionStorage.getItem(SESS_KEY));if(d&&d.accId===accId&&d.char&&(Date.now()-d.ts)<3600000)return d.char;return null;}catch{return null;}}
 function clearSession(){try{sessionStorage.removeItem(SESS_KEY);}catch{}}
 
-const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"},{id:"export",icon:"💾",label:"Esporta"}];
+const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"spells",icon:"📕",label:"Magie"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"},{id:"export",icon:"💾",label:"Esporta"}];
 const AT=["Azione","Azione bonus","Reazione","Passiva","Rituale"];
 const RT=[{v:null,l:"Nessuna"},{v:"breve",l:"R. Breve"},{v:"lungo",l:"R. Lungo"}];
 const SK=["FOR","DES","COS","INT","SAG","CAR"];
@@ -130,41 +130,42 @@ const DO=[
    stat: la caratteristica associata (FOR/DES/COS/INT/SAG/CAR)
 */
 const DEFAULT_SKILLS=[
-  {name:"Acrobazia",stat:"DES",prof:false},
-  {name:"Addestrare Animali",stat:"SAG",prof:false},
-  {name:"Arcano",stat:"INT",prof:false},
-  {name:"Atletica",stat:"FOR",prof:false},
-  {name:"Furtività",stat:"DES",prof:false},
-  {name:"Indagare",stat:"INT",prof:false},
-  {name:"Inganno",stat:"CAR",prof:false},
-  {name:"Intimidire",stat:"CAR",prof:false},
-  {name:"Intrattenere",stat:"CAR",prof:false},
-  {name:"Intuizione",stat:"SAG",prof:false},
-  {name:"Medicina",stat:"SAG",prof:false},
-  {name:"Natura",stat:"INT",prof:false},
-  {name:"Percezione",stat:"SAG",prof:false},
-  {name:"Persuasione",stat:"CAR",prof:false},
-  {name:"Rapidità di Mano",stat:"DES",prof:false},
-  {name:"Religione",stat:"INT",prof:false},
-  {name:"Sopravvivenza",stat:"SAG",prof:false},
-  {name:"Storia",stat:"INT",prof:false}
+  {name:"Acrobazia",stat:"DES",prof:"none"},
+  {name:"Addestrare Animali",stat:"SAG",prof:"none"},
+  {name:"Arcano",stat:"INT",prof:"none"},
+  {name:"Atletica",stat:"FOR",prof:"none"},
+  {name:"Furtività",stat:"DES",prof:"none"},
+  {name:"Indagare",stat:"INT",prof:"none"},
+  {name:"Inganno",stat:"CAR",prof:"none"},
+  {name:"Intimidire",stat:"CAR",prof:"none"},
+  {name:"Intrattenere",stat:"CAR",prof:"none"},
+  {name:"Intuizione",stat:"SAG",prof:"none"},
+  {name:"Medicina",stat:"SAG",prof:"none"},
+  {name:"Natura",stat:"INT",prof:"none"},
+  {name:"Percezione",stat:"SAG",prof:"none"},
+  {name:"Persuasione",stat:"CAR",prof:"none"},
+  {name:"Rapidità di Mano",stat:"DES",prof:"none"},
+  {name:"Religione",stat:"INT",prof:"none"},
+  {name:"Sopravvivenza",stat:"SAG",prof:"none"},
+  {name:"Storia",stat:"INT",prof:"none"}
 ];
 
-// Calcola mod skill: se ha stat, auto-calcola; altrimenti usa mod fisso (retrocompat)
-function skMod(s,stats,pb){if(s.stat&&stats[s.stat])return stats[s.stat].mod+(s.prof?pb:0);return(s.mod||0)+(s.prof?pb:0);}
+// prof: "none"|"prof"|"mastery" (retrocompat: true→"prof", false→"none")
+function normProf(p){if(p===true)return"prof";if(p===false||!p)return"none";return p;}
+function skMod(s,stats,pb){const p=normProf(s.prof);const bonus=p==="mastery"?pb*2:p==="prof"?pb:0;if(s.stat&&stats[s.stat])return stats[s.stat].mod+bonus;return(s.mod||0)+bonus;}
 
-// Auto-migra skill vecchio formato → nuovo. Matcha per nome con le default.
 function migrateSkills(skills){
   if(!skills||!skills.length)return DEFAULT_SKILLS.map(s=>({...s}));
   const defMap={};DEFAULT_SKILLS.forEach(d=>{defMap[d.name.toLowerCase()]=d.stat;});
   return skills.map(s=>{
-    if(s.stat)return s; // già nuovo formato
+    const pr=normProf(s.prof);
+    if(s.stat)return{...s,prof:pr};
     const match=defMap[s.name.toLowerCase()];
-    if(match)return{name:s.name,stat:match,prof:true}; // era presente → prob ha competenza
-    return{name:s.name,stat:null,mod:s.mod||0,prof:false}; // custom, mantieni mod fisso
+    if(match)return{name:s.name,stat:match,prof:pr==="none"?"prof":pr};
+    return{name:s.name,stat:null,mod:s.mod||0,prof:pr};
   });
 }
-function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:DEFAULT_SKILLS.map(s=>({...s})),origins:[...DO],attacks:[],abilities:[],notes:"",diceLog:[]};}
+function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:DEFAULT_SKILLS.map(s=>({...s})),spellSlots:{cantrips:0,slots:{"1":{max:0,used:0},"2":{max:0,used:0},"3":{max:0,used:0},"4":{max:0,used:0},"5":{max:0,used:0},"6":{max:0,used:0},"7":{max:0,used:0},"8":{max:0,used:0},"9":{max:0,used:0}}},origins:[...DO],attacks:[],abilities:[],spells:[],notes:"",backstory:"",diceLog:[],effects:[]};}
 
 /* ═══ APP WRAPPER ═══ */
 function AppWrapper(){
@@ -574,6 +575,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
         {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
         {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
+        {tab==="spells"&&<SpTab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
         {tab==="export"&&<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{saving?"⏳ Salvataggio...":(saveOk===true?(ghToken?"✅ Salvato su GitHub!":"✅ File esportato!"):saveOk===false?"❌ Errore salvataggio":"⏳ Elaborazione...")}</div>}
       </div>
@@ -620,6 +622,8 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
       {modal?.type==="ability"&&<BM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {modal?.type==="origins"&&<OM c={c} up={up} oC={()=>setModal(null)}/>}
       {modal?.type==="skill"&&<SM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
+      {modal?.type==="spell"&&<SpM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
+      {modal?.type==="spellSlots"&&<SpSlotsM c={c} up={up} oC={()=>setModal(null)}/>}
       {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><img src={avatarUrl} style={{maxWidth:"85vw",maxHeight:"85vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/></div>}
     </div>
   );
@@ -728,14 +732,15 @@ function DP({p,oM,oA,oRR,oX,ac}){
 const SK_SORTS=[{id:"az",l:"A-Z"},{id:"mod",l:"Mod ↓"},{id:"prof",l:"Comp."}];
 function SkillList({skills,stats,pb,ac,oR,sM}){
   const[sort,setSort]=useState("az");
-  const indexed=skills.map((s,i)=>({...s,idx:i,_m:skMod(s,stats,pb)}));
-  const sorted=sort==="mod"?[...indexed].sort((a,b)=>b._m-a._m):sort==="prof"?[...indexed].sort((a,b)=>(b.prof?1:0)-(a.prof?1:0)||a.name.localeCompare(b.name)):[...indexed].sort((a,b)=>a.name.localeCompare(b.name));
+  const indexed=skills.map((s,i)=>({...s,idx:i,_m:skMod(s,stats,pb),_p:normProf(s.prof)}));
+  const sorted=sort==="mod"?[...indexed].sort((a,b)=>b._m-a._m):sort==="prof"?[...indexed].sort((a,b)=>{const w={mastery:2,prof:1,none:0};return(w[b._p]||0)-(w[a._p]||0)||a.name.localeCompare(b.name);}):[...indexed].sort((a,b)=>a.name.localeCompare(b.name));
+  const pIcon=p=>p==="mastery"?"★ ":p==="prof"?"● ":"";
   return<>
     <div style={{display:"flex",gap:3,marginBottom:4}}>{SK_SORTS.map(s=><button key={s.id} onClick={()=>setSort(s.id)} style={{padding:"2px 7px",borderRadius:4,border:`1px solid ${sort===s.id?ac+"66":ac+"22"}`,background:sort===s.id?ac+"15":"transparent",color:sort===s.id?ac:"#665a3e",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:sort===s.id?700:400}}>{s.l}</button>)}</div>
     <div style={{display:"flex",flexDirection:"column",gap:3}}>{sorted.map(s=>(
       <div key={s.idx} style={{display:"flex",alignItems:"center",gap:4}}>
         <button onClick={()=>oR({label:s.name,type:"d20",modifier:s._m})} style={{flex:1,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 10px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",textAlign:"left",touchAction:"manipulation"}}>
-          <span style={{fontSize:12,color:"#e8dcc8"}}>{s.prof?"● ":""}{s.name}{s.stat?<span style={{fontSize:9,color:"#665a3e",marginLeft:4}}>({s.stat})</span>:null}</span>
+          <span style={{fontSize:12,color:"#e8dcc8"}}><span style={{color:s._p==="mastery"?"#f1c40f":s._p==="prof"?ac:"transparent"}}>{pIcon(s._p)}</span>{s.name}{s.stat?<span style={{fontSize:9,color:"#665a3e",marginLeft:4}}>({s.stat})</span>:null}</span>
           <span style={{fontFamily:"'JetBrains Mono'",color:ac,fontWeight:600,fontSize:12}}>{s._m>=0?`+${s._m}`:s._m} 🎲</span>
         </button>
         <button onClick={()=>sM({type:"skill",data:{...s,idx:s.idx}})} style={{width:24,height:24,borderRadius:"50%",border:`1px solid ${ac}22`,background:`${ac}0a`,color:ac,fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✎</button>
@@ -971,13 +976,153 @@ function DTab({c,up,log,oR,ac}){
   );
 }
 
-function NTab({c,up,ac}){
-  const[n,sN]=useState(c.notes||"");
+/* ═══ SPELLS TAB ═══ */
+const SCHOOLS=["Abiurazione","Ammaliamento","Divinazione","Evocazione","Illusione","Invocazione","Necromanzia","Trasmutazione"];
+const CT_OPTS=["action","bonus","reaction","1 minuto","10 minuti","1 ora","8 ore","24 ore"];
+const ctLabel=v=>v==="action"?"Az.":v==="bonus"?"Bonus":v==="reaction"?"Reaz.":v;
+
+function SpTab({c,up,sM,ac}){
+  const[filter,setFilter]=useState("prep");
+  const ss=c.spellSlots||{cantrips:0,slots:{}};
+  const spells=c.spells||[];
+  const useSlot=(lv)=>{const ns={...ss,slots:{...ss.slots}};ns.slots[lv]={...ns.slots[lv],used:Math.min((ns.slots[lv]?.used||0)+1,ns.slots[lv]?.max||0)};up({spellSlots:ns});};
+  const restoreSlot=(lv)=>{const ns={...ss,slots:{...ss.slots}};ns.slots[lv]={...ns.slots[lv],used:Math.max((ns.slots[lv]?.used||0)-1,0)};up({spellSlots:ns});};
+  const restoreAll=()=>{const ns={...ss,slots:{...ss.slots}};Object.keys(ns.slots).forEach(k=>{ns.slots[k]={...ns.slots[k],used:0};});up({spellSlots:ns});};
+  const activeSlots=Object.entries(ss.slots||{}).filter(([,v])=>v.max>0);
+  const filtered=filter==="prep"?spells.filter(s=>s.prepared):spells;
+  const grouped={};filtered.forEach(s=>{const k=s.level||0;if(!grouped[k])grouped[k]=[];grouped[k].push(s);});
+  const lvKeys=Object.keys(grouped).map(Number).sort((a,b)=>a-b);
+
   return(
     <div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
-      <Sec ac={ac}>Note</Sec>
-      <textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Scrivi qui..."
-        style={{width:"100%",minHeight:280,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
+      {/* Spell Slots Bar */}
+      {(activeSlots.length>0||ss.cantrips>0)&&<div style={{background:`${ac}08`,borderRadius:8,padding:"8px 10px",marginBottom:10,border:`1px solid ${ac}15`}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+          <span style={{fontFamily:"'Cinzel'",fontSize:10,fontWeight:700,color:ac,letterSpacing:1}}>SLOT INCANTESIMO</span>
+          <button onClick={restoreAll} style={{fontSize:9,color:"#3498db",background:"none",border:"none",cursor:"pointer",fontFamily:"'Cinzel'"}}>↺ Ripristina</button>
+        </div>
+        {ss.cantrips>0&&<div style={{fontSize:10,color:"#998866",marginBottom:4,fontFamily:"'JetBrains Mono'"}}>Trucchetti: {ss.cantrips}</div>}
+        <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+          {activeSlots.map(([lv,v])=>{const avail=v.max-v.used;return(
+            <div key={lv} style={{display:"flex",alignItems:"center",gap:3,padding:"3px 6px",borderRadius:5,background:avail===0?"rgba(231,76,60,0.1)":`${ac}0a`,border:`1px solid ${avail===0?"#e74c3c33":ac+"22"}`}}>
+              <span style={{fontSize:9,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>Lv{lv}</span>
+              <span style={{fontSize:12,fontFamily:"'JetBrains Mono'",fontWeight:700,color:avail===0?"#e74c3c":ac}}>{avail}<span style={{color:"#665a3e"}}>/{v.max}</span></span>
+              <button onClick={()=>useSlot(lv)} disabled={avail===0} style={{width:18,height:18,borderRadius:"50%",border:"none",background:"rgba(231,76,60,0.15)",color:"#e74c3c",fontSize:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:avail===0?0.3:1}}>−</button>
+              <button onClick={()=>restoreSlot(lv)} disabled={v.used===0} style={{width:18,height:18,borderRadius:"50%",border:"none",background:"rgba(46,204,113,0.12)",color:"#2ecc71",fontSize:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:v.used===0?0.3:1}}>+</button>
+            </div>
+          );})}
+        </div>
+      </div>}
+      {/* Filter + Add */}
+      <div style={{display:"flex",gap:5,marginBottom:10}}>
+        <button onClick={()=>setFilter(f=>f==="prep"?"all":"prep")} style={{...SS.bg,padding:"5px 10px",fontSize:10,borderColor:ac+"44"}}>{filter==="prep"?"📖 Preparate":"📚 Tutte"}</button>
+        <button onClick={()=>sM({type:"spell"})} style={{...SS.gn,padding:"5px 10px",fontSize:10}}>+ Magia</button>
+        <button onClick={()=>sM({type:"spellSlots"})} style={{padding:"5px 10px",borderRadius:5,border:`1px solid ${ac}22`,background:"transparent",color:"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>⚙ Slot</button>
+      </div>
+      {/* Spell List */}
+      {lvKeys.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:12,padding:"20px 0"}}>{filter==="prep"?"Nessuna magia preparata":"Nessuna magia nel libro"}</p>}
+      {lvKeys.map(lv=>(
+        <div key={lv} style={{marginBottom:12}}>
+          <div style={{borderLeft:`3px solid ${lv===0?"#7f8c8d":ac}`,paddingLeft:7,marginBottom:5}}>
+            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:lv===0?"#7f8c8d":ac,letterSpacing:1}}>{lv===0?"TRUCCHETTI":`LIVELLO ${lv}`}</span>
+          </div>
+          {grouped[lv].map(sp=><SpCard key={sp.id} sp={sp} ac={ac} onEdit={()=>sM({type:"spell",data:sp})} onToggle={()=>{up({spells:spells.map(s=>s.id===sp.id?{...s,prepared:!s.prepared}:s)});}}/>)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SpCard({sp,ac,onEdit,onToggle}){
+  const[open,setOpen]=useState(false);
+  const comp=[sp.components?.v&&"V",sp.components?.s&&"S",sp.components?.m&&"M"].filter(Boolean).join(",");
+  return(
+    <div style={{background:"rgba(200,169,94,0.04)",borderRadius:7,padding:"8px 10px",marginBottom:4,border:`1px solid ${sp.prepared?ac+"22":"#33333366"}`,opacity:sp.prepared?1:0.5}}>
+      <div style={{display:"flex",alignItems:"center",gap:6}} onClick={()=>setOpen(!open)}>
+        <button onClick={e=>{e.stopPropagation();onToggle();}} style={{width:18,height:18,borderRadius:4,border:`1.5px solid ${sp.prepared?ac:ac+"44"}`,background:sp.prepared?ac+"25":"transparent",color:sp.prepared?ac:"#555",fontSize:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{sp.prepared?"✓":""}</button>
+        <div style={{flex:1,minWidth:0,cursor:"pointer"}}>
+          <div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}>
+            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:"#e8dcc8"}}>{sp.name}</span>
+            {sp.concentration&&<span style={{fontSize:7,color:"#f39c12",background:"rgba(243,156,18,0.12)",padding:"0 3px",borderRadius:2,fontWeight:700}}>CONC</span>}
+            {sp.ritual&&<span style={{fontSize:7,color:"#8e44ad",background:"rgba(142,68,173,0.12)",padding:"0 3px",borderRadius:2,fontWeight:700}}>RIT</span>}
+          </div>
+          <div style={{fontSize:9,color:"#665a3e",fontFamily:"'JetBrains Mono'"}}>{ctLabel(sp.castingTime)} · {sp.range} · {comp} · {sp.duration}</div>
+        </div>
+        <button onClick={e=>{e.stopPropagation();onEdit();}} style={{width:22,height:22,borderRadius:"50%",border:`1px solid ${ac}22`,background:`${ac}0a`,color:ac,fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✎</button>
+      </div>
+      {open&&<div style={{marginTop:6,fontSize:11,color:"#998866",lineHeight:1.4,whiteSpace:"pre-line",borderTop:"1px solid #c8a95e11",paddingTop:6}}>
+        <span style={{fontSize:9,color:"#665a3e",fontFamily:"'Cinzel'"}}>{sp.school}</span>
+        <div style={{marginTop:3}}>{sp.desc}</div>
+        {sp.higherLevels&&<div style={{marginTop:4,fontSize:10,color:"#3498db",fontStyle:"italic"}}>A livelli superiori: {sp.higherLevels}</div>}
+      </div>}
+    </div>
+  );
+}
+
+/* ═══ SPELL MODAL ═══ */
+function SpM({c,up,data,oC}){
+  const isE=!!data;
+  const[f,sf]=useState(data||{id:uid(),name:"",level:0,school:"Evocazione",castingTime:"action",ritual:false,range:"",components:{v:true,s:true,m:null},duration:"Istantanea",concentration:false,desc:"",higherLevels:null,prepared:true});
+  const upF=k=>v=>sf(p=>({...p,[k]:v}));
+  const sv=()=>{if(!f.name.trim())return;const sp={...f,name:f.name.trim(),components:{...f.components,m:f.components.m||null},higherLevels:f.higherLevels||null};if(isE){up({spells:(c.spells||[]).map(s=>s.id===sp.id?sp:s)});}else{up({spells:[...(c.spells||[]),sp]});}oC();};
+  const dl=()=>{up({spells:(c.spells||[]).filter(s=>s.id!==f.id)});oC();};
+  return<Sh t={isE?"Modifica Magia":"Nuova Magia"} oC={oC}>
+    <Fl l="Nome"><input value={f.name} onChange={e=>upF("name")(e.target.value)} style={{...SS.inp,width:"100%"}} placeholder="es. Thunderwave"/></Fl>
+    <div style={{display:"flex",gap:5}}>
+      <Fl l="Livello"><select value={f.level} onChange={e=>upF("level")(parseInt(e.target.value))} style={{...SS.inp,width:60,appearance:"none"}}>{[0,1,2,3,4,5,6,7,8,9].map(n=><option key={n} value={n}>{n===0?"Truc.":n+"°"}</option>)}</select></Fl>
+      <Fl l="Scuola"><select value={f.school} onChange={e=>upF("school")(e.target.value)} style={{...SS.inp,flex:1,appearance:"none"}}>{SCHOOLS.map(s=><option key={s} value={s}>{s}</option>)}</select></Fl>
+    </div>
+    <Fl l="Tempo di Lancio"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{CT_OPTS.map(v=><button key={v} onClick={()=>upF("castingTime")(v)} style={{padding:"3px 6px",borderRadius:4,border:`1.5px solid ${f.castingTime===v?"#c8a95e":"#c8a95e22"}`,background:f.castingTime===v?"rgba(200,169,94,0.15)":"transparent",color:f.castingTime===v?"#c8a95e":"#998866",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer"}}>{ctLabel(v)}</button>)}</div></Fl>
+    <Fl l="Gittata"><input value={f.range} onChange={e=>upF("range")(e.target.value)} style={{...SS.inp,width:"100%"}} placeholder="es. 18m, Contatto, Personale"/></Fl>
+    <Fl l="Componenti"><div style={{display:"flex",gap:5,alignItems:"center"}}>
+      {["v","s"].map(k=><button key={k} onClick={()=>sf(p=>({...p,components:{...p.components,[k]:!p.components[k]}}))} style={{padding:"3px 8px",borderRadius:4,border:`1.5px solid ${f.components[k]?"#c8a95e":"#c8a95e22"}`,background:f.components[k]?"rgba(200,169,94,0.15)":"transparent",color:f.components[k]?"#c8a95e":"#998866",fontSize:10,fontWeight:700,cursor:"pointer"}}>{k.toUpperCase()}</button>)}
+      <input value={f.components.m||""} onChange={e=>sf(p=>({...p,components:{...p.components,m:e.target.value||null}}))} placeholder="M (materiale...)" style={{...SS.inp,flex:1,fontSize:10}}/>
+    </div></Fl>
+    <Fl l="Durata"><input value={f.duration} onChange={e=>upF("duration")(e.target.value)} style={{...SS.inp,width:"100%"}} placeholder="es. Istantanea, 1 minuto, Concentrazione..."/></Fl>
+    <div style={{display:"flex",gap:5,marginBottom:8}}>
+      <button onClick={()=>upF("concentration")(!f.concentration)} style={{flex:1,padding:"5px 0",borderRadius:5,border:`1.5px solid ${f.concentration?"#f39c1266":"#c8a95e22"}`,background:f.concentration?"rgba(243,156,18,0.1)":"transparent",color:f.concentration?"#f39c12":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>{f.concentration?"◉ Concentrazione":"○ Concentrazione"}</button>
+      <button onClick={()=>upF("ritual")(!f.ritual)} style={{flex:1,padding:"5px 0",borderRadius:5,border:`1.5px solid ${f.ritual?"#8e44ad66":"#c8a95e22"}`,background:f.ritual?"rgba(142,68,173,0.1)":"transparent",color:f.ritual?"#8e44ad":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>{f.ritual?"◉ Rituale":"○ Rituale"}</button>
+      <button onClick={()=>upF("prepared")(!f.prepared)} style={{flex:1,padding:"5px 0",borderRadius:5,border:`1.5px solid ${f.prepared?"#2ecc7166":"#c8a95e22"}`,background:f.prepared?"rgba(46,204,113,0.1)":"transparent",color:f.prepared?"#2ecc71":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>{f.prepared?"◉ Preparata":"○ Preparata"}</button>
+    </div>
+    <Fl l="Descrizione"><textarea value={f.desc} onChange={e=>upF("desc")(e.target.value)} style={{...SS.inp,width:"100%",minHeight:80,resize:"vertical"}} placeholder="Effetto della magia..."/></Fl>
+    <Fl l="A Livelli Superiori (opz.)"><input value={f.higherLevels||""} onChange={e=>upF("higherLevels")(e.target.value)} style={{...SS.inp,width:"100%"}} placeholder="es. +1d8 per livello sopra il 1°"/></Fl>
+    <div style={{display:"flex",gap:5,marginTop:8}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
+  </Sh>;
+}
+
+/* ═══ SPELL SLOTS EDITOR MODAL ═══ */
+function SpSlotsM({c,up,oC}){
+  const ss=c.spellSlots||{cantrips:0,slots:{}};
+  const[ct,setCt]=useState(ss.cantrips||0);
+  const[sl,setSl]=useState(Object.fromEntries([1,2,3,4,5,6,7,8,9].map(n=>[n,ss.slots?.[n]?.max||0])));
+  const sv=()=>{const slots={};Object.entries(sl).forEach(([k,v])=>{slots[k]={max:parseInt(v)||0,used:ss.slots?.[k]?.used||0};});up({spellSlots:{cantrips:parseInt(ct)||0,slots}});oC();};
+  return<Sh t="Configura Slot Incantesimo" oC={oC}>
+    <Fl l="Trucchetti Conosciuti"><input type="number" value={ct} onChange={e=>setCt(e.target.value)} style={{...SS.inp,width:60,textAlign:"center"}} min="0"/></Fl>
+    <Fl l="Slot per Livello">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:4}}>
+        {[1,2,3,4,5,6,7,8,9].map(n=>(
+          <div key={n} style={{display:"flex",alignItems:"center",gap:3}}>
+            <span style={{fontSize:10,color:"#998866",fontFamily:"'Cinzel'",width:24}}>{n}°</span>
+            <input type="number" value={sl[n]} onChange={e=>setSl(p=>({...p,[n]:e.target.value}))} style={{...SS.inp,flex:1,textAlign:"center",fontSize:12}} min="0"/>
+          </div>
+        ))}
+      </div>
+    </Fl>
+    <button onClick={sv} style={{...SS.pb,width:"100%",marginTop:8,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button>
+  </Sh>;
+}
+
+function NTab({c,up,ac}){
+  const[n,sN]=useState(c.notes||"");
+  const[bs,sBs]=useState(c.backstory||"");
+  return(
+    <div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+      <Sec ac={ac}>Note di Sessione</Sec>
+      <textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Appunti, promemoria, dettagli della sessione..."
+        style={{width:"100%",minHeight:200,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
+      <Sec ac={ac}>📜 Storia del Personaggio</Sec>
+      <textarea value={bs} onChange={e=>{sBs(e.target.value);up({backstory:e.target.value});}} placeholder="Background, storia, motivazioni del personaggio..."
+        style={{width:"100%",minHeight:200,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
     </div>
   );
 }
@@ -1089,18 +1234,22 @@ function SM({c,up,data,oC}){
   const isE=!!data;
   const[nm,setNm]=useState(data?.name||"");
   const[st,setSt]=useState(data?.stat||"");
-  const[pr,setPr]=useState(data?.prof||false);
+  const[pr,setPr]=useState(normProf(data?.prof));
   const[md,setMd]=useState(data?.mod||0);
+  const cyclePr=()=>setPr(p=>p==="none"?"prof":p==="prof"?"mastery":"none");
   const sv=()=>{if(!nm.trim())return;const s=st?{name:nm.trim(),stat:st,prof:pr}:{name:nm.trim(),stat:null,mod:parseInt(md)||0,prof:pr};if(isE){const sk=[...c.skills];sk[data.idx]=s;up({skills:sk});}else{up({skills:[...c.skills,s]});}oC();};
   const dl=()=>{if(!isE)return;up({skills:c.skills.filter((_,i)=>i!==data.idx)});oC();};
-  const preview=st?((c.stats[st]?.mod||0)+(pr?c.profBonus:0)):parseInt(md)||0;
+  const bonus=pr==="mastery"?c.profBonus*2:pr==="prof"?c.profBonus:0;
+  const preview=st?((c.stats[st]?.mod||0)+bonus):(parseInt(md)||0)+bonus;
+  const prLabel=pr==="mastery"?"★ Maestria":pr==="prof"?"● Competenza":"○ Nessuna";
+  const prColor=pr==="mastery"?"#f1c40f":pr==="prof"?"#2ecc71":"#998866";
   return<Sh t={isE?"Modifica Abilità":"Nuova Abilità"} oC={oC}>
     <Fl l="Nome"><input value={nm} onChange={e=>setNm(e.target.value)} style={{...SS.inp,width:"100%"}} placeholder="es. Percezione"/></Fl>
     <Fl l="Caratteristica"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
       {["FOR","DES","COS","INT","SAG","CAR"].map(k=><button key={k} onClick={()=>setSt(k)} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${st===k?"#c8a95e":"#c8a95e22"}`,background:st===k?"rgba(200,169,94,0.15)":"transparent",color:st===k?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:st===k?700:400}}>{k}</button>)}
       <button onClick={()=>setSt("")} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${!st?"#3498db":"#3498db22"}`,background:!st?"rgba(52,152,219,0.12)":"transparent",color:!st?"#3498db":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>Custom</button>
     </div></Fl>
-    <Fl l="Competenza"><button onClick={()=>setPr(!pr)} style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",borderRadius:5,border:`1.5px solid ${pr?"#2ecc7166":"#c8a95e22"}`,background:pr?"rgba(46,204,113,0.1)":"transparent",color:pr?"#2ecc71":"#998866",fontSize:11,fontFamily:"'Cinzel'",cursor:"pointer",width:"100%"}}>{pr?"✓ Competente":"○ Non competente"}</button></Fl>
+    <Fl l="Competenza (tap per ciclare)"><button onClick={cyclePr} style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",borderRadius:5,border:`1.5px solid ${prColor}66`,background:`${prColor}15`,color:prColor,fontSize:11,fontFamily:"'Cinzel'",cursor:"pointer",width:"100%",fontWeight:700}}>{prLabel}</button></Fl>
     {!st&&<Fl l="Modificatore Fisso"><input type="number" value={md} onChange={e=>setMd(parseInt(e.target.value)||0)} style={{...SS.inp,width:"100%"}}/></Fl>}
     <div style={{textAlign:"center",padding:"8px 0",fontFamily:"'JetBrains Mono'",fontSize:16,fontWeight:700,color:"#c8a95e"}}>Mod: {preview>=0?"+":""}{preview}</div>
     <div style={{display:"flex",gap:5,marginTop:8}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>
