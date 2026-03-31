@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T15:45:35.128Z",
+  "exportedAt": "2026-03-31T15:46:12.641Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -60,7 +60,7 @@
         "name": "Navigazione",
         "stat": null,
         "mod": 2,
-        "prof": false
+        "prof": true
       },
       {
         "name": "Atletica",
