@@ -1,0 +1,207 @@
+{
+  "account": "Ciccio",
+  "accountId": "ciccio",
+  "exportedAt": "2026-03-31T15:46:37.447Z",
+  "character": {
+    "id": "mneshwramcjg",
+    "name": "Nuovo PG",
+    "race": "",
+    "level": 1,
+    "classes": "",
+    "ac": 10,
+    "hpMax": 10,
+    "hpCurrent": 10,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 10,
+    "profBonus": 2,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "DES": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "COS": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "INT": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": false
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": false
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": false
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": false
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": false
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": false
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": false
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": false
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": false
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": false
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": false
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": false
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": false
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": false
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": false
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": false
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": false
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": false
+      }
+    ],
+    "origins": [
+      {
+        "id": "cecchino",
+        "name": "Cecchino",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "carpentiere",
+        "name": "Carpentiere",
+        "color": "#e67e22"
+      },
+      {
+        "id": "navigatore",
+        "name": "Navigatore",
+        "color": "#3498db"
+      },
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "brawler",
+        "name": "Brawler",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "spadaccino",
+        "name": "Spadaccino",
+        "color": "#34495e"
+      },
+      {
+        "id": "medico",
+        "name": "Medico",
+        "color": "#ff66cc"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      }
+    ],
+    "attacks": [],
+    "abilities": [],
+    "notes": "",
+    "diceLog": []
+  }
+}
