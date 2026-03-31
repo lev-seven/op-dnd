@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T19:54:10.085Z",
+  "exportedAt": "2026-03-31T20:14:23.022Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -74,7 +74,7 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
@@ -360,7 +360,7 @@
         "name": "Attaccabrighe",
         "originId": "bruiser",
         "type": "Passiva",
-        "desc": "Maestria nel combattimento senz'armi e con armi da bruiser.\n• Danno senz'armi = 1d6 (aumenta con i livelli).\n• Dopo l'azione Attacco, puoi effettuare un colpo senz'armi o tentare una lotta come azione bonus.",
+        "desc": "Maestria nel combattimento senz'armi e con armi da bruiser.\n• Danno senz'armi = 1d6 (aumenta con i livelli). [1d8 5* / 1d10 11* /1d12 17*]\n• Dopo l'azione Attacco, puoi effettuare un colpo senz'armi o tentare una lotta come azione bonus.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -393,7 +393,7 @@
       },
       {
         "id": "b4",
-        "name": "Colpi a Raffica",
+        "name": "Colpi a Raffica [Furia]",
         "originId": "bruiser",
         "type": "Azione bonus",
         "desc": "Subito dopo l'azione Attacco, puoi spendere 1 punto Furia per effettuare due attacchi senz'armi extra come azione bonus.",
@@ -405,10 +405,10 @@
       },
       {
         "id": "b5",
-        "name": "Forza Bruta",
+        "name": "Forza Bruta [Furia]",
         "originId": "bruiser",
         "type": "Azione bonus",
-        "desc": "Puoi usare l'azione bonus per effettuare una spinta o per eseguire l'azione Scatto.",
+        "desc": "Puoi usare l'azione bonus spendendo un punto Furia per effettuare una spinta o per eseguire l'azione Scatto.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -417,10 +417,10 @@
       },
       {
         "id": "b6",
-        "name": "Prepararsi all'Impatto",
+        "name": "Prepararsi all'Impatto [Furia]",
         "originId": "bruiser",
         "type": "Azione bonus",
-        "desc": "Puoi usare l'azione bonus per ottenere punti ferita temporanei.",
+        "desc": "Puoi usare l'azione bonus per ottenere punti ferita temporanei pari al dado furia + livello da Bruiser.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -432,7 +432,7 @@
         "name": "Carica Inarrestabile",
         "originId": "bruiser",
         "type": "Passiva",
-        "desc": "Finché hai almeno 1 punto Furia, hai vantaggio ai tiri salvezza su Costituzione contro effetti che infliggono danni.",
+        "desc": "Finché hai almeno 1 punto Furia, e non sei incapacitato, hai vantaggio ai tiri salvezza su Costituzione contro effetti che infliggono danni.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -443,11 +443,11 @@
         "id": "b8",
         "name": "Sangue per la Forza",
         "originId": "bruiser",
-        "type": "Passiva",
-        "desc": "Quando i tuoi PF scendono a metà o meno del massimo, puoi ottenere PF temporanei e recuperare punti Furia.",
-        "maxUses": -1,
+        "type": "Reazione",
+        "desc": "Quando scendi a metà dei PF o meno, puoi usare la reazione per ottenere PF temporanei pari a tiro del dado da attaccabrighe + livello da Bruiser e recuperare tutta la Furia. Usabile una volta per riposo breve o lungo.",
+        "maxUses": 1,
         "uses": 0,
-        "rest": null,
+        "rest": "breve",
         "fav": false,
         "cdStat": null
       },
