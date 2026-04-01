@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T20:51:33.366Z",
+  "exportedAt": "2026-04-01T21:03:57.332Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -11,7 +11,7 @@
     "ac": 16,
     "hpMax": 70,
     "hpCurrent": 1,
-    "hpTemp": 6,
+    "hpTemp": 11,
     "hpPerm": 0,
     "speed": 15,
     "passivePerception": 19,
@@ -156,7 +156,7 @@
         },
         "2": {
           "max": 3,
-          "used": 1
+          "used": 2
         },
         "3": {
           "max": 0,
@@ -431,7 +431,7 @@
         "type": "Passiva",
         "desc": "Punti Furia disponibili per alimentare abilità speciali. Recuperi tutto al termine di un riposo.\nCD Furia = 8 + competenza + mod COS = 14.\nPunti: bonus competenza = 3.",
         "maxUses": 3,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "fav": true,
         "cdStat": "COS"
@@ -827,6 +827,64 @@
       {
         "type": "damage",
         "label": "1d6",
+        "total": 2,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 2
+            }
+          ],
+          "bonus": 0,
+          "total": 2,
+          "formula": "1d6"
+        },
+        "timestamp": 1775077432955
+      },
+      {
+        "type": "d20",
+        "label": "Nitro thunder [x3] - Scorching Ray  (colpire)",
+        "total": 16,
+        "roll1": 11,
+        "roll2": 17,
+        "chosen": 11,
+        "modifier": 5,
+        "mode": "svantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775077268480
+      },
+      {
+        "type": "d20",
+        "label": "Nitro thunder [x3] - Scorching Ray  (colpire)",
+        "total": 7,
+        "roll1": 2,
+        "roll2": 19,
+        "chosen": 2,
+        "modifier": 5,
+        "mode": "svantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775077262700
+      },
+      {
+        "type": "d20",
+        "label": "Nitro thunder [x3] - Scorching Ray  (colpire)",
+        "total": 9,
+        "roll1": 4,
+        "roll2": 14,
+        "chosen": 4,
+        "modifier": 5,
+        "mode": "svantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775077259505
+      },
+      {
+        "type": "damage",
+        "label": "1d6",
         "total": 3,
         "isNat20": false,
         "isNat1": false,
@@ -1083,7 +1141,7 @@
       {
         "id": "mngh0h6s2b03",
         "name": "indurimento e conquista",
-        "rounds": 6
+        "rounds": 5
       }
     ],
     "spells": [
