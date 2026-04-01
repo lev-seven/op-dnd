@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T19:24:29.221Z",
+  "exportedAt": "2026-04-01T20:00:40.674Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,7 +10,7 @@
     "classes": "Tinkerer 4 / Bruiser 3",
     "ac": 16,
     "hpMax": 70,
-    "hpCurrent": 70,
+    "hpCurrent": 8,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 15,
@@ -563,7 +563,7 @@
         "type": "Azione bonus",
         "desc": "Come azione bonus, incanali l'haki in un'arma o nei tuoi attacchi senz'armi. Per 1 minuto, l'arma è considerata magica con +1 ai tiri per colpire e ai danni.\nL'effetto termina se perdi conoscenza, lo usi di nuovo, lo annulli come azione bonus, o inizi il turno senza l'arma.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
         "maxUses": 3,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": "COS"
@@ -587,7 +587,7 @@
         "type": "Azione bonus",
         "desc": "Si attiva insieme a Indurimento delle Armi su un'arma impugnata. Per 1 minuto:\n• Portata dell'arma +3 metri.\n• Ogni colpo può spingere il bersaglio fino a 3m.\n• Il bersaglio è stordito fino al tuo prossimo turno (TS COS CD 14 annulla).\n• 1×/round: infliggi danni forza extra pari a (2 × bonus competenza) + mod COS = 9.\nPrerequisiti: Qualità di un Re, Indurimento delle Armi.\nUso: 1× — Recupero: riposo lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": "COS"
@@ -825,6 +825,46 @@
     "backstory": "Eliah è uno Birkan nato a Borgo Fornari, un paese sospeso nel cielo, piccolo ma ben collegato alle rotte aeree. È cresciuto in una famiglia solida, anche se con idee molto diverse al suo interno.\n\nSuo padre Freddy Fazbear è uno Skypean cartografo esperto e un buon ingegnere. Ha passato gran parte della vita a studiare correnti, disegnare mappe e progettare strumenti per la navigazione. Fin da piccolo Eliah gli è sempre stato accanto, imparando a leggere una mappa e a capire come funziona una barca prima ancora di saperle usare davvero. Da lui ha ereditato la curiosità e il gusto per l’ingegneria.\n\nLa madre Vanessa Afton, Birkan, proviene da un ambiente ricco e privilegiato. In gioventù ha vissuto senza troppi limiti, approfittando delle possibilità che il denaro e le conoscenze le offrivano. Ama suo figlio, ma porta con sé una mentalità chiusa, fatta di pregiudizi e vecchie convinzioni che cerca, più o meno consapevolmente, di trasmettergli. Eliah, però, non le ha mai fatte proprie e ha sempre preso le distanze da quel modo di vedere il mondo.\n\nQuando compie 14 anni, Eliah sente che restare a Borgo Fornari non gli basta più. Parla con i genitori e chiede di partire per conto suo. Dopo qualche discussione, ottiene il loro consenso. Freddy gli affida una piccola barca volante e alcune mappe da completare, mentre Vanessa gli consegna un po’ di denaro per non partire a mani vuote.\n\nCon poche certezze e tanta voglia di scoprire, Eliah lascia il suo paese, deciso a costruirsi un futuro lontano dalle idee con cui è cresciuto, seguendo il cielo e le rotte che ancora non esistono.\n\nDurante uno dei primi spostamenti, una tempesta improvvisa mette fuori uso la barca di Eliah e lo lascia gravemente ferito alla deriva; viene raccolto e soccorso da Naive, un uomo pesce squalo che esercita come dottore, il quale si prende cura di lui fino a rimetterlo in forze, segnando l’inizio del loro cammino condiviso.",
     "diceLog": [
       {
+        "type": "damage",
+        "label": "Magic Missile (danno)",
+        "total": 13,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 4,
+              "value": 4
+            },
+            {
+              "sides": 4,
+              "value": 2
+            },
+            {
+              "sides": 4,
+              "value": 4
+            }
+          ],
+          "bonus": 3,
+          "total": 13,
+          "formula": "3d4+3"
+        },
+        "timestamp": 1775073410797
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 16,
+        "roll1": 16,
+        "roll2": 14,
+        "chosen": 16,
+        "modifier": 0,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775072974386
+      },
+      {
         "type": "d20",
         "label": "Storia",
         "total": 9,
@@ -890,7 +930,13 @@
         "timestamp": 1775063160895
       }
     ],
-    "effects": [],
+    "effects": [
+      {
+        "id": "mngh0h6s2b03",
+        "name": "indurimento e conquista",
+        "rounds": 9
+      }
+    ],
     "spells": [
       {
         "id": "sp1",
