@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T20:36:49.957Z",
+  "exportedAt": "2026-04-01T20:51:33.366Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -11,7 +11,7 @@
     "ac": 16,
     "hpMax": 70,
     "hpCurrent": 1,
-    "hpTemp": 0,
+    "hpTemp": 6,
     "hpPerm": 0,
     "speed": 15,
     "passivePerception": 19,
@@ -299,7 +299,7 @@
         "id": "mnf9a2r4c5fz",
         "name": "Jet Skates [Combo]",
         "hit": 0,
-        "damage": "3d8+1d6+1d6+2d8+16",
+        "damage": "1d6+1d6+1d6+2d8+19",
         "type": "combo"
       }
     ],
@@ -431,7 +431,7 @@
         "type": "Passiva",
         "desc": "Punti Furia disponibili per alimentare abilità speciali. Recuperi tutto al termine di un riposo.\nCD Furia = 8 + competenza + mod COS = 14.\nPunti: bonus competenza = 3.",
         "maxUses": 3,
-        "uses": 2,
+        "uses": 0,
         "rest": "breve",
         "fav": true,
         "cdStat": "COS"
@@ -491,7 +491,7 @@
         "type": "Reazione",
         "desc": "Quando scendi a metà dei PF o meno, puoi usare la reazione per ottenere PF temporanei pari a tiro del dado da attaccabrighe + livello da Bruiser e recuperare tutta la Furia. Usabile una volta per riposo breve o lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "fav": true,
         "cdStat": null
@@ -825,6 +825,38 @@
     "backstory": "Eliah è uno Birkan nato a Borgo Fornari, un paese sospeso nel cielo, piccolo ma ben collegato alle rotte aeree. È cresciuto in una famiglia solida, anche se con idee molto diverse al suo interno.\n\nSuo padre Freddy Fazbear è uno Skypean cartografo esperto e un buon ingegnere. Ha passato gran parte della vita a studiare correnti, disegnare mappe e progettare strumenti per la navigazione. Fin da piccolo Eliah gli è sempre stato accanto, imparando a leggere una mappa e a capire come funziona una barca prima ancora di saperle usare davvero. Da lui ha ereditato la curiosità e il gusto per l’ingegneria.\n\nLa madre Vanessa Afton, Birkan, proviene da un ambiente ricco e privilegiato. In gioventù ha vissuto senza troppi limiti, approfittando delle possibilità che il denaro e le conoscenze le offrivano. Ama suo figlio, ma porta con sé una mentalità chiusa, fatta di pregiudizi e vecchie convinzioni che cerca, più o meno consapevolmente, di trasmettergli. Eliah, però, non le ha mai fatte proprie e ha sempre preso le distanze da quel modo di vedere il mondo.\n\nQuando compie 14 anni, Eliah sente che restare a Borgo Fornari non gli basta più. Parla con i genitori e chiede di partire per conto suo. Dopo qualche discussione, ottiene il loro consenso. Freddy gli affida una piccola barca volante e alcune mappe da completare, mentre Vanessa gli consegna un po’ di denaro per non partire a mani vuote.\n\nCon poche certezze e tanta voglia di scoprire, Eliah lascia il suo paese, deciso a costruirsi un futuro lontano dalle idee con cui è cresciuto, seguendo il cielo e le rotte che ancora non esistono.\n\nDurante uno dei primi spostamenti, una tempesta improvvisa mette fuori uso la barca di Eliah e lo lascia gravemente ferito alla deriva; viene raccolto e soccorso da Naive, un uomo pesce squalo che esercita come dottore, il quale si prende cura di lui fino a rimetterlo in forze, segnando l’inizio del loro cammino condiviso.",
     "diceLog": [
       {
+        "type": "damage",
+        "label": "1d6",
+        "total": 3,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 3
+            }
+          ],
+          "bonus": 0,
+          "total": 3,
+          "formula": "1d6"
+        },
+        "timestamp": 1775076672484
+      },
+      {
+        "type": "d20",
+        "label": "Prova DES",
+        "total": 9,
+        "roll1": 6,
+        "roll2": 9,
+        "chosen": 6,
+        "modifier": 3,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775076226496
+      },
+      {
         "type": "d20",
         "label": "Calcio (senz'armi) (colpire)",
         "total": 8,
@@ -1051,7 +1083,7 @@
       {
         "id": "mngh0h6s2b03",
         "name": "indurimento e conquista",
-        "rounds": 7
+        "rounds": 6
       }
     ],
     "spells": [
