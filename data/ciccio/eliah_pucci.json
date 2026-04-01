@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T20:36:16.326Z",
+  "exportedAt": "2026-04-01T20:36:49.957Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -152,7 +152,7 @@
       "slots": {
         "1": {
           "max": 4,
-          "used": 1
+          "used": 2
         },
         "2": {
           "max": 3,
