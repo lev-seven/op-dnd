@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T20:14:52.135Z",
+  "exportedAt": "2026-04-01T20:22:14.690Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -431,7 +431,7 @@
         "type": "Passiva",
         "desc": "Punti Furia disponibili per alimentare abilità speciali. Recuperi tutto al termine di un riposo.\nCD Furia = 8 + competenza + mod COS = 14.\nPunti: bonus competenza = 3.",
         "maxUses": 3,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "fav": true,
         "cdStat": "COS"
@@ -551,7 +551,7 @@
         "type": "Passiva",
         "desc": "Quando colpisci con un attacco melee o senz'armi, puoi sprigionare un'ondata di energia per infliggere 2d8 danni da forza aggiuntivi. Solo 1×/round durante il tuo turno.\nUso: 3× (bonus competenza) — Recupero: riposo lungo.",
         "maxUses": 3,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": "COS"
@@ -826,6 +826,45 @@
     "diceLog": [
       {
         "type": "d20",
+        "label": "Calcio (senz'armi) (colpire)",
+        "total": 18,
+        "roll1": 12,
+        "roll2": 3,
+        "chosen": 12,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775074876946
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (senz'armi) (colpire)",
+        "total": 17,
+        "roll1": 11,
+        "roll2": 3,
+        "chosen": 11,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775074858253
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (senz'armi) (colpire)",
+        "total": 15,
+        "roll1": 9,
+        "roll2": 20,
+        "chosen": 9,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775074816366
+      },
+      {
+        "type": "d20",
         "label": "Nitro thunder [x3] - Scorching Ray  (colpire)",
         "total": 12,
         "roll1": 7,
@@ -986,7 +1025,7 @@
       {
         "id": "mngh0h6s2b03",
         "name": "indurimento e conquista",
-        "rounds": 9
+        "rounds": 8
       }
     ],
     "spells": [
