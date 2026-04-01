@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T21:03:57.332Z",
+  "exportedAt": "2026-04-01T21:04:11.461Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1141,7 +1141,7 @@
       {
         "id": "mngh0h6s2b03",
         "name": "indurimento e conquista",
-        "rounds": 5
+        "rounds": 4
       }
     ],
     "spells": [
