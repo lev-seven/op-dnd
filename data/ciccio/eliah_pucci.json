@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T00:02:09.223Z",
+  "exportedAt": "2026-04-01T00:07:39.964Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -813,7 +813,7 @@
         "name": "Jet Skates ",
         "originId": "mnf9qes4i0q4",
         "type": "Rituale",
-        "desc": "Nel turno dopo aver attivato indurimento delle armi e conquista del re sui pattini, dandomi +1 per colpire e +10 ai danni, lancio Jet Lightning per 3D8 con tiro salvezza su CON, poi attivo Colpi a Raffica per 1D6+3 X2, e infine attivo Esplosione Spirituale per 2D8 aggiuntivi sui danni.\nCosto: Indurimento 1/3 + Conquista del Re 1/1 + Shatter 2°slot + Colpo a Raffica 1 Punto Furia + Esplosione Spirituale 1/3\nDanni: 3d8+1d6+3+1d6+3+2d8+10",
+        "desc": "Nel turno dopo aver attivato Indurimento delle armi e Conquista del Re sui pattini, dandomi +1 per colpire e +10 ai danni, lancio Jet Lightning per 3D8 con tiro salvezza su CON, poi attivo Colpi a Raffica per 1D6+3 X2, e infine attivo Esplosione Spirituale per 2D8 aggiuntivi sui danni.\nCosto: Indurimento 1/3 + Conquista del Re 1/1 + Shatter 2°slot + Colpo a Raffica 1 Punto Furia + Esplosione Spirituale 1/3\nDanni: 3d8+1d6+3+1d6+3+2d8+10",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
