@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T20:27:54.286Z",
+  "exportedAt": "2026-04-01T20:36:16.326Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,7 +10,7 @@
     "classes": "Tinkerer 4 / Bruiser 3",
     "ac": 16,
     "hpMax": 70,
-    "hpCurrent": 8,
+    "hpCurrent": 1,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 15,
@@ -431,7 +431,7 @@
         "type": "Passiva",
         "desc": "Punti Furia disponibili per alimentare abilità speciali. Recuperi tutto al termine di un riposo.\nCD Furia = 8 + competenza + mod COS = 14.\nPunti: bonus competenza = 3.",
         "maxUses": 3,
-        "uses": 1,
+        "uses": 2,
         "rest": "breve",
         "fav": true,
         "cdStat": "COS"
@@ -719,9 +719,9 @@
         "type": "Reazione",
         "desc": "Quando i tuoi PF vengono ridotti a 0 senza essere ucciso sul colpo, puoi invece scendere a 1 PF.\nUso: 1× — Recupero: riposo lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
-        "fav": false,
+        "fav": true,
         "cdStat": "CAR"
       },
       {
@@ -824,6 +824,32 @@
     "notes": "Attrezzi da cartografo\nAttrezzi da lavoro e meccanica\nOmbrelli\nLogpose+torcia+balestra a mano\nCorda 15m\nChiodi / Dardi\nPezzo di metallo strano\n\nSirano\n\nProspero \nClement\nAlthea\nElios\nNun\nVein\n\nAiterius Rex\n\nZigzag\nNeive \nRenzo\nGregory\n\nDjango\n\nMurai -\nRiobe\nPetunia ❤️\nLaila\nIria 🗺️\n\nShinra x\nWilson x\nAda x\n\nRina ❤️\nDixon \n\nKizuna",
     "backstory": "Eliah è uno Birkan nato a Borgo Fornari, un paese sospeso nel cielo, piccolo ma ben collegato alle rotte aeree. È cresciuto in una famiglia solida, anche se con idee molto diverse al suo interno.\n\nSuo padre Freddy Fazbear è uno Skypean cartografo esperto e un buon ingegnere. Ha passato gran parte della vita a studiare correnti, disegnare mappe e progettare strumenti per la navigazione. Fin da piccolo Eliah gli è sempre stato accanto, imparando a leggere una mappa e a capire come funziona una barca prima ancora di saperle usare davvero. Da lui ha ereditato la curiosità e il gusto per l’ingegneria.\n\nLa madre Vanessa Afton, Birkan, proviene da un ambiente ricco e privilegiato. In gioventù ha vissuto senza troppi limiti, approfittando delle possibilità che il denaro e le conoscenze le offrivano. Ama suo figlio, ma porta con sé una mentalità chiusa, fatta di pregiudizi e vecchie convinzioni che cerca, più o meno consapevolmente, di trasmettergli. Eliah, però, non le ha mai fatte proprie e ha sempre preso le distanze da quel modo di vedere il mondo.\n\nQuando compie 14 anni, Eliah sente che restare a Borgo Fornari non gli basta più. Parla con i genitori e chiede di partire per conto suo. Dopo qualche discussione, ottiene il loro consenso. Freddy gli affida una piccola barca volante e alcune mappe da completare, mentre Vanessa gli consegna un po’ di denaro per non partire a mani vuote.\n\nCon poche certezze e tanta voglia di scoprire, Eliah lascia il suo paese, deciso a costruirsi un futuro lontano dalle idee con cui è cresciuto, seguendo il cielo e le rotte che ancora non esistono.\n\nDurante uno dei primi spostamenti, una tempesta improvvisa mette fuori uso la barca di Eliah e lo lascia gravemente ferito alla deriva; viene raccolto e soccorso da Naive, un uomo pesce squalo che esercita come dottore, il quale si prende cura di lui fino a rimetterlo in forze, segnando l’inizio del loro cammino condiviso.",
     "diceLog": [
+      {
+        "type": "d20",
+        "label": "Calcio (senz'armi) (colpire)",
+        "total": 8,
+        "roll1": 2,
+        "roll2": 5,
+        "chosen": 2,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775075663783
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (senz'armi) (colpire)",
+        "total": 8,
+        "roll1": 2,
+        "roll2": 18,
+        "chosen": 2,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775075653869
+      },
       {
         "type": "d20",
         "label": "Calcio (senz'armi) (colpire)",
