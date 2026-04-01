@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T21:04:11.461Z",
+  "exportedAt": "2026-04-01T21:10:50.481Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,8 +10,8 @@
     "classes": "Tinkerer 4 / Bruiser 3",
     "ac": 16,
     "hpMax": 70,
-    "hpCurrent": 1,
-    "hpTemp": 11,
+    "hpCurrent": 0,
+    "hpTemp": 0,
     "hpPerm": 0,
     "speed": 15,
     "passivePerception": 19,
