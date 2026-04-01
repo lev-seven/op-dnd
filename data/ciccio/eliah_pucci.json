@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-03-31T23:47:46.007Z",
+  "exportedAt": "2026-04-01T00:01:14.193Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -233,6 +233,11 @@
         "id": "talenti",
         "name": "Talenti",
         "color": "#e74c3c"
+      },
+      {
+        "id": "mnf9qes4i0q4",
+        "name": "Combo",
+        "color": "#102457"
       }
     ],
     "attacks": [
@@ -802,6 +807,18 @@
         "rest": null,
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mnf9qnan0lec",
+        "name": "Jet Skates ",
+        "originId": "mnf9qes4i0q4",
+        "type": "Rituale",
+        "desc": "Nel turno dopo aver attivato indurimento delle armi e conquista del re sui pattini, dandomi +1 per colpire e +10 ai danni, lancio Jet Lightning per 3D8 con tiro salvezza su CON, poi attivo Colpi a Raffica per 1D6+3 X2, e infine attivo Esplosione Spirituale per 2D8 aggiuntivi sui danni.\nCosto: Indurimento 1/3 + Conquista del Re 1/1 + Shatter 2°slot + Colpo a Raffica 1 Punto Furia + Esplosione Spirituale 1/3\nDanni: 3d8+1d6+3+1d6+3+2d8+10",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "INT",
+        "fav": true
       }
     ],
     "notes": "Attrezzi da cartografo\nAttrezzi da lavoro e meccanica\nOmbrelli\nLogpose+torcia+balestra a mano\nCorda 15m\nChiodi / Dardi\nPezzo di metallo strano\n\nSirano\n\nProspero \nClement\nAlthea\nElios\nNun\nVein\n\nAiterius Rex\n\nZigzag\nNeive \nRenzo\nGregory\n\nDjango\n\nMurai -\nRiobe\nPetunia ❤️\nLaila\nIria 🗺️\n\nShinra x\nWilson x\nAda x\n\nRina ❤️\nDixon \n\nKizuna",
