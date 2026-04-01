@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-01T00:01:14.193Z",
+  "exportedAt": "2026-04-01T00:02:09.223Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -297,7 +297,7 @@
       },
       {
         "id": "mnf9a2r4c5fz",
-        "name": "Jet Skates [NL+CaR+ES+IdA+CdR]",
+        "name": "Jet Skates [Combo]",
         "hit": 0,
         "damage": "3d8+1d6+1d6+2d8+16",
         "type": "combo"
