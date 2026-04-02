@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-02T15:22:38.634Z",
+  "exportedAt": "2026-04-02T15:25:20.007Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -193,7 +193,7 @@
       {
         "id": "atk5",
         "name": "Shocking Grasp",
-        "hit": 5,
+        "hit": 6,
         "damage": "1d8",
         "type": "fulmine"
       }
@@ -352,7 +352,7 @@
         "name": "Caratteristica del Potere di Creazione (Caratteristica da Incantatore)",
         "originId": "tinkerer",
         "type": "Passiva",
-        "desc": "L’Intelligenza è la tua caratteristica di Creazione (da incantatore) per i tuoi Poteri di Creazione (incantesimi) da Tinkerer, poiché apprendi i tuoi incantesimi attraverso studio e memorizzazione approfonditi. Usi la tua Intelligenza ogni volta che un incantesimo fa riferimento alla tua caratteristica da incantatore.\nInoltre, utilizzi il tuo modificatore di Intelligenza per determinare la CD dei tiri salvezza di un Potere di Creazione (incantesimo) che lanci e per i tiri per colpire con esso.\nCD del tiro salvezza della Creazione = 8 + bonus di competenza + modificatore di Intelligenza\nModificatore di attacco della Creazione = bonus di competenza + modificatore di Intelligenza",
+        "desc": "L’Intelligenza è la tua caratteristica di Creazione (da incantatore) per i tuoi Poteri di Creazione (incantesimi) da Tinkerer, poiché apprendi i tuoi incantesimi attraverso studio e memorizzazione approfonditi. Usi la tua Intelligenza ogni volta che un incantesimo fa riferimento alla tua caratteristica da incantatore.\nInoltre, utilizzi il tuo modificatore di Intelligenza per determinare la CD dei tiri salvezza di un Potere di Creazione (incantesimo) che lanci e per i tiri per colpire con esso.\nCD del tiro salvezza della Creazione = 8 + bonus di competenza + modificatore di Intelligenza = 14\nModificatore di attacco della Creazione = bonus di competenza + modificatore di Intelligenza = 6",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -481,7 +481,7 @@
       },
       {
         "id": "bruiser_scrapper",
-        "name": "Scrapper (Combattimento Brutale)",
+        "name": "Scrapper (Combattimento Brutale) D8",
         "originId": "bruiser",
         "type": "Passiva",
         "desc": "Al 1° livello, la tua vita fatta di scontri e sopravvivenza contro bestie, umani e altre creature dure ti ha dato padronanza negli stili di combattimento che usano colpi senz’armi e armi da bruto, che comprendono:\n• Armi semplici da mischia senza la proprietà a due mani \n• Sciabole \n• Armi improvvisate \nNon puoi usare la proprietà finesse di un’arma mentre la tratti come arma da bruto.\nBenefici quando sei disarmato o impugni solo armi da bruto e non indossi armature né usi uno scudo:\n• Puoi tirare un d6 al posto del normale danno dei colpi senz’armi o delle armi da bruto. Il dado aumenta con i livelli da bruiser, come mostrato nella colonna scrapper della tabella Bruiser. \n• Quando usi l’azione Attacco con un colpo senz’armi o un’arma da bruto, puoi effettuare un colpo senz’armi o una lotta come Azione Bonus. Ad esempio, se attacchi con un club, puoi anche fare un colpo senz’armi o una lotta come Azione Bonus, se non hai già usato un’Azione Bonus in quel turno.",
