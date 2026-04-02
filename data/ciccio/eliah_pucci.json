@@ -1,14 +1,14 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-02T00:37:26.267Z",
+  "exportedAt": "2026-04-02T15:22:38.634Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
     "race": "Sky Islander [Birkan]",
     "level": 9,
     "classes": "Tinkerer 1-4 / Bruiser 1-5",
-    "ac": 17,
+    "ac": 18,
     "hpMax": 99,
     "hpCurrent": 99,
     "hpTemp": 0,
@@ -18,49 +18,176 @@
     "profBonus": 4,
     "hitDie": "5d12 + 4d6",
     "stats": {
-        "FOR": { "score": 4, "mod": -3, "save": 1, "profSave": true },
-        "DES": { "score": 20, "mod": 5, "save": 4, "profSave": false },
-        "COS": { "score": 16, "mod": 3, "save": 7, "profSave": true },
-        "INT": { "score": 14, "mod": 2, "save": 6, "profSave": true },
-        "SAG": { "score": 12, "mod": 1, "save": 5, "profSave": true },
-        "CAR": { "score": 11, "mod": 0, "save": 0, "profSave": false }
+      "FOR": {
+        "score": 4,
+        "mod": -3,
+        "save": 1,
+        "profSave": true
+      },
+      "DES": {
+        "score": 20,
+        "mod": 5,
+        "save": 4,
+        "profSave": false
+      },
+      "COS": {
+        "score": 16,
+        "mod": 3,
+        "save": 7,
+        "profSave": true
+      },
+      "INT": {
+        "score": 14,
+        "mod": 2,
+        "save": 6,
+        "profSave": true
+      },
+      "SAG": {
+        "score": 12,
+        "mod": 1,
+        "save": 5,
+        "profSave": true
+      },
+      "CAR": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      }
     },
     "skills": [
-        { "name": "Acrobazia", "stat": "DES", "mod": 0, "prof": "mastery" },
-        { "name": "Atletica", "stat": "FOR", "mod": 0, "prof": "none" },
-        { "name": "Furtività", "stat": "DES", "mod": 0, "prof": "mastery" },
-        { "name": "Arcano", "stat": "INT", "mod": 0, "prof": "prof" },
-        { "name": "Indagare", "stat": "INT", "mod": 0, "prof": "prof" },
-        { "name": "Inganno", "stat": "CAR", "mod": 0, "prof": "none" },
-        { "name": "Intuizione", "stat": "SAG", "mod": 0, "prof": "none" },
-        { "name": "Intimidazione", "stat": "CAR", "mod": 0, "prof": "none" },
-        { "name": "Medicina", "stat": "SAG", "mod": 0, "prof": "none" },
-        { "name": "Natura", "stat": "INT", "mod": 0, "prof": "none" },
-        { "name": "Percezione", "stat": "SAG", "mod": 0, "prof": "mastery" },
-        { "name": "Persuasione", "stat": "CAR", "mod": 0, "prof": "none" },
-        { "name": "Rapidità di mano", "stat": "DES", "mod": 0, "prof": "none" },
-        { "name": "Sopravvivenza", "stat": "SAG", "mod": 0, "prof": "none" }
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "mod": 0,
+        "prof": "mastery"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "mod": 0,
+        "prof": "mastery"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "mod": 0,
+        "prof": "prof"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "mod": 0,
+        "prof": "prof"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Intimidazione",
+        "stat": "CAR",
+        "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "mod": 0,
+        "prof": "mastery"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di mano",
+        "stat": "DES",
+        "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "mod": 0,
+        "prof": "none"
+      }
     ],
     "spellSlots": {
       "cantrips": 4,
       "slots": {
-        "1": { "max": 4, "used": 0 },
-        "2": { "max": 3, "used": 0 },
-        "3": { "max": 0, "used": 0 },
-        "4": { "max": 0, "used": 0 },
-        "5": { "max": 0, "used": 0 },
-        "6": { "max": 0, "used": 0 },
-        "7": { "max": 0, "used": 0 },
-        "8": { "max": 0, "used": 0 },
-        "9": { "max": 0, "used": 0 }
+        "1": {
+          "max": 4,
+          "used": 0
+        },
+        "2": {
+          "max": 3,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
       }
     },
     "attacks": [
       {
         "id": "atk1",
         "name": "Calcio",
-        "hit": 8,
-        "damage": "1d8+4",
+        "hit": 9,
+        "damage": "1d8+5",
         "type": "contundente"
       },
       {
@@ -125,716 +252,716 @@
     ],
     "abilities": [
       {
-      "id": "razza_protection_of_the_clouds",
-      "name": "Protection of the Clouds",
-      "originId": "razza",
-      "type": "Reazione",
-      "desc": "Puoi creare soffici nuvole fluttuanti intorno a te per ridurre la velocità di caduta. Ottieni la capacità di lanciare Feather Fall. Dopo aver utilizzato questa abilità, non può essere riutilizzata fino a quando non completi un Riposo Breve o Lungo.",
-      "maxUses": 1,
-      "uses": 0,
-      "rest": "breve",
-      "fav": false,
-      "cdStat": null
-    },
-    {
-      "id": "razza_dial_proficiency",
-      "name": "Dial Proficiency",
-      "originId": "razza",
-      "type": "Passiva",
-      "desc": "Comprendi istintivamente i dial provenienti dalle Sky Islands e puoi trasportarne uno. Lancia una volta sulla Simple Dial Table del Capitolo 5 per determinare quale ottieni all’inizio.",
-      "maxUses": -1,
-      "uses": 0,
-      "rest": null,
-      "fav": false,
-      "cdStat": null
-    },
-    {
-      "id": "razza_mantra_specialist",
-      "name": "Mantra Specialist",
-      "originId": "razza",
-      "type": "Passiva",
-      "desc": "Puoi scegliere di prendere il Color of Observation Training feat, se soddisfi i prerequisiti.",
-      "maxUses": -1,
-      "uses": 0,
-      "rest": null,
-      "fav": false,
-      "cdStat": null
-    },
-    {
-    "id": "tinkerer_potere_creazione",
-    "name": "Potere di Creazione (Lancio di Incantesimi)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Come Studente di robotica e tecnologia avanzata, possiedi un Gadget a tua scelta insieme a dei Progetti (blueprints) che contengono le Creazioni (incantesimi) che rappresentano i primi segni delle tue vere capacità. Questa classe utilizza la Lista Incantesimi del Tinkerer nel Capitolo 8.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": "INT"
-  },
-  {
-    "id": "tinkerer_gadget_progetti",
-    "name": "Gadget e Progetti (Libro degli Incantesimi)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Al 1° livello, possiedi un Gadget e dei Progetti (simili a un libro degli incantesimi nella 5e standard) contenenti sei Incantesimi da Tinkerer di 1° livello a tua scelta. I tuoi Progetti sono istruzioni che ti spiegano come costruire il tuo gadget, oltre a fungere da Archivio per gli incantesimi e le abilità che scopri, eccetto le tue abilità naturali (Cantrip), che possono essere usate con o senza progetti e gadget, utilizzando materiali o dispositivi e metodi separati.\nIl tuo gadget è una forma di Fonte di Energia (descritta nel Capitolo 5 sotto “Equipaggiamento da Avventura”) ed è usato come focus per il lancio degli incantesimi.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_strumenti_richiesti",
-    "name": "Strumenti Richiesti",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Per costruire, modificare e utilizzare il tuo gadget, che ti permette di lanciare gli effetti del tuo Potere di Creazione (incantesimi), devi usare strumenti speciali—nello specifico strumenti da scasso o un qualche tipo di strumenti da artigiano. Devi essere competente con lo strumento per usarlo in questo modo.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_abilita_naturali",
-    "name": "Abilità Naturali (Cantrip)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Al 1° livello, conosci tre Abilità Naturali (Cantrip) a tua scelta dalla lista incantesimi del Tinkerer. Apprendi ulteriori Cantrip del Tinkerer a livelli più alti, come indicato nella colonna “Abilità Naturali (Cantrip) Conosciute” della tabella del Tinkerer.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": "INT"
-  },
-  {
-    "id": "tinkerer_preparare_usare_creazioni",
-    "name": "Preparare e Usare le Creazioni (Lanciare Incantesimi)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "La tabella del Tinkerer mostra quanti Slot di Potere di Creazione (incantesimi) possiedi per lanciare incantesimi di 1° livello e superiori. Per lanciare uno di questi incantesimi, devi consumare uno slot di quel livello o superiore. Recuperi tutti gli slot spesi quando completi un Riposo Lungo.\nPrepari e installi sul tuo gadget una lista di Poteri di Creazione (incantesimi) del Tinkerer disponibili per essere lanciati. Per farlo, scegli un numero di incantesimi dai tuoi Progetti pari al tuo modificatore di Intelligenza + il tuo livello da Tinkerer (minimo uno). Gli incantesimi devono essere di un livello per cui possiedi slot.\nPer esempio, se sei un Tinkerer di 3° livello, hai quattro slot di 1° livello e due slot di 2° livello. Con un’Intelligenza di 16, la tua lista di incantesimi preparati può includere sei incantesimi di 1° o 2° livello, in qualsiasi combinazione, scelti dai tuoi Progetti. Se prepari l’incantesimo di 1° livello Magic Missile, puoi lanciarlo usando uno slot di 1° o 2° livello. Lanciare l’incantesimo non lo rimuove dalla lista degli incantesimi preparati.\nPuoi cambiare la lista di Poteri di Creazione (incantesimi) installati sul tuo gadget quando completi un Riposo Lungo. Preparare una nuova lista richiede tempo passato a studiare i tuoi Progetti e integrarli nel gadget usando i tuoi strumenti: almeno 1 minuto per livello di ciascun incantesimo nella lista.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_caratteristica_potere_creazione",
-    "name": "Caratteristica del Potere di Creazione (Caratteristica da Incantatore)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "L’Intelligenza è la tua caratteristica di Creazione (da incantatore) per i tuoi Poteri di Creazione (incantesimi) da Tinkerer, poiché apprendi i tuoi incantesimi attraverso studio e memorizzazione approfonditi. Usi la tua Intelligenza ogni volta che un incantesimo fa riferimento alla tua caratteristica da incantatore.\nInoltre, utilizzi il tuo modificatore di Intelligenza per determinare la CD dei tiri salvezza di un Potere di Creazione (incantesimo) che lanci e per i tiri per colpire con esso.\nCD del tiro salvezza della Creazione = 8 + bonus di competenza + modificatore di Intelligenza\nModificatore di attacco della Creazione = bonus di competenza + modificatore di Intelligenza",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": "INT"
-  },
-  {
-    "id": "tinkerer_i_tuoi_progetti",
-    "name": "I tuoi Progetti (Blueprints)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "I Poteri di Creazione (incantesimi) e le abilità che aggiungi al tuo Gadget tramite i Progetti man mano che sali di livello riflettono la ricerca avanzata che conduci autonomamente, così come le scoperte scientifiche che fai sulla natura del mondo e sull’innovazione tecnologica.\nDurante le tue avventure potresti trovare altri incantesimi. Ad esempio, potresti scoprire un incantesimo registrato su dei progetti in una fabbrica abbandonata o tra documenti polverosi in un’antica biblioteca.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_copia_potere_progetti",
-    "name": "Copiare un Potere di Creazione nei Progetti",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Quando trovi un Potere di Creazione (incantesimo da Tinkerer) di 1° livello o superiore, puoi aggiungerlo ai tuoi Progetti se è di un livello che puoi preparare e se hai il tempo necessario per decifrarlo e copiarlo.\nCopiare una creazione nei tuoi Progetti comporta la riproduzione della sua struttura base e la decifrazione del sistema di annotazione unico usato dall’inventore che l’ha progettata. Devi esercitarti con il potere finché non comprendi la tecnologia, i metodi e i componenti necessari, per poi trascriverlo nei tuoi Progetti usando la tua notazione.\nPer ogni livello dell’incantesimo, il processo richiede 2 ore e costa ฿500.000. Il costo rappresenta i componenti materiali consumati, gli strumenti di scrittura e le risorse utilizzate durante gli esperimenti e le modifiche al tuo gadget.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_sostituisci_progetti_gadget",
-    "name": "Sostituire i Progetti o il Gadget",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Puoi copiare un Potere di Creazione dai tuoi Progetti in un altro set di progetti—forse per crearne una copia di backup o costruire un altro dispositivo. Questo processo è simile alla copia normale, ma più rapido, poiché comprendi già la tua notazione e sai usare l’incantesimo. Richiede solo 1 ora e ฿100.000 per livello dell’incantesimo copiato.\nSe perdi i tuoi Progetti, puoi usare lo stesso procedimento per trascrivere nei nuovi progetti i Poteri di Creazione che hai preparato. Per recuperare gli altri, dovrai trovare nuovamente gli incantesimi. Per questo motivo, molti tinkerer conservano copie di backup in luoghi sicuri.\nRicostruire il tuo gadget richiede i tuoi strumenti. Devi spendere almeno 1 ora durante un Riposo Breve o Lungo per ricostruirlo e poterlo usare di nuovo. Se non hai gli strumenti, puoi scegliere di acquistare una nuova Fonte di Energia che fungerà da nuovo gadget.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_aspetto_gadget",
-    "name": "Aspetto del Gadget",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Il tuo Gadget specializzato è un dispositivo unico che costruisci e migliori nel tempo, con caratteristiche decorative e design propri. Può essere un semplice bastone metallico smontabile, una parte integrata di un’arma con cui sei competente, oppure un complesso congegno con parti interconnesse e componenti robotici.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_lancio_rituale",
-    "name": "Lancio Rituale",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Puoi lanciare un Potere di Creazione (incantesimo da Tinkerer) come rituale se possiede il tag rituale e se è presente nei tuoi Progetti. Non è necessario averlo preparato.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_apprendere_poteri",
-    "name": "Apprendere Poteri di Creazione di 1° Livello e Superiori",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Ogni volta che ottieni un livello da Tinkerer, puoi aggiungere gratuitamente due incantesimi da Tinkerer a tua scelta al tuo Libro dei Progetti. Ognuno di questi deve essere di un livello per cui possiedi slot di Potere di Creazione, come indicato nella tabella del Tinkerer.\nDurante le tue avventure, potresti trovare altri Poteri di Creazione che puoi aggiungere ai tuoi Progetti e al tuo Gadget.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_ricarica",
-    "name": "Ricarica (Recharging)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Hai imparato a ripristinare parte dell’energia del tuo Gadget ricaricandolo durante un riposo. Una volta al giorno, quando completi un Riposo Breve, puoi recuperare Slot di Potere di Creazione (incantesimi) spesi.\nGli slot recuperati possono avere un livello totale pari o inferiore alla metà del tuo livello da Tinkerer (arrotondato per eccesso), e nessuno di questi può essere di 6° livello o superiore.\nAd esempio, se sei un Tinkerer di 4° livello, puoi recuperare fino a due livelli di slot: uno slot di 2° livello oppure due slot di 1° livello.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "breve",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_studio",
-    "name": "Studio del Tinkerer (Tinkerer Study)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Quando raggiungi il 2° livello, scegli il tuo campo di studio, modellando la tua conoscenza e pratica dell’invenzione attraverso diverse discipline: Scienza Militare, Meteorologia e Robotica.\nLa tua scelta ti conferisce capacità al 2° livello e successivamente al 6°, 10° e 14° livello.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_cantrip_adattivo",
-    "name": "Tecnologia dei Cantrip Adattiva (Adaptive Cantrip Technology)",
-    "originId": "tinkerer",
-    "type": "Passiva",
-    "desc": "Al 3° livello, ogni volta che completi un Riposo Lungo, puoi sostituire un cantrip da Tinkerer che conosci con un altro cantrip dalla lista incantesimi del Tinkerer.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "tinkerer_meteo_cloud_surfing",
-    "name": "Surf sulle Nuvole (Cloud Surfing)",
-    "originId": "tinkerer_meteo",
-    "type": "Azione Bonus",
-    "desc": "A partire dal 2° livello, puoi usare un’Azione Bonus nel tuo turno per creare una nube fluttuante sotto di te che ti spinge in una direzione tramite correnti d’aria, immediatamente prima o dopo aver lanciato un Potere di Creazione (incantesimo) di 1° livello o superiore.\nQuesto ti permette di volare fino a 3 metri senza provocare attacchi di opportunità.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_scrapper",
-    "name": "Scrapper (Combattimento Brutale)",
-    "originId": "bruiser",
-    "type": "Passiva",
-    "desc": "Al 1° livello, la tua vita fatta di scontri e sopravvivenza contro bestie, umani e altre creature dure ti ha dato padronanza negli stili di combattimento che usano colpi senz’armi e armi da bruto, che comprendono:\n• Armi semplici da mischia senza la proprietà a due mani \n• Sciabole \n• Armi improvvisate \nNon puoi usare la proprietà finesse di un’arma mentre la tratti come arma da bruto.\nBenefici quando sei disarmato o impugni solo armi da bruto e non indossi armature né usi uno scudo:\n• Puoi tirare un d6 al posto del normale danno dei colpi senz’armi o delle armi da bruto. Il dado aumenta con i livelli da bruiser, come mostrato nella colonna scrapper della tabella Bruiser. \n• Quando usi l’azione Attacco con un colpo senz’armi o un’arma da bruto, puoi effettuare un colpo senz’armi o una lotta come Azione Bonus. Ad esempio, se attacchi con un club, puoi anche fare un colpo senz’armi o una lotta come Azione Bonus, se non hai già usato un’Azione Bonus in quel turno.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_difesa_senza_armatura",
-    "name": "Difesa Senza Armatura (Unarmored Defense)",
-    "originId": "bruiser",
-    "type": "Passiva",
-    "desc": "Quando non indossi armature e non usi uno scudo, la tua Classe Armatura (CA) è pari a:\n10 + modificatore di Destrezza + modificatore di Costituzione",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_furia",
-    "name": "Furia (Fury)",
-    "originId": "bruiser",
-    "type": "Passiva",
-    "desc": "Dal 2° livello, la tua formazione ti permette di incanalare la Furia, energia grezza che proviene dal tuo spirito.\n• Il numero di punti Furia è determinato dal tuo livello da bruiser (vedi colonna Fury Points nella tabella Bruiser). \n• Puoi spendere punti Furia per usare varie capacità speciali. Inizi conoscendo tre abilità: Raffica Rapida, Forza Bruta e Prepararsi all’Impatto. \n• Recuperi tutti i punti Furia dopo un Riposo Breve o Lungo, allenandoti almeno 30 minuti durante il riposo. \nAlcune abilità Furia richiedono che il bersaglio superi un tiro salvezza:\nCD Furia = 8 + bonus competenza + modificatore di Costituzione",
-    "maxUses": 3,
-    "uses": 0,
-    "rest": "breve",
-    "fav": false,
-    "cdStat": "COS"
-  },
-  {
-    "id": "bruiser_rafica_rapida",
-    "name": "Raffica Rapida (Machine Gun Blows)",
-    "originId": "bruiser",
-    "type": "Azione bonus",
-    "desc": "Subito dopo aver usato l’azione Attacco, puoi spendere 1 punto Furia per fare due attacchi senz’armi o con armi da bruto come Azione Bonus.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_forza_bruta",
-    "name": "Forza Bruta (Brute Force)",
-    "originId": "bruiser",
-    "type": "Azione bonus",
-    "desc": "Come Azione Bonus, puoi spendere 1 punto Furia per effettuare una spinta o usare l’azione Scatto (Dash).",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_prepararsi_impacto",
-    "name": "Prepararsi all’Impatto (Brace for Impact)",
-    "originId": "bruiser",
-    "type": "Azione bonus",
-    "desc": "Come Azione Bonus, puoi spendere 1 punto Furia per prepararti a un attacco in arrivo. Ottieni un numero di PF temporanei pari a: dado scrapper + livello da bruiser.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_carica_inarrestabile",
-    "name": "Carica Inarrestabile (Charge Right Through)",
-    "originId": "bruiser",
-    "type": "Passiva",
-    "desc": "Dal 2° livello, il tuo spirito ti permette di resistere a effetti dannosi o pericoli.\n• Finché hai almeno 1 punto Furia, hai vantaggio ai tiri salvezza su Costituzione contro trappole, incantesimi, veleni, malattie o attacchi a soffio.\n• Non puoi beneficiare di questo effetto se sei incapacitato.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_stile_rissa",
-    "name": "Brawling Style (Stile di Rissa)",
-    "originId": "bruiser",
-    "type": "Passiva",
-    "desc": "Al 3° livello, scegli e sviluppi uno stile di rissa che meglio rappresenta il tuo modo di combattere: Black Fist Style, Dragon Style o Beast Style (tutti dettagliati alla fine della descrizione della classe).\nIl tuo stile di rissa ti garantisce abilità aggiuntive al 3°, 6°, 11° e 17° livello.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_blood_for_brawn",
-    "name": "Blood for Brawn (Sangue per la Forza)",
-    "originId": "bruiser",
-    "type": "Reazione",
-    "desc": "Dal 3° livello, quando i tuoi PF scendono a metà del massimo o meno, puoi usare la tua reazione per:\n• Ottenere PF temporanei pari a un tiro del tuo dado scrapper + livello da bruiser \n• Recuperare tutti i punti Furia spesi \nNon puoi usare questa abilità di nuovo fino al prossimo riposo breve o lungo.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "breve",
-    "fav": false,
-    "cdStat": null
-  },
-{
-    "id": "bruiser_thrill_of_the_fight",
-    "name": "Thrill of the Fight (Eccitazione della Battaglia / Frenesia)",
-    "originId": "bruiser_pugno",
-    "type": "Azione bonus",
-    "desc": "Al 4° livello, puoi usare un’Azione Bonus per entrare in una frenesia sanguinaria durante il combattimento.\nMentre sei in frenesia (non indossando scudi o armature pesanti):\n• Hai vantaggio sui tiri per la Forza e sui tiri salvezza di Forza \n• Hai resistenza ai danni contundenti, perforanti e taglienti \n• Se una creatura entro 1,5 m ti colpisce con un attacco in mischia, puoi usare la reazione per colpirla con un attacco senz’armi o con arma da bruto \n• Gli attacchi contro di te hanno vantaggio \nLimitazioni:\n• Non puoi lanciare incantesimi o mantenerne la concentrazione durante la frenesia \n• La frenesia dura 1 minuto o termina anticipatamente se: \n  o Veni svenuto \n  o Alla fine del tuo turno non hai attaccato una creatura ostile o subito danni dall’ultimo turno \n• Puoi terminare la frenesia come Azione Bonus nel tuo turno \nPuoi usare questa frenesia un numero di volte pari al tuo bonus competenza prima di dover completare un riposo lungo per riutilizzarla.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_extra_attack",
-    "name": "Extra Attack (Attacco Extra)",
-    "originId": "bruiser",
-    "type": "Azione",
-    "desc": "Dal 5° livello, quando esegui l’azione Attacco, puoi attaccare due volte invece di una.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_rampage",
-    "name": "Rampage (Furia Sregolata)",
-    "originId": "bruiser",
-    "type": "Passiva",
-    "desc": "Dal 5° livello, quando colpisci un bersaglio con un colpo senz’armi o arma da bruto, puoi scegliere di infliggere danni extra pari al tuo dado scrapper.\nSe lo fai, ti infliggi un danno da forza pari a un altro tiro di dado scrapper come parte dell’attacco.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_fast_movement",
-    "name": "Fast Movement (Movimento Veloce)",
-    "originId": "bruiser",
-    "type": "Passiva",
-    "desc": "Dal 5° livello, la tua velocità aumenta di 3 m quando non indossi armature pesanti.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-{
-    "id": "bruiser_bonus_proficiency",
-    "name": "Bonus Proficiency",
-    "originId": "bruiser_pugno",
-    "type": "Passiva",
-    "desc": "Acquisisci competenza nell’Athletics. Se sei già competente, scegli tra Acrobatics o Insight.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "bruiser_demon_stance",
-    "name": "Demon Stance",
-    "originId": "bruiser_pugno",
-    "type": "Passiva",
-    "desc": "Dal 3° livello, quando riduci a 0 PF un nemico entro 1,5 m da te, guadagni PF temporanei pari a Costituzione + livello Bruiser (minimo 1 PF).",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "talent_mobile",
-    "name": "Mobile",
-    "originId": "talenti",
-    "type": "Passiva",
-    "desc": "Sei eccezionalmente veloce e agile. Ottieni i seguenti benefici:\n• La tua velocità aumenta di 3 m.\n• Quando utilizzi l’azione Dash, il terreno difficile non costa movimento extra in quel turno.\n• Quando effettui un attacco in mischia contro una creatura, non provochi attacchi di opportunità da quella creatura per il resto del turno, colpisca o meno.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "talent_skilled",
-    "name": "Skilled",
-    "originId": "talenti",
-    "type": "Passiva",
-    "desc": "Acquisisci competenza in qualsiasi combinazione di tre abilità o strumenti a tua scelta.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_arm_spellcasting",
-    "name": "Abilità di lancio di incantesimi Haki dell'Armamento",
-    "originId": "haki_arm",
-    "type": "Passiva",
-    "desc": "La Costituzione è la tua caratteristica da incantatore per gli incantesimi di Haki dell'Armatura del tuo colore, poiché la forza di questo Haki è determinata dalla tua resistenza generale. Usi la tua Costituzione ogni volta che un incantesimo di Haki dell'Armatura fa riferimento alla tua caratteristica da incantatore. Inoltre, usi il tuo modificatore di Costituzione quando determini la CD del tiro salvezza per un incantesimo di Haki dell'Armatura che lanci e quando effettui un tiro per colpire con esso.\nCD del tiro salvezza Haki dell'Armamento = 8 + il tuo bonus di competenza + il tuo modificatore di Costituzione\nModificatore di attacco Haki dell'Armamento = il tuo bonus di competenza + il tuo modificatore di Costituzione",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": "COS"
-  },
-  {
-    "id": "haki_arm_aura_vita",
-    "name": "Aura di Vita",
-    "originId": "haki_arm",
-    "type": "Azione",
-    "desc": "È possibile aumentare la propria forza di volontà per rafforzare la resistenza del corpo attraverso lo spirito.\nPuoi spendere un'azione per ottenere 1d6 + il tuo punteggio di Costituzione + il tuo livello del personaggio in punti ferita temporanei. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Non puoi usare di nuovo questa capacità finché non completi un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_arm_armatura_anima",
-    "name": "Armatura dell'anima",
-    "originId": "haki_arm",
-    "type": "Azione",
-    "desc": "Puoi formare un sottile strato di armatura invisibile attorno al tuo corpo usando la tua anima.\nCome azione, avvolgi il tuo corpo con questa armatura, rendendo la tua CA pari a 13 + il tuo modificatore di Costituzione quando non indossi armature. Questa armatura dura 8 ore. Non puoi usare di nuovo questa capacità finché non completi un riposo lungo.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_obs_esp_spirituale",
-    "name": "Esplosione spirituale",
-    "originId": "haki_arm",
-    "type": "Passiva",
-    "desc": "Ottieni la capacità di inviare raffiche di energia contro i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o con un attacco senz'armi, puoi sprigionare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza aggiuntivi al bersaglio, oltre al danno normale dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_obs_indurimento_armi",
-    "name": "Indurimento delle armi",
-    "originId": "haki_arm",
-    "type": "Azione bonus",
-    "desc": "Ottieni la capacità di ricoprire le tue armi e i tuoi attacchi con il tuo spirito. Più densa è l'applicazione, più scuro sarà il rivestimento.\nCome azione bonus, incanali l'haki nel tuo corpo o in un'arma a tua scelta. Se scegli il tuo corpo, puoi scegliere tra i tuoi attacchi senz'armi o un'arma naturale. Per 1 minuto, i tuoi attacchi con l'arma scelta sono considerati magici con un bonus di +1 ai tiri per colpire e ai tiri per i danni.\nSe l'attacco ha già un bonus ai tiri per colpire e per i danni, questa caratteristica sostituisce il bonus a meno che non sia maggiore, nel qual caso non ottiene il beneficio di questa caratteristica.\nQuesto effetto termina prima del previsto se perdi conoscenza, lo usi di nuovo, lo termini come azione bonus o inizi il tuo turno senza impugnare o toccare l'arma che hai rivestito. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.\nSe l'evento Spirit Surge ha una rarità superiore a Raro, usa questi bonus:\nRaro. L'arma scelta ottiene invece un bonus di +2 ai tiri per colpire e ai tiri per i danni.\nMolto raro. L'arma scelta ottiene invece un bonus di +3 ai tiri per colpire e ai tiri per i danni.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-{
-    "id": "haki_vaso_resilienza",
-    "name": "Vaso della resilienza",
-    "originId": "haki_arm",
-    "type": "Azione",
-    "desc": "Si impara a infondere nel proprio spirito una tale resilienza da potenziare la propria forma fisica.\nCome azione, puoi potenziare le tue difese per 1 minuto. Durante questo periodo, hai resistenza ai danni contundenti, perforanti e taglienti derivanti da attacchi non magici e hai vantaggio ai tiri salvezza su Costituzione. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": "COS"
-  },
-  {
-    "id": "haki_conquista_re",
-    "name": "La conquista del re",
-    "originId": "haki_arm",
-    "type": "Azione bonus",
-    "desc": "Prerequisiti: Qualità di un Re, Indurimento delle Armi.\nQuando usi la tua capacità di Indurimento dell'Arma su un'arma che stai impugnando, puoi scegliere di attivare Conquista del Re. Per il minuto successivo:\n• La tua portata con quell'arma aumenta di 3 metri.\n• Quando colpisci una creatura con quest'arma, puoi spingerla fino a 3 metri di distanza da te.\n• La creatura è stordita fino all'inizio del tuo prossimo turno, a meno che non superi un tiro salvezza su Costituzione contro la CD del tuo tiro salvezza Haki dell'Armatura.\n• Una volta per round, quando colpisci una creatura con l'arma infusa, puoi incanalare tutta la potenza del tuo Haki, infliggendo danni da forza aggiuntivi pari al doppio del tuo bonus di competenza + il tuo modificatore di Costituzione.\nUna volta utilizzata questa abilità, non puoi usarla di nuovo finché non completi un riposo lungo.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": "CON"
-  },
-  {
-    "id": "haki_oss_incantesimi",
-    "name": "Haki dell'Osservazione",
-    "originId": "haki_oss",
-    "type": "Passiva",
-    "desc": "Capacità di lancio di incantesimi Haki dell'osservazione\nLa Saggezza è la tua caratteristica da incantatore per gli incantesimi del Colore dell'Osservazione, poiché la forza di questo Haki è determinata dalla tua percettività e consapevolezza generale. Usi la tua Saggezza ogni volta che un incantesimo dell'Haki dell'Osservazione fa riferimento alla tua caratteristica da incantatore. Inoltre, usi il tuo modificatore di Saggezza quando determini la CD del tiro salvezza per un incantesimo dell'Haki dell'Osservazione che lanci.\nCD del tiro salvezza Haki dell'osservazione = 8 + il tuo bonus di competenza + il tuo modificatore di Saggezza\nModificatore di attacco Haki dell'osservazione = il tuo bonus di competenza + il tuo modificatore di Saggezza",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": "SAG"
-  },
-  {
-    "id": "haki_oss_visione",
-    "name": "Visione della Luce",
-    "originId": "haki_oss",
-    "type": "Passiva",
-    "desc": "Avanzamento dell'Haki, non comune\nGrazie al potenziamento della vista, ora puoi vedere più chiaramente nell'oscurità, acquisendo la Visione Oscura.\nIn condizioni di scarsa illuminazione, entro un raggio di 36 metri (120 piedi), puoi vedere come se ci fosse luce intensa, e al buio come se ci fosse scarsa illuminazione. Al buio non puoi distinguere i colori, solo le sfumature di grigio.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_oss_aura",
-    "name": "Rilevamento dell'aura",
-    "originId": "haki_oss",
-    "type": "Azione",
-    "desc": "Avanzamento dell'Haki, non comune\nInizi a vedere delle aure che puoi identificare intorno agli oggetti magici e agli effetti degli incantesimi.\nPuoi lanciare Individuazione della Magia a volontà, senza consumare uno slot incantesimo o componenti materiali.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_oss_prevedi",
-    "name": "Prevedi il risultato",
-    "originId": "haki_oss",
-    "type": "Reazione",
-    "desc": "Avanzamento dell'Haki, non comune\nÈ possibile intravedere, anche se solo per un breve istante, il futuro per determinare il potenziale esito negativo di una situazione ed evitarlo.\nQuando effettui un tiro per colpire, una prova di caratteristica o un tiro salvezza, puoi scegliere di ritirare il d20. Devi ritirare il dado prima che venga determinato l'esito del tiro iniziale.\nIn alternativa, quando una creatura che puoi vedere effettua un attacco contro di te o effettua un tiro salvezza contro uno dei tuoi incantesimi o capacità, puoi costringere quella creatura a ritirare il tiro per colpire o il tiro salvezza.\nSe il tiro che attiva il rilancio viene effettuato con vantaggio o svantaggio, entrambi i d20 vengono rilanciati. Una volta utilizzata questa capacità, non potrai utilizzarla di nuovo fino al termine di un riposo lungo.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_oss_senso_spirituale",
-    "name": "Senso spirituale",
-    "originId": "haki_oss",
-    "type": "Azione",
-    "desc": "Avanzamento dell'Haki, non comune\nHai allenato il tuo Haki per percepire la presenza di esseri invisibili, nascosti o camuffati.\nCome azione, puoi percepire la presenza di creature che non puoi vedere entro 18 metri da te, a condizione che tu e la creatura non siate separati da una copertura totale. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi spesi al termine di un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_oss_attacco_predittivo",
-    "name": "Attacco predittivo",
-    "originId": "haki_oss",
-    "type": "Reazione",
-    "desc": "Avanzamento dell'Haki, non comune\nAffinando la tua percezione, puoi prevedere le mosse del tuo avversario, trasformando la sua offensiva in un'opportunità di contrattacco.\nQuando una creatura ti manca con un attacco in mischia, puoi usare la tua reazione per effettuare un attacco in mischia contro la creatura. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi spesi al termine di un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_oss_lettura_aura",
-    "name": "Lettura dell'aura",
-    "originId": "haki_oss",
-    "type": "Azione",
-    "desc": "Avanzamento dell'Haki, non comune\nSei in grado di rilevare la presenza e il potenziale livello di minaccia di creature pericolose o pericoli intorno a te.\nPuoi lanciare gli incantesimi Individua Veleni e Malattie o Individua Male e Bene senza consumare uno slot incantesimo o componenti materiali. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_oss_vista_lontana",
-    "name": "Vista lontana",
-    "originId": "haki_oss",
-    "type": "Azione bonus",
-    "desc": "Avanzamento dell'Haki, non comune\nIl tuo Haki dell'osservazione ti permette di percepire le minacce da una distanza considerevole.\nCome azione bonus, puoi estendere la gittata delle tue armi a distanza per 1 minuto o finché non sei incapacitato. La gittata dei tuoi attacchi con armi a distanza è raddoppiata e non subisci alcun svantaggio per gli attacchi con armi a distanza a lunga distanza per tutta la durata. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_oss_colpo_echeggiante",
-    "name": "Colpo echeggiante",
-    "originId": "haki_oss",
-    "type": "Azione bonus",
-    "desc": "Avanzamento dell'Haki, non comune\nHai imparato a incanalare il tuo Haki dell'Osservazione nei tuoi attacchi a distanza, permettendo ai tuoi colpi di curvare a mezz'aria.\nQuando effettui un attacco con un'arma a distanza e manchi il bersaglio, puoi usare la tua azione bonus per ritirare il dado contro una creatura diversa entro la portata. Il nuovo attacco rimbalza su una superficie solida, come un muro o un soffitto, prima di dirigersi verso il nuovo bersaglio. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi spesi al termine di un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_re_incantesimi",
-    "name": "Abilità di lancio degli incantesimi dell'Haki del Re",
-    "originId": "haki_re",
-    "type": "Passiva",
-    "desc": "Il Carisma è la tua caratteristica magica per gli incantesimi del Colore del Re Supremo, poiché la forza di questo Haki è determinata dalla tua capacità di imporre la tua volontà e autorità sugli altri. Usi il tuo Carisma ogni volta che un incantesimo dell'Haki del Re fa riferimento alla tua caratteristica magica. Inoltre, usi il tuo modificatore di Carisma quando determini la CD del tiro salvezza per un incantesimo dell'Haki del Re che lanci.\nCD del tiro salvezza dell'Haki del Re = 8 + il tuo bonus di competenza + il tuo modificatore di Carisma\nModificatore di attacco dell'Haki del Re = il tuo bonus di competenza + il tuo modificatore di Carisma",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": "CAR"
-  },
-  {
-    "id": "haki_re_voce_influente",
-    "name": "Voce influente",
-    "originId": "haki_re",
-    "type": "Azione",
-    "desc": "Avanzamento dell'Haki del Re, non comune\nNato con le qualità di un re, ti risulta facile diffondere le tue idee agli altri e influenzarne il comportamento.\nOttieni competenza nelle abilità di Inganno e Persuasione. Puoi lanciare l'incantesimo Fascino su Persona senza consumare slot incantesimo o componenti materiali. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_re_richiesta_signore",
-    "name": "La richiesta del Signore",
-    "originId": "haki_re",
-    "type": "Azione",
-    "desc": "Avanzamento dell'Haki del Re, non comune\nLe tue parole intrise di Haki impongono obbedienza, manipolando gli altri affinché eseguano la tua volontà.\nCome azione, puoi impartire un comando a una creatura che puoi vedere entro 18 metri da te. Il comando deve essere una frase di non più di dieci parole. Il bersaglio deve superare un tiro salvezza su Saggezza o eseguire il comando nel suo prossimo turno al meglio delle sue capacità. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo breve o lungo.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "breve",
-    "fav": false,
-    "cdStat": "CAR"
-  },
-  {
-    "id": "haki_re_risolutezza",
-    "name": "La risolutezza del re",
-    "originId": "haki_re",
-    "type": "Reazione",
-    "desc": "Avanzamento dell'Haki del Re, non comune\nIl tuo spirito indomabile può superare anche le circostanze più avverse.\nCome reazione quando i tuoi punti ferita vengono ridotti a 0 ma non vieni ucciso sul colpo, puoi invece scendere a 1 punto ferita. Una volta utilizzata questa capacità, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_re_ruggito_monarca",
-    "name": "Il ruggito del monarca",
-    "originId": "haki_re",
-    "type": "Azione",
-    "desc": "Avanzamento dell'Haki del Re, non comune\nLa tua forte volontà risuona attraverso la tua voce, trasformandola in un'arma a sé stante.\nCome azione, puoi emettere un urlo fragoroso. Ogni creatura entro un cono di 4,5 metri deve effettuare un tiro salvezza su Costituzione o essere assordata e stordita fino alla fine del tuo prossimo turno. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
-    "maxUses": 1,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_re_sguardo_spaventoso",
-    "name": "Sguardo spaventoso",
-    "originId": "haki_re",
-    "type": "Azione",
-    "desc": "Avanzamento dell'Haki del Re, non comune\nEsercitando la tua forza di volontà, altre creature potrebbero essere sopraffatte da un senso di impotenza di fronte a te.\nOttieni competenza nell'abilità Intimidazione. Puoi lanciare l'incantesimo Causare Paura senza consumare uno slot incantesimo o componenti materiali. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
-    "maxUses": 4,
-    "uses": 0,
-    "rest": "lungo",
-    "fav": false,
-    "cdStat": null
-  },
-  {
-    "id": "haki_re_compagno",
-    "name": "Compagno del Re",
-    "originId": "haki_re",
-    "type": "Rituale",
-    "desc": "Avanzamento dell'Haki del Re, non comune\nSei in grado di influenzare le anime dei piccoli spiriti magici che ti circondano, ottenendo il loro aiuto e, occasionalmente, la loro servitù.\nPuoi lanciare l'incantesimo Trova Famiglio come rituale senza utilizzare componenti materiali. Il famiglio deve assumere una delle caratteristiche indicate dall'incantesimo, ma può apparire come qualsiasi piccola creatura tu desideri, magari rappresentando il tuo animale totemico.\nInoltre, quando effettui l'azione di Attacco nel tuo turno, puoi rinunciare a uno dei tuoi attacchi per permettere al tuo famiglio di effettuare un attacco a sua volta con la sua reazione.",
-    "maxUses": -1,
-    "uses": 0,
-    "rest": null,
-    "fav": false,
-    "cdStat": null
-  }
+        "id": "razza_protection_of_the_clouds",
+        "name": "Protection of the Clouds",
+        "originId": "razza",
+        "type": "Reazione",
+        "desc": "Puoi creare soffici nuvole fluttuanti intorno a te per ridurre la velocità di caduta. Ottieni la capacità di lanciare Feather Fall. Dopo aver utilizzato questa abilità, non può essere riutilizzata fino a quando non completi un Riposo Breve o Lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "razza_dial_proficiency",
+        "name": "Dial Proficiency",
+        "originId": "razza",
+        "type": "Passiva",
+        "desc": "Comprendi istintivamente i dial provenienti dalle Sky Islands e puoi trasportarne uno. Lancia una volta sulla Simple Dial Table del Capitolo 5 per determinare quale ottieni all’inizio.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "razza_mantra_specialist",
+        "name": "Mantra Specialist",
+        "originId": "razza",
+        "type": "Passiva",
+        "desc": "Puoi scegliere di prendere il Color of Observation Training feat, se soddisfi i prerequisiti.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_potere_creazione",
+        "name": "Potere di Creazione (Lancio di Incantesimi)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Come Studente di robotica e tecnologia avanzata, possiedi un Gadget a tua scelta insieme a dei Progetti (blueprints) che contengono le Creazioni (incantesimi) che rappresentano i primi segni delle tue vere capacità. Questa classe utilizza la Lista Incantesimi del Tinkerer nel Capitolo 8.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": "INT"
+      },
+      {
+        "id": "tinkerer_gadget_progetti",
+        "name": "Gadget e Progetti (Libro degli Incantesimi)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Al 1° livello, possiedi un Gadget e dei Progetti (simili a un libro degli incantesimi nella 5e standard) contenenti sei Incantesimi da Tinkerer di 1° livello a tua scelta. I tuoi Progetti sono istruzioni che ti spiegano come costruire il tuo gadget, oltre a fungere da Archivio per gli incantesimi e le abilità che scopri, eccetto le tue abilità naturali (Cantrip), che possono essere usate con o senza progetti e gadget, utilizzando materiali o dispositivi e metodi separati.\nIl tuo gadget è una forma di Fonte di Energia (descritta nel Capitolo 5 sotto “Equipaggiamento da Avventura”) ed è usato come focus per il lancio degli incantesimi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_strumenti_richiesti",
+        "name": "Strumenti Richiesti",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Per costruire, modificare e utilizzare il tuo gadget, che ti permette di lanciare gli effetti del tuo Potere di Creazione (incantesimi), devi usare strumenti speciali—nello specifico strumenti da scasso o un qualche tipo di strumenti da artigiano. Devi essere competente con lo strumento per usarlo in questo modo.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_abilita_naturali",
+        "name": "Abilità Naturali (Cantrip)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Al 1° livello, conosci tre Abilità Naturali (Cantrip) a tua scelta dalla lista incantesimi del Tinkerer. Apprendi ulteriori Cantrip del Tinkerer a livelli più alti, come indicato nella colonna “Abilità Naturali (Cantrip) Conosciute” della tabella del Tinkerer.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": "INT"
+      },
+      {
+        "id": "tinkerer_preparare_usare_creazioni",
+        "name": "Preparare e Usare le Creazioni (Lanciare Incantesimi)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "La tabella del Tinkerer mostra quanti Slot di Potere di Creazione (incantesimi) possiedi per lanciare incantesimi di 1° livello e superiori. Per lanciare uno di questi incantesimi, devi consumare uno slot di quel livello o superiore. Recuperi tutti gli slot spesi quando completi un Riposo Lungo.\nPrepari e installi sul tuo gadget una lista di Poteri di Creazione (incantesimi) del Tinkerer disponibili per essere lanciati. Per farlo, scegli un numero di incantesimi dai tuoi Progetti pari al tuo modificatore di Intelligenza + il tuo livello da Tinkerer (minimo uno). Gli incantesimi devono essere di un livello per cui possiedi slot.\nPer esempio, se sei un Tinkerer di 3° livello, hai quattro slot di 1° livello e due slot di 2° livello. Con un’Intelligenza di 16, la tua lista di incantesimi preparati può includere sei incantesimi di 1° o 2° livello, in qualsiasi combinazione, scelti dai tuoi Progetti. Se prepari l’incantesimo di 1° livello Magic Missile, puoi lanciarlo usando uno slot di 1° o 2° livello. Lanciare l’incantesimo non lo rimuove dalla lista degli incantesimi preparati.\nPuoi cambiare la lista di Poteri di Creazione (incantesimi) installati sul tuo gadget quando completi un Riposo Lungo. Preparare una nuova lista richiede tempo passato a studiare i tuoi Progetti e integrarli nel gadget usando i tuoi strumenti: almeno 1 minuto per livello di ciascun incantesimo nella lista.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_caratteristica_potere_creazione",
+        "name": "Caratteristica del Potere di Creazione (Caratteristica da Incantatore)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "L’Intelligenza è la tua caratteristica di Creazione (da incantatore) per i tuoi Poteri di Creazione (incantesimi) da Tinkerer, poiché apprendi i tuoi incantesimi attraverso studio e memorizzazione approfonditi. Usi la tua Intelligenza ogni volta che un incantesimo fa riferimento alla tua caratteristica da incantatore.\nInoltre, utilizzi il tuo modificatore di Intelligenza per determinare la CD dei tiri salvezza di un Potere di Creazione (incantesimo) che lanci e per i tiri per colpire con esso.\nCD del tiro salvezza della Creazione = 8 + bonus di competenza + modificatore di Intelligenza\nModificatore di attacco della Creazione = bonus di competenza + modificatore di Intelligenza",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": "INT"
+      },
+      {
+        "id": "tinkerer_i_tuoi_progetti",
+        "name": "I tuoi Progetti (Blueprints)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "I Poteri di Creazione (incantesimi) e le abilità che aggiungi al tuo Gadget tramite i Progetti man mano che sali di livello riflettono la ricerca avanzata che conduci autonomamente, così come le scoperte scientifiche che fai sulla natura del mondo e sull’innovazione tecnologica.\nDurante le tue avventure potresti trovare altri incantesimi. Ad esempio, potresti scoprire un incantesimo registrato su dei progetti in una fabbrica abbandonata o tra documenti polverosi in un’antica biblioteca.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_copia_potere_progetti",
+        "name": "Copiare un Potere di Creazione nei Progetti",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Quando trovi un Potere di Creazione (incantesimo da Tinkerer) di 1° livello o superiore, puoi aggiungerlo ai tuoi Progetti se è di un livello che puoi preparare e se hai il tempo necessario per decifrarlo e copiarlo.\nCopiare una creazione nei tuoi Progetti comporta la riproduzione della sua struttura base e la decifrazione del sistema di annotazione unico usato dall’inventore che l’ha progettata. Devi esercitarti con il potere finché non comprendi la tecnologia, i metodi e i componenti necessari, per poi trascriverlo nei tuoi Progetti usando la tua notazione.\nPer ogni livello dell’incantesimo, il processo richiede 2 ore e costa ฿500.000. Il costo rappresenta i componenti materiali consumati, gli strumenti di scrittura e le risorse utilizzate durante gli esperimenti e le modifiche al tuo gadget.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_sostituisci_progetti_gadget",
+        "name": "Sostituire i Progetti o il Gadget",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Puoi copiare un Potere di Creazione dai tuoi Progetti in un altro set di progetti—forse per crearne una copia di backup o costruire un altro dispositivo. Questo processo è simile alla copia normale, ma più rapido, poiché comprendi già la tua notazione e sai usare l’incantesimo. Richiede solo 1 ora e ฿100.000 per livello dell’incantesimo copiato.\nSe perdi i tuoi Progetti, puoi usare lo stesso procedimento per trascrivere nei nuovi progetti i Poteri di Creazione che hai preparato. Per recuperare gli altri, dovrai trovare nuovamente gli incantesimi. Per questo motivo, molti tinkerer conservano copie di backup in luoghi sicuri.\nRicostruire il tuo gadget richiede i tuoi strumenti. Devi spendere almeno 1 ora durante un Riposo Breve o Lungo per ricostruirlo e poterlo usare di nuovo. Se non hai gli strumenti, puoi scegliere di acquistare una nuova Fonte di Energia che fungerà da nuovo gadget.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_aspetto_gadget",
+        "name": "Aspetto del Gadget",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Il tuo Gadget specializzato è un dispositivo unico che costruisci e migliori nel tempo, con caratteristiche decorative e design propri. Può essere un semplice bastone metallico smontabile, una parte integrata di un’arma con cui sei competente, oppure un complesso congegno con parti interconnesse e componenti robotici.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_lancio_rituale",
+        "name": "Lancio Rituale",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Puoi lanciare un Potere di Creazione (incantesimo da Tinkerer) come rituale se possiede il tag rituale e se è presente nei tuoi Progetti. Non è necessario averlo preparato.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_apprendere_poteri",
+        "name": "Apprendere Poteri di Creazione di 1° Livello e Superiori",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Ogni volta che ottieni un livello da Tinkerer, puoi aggiungere gratuitamente due incantesimi da Tinkerer a tua scelta al tuo Libro dei Progetti. Ognuno di questi deve essere di un livello per cui possiedi slot di Potere di Creazione, come indicato nella tabella del Tinkerer.\nDurante le tue avventure, potresti trovare altri Poteri di Creazione che puoi aggiungere ai tuoi Progetti e al tuo Gadget.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_ricarica",
+        "name": "Ricarica (Recharging)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Hai imparato a ripristinare parte dell’energia del tuo Gadget ricaricandolo durante un riposo. Una volta al giorno, quando completi un Riposo Breve, puoi recuperare Slot di Potere di Creazione (incantesimi) spesi.\nGli slot recuperati possono avere un livello totale pari o inferiore alla metà del tuo livello da Tinkerer (arrotondato per eccesso), e nessuno di questi può essere di 6° livello o superiore.\nAd esempio, se sei un Tinkerer di 4° livello, puoi recuperare fino a due livelli di slot: uno slot di 2° livello oppure due slot di 1° livello.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_studio",
+        "name": "Studio del Tinkerer (Tinkerer Study)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Quando raggiungi il 2° livello, scegli il tuo campo di studio, modellando la tua conoscenza e pratica dell’invenzione attraverso diverse discipline: Scienza Militare, Meteorologia e Robotica.\nLa tua scelta ti conferisce capacità al 2° livello e successivamente al 6°, 10° e 14° livello.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_cantrip_adattivo",
+        "name": "Tecnologia dei Cantrip Adattiva (Adaptive Cantrip Technology)",
+        "originId": "tinkerer",
+        "type": "Passiva",
+        "desc": "Al 3° livello, ogni volta che completi un Riposo Lungo, puoi sostituire un cantrip da Tinkerer che conosci con un altro cantrip dalla lista incantesimi del Tinkerer.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "tinkerer_meteo_cloud_surfing",
+        "name": "Surf sulle Nuvole (Cloud Surfing)",
+        "originId": "tinkerer_meteo",
+        "type": "Azione Bonus",
+        "desc": "A partire dal 2° livello, puoi usare un’Azione Bonus nel tuo turno per creare una nube fluttuante sotto di te che ti spinge in una direzione tramite correnti d’aria, immediatamente prima o dopo aver lanciato un Potere di Creazione (incantesimo) di 1° livello o superiore.\nQuesto ti permette di volare fino a 3 metri senza provocare attacchi di opportunità.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_scrapper",
+        "name": "Scrapper (Combattimento Brutale)",
+        "originId": "bruiser",
+        "type": "Passiva",
+        "desc": "Al 1° livello, la tua vita fatta di scontri e sopravvivenza contro bestie, umani e altre creature dure ti ha dato padronanza negli stili di combattimento che usano colpi senz’armi e armi da bruto, che comprendono:\n• Armi semplici da mischia senza la proprietà a due mani \n• Sciabole \n• Armi improvvisate \nNon puoi usare la proprietà finesse di un’arma mentre la tratti come arma da bruto.\nBenefici quando sei disarmato o impugni solo armi da bruto e non indossi armature né usi uno scudo:\n• Puoi tirare un d6 al posto del normale danno dei colpi senz’armi o delle armi da bruto. Il dado aumenta con i livelli da bruiser, come mostrato nella colonna scrapper della tabella Bruiser. \n• Quando usi l’azione Attacco con un colpo senz’armi o un’arma da bruto, puoi effettuare un colpo senz’armi o una lotta come Azione Bonus. Ad esempio, se attacchi con un club, puoi anche fare un colpo senz’armi o una lotta come Azione Bonus, se non hai già usato un’Azione Bonus in quel turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_difesa_senza_armatura",
+        "name": "Difesa Senza Armatura (Unarmored Defense)",
+        "originId": "bruiser",
+        "type": "Passiva",
+        "desc": "Quando non indossi armature e non usi uno scudo, la tua Classe Armatura (CA) è pari a:\n10 + modificatore di Destrezza + modificatore di Costituzione",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_furia",
+        "name": "Furia (Fury)",
+        "originId": "bruiser",
+        "type": "Passiva",
+        "desc": "Dal 2° livello, la tua formazione ti permette di incanalare la Furia, energia grezza che proviene dal tuo spirito.\n• Il numero di punti Furia è determinato dal tuo livello da bruiser (vedi colonna Fury Points nella tabella Bruiser). \n• Puoi spendere punti Furia per usare varie capacità speciali. Inizi conoscendo tre abilità: Raffica Rapida, Forza Bruta e Prepararsi all’Impatto. \n• Recuperi tutti i punti Furia dopo un Riposo Breve o Lungo, allenandoti almeno 30 minuti durante il riposo. \nAlcune abilità Furia richiedono che il bersaglio superi un tiro salvezza:\nCD Furia = 8 + bonus competenza + modificatore di Costituzione",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "breve",
+        "fav": false,
+        "cdStat": "COS"
+      },
+      {
+        "id": "bruiser_rafica_rapida",
+        "name": "Raffica Rapida (Machine Gun Blows)",
+        "originId": "bruiser",
+        "type": "Azione bonus",
+        "desc": "Subito dopo aver usato l’azione Attacco, puoi spendere 1 punto Furia per fare due attacchi senz’armi o con armi da bruto come Azione Bonus.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_forza_bruta",
+        "name": "Forza Bruta (Brute Force)",
+        "originId": "bruiser",
+        "type": "Azione bonus",
+        "desc": "Come Azione Bonus, puoi spendere 1 punto Furia per effettuare una spinta o usare l’azione Scatto (Dash).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_prepararsi_impacto",
+        "name": "Prepararsi all’Impatto (Brace for Impact)",
+        "originId": "bruiser",
+        "type": "Azione bonus",
+        "desc": "Come Azione Bonus, puoi spendere 1 punto Furia per prepararti a un attacco in arrivo. Ottieni un numero di PF temporanei pari a: dado scrapper + livello da bruiser.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_carica_inarrestabile",
+        "name": "Carica Inarrestabile (Charge Right Through)",
+        "originId": "bruiser",
+        "type": "Passiva",
+        "desc": "Dal 2° livello, il tuo spirito ti permette di resistere a effetti dannosi o pericoli.\n• Finché hai almeno 1 punto Furia, hai vantaggio ai tiri salvezza su Costituzione contro trappole, incantesimi, veleni, malattie o attacchi a soffio.\n• Non puoi beneficiare di questo effetto se sei incapacitato.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_stile_rissa",
+        "name": "Brawling Style (Stile di Rissa)",
+        "originId": "bruiser",
+        "type": "Passiva",
+        "desc": "Al 3° livello, scegli e sviluppi uno stile di rissa che meglio rappresenta il tuo modo di combattere: Black Fist Style, Dragon Style o Beast Style (tutti dettagliati alla fine della descrizione della classe).\nIl tuo stile di rissa ti garantisce abilità aggiuntive al 3°, 6°, 11° e 17° livello.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_blood_for_brawn",
+        "name": "Blood for Brawn (Sangue per la Forza)",
+        "originId": "bruiser",
+        "type": "Reazione",
+        "desc": "Dal 3° livello, quando i tuoi PF scendono a metà del massimo o meno, puoi usare la tua reazione per:\n• Ottenere PF temporanei pari a un tiro del tuo dado scrapper + livello da bruiser \n• Recuperare tutti i punti Furia spesi \nNon puoi usare questa abilità di nuovo fino al prossimo riposo breve o lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_thrill_of_the_fight",
+        "name": "Thrill of the Fight (Eccitazione della Battaglia / Frenesia)",
+        "originId": "bruiser_pugno",
+        "type": "Azione bonus",
+        "desc": "Al 4° livello, puoi usare un’Azione Bonus per entrare in una frenesia sanguinaria durante il combattimento.\nMentre sei in frenesia (non indossando scudi o armature pesanti):\n• Hai vantaggio sui tiri per la Forza e sui tiri salvezza di Forza \n• Hai resistenza ai danni contundenti, perforanti e taglienti \n• Se una creatura entro 1,5 m ti colpisce con un attacco in mischia, puoi usare la reazione per colpirla con un attacco senz’armi o con arma da bruto \n• Gli attacchi contro di te hanno vantaggio \nLimitazioni:\n• Non puoi lanciare incantesimi o mantenerne la concentrazione durante la frenesia \n• La frenesia dura 1 minuto o termina anticipatamente se: \n  o Veni svenuto \n  o Alla fine del tuo turno non hai attaccato una creatura ostile o subito danni dall’ultimo turno \n• Puoi terminare la frenesia come Azione Bonus nel tuo turno \nPuoi usare questa frenesia un numero di volte pari al tuo bonus competenza prima di dover completare un riposo lungo per riutilizzarla.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_extra_attack",
+        "name": "Extra Attack (Attacco Extra)",
+        "originId": "bruiser",
+        "type": "Azione",
+        "desc": "Dal 5° livello, quando esegui l’azione Attacco, puoi attaccare due volte invece di una.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_rampage",
+        "name": "Rampage (Furia Sregolata)",
+        "originId": "bruiser",
+        "type": "Passiva",
+        "desc": "Dal 5° livello, quando colpisci un bersaglio con un colpo senz’armi o arma da bruto, puoi scegliere di infliggere danni extra pari al tuo dado scrapper.\nSe lo fai, ti infliggi un danno da forza pari a un altro tiro di dado scrapper come parte dell’attacco.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_fast_movement",
+        "name": "Fast Movement (Movimento Veloce)",
+        "originId": "bruiser",
+        "type": "Passiva",
+        "desc": "Dal 5° livello, la tua velocità aumenta di 3 m quando non indossi armature pesanti.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_bonus_proficiency",
+        "name": "Bonus Proficiency",
+        "originId": "bruiser_pugno",
+        "type": "Passiva",
+        "desc": "Acquisisci competenza nell’Athletics. Se sei già competente, scegli tra Acrobatics o Insight.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "bruiser_demon_stance",
+        "name": "Demon Stance",
+        "originId": "bruiser_pugno",
+        "type": "Passiva",
+        "desc": "Dal 3° livello, quando riduci a 0 PF un nemico entro 1,5 m da te, guadagni PF temporanei pari a Costituzione + livello Bruiser (minimo 1 PF).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "talent_mobile",
+        "name": "Mobile",
+        "originId": "talenti",
+        "type": "Passiva",
+        "desc": "Sei eccezionalmente veloce e agile. Ottieni i seguenti benefici:\n• La tua velocità aumenta di 3 m.\n• Quando utilizzi l’azione Dash, il terreno difficile non costa movimento extra in quel turno.\n• Quando effettui un attacco in mischia contro una creatura, non provochi attacchi di opportunità da quella creatura per il resto del turno, colpisca o meno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "talent_skilled",
+        "name": "Skilled",
+        "originId": "talenti",
+        "type": "Passiva",
+        "desc": "Acquisisci competenza in qualsiasi combinazione di tre abilità o strumenti a tua scelta.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_arm_spellcasting",
+        "name": "Abilità di lancio di incantesimi Haki dell'Armamento",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "La Costituzione è la tua caratteristica da incantatore per gli incantesimi di Haki dell'Armatura del tuo colore, poiché la forza di questo Haki è determinata dalla tua resistenza generale. Usi la tua Costituzione ogni volta che un incantesimo di Haki dell'Armatura fa riferimento alla tua caratteristica da incantatore. Inoltre, usi il tuo modificatore di Costituzione quando determini la CD del tiro salvezza per un incantesimo di Haki dell'Armatura che lanci e quando effettui un tiro per colpire con esso.\nCD del tiro salvezza Haki dell'Armamento = 8 + il tuo bonus di competenza + il tuo modificatore di Costituzione\nModificatore di attacco Haki dell'Armamento = il tuo bonus di competenza + il tuo modificatore di Costituzione",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": "COS"
+      },
+      {
+        "id": "haki_arm_aura_vita",
+        "name": "Aura di Vita",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "È possibile aumentare la propria forza di volontà per rafforzare la resistenza del corpo attraverso lo spirito.\nPuoi spendere un'azione per ottenere 1d6 + il tuo punteggio di Costituzione + il tuo livello del personaggio in punti ferita temporanei. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Non puoi usare di nuovo questa capacità finché non completi un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_arm_armatura_anima",
+        "name": "Armatura dell'anima",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Puoi formare un sottile strato di armatura invisibile attorno al tuo corpo usando la tua anima.\nCome azione, avvolgi il tuo corpo con questa armatura, rendendo la tua CA pari a 13 + il tuo modificatore di Costituzione quando non indossi armature. Questa armatura dura 8 ore. Non puoi usare di nuovo questa capacità finché non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_obs_esp_spirituale",
+        "name": "Esplosione spirituale",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Ottieni la capacità di inviare raffiche di energia contro i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o con un attacco senz'armi, puoi sprigionare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza aggiuntivi al bersaglio, oltre al danno normale dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_obs_indurimento_armi",
+        "name": "Indurimento delle armi",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Ottieni la capacità di ricoprire le tue armi e i tuoi attacchi con il tuo spirito. Più densa è l'applicazione, più scuro sarà il rivestimento.\nCome azione bonus, incanali l'haki nel tuo corpo o in un'arma a tua scelta. Se scegli il tuo corpo, puoi scegliere tra i tuoi attacchi senz'armi o un'arma naturale. Per 1 minuto, i tuoi attacchi con l'arma scelta sono considerati magici con un bonus di +1 ai tiri per colpire e ai tiri per i danni.\nSe l'attacco ha già un bonus ai tiri per colpire e per i danni, questa caratteristica sostituisce il bonus a meno che non sia maggiore, nel qual caso non ottiene il beneficio di questa caratteristica.\nQuesto effetto termina prima del previsto se perdi conoscenza, lo usi di nuovo, lo termini come azione bonus o inizi il tuo turno senza impugnare o toccare l'arma che hai rivestito. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.\nSe l'evento Spirit Surge ha una rarità superiore a Raro, usa questi bonus:\nRaro. L'arma scelta ottiene invece un bonus di +2 ai tiri per colpire e ai tiri per i danni.\nMolto raro. L'arma scelta ottiene invece un bonus di +3 ai tiri per colpire e ai tiri per i danni.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_vaso_resilienza",
+        "name": "Vaso della resilienza",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Si impara a infondere nel proprio spirito una tale resilienza da potenziare la propria forma fisica.\nCome azione, puoi potenziare le tue difese per 1 minuto. Durante questo periodo, hai resistenza ai danni contundenti, perforanti e taglienti derivanti da attacchi non magici e hai vantaggio ai tiri salvezza su Costituzione. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": "COS"
+      },
+      {
+        "id": "haki_conquista_re",
+        "name": "La conquista del re",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Prerequisiti: Qualità di un Re, Indurimento delle Armi.\nQuando usi la tua capacità di Indurimento dell'Arma su un'arma che stai impugnando, puoi scegliere di attivare Conquista del Re. Per il minuto successivo:\n• La tua portata con quell'arma aumenta di 3 metri.\n• Quando colpisci una creatura con quest'arma, puoi spingerla fino a 3 metri di distanza da te.\n• La creatura è stordita fino all'inizio del tuo prossimo turno, a meno che non superi un tiro salvezza su Costituzione contro la CD del tuo tiro salvezza Haki dell'Armatura.\n• Una volta per round, quando colpisci una creatura con l'arma infusa, puoi incanalare tutta la potenza del tuo Haki, infliggendo danni da forza aggiuntivi pari al doppio del tuo bonus di competenza + il tuo modificatore di Costituzione.\nUna volta utilizzata questa abilità, non puoi usarla di nuovo finché non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": "CON"
+      },
+      {
+        "id": "haki_oss_incantesimi",
+        "name": "Haki dell'Osservazione",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Capacità di lancio di incantesimi Haki dell'osservazione\nLa Saggezza è la tua caratteristica da incantatore per gli incantesimi del Colore dell'Osservazione, poiché la forza di questo Haki è determinata dalla tua percettività e consapevolezza generale. Usi la tua Saggezza ogni volta che un incantesimo dell'Haki dell'Osservazione fa riferimento alla tua caratteristica da incantatore. Inoltre, usi il tuo modificatore di Saggezza quando determini la CD del tiro salvezza per un incantesimo dell'Haki dell'Osservazione che lanci.\nCD del tiro salvezza Haki dell'osservazione = 8 + il tuo bonus di competenza + il tuo modificatore di Saggezza\nModificatore di attacco Haki dell'osservazione = il tuo bonus di competenza + il tuo modificatore di Saggezza",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": "SAG"
+      },
+      {
+        "id": "haki_oss_visione",
+        "name": "Visione della Luce",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nGrazie al potenziamento della vista, ora puoi vedere più chiaramente nell'oscurità, acquisendo la Visione Oscura.\nIn condizioni di scarsa illuminazione, entro un raggio di 36 metri (120 piedi), puoi vedere come se ci fosse luce intensa, e al buio come se ci fosse scarsa illuminazione. Al buio non puoi distinguere i colori, solo le sfumature di grigio.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_oss_aura",
+        "name": "Rilevamento dell'aura",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nInizi a vedere delle aure che puoi identificare intorno agli oggetti magici e agli effetti degli incantesimi.\nPuoi lanciare Individuazione della Magia a volontà, senza consumare uno slot incantesimo o componenti materiali.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_oss_prevedi",
+        "name": "Prevedi il risultato",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Avanzamento dell'Haki, non comune\nÈ possibile intravedere, anche se solo per un breve istante, il futuro per determinare il potenziale esito negativo di una situazione ed evitarlo.\nQuando effettui un tiro per colpire, una prova di caratteristica o un tiro salvezza, puoi scegliere di ritirare il d20. Devi ritirare il dado prima che venga determinato l'esito del tiro iniziale.\nIn alternativa, quando una creatura che puoi vedere effettua un attacco contro di te o effettua un tiro salvezza contro uno dei tuoi incantesimi o capacità, puoi costringere quella creatura a ritirare il tiro per colpire o il tiro salvezza.\nSe il tiro che attiva il rilancio viene effettuato con vantaggio o svantaggio, entrambi i d20 vengono rilanciati. Una volta utilizzata questa capacità, non potrai utilizzarla di nuovo fino al termine di un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_oss_senso_spirituale",
+        "name": "Senso spirituale",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nHai allenato il tuo Haki per percepire la presenza di esseri invisibili, nascosti o camuffati.\nCome azione, puoi percepire la presenza di creature che non puoi vedere entro 18 metri da te, a condizione che tu e la creatura non siate separati da una copertura totale. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi spesi al termine di un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_oss_attacco_predittivo",
+        "name": "Attacco predittivo",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Avanzamento dell'Haki, non comune\nAffinando la tua percezione, puoi prevedere le mosse del tuo avversario, trasformando la sua offensiva in un'opportunità di contrattacco.\nQuando una creatura ti manca con un attacco in mischia, puoi usare la tua reazione per effettuare un attacco in mischia contro la creatura. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi spesi al termine di un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_oss_lettura_aura",
+        "name": "Lettura dell'aura",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nSei in grado di rilevare la presenza e il potenziale livello di minaccia di creature pericolose o pericoli intorno a te.\nPuoi lanciare gli incantesimi Individua Veleni e Malattie o Individua Male e Bene senza consumare uno slot incantesimo o componenti materiali. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_oss_vista_lontana",
+        "name": "Vista lontana",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Avanzamento dell'Haki, non comune\nIl tuo Haki dell'osservazione ti permette di percepire le minacce da una distanza considerevole.\nCome azione bonus, puoi estendere la gittata delle tue armi a distanza per 1 minuto o finché non sei incapacitato. La gittata dei tuoi attacchi con armi a distanza è raddoppiata e non subisci alcun svantaggio per gli attacchi con armi a distanza a lunga distanza per tutta la durata. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_oss_colpo_echeggiante",
+        "name": "Colpo echeggiante",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Avanzamento dell'Haki, non comune\nHai imparato a incanalare il tuo Haki dell'Osservazione nei tuoi attacchi a distanza, permettendo ai tuoi colpi di curvare a mezz'aria.\nQuando effettui un attacco con un'arma a distanza e manchi il bersaglio, puoi usare la tua azione bonus per ritirare il dado contro una creatura diversa entro la portata. Il nuovo attacco rimbalza su una superficie solida, come un muro o un soffitto, prima di dirigersi verso il nuovo bersaglio. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli utilizzi spesi al termine di un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_re_incantesimi",
+        "name": "Abilità di lancio degli incantesimi dell'Haki del Re",
+        "originId": "haki_re",
+        "type": "Passiva",
+        "desc": "Il Carisma è la tua caratteristica magica per gli incantesimi del Colore del Re Supremo, poiché la forza di questo Haki è determinata dalla tua capacità di imporre la tua volontà e autorità sugli altri. Usi il tuo Carisma ogni volta che un incantesimo dell'Haki del Re fa riferimento alla tua caratteristica magica. Inoltre, usi il tuo modificatore di Carisma quando determini la CD del tiro salvezza per un incantesimo dell'Haki del Re che lanci.\nCD del tiro salvezza dell'Haki del Re = 8 + il tuo bonus di competenza + il tuo modificatore di Carisma\nModificatore di attacco dell'Haki del Re = il tuo bonus di competenza + il tuo modificatore di Carisma",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": "CAR"
+      },
+      {
+        "id": "haki_re_voce_influente",
+        "name": "Voce influente",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki del Re, non comune\nNato con le qualità di un re, ti risulta facile diffondere le tue idee agli altri e influenzarne il comportamento.\nOttieni competenza nelle abilità di Inganno e Persuasione. Puoi lanciare l'incantesimo Fascino su Persona senza consumare slot incantesimo o componenti materiali. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_re_richiesta_signore",
+        "name": "La richiesta del Signore",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki del Re, non comune\nLe tue parole intrise di Haki impongono obbedienza, manipolando gli altri affinché eseguano la tua volontà.\nCome azione, puoi impartire un comando a una creatura che puoi vedere entro 18 metri da te. Il comando deve essere una frase di non più di dieci parole. Il bersaglio deve superare un tiro salvezza su Saggezza o eseguire il comando nel suo prossimo turno al meglio delle sue capacità. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo breve o lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "fav": false,
+        "cdStat": "CAR"
+      },
+      {
+        "id": "haki_re_risolutezza",
+        "name": "La risolutezza del re",
+        "originId": "haki_re",
+        "type": "Reazione",
+        "desc": "Avanzamento dell'Haki del Re, non comune\nIl tuo spirito indomabile può superare anche le circostanze più avverse.\nCome reazione quando i tuoi punti ferita vengono ridotti a 0 ma non vieni ucciso sul colpo, puoi invece scendere a 1 punto ferita. Una volta utilizzata questa capacità, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_re_ruggito_monarca",
+        "name": "Il ruggito del monarca",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki del Re, non comune\nLa tua forte volontà risuona attraverso la tua voce, trasformandola in un'arma a sé stante.\nCome azione, puoi emettere un urlo fragoroso. Ogni creatura entro un cono di 4,5 metri deve effettuare un tiro salvezza su Costituzione o essere assordata e stordita fino alla fine del tuo prossimo turno. Una volta utilizzata questa capacità, non puoi usarla di nuovo finché non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_re_sguardo_spaventoso",
+        "name": "Sguardo spaventoso",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki del Re, non comune\nEsercitando la tua forza di volontà, altre creature potrebbero essere sopraffatte da un senso di impotenza di fronte a te.\nOttieni competenza nell'abilità Intimidazione. Puoi lanciare l'incantesimo Causare Paura senza consumare uno slot incantesimo o componenti materiali. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "fav": false,
+        "cdStat": null
+      },
+      {
+        "id": "haki_re_compagno",
+        "name": "Compagno del Re",
+        "originId": "haki_re",
+        "type": "Rituale",
+        "desc": "Avanzamento dell'Haki del Re, non comune\nSei in grado di influenzare le anime dei piccoli spiriti magici che ti circondano, ottenendo il loro aiuto e, occasionalmente, la loro servitù.\nPuoi lanciare l'incantesimo Trova Famiglio come rituale senza utilizzare componenti materiali. Il famiglio deve assumere una delle caratteristiche indicate dall'incantesimo, ma può apparire come qualsiasi piccola creatura tu desideri, magari rappresentando il tuo animale totemico.\nInoltre, quando effettui l'azione di Attacco nel tuo turno, puoi rinunciare a uno dei tuoi attacchi per permettere al tuo famiglio di effettuare un attacco a sua volta con la sua reazione.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null
+      }
     ],
     "spells": [
-        {
+      {
         "id": "gust",
         "name": "Gust",
         "level": 0,
@@ -842,14 +969,18 @@
         "castingTime": "1 azione",
         "ritual": false,
         "range": "9 m",
-        "components": { "v": true, "s": true, "m": null },
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
         "duration": "Istantanea",
         "concentration": false,
         "desc": "Quando lanci Gust, puoi usare l’aria per creare uno dei seguenti effetti in un punto visibile entro gittata:\n1. Spinta di creatura: Una creatura di taglia Media o inferiore a tua scelta deve superare un tiro salvezza di Forza oppure viene spinta fino a 1,5 m lontano da te.\n2. Spinta di oggetto: Crei una piccola esplosione d’aria capace di muovere un oggetto che non sia impugnato o portato, fino a 5 libbre di peso, fino a 3 m. Non infligge danni.\n3. Effetto sensoriale: Crei un effetto visivo o uditivo innocuo usando l’aria, come foglie che frusciano, vento che sbatte le imposte o abiti che si muovono.",
         "higherLevels": "5° livello: La spinta di creature arriva fino a 3 m. Puoi spingere tutti gli oggetti applicabili in un cubo di 1,5 m. Puoi anche spostare vapore, gas o nebbia in un cubo di 1,5 m.\n11° livello: La magia può colpire creature di taglia Grande (spinte fino a 1,5 m) e oggetti fino a 6 m. Mirando al terreno sotto di te, estendi la distanza di salto lungo o in alto di 1,5 m.\n17° livello: La magia colpisce tutte le creature e oggetti in un cubo di 3 m simultaneamente. Mirando al terreno sotto di te, estendi la distanza di salto lungo o in alto di 3 m.",
         "prepared": true
-        },
-        {
+      },
+      {
         "id": "mending",
         "name": "Mending",
         "level": 0,
@@ -857,14 +988,18 @@
         "castingTime": "1 minuto",
         "ritual": false,
         "range": "Tocco",
-        "components": { "v": true, "s": true, "m": "due calamite" },
+        "components": {
+          "v": true,
+          "s": true,
+          "m": "due calamite"
+        },
         "duration": "Istantanea",
         "concentration": false,
         "desc": "Quando lanci Mending, ripari una singola rottura o lacerazione in un oggetto che tocchi, come:\n• Un anello di catena spezzato\n• Due metà di una chiave rotta\n• Un mantello lacerato\n• Una fiasca che perde\nIl danno riparato non deve superare 1 piede in qualsiasi dimensione, e il risultato non lascia traccia del danno precedente.\nNota: Può riparare oggetti magici o costrutti fisicamente, ma non ripristina proprietà magiche.",
         "higherLevels": "5° livello: Può ricostruire parzialmente oggetti se almeno 4/5 dell’oggetto è presente, o se il danno cumulativo da corrosione su un’arma è massimo -3. Esempio: ripristinare una chiave con la punta mancante o una spada scheggiata.\n11° livello: Può riparare qualsiasi frammento che rientri in un cubo di 1 piede, o una lacerazione fino a 1 m in qualsiasi dimensione, o un’arma distrutta da ruggine o corrosione.\n17° livello: Può riparare frammenti che rientrano in un cubo di 1,5 m, o una lacerazione fino a 3 m in qualsiasi dimensione.",
         "prepared": true
-        },
-        {
+      },
+      {
         "id": "shocking_grasp",
         "name": "Shocking Grasp",
         "level": 0,
@@ -872,14 +1007,18 @@
         "castingTime": "1 azione",
         "ritual": false,
         "range": "Tocco",
-        "components": { "v": true, "s": true, "m": null },
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
         "duration": "Istantanea",
         "concentration": false,
         "desc": "Quando lanci Shocking Grasp, scocca un fulmine dalla tua mano verso una creatura che tenti di toccare. Effettua un attacco di incantesimo in mischia contro il bersaglio.\n• Successo: Il bersaglio subisce 1d8 danni da elettricità e non può effettuare attacchi di opportunità fino all’inizio del suo prossimo turno.",
         "higherLevels": "5° livello: Danno 2d8\n11° livello: Danno 3d8\n17° livello: Danno 4d8",
         "prepared": true
-        },
-        {
+      },
+      {
         "id": "ray_of_frost",
         "name": "Ray of Frost",
         "level": 0,
@@ -887,14 +1026,18 @@
         "castingTime": "1 azione",
         "ritual": false,
         "range": "18 m",
-        "components": { "v": true, "s": true, "m": null },
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
         "duration": "Istantanea",
         "concentration": false,
         "desc": "Quando lanci Ray of Frost, un raggio freddo blu-bianco si dirige verso una creatura entro gittata. Effettua un attacco di incantesimo a distanza contro il bersaglio.\n• Successo: Il bersaglio subisce 1d8 danni da freddo e la sua velocità diminuisce di 3 m fino all’inizio del tuo prossimo turno.",
         "higherLevels": "5° livello: Danno 2d8\n11° livello: Danno 3d8\n17° livello: Danno 4d8",
         "prepared": true
-        },
-        {
+      },
+      {
         "id": "shield",
         "name": "Shield",
         "level": 1,
@@ -902,14 +1045,18 @@
         "castingTime": "1 reazione",
         "ritual": false,
         "range": "Te stesso",
-        "components": { "v": true, "s": true, "m": null },
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
         "duration": "1 round",
         "concentration": false,
         "desc": "Quando lanci Shield, una barriera invisibile di forza magica ti protegge.\n• Bonus: +5 alla CA, incluso contro l’attacco che ha scatenato la reazione\n• Effetto speciale: Non subisci danni da Missile Magico",
         "higherLevels": null,
         "prepared": true
-        },
-        {
+      },
+      {
         "id": "longstrider",
         "name": "Longstrider",
         "level": 1,
@@ -917,14 +1064,18 @@
         "castingTime": "Rituale (può essere lanciato come rituale, richiede 10 minuti in più)",
         "ritual": true,
         "range": "Contatto",
-        "components": { "v": true, "s": true, "m": null },
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
         "duration": "Fino a un riposo lungo",
         "concentration": false,
         "desc": "Quando lanci Longstrider, tocchi una creatura. La velocità della creatura aumenta di 2 spazi fino al termine dell’incantesimo.",
         "higherLevels": "Se lanci questo incantesimo usando uno slot di livello 2 o superiore, puoi scegliere una creatura aggiuntiva per ogni livello di slot sopra il 1°.",
         "prepared": true
-        },
-        {
+      },
+      {
         "id": "warding_wind",
         "name": "Warding Wind",
         "level": 2,
@@ -932,14 +1083,18 @@
         "castingTime": "1 azione",
         "ritual": false,
         "range": "Te stesso (raggio di 3 m)",
-        "components": { "v": true, "s": false, "m": null },
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
         "duration": "Concentrazione, fino a 10 minuti",
         "concentration": true,
         "desc": "Un vento forte (fino a 20 mph) soffia attorno a te in un raggio di 3 m e si muove con te, rimanendo centrato su di te. Il vento dura per tutta la durata dell’incantesimo e produce i seguenti effetti:\n1. Provoca cecità uditiva a te e alle creature nell’area.\n2. Spegne fiamme non protette della dimensione di una torcia o minori.\n3. Allontana vapori, gas e nebbie che possono essere dispersi da un vento forte.\n4. L’area diventa terreno difficile per chiunque eccetto te.\n5. Gli attacchi a distanza hanno svantaggio se passano dentro o fuori dal vento.",
         "higherLevels": null,
         "prepared": true
-        },
-        {
+      },
+      {
         "id": "misty_step",
         "name": "Misty Step",
         "level": 2,
@@ -947,14 +1102,18 @@
         "castingTime": "1 azione bonus",
         "ritual": false,
         "range": "Te stesso",
-        "components": { "v": true, "s": false, "m": null },
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
         "duration": "Istantanea",
         "concentration": false,
         "desc": "Avvolto da una nebbia argentata, ti teletrasporti fino a 9 m in uno spazio libero che puoi vedere.",
         "higherLevels": null,
         "prepared": true
-        },
-        {
+      },
+      {
         "id": "mirror_image",
         "name": "Mirror Image",
         "level": 2,
@@ -962,13 +1121,17 @@
         "castingTime": "1 azione",
         "ritual": false,
         "range": "Te stesso",
-        "components": { "v": true, "s": true, "m": null },
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
         "duration": "1 minuto",
         "concentration": false,
         "desc": "Tre duplicati illusori appaiono nel tuo spazio. I duplicati si muovono con te e imitano le tue azioni, rendendo impossibile determinare quale sia reale. Puoi usare la tua azione per dissiparli.\nQuando una creatura ti attacca durante la durata del incantesimo, tira un d4 per determinare se l’attacco colpisce uno dei duplicati:\n• 1 → l’attacco ti colpisce davvero.\n• AC del duplicato = 10 + modificatore di Destrezza.\n• Se un duplicato viene colpito, viene distrutto.\nNote aggiuntive:\n• I duplicati ignorano tutto il danno o gli effetti non derivanti da un attacco diretto.\n• L’incantesimo termina se tutti i duplicati sono distrutti.\n• Se uno o più duplicati vengono distrutti, sottrai il numero di duplicati distrutti dal risultato del dado per determinare se sei colpito (minimo 1).\n• Alcune creature non sono influenzate dall’incantesimo se non possono vedere, se usano sensi diversi dalla vista, o percepiscono le illusioni come false (es. truesight).",
         "higherLevels": "Slot 4°-5° → 5 duplicati, dado = d6\nSlot 6°-7° → 7 duplicati, dado = d8\nSlot 8°+ → 9 duplicati, dado = d10",
         "prepared": true
-        }
+      }
     ],
     "notes": "Attrezzi da cartografo\nAttrezzi da lavoro e meccanica\nOmbrelli\nLogpose+torcia+balestra a mano\nCorda 15m\nChiodi / Dardi\nPezzo di metallo strano\n\nSirano\n\nProspero \nClement\nAlthea\nElios\nNun\nVein\n\nAiterius Rex\n\nZigzag\nNeive \nRenzo\nGregory\n\nDjango\n\nMurai -\nRiobe\nPetunia ❤️\nLaila\nIria 🗺️\n\nShinra x\nWilson x\nAda x\n\nRina ❤️\nDixon \n\nKizuna",
     "backstory": "Eliah è uno Birkan nato a Borgo Fornari, un paese sospeso nel cielo, piccolo ma ben collegato alle rotte aeree. È cresciuto in una famiglia solida, anche se con idee molto diverse al suo interno.\n\nSuo padre Freddy Fazbear è uno Skypean cartografo esperto e un buon ingegnere. Ha passato gran parte della vita a studiare correnti, disegnare mappe e progettare strumenti per la navigazione. Fin da piccolo Eliah gli è sempre stato accanto, imparando a leggere una mappa e a capire come funziona una barca prima ancora di saperle usare davvero. Da lui ha ereditato la curiosità e il gusto per l’ingegneria.\n\nLa madre Vanessa Afton, Birkan, proviene da un ambiente ricco e privilegiato. In gioventù ha vissuto senza troppi limiti, approfittando delle possibilità che il denaro e le conoscenze le offrivano. Ama suo figlio, ma porta con sé una mentalità chiusa, fatta di pregiudizi e vecchie convinzioni che cerca, più o meno consapevolmente, di trasmettergli. Eliah, però, non le ha mai fatte proprie e ha sempre preso le distanze da quel modo di vedere il mondo.\n\nQuando compie 14 anni, Eliah sente che restare a Borgo Fornari non gli basta più. Parla con i genitori e chiede di partire per conto suo. Dopo qualche discussione, ottiene il loro consenso. Freddy gli affida una piccola barca volante e alcune mappe da completare, mentre Vanessa gli consegna un po’ di denaro per non partire a mani vuote.\n\nCon poche certezze e tanta voglia di scoprire, Eliah lascia il suo paese, deciso a costruirsi un futuro lontano dalle idee con cui è cresciuto, seguendo il cielo e le rotte che ancora non esistono.\n\nDurante uno dei primi spostamenti, una tempesta improvvisa mette fuori uso la barca di Eliah e lo lascia gravemente ferito alla deriva; viene raccolto e soccorso da Naive, un uomo pesce squalo che esercita come dottore, il quale si prende cura di lui fino a rimetterlo in forze, segnando l’inizio del loro cammino condiviso.",
