@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-02T15:41:12.855Z",
+  "exportedAt": "2026-04-02T17:13:28.450Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1130,6 +1130,25 @@
         "concentration": false,
         "desc": "Tre duplicati illusori appaiono nel tuo spazio. I duplicati si muovono con te e imitano le tue azioni, rendendo impossibile determinare quale sia reale. Puoi usare la tua azione per dissiparli.\nQuando una creatura ti attacca durante la durata del incantesimo, tira un d4 per determinare se l’attacco colpisce uno dei duplicati:\n• 1 → l’attacco ti colpisce davvero.\n• AC del duplicato = 10 + modificatore di Destrezza.\n• Se un duplicato viene colpito, viene distrutto.\nNote aggiuntive:\n• I duplicati ignorano tutto il danno o gli effetti non derivanti da un attacco diretto.\n• L’incantesimo termina se tutti i duplicati sono distrutti.\n• Se uno o più duplicati vengono distrutti, sottrai il numero di duplicati distrutti dal risultato del dado per determinare se sei colpito (minimo 1).\n• Alcune creature non sono influenzate dall’incantesimo se non possono vedere, se usano sensi diversi dalla vista, o percepiscono le illusioni come false (es. truesight).",
         "higherLevels": "Slot 4°-5° → 5 duplicati, dado = d6\nSlot 6°-7° → 7 duplicati, dado = d8\nSlot 8°+ → 9 duplicati, dado = d10",
+        "prepared": true
+      },
+      {
+        "id": "mnhqfqj4pbrg",
+        "name": "Haste",
+        "level": 3,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": "bastoncino di liquirizia "
+        },
+        "duration": "Concentrazione, fino a 1 m",
+        "concentration": true,
+        "desc": "Scegli una creatura consenziente che puoi vedere a portata di mano. Fino alla fine dell'incantesimo, la velocità del bersaglio è raddoppiata, ottiene un bonus di +2 alla CA, ha vantaggio nei tiri salvezza di Destrezza e guadagna un'azione aggiuntiva in ciascuno dei suoi turni. Quell'azione può essere usata solo per eseguire l'azione Attacco (solo un attacco con un'arma), Scattare, Disimpegnare, Nascondersi o Usare un Oggetto. Quando l'incantesimo termina, il bersaglio non può muoversi o agire fino a dopo il turno successivo, mentre un'ondata di letargia lo travolge.",
+        "higherLevels": null,
         "prepared": true
       }
     ],
