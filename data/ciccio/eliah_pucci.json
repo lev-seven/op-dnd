@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-02T21:39:14.003Z",
+  "exportedAt": "2026-04-02T22:13:41.528Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1145,7 +1145,7 @@
         },
         "duration": "1 minuto",
         "concentration": false,
-        "desc": "Tre duplicati illusori appaiono nel tuo spazio. I duplicati si muovono con te e imitano le tue azioni, rendendo impossibile determinare quale sia reale. Puoi usare la tua azione per dissiparli.\nQuando una creatura ti attacca durante la durata del incantesimo, tira un d4 per determinare se l’attacco colpisce uno dei duplicati:\n• 1 → l’attacco ti colpisce davvero.\n• AC del duplicato = 10 + modificatore di Destrezza.\n• Se un duplicato viene colpito, viene distrutto.\nNote aggiuntive:\n• I duplicati ignorano tutto il danno o gli effetti non derivanti da un attacco diretto.\n• L’incantesimo termina se tutti i duplicati sono distrutti.\n• Se uno o più duplicati vengono distrutti, sottrai il numero di duplicati distrutti dal risultato del dado per determinare se sei colpito (minimo 1).\n• Alcune creature non sono influenzate dall’incantesimo se non possono vedere, se usano sensi diversi dalla vista, o percepiscono le illusioni come false (es. truesight).",
+        "desc": "Tre duplicati illusori di te stesso appaiono nello spazio che occupi. Finché l'incantesimo dura, i duplicati si muovono con te e imitano le tue azioni, cambiando posizione in modo tale che sia impossibile distinguere quale immagine sia reale. Puoi usare la tua azione per dissolvere i duplicati illusori.\n\nOgni volta che una creatura ti prende di mira con un attacco durante la durata dell'incantesimo, tira un d20 per determinare se l'attacco colpisca invece uno dei tuoi duplicati.\n\nSe hai tre duplicati, devi ottenere un risultato di 6 o superiore per far sì che l'attacco colpisca un duplicato. Con due duplicati, devi ottenere un risultato di 8 o superiore. Con un solo duplicato, devi ottenere un risultato di 11 o superiore.\n\nLa CA di un duplicato è pari a 10 + il tuo modificatore di Destrezza. Se un attacco colpisce un duplicato, il duplicato viene distrutto. Un duplicato può essere distrutto solo da un attacco che lo colpisce. Ignora tutti gli altri danni ed effetti. L'incantesimo termina quando tutti e tre i duplicati sono distrutti.\n\nUna creatura non è influenzata da questo incantesimo se non può vedere, se si affida a sensi diversi dalla vista, come la vista cieca, o se è in grado di percepire le illusioni come false, come con la vista vera.\n\nTradotto con DeepL.com (versione gratuita)",
         "higherLevels": "Slot 4°-5° → 5 duplicati, dado = d6\nSlot 6°-7° → 7 duplicati, dado = d8\nSlot 8°+ → 9 duplicati, dado = d10",
         "prepared": true
       },
