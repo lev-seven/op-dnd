@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-02T18:28:37.096Z",
+  "exportedAt": "2026-04-02T18:31:45.278Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -153,7 +153,7 @@
           "used": 0
         },
         "3": {
-          "max": 10,
+          "max": 0,
           "used": 0
         },
         "4": {
@@ -248,6 +248,11 @@
         "id": "mnf9qes4i0q4",
         "name": "Combo",
         "color": "#102457"
+      },
+      {
+        "id": "mnht8sap1lr4",
+        "name": "Magie preparate",
+        "color": "#ffffff"
       }
     ],
     "abilities": [
@@ -958,6 +963,18 @@
         "rest": null,
         "fav": false,
         "cdStat": null
+      },
+      {
+        "id": "mnht8z9s3qfh",
+        "name": "Haist",
+        "originId": "mnht8sap1lr4",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": 10,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "SAG",
+        "fav": true
       }
     ],
     "spells": [
