@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-02T18:31:45.278Z",
+  "exportedAt": "2026-04-02T21:39:14.003Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1088,7 +1088,7 @@
         },
         "duration": "Fino a un riposo lungo",
         "concentration": false,
-        "desc": "Quando lanci Longstrider, tocchi una creatura. La velocità della creatura aumenta di 2 spazi fino al termine dell’incantesimo.",
+        "desc": "Quando lanci Longstrider, tocchi una creatura. La velocità della creatura aumenta di 3 metri fino al termine dell’incantesimo.",
         "higherLevels": "Se lanci questo incantesimo usando uno slot di livello 2 o superiore, puoi scegliere una creatura aggiuntiva per ogni livello di slot sopra il 1°.",
         "prepared": true
       },
