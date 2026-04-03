@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-03T11:31:30.595Z",
+  "exportedAt": "2026-04-03T11:42:03.320Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -196,6 +196,13 @@
         "hit": 6,
         "damage": "1d8",
         "type": "fulmine"
+      },
+      {
+        "id": "mniu2ibu3xef",
+        "name": "Haste Attivazione",
+        "hit": 6,
+        "damage": "",
+        "type": "magico"
       }
     ],
     "origins": [
