@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-02T22:15:08.538Z",
+  "exportedAt": "2026-04-03T10:47:47.342Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -966,7 +966,7 @@
       },
       {
         "id": "mnht8z9s3qfh",
-        "name": "Haist",
+        "name": "Haste",
         "originId": "mnht8sap1lr4",
         "type": "Azione",
         "desc": "",
@@ -1166,6 +1166,25 @@
         "concentration": true,
         "desc": "Scegli una creatura consenziente che puoi vedere a portata di mano. Fino alla fine dell'incantesimo, la velocità del bersaglio è raddoppiata, ottiene un bonus di +2 alla CA, ha vantaggio nei tiri salvezza di Destrezza e guadagna un'azione aggiuntiva in ciascuno dei suoi turni. Quell'azione può essere usata solo per eseguire l'azione Attacco (solo un attacco con un'arma), Scattare, Disimpegnare, Nascondersi o Usare un Oggetto. Quando l'incantesimo termina, il bersaglio non può muoversi o agire fino a dopo il turno successivo, mentre un'ondata di letargia lo travolge.",
         "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnis2n7qs5ri",
+        "name": "Scorching Ray",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei tre raggi di fuoco e li lanci contro bersagli a portata di azione. Puoi lanciarli su uno o più bersagli. Crea un attacco incantesimo a distanza per ogni raggio. Al colpo, il bersaglio subisce 2d6 danni da fuoco.",
+        "higherLevels": "+1d6 per livelli sopra al 2°",
         "prepared": true
       }
     ],
