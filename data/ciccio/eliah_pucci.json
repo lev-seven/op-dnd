@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-03T12:14:28.647Z",
+  "exportedAt": "2026-04-03T12:18:39.944Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -138,6 +138,11 @@
         "name": "Sopravvivenza",
         "stat": "SAG",
         "mod": 0,
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
         "prof": "none"
       }
     ],
