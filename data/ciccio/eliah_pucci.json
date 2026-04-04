@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-04T20:44:51.859Z",
+  "exportedAt": "2026-04-04T20:48:31.706Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -199,7 +199,7 @@
         "id": "atk5",
         "name": "Shocking Grasp",
         "hit": 6,
-        "damage": "1d8",
+        "damage": "1d8+1d8",
         "type": "fulmine"
       },
       {
