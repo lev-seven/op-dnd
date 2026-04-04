@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-04T22:47:06.731Z",
+  "exportedAt": "2026-04-04T23:14:31.974Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -220,7 +220,7 @@
         "id": "mnkt2w4zwsyu",
         "name": "Calcio (Indurimento)",
         "hit": 10,
-        "damage": "1d8+17",
+        "damage": "1d8+6",
         "type": "contundente "
       },
       {
@@ -555,7 +555,7 @@
         "type": "Passiva",
         "desc": "Dal 2° livello, la tua formazione ti permette di incanalare la Furia, energia grezza che proviene dal tuo spirito.\n• Il numero di punti Furia è determinato dal tuo livello da bruiser (vedi colonna Fury Points nella tabella Bruiser). \n• Puoi spendere punti Furia per usare varie capacità speciali. Inizi conoscendo tre abilità: Raffica Rapida, Forza Bruta e Prepararsi all’Impatto. \n• Recuperi tutti i punti Furia dopo un Riposo Breve o Lungo, allenandoti almeno 30 minuti durante il riposo. \nAlcune abilità Furia richiedono che il bersaglio superi un tiro salvezza:\nCD Furia = 8 + bonus competenza + modificatore di Costituzione",
         "maxUses": 3,
-        "uses": 0,
+        "uses": 2,
         "rest": "breve",
         "fav": true,
         "cdStat": "COS"
@@ -771,7 +771,7 @@
         "type": "Passiva",
         "desc": "Ottieni la capacità di inviare raffiche di energia contro i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o con un attacco senz'armi, puoi sprigionare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza aggiuntivi al bersaglio, oltre al danno normale dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.",
         "maxUses": 4,
-        "uses": 3,
+        "uses": 4,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -855,7 +855,7 @@
         "type": "Reazione",
         "desc": "Avanzamento dell'Haki, non comune\nÈ possibile intravedere, anche se solo per un breve istante, il futuro per determinare il potenziale esito negativo di una situazione ed evitarlo.\nQuando effettui un tiro per colpire, una prova di caratteristica o un tiro salvezza, puoi scegliere di ritirare il d20. Devi ritirare il dado prima che venga determinato l'esito del tiro iniziale.\nIn alternativa, quando una creatura che puoi vedere effettua un attacco contro di te o effettua un tiro salvezza contro uno dei tuoi incantesimi o capacità, puoi costringere quella creatura a ritirare il tiro per colpire o il tiro salvezza.\nSe il tiro che attiva il rilancio viene effettuato con vantaggio o svantaggio, entrambi i d20 vengono rilanciati. Una volta utilizzata questa capacità, non potrai utilizzarla di nuovo fino al termine di un riposo lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -1214,6 +1214,413 @@
     "diceLog": [
       {
         "type": "damage",
+        "label": "Calcio (Indurimento) (danno)",
+        "total": 9,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 3
+            }
+          ],
+          "bonus": 6,
+          "total": 9,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1775344426057
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 27,
+        "roll1": 17,
+        "roll2": 16,
+        "chosen": 17,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775344423329
+      },
+      {
+        "type": "damage",
+        "label": "Calcio (Indurimento) (danno)",
+        "total": 13,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 7
+            }
+          ],
+          "bonus": 6,
+          "total": 13,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1775344403910
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 20,
+        "roll1": 10,
+        "roll2": 2,
+        "chosen": 10,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775344398153
+      },
+      {
+        "type": "damage",
+        "label": "Calcio (Indurimento) (danno)",
+        "total": 9,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 3
+            }
+          ],
+          "bonus": 6,
+          "total": 9,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1775344385508
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 21,
+        "roll1": 11,
+        "roll2": 13,
+        "chosen": 11,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775344378831
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 15,
+        "roll1": 5,
+        "roll2": 17,
+        "chosen": 5,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775344077535
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 19,
+        "roll1": 9,
+        "roll2": 10,
+        "chosen": 9,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775344053798
+      },
+      {
+        "type": "damage",
+        "label": "Calcio (Indurimento) (danno)",
+        "total": 14,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 8
+            }
+          ],
+          "bonus": 6,
+          "total": 14,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1775344042396
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 26,
+        "roll1": 16,
+        "roll2": 12,
+        "chosen": 16,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775344026512
+      },
+      {
+        "type": "damage",
+        "label": "Calcio (Indurimento) (danno)",
+        "total": 12,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 6
+            }
+          ],
+          "bonus": 6,
+          "total": 12,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1775343720630
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 21,
+        "roll1": 11,
+        "roll2": 15,
+        "chosen": 11,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775343715442
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 18,
+        "roll1": 8,
+        "roll2": 4,
+        "chosen": 8,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775343710650
+      },
+      {
+        "type": "damage",
+        "label": "Calcio (Indurimento) (danno)",
+        "total": 7,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 1
+            }
+          ],
+          "bonus": 6,
+          "total": 7,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1775343676118
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 26,
+        "roll1": 16,
+        "roll2": 11,
+        "chosen": 16,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775343669837
+      },
+      {
+        "type": "damage",
+        "label": "Calcio + Esplosione Spirituale (Indurimento) (danno)",
+        "total": 25,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 4
+            }
+          ],
+          "bonus": 17,
+          "total": 25,
+          "formula": "3d8+17"
+        },
+        "timestamp": 1775343580676
+      },
+      {
+        "type": "d20",
+        "label": "Calcio + Esplosione Spirituale (Indurimento) (colpire)",
+        "total": 25,
+        "roll1": 15,
+        "roll2": 8,
+        "chosen": 15,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775343576744
+      },
+      {
+        "type": "damage",
+        "label": "Calcio (danno)",
+        "total": 8,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 3
+            }
+          ],
+          "bonus": 5,
+          "total": 8,
+          "formula": "1d8+5"
+        },
+        "timestamp": 1775343368308
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 28,
+        "roll1": 18,
+        "roll2": 16,
+        "chosen": 18,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775343347188
+      },
+      {
+        "type": "damage",
+        "label": "Calcio (danno)",
+        "total": 8,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 3
+            }
+          ],
+          "bonus": 5,
+          "total": 8,
+          "formula": "1d8+5"
+        },
+        "timestamp": 1775343341469
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 29,
+        "roll1": 19,
+        "roll2": 2,
+        "chosen": 19,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775343335212
+      },
+      {
+        "type": "damage",
+        "label": "Calcio (danno)",
+        "total": 7,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 2
+            }
+          ],
+          "bonus": 5,
+          "total": 7,
+          "formula": "1d8+5"
+        },
+        "timestamp": 1775343289556
+      },
+      {
+        "type": "d20",
+        "label": "Calcio (Indurimento) (colpire)",
+        "total": 21,
+        "roll1": 11,
+        "roll2": 10,
+        "chosen": 11,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775343279462
+      },
+      {
+        "type": "damage",
+        "label": "Calcio + Esplosione Spirituale (Indurimento) (danno)",
+        "total": 30,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 4
+            }
+          ],
+          "bonus": 17,
+          "total": 30,
+          "formula": "3d8+17"
+        },
+        "timestamp": 1775343168141
+      },
+      {
+        "type": "d20",
+        "label": "Calcio + Esplosione Spirituale (Indurimento) (colpire)",
+        "total": 21,
+        "roll1": 11,
+        "roll2": 15,
+        "chosen": 11,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775343163188
+      },
+      {
+        "type": "damage",
         "label": "Calcio + Esplosione Spirituale (Indurimento) (danno)",
         "total": 31,
         "isNat20": false,
@@ -1523,12 +1930,12 @@
       {
         "id": "mnito9phyoyx",
         "name": "Haste",
-        "rounds": 6
+        "rounds": 2
       },
       {
         "id": "mnitooxhissw",
         "name": "Indurimento e Conquista",
-        "rounds": 7
+        "rounds": 3
       },
       {
         "id": "mnitpenmqaap",
