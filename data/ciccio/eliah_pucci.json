@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-04T20:55:01.127Z",
+  "exportedAt": "2026-04-04T20:56:04.686Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -214,14 +214,14 @@
         "name": "Calcio + Esplosione Spirituale (Indurimento)",
         "hit": 10,
         "damage": "3d8+17",
-        "type": "Contundente"
+        "type": "contundente"
       },
       {
         "id": "mnkt2w4zwsyu",
         "name": "Calcio (Indurimento)",
         "hit": 10,
         "damage": "1d8+17",
-        "type": ""
+        "type": "contundente "
       }
     ],
     "origins": [
