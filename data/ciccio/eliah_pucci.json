@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-04T20:48:31.706Z",
+  "exportedAt": "2026-04-04T20:50:20.721Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -215,6 +215,13 @@
         "hit": 10,
         "damage": "3d8+17",
         "type": "Contundente"
+      },
+      {
+        "id": "mnkt2w4zwsyu",
+        "name": "Calcio (Indurimento)",
+        "hit": 10,
+        "damage": "1d8+17",
+        "type": ""
       }
     ],
     "origins": [
