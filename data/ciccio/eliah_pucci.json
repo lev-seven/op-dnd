@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-05T01:21:26.872Z",
+  "exportedAt": "2026-04-05T01:23:19.312Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -192,7 +192,7 @@
         "id": "atk1",
         "name": "Calcio",
         "hit": 9,
-        "damage": "1d8+5",
+        "damage": "1d8",
         "type": "contundente"
       },
       {
@@ -210,20 +210,6 @@
         "type": "magico"
       },
       {
-        "id": "mnkstk8e9dp3",
-        "name": "Calcio (Indurimento) + Esplosione Spirituale + Conquista",
-        "hit": 10,
-        "damage": "3d8+17",
-        "type": "contundente"
-      },
-      {
-        "id": "mnkt2w4zwsyu",
-        "name": "Calcio (Indurimento)",
-        "hit": 10,
-        "damage": "1d8+6",
-        "type": "magico "
-      },
-      {
         "id": "mnkwbtiy6uki",
         "name": "Ray of frost",
         "hit": 6,
@@ -236,13 +222,6 @@
         "hit": 9,
         "damage": "1d6+1d6+5",
         "type": ""
-      },
-      {
-        "id": "mnl2e4q5ajgi",
-        "name": "Calcio (Indurimento) + Conquista",
-        "hit": 10,
-        "damage": "1d8+17",
-        "type": "magico"
       }
     ],
     "origins": [
