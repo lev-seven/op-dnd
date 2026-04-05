@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-05T01:23:19.312Z",
+  "exportedAt": "2026-04-05T01:23:39.326Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1012,7 +1012,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       }
     ],
     "spells": [
