@@ -1078,7 +1078,7 @@ function SpCard({sp,ac,onEdit,onToggle}){
         </div>
         <button onClick={e=>{e.stopPropagation();onEdit();}} style={{width:22,height:22,borderRadius:"50%",border:`1px solid ${ac}22`,background:`${ac}0a`,color:ac,fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✎</button>
       </div>
-      {open&&<div style={{marginTop:6,fontSize:11,color:"#998866",lineHeight:1.4,whiteSpace:"pre-line",borderTop:"1px solid #c8a95e11",paddingTop:6}}>
+      {open&&<div style={{marginTop:6,fontSize:11,color:"#bfb49a",lineHeight:1.4,whiteSpace:"pre-line",borderTop:"1px solid #c8a95e11",paddingTop:6}}>
         <span style={{fontSize:9,color:"#665a3e",fontFamily:"'Cinzel'"}}>{sp.school}</span>
         <div style={{marginTop:3}}>{sp.desc}</div>
         {sp.higherLevels&&<div style={{marginTop:4,fontSize:10,color:"#3498db",fontStyle:"italic"}}>A livelli superiori: {sp.higherLevels}</div>}
