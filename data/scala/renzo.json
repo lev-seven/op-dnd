@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-07T11:08:30.226Z",
+  "exportedAt": "2026-04-07T22:02:26.809Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -207,7 +207,7 @@
       {
         "id": "haki_arm",
         "name": "Haki Armatura",
-        "color": "#8e44ad"
+        "color": "#e60a36"
       },
       {
         "id": "haki_oss",
@@ -226,23 +226,493 @@
       },
       {
         "id": "spadaccino",
-        "name": "Spadaccino",
-        "color": "#34495e"
+        "name": "Warrior",
+        "color": "#f9ac06"
       },
       {
         "id": "medico",
-        "name": "Medico",
-        "color": "#ff66cc"
+        "name": "Mink",
+        "color": "#f8f1f6"
       },
       {
         "id": "fdd",
         "name": "Frutto del diavolo",
-        "color": "#f46fc1"
+        "color": "#ba82f2"
       }
     ],
     "attacks": [],
-    "abilities": [],
-    "spells": [],
+    "abilities": [
+      {
+        "id": "mnp4jaudxj2c",
+        "name": "Darkvision",
+        "originId": "medico",
+        "type": "Passiva",
+        "desc": "Hai i sensi acuti di un animale, specialmente al buio. Puoi vedere in luce fioca entro 60 piedi da te come se fosse luce intensa, e al buio come se fosse luce fioca. Non puoi distinguere i colori al buio, solo le sfumature di grigio.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4k3rqoyrq",
+        "name": "Beast’s Slash",
+        "originId": "medico",
+        "type": "Azione",
+        "desc": "A causa delle tue caratteristiche bestiali, hai una velocità di arrampicata di 6 metri. Inoltre, il tuo corpo è un'arma naturale, che puoi usare per infliggere colpi senz'armi. Puoi scegliere di infliggere danni da taglio con i tuoi colpi senz'armi, e il dado dei danni dei tuoi colpi senz'armi diventa minimo di 1d6.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4kwwva7ld",
+        "name": "Electro",
+        "originId": "medico",
+        "type": "Azione",
+        "desc": "    •  Conosci il trucco Presa Folgorante. La Saggezza è la tua Abilità di Incantatore per questo incantesimo. Inoltre, sei Resistente ai danni da fulmine. \n      Un fulmine scaturisce dalla tua mano per infliggere una scossa a una creatura che tenti di toccare. Effettua un attacco magico in mischia contro il bersaglio. Hai vantaggio al tiro per colpire se il bersaglio indossa un'armatura di metallo. In caso di successo, il bersaglio subisce 1d8 danni da fulmine e non può effettuare reazioni fino all'inizio del suo prossimo turno. Il danno dell'incantesimo aumenta di 1d8 quando raggiungi il 5° livello (2d8), l'11° livello (3d8) e il 17° livello (4d8).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4m7sarpcm",
+        "name": "Sulong Transformation",
+        "originId": "medico",
+        "type": "Azione",
+        "desc": "    • A partire dal 3° livello, puoi usare la tua azione per canalizzare energia di chiaro di luna nel tuo corpo e trasformarti in una potente forma primordiale bianco brillante con capelli più lunghi e dimensioni aumentate, potenziando la tua forza, velocità ed elettricità. \nLa tua trasformazione dura 1 minuto o fino a quando non la termini come Azione Bonus. Durante essa, la tua velocità aumenta di 3 metri, hai vantaggio nelle prove di Forza, e una volta per ogni tuo turno, puoi infliggere danni elettrici aggiuntivi a un bersaglio quando gli infliggi danni con un Attacco o un incantesimo. I danni elettrici aggiuntivi sono pari al tuo livello. Una volta utilizzata questa caratteristica, non puoi usarla di nuovo fino a quando non completi un Riposo Lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4qb2eoy91",
+        "name": "Intercettazione",
+        "originId": "spadaccino",
+        "type": "Reazione",
+        "desc": "Quando una creatura che puoi vedere colpisce entro 1,5 metri da te con un attacco, puoi usare la tua reazione per ridurre il danno subito di 1d10 + il tuo bonus di competenza (fino a un minimo di 0 danni). Devi impugnare uno scudo o un'arma semplice o da guerra per usare questa reazione.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4r9cne0vr",
+        "name": "Secondo Soffio",
+        "originId": "spadaccino",
+        "type": "Azione bonus",
+        "desc": "Inoltre, al 1° livello, disponi di una riserva limitata di resistenza a cui puoi attingere per proteggerti dai danni. Nel tuo turno, puoi usare un'azione bonus per recuperare punti ferita pari a 1d10 + il tuo livello da guerriero. Una volta utilizzata questa capacità, devi completare un riposo breve o lungo prima di poterla utilizzare di nuovo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4s9ypu6wk",
+        "name": "Azione Extra",
+        "originId": "spadaccino",
+        "type": "Azione",
+        "desc": "A partire dal 2° livello, puoi spingerti oltre i tuoi limiti normali per un istante. Nel tuo turno, puoi compiere un'azione aggiuntiva.\nUna volta utilizzata questa capacità, devi completare un riposo breve o lungo prima di poterla utilizzare di nuovo. A partire dal 17° livello, puoi utilizzarla due volte prima di un riposo, ma solo una volta nello stesso turno.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4vlslg23j",
+        "name": "Attacco Extra",
+        "originId": "spadaccino",
+        "type": "Passiva",
+        "desc": "A partire dal 5º livello, puoi Attaccare due volte, invece di una, ogni volta che esegui l'azione Attacco nel tuo Turno.  \nIl numero di attacchi aumenta a tre quando raggiungi l'11º livello in questa classe e a quattro quando raggiungi il 20º livello in questa classe.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4wq7bsjxi",
+        "name": "Indomitable",
+        "originId": "spadaccino",
+        "type": "Passiva",
+        "desc": "A partire dal 9º livello, puoi rilanciare un tiro salvezza che fallisci. Se lo fai, devi usare il nuovo tiro e non puoi usare di nuovo questa caratteristica fino a quando non completi un Riposo Lungo.\nPuoi usare questa caratteristica due volte tra un riposo lungo e l'altro a partire dal 13º livello e tre volte tra un riposo lungo e l'altro a partire dal 17º livello.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4xmb4z31k",
+        "name": "Spirito Affilato",
+        "originId": "spadaccino",
+        "type": "Passiva",
+        "desc": "A partire dal momento in cui scegli questo stile al 3° livello, i tuoi attacchi con l'arma realizzano un colpo critico con un tiro di 19 o 20.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp4yfhdnvcj",
+        "name": "Devil Fruit save DC",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "8 + il tuo Bonus di Competenza + un punto per ogni categoria di rarità superiore a comune (min 1 MAX 4)",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp5143tajsd",
+        "name": "Sea Weakness",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "Sei debole all'acqua di mare e alla pietra marina",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp51hdf5lx4",
+        "name": "Black Spiral",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi bersagliare una creatura entro 18 metri da te, tentando di attirarla a te usando l'intensa gravità della tua oscurità. Il bersaglio deve superare un tiro salvezza su Forza contro la CD del tuo Frutto del Diavolo o essere attirato fino a 18 metri verso di te e afferrato. Finché è afferrato in questo modo, è trattenuto dall'oscurità nel tuo palmo finché la presa non viene spezzata.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp57r37jnvf",
+        "name": "Black Hole",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi spendere 1 o più cariche del frutto del diavolo per formare una grande pozza di oscurità sul terreno intorno a te. Se lo fai, prendi di mira ogni creatura e oggetto in una sfera di 3 metri di raggio centrata su di te. Devi superare un tiro salvezza su Costituzione contro la CD del tuo frutto del diavolo. Una creatura subisce 3d10 danni necrotici in caso di fallimento del tiro salvezza e viene bandita nella tua oscurità (come se usasse l'incantesimo bandimento, senza bisogno di concentrazione) per 1 minuto, oppure la metà dei danni e non viene bandita in caso di successo. Un oggetto non indossato o non impugnato nel raggio viene automaticamente bandito nell'oscurità. Una creatura bandita nella tua oscurità viene liberata se vieni ridotto a 0 punti ferita o cadi privo di sensi, riapparendo nel suo spazio originale dopo essere stata liberata. Una creatura bandita in questo modo ha tutte le sue abilità e gli effetti attivi del frutto del diavolo annullati per la durata. Il danno dell'oscurità aumenta di 1d10 e il suo raggio aumenta di 5 piedi per ogni carica aggiuntiva del frutto del diavolo spesa oltre 1, infliggendo fino a 11d10 danni necrotici e avendo un raggio totale fino a 50 piedi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp599z8y2w6",
+        "name": "Liberation",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi liberare qualsiasi oggetto o creatura bandita nella tua oscurità. Se una creatura o un oggetto viene liberato in questo modo, viene lanciato fino a 18 metri in una direzione casuale e atterrato. Se il bersaglio lanciato colpisce una superficie solida, subisce 3d6 danni contundenti per ogni 3 metri di distanza percorsa. Se il bersaglio viene lanciato contro un'altra creatura, quest'ultima deve superare un tiro salvezza su Destrezza contro la CD del tuo Frutto del Diavolo o subire gli stessi danni ed essere atterrata.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp5esnw80pu",
+        "name": "Darkness Storage",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "La tua capacità di carico è moltiplicata per 100, poiché sei in grado di immagazzinare oggetti all'interno di buchi neri sul tuo corpo. Qualsiasi oggetto che trasporti e che non indossi o tieni in mano viene immagazzinato in una dimensione tascabile (come se usassi una borsa dimensionale) che può essere rilasciata solo da te. Se perdi conoscenza o i tuoi punti ferita scendono a 0, tutti gli oggetti che stai immagazzinando nella tua dimensione tascabile vengono rilasciati dal tuo corpo.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp5gwjw57ib",
+        "name": "Devil Fruit Nullification",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "Quando una creatura viene immobilizzata o afferrata da te o da un incantesimo lanciato da questo frutto del diavolo, non è in grado di utilizzare alcuna abilità del frutto del diavolo per tutta la durata dell'immobilizzazione o della presa, e qualsiasi effetto attivo del frutto del diavolo che stava utilizzando termina improvvisamente, come se la creatura fosse stata toccata dalla pietra marina.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp5hc1n1eqm",
+        "name": "Spells (Black Hole)",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "Il potere di questo frutto del diavolo ha 17 cariche. Puoi spendere 1 o più delle sue cariche per lanciare uno dei seguenti incantesimi senza bisogno di consumare componenti materiali: absorb elements (1 charge), darkness (2 charges), vortex warp (2 charges), hunger of hadar (3 charges), pulse wave (3 charges), shadow of moil (4 charges), evard's black tentacles (4 charges), banishment (4 charges), destructive wave (necrotic; 5 charges), circle of death (6 charges), dark star (8 charges). Il frutto del diavolo recupera le cariche spese ogni giorno all'alba.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp5hqthdv2s",
+        "name": "Awakening (Infinity Black Hole)",
+        "originId": "fdd",
+        "type": "Rituale",
+        "desc": "Una volta risvegliato il tuo potere, puoi usare un'azione per lanciare Ravenous Void, senza consumare cariche o componenti materiali. Non potrai usare di nuovo quest'azione per altre 24 ore.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp5qv4qcjtm",
+        "name": "Aura of Life - Uncommon",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Sei in grado di aumentare la tua forza di volontà per rafforzare la durezza del tuo corpo usando il tuo spirito. Puoi spendere un'azione per ottenere 1d6 + il tuo punteggio di Costituzione + il tuo livello del personaggio in punti ferita temporanei.\nPuoi usare questa caratteristica un numero di volte pari al tuo bonus di competenza. Non puoi usare nuovamente questa caratteristica finché non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [
+      {
+        "id": "mnp3rnh6dwii",
+        "name": "ABSORB ELEMENTS",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "L'incantesimo cattura parte dell'energia in arrivo, attenuandone l'effetto su di te e immagazzinandola per il tuo prossimo attacco in mischia. Hai resistenza al tipo di danno che ha innescato l'incantesimo fino all'inizio del tuo prossimo turno. Inoltre, la prima volta che colpisci con un attacco in mischia nel tuo prossimo turno, il bersaglio subisce 1d6 danni extra del tipo che ha innescato l'incantesimo e l'incantesimo termina.\n",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 2° livello o superiore, il danno extra aumenta di 1d6 per ogni livello di slot superiore al 1°",
+        "prepared": true
+      },
+      {
+        "id": "mnp3u9c4wo22",
+        "name": "DARKNESS",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "10 minuti",
+        "ritual": false,
+        "range": "9 m diametro",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": true,
+        "desc": "Un'oscurità magica si diffonde da un punto a tua scelta entro il raggio d'azione, riempiendo una sfera di 4,5 metri di raggio per tutta la durata dell'effetto. L'oscurità si propaga anche dietro gli angoli. Una creatura dotata di scurovisione non può vedere attraverso quest'oscurità e la luce non magica non può illuminarla.\nSe il punto che scegli si trova su un oggetto che stai tenendo in mano o su uno che non indossi o trasporti, l'oscurità emana dall'oggetto e si muove con esso. Coprire completamente la fonte dell'oscurità con un oggetto opaco, come una ciotola o un elmo, blocca l'oscurità.\nSe una qualsiasi parte dell'area di questo incantesimo si sovrappone a un'area di luce creata da un incantesimo di 2° livello o inferiore, l'incantesimo che ha creato la luce viene dissolto.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnp3waw0tcu7",
+        "name": "VORTEX WARP",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Puoi distorcere magicamente lo spazio attorno a un'altra creatura che puoi vedere entro il raggio d'azione. Il bersaglio deve superare un tiro salvezza su Costituzione (il bersaglio può scegliere di fallire), altrimenti viene teletrasportato in uno spazio libero a tua scelta che puoi vedere entro il raggio d'azione. Lo spazio scelto deve trovarsi su una superficie o in un liquido in grado di sostenere il bersaglio senza che quest'ultimo debba comprimersi.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 3° livello o superiore, la gittata dell'incantesimo aumenta di 9 metri per ogni livello di slot superiore al 2°.",
+        "prepared": true
+      },
+      {
+        "id": "mnp3zp4v5pj7",
+        "name": "HUNGER OF HADAR",
+        "level": 3,
+        "school": "Evocazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "6m di raggio",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": true,
+        "desc": "Apri un varco verso l'oscurità tra le stelle, una regione infestata da orrori sconosciuti. Appare una sfera di oscurità e gelo pungente con un raggio di sei metri, centrata su un punto entro il raggio d'azione e che persiste per tutta la durata dell'incantesimo. Questo vuoto è pervaso da una cacofonia di sussurri e rumori di risucchio che possono essere uditi fino a nove metri di distanza. Nessuna luce, magica o di altro tipo, può illuminare l'area e le creature che si trovano completamente al suo interno vengono accecate.\nIl vuoto crea una distorsione nel tessuto dello spazio e l'area è terreno difficile. Qualsiasi creatura che inizia il suo turno nell'area subisce 2d6 danni da freddo. Qualsiasi creatura che termina il suo turno nell'area deve superare un tiro salvezza su Destrezza o subire 2d6 danni da acido mentre tentacoli lattiginosi e ultraterreni la sfregano contro di essa.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnp41l2imkws",
+        "name": "PULSE WAVE",
+        "level": 3,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "cono 9m",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei un'intensa pressione, la rilasci in un cono di 9 metri e decidi se la pressione attira o respinge creature e oggetti. Ogni creatura all'interno del cono deve effettuare un tiro salvezza su Costituzione. Una creatura subisce 6d6 danni da forza in caso di fallimento del tiro salvezza, o la metà dei danni in caso di successo. Inoltre, ogni creatura che fallisce il tiro salvezza viene attirata di 4,5 metri verso di te o respinta di 4,5 metri, a seconda della scelta effettuata per l'incantesimo.\nInoltre, gli oggetti non fissati che si trovano completamente all'interno del cono vengono ugualmente tirati o spinti per 15 piedi",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 4° livello o superiore, il danno aumenta di 1d6 e la distanza di attrazione o respinta aumenta di 1,5 metri per ogni livello di slot superiore al 3°.",
+        "prepared": true
+      },
+      {
+        "id": "mnp4492idebl",
+        "name": "SHADOW OF MOIL",
+        "level": 4,
+        "school": "Evocazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "3m raggio",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Ombre simili a fiamme avvolgono il tuo corpo fino alla fine dell'incantesimo, rendendoti completamente invisibile agli altri. Le ombre trasformano la luce fioca entro 3 metri da te in oscurità, e la luce intensa nella stessa area in luce fioca.\nFinché l'incantesimo non termina, hai resistenza ai danni radianti. Inoltre, ogni volta che una creatura entro 3 metri da te ti colpisce con un attacco, le ombre si scagliano contro quella creatura, infliggendole 2d8 danni necrotici.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnp46rro5wpc",
+        "name": "EVARD'S BLACK TENTACLES",
+        "level": 4,
+        "school": "Evocazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "6m2",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Tentacoli neri e contorti riempiono un'area di sei metri quadrati sul terreno, visibile a distanza. Per tutta la durata dell'evento, questi tentacoli trasformano il terreno circostante in un impervio ostacolo.\nQuando una creatura entra nell'area influenzata per la prima volta in un turno o inizia il suo turno lì, deve superare un tiro salvezza su Destrezza o subire 3d6 danni contundenti ed essere immobilizzata dai tentacoli fino alla fine dell'incantesimo. Una creatura che inizia il suo turno nell'area ed è già immobilizzata dai tentacoli subisce 3d6 danni contundenti.\nUna creatura immobilizzata dai tentacoli può usare la sua azione per effettuare una prova di Forza o Destrezza (a sua scelta) contro la CD del tuo tiro salvezza per gli incantesimi. In caso di successo, si libera",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnp4833oz5ei",
+        "name": "BUNISHMENT",
+        "level": 4,
+        "school": "Evocazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Cerchi di inviare una creatura che puoi vedere entro il raggio d'azione in un altro luogo di esistenza. Il bersaglio deve superare un tiro salvezza su Carisma o essere bandito.\nSe il bersaglio è nativo del piano di esistenza su cui ti trovi, lo bandisci in un semipiano innocuo. Mentre si trova lì, il bersaglio è incapacitato. Il bersaglio rimane lì finché l'incantesimo non termina, dopodiché riappare nello spazio che ha lasciato o nello spazio libero più vicino se quello spazio è occupato.\nSe il bersaglio è originario di un piano di esistenza diverso da quello in cui ti trovi, viene bandito con un debole schiocco e ritorna al suo piano di origine. Se l'incantesimo termina prima che sia trascorso 1 minuto, il bersaglio riappare nello spazio che ha lasciato o nello spazio libero più vicino, se quest'ultimo è occupato. Altrimenti, il bersaglio non ritorna.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 5° livello o superiore, puoi bersagliare una creatura aggiuntiva per ogni livello di slot superiore al 4°.",
+        "prepared": true
+      },
+      {
+        "id": "mnp4ahvm7a7m",
+        "name": "DESTRUCTIVE WAVE",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m raggio",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Colpisci il terreno, creando un'esplosione di energia divina che si propaga a ondate verso l'esterno. Ogni creatura che scegli entro 9 metri da te deve superare un tiro salvezza su Costituzione o subire 5d6 danni da tuono, oltre a 5d6 danni radianti o necrotici (a tua scelta), ed essere atterrata. Una creatura che supera il tiro salvezza subisce la metà dei danni e non viene atterrata. ",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnp4c78sl5ti",
+        "name": "CIRCLE OF DEATH",
+        "level": 6,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m raggio",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una sfera di energia negativa si propaga in un'area di 18 metri di raggio a partire da un punto entro la portata. Ogni creatura in quell'area deve effettuare un tiro salvezza su Costituzione. Un bersaglio subisce 8d6 danni necrotici in caso di fallimento del tiro salvezza, o la metà dei danni in caso di successo.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 7° livello o superiore, il danno aumenta di 2d6 per ogni livello di slot superiore al 6°",
+        "prepared": true
+      },
+      {
+        "id": "mnp4dt2d2u9j",
+        "name": "DARK STAR",
+        "level": 8,
+        "school": "Evocazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "12m di raggio",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Questo incantesimo crea una sfera centrata su un punto a tua scelta entro il raggio d'azione. La sfera può avere un raggio fino a 12 metri. L'area all'interno di questa sfera è pervasa da un'oscurità magica e da una forza gravitazionale schiacciante.\nPer tutta la durata dell'incantesimo, l'area circostante diventa terreno difficile. Una creatura con scurovisione non può vedere attraverso l'oscurità magica e la luce non magica non può illuminarla. Nessun suono può essere prodotto all'interno dell'area né propagarsi attraverso di essa. Qualsiasi creatura o oggetto interamente all'interno della sfera è immune ai danni da tuono e le creature che si trovano interamente al suo interno diventano sorde. È impossibile lanciare un incantesimo che includa una componente verbale al suo interno.\nQualsiasi creatura che entri per la prima volta nell'area dell'incantesimo in un turno o che inizi il proprio turno al suo interno deve effettuare un tiro salvezza su Costituzione. La creatura subisce 8d10 danni da forza in caso di fallimento del tiro salvezza o la metà dei danni in caso di successo. Una creatura ridotta a 0 punti ferita da questo danno viene disintegrata. Una creatura disintegrata e tutto ciò che indossa e trasporta, ad eccezione degli oggetti magici, vengono ridotti in un mucchio di polvere grigia finissima.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnp5jpggo5d3",
+        "name": "Ravenous Void",
+        "level": 9,
+        "school": "Evocazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "30m",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei una sfera di forza gravitazionale distruttiva con un raggio di 6 metri, centrata su un punto che puoi vedere entro il raggio d'azione. Per tutta la durata dell'incantesimo, la sfera e qualsiasi spazio entro 30 metri da essa diventano terreno difficile, e gli oggetti non magici completamente all'interno della sfera vengono distrutti se non vengono indossati o trasportati.\nQuando la sfera appare e all'inizio di ogni tuo turno fino alla fine dell'incantesimo, gli oggetti non fissati entro 30 metri dalla sfera vengono attratti verso il centro della sfera, finendo in uno spazio libero il più vicino possibile al centro.\nUna creatura che inizia il suo turno entro 30 metri dalla sfera deve superare un tiro salvezza su Forza o essere trascinata direttamente verso il centro della sfera, finendo in uno spazio libero il più vicino possibile al centro. Una creatura che entra nella sfera per la prima volta in un turno o che inizia il suo turno al suo interno subisce 5d10 danni da forza ed è immobilizzata finché non esce dalla sfera. Se la sfera è in aria, la creatura immobilizzata fluttua al suo interno. Una creatura può usare la sua azione per effettuare una prova di Forza contro la CD del tuo tiro salvezza per incantesimi, ponendo fine a questa condizione di immobilizzazione su se stessa o su un'altra creatura nella sfera che può raggiungere. Una creatura ridotta a 0 punti ferita da questo incantesimo viene annientata, insieme a qualsiasi oggetto non magico che indossa o trasporta.",
+        "higherLevels": null,
+        "prepared": false
+      }
+    ],
     "notes": "",
     "backstory": "",
     "diceLog": [],
