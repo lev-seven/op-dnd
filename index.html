@@ -69,7 +69,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v1.39";
+const APP_VERSION="v140";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -682,13 +682,15 @@ function HPBar({c,up,edit,ac}){
             ))}
           </div>
           <div style={{display:"flex",gap:6,marginTop:5}}>
-            {[{l:"TEMP",v:c.hpTemp,c:"#3498db",d:()=>up({hpTemp:Math.max(0,c.hpTemp-1)}),i:()=>up({hpTemp:c.hpTemp+1})},{l:"PERM",v:c.hpPerm,c:"#e74c3c",d:()=>{const np=Math.max(0,c.hpPerm-1);up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,c.hpMax-np)});},i:()=>{const np=c.hpPerm+1;up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,Math.max(0,c.hpMax-np))});}}].map(h=>(
+            {[{l:"TEMP",v:c.hpTemp,c:"#3498db",set:v=>up({hpTemp:Math.max(0,v)})},{l:"PERM",v:c.hpPerm,c:"#e74c3c",set:v=>{const np=Math.max(0,v);up({hpPerm:np,hpCurrent:Math.min(c.hpCurrent,Math.max(0,c.hpMax-np))});}}].map(h=>(
               <div key={h.l} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",background:"rgba(200,169,94,0.04)",borderRadius:5,padding:"3px",border:"1px solid #c8a95e10"}}>
                 <span style={{fontSize:7,color:"#665a3e",letterSpacing:1,fontFamily:"'Cinzel'",fontWeight:700,marginBottom:1}}>{h.l}</span>
-                <div style={{display:"flex",alignItems:"center",gap:3}}>
-                  <button onClick={h.d} style={SS.hs}>−</button>
-                  <span style={{fontFamily:"'JetBrains Mono'",fontSize:15,fontWeight:700,color:h.c,minWidth:22,textAlign:"center"}}>{h.v}</span>
-                  <button onClick={h.i} style={SS.hs}>+</button>
+                <div style={{display:"flex",alignItems:"center",gap:2}}>
+                  <button onClick={()=>h.set(h.v-10)} style={{...SS.hs,width:18,height:18,fontSize:8,color:h.c}}>-10</button>
+                  <button onClick={()=>h.set(h.v-1)} style={{...SS.hs,width:18,height:18,fontSize:10,color:h.c}}>−</button>
+                  <input type="number" value={h.v} onChange={e=>h.set(parseInt(e.target.value)||0)} style={{width:32,textAlign:"center",fontFamily:"'JetBrains Mono'",fontSize:14,fontWeight:700,color:h.c,background:"transparent",border:"none",outline:"none"}}/>
+                  <button onClick={()=>h.set(h.v+1)} style={{...SS.hs,width:18,height:18,fontSize:10,color:h.c}}>+</button>
+                  <button onClick={()=>h.set(h.v+10)} style={{...SS.hs,width:18,height:18,fontSize:8,color:h.c}}>+10</button>
                 </div>
               </div>
             ))}
