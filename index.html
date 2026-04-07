@@ -69,7 +69,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v1.38";
+const APP_VERSION="v1.39";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -901,7 +901,7 @@ function ATab({c,up,sM,ac}){
 function AbC({a,c,u,r,t,e}){
   const lim=a.maxUses>0,used=lim&&a.uses>=a.maxUses,cd=a.cdStat==="custom"?a.cdCustom||null:a.cdStat?calcCD(c.profBonus,c.stats,a.cdStat):null,oc=oColor(c.origins,a.originId);
   return(
-    <div style={{background:`${oc}08`,borderRadius:7,padding:9,marginBottom:4,border:`1px solid ${oc}20`,opacity:used?0.9:1}}>
+    <div style={{background:`${oc}08`,borderRadius:7,padding:9,marginBottom:4,border:`1px solid ${oc}90`,opacity:used?0.4:1}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}>
         <div style={{flex:1}}>
           <div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}>
