@@ -68,8 +68,8 @@ function normalizeCharJSON(data){
 /* ═══ AVATAR URL HELPERS ═══ */
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
-function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.html`;}
-const APP_VERSION="v1.33";
+function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
+const APP_VERSION="v1.35";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -482,6 +482,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
       if(res)setCharMeta(res);
     }
     setSaving(false);setSaveOk(ok);
+    if(!ok)onExport();
     setTimeout(()=>setSaveOk(null),2500);
   };
 
@@ -577,7 +578,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
         {tab==="spells"&&<SpTab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
-        {tab==="export"&&<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{saving?"⏳ Salvataggio...":(saveOk===true?(ghToken?"✅ Salvato su GitHub!":"✅ File esportato!"):saveOk===false?"❌ Errore salvataggio":"⏳ Elaborazione...")}</div>}
+        {tab==="export"&&<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'"}}>{saving?"⏳ Salvataggio...":(saveOk===true?(ghToken?"✅ Salvato su GitHub!":"✅ File esportato!"):saveOk===false?"❌ Errore — JSON scaricato":"⏳ Elaborazione...")}</div>}
       </div>
 
       {/* BOTTOM NAV — position absolute rispetto al container, non fixed globale */}
