@@ -54,6 +54,11 @@
         "file": "renzo.json",
         "name": "Renzo",
         "preview": "Mink · Lv 9"
+      },
+      {
+        "file": "pippo.json",
+        "name": "Pippo",
+        "preview": "Mink · Lv 9"
       }
     ],
     "rik": []
