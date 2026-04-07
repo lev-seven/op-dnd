@@ -1,62 +1,789 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-05T01:41:26.579Z",
+  "exportedAt": "2026-04-07T19:29:41.533Z",
   "character": {
     "id": "naive_001",
     "name": "Naive",
-    "race": "",
+    "race": "Uomo pesce squalo",
     "level": 9,
-    "classes": "",
-    "ac": 0,
-    "hpMax": 0,
-    "hpCurrent": 0,
+    "classes": "Chimico+Devilforged",
+    "ac": 7,
+    "hpMax": 89,
+    "hpCurrent": 89,
     "hpTemp": 0,
     "hpPerm": 0,
-    "speed": 0,
-    "passivePerception": 0,
-    "profBonus": 0,
+    "speed": 9,
+    "passivePerception": 22,
+    "profBonus": 4,
     "hitDie": "",
     "stats": {
-      "FOR": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "DES": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "COS": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "INT": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "SAG": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "CAR": { "score": 0, "mod": 0, "save": 0, "profSave": false }
+      "FOR": {
+        "score": 24,
+        "mod": 7,
+        "save": 7,
+        "profSave": false
+      },
+      "DES": {
+        "score": 4,
+        "mod": -3,
+        "save": -3,
+        "profSave": false
+      },
+      "COS": {
+        "score": 18,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "INT": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 26,
+        "mod": 8,
+        "save": 12,
+        "profSave": true
+      },
+      "CAR": {
+        "score": 16,
+        "mod": 3,
+        "save": 3,
+        "profSave": false
+      }
     },
     "skills": [
-      { "name": "", "stat": "", "mod": 0, "prof": "none" }
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "prof"
+      },
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "prof"
+      },
+      {
+        "name": "Rapidità di mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "prof"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      }
     ],
     "spellSlots": {
       "cantrips": 0,
       "slots": {
-        "1": { "max": 0, "used": 0 },
-        "2": { "max": 0, "used": 0 },
-        "3": { "max": 0, "used": 0 },
-        "4": { "max": 0, "used": 0 },
-        "5": { "max": 0, "used": 0 },
-        "6": { "max": 0, "used": 0 },
-        "7": { "max": 0, "used": 0 },
-        "8": { "max": 0, "used": 0 },
-        "9": { "max": 0, "used": 0 }
+        "1": {
+          "max": 4,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 3,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 2,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
       }
     },
     "origins": [
-      { "id": "", "name": "", "color": "" }
+      {
+        "id": "",
+        "name": "Razza",
+        "color": "#10a5e5"
+      },
+      {
+        "id": "mnos6i1cnjg6",
+        "name": "Chimico",
+        "color": "#0bf927"
+      },
+      {
+        "id": "mnosga2f0i5c",
+        "name": "Devilforged",
+        "color": "#ca1fe0"
+      },
+      {
+        "id": "mnoss28agprr",
+        "name": "Haki",
+        "color": "#d5071b"
+      },
+      {
+        "id": "mnoss85zufy1",
+        "name": "Frutto del Diavolo",
+        "color": "#1abc9c"
+      }
     ],
     "attacks": [
-      { "id": "", "name": "", "hit": 0, "damage": "", "type": "" }
+      {
+        "id": "mnos2avmilva",
+        "name": "Morso(Forza)",
+        "hit": 11,
+        "damage": "1d6+7",
+        "type": "Perforante"
+      },
+      {
+        "id": "mnos4kta7t8e",
+        "name": "Pugno(Forza)",
+        "hit": 11,
+        "damage": "+8",
+        "type": "contundente"
+      }
     ],
     "abilities": [
-      { "id": "", "name": "", "originId": "", "type": "", "desc": "", "maxUses": 0, "uses": 0, "rest": null, "fav": false, "cdStat": null }
+      {
+        "id": "mnorvxqd6s9y",
+        "name": "Dimensioni: Grande",
+        "originId": "",
+        "type": "Passiva",
+        "desc": "Conti come creatura di taglia 'grande'",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnos0hp1nvx9",
+        "name": "Anfibio",
+        "originId": "",
+        "type": "Passiva",
+        "desc": "Respiri sia aria che acqua",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnos18r4dwev",
+        "name": "Adattato all'oceano",
+        "originId": "",
+        "type": "Passiva",
+        "desc": "Resistenza danni da freddo",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnos6uy7nuao",
+        "name": "Competenza Armature",
+        "originId": "mnos6i1cnjg6",
+        "type": "Passiva",
+        "desc": "Armature legger, medie e Scudi",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnos8ujuog0q",
+        "name": "Competenza Armi",
+        "originId": "mnos6i1cnjg6",
+        "type": "Passiva",
+        "desc": "mazze, pugnali, dardi, giavellotti, mazze ferrate, bastoni, scimitarre, falci, fionde, lance.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnos9l3zysj9",
+        "name": "Competenza strumenti",
+        "originId": "mnos6i1cnjg6",
+        "type": "Passiva",
+        "desc": "Kit da erborista(saggezza), rifornimenti alchemici(saggezza)",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnoscbzgyrtp",
+        "name": "Balsamo curativo",
+        "originId": "mnos6i1cnjg6",
+        "type": "Azione",
+        "desc": "Puoi consumare più utilizzi nello stesso turno pari alla metà del tuo livello da chimico. Cura di 1d6 e fornisci +1 hp temporaneo per utilizzo speso",
+        "maxUses": 5,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnosguuetrn5",
+        "name": "Competenza Strumenti",
+        "originId": "mnosga2f0i5c",
+        "type": "Passiva",
+        "desc": "Strumenti da fabbro",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnosi4hyoy0l",
+        "name": "Blindato",
+        "originId": "mnosga2f0i5c",
+        "type": "Passiva",
+        "desc": "Classe armatura +1",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnosk6z27ryu",
+        "name": "Emanazione del Diavolo: Rigenerazione Zoan",
+        "originId": "mnosga2f0i5c",
+        "type": "Passiva",
+        "desc": "Quando il bersaglio di una cura sei tu, recuperi il valore massimo possibile",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnosm9jap97t",
+        "name": "Emanazione del Diavolo: Grande forma Zoan",
+        "originId": "mnosga2f0i5c",
+        "type": "Passiva",
+        "desc": "Fornisci al tuo famiglio: 12m di velocità di volo, i suoi colpi contano come magici per superare le resistenze, la sua CD è pari alla tua(Carisma), usi l'azione bonus invece dell'azione per farlo attaccare. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnosspatgq8m",
+        "name": "Indurimento",
+        "originId": "mnoss28agprr",
+        "type": "Azione bonus",
+        "desc": "Rendi i tuoi attacchi magici, ottieni un bonus di +1 ai tiri per colpire e per i danni. Dura 1'",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnosxw9swht9",
+        "name": "Vista Illuminata",
+        "originId": "mnoss28agprr",
+        "type": "Passiva",
+        "desc": "Scurovisione",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnot1jnvrtqu",
+        "name": "Forma Ibrida",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Per la durata in minuti della metà del mio livello ottengo i seguenti bonus:\n-La tua CA diventa 19\n-Puoi compiere fino a 3 attacchi magici con la tua Azione\n-Puoi lanciare 'Ingrandire/ridurre' su te stesso senza concentrazione e senza usare slot incantesimo\n-Puoi lanciare i seguenti incantesimi(Carisma)\nIllimitatamente: Ristorazione minore, Suggestione, Missile magico.\n3 volte per ognuno: Cura, Occhio arcano, Telepatia, Immagine speculare.\n1 volta per ognuno: Dominare persone, Suggestione di massa, Teletrasporto, Cancello\n\n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnothtfa9hfn",
+        "name": "Risveglio",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Per 1 minuto ottieni i seguenti bonus:\n-Aumenta la vita massima di 50, poi curati di 50\n-All'inizio di ogni turno ti curi di 13\n-I tuoi attacchi infliggono +9 danni bonus\n-1 volta: Giant IO; Cresci fino a diventare 'Gigantesco', i tuoi attacchi infliggono +2d8 danni bonus",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnotxgxs0aji",
+        "name": "Famiglio: Renzo II",
+        "originId": "mnosga2f0i5c",
+        "type": "Passiva",
+        "desc": "Lo strumento da te scelto ha volontà propria, puoi usare la tua azione per farlo attaccare, farlo muovere non consuma l'azione. puoi percepire attraverso i suoi sensi con un'azione.\nHa le seguenti statistiche.\nCA 12 HP 6 Velocità di nuoto 9\nForza-3 Destrezza+2 Costituzione+0 Intelligenza-4 Saggezza+0 Carisma-3\nTentacolo(contundente): un attacco con +4 per colpire che infligge 1 danno. Se colpisce il bersaglio è 'Afferrato', all'inizio del suo turno può liberarsi con CD 10",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnov71i5dql5",
+        "name": "Sangue Verde",
+        "originId": "mnosga2f0i5c",
+        "type": "Passiva",
+        "desc": "Ottieni la capacità di lanciare incantesimi al livello 2(Carisma)",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": true
+      }
     ],
     "spells": [
-      { "id": "", "name": "", "level": 0, "school": "", "castingTime": "", "ritual": false, "range": "", "components": { "v": false, "s": false, "m": null }, "duration": "", "concentration": false, "desc": "", "higherLevels": null, "prepared": false }
+      {
+        "id": "mnoubxkc7h5l",
+        "name": "Guida(Chimico)",
+        "level": 0,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Tocchi una creatura disponibile. Una volta prima che l'incantesimo finisca, il bersaglio può lanciare un d4 e aggiungere il numero tirato a un controllo di abilità a sua scelta. Può lanciare il dado prima o dopo aver effettuato il controllo di abilità. L'incantesimo poi finisce",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnoueen8n5fk",
+        "name": "Savagery Primordiale(Chimico)",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Canalizzi la magia primordiale per far sì che i denti o le unghie si affinino, pronti a sferrare un attacco corrosivo. Effettua un attacco incantesimo corpo a corpo contro una creatura entro 1.5 metri da te. Su un colpo, il bersaglio subisce 1d10 danni da acido. Dopo aver effettuato l'attacco, i denti o le unghie ritornano alla normalità.",
+        "higherLevels": "Il danno della magia aumenta di 1d10 quando si raggiunge il 5° livello (2d10), l'11° livello (3d10) e il 17° livello (4d10)",
+        "prepared": true
+      },
+      {
+        "id": "mnouhsjl02eu",
+        "name": "Resistenza(Chimico)",
+        "level": 0,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Tocchi una creatura disponibile e scegli un tipo di danno: Acido, Fango, Freddo, Fuoco, Fulmine, Necrotico, Piercing, Veleno, Radiante, Taglio o Tuono. Quando la creatura subisce danni del tipo scelto prima che l'incantesimo finisca, la creatura riduce il danno totale subito di 1d4. Una creatura può beneficiare di questo incantesimo solo una volta per turno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnoujj6r8sx7",
+        "name": "Salto(Chimico)",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": false,
+        "desc": "Tocchi una creatura. La distanza di salto della creatura viene triplicata fino alla fine dell'incantesimo.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnoum6bf5wsk",
+        "name": "Passeggiata lunga(Chimico)",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": false,
+        "desc": "Tocchi una creatura. La velocità del bersaglio aumenta di 3 metri fino alla fine dell'incantesimo.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnouogqt4pms",
+        "name": "Cura le ferite(Chimico)",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una creatura che tocchi riacquista un numero di Punti Ferita pari a 2d8 più il tuo modificatore di abilità di lancio di incantesimi.",
+        "higherLevels": "La guarigione aumenta di 2d8 per ogni livello di slot incantesimo superiore a 1",
+        "prepared": true
+      },
+      {
+        "id": "mnoupuuw7x4t",
+        "name": "Terra Tremore(Chimico)",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale raggio 3 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Generi un tremore in un raggio di 3 m. Le altre creature nell’area effettuano un TS su Destrezza: se falliscono, subiscono 1d6 danni contundenti e cadono prone.\nSe il terreno è terra morbida o pietra, diventa terreno difficile finché non viene sistemato.",
+        "higherLevels": "+1d6 danni per ogni livello di slot sopra il 1°.",
+        "prepared": true
+      },
+      {
+        "id": "mnoutnkkfruz",
+        "name": "Ingrandire/Ridurre(Chimico)",
+        "level": 2,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Scegli una creatura o un oggetto visibile entro gittata (non indossato né trasportato). Il bersaglio può effettuare un tiro salvezza su Costituzione per evitare l’effetto.\n\nSe è una creatura, anche ciò che indossa e trasporta cambia dimensione; gli oggetti lasciati cadere tornano subito normali.\n\nIngrandire: la taglia raddoppia (peso ×8), aumentando di una categoria. Se lo spazio è limitato, cresce fino al massimo possibile. Ottiene vantaggio alle prove e ai TS di Forza, e le sue armi infliggono +1d4 danni.\n\nRidurre: la taglia si dimezza (peso ÷8), diminuendo di una categoria. Subisce svantaggio alle prove e ai TS di Forza, e le sue armi infliggono −1d4 danni (minimo 1).",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnov0opswmvv",
+        "name": "Protezione dal veleno(Chimico)",
+        "level": 2,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": false,
+        "desc": "Tocchi una creatura e metti fine alla condizione Avvelenata su di essa. Per tutta la durata, il bersaglio ha un vantaggio ai tiri salvezza per evitare o porre fine alla condizione avvelenata e ha resistenza ai danni da veleno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnov35n184ow",
+        "name": "Aura di vitalità(Chimico)",
+        "level": 3,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Un'aura si irradia da te in un'Emanazione di 9 metri per tutta la durata. Quando crei l'aura e all'inizio di ogni tuo turno mentre persiste, puoi ripristinare i Punti Ferita 2d6 in una creatura al suo interno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnov9ldufmic",
+        "name": "Colpo vero(Devilforged)",
+        "level": 0,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Effettui un attacco con un’arma usando la tua caratteristica da incantatore per colpire e per i danni. Se colpisci, scegli se infliggere danni radianti o il normale tipo dell’arma.",
+        "higherLevels": "+1d6 (5° livello), +2d6 (11°), +3d6 (17°).",
+        "prepared": true
+      },
+      {
+        "id": "mnovffb94w5w",
+        "name": "Spray velenoso(Devilforged)",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Spruzzi nebbia tossica contro una creatura nel raggio d'azione. Effettua un attacco incantesimo a distanza contro il bersaglio. Su un colpo, il bersaglio subisce 1d12 danni da veleno.",
+        "higherLevels": "Il danno aumenta di 1d12 quando si raggiungono i livelli 5 (2d12), 11 (3d12) e 17 (4d12).",
+        "prepared": true
+      },
+      {
+        "id": "mnovh9u34u13",
+        "name": "Reparto Lame(Devilforged)",
+        "level": 0,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Ogni volta che una creatura effettua un tiro d'attacco contro di te prima che l'incantesimo finisca, l'attaccante sottrae 1d4 dal tiro d'attacco.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnovjgnd0phz",
+        "name": "Rimprovero infernale(Devilforged)",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "La creatura che ti ha danneggiato è momentaneamente circondata da fiamme verdi. Effettua un Tiro Salvezza Destrezza, subendo 2d10 danni da fuoco su un salvataggio fallito o la metà dei danni su uno riuscito.",
+        "higherLevels": "Il danno aumenta di 1d10 per ogni livello di slot incantesimo superiore a 1.",
+        "prepared": true
+      },
+      {
+        "id": "mnovljy4k4nv",
+        "name": "Passa senza Trace(Devilforged)",
+        "level": 2,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "Irradi un'aura nascosta in un'emanazione di 9 metri per tutta la durata. Mentre sei nell'aura, tu e ogni creatura che scegli avete un bonus di +10 alle prove di Destrezza (Stealth) e non lasciate tracce.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnovql0xyr23",
+        "name": "Ragno Salita(Devilforged)",
+        "level": 2,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "Fino alla fine dell'incantesimo, una creatura volenterosa che tocchi acquisisce la capacità di muoversi su, giù e attraverso le superfici verticali e lungo i soffitti, lasciando le mani libere. Il bersaglio ottiene anche una velocità di salita pari alla sua velocità.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnow1m9pmy4i",
+        "name": "Misty Step(Devilforged)",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Brevemente circondato da una nebbia argentata, ti teletrasporti fino a 9 metri in uno spazio non occupato che puoi vedere.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnowb05ti11y",
+        "name": "Raggio di indebolimento(Devilforged)",
+        "level": 2,
+        "school": "Necromanzia",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Un raggio di energia colpisce una creatura entro gittata, che effettua un TS su Costituzione.\nSuccesso: svantaggio al prossimo tiro per colpire fino all’inizio del tuo turno successivo.\nFallimento: svantaggio alle prove e ai TS di Forza e −1d8 ai tiri di danno. Può ripetere il TS alla fine di ogni turno, terminando l’effetto con successo.",
+        "higherLevels": null,
+        "prepared": true
+      }
     ],
     "notes": "",
     "backstory": "",
     "diceLog": [],
     "effects": []
   }
-  }
+}
