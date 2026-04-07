@@ -1,59 +1,248 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-05T01:41:26.579Z",
+  "exportedAt": "2026-04-07T11:08:30.226Z",
   "character": {
-    "id": "renzo_001",
-    "name": "Renzo",
-    "race": "",
+    "id": "mnhll4jfqr2z",
+    "name": "RENZO",
+    "race": "mink",
     "level": 9,
-    "classes": "",
-    "ac": 0,
-    "hpMax": 0,
-    "hpCurrent": 0,
+    "classes": "warrior",
+    "ac": 11,
+    "hpMax": 81,
+    "hpCurrent": 81,
     "hpTemp": 0,
     "hpPerm": 0,
-    "speed": 0,
-    "passivePerception": 0,
-    "profBonus": 0,
-    "hitDie": "",
+    "speed": 9,
+    "passivePerception": 16,
+    "profBonus": 4,
+    "hitDie": "1d8",
     "stats": {
-      "FOR": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "DES": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "COS": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "INT": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "SAG": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "CAR": { "score": 0, "mod": 0, "save": 0, "profSave": false }
+      "FOR": {
+        "score": 20,
+        "mod": 5,
+        "save": 9,
+        "profSave": true
+      },
+      "DES": {
+        "score": 12,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "COS": {
+        "score": 18,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "INT": {
+        "score": 8,
+        "mod": -1,
+        "save": -1,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 15,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 15,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      }
     },
     "skills": [
-      { "name": "", "stat": "", "mod": 0, "prof": "none" }
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "prof"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "prof"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "prof"
+      }
     ],
     "spellSlots": {
       "cantrips": 0,
       "slots": {
-        "1": { "max": 0, "used": 0 },
-        "2": { "max": 0, "used": 0 },
-        "3": { "max": 0, "used": 0 },
-        "4": { "max": 0, "used": 0 },
-        "5": { "max": 0, "used": 0 },
-        "6": { "max": 0, "used": 0 },
-        "7": { "max": 0, "used": 0 },
-        "8": { "max": 0, "used": 0 },
-        "9": { "max": 0, "used": 0 }
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
       }
     },
     "origins": [
-      { "id": "", "name": "", "color": "" }
+      {
+        "id": "cecchino",
+        "name": "Cecchino",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "carpentiere",
+        "name": "Carpentiere",
+        "color": "#e67e22"
+      },
+      {
+        "id": "navigatore",
+        "name": "Navigatore",
+        "color": "#3498db"
+      },
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "brawler",
+        "name": "Brawler",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "spadaccino",
+        "name": "Spadaccino",
+        "color": "#34495e"
+      },
+      {
+        "id": "medico",
+        "name": "Medico",
+        "color": "#ff66cc"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      }
     ],
-    "attacks": [
-      { "id": "", "name": "", "hit": 0, "damage": "", "type": "" }
-    ],
-    "abilities": [
-      { "id": "", "name": "", "originId": "", "type": "", "desc": "", "maxUses": 0, "uses": 0, "rest": null, "fav": false, "cdStat": null }
-    ],
-    "spells": [
-      { "id": "", "name": "", "level": 0, "school": "", "castingTime": "", "ritual": false, "range": "", "components": { "v": false, "s": false, "m": null }, "duration": "", "concentration": false, "desc": "", "higherLevels": null, "prepared": false }
-    ],
+    "attacks": [],
+    "abilities": [],
+    "spells": [],
     "notes": "",
     "backstory": "",
     "diceLog": [],
