@@ -37,8 +37,16 @@
         "preview": "Birkan · Lv 9"
       }
     ],
-    "pata": [],
-    "scala": [],
+    "pata": [{
+        "file": "naive.json",
+        "name": "Naive",
+        "preview": "Fishman · Lv 9"
+    }],
+    "scala": [{
+        "file": "renzo.json",
+        "name": "Renzo",
+        "preview": "Mink · Lv 9"
+      }],
     "rik": []
   }
 }
