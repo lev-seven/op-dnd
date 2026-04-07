@@ -150,16 +150,19 @@ body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,se
 <script>
 var char,activeTab='';
 
-/* ═══ AUTO-LOADER: stesso nome file, stessa cartella ═══ */
+/* ═══ AUTO-LOADER: legge owner e file da query string ═══ 
+   URL: template_scheda_personaggio.html?owner=ciccio&file=eliah_pucci.json
+*/
 async function loadCharacter(){
   try{
-    var path=window.location.pathname;
-    var htmlFile=path.split('/').pop();
-    var jsonFile = htmlFile.replace(/\.html$/, '.json');
-    var basePath=path.substring(0,path.lastIndexOf('/')+1);
-    var jsonUrl=window.location.origin+basePath+jsonFile+'?t='+Date.now();
+    var params=new URLSearchParams(window.location.search);
+    var owner=params.get('owner');
+    var file=params.get('file');
+    if(!owner||!file)throw new Error('Parametri mancanti. Usa ?owner=ACCOUNT&file=NOME.json');
+    var base=window.location.pathname.replace(/\/data\/default\/.*$/,'');
+    var jsonUrl=window.location.origin+base+'/data/'+owner+'/'+file+'?t='+Date.now();
     var res=await fetch(jsonUrl);
-    if(!res.ok)throw new Error('JSON non trovato: '+jsonFile);
+    if(!res.ok)throw new Error('JSON non trovato: '+owner+'/'+file);
     var data=await res.json();
     char=(data.character&&data.character.name)?data.character:data;
     init();
