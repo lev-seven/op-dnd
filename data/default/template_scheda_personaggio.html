@@ -174,7 +174,7 @@ function fmt(n){return n>=0?'+'+n:''+n;}
 function np(p){if(p===true)return"prof";if(p===false||!p)return"none";return p;}
 function skm(s){var p=np(s.prof),pb=char.profBonus||0,b=p==="mastery"?pb*2:p==="prof"?pb:0;if(s.stat&&char.stats[s.stat])return char.stats[s.stat].mod+b;return(s.mod||0)+b;}
 function cdv(ab){if(ab.cdStat==="custom")return ab.cdCustom||null;return ab.cdStat?8+(char.profBonus||0)+(char.stats[ab.cdStat]?.mod||0):null;}
-function ctl(v){return v==="action"?"Azione":v==="bonus"?"Az. Bonus":v==="reaction"?"Reazione":v;}
+function ctl(v){return v==="action"?"Azione":v==="bonus"?"Azione Bonus":v==="reaction"?"Reazione":v;}
 function avatarUrl(){var base=window.location.pathname.replace(/\/data\/default\/.*$/,'');return window.location.origin+base+'/data/'+owner+'/'+fileName.replace(/\.json$/,'')+'.jpg';}
 
 /* ═══ INIT ═══ */
