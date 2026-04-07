@@ -69,7 +69,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v1.37";
+const APP_VERSION="v1.38";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
@@ -883,7 +883,7 @@ function ATab({c,up,sM,ac}){
         </>
       )}
       {groups.map(oid=>{
-        const or=c.origins.find(o=>o.id===oid),abs=sorted.filter(a=>a.originId===oid),cdA=abs.find(a=>a.cdStat),cd=cdA?calcCD(c.profBonus,c.stats,cdA.cdStat):null;
+        const or=c.origins.find(o=>o.id===oid),abs=sorted.filter(a=>a.originId===oid),cdA=abs.find(a=>a.cdStat),cd=cdA?(cdA.cdStat==="custom"?cdA.cdCustom||null:calcCD(c.profBonus,c.stats,cdA.cdStat)):null;
         return(
           <div key={oid} style={{marginBottom:14}}>
             <div style={{borderLeft:`3px solid ${or?.color||ac}`,paddingLeft:7,marginBottom:5,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
@@ -899,9 +899,9 @@ function ATab({c,up,sM,ac}){
 }
 
 function AbC({a,c,u,r,t,e}){
-  const lim=a.maxUses>0,used=lim&&a.uses>=a.maxUses,cd=a.cdStat?calcCD(c.profBonus,c.stats,a.cdStat):null,oc=oColor(c.origins,a.originId);
+  const lim=a.maxUses>0,used=lim&&a.uses>=a.maxUses,cd=a.cdStat==="custom"?a.cdCustom||null:a.cdStat?calcCD(c.profBonus,c.stats,a.cdStat):null,oc=oColor(c.origins,a.originId);
   return(
-    <div style={{background:"rgba(200,169,94,0.04)",borderRadius:7,padding:9,marginBottom:4,border:"1px solid #c8a95e10",opacity:used?0.4:1}}>
+    <div style={{background:`${oc}08`,borderRadius:7,padding:9,marginBottom:4,border:`1px solid ${oc}20`,opacity:used?0.4:1}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:5}}>
         <div style={{flex:1}}>
           <div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap"}}>
@@ -1205,7 +1205,8 @@ function BM({c,up,data,oC}){
         </div>
       </Fl>
       <Fl l="Provenienza"><select value={f.originId} onChange={e=>sf({...f,originId:e.target.value})} style={{...SS.inp,width:"100%",appearance:"none"}}>{c.origins.map(o=><option key={o.id} value={o.id}>{o.name}</option>)}</select></Fl>
-      <Fl l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{SK.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}</select></Fl>
+      <Fl l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null,cdCustom:e.target.value==="custom"?f.cdCustom||10:undefined})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{SK.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}<option value="custom">Custom</option></select></Fl>
+      {f.cdStat==="custom"&&<Fl l="Valore CD"><input type="number" value={f.cdCustom||10} onChange={e=>sf({...f,cdCustom:parseInt(e.target.value)||0})} style={{...SS.inp,width:60}}/></Fl>}
       <Fl l="Utilizzi">
         <div style={{display:"flex",gap:3,marginBottom:5}}>
           {[["u","Illimitati"],["l","Limitati"]].map(([m,l])=><button key={m} onClick={()=>sUm(m)} style={{...SS.pb,flex:1,fontSize:9,padding:"5px 0",borderColor:um===m?"#c8a95e":"#c8a95e22",background:um===m?"rgba(200,169,94,0.15)":"transparent",color:um===m?"#c8a95e":"#998866",touchAction:"manipulation"}}>{l}</button>)}
