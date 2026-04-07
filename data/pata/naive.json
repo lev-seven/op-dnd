@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-07T19:40:33.027Z",
+  "exportedAt": "2026-04-07T20:27:29.560Z",
   "character": {
     "id": "naive_001",
     "name": "Naive",
@@ -435,6 +435,138 @@
         "rest": "breve",
         "cdStat": null,
         "fav": true
+      },
+      {
+        "id": "mnp1iyq7160s",
+        "name": "Restauro Minore",
+        "originId": "mnoss85zufy1",
+        "type": "Azione bonus",
+        "desc": "Tocchi una creatura e poni fine a una condizione su di essa: accecato, sordo, paralizzato o avvelenato.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp1kt3il7b6",
+        "name": "Suggestione(Concentrazione)",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Suggerisci un corso di attività—descritto in non più di 25 parole—a una creatura che puoi vedere nel raggio d'azione in grado di sentirti e capirti. Il suggerimento deve sembrare realizzabile e non implicare nulla che possa ovviamente arrecare danni al bersaglio o ai suoi alleati. Ad esempio, potresti dire: “Prendi la chiave della tomba del tesoro del culto e dai la chiave a me.” Oppure potresti dire: “Smetti di combattere, lascia questa biblioteca pacificamente e non tornare.”\n\nIl bersaglio deve riuscire in un Tiro Salvezza Saggezza o avere la condizione Stregata per tutta la durata o fino a quando tu o i tuoi alleati infliggerete danni al bersaglio. L'obiettivo Streghe persegue il suggerimento al meglio delle sue capacità. L'attività suggerita può continuare per tutta la durata, ma se l'attività suggerita può essere completata in un tempo più breve, l'incantesimo termina per il bersaglio al suo completamento.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnp1tkmzx5cr",
+        "name": "Missile magico",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Crei tre dardi luminosi di forza magica. Ogni dardo colpisce una creatura a tua scelta che puoi vedere nel raggio d'azione. Un dardo infligge 1d4 + 1 Forza danno al suo bersaglio. Le freccette colpiscono tutte simultaneamente e puoi indirizzarle a colpire una o più creature.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp1wxt17zj9",
+        "name": "Guarire",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Cura di 70",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp20i3txg1o",
+        "name": "Occhio Arcano",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Crei un occhio Invisibile e invulnerabile nel raggio d'azione che si libra per tutta la durata. Si ricevono mentalmente informazioni visive dall'occhio, che possono vedere in ogni direzione. Ha anche Darkvision con una portata di 30 piedi.\n\nCome azione bonus, puoi spostare l'occhio fino a 30 piedi in qualsiasi direzione. Una barriera solida blocca il movimento dell'occhio, ma l'occhio può passare attraverso un'apertura piccola fino a 1 pollice di diametro.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp22bzqj18s",
+        "name": "Telepatia",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Crei un collegamento telepatico tra te stesso e una creatura volenterosa con cui hai familiarità. La creatura può trovarsi ovunque sul tuo stesso piano di esistenza. L'incantesimo termina se tu o il bersaglio non siete più sullo stesso piano.\n\nFino al termine dell'incantesimo, tu e il bersaglio potete condividere istantaneamente parole, immagini, suoni e altri messaggi sensoriali tra loro attraverso il collegamento e il bersaglio vi riconosce come la creatura con cui sta comunicando. L'incantesimo consente a una creatura di comprendere il significato delle tue parole e di tutti i messaggi sensoriali che le invii.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp26xbnixmy",
+        "name": "Immagine speculare",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Tre duplicati illusori di te stesso appaiono nel tuo spazio. Fino alla fine dell'incantesimo, i duplicati si muovono con te e imitano le tue azioni, spostando la posizione in modo che sia impossibile tracciare quale immagine sia reale.\n\nOgni volta che una creatura ti colpisce con un tiro d'attacco durante la durata dell'incantesimo, lancia un d6 per ciascuno dei tuoi duplicati rimanenti. Se uno qualsiasi dei d6 lancia un 3 o superiore, uno dei duplicati viene colpito al posto tuo e il duplicato viene distrutto. I duplicati altrimenti ignorano tutti gli altri danni ed effetti. L'incantesimo termina quando tutti e tre i duplicati vengono distrutti.\n\nUna creatura non è influenzata da questo incantesimo se ha la condizione di Accecato, Vista Cieca o Vista Vera.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp2anvjmlxw",
+        "name": "Dominare persona(Concentrazione)",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Un Umanoide che puoi vedere nel raggio d'azione deve avere successo in un tiro salvezza di Saggezza o avere la condizione Stregata per tutta la durata. Il bersaglio ha Vantaggio sul salvataggio se tu o i tuoi alleati lo state combattendo. Ogni volta che il bersaglio subisce danni, ripete il salvataggio, ponendo fine all'incantesimo su se stesso con successo.\n\nAvete un legame telepatico con il bersaglio Streghe mentre voi due siete sullo stesso piano di esistenza. Al tuo turno, puoi usare questo collegamento per impartire comandi al bersaglio (nessuna azione richiesta), come “Attacca quella creatura,” “Sposta laggiù,” o “Recupera quell'oggetto.” Il bersaglio fa del suo meglio per obbedire al suo turno. Se completa un ordine e non riceve ulteriori indicazioni da te, agisce e si muove come preferisce, concentrandosi sulla protezione di se stesso.\n\nPuoi comandare al bersaglio di intraprendere una Reazione ma devi intraprendere la tua Reazione per farlo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp2d5k99ncb",
+        "name": "Suggerimento di massa",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Suggerisci un corso di attività—descritto in non più di 25 parole—a dodici o meno creature che puoi vedere nel raggio d'azione in grado di sentirti e capirti. Il suggerimento deve sembrare realizzabile e non implicare nulla che possa ovviamente arrecare danni a nessuno degli obiettivi o ai loro alleati. Ad esempio, potresti dire: “Cammina fino al villaggio lungo quella strada e aiuta gli abitanti del villaggio a raccogliere i raccolti fino al tramonto.” Oppure potresti dire: “Ora non è il momento della violenza. Getta le armi, e balla! Fermati tra un'ora.”\n\nOgni bersaglio deve riuscire in un Tiro Salvezza Saggezza o avere la condizione Stregata per tutta la durata o fino a quando tu o i tuoi alleati infliggerete danni al bersaglio. Ogni bersaglio Stregato persegue il suggerimento al meglio delle sue capacità. L'attività suggerita può continuare per tutta la durata, ma se l'attività suggerita può essere completata in un tempo più breve, l'incantesimo termina per un bersaglio al suo completamento.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnp2f1tkjfoi",
+        "name": "Teletrasporto",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Questo incantesimo trasporta istantaneamente te e fino a otto creature volenterose che puoi vedere nel raggio d'azione, o un singolo oggetto che puoi vedere nel raggio d'azione, verso una destinazione selezionata. Se prendi di mira un oggetto, deve essere Grande o più piccolo e non può essere tenuto o trasportato da una creatura riluttante.\n\nLa destinazione che scegliete deve essere nota a voi, e deve essere sullo stesso piano di esistenza come voi. La tua familiarità con la destinazione determina se arrivi lì con successo. Il DM lancia 1d100 e consulta la tabella dei risultati del teletrasporto e le spiegazioni successive",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnp2k19zit6w",
+        "name": "Cancello",
+        "originId": "mnoss85zufy1",
+        "type": "Azione",
+        "desc": "Evochi un portale che collega uno spazio non occupato che puoi vedere nel raggio d'azione a una posizione precisa su un diverso piano di esistenza. Il portale è un'apertura circolare, che puoi realizzare da 5 a 20 piedi di diametro. Puoi orientare il portale in qualsiasi direzione tu scelga. Il portale dura per tutta la durata e la destinazione del portale è visibile attraverso di esso.\n\nIl portale ha una parte anteriore e una posteriore su ogni piano in cui appare. Viaggiare attraverso il portale è possibile solo muovendosi attraverso la sua parte anteriore. Tutto ciò che lo fa viene immediatamente trasportato sull'altro piano, apparendo nello spazio non occupato più vicino al portale.\n\nLe divinità e altri governanti planari possono impedire l'apertura dei portali creati da questo incantesimo in loro presenza o ovunque all'interno dei loro domini.\n\nQuando lanci questo incantesimo, puoi pronunciare il nome di una creatura specifica (uno pseudonimo, un titolo o un soprannome non funzionano). Se quella creatura si trova su un piano diverso da quello su cui ti trovi, il portale si apre accanto alla creatura nominata e la trasporta nello spazio non occupato più vicino sul tuo lato del portale. Non si ottiene alcun potere speciale sulla creatura, ed è libero di agire come il DM ritiene opportuno. Potrebbe andarsene, attaccarti o aiutarti.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
       }
     ],
     "spells": [
