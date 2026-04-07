@@ -42,12 +42,22 @@
         "file": "naive.json",
         "name": "Naive",
         "preview": "Fishman · Lv 9"
+      },
+      {
+        "file": "charibdys_ii_jhones.json",
+        "name": "Charibdys II Jhones",
+        "preview": "Cerenea · Lv 7"
       }
     ],
     "scala": [
       {
         "file": "renzo.json",
         "name": "Renzo",
+        "preview": "Mink · Lv 9"
+      },
+      {
+        "file": "pippo.json",
+        "name": "Pippo",
         "preview": "Mink · Lv 9"
       }
     ],
