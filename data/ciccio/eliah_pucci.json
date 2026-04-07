@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-07T19:08:30.633Z",
+  "exportedAt": "2026-04-07T22:39:32.455Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1028,7 +1028,7 @@
         "name": "Gust",
         "level": 0,
         "school": "Evocation",
-        "castingTime": "1 azione",
+        "castingTime": "action",
         "ritual": false,
         "range": "9 m",
         "components": {
@@ -1066,7 +1066,7 @@
         "name": "Shocking Grasp",
         "level": 0,
         "school": "Evocation",
-        "castingTime": "1 azione",
+        "castingTime": "action",
         "ritual": false,
         "range": "Tocco",
         "components": {
@@ -1085,7 +1085,7 @@
         "name": "Ray of Frost",
         "level": 0,
         "school": "Evocation",
-        "castingTime": "1 azione",
+        "castingTime": "action",
         "ritual": false,
         "range": "18 m",
         "components": {
@@ -1104,7 +1104,7 @@
         "name": "Shield",
         "level": 1,
         "school": "Abjuration",
-        "castingTime": "1 reazione",
+        "castingTime": "reaction",
         "ritual": false,
         "range": "Te stesso",
         "components": {
@@ -1142,7 +1142,7 @@
         "name": "Warding Wind",
         "level": 2,
         "school": "Evocation",
-        "castingTime": "1 azione",
+        "castingTime": "action",
         "ritual": false,
         "range": "Te stesso (raggio di 3 m)",
         "components": {
@@ -1161,7 +1161,7 @@
         "name": "Misty Step",
         "level": 2,
         "school": "Conjuration",
-        "castingTime": "1 azione bonus",
+        "castingTime": "bonus",
         "ritual": false,
         "range": "Te stesso",
         "components": {
@@ -1180,7 +1180,7 @@
         "name": "Mirror Image",
         "level": 2,
         "school": "Illusion",
-        "castingTime": "1 azione",
+        "castingTime": "action",
         "ritual": false,
         "range": "Te stesso",
         "components": {
