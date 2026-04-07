@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-07T12:24:41.397Z",
+  "exportedAt": "2026-04-07T12:25:14.644Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1014,7 +1014,7 @@
         "name": "Memo",
         "originId": "mnf9qes4i0q4",
         "type": "Rituale",
-        "desc": "Attacco normale O Doppio attacco = +9 / 1d8+5\nRaffica di colpi = Attacco normale X2\nEsplosione Spirituale = 2d8\n______________________\nIndurimento e Conquista\nAttacco normale O Doppio attacci = +10 / 1d8+6 OPPURE 1d8+17 (1xt)\n______________________\nMobile = Disingaggio verso UNA creatura che ho bersagliato nel mio turno\n______________________\nRampage = 1d8 danni / 1d8 danni subiti\n______________________\nMASSIMO (Indurimento+Conquista+Haste)\n1. Attacco (+Rampage) + 2. Doppio attacco (+Rampage) + 3. Esplosione Spirituale + 4. Attacco Haste (+Rampage) + 5. Raffica ([Attacco (+Rampage)] X2)\n1. 1d8+17 (+1d8) + 2. 1d8+6 (+1d8) + 3. 2d8 + 4. 1d8+6 (+1d8) + 5. 1d8+6 (+1d8)+1d8+6 (+1d8)\nSubisco 5d8",
+        "desc": "Attacco normale O Doppio attacco = +9 / 1d8+5\nRaffica di colpi = Attacco normale X2\nEsplosione Spirituale = 2d8\n______________________\nIndurimento e Conquista\nAttacco normale O Doppio attacco = +10 / 1d8+6 OPPURE 1d8+17 (1xt)\n______________________\nMobile = Disingaggio verso UNA creatura che ho bersagliato nel mio turno\n______________________\nRampage = 1d8 danni / 1d8 danni subiti\n______________________\nMASSIMO (Indurimento+Conquista+Haste)\n1. Attacco (+Rampage) + 2. Doppio attacco (+Rampage) + 3. Esplosione Spirituale + 4. Attacco Haste (+Rampage) + 5. Raffica ([Attacco (+Rampage)] X2)\n1. 1d8+17 (+1d8) + 2. 1d8+6 (+1d8) + 3. 2d8 + 4. 1d8+6 (+1d8) + 5. 1d8+6 (+1d8)+1d8+6 (+1d8)\nSubisco 5d8",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
