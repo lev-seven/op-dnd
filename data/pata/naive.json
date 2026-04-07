@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-07T20:27:29.560Z",
+  "exportedAt": "2026-04-07T21:53:24.829Z",
   "character": {
     "id": "naive_001",
     "name": "Naive",
@@ -192,7 +192,7 @@
       {
         "id": "",
         "name": "Razza",
-        "color": "#10a5e5"
+        "color": "#fff700"
       },
       {
         "id": "mnos6i1cnjg6",
