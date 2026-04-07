@@ -455,6 +455,28 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
   const[popup,setPopup]=useState(null);
   const[modal,setModal]=useState(null);
   const[avZoom,setAvZoom]=useState(false);
+  const avUpRef=useRef(null);
+  const[avKey,setAvKey]=useState(0);
+  const uploadAvatar=async(e)=>{
+    const file=e.target.files[0];if(!file||!ghToken||!charMeta)return;
+    const reader=new FileReader();
+    reader.onload=async(ev)=>{
+      const b64=ev.target.result.split(",")[1];
+      const path=`data/${charMeta.owner}/${charMeta.file.replace(/\.json$/,"")}.jpg`;
+      const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+      const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+      const hd={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+      let sha=null;
+      try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok){const j=await r.json();sha=j.sha;}}catch{}
+      const body={message:`Upload avatar ${path}`,content:b64};
+      if(sha)body.sha=sha;
+      const res=await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)});
+      if(res.ok)setAvKey(k=>k+1);
+      else alert("Errore upload foto");
+    };
+    reader.readAsDataURL(file);
+    e.target.value="";
+  };
   const[saving,setSaving]=useState(false);
   const[saveOk,setSaveOk]=useState(null);
   const log=c.diceLog||[];
@@ -527,7 +549,9 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
           <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
             <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac,width:28,height:28,fontSize:12}}>←</button>
-            {avatarUrl&&<div onClick={()=>setAvZoom(true)} style={{cursor:"pointer"}}><Av src={avatarUrl} fallback={c.name?c.name[0]:"?"} size={34} color={ac} round={false}/></div>}
+            <input ref={avUpRef} type="file" accept="image/jpeg,image/png" style={{display:"none"}} onChange={uploadAvatar}/>
+            {avatarUrl?<div onClick={()=>setAvZoom(true)} style={{cursor:"pointer"}}><Av key={avKey} src={avatarUrl+"?t="+avKey} fallback={c.name?c.name[0]:"?"} size={34} color={ac} round={false}/></div>
+            :<div onClick={()=>{if(ghToken&&charMeta)avUpRef.current?.click();}} style={{width:34,height:34,borderRadius:8,border:`2px dashed ${ac}44`,background:`${ac}0a`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:ghToken&&charMeta?"pointer":"default",flexShrink:0,color:ac+"66"}}>📷</div>}
             <div style={{flex:1,minWidth:0}}>
               {edit?(
                 <div style={{display:"flex",flexDirection:"column",gap:3}}>
@@ -625,7 +649,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
       {modal?.type==="skill"&&<SM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {modal?.type==="spell"&&<SpM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {modal?.type==="spellSlots"&&<SpSlotsM c={c} up={up} oC={()=>setModal(null)}/>}
-      {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><img src={avatarUrl} style={{maxWidth:"85vw",maxHeight:"85vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/></div>}
+      {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><div onClick={e=>e.stopPropagation()} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:10}}><img src={avatarUrl+"?t="+avKey} style={{maxWidth:"85vw",maxHeight:"75vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/>{ghToken&&charMeta&&<button onClick={()=>{setAvZoom(false);avUpRef.current?.click();}} style={{padding:"6px 16px",borderRadius:6,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontSize:11,fontFamily:"'Cinzel'",fontWeight:700,cursor:"pointer"}}>📷 Cambia foto</button>}</div></div>}
     </div>
   );
 }
