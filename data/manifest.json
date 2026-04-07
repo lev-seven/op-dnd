@@ -47,22 +47,12 @@
         "file": "charibdys_ii_jhones.json",
         "name": "Charibdys II Jhones",
         "preview": "Cerenea · Lv 7"
-      },
-      {
-        "file": "pippo.json",
-        "name": "Pippo",
-        "preview": "? · Lv 1"
       }
     ],
     "scala": [
       {
         "file": "renzo.json",
         "name": "Renzo",
-        "preview": "Mink · Lv 9"
-      },
-      {
-        "file": "pippo.json",
-        "name": "Pippo",
         "preview": "Mink · Lv 9"
       }
     ],
