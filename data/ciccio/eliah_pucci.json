@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-08T20:06:12.773Z",
+  "exportedAt": "2026-04-08T20:10:44.211Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,7 +10,7 @@
     "classes": "Tinkerer 1-4 / Bruiser 1-5",
     "ac": 18,
     "hpMax": 99,
-    "hpCurrent": 99,
+    "hpCurrent": 1,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 21,
@@ -956,7 +956,7 @@
         "type": "Reazione",
         "desc": "Avanzamento dell'Haki del Re, non comune\nIl tuo spirito indomabile può superare anche le circostanze più avverse.\nCome reazione quando i tuoi punti ferita vengono ridotti a 0 ma non vieni ucciso sul colpo, puoi invece scendere a 1 punto ferita. Una volta utilizzata questa capacità, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
