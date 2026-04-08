@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-07T21:53:24.829Z",
+  "exportedAt": "2026-04-08T18:15:29.626Z",
   "character": {
     "id": "naive_001",
     "name": "Naive",
@@ -369,7 +369,7 @@
         "name": "Indurimento",
         "originId": "mnoss28agprr",
         "type": "Azione bonus",
-        "desc": "Rendi i tuoi attacchi magici, ottieni un bonus di +1 ai tiri per colpire e per i danni. Dura 1'",
+        "desc": "Rendi i tuoi attacchi magici, ottieni un bonus di +3 ai tiri per colpire e per i danni. Dura 1'",
         "maxUses": 4,
         "uses": 0,
         "rest": "lungo",
