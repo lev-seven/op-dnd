@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-08T20:27:30.757Z",
+  "exportedAt": "2026-04-08T20:30:41.543Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -11,7 +11,7 @@
     "ac": 18,
     "hpMax": 99,
     "hpCurrent": 1,
-    "hpTemp": 0,
+    "hpTemp": 12,
     "hpPerm": 0,
     "speed": 21,
     "passivePerception": 19,
@@ -740,7 +740,7 @@
         "type": "Azione",
         "desc": "È possibile aumentare la propria forza di volontà per rafforzare la resistenza del corpo attraverso lo spirito.\nPuoi spendere un'azione per ottenere 1d6 + il tuo punteggio di Costituzione + il tuo livello del personaggio in punti ferita temporanei. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Non puoi usare di nuovo questa capacità finché non completi un riposo lungo.",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
