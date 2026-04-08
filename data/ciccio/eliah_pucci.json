@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-08T21:12:17.847Z",
+  "exportedAt": "2026-04-08T21:32:58.406Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,7 +10,7 @@
     "classes": "Tinkerer 1-4 / Bruiser 1-5",
     "ac": 18,
     "hpMax": 99,
-    "hpCurrent": 35,
+    "hpCurrent": 0,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 21,
@@ -620,7 +620,7 @@
         "type": "Reazione",
         "desc": "Dal 3° livello, quando i tuoi PF scendono a metà del massimo o meno, puoi usare la tua reazione per:\n• Ottenere PF temporanei pari a un tiro del tuo dado scrapper + livello da bruiser \n• Recuperare tutti i punti Furia spesi \nNon puoi usare questa abilità di nuovo fino al prossimo riposo breve o lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "fav": true,
         "cdStat": null
