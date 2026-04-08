@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-08T21:56:00.834Z",
+  "exportedAt": "2026-04-08T23:27:40.566Z",
   "character": {
     "id": "naive_001",
     "name": "Naive",
@@ -10,8 +10,8 @@
     "classes": "Chimico+Devilforged",
     "ac": 7,
     "hpMax": 89,
-    "hpCurrent": 46,
-    "hpTemp": 0,
+    "hpCurrent": 89,
+    "hpTemp": 4,
     "hpPerm": 0,
     "speed": 9,
     "passivePerception": 22,
@@ -371,7 +371,7 @@
         "type": "Azione bonus",
         "desc": "Rendi i tuoi attacchi magici, ottieni un bonus di +3 ai tiri per colpire e per i danni. Dura 1'",
         "maxUses": 4,
-        "uses": 2,
+        "uses": 3,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
