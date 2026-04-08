@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-08T21:09:22.448Z",
+  "exportedAt": "2026-04-08T21:12:17.847Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1219,6 +1219,45 @@
     "diceLog": [
       {
         "type": "d20",
+        "label": "Jet (colpire)",
+        "total": 17,
+        "roll1": 7,
+        "roll2": 20,
+        "chosen": 7,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775682701611
+      },
+      {
+        "type": "d20",
+        "label": "Jet (colpire)",
+        "total": 19,
+        "roll1": 9,
+        "roll2": 5,
+        "chosen": 9,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775682684304
+      },
+      {
+        "type": "d20",
+        "label": "Jet (colpire)",
+        "total": 15,
+        "roll1": 5,
+        "roll2": 12,
+        "chosen": 5,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1775682676025
+      },
+      {
+        "type": "d20",
         "label": "TS SAG",
         "total": 24,
         "roll1": 19,
@@ -2175,12 +2214,12 @@
       {
         "id": "mnito9phyoyx",
         "name": "Haste",
-        "rounds": 10
+        "rounds": 9
       },
       {
         "id": "mnitooxhissw",
         "name": "Indurimento e Conquista",
-        "rounds": 10
+        "rounds": 9
       },
       {
         "id": "mnitpenmqaap",
