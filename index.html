@@ -340,62 +340,39 @@ function TkSetup({onSave,onSkip}){
 
 /* ═══ ACCOUNTS ═══ */
 function AccountsScreen({manifest,onAuth}){
-  const[selAcc,setSelAcc]=useState(null);
+  const[user,setUser]=useState("");
   const[pw,setPw]=useState("");
-  const[err,setErr]=useState(false);
+  const[err,setErr]=useState("");
   const[show,setShow]=useState(false);
   const[checking,setChecking]=useState(false);
   const accs=manifest?.accounts||[];
 
   const check=async()=>{
-    if(!selAcc)return;
+    if(!user.trim()||!pw)return;
     setChecking(true);
+    const found=accs.find(a=>a.name.toLowerCase()===user.trim().toLowerCase()||a.id===user.trim().toLowerCase());
+    if(!found){setErr("Utente non trovato");setChecking(false);return;}
     const hashed=await H(pw);
-    if(hashed===selAcc.h){setErr(false);onAuth(selAcc.id,hashed);}
-    else{setErr(true);}
+    if(hashed===found.h){setErr("");onAuth(found.id,hashed);}
+    else{setErr("Password errata");}
     setChecking(false);
   };
 
-  if(selAcc){
-    const ac=selAcc.color||"#c8a95e";
-    return(
-      <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",padding:"0 20px"}}>
-        <div style={{textAlign:"center",maxWidth:320,width:"100%"}}>
-          <button onClick={()=>{setSelAcc(null);setPw("");setErr(false);}} style={{...SS.bb,borderColor:ac+"44",color:ac,marginBottom:20}}>← Torna</button>
-          <Av src={accAvatarUrl(selAcc.id)} fallback={selAcc.isMaster?"👑":selAcc.name[0]} size={64} color={ac} style={{margin:"0 auto 12px"}}/>
-          <h2 style={{fontFamily:"'Cinzel'",fontSize:20,fontWeight:900,color:ac,letterSpacing:1,marginBottom:6}}>{selAcc.name}</h2>
-          <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Inserisci la tua password</p>
-          <div style={{position:"relative",marginBottom:16}}>
-            <input type={show?"text":"password"} value={pw} onChange={e=>{setPw(e.target.value);setErr(false);}} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:16,textAlign:"center",padding:"12px 44px 12px 16px",letterSpacing:1}}/>
-            <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#665a3e",fontSize:16,cursor:"pointer"}}>{show?"🙈":"👁"}</button>
-          </div>
-          {err&&<p style={{color:"#e74c3c",fontSize:13,marginBottom:12,fontFamily:"'Cinzel'"}}>Password errata!</p>}
-          <button onClick={check} disabled={checking} style={{...SS.bg,width:"100%",padding:"12px 0",fontSize:15,borderColor:ac+"66",color:ac,opacity:checking?0.5:1}}>
-            {checking?"Verifica...":"Entra"}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return(
-    <div style={{minHeight:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
-      <div style={{padding:"48px 20px 16px",textAlign:"center"}}>
-        <h1 style={{fontFamily:"'Cinzel'",fontSize:26,fontWeight:900,color:"#c8a95e",marginBottom:4,letterSpacing:2,textShadow:"0 2px 20px rgba(200,169,94,0.3)"}}>🎲 TTRPG App</h1>
-        <p style={{color:"#665a3e",fontSize:13,marginBottom:24}}>Scegli il tuo account</p>
-      </div>
-      <div style={{padding:"0 20px",paddingBottom:"calc(40px + var(--safe-bottom))",display:"flex",flexDirection:"column",gap:10,maxWidth:400,margin:"0 auto",width:"100%"}}>
-        {accs.map(a=>(
-          <button key={a.id} onClick={()=>setSelAcc(a)} style={{...SS.ac,borderColor:a.color+"55",background:`linear-gradient(135deg,${a.color}12,${a.color}06)`}}>
-            <Av src={accAvatarUrl(a.id)} fallback={a.isMaster?"👑":a.name[0]} size={48} color={a.color}/>
-            <div style={{flex:1,textAlign:"left"}}>
-              <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:a.isMaster?a.color:"#e8dcc8"}}>{a.name}</span><br/>
-              <span style={{fontSize:11,color:"#665a3e"}}>{a.isMaster?"Master":"User"}</span>
-            </div>
-            <span style={{fontSize:14,color:a.color+"88"}}>🔒</span>
-          </button>
-        ))}
-        {!BASE()&&<p style={{textAlign:"center",fontSize:10,color:"#e74c3c66",marginTop:12}}>⚠️ GitHub URL non configurato — modalità offline</p>}
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",padding:"0 20px",overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
+      <div style={{textAlign:"center",maxWidth:320,width:"100%",padding:"40px 0"}}>
+        <h1 style={{fontFamily:"'Cinzel'",fontSize:26,fontWeight:900,color:"#c8a95e",marginBottom:4,letterSpacing:2,textShadow:"0 2px 20px rgba(200,169,94,0.3)"}}>🎲 DnD Manager</h1>
+        <p style={{color:"#665a3e",fontSize:13,marginBottom:32}}>Accedi al tuo account</p>
+        <input value={user} onChange={e=>{setUser(e.target.value);setErr("");}} placeholder="Nome utente..." onKeyDown={e=>e.key==="Enter"&&check()} style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px 16px",letterSpacing:0.5,marginBottom:10}}/>
+        <div style={{position:"relative",marginBottom:16}}>
+          <input type={show?"text":"password"} value={pw} onChange={e=>{setPw(e.target.value);setErr("");}} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px 44px 12px 16px",letterSpacing:1}}/>
+          <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#665a3e",fontSize:16,cursor:"pointer"}}>{show?"🙈":"👁"}</button>
+        </div>
+        {err&&<p style={{color:"#e74c3c",fontSize:13,marginBottom:12,fontFamily:"'Cinzel'"}}>{err}</p>}
+        <button onClick={check} disabled={checking} style={{...SS.bg,width:"100%",padding:"12px 0",fontSize:15,borderColor:"#c8a95e66",color:"#c8a95e",opacity:checking?0.5:1}}>
+          {checking?"Verifica...":"Entra"}
+        </button>
+        {!BASE()&&<p style={{textAlign:"center",fontSize:10,color:"#e74c3c66",marginTop:16}}>⚠️ GitHub URL non configurato — modalità offline</p>}
       </div>
     </div>
   );
@@ -414,7 +391,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
         </div>
         {isMaster&&<button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Tracker Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>}
       </div>
-      <div style={{padding:"16px 16px",paddingBottom:"calc(32px + var(--safe-bottom))",maxWidth:400,margin:"0 auto",width:"100%"}}>
+      <div style={{padding:"16px 16px",paddingBottom:"calc(80px + var(--safe-bottom))",maxWidth:400,margin:"0 auto",width:"100%"}}>
         {sections.map((sec,si)=>(
           <div key={si} style={{marginBottom:20}}>
             <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}>
