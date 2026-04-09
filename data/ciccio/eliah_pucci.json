@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-08T21:48:49.462Z",
+  "exportedAt": "2026-04-09T22:10:31.618Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,7 +10,7 @@
     "classes": "Tinkerer 1-4 / Bruiser 1-5",
     "ac": 18,
     "hpMax": 99,
-    "hpCurrent": 70,
+    "hpCurrent": 99,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 21,
@@ -190,10 +190,14 @@
     "attacks": [
       {
         "id": "atk1",
-        "name": "Calcio",
+        "name": "Calcio [Conquista]",
         "hit": 9,
         "damage": "1d8",
-        "type": "contundente"
+        "type": "contundente",
+        "stat": "DES",
+        "bonusHit": 1,
+        "bonusDmg": 12,
+        "bonusActive": false
       },
       {
         "id": "atk5",
@@ -229,6 +233,16 @@
         "hit": 10,
         "damage": "12d8+41",
         "type": ""
+      },
+      {
+        "id": "mns13t53zmp1",
+        "name": "Calcio [Indurimento]",
+        "stat": "DES",
+        "damage": "1d8",
+        "type": "Magico",
+        "bonusHit": 1,
+        "bonusDmg": 1,
+        "bonusActive": false
       }
     ],
     "origins": [
@@ -620,7 +634,7 @@
         "type": "Reazione",
         "desc": "Dal 3° livello, quando i tuoi PF scendono a metà del massimo o meno, puoi usare la tua reazione per:\n• Ottenere PF temporanei pari a un tiro del tuo dado scrapper + livello da bruiser \n• Recuperare tutti i punti Furia spesi \nNon puoi usare questa abilità di nuovo fino al prossimo riposo breve o lungo.",
         "maxUses": 1,
-        "uses": 1,
+        "uses": 0,
         "rest": "breve",
         "fav": true,
         "cdStat": null
@@ -740,7 +754,7 @@
         "type": "Azione",
         "desc": "È possibile aumentare la propria forza di volontà per rafforzare la resistenza del corpo attraverso lo spirito.\nPuoi spendere un'azione per ottenere 1d6 + il tuo punteggio di Costituzione + il tuo livello del personaggio in punti ferita temporanei. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Non puoi usare di nuovo questa capacità finché non completi un riposo lungo.",
         "maxUses": 4,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -956,7 +970,7 @@
         "type": "Reazione",
         "desc": "Avanzamento dell'Haki del Re, non comune\nIl tuo spirito indomabile può superare anche le circostanze più avverse.\nCome reazione quando i tuoi punti ferita vengono ridotti a 0 ma non vieni ucciso sul colpo, puoi invece scendere a 1 punto ferita. Una volta utilizzata questa capacità, non potrai usarla di nuovo finché non avrai completato un riposo lungo.",
         "maxUses": 1,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -998,23 +1012,11 @@
         "cdStat": null
       },
       {
-        "id": "mnht8z9s3qfh",
-        "name": "Haste",
-        "originId": "mnht8sap1lr4",
-        "type": "Azione",
-        "desc": "",
-        "maxUses": 10,
-        "uses": 3,
-        "rest": null,
-        "cdStat": "SAG",
-        "fav": true
-      },
-      {
         "id": "mnl2gq9e0q7f",
         "name": "Memo",
         "originId": "mnf9qes4i0q4",
         "type": "Rituale",
-        "desc": "Attacco normale O Doppio attacco = +9 / 1d8+5\nRaffica di colpi = Attacco normale X2\nEsplosione Spirituale = 2d8\n______________________\nIndurimento e Conquista\nAttacco normale O Doppio attacco = +10 / 1d8+6 OPPURE 1d8+17 (1xt)\n______________________\nMobile = Disingaggio verso UNA creatura che ho bersagliato nel mio turno\n______________________\nRampage = 1d8 danni / 1d8 danni subiti\n______________________\nMASSIMO (Indurimento+Conquista+Haste)\n1. Attacco (+Rampage) + 2. Doppio attacco (+Rampage) + 3. Esplosione Spirituale + 4. Attacco Haste (+Rampage) + 5. Raffica ([Attacco (+Rampage)] X2)\n1. 1d8+17 (+1d8) + 2. 1d8+6 (+1d8) + 3. 2d8 + 4. 1d8+6 (+1d8) + 5. 1d8+6 (+1d8)+1d8+6 (+1d8)\nSubisco 5d8",
+        "desc": "Attacco normale O Doppio attacco = +9 / 1d8+5\nRaffica di colpi = Attacco normale X2\nEsplosione Spirituale = 2d8\n______________________\nIndurimento e Conquista\n+3m Range\nAttacco normale O Doppio attacco = +10 / 1d8+6 OPPURE 1d8+17 (1xt)\n______________________\nMobile = Disingaggio verso UNA creatura che ho bersagliato nel mio turno\n______________________\nRampage = 1d8 danni / 1d8 danni subiti\n______________________\nMASSIMO (Indurimento+Conquista+Haste)\n1. Attacco (+Rampage) + 2. Doppio attacco (+Rampage) + 3. Esplosione Spirituale + 4. Attacco Haste (+Rampage) + 5. Raffica ([Attacco (+Rampage)] X2)\n1. 1d8+17 (+1d8) + 2. 1d8+6 (+1d8) + 3. 2d8 + 4. 1d8+6 (+1d8) + 5. 1d8+6 (+1d8)+1d8+6 (+1d8)\nSubisco 5d8",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -2214,17 +2216,22 @@
       {
         "id": "mnito9phyoyx",
         "name": "Haste",
-        "rounds": 9
+        "rounds": 10
       },
       {
         "id": "mnitooxhissw",
         "name": "Indurimento e Conquista",
-        "rounds": 9
+        "rounds": 10
       },
       {
         "id": "mnitpenmqaap",
         "name": "Longstrider",
         "rounds": 10
+      },
+      {
+        "id": "mns15j6i7ql8",
+        "name": "HASTE",
+        "rounds": 6
       }
     ]
   }
