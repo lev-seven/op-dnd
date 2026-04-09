@@ -2,7 +2,7 @@
   "name": "TTRPG App",
   "short_name": "TTRPGA",
   "icons": [
-    { "src": "/op-dnd/data/default/app.png", "sizes": "500x500", "type": "image/png" }
+    { "src": "/op-dnd/data/default/icon.png", "sizes": "500x500", "type": "image/png" }
   ],
   "start_url": "/op-dnd/",
   "display": "standalone",
