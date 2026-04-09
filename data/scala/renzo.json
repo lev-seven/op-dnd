@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-09T13:33:45.928Z",
+  "exportedAt": "2026-04-09T16:07:16.882Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -227,7 +227,7 @@
         "id": "mnriiefaqpei",
         "name": "Yoru (Supreme Meito) Slash",
         "hit": 8,
-        "damage": "1d12+3",
+        "damage": "1d6+1d6+3",
         "type": "se critico +2d6"
       }
     ],
