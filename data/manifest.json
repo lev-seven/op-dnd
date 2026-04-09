@@ -47,13 +47,18 @@
         "file": "charibdys_ii_jhones.json",
         "name": "Charibdys II Jones",
         "preview": "Cerenea · Lv 7"
+      },
+      {
+        "file": "question_mark.json",
+        "name": "Question mark",
+        "preview": "Umano · Lv 9 · Devilforged"
       }
     ],
     "scala": [
       {
         "file": "renzo.json",
-        "name": "Renzo",
-        "preview": "Mink · Lv 9"
+        "name": "RENZO",
+        "preview": "mink · Lv 9 · warrior"
       }
     ],
     "rik": []

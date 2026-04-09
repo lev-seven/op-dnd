@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-07T22:02:26.809Z",
+  "exportedAt": "2026-04-09T16:07:16.882Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -151,7 +151,7 @@
       "cantrips": 0,
       "slots": {
         "1": {
-          "max": 0,
+          "max": 17,
           "used": 0
         },
         "2": {
@@ -190,39 +190,9 @@
     },
     "origins": [
       {
-        "id": "cecchino",
-        "name": "Cecchino",
-        "color": "#e74c3c"
-      },
-      {
-        "id": "carpentiere",
-        "name": "Carpentiere",
-        "color": "#e67e22"
-      },
-      {
-        "id": "navigatore",
-        "name": "Navigatore",
-        "color": "#3498db"
-      },
-      {
         "id": "haki_arm",
         "name": "Haki Armatura",
         "color": "#e60a36"
-      },
-      {
-        "id": "haki_oss",
-        "name": "Haki Osservazione",
-        "color": "#1abc9c"
-      },
-      {
-        "id": "haki_re",
-        "name": "Haki del Re",
-        "color": "#f1c40f"
-      },
-      {
-        "id": "brawler",
-        "name": "Brawler",
-        "color": "#2ecc71"
       },
       {
         "id": "spadaccino",
@@ -238,9 +208,29 @@
         "id": "fdd",
         "name": "Frutto del diavolo",
         "color": "#ba82f2"
+      },
+      {
+        "id": "mnrhxo4t7vz7",
+        "name": "EQUIPAGGIAMENTO",
+        "color": "#1abc9c"
       }
     ],
-    "attacks": [],
+    "attacks": [
+      {
+        "id": "mnrifeqop4j5",
+        "name": "Eika slash",
+        "hit": 5,
+        "damage": "1d6 + 1",
+        "type": ""
+      },
+      {
+        "id": "mnriiefaqpei",
+        "name": "Yoru (Supreme Meito) Slash",
+        "hit": 8,
+        "damage": "1d6+1d6+3",
+        "type": "se critico +2d6"
+      }
+    ],
     "abilities": [
       {
         "id": "mnp4jaudxj2c",
@@ -288,7 +278,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnp4qb2eoy91",
@@ -300,7 +290,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnp4r9cne0vr",
@@ -324,7 +314,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnp4vlslg23j",
@@ -408,7 +398,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnp599z8y2w6",
@@ -479,6 +469,102 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnq61qvl93tp",
+        "name": "Soul Armor - Uncommon",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Come azione, circondi il tuo corpo con questa armatura, facendo diventare la tua CA uguale a 13 + il tuo modificatore di Costituzione quando non indossi un'armatura. Questa armatura dura 8 ore. Non puoi usare di nuovo questa caratteristica fino a quando non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnq639qevo5g",
+        "name": "Spirit Blast - Uncommon",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Acquisisci la capacità di inviare scariche di energia attraverso i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o un colpo senz’armi, puoi scatenare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza extra al bersaglio, oltre ai danni normali dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per turno durante il tuo turno. Una volta che usi questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla fino a quando non completi un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnq64k6i4u3x",
+        "name": "Weapon Hardening - Uncommon",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Acquisisci la capacità di rivestire le tue armi e i tuoi attacchi con il tuo spirito. Più intensa è l'applicazione, più scuro è il rivestimento.\nCome azione bonus, canalizzi l'haki nel tuo corpo o in un'arma a tua scelta. Se scegli il tuo corpo, puoi scegliere tra i tuoi attacchi a mani nude o un'arma naturale. Per 1 minuto, i tuoi attacchi con l'arma scelta sono considerati magici con un bonus di +1 ai tiri per colpire e ai tiri per il danno.\nSe l'attacco ha già un bonus ai tiri per colpire e ai danni, questa caratteristica sostituisce il bonus a meno che non sia maggiore, nel qual caso non ottiene il beneficio di questa caratteristica.\nQuesto effetto termina prematuramente se perdi conoscenza, lo usi di nuovo, lo concludi come azione bonus o inizi il tuo turno senza tenere o toccare l'arma che hai rivestito. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi più usarla fino a quando non completi un riposo lungo.\nSe l'Evento Spirit Surge ha una rarità superiore a Raro, usa questi bonus:\nRare. The chosen weapon gains a +2 bonus to Attack rolls and Damage Rolls instead.\nVery Rare. The chosen weapon gains a +3 bonus to Attack rolls and Damage Rolls instead.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnq65bl87zym",
+        "name": "Vessel of Resilience - Uncommon",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Impari a infondere al tuo spirito una tale resilienza che essa migliora la tua forma fisica.\nCome azione, puoi rafforzare le tue difese per 1 minuto. Durante questo periodo, hai resistenza ai danni da percosse, perforazioni e taglio provenienti da attacchi non magici, e hai vantaggio nei tiri salvezza su Costituzione. Una volta utilizzata questa caratteristica, non puoi usarla di nuovo fino a quando non completi un riposo lungo",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnq664lygnox",
+        "name": "Force of Will - Rare",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "La tua volontà di ferro ti permette di scatenare devastanti onde d'urto di energia Haki.\nCome azione, puoi colpire il suolo con il piede o il pugno, causando un'onda d'urto di energia spirituale che si irradia da te. Ogni creatura entro 30 piedi da te deve effettuare un tiro salvezza di Forza. In caso di fallimento, la creatura subisce 4d10 danni da forza ed è abbattuta a terra. In caso di successo, la creatura subisce la metà dei danni e non viene abbattuta. Strutture e oggetti non magici nell'area subiscono gli stessi danni. Una volta usata questa abilità, non puoi usarla di nuovo fino a quando non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnq6ua49ukux",
+        "name": "Internal Destruction - Rare",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "La tua padronanza dell'Haki ti permette di lasciare che la tua energia spirituale persista, facendo eco ai tuoi colpi con forza inflessibile.\nQuando colpisci una creatura con un attacco in mischia o un colpo senz'armi e attivi il tuo Raggio Spirituale, la tua energia spirituale riverbera attraverso il bersaglio causando che subisca danni aggiuntivi da forza pari al tuo modificatore di Costituzione all'inizio di ciascuno dei suoi turni per il prossimo minuto. La creatura può effettuare un tiro salvezza di Costituzione alla fine di ciascuno dei suoi turni, terminando l'effetto anticipatamente in caso di successo.\nSe colpisci la stessa creatura con questo effetto di nuovo prima che la durata finisca, i danni aumentano del tuo modificatore di Costituzione e la durata si resetta. I danni non possono superare un totale di 3 volte il tuo modificatore di Costituzione per turno.\nUna volta che usi questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla fino a quando non completi un riposo lungo.\nIf the Spirit Surge Event has a rarity higher than Rare, use these bonuses:\nVery Rare. The damage per turn can increase up to a total of 4 times your Constitution modifier.\nLegendary. The damage per turn can increase up to a total of 5 times your Constitution modifier.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnrhxrbuavnx",
+        "name": "Yoru (Supreme Meito) - Weapon (greatsword), legendary (requires attunement)",
+        "originId": "mnrhxo4t7vz7",
+        "type": "Passiva",
+        "desc": "Ottieni un bonus di +3 ai tiri per colpire e ai danni effettuati con quest'arma magica. L'incantesimo Scudo non fornisce alcuna difesa contro la spada, che attraversa la barriera di forza magica di quell'incantesimo.\nQuando infliggi un colpo critico con quest'arma, fiamme verdi eruttano dalla sua lama e infliggono 2d6 danni radianti aggiuntivi al bersaglio.\nFendente a distanza. La spada a due mani ha 3 cariche. Puoi spendere 1 carica ed effettuare un attacco a distanza con cui sei competente, usando il tuo modificatore di Forza per i tiri per colpire e per i danni, rilasciando un proiettile tagliente con una gittata normale di 18 metri e una gittata lunga di 55 metri, infliggendo il danno dell'arma se colpisce. Inoltre, puoi spendere 3 cariche per lanciare Great Heaven Splitter^ (incantesimo personalizzato). La spada recupera tutte le cariche spese ogni giorno all'alba.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnrhzar7qxox",
+        "name": "Eika (Uknown Rarity) - Weapon",
+        "originId": "mnrhxo4t7vz7",
+        "type": "Passiva",
+        "desc": "Spada fatta dal fabbro compagno Marcello, ha il potere di teletrasportarsi da un punto alla mano del possessore. Ottieni un bonus +1 ai dannieffettuati con quest'arma.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
         "cdStat": null,
         "fav": false
       }
@@ -711,9 +797,28 @@
         "desc": "Crei una sfera di forza gravitazionale distruttiva con un raggio di 6 metri, centrata su un punto che puoi vedere entro il raggio d'azione. Per tutta la durata dell'incantesimo, la sfera e qualsiasi spazio entro 30 metri da essa diventano terreno difficile, e gli oggetti non magici completamente all'interno della sfera vengono distrutti se non vengono indossati o trasportati.\nQuando la sfera appare e all'inizio di ogni tuo turno fino alla fine dell'incantesimo, gli oggetti non fissati entro 30 metri dalla sfera vengono attratti verso il centro della sfera, finendo in uno spazio libero il più vicino possibile al centro.\nUna creatura che inizia il suo turno entro 30 metri dalla sfera deve superare un tiro salvezza su Forza o essere trascinata direttamente verso il centro della sfera, finendo in uno spazio libero il più vicino possibile al centro. Una creatura che entra nella sfera per la prima volta in un turno o che inizia il suo turno al suo interno subisce 5d10 danni da forza ed è immobilizzata finché non esce dalla sfera. Se la sfera è in aria, la creatura immobilizzata fluttua al suo interno. Una creatura può usare la sua azione per effettuare una prova di Forza contro la CD del tuo tiro salvezza per incantesimi, ponendo fine a questa condizione di immobilizzazione su se stessa o su un'altra creatura nella sfera che può raggiungere. Una creatura ridotta a 0 punti ferita da questo incantesimo viene annientata, insieme a qualsiasi oggetto non magico che indossa o trasporta.",
         "higherLevels": null,
         "prepared": false
+      },
+      {
+        "id": "mnridew11huo",
+        "name": "Great Heaven Splitter",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "45 m e alta 6 m",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Impugna l'arma usata per lanciare l'incantesimo e poi scateni un devastante fendente di energia. Il fendente di energia forma una linea lunga 45 metri e alta 6 metri che si propaga in una direzione a tua scelta, partendo da te. Ogni creatura sulla linea deve effettuare un tiro salvezza su Destrezza. Una creatura subisce 5d6 danni da taglio e 5d6 danni da tuono in caso di fallimento del tiro salvezza, o la metà dei danni in caso di successo. Anche un oggetto non magico che non viene indossato o trasportato subisce i danni se si trova nell'area dell'incantesimo.",
+        "higherLevels": null,
+        "prepared": true
       }
     ],
-    "notes": "",
+    "notes": "Personaggi importanti:\nMalfas\nGrimm\nNoa - Rei\nEzikiel\nCallistos\nCiurma di Sosa\n\nElaiha\nNaive\nZigzag\nGregori",
     "backstory": "",
     "diceLog": [],
     "effects": []
