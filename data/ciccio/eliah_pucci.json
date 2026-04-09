@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-09T22:12:57.734Z",
+  "exportedAt": "2026-04-09T22:16:28.078Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -197,35 +197,7 @@
         "stat": "DES",
         "bonusHit": 1,
         "bonusDmg": 12,
-        "bonusActive": false
-      },
-      {
-        "id": "atk5",
-        "name": "Shocking Grasp",
-        "hit": 6,
-        "damage": "1d8+1d8",
-        "type": "fulmine"
-      },
-      {
-        "id": "mniu2ibu3xef",
-        "name": "Haste Attivazione",
-        "hit": 6,
-        "damage": "",
-        "type": "magico"
-      },
-      {
-        "id": "mnkwbtiy6uki",
-        "name": "Ray of frost",
-        "hit": 6,
-        "damage": "1d8+1d8",
-        "type": ""
-      },
-      {
-        "id": "mnkwrl2dm3xt",
-        "name": "Balestra",
-        "hit": 9,
-        "damage": "1d6+1d6+5",
-        "type": ""
+        "bonusActive": true
       },
       {
         "id": "mns13t53zmp1",
@@ -235,7 +207,36 @@
         "type": "Magico",
         "bonusHit": 1,
         "bonusDmg": 1,
-        "bonusActive": false
+        "bonusActive": true
+      },
+      {
+        "id": "mnkwrl2dm3xt",
+        "name": "Balestra",
+        "hit": 9,
+        "damage": "2d6",
+        "type": "",
+        "stat": "DES"
+      },
+      {
+        "id": "mniu2ibu3xef",
+        "name": "Haste Attivazione",
+        "hit": 6,
+        "damage": "",
+        "type": "magico"
+      },
+      {
+        "id": "atk5",
+        "name": "Shocking Grasp",
+        "hit": 6,
+        "damage": "1d8+1d8",
+        "type": "fulmine"
+      },
+      {
+        "id": "mnkwbtiy6uki",
+        "name": "Ray of frost",
+        "hit": 6,
+        "damage": "1d8+1d8",
+        "type": ""
       }
     ],
     "origins": [
@@ -1212,6 +1213,29 @@
     "notes": "669 milioni\n\nAttrezzi da cartografo\nAttrezzi da lavoro e meccanica\nOmbrelli\nLogpose+torcia+balestra a mano\nCorda 15m\nChiodi / Dardi\nPezzo di metallo strano\n\nSirano\n\nProspero \nClement\nAlthea\nElios\nNun\nVein\n\nAiterius Rex\n\nZigzag\nNeive \nRenzo\nGregory\n\nDjango\n\nMurai -\nRiobe\nPetunia ❤️\nLaila\nIria 🗺️\n\nShinra x\nWilson x\nAda x\n\nRina ❤️\nDixon \n\nKizuna\nGrisaglia",
     "backstory": "Eliah è uno Birkan nato a Borgo Fornari, un paese sospeso nel cielo, piccolo ma ben collegato alle rotte aeree. È cresciuto in una famiglia solida, anche se con idee molto diverse al suo interno.\n\nSuo padre Freddy Fazbear è uno Skypean cartografo esperto e un buon ingegnere. Ha passato gran parte della vita a studiare correnti, disegnare mappe e progettare strumenti per la navigazione. Fin da piccolo Eliah gli è sempre stato accanto, imparando a leggere una mappa e a capire come funziona una barca prima ancora di saperle usare davvero. Da lui ha ereditato la curiosità e il gusto per l’ingegneria.\n\nLa madre Vanessa Afton, Birkan, proviene da un ambiente ricco e privilegiato. In gioventù ha vissuto senza troppi limiti, approfittando delle possibilità che il denaro e le conoscenze le offrivano. Ama suo figlio, ma porta con sé una mentalità chiusa, fatta di pregiudizi e vecchie convinzioni che cerca, più o meno consapevolmente, di trasmettergli. Eliah, però, non le ha mai fatte proprie e ha sempre preso le distanze da quel modo di vedere il mondo.\n\nQuando compie 14 anni, Eliah sente che restare a Borgo Fornari non gli basta più. Parla con i genitori e chiede di partire per conto suo. Dopo qualche discussione, ottiene il loro consenso. Freddy gli affida una piccola barca volante e alcune mappe da completare, mentre Vanessa gli consegna un po’ di denaro per non partire a mani vuote.\n\nCon poche certezze e tanta voglia di scoprire, Eliah lascia il suo paese, deciso a costruirsi un futuro lontano dalle idee con cui è cresciuto, seguendo il cielo e le rotte che ancora non esistono.\n\nDurante uno dei primi spostamenti, una tempesta improvvisa mette fuori uso la barca di Eliah e lo lascia gravemente ferito alla deriva; viene raccolto e soccorso da Naive, un uomo pesce squalo che esercita come dottore, il quale si prende cura di lui fino a rimetterlo in forze, segnando l’inizio del loro cammino condiviso.",
     "diceLog": [
+      {
+        "type": "damage",
+        "label": "Shocking Grasp (danno)",
+        "total": 4,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 1
+            }
+          ],
+          "bonus": 0,
+          "total": 4,
+          "formula": "1d8+1d8+0"
+        },
+        "timestamp": 1775772982687
+      },
       {
         "type": "d20",
         "label": "Jet (colpire)",
