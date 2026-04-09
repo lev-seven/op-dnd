@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-09T13:10:55.045Z",
+  "exportedAt": "2026-04-09T13:23:52.391Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -151,7 +151,7 @@
       "cantrips": 0,
       "slots": {
         "1": {
-          "max": 0,
+          "max": 17,
           "used": 0
         },
         "2": {
@@ -190,39 +190,9 @@
     },
     "origins": [
       {
-        "id": "cecchino",
-        "name": "Cecchino",
-        "color": "#e74c3c"
-      },
-      {
-        "id": "carpentiere",
-        "name": "Carpentiere",
-        "color": "#e67e22"
-      },
-      {
-        "id": "navigatore",
-        "name": "Navigatore",
-        "color": "#3498db"
-      },
-      {
         "id": "haki_arm",
         "name": "Haki Armatura",
         "color": "#e60a36"
-      },
-      {
-        "id": "haki_oss",
-        "name": "Haki Osservazione",
-        "color": "#1abc9c"
-      },
-      {
-        "id": "haki_re",
-        "name": "Haki del Re",
-        "color": "#f1c40f"
-      },
-      {
-        "id": "brawler",
-        "name": "Brawler",
-        "color": "#2ecc71"
       },
       {
         "id": "spadaccino",
@@ -238,6 +208,11 @@
         "id": "fdd",
         "name": "Frutto del diavolo",
         "color": "#ba82f2"
+      },
+      {
+        "id": "mnrhxo4t7vz7",
+        "name": "EQUIPAGGIAMENTO",
+        "color": "#1abc9c"
       }
     ],
     "attacks": [],
@@ -288,7 +263,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnp4qb2eoy91",
@@ -300,7 +275,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnp4r9cne0vr",
@@ -324,7 +299,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnp4vlslg23j",
@@ -408,7 +383,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnp599z8y2w6",
@@ -492,7 +467,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnq639qevo5g",
@@ -500,11 +475,11 @@
         "originId": "haki_arm",
         "type": "Passiva",
         "desc": "Acquisisci la capacità di inviare scariche di energia attraverso i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o un colpo senz’armi, puoi scatenare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza extra al bersaglio, oltre ai danni normali dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per turno durante il tuo turno. Una volta che usi questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla fino a quando non completi un riposo lungo.",
-        "maxUses": 1,
+        "maxUses": 4,
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnq64k6i4u3x",
@@ -540,7 +515,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnq6ua49ukux",
@@ -548,9 +523,33 @@
         "originId": "haki_arm",
         "type": "Passiva",
         "desc": "La tua padronanza dell'Haki ti permette di lasciare che la tua energia spirituale persista, facendo eco ai tuoi colpi con forza inflessibile.\nQuando colpisci una creatura con un attacco in mischia o un colpo senz'armi e attivi il tuo Raggio Spirituale, la tua energia spirituale riverbera attraverso il bersaglio causando che subisca danni aggiuntivi da forza pari al tuo modificatore di Costituzione all'inizio di ciascuno dei suoi turni per il prossimo minuto. La creatura può effettuare un tiro salvezza di Costituzione alla fine di ciascuno dei suoi turni, terminando l'effetto anticipatamente in caso di successo.\nSe colpisci la stessa creatura con questo effetto di nuovo prima che la durata finisca, i danni aumentano del tuo modificatore di Costituzione e la durata si resetta. I danni non possono superare un totale di 3 volte il tuo modificatore di Costituzione per turno.\nUna volta che usi questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla fino a quando non completi un riposo lungo.\nIf the Spirit Surge Event has a rarity higher than Rare, use these bonuses:\nVery Rare. The damage per turn can increase up to a total of 4 times your Constitution modifier.\nLegendary. The damage per turn can increase up to a total of 5 times your Constitution modifier.",
-        "maxUses": 1,
+        "maxUses": 4,
         "uses": 0,
         "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnrhxrbuavnx",
+        "name": "Yoru (Supreme Meito) - Weapon (greatsword), legendary (requires attunement)",
+        "originId": "mnrhxo4t7vz7",
+        "type": "Passiva",
+        "desc": "Ottieni un bonus di +3 ai tiri per colpire e ai danni effettuati con quest'arma magica. L'incantesimo Scudo non fornisce alcuna difesa contro la spada, che attraversa la barriera di forza magica di quell'incantesimo.\nQuando infliggi un colpo critico con quest'arma, fiamme verdi eruttano dalla sua lama e infliggono 2d6 danni radianti aggiuntivi al bersaglio.\nFendente a distanza. La spada a due mani ha 3 cariche. Puoi spendere 1 carica ed effettuare un attacco a distanza con cui sei competente, usando il tuo modificatore di Forza per i tiri per colpire e per i danni, rilasciando un proiettile tagliente con una gittata normale di 18 metri e una gittata lunga di 55 metri, infliggendo il danno dell'arma se colpisce. Inoltre, puoi spendere 3 cariche per lanciare Great Heaven Splitter^ (incantesimo personalizzato). La spada recupera tutte le cariche spese ogni giorno all'alba.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnrhzar7qxox",
+        "name": "Eika (Uknown Rarity) - Weapon",
+        "originId": "mnrhxo4t7vz7",
+        "type": "Passiva",
+        "desc": "Spada fatta dal fabbro compagno Marcello, ha il potere di teletrasportarsi da un punto alla mano del possessore. Ottieni un bonus +1 ai dannieffettuati con quest'arma.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
         "cdStat": null,
         "fav": false
       }
