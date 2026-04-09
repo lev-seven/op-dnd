@@ -160,7 +160,7 @@ function atkHit(a,stats,pb){
   if(!a.stat)return(a.hit||0)+(a.bonusActive?a.bonusHit||0:0);
   const sm=a.stat&&stats[a.stat]?stats[a.stat].mod:0;return sm+pb+(a.bonusActive?a.bonusHit||0:0);
 }
-function atkDmg(a,stats){const sm=a.stat&&stats[a.stat]?stats[a.stat].mod:0;const base=a.damage||"";const bm=(a.bonusActive?a.bonusDmg||0:0)+sm;return base+(bm>=0?"+"+bm:bm?""+bm:"");}
+function atkDmg(a,stats){const sm=a.stat&&stats[a.stat]?stats[a.stat].mod:0;const base=a.damage||"";const bm=(a.bonusActive?a.bonusDmg||0:0)+sm;return base+(bm!==0?(bm>0?"+"+bm:""+bm):"");}
 
 function migrateSkills(skills){
   if(!skills||!skills.length)return DEFAULT_SKILLS.map(s=>({...s}));
@@ -1198,9 +1198,11 @@ function AM({c,up,data,oC}){
       <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Sciabola"/></Fl>
       <Fl l="Caratteristica"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
         {["FOR","DES","COS","INT","SAG","CAR"].map(k=><button key={k} onClick={()=>sf({...f,stat:k})} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${f.stat===k?"#c8a95e":"#c8a95e22"}`,background:f.stat===k?"rgba(200,169,94,0.15)":"transparent",color:f.stat===k?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:f.stat===k?700:400}}>{k}</button>)}
+        <button onClick={()=>sf({...f,stat:""})} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${!f.stat?"#3498db":"#3498db22"}`,background:!f.stat?"rgba(52,152,219,0.12)":"transparent",color:!f.stat?"#3498db":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>Custom</button>
       </div></Fl>
-      <div style={{textAlign:"center",padding:"4px 0",fontFamily:"'JetBrains Mono'",fontSize:13,color:"#c8a95e"}}>Colpire: +{preview} ({f.stat} {(c.stats[f.stat]?.mod||0)>=0?"+":""}{c.stats[f.stat]?.mod||0} + comp +{c.profBonus}{f.bonusActive&&f.bonusHit?` + bonus +${f.bonusHit}`:""})</div>
-      <Fl l="Formula Danno (base, senza mod stat)">
+      {f.stat?<div style={{textAlign:"center",padding:"4px 0",fontFamily:"'JetBrains Mono'",fontSize:13,color:"#c8a95e"}}>Colpire: +{preview} ({f.stat} {(c.stats[f.stat]?.mod||0)>=0?"+":""}{c.stats[f.stat]?.mod||0} + comp +{c.profBonus}{f.bonusActive&&f.bonusHit?` + bonus +${f.bonusHit}`:""})</div>
+      :<Fl l="Bonus Colpire (custom)"><input type="number" value={f.hit||0} onChange={e=>sf({...f,hit:parseInt(e.target.value)||0})} style={{...SS.inp,width:60}}/></Fl>}
+      <Fl l={f.stat?"Formula Danno (base, senza mod stat)":"Formula Danno (completa)"}>
         <input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:3}} placeholder="es. 1d6"/>
         <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
           {[4,6,8,10,12].map(s=><button key={s} onClick={()=>aD(s)} style={{padding:"3px 8px",borderRadius:3,border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.06)",color:"#c8a95e",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer",touchAction:"manipulation"}}>+d{s}</button>)}
