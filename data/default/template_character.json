@@ -46,7 +46,11 @@
       { "id": "", "name": "", "color": "" }
     ],
     "attacks": [
-      { "id": "", "name": "", "hit": 0, "damage": "", "type": "" }
+      {
+        "id": "", "name": "", "stat": "", "damage": "",
+        "type": "", "bonusHit": 0, "bonusDmg": 0,
+        "bonusActive": false
+      }
     ],
     "abilities": [
       { "id": "", "name": "", "originId": "", "type": "", "desc": "", "maxUses": 0, "uses": 0, "rest": null, "fav": false, "cdStat": null }

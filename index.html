@@ -155,6 +155,11 @@ const DEFAULT_SKILLS=[
 // prof: "none"|"prof"|"mastery" (retrocompat: true→"prof", false→"none")
 function normProf(p){if(p===true)return"prof";if(p===false||!p)return"none";return p;}
 function skMod(s,stats,pb){const p=normProf(s.prof);const bonus=p==="mastery"?pb*2:p==="prof"?pb:0;if(s.stat&&stats[s.stat])return stats[s.stat].mod+bonus;return(s.mod||0)+bonus;}
+function atkHit(a,stats,pb){
+  if(!a.stat)return(a.hit||0)+(a.bonusActive?a.bonusHit||0:0);
+  const sm=a.stat&&stats[a.stat]?stats[a.stat].mod:0;return sm+pb+(a.bonusActive?a.bonusHit||0:0);
+}
+function atkDmg(a,stats){const sm=a.stat&&stats[a.stat]?stats[a.stat].mod:0;const base=a.damage||"";const bm=(a.bonusActive?a.bonusDmg||0:0)+sm;return base+(bm>=0?"+"+bm:bm?""+bm:"");}
 
 function migrateSkills(skills){
   if(!skills||!skills.length)return DEFAULT_SKILLS.map(s=>({...s}));
@@ -817,21 +822,24 @@ function STab({c,up,edit,oR,sM,ac}){
         <Sec ac={ac}>Attacchi</Sec>
         <button onClick={()=>sM({type:"attack"})} style={{...SS.gn,padding:"4px 12px",fontSize:10}}>+ Nuovo</button>
       </div>
-      {c.attacks.map(a=>(
+      {c.attacks.map(a=>{const h=atkHit(a,c.stats,c.profBonus);const dmg=atkDmg(a,c.stats);return(
         <div key={a.id} style={{background:`${ac}0a`,borderRadius:7,padding:9,marginBottom:5,border:`1px solid ${ac}15`}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <button onClick={()=>sM({type:"attack",data:a})} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:4}}>
               <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{a.name}</span>
               <span style={{fontSize:8,color:"#665a3e"}}>✎</span>
             </button>
-            <span style={{fontSize:9,color:"#998866",fontStyle:"italic"}}>{a.type}</span>
+            <div style={{display:"flex",alignItems:"center",gap:4}}>
+              {(a.bonusHit||a.bonusDmg)?<button onClick={()=>up({attacks:c.attacks.map(x=>x.id===a.id?{...x,bonusActive:!x.bonusActive}:x)})} style={{padding:"2px 6px",borderRadius:4,border:`1.5px solid ${a.bonusActive?"#f39c12":"#f39c1233"}`,background:a.bonusActive?"rgba(243,156,18,0.15)":"transparent",color:a.bonusActive?"#f39c12":"#f39c1266",fontSize:8,fontFamily:"'Cinzel'",fontWeight:700,cursor:"pointer",touchAction:"manipulation"}}>{a.bonusActive?"⚡ON":"⚡OFF"}</button>:null}
+              <span style={{fontSize:9,color:"#998866",fontStyle:"italic"}}>{a.stat||""} · {a.type}</span>
+            </div>
           </div>
           <div style={{display:"flex",gap:5,marginTop:5}}>
-            <button onClick={()=>oR({label:`${a.name} (colpire)`,type:"d20",modifier:a.hit})} style={{...SS.gn,flex:1,padding:"6px 0",fontSize:10,touchAction:"manipulation"}}>+{a.hit} 🎲</button>
-            <button onClick={()=>oR({label:`${a.name} (danno)`,type:"damage",formula:a.damage})} style={{...SS.rd,flex:1,padding:"6px 0",fontSize:10,touchAction:"manipulation"}}>{a.damage} 🎲</button>
+            <button onClick={()=>oR({label:`${a.name} (colpire)`,type:"d20",modifier:h})} style={{...SS.gn,flex:1,padding:"6px 0",fontSize:10,touchAction:"manipulation"}}>+{h} 🎲</button>
+            <button onClick={()=>oR({label:`${a.name} (danno)`,type:"damage",formula:dmg})} style={{...SS.rd,flex:1,padding:"6px 0",fontSize:10,touchAction:"manipulation"}}>{dmg} 🎲</button>
           </div>
         </div>
-      ))}
+      );})}
     </div>
   );
 }
@@ -1175,22 +1183,34 @@ function Fl({l,children}){return<div style={{marginBottom:9}}><label style={{dis
 
 function AM({c,up,data,oC}){
   const isE=!!data;
-  const[f,sf]=useState(data||{id:uid(),name:"",hit:0,damage:"",type:""});
+  const[f,sf]=useState(data||{id:uid(),name:"",stat:"FOR",damage:"",type:"",bonusHit:0,bonusDmg:0,bonusActive:false});
   const sv=()=>{if(!f.name)return;if(isE)up({attacks:c.attacks.map(a=>a.id===f.id?f:a)});else up({attacks:[...c.attacks,f]});oC();};
   const dl=()=>{up({attacks:c.attacks.filter(a=>a.id!==f.id)});oC();};
   const aD=s=>{const cur=f.damage.trim();sf({...f,damage:cur?`${cur}+1d${s}`:`1d${s}`});};
+  const preview=atkHit(f,c.stats,c.profBonus);
   return(
     <Sh t={isE?"Modifica Attacco":"Nuovo Attacco"} oC={oC}>
-      <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Nitro"/></Fl>
-      <Fl l="Bonus Colpire"><input type="number" value={f.hit} onChange={e=>sf({...f,hit:parseInt(e.target.value)||0})} style={{...SS.inp,width:"100%"}}/></Fl>
-      <Fl l="Formula Danno">
-        <input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:3}} placeholder="es. 3d8+1d6+5"/>
+      <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Sciabola"/></Fl>
+      <Fl l="Caratteristica"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
+        {["FOR","DES","COS","INT","SAG","CAR"].map(k=><button key={k} onClick={()=>sf({...f,stat:k})} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${f.stat===k?"#c8a95e":"#c8a95e22"}`,background:f.stat===k?"rgba(200,169,94,0.15)":"transparent",color:f.stat===k?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:f.stat===k?700:400}}>{k}</button>)}
+      </div></Fl>
+      <div style={{textAlign:"center",padding:"4px 0",fontFamily:"'JetBrains Mono'",fontSize:13,color:"#c8a95e"}}>Colpire: +{preview} ({f.stat} {(c.stats[f.stat]?.mod||0)>=0?"+":""}{c.stats[f.stat]?.mod||0} + comp +{c.profBonus}{f.bonusActive&&f.bonusHit?` + bonus +${f.bonusHit}`:""})</div>
+      <Fl l="Formula Danno (base, senza mod stat)">
+        <input value={f.damage} onChange={e=>sf({...f,damage:e.target.value})} style={{...SS.inp,width:"100%",marginBottom:3}} placeholder="es. 1d6"/>
         <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
           {[4,6,8,10,12].map(s=><button key={s} onClick={()=>aD(s)} style={{padding:"3px 8px",borderRadius:3,border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.06)",color:"#c8a95e",fontSize:9,fontFamily:"'JetBrains Mono'",cursor:"pointer",touchAction:"manipulation"}}>+d{s}</button>)}
           <button onClick={()=>sf({...f,damage:""})} style={{padding:"3px 8px",borderRadius:3,border:"1px solid #e74c3c33",color:"#e74c3c",fontSize:9,cursor:"pointer",background:"transparent"}}>✕</button>
         </div>
       </Fl>
-      <Fl l="Tipo"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. magico"/></Fl>
+      <Fl l="Tipo"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. tagliente, magico"/></Fl>
+      <Fl l="⚡ Bonus Attivabile (es. Indurimento Armi)">
+        <div style={{display:"flex",gap:5,alignItems:"center"}}>
+          <span style={{fontSize:10,color:"#998866"}}>Colpire</span>
+          <input type="number" value={f.bonusHit||0} onChange={e=>sf({...f,bonusHit:parseInt(e.target.value)||0})} style={{...SS.inp,width:45,textAlign:"center"}}/>
+          <span style={{fontSize:10,color:"#998866"}}>Danno</span>
+          <input type="number" value={f.bonusDmg||0} onChange={e=>sf({...f,bonusDmg:parseInt(e.target.value)||0})} style={{...SS.inp,width:45,textAlign:"center"}}/>
+        </div>
+      </Fl>
       <div style={{display:"flex",gap:5,marginTop:12}}>
         {isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}
         <button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button>
