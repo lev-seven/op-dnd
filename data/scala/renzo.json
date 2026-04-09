@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-08T15:14:16.856Z",
+  "exportedAt": "2026-04-09T13:10:55.045Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -785,7 +785,7 @@
         "prepared": false
       }
     ],
-    "notes": "",
+    "notes": "Personaggi importanti:\nMalfas\nGrimm\nNoa - Rei\nEzikiel\nCallistos\nCiurma di Sosa\n\nElaiha\nNaive\nZigzag\nGregori",
     "backstory": "",
     "diceLog": [],
     "effects": []
