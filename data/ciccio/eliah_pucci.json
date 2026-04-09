@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-09T22:10:31.618Z",
+  "exportedAt": "2026-04-09T22:12:57.734Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -225,13 +225,6 @@
         "name": "Balestra",
         "hit": 9,
         "damage": "1d6+1d6+5",
-        "type": ""
-      },
-      {
-        "id": "mnl3ed44wpq3",
-        "name": "Jet",
-        "hit": 10,
-        "damage": "12d8+41",
         "type": ""
       },
       {
