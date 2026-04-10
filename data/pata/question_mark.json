@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-09T16:45:13.470Z",
+  "exportedAt": "2026-04-10T16:26:38.159Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -49,9 +49,9 @@
         "profSave": false
       },
       "CAR": {
-        "score": 18,
-        "mod": 4,
-        "save": 4,
+        "score": 20,
+        "mod": 5,
+        "save": 5,
         "profSave": false
       }
     },
@@ -190,28 +190,26 @@
     },
     "origins": [
       {
-        "id": "haki_arm",
-        "name": "Haki Armatura",
-        "color": "#8e44ad"
-      },
-      {
-        "id": "haki_oss",
-        "name": "Haki Osservazione",
-        "color": "#1abc9c"
-      },
-      {
-        "id": "haki_re",
-        "name": "Haki del Re",
-        "color": "#f1c40f"
-      },
-      {
-        "id": "fdd",
-        "name": "Frutto del diavolo",
-        "color": "#f46fc1"
+        "id": "mnt46cio8qre",
+        "name": "Talenti:Maestro Armi su Asta",
+        "color": "#ff0000"
       }
     ],
     "attacks": [],
-    "abilities": [],
+    "abilities": [
+      {
+        "id": "mnt4ags8lutg",
+        "name": "Colpo di palo",
+        "originId": "mnt46cio8qre",
+        "type": "Azione bonus",
+        "desc": "Dopo aver effettuato l’azione Attacco con bastone ferrato, lancia o arma con proprietà Pesante e Portata, puoi fare un attacco in mischia con l’estremità opposta (1d4 danni contundenti).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      }
+    ],
     "spells": [],
     "notes": "",
     "backstory": "",
