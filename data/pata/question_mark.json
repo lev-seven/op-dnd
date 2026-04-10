@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-10T17:20:59.840Z",
+  "exportedAt": "2026-04-10T17:37:08.245Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -9,8 +9,8 @@
     "level": 9,
     "classes": "Devilforged",
     "ac": 10,
-    "hpMax": 10,
-    "hpCurrent": 10,
+    "hpMax": 65,
+    "hpCurrent": 65,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -45,14 +45,14 @@
       "SAG": {
         "score": 12,
         "mod": 1,
-        "save": 1,
-        "profSave": false
+        "save": 5,
+        "profSave": true
       },
       "CAR": {
         "score": 20,
         "mod": 5,
-        "save": 5,
-        "profSave": false
+        "save": 9,
+        "profSave": true
       }
     },
     "skills": [
@@ -89,12 +89,12 @@
       {
         "name": "Inganno",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intrattenere",
@@ -119,7 +119,7 @@
       {
         "name": "Percezione",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Persuasione",
@@ -208,6 +208,11 @@
         "id": "mnt62sfkn6mq",
         "name": "Talenti: Velenoso",
         "color": "#00ff1e"
+      },
+      {
+        "id": "mnt6jmb4j6w6",
+        "name": "Devilforged",
+        "color": "#4400ff"
       }
     ],
     "attacks": [
@@ -327,6 +332,30 @@
         "uses": 0,
         "rest": null,
         "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnt6k928zwkr",
+        "name": "Potere del diavolo",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Passiva",
+        "desc": "Caratteristica da incantatore: Carisma.",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnt6rfz4jhve",
+        "name": "Infusione: Paramicia",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "Attivi i poteri Paramecia, trasformando l’oggetto in un’arma (se non lo è già), scegliendone la forma a ogni attivazione.\nL’oggetto infuso può trasformarsi in un’arma a tua scelta quando attivato; sei competente mentre lo usi. Conta come arma magica.\nSe si trova a più di 1,5 m da te per 1 minuto, ritorna nella tua mano.\nL’effetto termina se muori.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
         "fav": false
       }
     ],
