@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-10T16:26:38.159Z",
+  "exportedAt": "2026-04-10T17:20:59.840Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -15,7 +15,7 @@
     "hpPerm": 0,
     "speed": 9,
     "passivePerception": 10,
-    "profBonus": 2,
+    "profBonus": 4,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
@@ -193,9 +193,45 @@
         "id": "mnt46cio8qre",
         "name": "Talenti:Maestro Armi su Asta",
         "color": "#ff0000"
+      },
+      {
+        "id": "mnt5slo6259h",
+        "name": "Talenti:Maestro D'armi",
+        "color": "#ff007b"
+      },
+      {
+        "id": "mnt5zwjqpdzp",
+        "name": "Talenti:Sentinella",
+        "color": "#d833db"
+      },
+      {
+        "id": "mnt62sfkn6mq",
+        "name": "Talenti: Velenoso",
+        "color": "#00ff1e"
       }
     ],
-    "attacks": [],
+    "attacks": [
+      {
+        "id": "mnt677hjd19y",
+        "name": "Lancia",
+        "stat": "CAR",
+        "damage": "1d10",
+        "type": "magico",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      },
+      {
+        "id": "mnt68fbi9617",
+        "name": "Pistola",
+        "stat": "CAR",
+        "damage": "1d10",
+        "type": "magico",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      }
+    ],
     "abilities": [
       {
         "id": "mnt4ags8lutg",
@@ -207,7 +243,91 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": true
+        "fav": false
+      },
+      {
+        "id": "mnt5oovsi31v",
+        "name": "Attacco preventivo",
+        "originId": "mnt46cio8qre",
+        "type": "Reazione",
+        "desc": "Mentre impugni una di queste armi, puoi effettuare un attacco in mischia contro una creatura che entra nella tua portata.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt5svzxk8jv",
+        "name": "Atterramento(Lancia)",
+        "originId": "mnt5slo6259h",
+        "type": "Passiva",
+        "desc": "Quando colpisci una creatura con quest’arma, puoi costringerla a effettuare un TS su Costituzione (CD = 8 + modificatore della caratteristica usata per colpire + Bonus Competenza). Se fallisce, cade Prona.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnt5w3knrgy6",
+        "name": "Vessare(Pistola)",
+        "originId": "mnt5slo6259h",
+        "type": "Passiva",
+        "desc": "Quando colpisci una creatura con quest’arma e le infliggi danno, ottieni Vantaggio al prossimo tiro per colpire contro di essa entro la fine del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt6058iexe6",
+        "name": "Guardiano",
+        "originId": "mnt5zwjqpdzp",
+        "type": "Reazione",
+        "desc": "quando una creatura entro 1,5 m usa Disimpegno o colpisce un bersaglio diverso da te, puoi effettuare un Attacco di Opportunità contro di essa.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt619wq4uyv",
+        "name": "Arresto",
+        "originId": "mnt5zwjqpdzp",
+        "type": "Passiva",
+        "desc": "se colpisci con un Attacco di Opportunità, la velocità della creatura diventa 0 per il resto del turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt63kcngo4d",
+        "name": "Tossico",
+        "originId": "mnt62sfkn6mq",
+        "type": "Passiva",
+        "desc": "I tuoi danni da veleno ignorano la Resistenza al veleno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt65y5t3lrn",
+        "name": "Veleno Potente",
+        "originId": "mnt62sfkn6mq",
+        "type": "Azione bonus",
+        "desc": "Applichi una dose di veleno a un’arma o munizione (dura 1 minuto o fino al primo colpo andato a segno).\nSe colpisci, il bersaglio deve superare un TS su Costituzione (CD = 8 + modificatore della caratteristica aumentata + Bonus Competenza) o subisce 2d8 danni da veleno ed è Avvelenato fino alla fine del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": false
       }
     ],
     "spells": [],
