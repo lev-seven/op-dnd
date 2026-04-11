@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-09T22:52:53.921Z",
+  "exportedAt": "2026-04-11T08:20:01.585Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1119,7 +1119,7 @@
         "name": "Longstrider",
         "level": 1,
         "school": "Transmutation",
-        "castingTime": "Rituale (può essere lanciato come rituale, richiede 10 minuti in più)",
+        "castingTime": "action",
         "ritual": true,
         "range": "Contatto",
         "components": {
@@ -1140,7 +1140,7 @@
         "school": "Evocation",
         "castingTime": "action",
         "ritual": false,
-        "range": "Te stesso (raggio di 3 m)",
+        "range": "6 m Ø",
         "components": {
           "v": true,
           "s": false,
@@ -1150,7 +1150,7 @@
         "concentration": true,
         "desc": "Un vento forte (fino a 20 mph) soffia attorno a te in un raggio di 3 m e si muove con te, rimanendo centrato su di te. Il vento dura per tutta la durata dell’incantesimo e produce i seguenti effetti:\n1. Provoca cecità uditiva a te e alle creature nell’area.\n2. Spegne fiamme non protette della dimensione di una torcia o minori.\n3. Allontana vapori, gas e nebbie che possono essere dispersi da un vento forte.\n4. L’area diventa terreno difficile per chiunque eccetto te.\n5. Gli attacchi a distanza hanno svantaggio se passano dentro o fuori dal vento.",
         "higherLevels": null,
-        "prepared": true
+        "prepared": false
       },
       {
         "id": "misty_step",
