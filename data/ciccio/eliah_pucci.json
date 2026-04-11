@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-11T11:54:15.136Z",
+  "exportedAt": "2026-04-11T11:57:19.003Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -1055,6 +1055,30 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnua2vt00yod",
+        "name": "Spells",
+        "originId": "mnu9wsg2xksd",
+        "type": "Azione",
+        "desc": "This devil fruit power has 5 charges. You can expend 1 or more of its charges to cast one of the following spells from it without needing to expend material components: Longstrider (Self; 1 charge), Drift Run (Kinetic Jaunt; 2 charges), or Burnout (Ashardalon's Stride; 3 charges). The devil fruit regains expended charges daily at dawn.",
+        "maxUses": 5,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnua4t456go3",
+        "name": "Turbo Terrain",
+        "originId": "mnu9wsg2xksd",
+        "type": "Azione",
+        "desc": "Una volta risvegliato il tuo potere, puoi usare un'azione per trasformare il terreno entro un raggio di 36 metri centrato su di te in un terreno con battistrada rotante per 1 minuto o finché non perdi i sensi. I nemici sul terreno devono effettuare un tiro salvezza su Destrezza all'inizio di ogni turno o essere atterrati e immediatamente spostati in linea retta in qualsiasi direzione tu scelga fino a qualsiasi punto all'interno dell'area. Ad esempio, potresti spingere una creatura in una fossa o in un pericolo ambientale all'interno dell'area se fallisce il tiro salvezza. Tu e i tuoi alleati ottenete il triplo della velocità di movimento su questo terreno e i tuoi attacchi rotanti infliggono il doppio dei danni e spingono i bersagli che falliscono il tiro salvezza di 3 metri invece. Non puoi usare di nuovo questa azione per altre 24 ore.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
         "cdStat": "CAR",
         "fav": false
       }
