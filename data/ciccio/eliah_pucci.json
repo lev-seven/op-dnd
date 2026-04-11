@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-11T08:20:01.585Z",
+  "exportedAt": "2026-04-11T11:54:15.136Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -294,6 +294,11 @@
         "id": "mnht8sap1lr4",
         "name": "Magie preparate",
         "color": "#ffffff"
+      },
+      {
+        "id": "mnu9wsg2xksd",
+        "name": "Shari Shari no mi",
+        "color": "#5b2067"
       }
     ],
     "abilities": [
@@ -1016,6 +1021,42 @@
         "rest": null,
         "cdStat": null,
         "fav": true
+      },
+      {
+        "id": "mnu9y8gk3zqh",
+        "name": "Immunità della Ruota",
+        "originId": "mnu9wsg2xksd",
+        "type": "Passiva",
+        "desc": "Sei immune ai danni contundenti non magici, poiché il tuo corpo rimbalza e rotola via dalla forza contundente grazie alle sue ruote.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnu9z15e9gl9",
+        "name": "Forma Rotolante",
+        "originId": "mnu9wsg2xksd",
+        "type": "Azione bonus",
+        "desc": "Come azione bonus, puoi trasformare le tue gambe in grandi ruote, raddoppiando la tua velocità di movimento e permettendoti di attraversare terreni difficili senza penalità fino all'inizio del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnua0dbyt2wb",
+        "name": "Ruota Armata",
+        "originId": "mnu9wsg2xksd",
+        "type": "Azione bonus",
+        "desc": "Come azione bonus, puoi far sì che il tuo prossimo attacco in mischia contro una creatura infligga 1d8 danni contundenti extra se va a segno, poiché l'energia rotazionale dei tuoi attacchi aumenta fino all'inizio del tuo prossimo turno. Se una creatura viene colpita da questo attacco, deve superare un tiro salvezza su Forza contro la CD del tuo tiro salvezza del Frutto del Diavolo, oppure essere spinta di 1,5 metri in qualsiasi direzione in uno spazio vuoto.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": false
       }
     ],
     "spells": [
