@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-13T20:39:46.217Z",
+  "exportedAt": "2026-04-13T20:47:23.226Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -9,31 +9,31 @@
     "level": 10,
     "classes": "Bruiser",
     "ac": 10,
-    "hpMax": 10,
-    "hpCurrent": 10,
+    "hpMax": 105,
+    "hpCurrent": 105,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
     "passivePerception": 10,
-    "profBonus": 2,
+    "profBonus": 4,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 19,
+        "mod": 4,
+        "save": 4,
         "profSave": false
       },
       "DES": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 12,
+        "mod": 1,
+        "save": 1,
         "profSave": false
       },
       "COS": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 15,
+        "mod": 2,
+        "save": 2,
         "profSave": false
       },
       "INT": {
@@ -43,15 +43,15 @@
         "profSave": false
       },
       "SAG": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 13,
+        "mod": 1,
+        "save": 1,
         "profSave": false
       },
       "CAR": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 14,
+        "mod": 2,
+        "save": 2,
         "profSave": false
       }
     },
@@ -74,7 +74,7 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
@@ -94,7 +94,7 @@
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intrattenere",
@@ -104,7 +104,7 @@
       {
         "name": "Intuizione",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Medicina",
