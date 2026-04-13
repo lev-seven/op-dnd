@@ -235,14 +235,14 @@ function AppWrapper(){
     // Update manifest
     try{
       const b=BASE();
-      const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now()).then(r=>r.json());
+      const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now(),{cache:"no-store",headers:{"If-None-Match":""}}).then(r=>r.json());
       if(!mRaw.characters[owner])mRaw.characters[owner]=[];
       if(!mRaw.characters[owner].find(c=>c.file===fname)){
         mRaw.characters[owner].push({file:fname,name:charObj.name,preview:`${charObj.race||"?"} · Lv ${charObj.level||1}${charObj.classes?" · "+charObj.classes:""}`});
         await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);
         setManifest(mRaw);
       }
-    }catch{}
+    }catch(e){console.error("Manifest update failed:",e);}
     clearSession();
     return{owner,file:fname};
   };
@@ -480,6 +480,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
   const[avZoom,setAvZoom]=useState(false);
   const avUpRef=useRef(null);
   const[avKey,setAvKey]=useState(0);
+  const[localAv,setLocalAv]=useState(null);
   const uploadAvatar=async(e)=>{
     const file=e.target.files[0];if(!file||!ghToken||!charMeta)return;
     const reader=new FileReader();
@@ -523,7 +524,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
     let ok;
     if(charMeta){
       ok=await saveToGH(charMeta.owner,charMeta.file,c);
-      if(ok&&ghToken){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now()).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);setManifest(mRaw);}}}catch{}}
+      if(ok&&ghToken){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now(),{cache:"no-store",headers:{"If-None-Match":""}}).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);setManifest(mRaw);}}}catch{}}
     }else{
       const res=await saveNewToGH(c);
       ok=!!res;
@@ -576,7 +577,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
           <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
             <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac,width:28,height:28,fontSize:12}}>←</button>
             <input ref={avUpRef} type="file" accept="image/jpeg,image/png" style={{display:"none"}} onChange={uploadAvatar}/>
-            {avatarUrl?<div onClick={()=>setAvZoom(true)} style={{cursor:"pointer"}}><Av key={avKey} src={avatarUrl+"?t="+avKey} fallback={c.name?c.name[0]:"?"} size={34} color={ac} round={false}/></div>
+            {avatarUrl?<div onClick={()=>setAvZoom(true)} style={{cursor:"pointer"}}><Av key={avKey} src={localAv||avatarUrl+"?t="+avKey} fallback={c.name?c.name[0]:"?"} size={34} color={ac} round={false}/></div>
             :<div onClick={()=>{if(ghToken&&charMeta)avUpRef.current?.click();}} style={{width:34,height:34,borderRadius:8,border:`2px dashed ${ac}44`,background:`${ac}0a`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:ghToken&&charMeta?"pointer":"default",flexShrink:0,color:ac+"66"}}>📷</div>}
             <div style={{flex:1,minWidth:0}}>
               {edit?(
@@ -676,7 +677,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
       {modal?.type==="skill"&&<SM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {modal?.type==="spell"&&<SpM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {modal?.type==="spellSlots"&&<SpSlotsM c={c} up={up} oC={()=>setModal(null)}/>}
-      {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><div onClick={e=>e.stopPropagation()} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:10}}><img src={avatarUrl+"?t="+avKey} style={{maxWidth:"85vw",maxHeight:"75vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/>{ghToken&&charMeta&&<button onClick={()=>{setAvZoom(false);avUpRef.current?.click();}} style={{padding:"6px 16px",borderRadius:6,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontSize:11,fontFamily:"'Cinzel'",fontWeight:700,cursor:"pointer"}}>📷 Cambia foto</button>}</div></div>}
+      {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><div onClick={e=>e.stopPropagation()} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:10}}><img src={localAv||avatarUrl+"?t="+avKey} style={{maxWidth:"85vw",maxHeight:"75vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/>{ghToken&&charMeta&&<button onClick={()=>{setAvZoom(false);avUpRef.current?.click();}} style={{padding:"6px 16px",borderRadius:6,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontSize:11,fontFamily:"'Cinzel'",fontWeight:700,cursor:"pointer"}}>📷 Cambia foto</button>}</div></div>}
     </div>
   );
 }
