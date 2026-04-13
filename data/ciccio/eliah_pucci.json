@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-13T20:19:21.806Z",
+  "exportedAt": "2026-04-13T22:44:02.792Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -198,7 +198,7 @@
         "bonusHit": 1,
         "bonusDmg": 12,
         "bonusActive": true,
-        "desc": "Prova"
+        "desc": ""
       },
       {
         "id": "mns13t53zmp1",
