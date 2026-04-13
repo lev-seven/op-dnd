@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-13T20:52:41.339Z",
+  "exportedAt": "2026-04-13T21:02:55.174Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -215,7 +215,18 @@
         "color": "#bc1a1a"
       }
     ],
-    "attacks": [],
+    "attacks": [
+      {
+        "id": "mnxoe582kar2",
+        "name": "Mazza Seastone",
+        "stat": "FOR",
+        "damage": "1d8",
+        "type": "contundente",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      }
+    ],
     "abilities": [
       {
         "id": "mnxo1po0ntvw",
