@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-13T21:36:56.105Z",
+  "exportedAt": "2026-04-13T21:44:08.278Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -455,9 +455,65 @@
         "rest": null,
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mnxpvcc3afba",
+        "name": "ROOM",
+        "originId": "fdd",
+        "type": "Azione bonus",
+        "desc": " puoi usare un'azione bonus per creare una sfera psichica di 60 piedi di raggio, o \"stanza\", centrata su dove ti trovi quando la crei. Devi mantenere la concentrazione su questa stanza (come se fossi concentrato su un incantesimo). La stanza dura 1 minuto, o finché non la termini usando un'azione bonus. Puoi avere solo una stanza alla volta. Ogni turno, puoi usare un'altra azione bonus per aumentare il raggio della stanza di altri 60 piedi. Qualsiasi creatura che vedi nella stanza può essere presa di mira da qualsiasi incantesimo di livello lanciato usando questo frutto del diavolo sotto \"Incantesimi della stanza\", indipendentemente dalla portata dell'incantesimo. Inoltre, la portata degli incantesimi o qualsiasi effetto di incantesimo elencato in \"incantesimi di stanza\" può essere esteso a qualsiasi punto all'interno della \"stanza\", ma è anche limitato dalla portata della stanza e non può essere lanciato al di fuori di essa né influenzare nulla al di fuori del raggio della stanza. Ad esempio, la portata del passo nebbioso aumenta da 60 piedi fino a quella di qualsiasi punto all'interno del raggio della stanza. Gli Incantesimi di Stanza che normalmente richiedono concentrazione non richiedono concentrazione mentre sono lanciati entro il raggio della Stanza, ma terminano quando la durata della Stanza termina o quando perdi la concentrazione sulla stanza. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpwnpumv6y",
+        "name": "Scan",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Puoi spendere un'azione per scansionare il raggio della stanza e individuare una creatura che non vedi, che si trova dietro una copertura completa o nascosta nel raggio d'azione della stanza. Puoi farlo tirando una prova di percezione contro la furtività della creatura per localizzarla. Una creatura avvistata in questo modo non può ottenere i benefici di copertura completa contro i tuoi Incantesimi di Frutto del Diavolo mentre è nel raggio d'azione della stanza, e può essere vista da te come se fosse completamente visibile, diventando delineata dal Fuoco Fatato. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpy9m8l37l",
+        "name": "Surgery Scalpel",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi designare un'arma da mischia con cui sei abile e che infligge danni taglienti o perforanti come il tuo Surgery Scalpel quando usi i poteri Ope Ope no Mi. L'arma diventa magica allo scopo di superare la resistenza, se non lo è già. Inoltre, quando colpisci una creatura nella tua Stanza con il Surgery Scalpel, una volta per turno puoi rinunciare a infliggere danni e invece usare uno dei seguenti effetti contro il bersaglio: \n•\tInjection Shot: Puoi spendere 1 carica di frutto del diavolo per infliggere 2d8 danni necrotici extra al bersaglio con il tuo Injection Shot. \n•\tGamma Knife: Puoi spendere 3 cariche di frutti del diavolo per infliggere 3d8 danni radianti extra al bersaglio con il tuo Bisturi Chirurgico. Inoltre, la creatura deve superare un tiro salvezza della Costituzione contro la tua CD salvezza del Frutto del Diavolo o rimanere avvelenata per 1 minuto. Il bersaglio può ripetere il tiro salvezza alla fine di ogni turno, terminando la condizione in caso di successo. \n•\tAmputate: Tagli pulitamente un arto della creatura per 10 minuti, senza farle del male. Ogni volta che rimuovi gli arti di una creatura in questo modo, questa acquisisce un livello di stanchezza (fino a un massimo di 5 livelli di stanchezza) purché gli arti non siano attaccati. Una creatura a cui sono stati rimossi gli arti in questo modo può spendere un'azione per riattaccare tutti gli arti, ponendo fine a tutti i livelli di stanchezza applicati dall'amputazione su se stessa. Puoi spendere 1 carica di frutto del diavolo usando questo attacco durante il tuo turno per applicare \"Radio Knife\" all'Amputazione, infliggendo 1d8 danni elettrici al bersaglio e facendo sì che la creatura non riesca a riattaccare l'arto mancante a meno che non riesca a superare un tiro salvezza Saggezza contro la tua CD salvezza del Frutto del Diavolo come parte della sua azione per riattaccare gli arti. Se la creatura fallisce il tiro salvezza, la sua azione viene sprecata e gli arti rimangono liberi. \n",
+        "maxUses": 17,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
       }
     ],
-    "spells": [],
+    "spells": [
+      {
+        "id": "mnxpryqgy17w",
+        "name": "Countershock",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "",
+        "higherLevels": "2d8",
+        "prepared": true
+      }
+    ],
     "notes": "",
     "backstory": "",
     "diceLog": [],
