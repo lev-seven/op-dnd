@@ -1,14 +1,14 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-13T20:47:23.226Z",
+  "exportedAt": "2026-04-13T20:52:43.019Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
     "race": "Umano",
     "level": 10,
     "classes": "Bruiser",
-    "ac": 10,
+    "ac": 13,
     "hpMax": 105,
     "hpCurrent": 105,
     "hpTemp": 0,
@@ -208,10 +208,28 @@
         "id": "fdd",
         "name": "Frutto del diavolo",
         "color": "#f46fc1"
+      },
+      {
+        "id": "mnxo1him7q5z",
+        "name": "Bruiser",
+        "color": "#bc1a1a"
       }
     ],
     "attacks": [],
-    "abilities": [],
+    "abilities": [
+      {
+        "id": "mnxo1po0ntvw",
+        "name": "Unarmored Defense ",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "Anche se non indossi alcuna armatura e non usi uno scudo, la tua classe di armatura è pari a 10 + il tuo modificatore di Destrezza + il tuo modificatore di Costituzione.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      }
+    ],
     "spells": [],
     "notes": "",
     "backstory": "",
