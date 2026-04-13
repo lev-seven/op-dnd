@@ -334,7 +334,7 @@ function AppWrapper(){
           onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
       })()}
       {!loading&&screen==="sheet"&&char&&
-        <Sheet char={char} deleteCharGH={deleteCharGH} isMaster={isMaster} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} saveNewToGH={saveNewToGH} setCharMeta={setCharMeta} accId={accId}
+        <Sheet char={char} onDelete={()=>{clearSession();setChar(null);setCharMeta(null);setScreen("characters");}} deleteCharGH={deleteCharGH} isMaster={isMaster} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} saveNewToGH={saveNewToGH} setCharMeta={setCharMeta} accId={accId}
           onBack={()=>{if(confirm("Hai salvato? Le modifiche non salvate andranno perse.")){clearSession();setChar(null);setCharMeta(null);setScreen("characters");}}}
           onExport={doExport}
           onImport={()=>fileRef.current?.click()}/>}
@@ -494,7 +494,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
 }
 
 /* ═══ CHARACTER SHEET — FIX PRINCIPALE ═══ */
-function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMeta,accId,isMaster,onBack,onExport,onImport,deleteCharGH}){
+function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMeta,accId,isMaster,onBack,onExport,onImport,deleteCharGH, onDelete}){
   const[tab,setTab]=useState("stats");
   const[edit,setEdit]=useState(false);
   const[popup,setPopup]=useState(null);
@@ -638,7 +638,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
             {!edit&&<span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span>}
             {htmlUrl&&<button onClick={()=>window.open(htmlUrl,"_blank")} title="Scheda Completa" style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,cursor:"pointer",flexShrink:0}}>📖</button>}
             {isMaster&&<button onClick={()=>up({locked:!c.locked})} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${c.locked?"#e74c3c":ac+"44"}`,background:c.locked?"rgba(231,76,60,0.2)":`${ac}15`,color:c.locked?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{c.locked?"🔒":"🔓"}</button>}
-            {isMaster&&charMeta&&<button onClick={async()=>{if(!confirm(`Eliminare definitivamente ${c.name}? Questa azione è irreversibile.`))return;if(!confirm("Sei sicuro? File, foto e backup verranno cancellati."))return;const ok=await deleteCharGH(charMeta.owner,charMeta.file);if(ok){clearSession();setChar(null);setCharMeta(null);setScreen("characters");}else alert("Errore eliminazione");}} style={{width:28,height:28,borderRadius:"50%",border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.15)",color:"#e74c3c",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,cursor:"pointer",flexShrink:0}}>🗑</button>}
+            {isMaster&&charMeta&&<button onClick={async()=>{if(!confirm(`Eliminare definitivamente ${c.name}? Questa azione è irreversibile.`))return;if(!confirm("Sei sicuro? File, foto e backup verranno cancellati."))return;const ok=await deleteCharGH(charMeta.owner,charMeta.file);if(ok){onDelete();}else alert("Errore eliminazione");}} style={{width:28,height:28,borderRadius:"50%",border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.15)",color:"#e74c3c",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,cursor:"pointer",flexShrink:0}}>🗑</button>}
             {(!c.locked||isMaster)&&<button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button>}
           </div>
         </div>
