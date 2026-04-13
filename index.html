@@ -78,7 +78,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v364";
+const APP_VERSION="v396";
 
 /* ═══ AVATAR COMPONENT ═══ */
 function Av({src,fallback,size,color,round,style:extra}){
