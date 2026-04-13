@@ -68,7 +68,12 @@
         "preview": "mink · Lv 9 · warrior"
       }
     ],
-    "rik": [],
+    "rik": [
+      {
+        "file": "murai_ota.json",
+        "name": "Murai Ota",
+        "preview": "Umano · Lv 10 · Bruiser"
+      }],
     "ga" : []
   }
 }
