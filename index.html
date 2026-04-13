@@ -217,6 +217,7 @@ function AppWrapper(){
   const storeToken=async(aid,ph,token)=>{const enc=await aesEnc(token,ph);localStorage.setItem("tk_"+aid,enc);};
   const saveToGH=async(owner,file,charObj)=>{
     if(!ghToken||!BASE())return false;
+    try{await ghPut(`data/${owner}/backups/${file}`,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);}catch{}
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
     const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(ok)clearSession();
@@ -1126,7 +1127,7 @@ function SpM({c,up,data,oC}){
   const[f,sf]=useState(data||{id:uid(),name:"",level:0,school:"Evocazione",castingTime:"action",ritual:false,range:"",components:{v:true,s:true,m:null},duration:"Istantanea",concentration:false,desc:"",higherLevels:null,prepared:true});
   const upF=k=>v=>sf(p=>({...p,[k]:v}));
   const sv=()=>{if(!f.name.trim())return;const sp={...f,name:f.name.trim(),components:{...f.components,m:f.components.m||null},higherLevels:f.higherLevels||null};if(isE){up({spells:(c.spells||[]).map(s=>s.id===sp.id?sp:s)});}else{up({spells:[...(c.spells||[]),sp]});}oC();};
-  const dl=()=>{up({spells:(c.spells||[]).filter(s=>s.id!==f.id)});oC();};
+  const dl=()=>{if(!confirm("Eliminare la magia "+f.name+"?"))return;up({spells:(c.spells||[]).filter(s=>s.id!==f.id)});oC();};
   return<Sh t={isE?"Modifica Magia":"Nuova Magia"} oC={oC}>
     <Fl l="Nome"><input value={f.name} onChange={e=>upF("name")(e.target.value)} style={{...SS.inp,width:"100%"}} placeholder="es. Thunderwave"/></Fl>
     <div style={{display:"flex",gap:5}}>
@@ -1208,7 +1209,7 @@ function AM({c,up,data,oC}){
   const isE=!!data;
   const[f,sf]=useState(data||{id:uid(),name:"",stat:"FOR",damage:"",type:"",bonusHit:0,bonusDmg:0,bonusActive:false});
   const sv=()=>{if(!f.name)return;if(isE)up({attacks:c.attacks.map(a=>a.id===f.id?f:a)});else up({attacks:[...c.attacks,f]});oC();};
-  const dl=()=>{up({attacks:c.attacks.filter(a=>a.id!==f.id)});oC();};
+  const dl=()=>{if(!confirm("Eliminare l'attacco "+f.name+"?"))return;up({attacks:c.attacks.filter(a=>a.id!==f.id)});oC();};
   const aD=s=>{const cur=f.damage.trim();sf({...f,damage:cur?`${cur}+1d${s}`:`1d${s}`});};
   const preview=atkHit(f,c.stats,c.profBonus);
   return(
@@ -1250,7 +1251,7 @@ function BM({c,up,data,oC}){
   const[f,sf]=useState(data||{id:uid(),name:"",originId:c.origins[0]?.id||"",type:"Azione",desc:"",maxUses:-1,uses:0,rest:null,cdStat:null,fav:false});
   const[um,sUm]=useState(f.maxUses===-1?"u":"l");
   const sv=()=>{if(!f.name)return;const fin={...f,maxUses:um==="u"?-1:(f.maxUses>0?f.maxUses:1)};if(um==="u"){fin.rest=null;fin.uses=0;}if(isE)up({abilities:c.abilities.map(a=>a.id===fin.id?fin:a)});else up({abilities:[...c.abilities,fin]});oC();};
-  const dl=()=>{up({abilities:c.abilities.filter(a=>a.id!==f.id)});oC();};
+  const dl=()=>{if(!confirm("Eliminare l'azione "+f.name+"?"))return;up({abilities:c.abilities.filter(a=>a.id!==f.id)});oC();};
   return(
     <Sh t={isE?"Modifica Azione":"Nuova Azione"} oC={oC}>
       <Fl l="Nome"><input value={f.name} onChange={e=>sf({...f,name:e.target.value})} style={{...SS.inp,width:"100%"}}/></Fl>
@@ -1315,7 +1316,7 @@ function SM({c,up,data,oC}){
   const[md,setMd]=useState(data?.mod||0);
   const cyclePr=()=>setPr(p=>p==="none"?"prof":p==="prof"?"mastery":"none");
   const sv=()=>{if(!nm.trim())return;const s=st?{name:nm.trim(),stat:st,prof:pr}:{name:nm.trim(),stat:null,mod:parseInt(md)||0,prof:pr};if(isE){const sk=[...c.skills];sk[data.idx]=s;up({skills:sk});}else{up({skills:[...c.skills,s]});}oC();};
-  const dl=()=>{if(!isE)return;up({skills:c.skills.filter((_,i)=>i!==data.idx)});oC();};
+  const dl=()=>{if(!isE)return;if(!confirm("Eliminare l'abilità "+nm+"?"))return;up({skills:c.skills.filter((_,i)=>i!==data.idx)});oC();};
   const bonus=pr==="mastery"?c.profBonus*2:pr==="prof"?c.profBonus:0;
   const preview=st?((c.stats[st]?.mod||0)+bonus):(parseInt(md)||0)+bonus;
   const prLabel=pr==="mastery"?"★ Maestria":pr==="prof"?"● Competenza":"○ Nessuna";
