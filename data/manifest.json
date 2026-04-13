@@ -5,28 +5,28 @@
       "name": "Ciccio",
       "color": "#e74c3c",
       "isMaster": true,
-      "h": "a6b3799b7ad26f0006c800ff1f02a15fd16e847c2aa72b652ad896ae61e88f4a"
+      "iz": "522296e48322afffb4467aa86458c9c5f22419949f8133a78b1e2cd193527b43"
     },
     {
       "id": "pata",
       "name": "Pata",
       "color": "#3498db",
       "isMaster": false,
-      "h": "0e73e994ccda52b65938bc6e1ec305f61ab8e2c6188458420f2b46932d118f21"
+      "iz": "161c3a4654baa50e1338720fabd791575febb9eb071b4c1ef2f6df75504a0e41"
     },
     {
       "id": "scala",
       "name": "Scala",
       "color": "#c8a95e",
       "isMaster": false,
-      "h": "77696c7a64e9bc7de8f7f65e22148af210e3a6204f877307f9c8df34220118ec"
+      "iz": "3ecf2e774708f1d88877e527a7e386d6786e88fbeecba8d7b3957fc8ffb5005d"
     },
     {
       "id": "rik",
       "name": "Rik",
       "color": "#3ff8db",
       "isMaster": false,
-      "h": "d496e428da1a2c630dd31abab757ec1d25f6e6ab9bacc504747601a0f4fcabc7"
+      "iz": "3adf32481439ea96850af4d2933f98265bd23fc1c6eac821a5776e950a22b8aa"
     }
   ],
   "characters": {

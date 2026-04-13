@@ -130,7 +130,7 @@ async function ghLog(owner,action,token,accId,isMaster,accName){
 /* ═══ SESSION RECOVERY ═══ */
 const SESS_KEY="dnd_session";
 function saveSession(accId,char){try{sessionStorage.setItem(SESS_KEY,JSON.stringify({accId,char,ts:Date.now()}));}catch{}}
-function loadSession(accId){try{const d=JSON.parse(sessionStorage.getItem(SESS_KEY));if(d&&d.accId===accId&&d.char&&(Date.now()-d.ts)<3600000)return d.char;return null;}catch{return null;}}
+function loadSession(accId){try{const d=JSON.parse(sessionStorage.getItem(SESS_KEY));if(d&&d.accId===accId&&d.char&&(Date.now()-d.ts)<1200000)return d.char;return null;}catch{return null;}}
 function clearSession(){try{sessionStorage.removeItem(SESS_KEY);}catch{}}
 
 const TABS=[{id:"stats",icon:"⚓",label:"Scheda"},{id:"actions",icon:"⚔️",label:"Azioni"},{id:"spells",icon:"📕",label:"Magie"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"},{id:"export",icon:"💾",label:"Esporta"}];
@@ -289,7 +289,7 @@ function AppWrapper(){
       <input ref={fileRef} type="file" accept=".json" style={{display:"none"}} onChange={doImport}/>
       <div style={{position:"fixed",top:6,left:8,fontSize:9,color:"#ffffff44",fontFamily:"'JetBrains Mono'",zIndex:999,pointerEvents:"none"}}>{APP_VERSION}</div>
       {loading&&<Ld msg="Caricamento..."/>}
-      {!loading&&screen==="accounts"&&<AccountsScreen manifest={manifest} onAuth={async(id,ph)=>{setAccId(id);setPassHash(ph);const tk=await loadToken(id,ph);if(tk){setGhToken(tk);}else if(BASE()){setShowTkSetup(true);}setScreen("characters");}}/>}
+      {!loading&&screen==="accounts"&&<AccountsScreen manifest={manifest} onAuth={async(id,ph)=>{setAccId(id);setPassHash(ph);const tk=await loadToken(id,ph);if(tk){setGhToken(tk);ghLog("default","Login",tk,id,manifest?.accounts?.find(a=>a.id===id)?.isMaster,manifest?.accounts?.find(a=>a.id===id)?.name);}else if(BASE()){setShowTkSetup(true);}setScreen("characters");}}/>}
       {!loading&&screen==="characters"&&(()=>{
         let sections=[];
         const mChars=manifest?.characters||{};
@@ -311,7 +311,7 @@ function AppWrapper(){
           onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
       })()}
       {!loading&&screen==="sheet"&&char&&
-        <Sheet char={char} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} saveNewToGH={saveNewToGH} setCharMeta={setCharMeta} accId={accId}
+        <Sheet char={char} isMaster={isMaster} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} saveNewToGH={saveNewToGH} setCharMeta={setCharMeta} accId={accId}
           onBack={()=>{if(confirm("Hai salvato? Le modifiche non salvate andranno perse.")){clearSession();setChar(null);setCharMeta(null);setScreen("characters");}}}
           onExport={doExport}
           onImport={()=>fileRef.current?.click()}/>}
@@ -346,6 +346,8 @@ function Ld({msg}){
 /* ═══ TOKEN SETUP MODAL ═══ */
 function TkSetup({onSave,onSkip}){
   const[tk,setTk]=useState("");
+  const[attempts,setAttempts]=useState(0);
+  const[lockUntil,setLockUntil]=useState(0);
   return<div style={SS.po} onClick={onSkip}><div style={{...SS.pc,maxWidth:340}} onClick={e=>e.stopPropagation()}>
     <p style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:700,color:"#c8a95e",marginBottom:6}}>🔑 Configura Salvataggio</p>
     <p style={{fontSize:12,color:"#998866",marginBottom:14,lineHeight:1.4}}>Per salvare direttamente su GitHub, inserisci il token. Chiedilo al Master se non ce l'hai. Verrà criptato con la tua password e salvato solo su questo dispositivo.</p>
@@ -365,15 +367,20 @@ function AccountsScreen({manifest,onAuth}){
   const[show,setShow]=useState(false);
   const[checking,setChecking]=useState(false);
   const accs=manifest?.accounts||[];
+  const[attempts,setAttempts]=useState(0);
+  const[lockUntil,setLockUntil]=useState(0);
 
   const check=async()=>{
+    if(pw.length<6){setErr("Password troppo corta");setChecking(false);return;}
     if(!user.trim()||!pw)return;
+    if(Date.now()<lockUntil){setErr(`Troppi tentativi. Riprova tra ${Math.ceil((lockUntil-Date.now())/1000)}s`);return;}
     setChecking(true);
     const found=accs.find(a=>a.name.toLowerCase()===user.trim().toLowerCase()||a.id===user.trim().toLowerCase());
     if(!found){setErr("Utente non trovato");setChecking(false);return;}
-    const hashed=await H(pw);
-    if(hashed===found.h){setErr("");onAuth(found.id,hashed);}
-    else{setErr("Password errata");}
+    const hashed=await H(pw+"$ttrpg-op-2026$");
+    const dh=await H(hashed);
+    if(dh===found.ix){setErr("");onAuth(found.id,hashed);}
+    else{const n=attempts+1;setAttempts(n);if(n>=5){setLockUntil(Date.now()+60000);setAttempts(0);setErr("Troppi tentativi. Bloccato per 60s");}else{setErr(`Password errata (${5-n} tentativi rimasti)`);}}
     setChecking(false);
   };
 
@@ -464,7 +471,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
 }
 
 /* ═══ CHARACTER SHEET — FIX PRINCIPALE ═══ */
-function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMeta,accId,onBack,onExport,onImport}){
+function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMeta,accId,isMaster,onBack,onExport,onImport}){
   const[tab,setTab]=useState("stats");
   const[edit,setEdit]=useState(false);
   const[popup,setPopup]=useState(null);
@@ -591,7 +598,8 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
           <div style={{display:"flex",alignItems:"center",gap:4,flexShrink:0}}>
             <span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span>
             {htmlUrl&&<button onClick={()=>window.open(htmlUrl,"_blank")} title="Scheda Completa" style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,cursor:"pointer",flexShrink:0}}>📖</button>}
-            <button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button>
+            {isMaster&&<button onClick={()=>up({locked:!c.locked})} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${c.locked?"#e74c3c":ac+"44"}`,background:c.locked?"rgba(231,76,60,0.2)":`${ac}15`,color:c.locked?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{c.locked?"🔒":"🔓"}</button>}
+            {(!c.locked||isMaster)&&<button onClick={()=>setEdit(!edit)} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${edit?"#e74c3c":ac+"44"}`,background:edit?"rgba(231,76,60,0.3)":`${ac}15`,color:edit?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{edit?"✕":"✎"}</button>}
           </div>
         </div>
         <HPBar c={c} up={up} edit={edit} ac={ac}/>
@@ -637,7 +645,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
         paddingBottom:"var(--safe-bottom)"
       }}>
         {TABS.map(t=>(
-          <button key={t.id} onClick={()=>setTab(t.id)} style={{
+          <button key={t.id} onClick={()=>{if(t.id==="export"&&c.locked&&!isMaster){alert("Scheda bloccata dal Master");return;}setTab(t.id);}} style={{
             flex:1,
             display:"flex",
             flexDirection:"column",
