@@ -523,11 +523,24 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
   useEffect(()=>{if(accId&&c)saveSession(accId,c);},[c,accId]);
   const doSave=async()=>{
     if(!ghToken){onExport();return;}
+    try{
     setSaving(true);setSaveOk(null);
     let ok;
     if(charMeta){
       ok=await saveToGH(charMeta.owner,charMeta.file,c);
-      if(ok&&ghToken&&charMeta){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now(),{cache:"no-store",headers:{"If-None-Match":""}}).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);setManifest(mRaw);}}}catch{}}
+      if(ok){try{
+        const u2=new URL(BASE());const user2=u2.hostname.split(".")[0];const repo2=u2.pathname.replace(/^\/|\/$/g,"");
+        const api2=`https://api.github.com/repos/${user2}/${repo2}/contents/data/manifest.json`;
+        const hd2={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+        const r2=await fetch(api2+"?t="+Date.now(),{headers:{...hd2,"If-None-Match":""},cache:"no-store"});
+        if(r2.ok){
+          const j2=await r2.json();
+          const mRaw=JSON.parse(decodeURIComponent(escape(atob(j2.content.replace(/\n/g,"")))));
+          const list=mRaw.characters[charMeta.owner]||[];
+          const entry=list.find(x=>x.file===charMeta.file);
+          if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);setManifest(mRaw);}}
+        }
+      }catch(e){console.error("Manifest preview update failed:",e);}}
     }else{
       const res=await saveNewToGH(c);
       ok=!!res;
@@ -536,6 +549,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
     setSaving(false);setSaveOk(ok);
     if(!ok)onExport();
     setTimeout(()=>setSaveOk(null),2500);
+    }catch(e){console.error("doSave error:",e);setSaving(false);setSaveOk(false);onExport();}
   };
 
   useEffect(()=>{
