@@ -218,7 +218,7 @@ function AppWrapper(){
   const saveToGH=async(owner,file,charObj)=>{
     if(!ghToken||!BASE())return false;
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
-    const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster, acc?.name );
+    const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(ok)clearSession();
     if(ok)ghLog(owner,"Salvataggio "+file,token,accId,isMaster,acc?.name);
     return ok;
@@ -228,7 +228,7 @@ function AppWrapper(){
     const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
     const owner=accId;
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
-    const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster, acc?.name );
+    const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(!ok)return null;
     ghLog(owner,"Nuovo PG "+fname,token,accId,isMaster,acc?.name);
     // Update manifest
@@ -238,7 +238,7 @@ function AppWrapper(){
       if(!mRaw.characters[owner])mRaw.characters[owner]=[];
       if(!mRaw.characters[owner].find(c=>c.file===fname)){
         mRaw.characters[owner].push({file:fname,name:charObj.name,preview:`${charObj.race||"?"} · Lv ${charObj.level||1}${charObj.classes?" · "+charObj.classes:""}`});
-        await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,isMaster, acc?.name );
+        await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);
         setManifest(mRaw);
       }
     }catch{}
@@ -515,7 +515,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
     let ok;
     if(charMeta){
       ok=await saveToGH(charMeta.owner,charMeta.file,c);
-      if(ok&&ghToken){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now()).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,isMaster, acc?.name );setManifest(mRaw);}}}catch{}}
+      if(ok&&ghToken){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now()).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);setManifest(mRaw);}}}catch{}}
     }else{
       const res=await saveNewToGH(c);
       ok=!!res;
