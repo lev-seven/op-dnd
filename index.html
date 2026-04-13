@@ -220,7 +220,7 @@ function AppWrapper(){
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
     const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(ok)clearSession();
-    if(ok)ghLog(owner,"Salvataggio "+file,token,accId,isMaster,acc?.name);
+    if(ok)ghLog(owner,"Salvataggio "+file,ghToken,accId,isMaster,acc?.name);
     return ok;
   };
   const saveNewToGH=async(charObj)=>{
@@ -230,7 +230,7 @@ function AppWrapper(){
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
     const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(!ok)return null;
-    ghLog(owner,"Nuovo PG "+fname,token,accId,isMaster,acc?.name);
+    ghLog(owner,"Nuovo PG "+fname,ghToken,accId,isMaster,acc?.name);
     // Update manifest
     try{
       const b=BASE();
