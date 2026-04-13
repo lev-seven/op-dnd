@@ -223,7 +223,22 @@ function init(){
   // Attacks — hide if empty
   if((char.attacks||[]).length){
     document.getElementById('attacksPanel').style.display='block';
-    document.getElementById('attacks').innerHTML=(char.attacks||[]).map(function(a){return'<div class="atkc"><div class="an">'+a.name+'</div><div class="ah">+'+a.hit+'<span>per colpire</span></div><div class="ad">'+a.damage+'<span>'+(a.type||'')+'</span></div></div>';}).join('');
+    var pb=char.profBonus||0;
+    document.getElementById('attacks').innerHTML=(char.attacks||[]).map(function(a){
+      var hit,dmg;
+      if(a.stat&&char.stats[a.stat]){
+        var sm=char.stats[a.stat].mod;
+        hit=sm+pb+(a.bonusActive?a.bonusHit||0:0);
+        var bm=(a.bonusActive?a.bonusDmg||0:0)+sm;
+        dmg=(a.damage||"")+(bm!==0?(bm>0?"+"+bm:""+bm):"");
+      }else{
+        hit=(a.hit||0)+(a.bonusActive?a.bonusHit||0:0);
+        dmg=a.damage||"";
+      }
+      var bonus=(a.bonusHit||a.bonusDmg)?'<div style="font-size:.55rem;color:'+(a.bonusActive?'#f39c12':'#665a3e')+';margin-top:.2rem">⚡ Bonus '+(a.bonusActive?'ON':'OFF')+'</div>':'';
+      var desc=a.desc?'<div style="font-size:.78rem;color:var(--text2);margin-top:.3rem;white-space:pre-line;border-top:1px solid var(--border2);padding-top:.3rem">'+a.desc+'</div>':'';
+      return'<div class="atkc" style="display:block"><div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.8rem"><div class="an">'+a.name+(a.stat?' <span style="font-size:.6rem;color:var(--text3)">('+a.stat+')</span>':'')+'</div><div class="ah">+'+hit+'<span>per colpire</span></div><div class="ad">'+dmg+'<span>'+(a.type||'')+'</span></div></div>'+bonus+desc+'</div>';
+    }).join('');
   }
 
   // Spell Slots
