@@ -27,7 +27,12 @@
       "color": "#3ff8db",
       "isMaster": false,
       "ix": "3adf32481439ea96850af4d2933f98265bd23fc1c6eac821a5776e950a22b8aa"
-    }
+    },
+      "id": "ga",
+      "name": "Ga",
+      "color": "#3008db",
+      "isMaster": false,
+      "ix": "51dc2c50c6dadef94225dd5727f710e002794dc706caa334a21a6b466cd02cf9"
   ],
   "characters": {
     "ciccio": [
