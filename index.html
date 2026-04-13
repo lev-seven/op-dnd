@@ -97,17 +97,34 @@ async function aesEnc(text,passHash){const k=await crypto.subtle.importKey("raw"
 async function aesDec(stored,passHash){try{const{i,d}=JSON.parse(stored);const k=await crypto.subtle.importKey("raw",hex2b(passHash).slice(0,32),{name:"AES-GCM"},false,["decrypt"]);const dec=await crypto.subtle.decrypt({name:"AES-GCM",iv:new Uint8Array(i)},k,new Uint8Array(d));return new TextDecoder().decode(dec);}catch{return null;}}
 
 /* ═══ GITHUB API: save file with SHA conflict check ═══ */
-async function ghPut(path,content,token){
+async function ghPut(path,content,token,accId,isMaster,accName){
+  if(!isMaster&&accId){
+    const allowed=path===`data/manifest.json`||path.startsWith(`data/${accId}/`);
+    if(!allowed){console.error("Accesso negato:",path);return false;}
+  }
   const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
   const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
   const hd={"Authorization":`token ${token}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
   // GET current file SHA (required for update)
   let sha=null;
   try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok){const j=await r.json();sha=j.sha;}}catch{}
-  const body={message:`Update ${path}`,content:btoa(unescape(encodeURIComponent(content)))};
+  const body={message:`[${accName||accId||"?"}] Update ${path}`,content:btoa(unescape(encodeURIComponent(content)))};
   if(sha)body.sha=sha;
   const res=await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)});
   return res.ok;
+}
+async function ghLog(owner,action,token,accId,isMaster,accName){
+  const path=`data/${owner}/history.log`;
+  const ts=new Date().toISOString();
+  const line=`${ts} | ${accName||accId} | ${action}\n`;
+  const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+  const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  const hd={"Authorization":`token ${token}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+  let sha=null,existing="";
+  try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok){const j=await r.json();sha=j.sha;existing=decodeURIComponent(escape(atob(j.content.replace(/\n/g,""))));}}catch{}
+  const body={message:`[${accName||accId}] Log ${path}`,content:btoa(unescape(encodeURIComponent(existing+line)))};
+  if(sha)body.sha=sha;
+  try{await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)});}catch{}
 }
 
 /* ═══ SESSION RECOVERY ═══ */
@@ -201,8 +218,9 @@ function AppWrapper(){
   const saveToGH=async(owner,file,charObj)=>{
     if(!ghToken||!BASE())return false;
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
-    const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken);
+    const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster, acc?.name );
     if(ok)clearSession();
+    if(ok)ghLog(owner,"Salvataggio "+file,token,accId,isMaster,acc?.name);
     return ok;
   };
   const saveNewToGH=async(charObj)=>{
@@ -210,8 +228,9 @@ function AppWrapper(){
     const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
     const owner=accId;
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
-    const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken);
+    const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster, acc?.name );
     if(!ok)return null;
+    ghLog(owner,"Nuovo PG "+fname,token,accId,isMaster,acc?.name);
     // Update manifest
     try{
       const b=BASE();
@@ -219,7 +238,7 @@ function AppWrapper(){
       if(!mRaw.characters[owner])mRaw.characters[owner]=[];
       if(!mRaw.characters[owner].find(c=>c.file===fname)){
         mRaw.characters[owner].push({file:fname,name:charObj.name,preview:`${charObj.race||"?"} · Lv ${charObj.level||1}${charObj.classes?" · "+charObj.classes:""}`});
-        await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken);
+        await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,isMaster, acc?.name );
         setManifest(mRaw);
       }
     }catch{}
@@ -458,6 +477,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
     const reader=new FileReader();
     reader.onload=async(ev)=>{
       const b64=ev.target.result.split(",")[1];
+      if(!acc?.isMaster&&charMeta.owner!==accId){alert("Non puoi modificare foto di altri account");return;}
       const path=`data/${charMeta.owner}/${charMeta.file.replace(/\.json$/,"")}.jpg`;
       const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
       const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
@@ -468,6 +488,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
       if(sha)body.sha=sha;
       const res=await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)});
       if(res.ok)setAvKey(k=>k+1);
+      if(res.ok)ghLog(charMeta.owner,"Upload avatar",ghToken,accId,acc?.isMaster,acc?.name);
       else alert("Errore upload foto");
     };
     reader.readAsDataURL(file);
@@ -494,7 +515,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
     let ok;
     if(charMeta){
       ok=await saveToGH(charMeta.owner,charMeta.file,c);
-      if(ok&&ghToken){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now()).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken);setManifest(mRaw);}}}catch{}}
+      if(ok&&ghToken){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now()).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,isMaster, acc?.name );setManifest(mRaw);}}}catch{}}
     }else{
       const res=await saveNewToGH(c);
       ok=!!res;
@@ -831,6 +852,7 @@ function STab({c,up,edit,oR,sM,ac}){
             <button onClick={()=>oR({label:`${a.name} (colpire)`,type:"d20",modifier:h})} style={{...SS.gn,flex:1,padding:"6px 0",fontSize:10,touchAction:"manipulation"}}>+{h} 🎲</button>
             <button onClick={()=>oR({label:`${a.name} (danno)`,type:"damage",formula:dmg})} style={{...SS.rd,flex:1,padding:"6px 0",fontSize:10,touchAction:"manipulation"}}>{dmg} 🎲</button>
           </div>
+          {a.desc&&<p style={{fontSize:10,color:"#bfb49a",marginTop:4,lineHeight:1.3,whiteSpace:"pre-line"}}>{a.desc}</p>}
         </div>
       );})}
     </div>
@@ -1198,6 +1220,7 @@ function AM({c,up,data,oC}){
         </div>
       </Fl>
       <Fl l="Tipo"><input value={f.type} onChange={e=>sf({...f,type:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. tagliente, magico"/></Fl>
+      <Fl l="Descrizione (opz.)"><textarea value={f.desc||""} onChange={e=>sf({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:36,resize:"vertical"}} placeholder="Note sull'attacco..."/></Fl>
       <Fl l="⚡ Bonus Attivabile (es. Indurimento Armi)">
         <div style={{display:"flex",gap:5,alignItems:"center"}}>
           <span style={{fontSize:10,color:"#998866"}}>Colpire</span>
