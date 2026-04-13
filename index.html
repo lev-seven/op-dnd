@@ -635,7 +635,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
               )}
             </div>
           </div>
-          <div style={{display:"flex",alignItems:"center",gap:4,flexShrink:0,flexWrap:"wrap",justifyContent:"flex-end"}}>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:3,flexShrink:0}}>
             {!edit&&<span style={{fontSize:9,color:ac+"88",fontFamily:"'Cinzel'"}}>{acc?.name}</span>}
             {htmlUrl&&<button onClick={()=>window.open(htmlUrl,"_blank")} title="Scheda Completa" style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,cursor:"pointer",flexShrink:0}}>📖</button>}
             {isMaster&&<button onClick={()=>up({locked:!c.locked})} style={{width:28,height:28,borderRadius:"50%",border:`1.5px solid ${c.locked?"#e74c3c":ac+"44"}`,background:c.locked?"rgba(231,76,60,0.2)":`${ac}15`,color:c.locked?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,cursor:"pointer",flexShrink:0}}>{c.locked?"🔒":"🔓"}</button>}
