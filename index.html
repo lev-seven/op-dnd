@@ -527,7 +527,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
     let ok;
     if(charMeta){
       ok=await saveToGH(charMeta.owner,charMeta.file,c);
-      if(ok&&ghToken){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now(),{cache:"no-store",headers:{"If-None-Match":""}}).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);setManifest(mRaw);}}}catch{}}
+      if(ok&&ghToken&&charMeta){try{const b=BASE();const mRaw=await fetch(`${b}/data/manifest.json?t=`+Date.now(),{cache:"no-store",headers:{"If-None-Match":""}}).then(r=>r.json());const list=mRaw.characters[charMeta.owner]||[];const entry=list.find(x=>x.file===charMeta.file);if(entry){const newName=c.name||entry.name;const newPrev=`${c.race||"?"} · Lv ${c.level||1}${c.classes?" · "+c.classes:""}`;if(entry.name!==newName||entry.preview!==newPrev){entry.name=newName;entry.preview=newPrev;await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);setManifest(mRaw);}}}catch{}}
     }else{
       const res=await saveNewToGH(c);
       ok=!!res;
