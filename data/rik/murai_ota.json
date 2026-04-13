@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-13T21:44:08.278Z",
+  "exportedAt": "2026-04-13T22:07:58.951Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -486,9 +486,69 @@
         "originId": "fdd",
         "type": "Azione",
         "desc": "Come azione, puoi designare un'arma da mischia con cui sei abile e che infligge danni taglienti o perforanti come il tuo Surgery Scalpel quando usi i poteri Ope Ope no Mi. L'arma diventa magica allo scopo di superare la resistenza, se non lo è già. Inoltre, quando colpisci una creatura nella tua Stanza con il Surgery Scalpel, una volta per turno puoi rinunciare a infliggere danni e invece usare uno dei seguenti effetti contro il bersaglio: \n•\tInjection Shot: Puoi spendere 1 carica di frutto del diavolo per infliggere 2d8 danni necrotici extra al bersaglio con il tuo Injection Shot. \n•\tGamma Knife: Puoi spendere 3 cariche di frutti del diavolo per infliggere 3d8 danni radianti extra al bersaglio con il tuo Bisturi Chirurgico. Inoltre, la creatura deve superare un tiro salvezza della Costituzione contro la tua CD salvezza del Frutto del Diavolo o rimanere avvelenata per 1 minuto. Il bersaglio può ripetere il tiro salvezza alla fine di ogni turno, terminando la condizione in caso di successo. \n•\tAmputate: Tagli pulitamente un arto della creatura per 10 minuti, senza farle del male. Ogni volta che rimuovi gli arti di una creatura in questo modo, questa acquisisce un livello di stanchezza (fino a un massimo di 5 livelli di stanchezza) purché gli arti non siano attaccati. Una creatura a cui sono stati rimossi gli arti in questo modo può spendere un'azione per riattaccare tutti gli arti, ponendo fine a tutti i livelli di stanchezza applicati dall'amputazione su se stessa. Puoi spendere 1 carica di frutto del diavolo usando questo attacco durante il tuo turno per applicare \"Radio Knife\" all'Amputazione, infliggendo 1d8 danni elettrici al bersaglio e facendo sì che la creatura non riesca a riattaccare l'arto mancante a meno che non riesca a superare un tiro salvezza Saggezza contro la tua CD salvezza del Frutto del Diavolo come parte della sua azione per riattaccare gli arti. Se la creatura fallisce il tiro salvezza, la sua azione viene sprecata e gli arti rimangono liberi. \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxq5avz471s",
+        "name": "Shambles",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Puoi mirare a due creature o oggetti, incluso te stesso, all'interno della tua \"stanza\" come azione. I due bersagli si teletrasportano magicamente negli spazi dell'altro e si scambiano i posti. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxq5yhk086g",
+        "name": "Immortality Surgery",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "Passando 10 minuti ad operare su un'altra creatura, le concedi l'immortalità. Il bersaglio smette di invecchiare. È immune a qualsiasi effetto che possa invecchiarlo, e non può morire di vecchiaia. Tuttavia, morirai e sarai ridotto in polvere dopo aver completato questo intervento. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxqaftgvyt8",
+        "name": "Awakening (K-ROOM and R-ROOM)",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "). Una volta risvegliato il tuo potere, puoi usare un'azione per attivare K-ROOM o R-ROOM, oppure un'azione per alternare tra i due, terminando qualsiasi Stanza attualmente attiva. Puoi usare una di queste stanze speciali per 1 minuto dopo aver attivato il risveglio (ma non puoi attivare la tua stanza normale o entrambe contemporaneamente), oppure finché non perdi conoscenza, e non richiedono concentrazione per mantenere:\n•\tK-ROOM: Applichi la tua stanza al tuo Surgery Scalpel designato come un rivestimento speciale per tutta la durata. Mentre questa speciale Stanza è attiva, la portata della tua arma Surgery Scalpel diventa di 60 piedi. Puoi usare un'azione bonus mentre il tuo rivestimento K-ROOM è attivo per estendere la portata del tuo Surgery Scalpel di altri 60 piedi. Inoltre, quando colpisci una creatura con il Surgery Scalpel rivestito K-ROOM, una volta per turno puoi rinunciare a infliggere danni e invece usare uno dei seguenti effetti contro il bersaglio:\n1.\tShock Surge: Invii una scossa letale attraverso il bersaglio, infliggendo 10d10 danni fulmine.\n2.\tPuncture Surge: Il bersaglio viene spinto lontano da te fino alla fine della portata della tua arma e atterrato. Se un bersaglio lanciato colpisce una superficie solida, il bersaglio subisce 3 (1d6) danni contundenti per ogni 10 piedi in cui è stato spinto. Se il bersaglio viene spinto contro un'altra creatura, quella creatura deve superare un tiro salvezza di Destrezza contro il tuo Frutto del Diavolo o subire lo stesso danno e essere buttata a terra.\n•\tR-ROOM: Applichi la tua Stanza a un bersaglio entro 120 piedi da te. La stanza è una sfera con un raggio di 10 piedi che circonda il bersaglio. Fino alla fine della durata, la sfera si muove con il bersaglio, centrato su di esso. Questa stanza funge da incantesimo di campo antimagico.\nNon potrai più usare questa funzione per altre 24 ore.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxqbemfe4e7",
+        "name": "Cariche Ope Ope",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "",
         "maxUses": 17,
         "uses": 0,
         "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxqdw9nwoar",
+        "name": "Room Spells",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": ". Questo potere del frutto del diavolo ha 17 cariche. Mentre sei all'interno della \"stanza\", puoi spendere 1 o più delle sue cariche per lanciare uno dei seguenti incantesimi senza dover consumare componenti materiali: catapulta (1 carica, può essere lanciata a livelli più alti spendendo cariche aggiuntive), rilevare veleno e malattia (1 carica), cura ferite (1 carica, può essere lanciata a livelli più alti spendendo cariche aggiuntive),  trova trappole (2 cariche), trattieni la persona (2 cariche, può essere lanciata a livelli più alti spendendo cariche aggiuntive), levitare (2 cariche), silenzio (2 cariche), vedere invisibilità (solo all'interno della stanza; 2 cariche), vortice warp (2 cariche), vortice sinkhole (4 cariche), hold monster (5 cariche), mass cure wounds (5 cariche), telecinesi (5 cariche), move terra (6 cariche), whirlwind (7 cariche),  oppure essenza di legame (7 cariche). Il frutto del diavolo recupera le cariche spese ogni giorno all'alba.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
         "cdStat": null,
         "fav": false
       }
@@ -509,8 +569,46 @@
         },
         "duration": "Istantanea",
         "concentration": false,
-        "desc": "",
-        "higherLevels": "2d8",
+        "desc": "Dalle tue mani saettano lampi che infliggono una scossa a una creatura con cui provi a entrare in contatto. Effettua un attacco in mischia con incantesimo contro il bersaglio. Hai vantaggio sul tiro per colpire se il bersaglio sta indossando un’armatura fatta di metallo. Se colpisci, il bersaglio subisce 1d8 danni da fulmine, e non può effettuare reazioni fino all’inizio del suo prossimo turno.",
+        "higherLevels": "Il danno dell'incantesimo aumenta di 1d8 quando raggiungi il 5° livello (2d8), l'11° livello (3d8) e il 17° livello (4d8).",
+        "prepared": true
+      },
+      {
+        "id": "mnxqm0i8uv42",
+        "name": "Catapulta",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "\nScegli un oggetto del peso compreso tra 0,5 e 2,3 kg entro il raggio d'azione, che non sia indossato o trasportato. L'oggetto vola in linea retta fino a 27 metri in una direzione a tua scelta prima di cadere a terra, fermandosi prima se impatta contro una superficie solida. Se l'oggetto colpisse una creatura, quest'ultima deve effettuare un tiro salvezza su Destrezza. In caso di fallimento, l'oggetto colpisce il bersaglio e si ferma. Quando l'oggetto colpisce qualcosa, sia l'oggetto che ciò che colpisce subiscono 3d8 danni contundenti.",
+        "higherLevels": " Quando lanci questo incantesimo usando uno slot incantesimo di 2° livello o superiore, il peso massimo degli oggetti che puoi bersagliare con questo incantesimo aumenta di 5 libbre e il danno aumenta di 1d8 per ogni livello di slot superiore al 1°.",
+        "prepared": true
+      },
+      {
+        "id": "mnxqrzz5yfkl",
+        "name": "Individuazione di malattie e veleni",
+        "level": 1,
+        "school": "Divinazione",
+        "castingTime": "ritual",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Per la durata, percepisci la presenza e posizione di veleni, creature velenose e malattie entro 9 metri da te. Inoltre riesci a identificare il tipo di veleno, creatura velenosa o malattia.\nL’incantesimo può penetrare la maggior parte delle barriere, ma è bloccato da 30 centimetri di pietra, 2,5 centimetri di metallo comune, un sottile foglio di piombo o 1 metro di legno o terra.",
+        "higherLevels": null,
         "prepared": true
       }
     ],
