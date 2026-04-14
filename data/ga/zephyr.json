@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T22:53:04.498Z",
+  "exportedAt": "2026-04-14T22:55:44.216Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -439,7 +439,7 @@
         "name": "Shield of Faith",
         "level": 2,
         "school": "Abiurazione",
-        "castingTime": "action",
+        "castingTime": "bonus",
         "ritual": false,
         "range": "18 metri",
         "components": {
@@ -450,6 +450,25 @@
         "duration": "10 minuti",
         "concentration": true,
         "desc": "A shimmering field appears and surrounds a creature of your choice within range, granting it a +2 bonus to AC for the duration.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnz7yv8gk9fg",
+        "name": "False Life",
+        "level": 1,
+        "school": "Necromanzia",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Self",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "Bolstering yourself with a necromantic facsimile of life, you gain 1d4 + 4 temporary hit points for the duration",
         "higherLevels": null,
         "prepared": true
       }
