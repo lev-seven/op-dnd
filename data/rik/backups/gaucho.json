@@ -1,0 +1,388 @@
+{
+  "account": "Rik",
+  "accountId": "rik",
+  "exportedAt": "2026-04-14T15:57:36.141Z",
+  "character": {
+    "id": "mnyr11e3mkk1",
+    "name": "Gaucho",
+    "race": "Umano",
+    "level": 16,
+    "classes": "",
+    "ac": 20,
+    "hpMax": 151,
+    "hpCurrent": 151,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 10,
+    "profBonus": 5,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 18,
+        "mod": 4,
+        "save": 6,
+        "profSave": true
+      },
+      "DES": {
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
+      },
+      "COS": {
+        "score": 20,
+        "mod": 5,
+        "save": 7,
+        "profSave": true
+      },
+      "INT": {
+        "score": 21,
+        "mod": 5,
+        "save": 7,
+        "profSave": true
+      },
+      "SAG": {
+        "score": 20,
+        "mod": 5,
+        "save": 7,
+        "profSave": true
+      },
+      "CAR": {
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "none"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "prof"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "prof"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 0,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      },
+      {
+        "id": "mnyreshqutwg",
+        "name": "Azione Leggendaria",
+        "color": "#bc1a79"
+      },
+      {
+        "id": "mnyrruof6538",
+        "name": "Warlord",
+        "color": "#800ef1"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "mnys5z5oommz",
+        "name": "Attacco senz'armi",
+        "stat": "FOR",
+        "damage": "1d8+1d8+4+1d8+1d8+1d8",
+        "type": "Contundente",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "desc": "Il bersaglio deve superare un tiro salvezza su Forza con CD 17 o essere atterrato."
+      },
+      {
+        "id": "mnysasmt0odk",
+        "name": "Lama Avvelenata",
+        "stat": "FOR",
+        "damage": "1d8+1d8+4+1d8+1d8+1d8",
+        "type": "Taglienti, contundenti",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "desc": "Il bersaglio deve superare un tiro salvezza su Costituzione con CD 17 o essere avvelenato per 1 ora. Se il tiro salvezza fallisce di 5 o più, il bersaglio è anche privo di sensi mentre è avvelenato in questo modo. Il bersaglio riprende conoscenza se subisce danni o se un'altra creatura compie un'azione per scuoterlo."
+      }
+    ],
+    "abilities": [
+      {
+        "id": "mnyrdnm8u16t",
+        "name": "Resistenza Leggendaria ",
+        "originId": "mnyreshqutwg",
+        "type": "Passiva",
+        "desc": " Se l'Élite dei Pirati fallisce un tiro salvezza, può scegliere di superarlo invece.\n\n",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrgtfjk9ke",
+        "name": "Haki dell'Armamento",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": " Gli attacchi con le armi del Pirata Elite contano come magici ai fini del superamento della Resistenza e dell'immunità agli attacchi e ai danni non magici, come le resistenze conferite dai Frutti del Diavolo. Il Pirata Elite aggiunge inoltre un danno da forza aggiuntivo (3d8) ai suoi attacchi con armi da mischia.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrhnm2mzge",
+        "name": "Haki dell'Osservazione  ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": " Ogniqualvolta il Pirata Elite effettua un tiro per colpire, una prova di caratteristica o un tiro salvezza, può decidere di tirare un d20 aggiuntivo. Può scegliere quale dei d20 utilizzare per il tiro per colpire, la prova di caratteristica o il tiro salvezza. Il Pirata Elite può cambiare l'esito di un tiro quando viene attaccato. Tira un d20, poi scegli se l'attacco utilizza il tiro dell'attaccante o quello del Pirata Elite. Se più di una creatura usa l'haki dell'osservazione per influenzare l'esito di un tiro, qualsiasi svantaggio o vantaggio derivante dall'haki dell'osservazione applicato al tiro verrà annullato; non vengono tirati dadi aggiuntivi.",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrj1rml4qj",
+        "name": "Haki del Conquistatore ",
+        "originId": "haki_re",
+        "type": "Azione bonus",
+        "desc": "Come azione bonus, l'Élite dei Pirati può manifestare la sua terrificante presenza. Ogni creatura a sua scelta che si trova entro 36 metri da essa e ne è consapevole deve superare un tiro salvezza su Saggezza con CD 18. Una creatura che fallisce diventa spaventata da essa per 1 minuto. Una creatura che fallisce questo tiro salvezza di 5 o più è incapacitata fino all'inizio del prossimo turno dell'Élite dei Pirati. La creatura può ripetere il tiro salvezza alla fine di ogni suo turno, ponendo fine all'effetto su di sé in caso di successo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrlfxg9s0d",
+        "name": "Incantesimi Innati",
+        "originId": "mnyrruof6538",
+        "type": "Azione",
+        "desc": " L'abilità innata di lanciare incantesimi del Pirata Elite è Carisma (CD del tiro salvezza 18, +10 al tiro per colpire con attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza bisogno di componenti: A Volontà: individuazione del magico, dissolvi il magico • 3/giorno ciascuno: sfocatura, dominare persona, ritirata rapida, caduta morbida (sé stesso), salto (sé stesso), passo nebbioso, vedere l'invisibilità, scudo • 1/giorno ciascuno: occhio arcano, dominare mostro, velocità (sé stesso), pelle di pietra (sé stesso)",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrnhagtsdh",
+        "name": "Difesa elegante",
+        "originId": "mnyrruof6538",
+        "type": "Passiva",
+        "desc": "Finché il Pirata d'élite indossa un'armatura leggera o non ne indossa affatto e non impugna uno scudo, la sua CA include il modificatore di Carisma.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrq9ihrq7v",
+        "name": "Attacco multiplo",
+        "originId": "mnyrruof6538",
+        "type": "Azione",
+        "desc": "Il Pirata Elite effettua un attacco con la sua lama avvelenata e due con i suoi colpi senz'armi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyselqjh965",
+        "name": "Azione Leggendaria",
+        "originId": "mnyreshqutwg",
+        "type": "Azione",
+        "desc": "Il Pirata Elite può compiere 3 azioni leggendarie, scegliendo tra le opzioni seguenti. È possibile utilizzare una sola azione leggendaria alla volta e solo alla fine del turno di un'altra creatura. Il Pirata Elite recupera le azioni leggendarie spese all'inizio del suo turno.\n\nAttacco senz'armi. Il Pirata Elite effettua un attacco senz'armi.\nPasso Rapido. Il Pirata Elite raggiunge la sua velocità massima senza provocare attacchi di opportunità.\nImpeto del Conquistatore (Costo: 2 Azioni). L'Élite Pirata rilascia un'onda d'urto debilitante usando il suo spirito. Tutte le altre creature entro 18 metri dall'Élite Pirata devono superare un tiro salvezza su Forza con CD 17 o essere atterrate.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnysnzvw9r5n",
+        "name": "Straw Doll.",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi creare una piccola bambola voodoo di paglia di una creatura consenziente che tocchi. Se una creatura non è disposta, deve fare un tiro salvezza di Saggezza contro la CD del tuo tiro salvezza del Frutto del Diavolo. In caso di fallimento o se il bersaglio è disposto, produci una piccola versione bambola di quella creatura collegata a essa, e poi la assorbi nel tuo corpo. Anche se hai almeno una bambola nel corpo, qualsiasi danno subito può invece essere reindirizzato a una creatura collegata alla bambola corrispondente che contieni. Se una creatura con una bambola collegata che conti scende a 0 punti ferita, la sua bambola corrispondente viene distrutta. In alternativa, puoi usare un'azione bonus per espellere una bambola legata a una creatura e annullare l'effetto di questa abilità su quella creatura. Puoi tenere fino a 10 bambole voodoo di paglia in questo modo.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 15
+      },
+      {
+        "id": "mnysvkbrc1si",
+        "name": "Straw Monster",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi spendere 4 o più cariche di frutti del diavolo per usare l'incantesimo Costrutto di Evocazione (Argilla), che evoca un mostro di paglia che combatte per te. Puoi spendere cariche aggiuntive di frutti del diavolo per lanciarlo a livelli più alti (1 carica per ogni livello totale dell'incantesimo).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnysxr8boaj3",
+        "name": "Spells (Straw Techniques)",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "Questo potere del frutto del diavolo ha 9 cariche. Puoi spendere 1 o più delle sue cariche per lanciare uno dei seguenti incantesimi senza dover consumare componenti materiali: Intrecco (1 carica), Crescita di Spine (2 cariche), Forma di Paglia (Guardiano della Natura, solo grande forma albero; 4 cariche), Compulsione (mira solo le creature con bambole di paglia e tira salvezza con svantaggio; 4 cariche),  Domina Persona (solo un bersaglio con una bambola di paglia e tiro salvezza con svantaggio; 5 cariche). Il frutto del diavolo recupera le cariche spese ogni giorno all'alba.",
+        "maxUses": 9,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [],
+    "notes": "Condition Immunities Charmed, exhaustion, frightened, poisoned\nSea Weakness. You are weak to water and seastone",
+    "backstory": "",
+    "diceLog": [],
+    "effects": []
+  }
+}
