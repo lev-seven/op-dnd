@@ -205,6 +205,7 @@ function AppWrapper(){
   const[passHash,setPassHash]=useState(null);
   const[showTkSetup,setShowTkSetup]=useState(false);
   const[sessDismissed,setSessDismissed]=useState(false);
+  const[toast,setToast]=useState(null);
 
   useEffect(()=>{(async()=>{const b=BASE();if(b){const m=await fetchJ(`${b}/data/manifest.json`);setManifest(m);}setLoading(false);})();},[]);
 
@@ -228,6 +229,8 @@ function AppWrapper(){
     if(!ghToken||!BASE()||!accId)return null;
     const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
     const owner=accId;
+    const mChars=manifest?.characters?.[owner]||[];
+    if(mChars.find(x=>x.file===fname)){alert("Esiste già un PG con un nome simile. Cambia il nome prima di salvare.");return null;}
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
     const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(!ok)return null;
@@ -250,10 +253,13 @@ function AppWrapper(){
       }
     }catch(e){console.error("Manifest new PG update failed:",e);}
     clearSession();
+    setToast("PG creato! Il sito potrebbe impiegare 1-2 minuti ad aggiornare la lista.");
+    setTimeout(()=>setToast(null),6000);
     return{owner,file:fname};
   };
   const deleteCharGH=async(owner,file)=>{
-    if(!ghToken||!isMaster)return false;
+    if(!ghToken)return false;
+    if(!isMaster&&owner!==accId)return false;
     const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
     const hd={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
     const del=async(path)=>{try{const r=await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}?t=`+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok){const j=await r.json();await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`,{method:"DELETE",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify({message:`[${acc?.name}] Delete ${path}`,sha:j.sha})});}}catch{}};
@@ -267,6 +273,33 @@ function AppWrapper(){
     }catch{}
     ghLog(owner,"Eliminato "+file,ghToken,accId,isMaster,acc?.name);
     return true;
+  };
+
+  const duplicateCharGH=async(owner,file,charObj,newName)=>{
+    if(!ghToken||!accId)return null;
+    const fname=newName.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
+    const mChars=manifest?.characters?.[owner]||[];
+    if(mChars.find(x=>x.file===fname))return null;
+    const newChar={...charObj,id:uid(),name:newName};
+    const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:newChar};
+    const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster,acc?.name);
+    if(!ok)return null;
+    try{
+      const u2=new URL(BASE());const user2=u2.hostname.split(".")[0];const repo2=u2.pathname.replace(/^\/|\/$/g,"");
+      const api2=`https://api.github.com/repos/${user2}/${repo2}/contents/data/manifest.json`;
+      const hd2={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+      const r2=await fetch(api2+"?t="+Date.now(),{headers:{...hd2,"If-None-Match":""},cache:"no-store"});
+      if(r2.ok){
+        const j2=await r2.json();
+        const mRaw=JSON.parse(decodeURIComponent(escape(atob(j2.content.replace(/\n/g,"")))));
+        if(!mRaw.characters[owner])mRaw.characters[owner]=[];
+        mRaw.characters[owner].push({file:fname,name:newName,preview:`${newChar.race||"?"} · Lv ${newChar.level||1}${newChar.classes?" · "+newChar.classes:""}`});
+        await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);
+        setManifest(mRaw);
+      }
+    }catch{}
+    ghLog(owner,"Duplicato "+file+" → "+fname,ghToken,accId,isMaster,acc?.name);
+    return{owner,file:fname};
   };
   const sessionChar=accId?loadSession(accId):null;
 
@@ -334,7 +367,7 @@ function AppWrapper(){
           onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
       })()}
       {!loading&&screen==="sheet"&&char&&
-        <Sheet char={char} onDelete={()=>{clearSession();setChar(null);setCharMeta(null);setScreen("characters");}} deleteCharGH={deleteCharGH} isMaster={isMaster} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} saveNewToGH={saveNewToGH} setCharMeta={setCharMeta} accId={accId}
+        <Sheet char={char} onDelete={()=>{clearSession();setChar(null);setCharMeta(null);setScreen("characters");}} duplicateCharGH={duplicateCharGH} deleteCharGH={deleteCharGH} isMaster={isMaster} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} saveNewToGH={saveNewToGH} setCharMeta={setCharMeta} accId={accId}
           onBack={()=>{if(confirm("Hai salvato? Le modifiche non salvate andranno perse.")){clearSession();setChar(null);setCharMeta(null);setScreen("characters");}}}
           onExport={doExport}
           onImport={()=>fileRef.current?.click()}/>}
@@ -352,6 +385,7 @@ function AppWrapper(){
       })()}
 
       {/* Token setup modal */}
+      {toast&&<div style={{position:"fixed",bottom:70,left:"50%",transform:"translateX(-50%)",zIndex:100,maxWidth:340,width:"calc(100% - 40px)",padding:"10px 14px",borderRadius:8,background:"linear-gradient(135deg,#1a2040,#151b2e)",border:"1.5px solid #2ecc7155",boxShadow:"0 6px 24px rgba(0,0,0,0.5)",animation:"fadeIn 0.3s ease",textAlign:"center"}}><p style={{fontSize:11,color:"#2ecc71",fontFamily:"'Cinzel'",fontWeight:700,marginBottom:2}}>✅ {toast}</p></div>}
       {showTkSetup&&<TkSetup onSave={async(tk)=>{if(passHash&&accId){await storeToken(accId,passHash,tk);setGhToken(tk);}setShowTkSetup(false);}} onSkip={()=>setShowTkSetup(false)}/>}
     </>
   );
@@ -494,7 +528,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
 }
 
 /* ═══ CHARACTER SHEET — FIX PRINCIPALE ═══ */
-function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMeta,accId,isMaster,onBack,onExport,onImport,deleteCharGH, onDelete}){
+function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicateCharGH,setCharMeta,accId,isMaster,onBack,onExport,onImport,deleteCharGH, onDelete}){
   const[tab,setTab]=useState("stats");
   const[edit,setEdit]=useState(false);
   const[popup,setPopup]=useState(null);
@@ -638,8 +672,8 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,setCharMe
           <div style={{display:"flex",alignItems:"center",gap:3,flexShrink:0}}>
             {htmlUrl&&<button onClick={()=>window.open(htmlUrl,"_blank")} title="Scheda Completa" style={{width:24,height:24,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,cursor:"pointer",flexShrink:0}}>📖</button>}
             {isMaster&&<button onClick={()=>up({locked:!c.locked})} style={{width:24,height:24,borderRadius:"50%",border:`1.5px solid ${c.locked?"#e74c3c":ac+"44"}`,background:c.locked?"rgba(231,76,60,0.2)":`${ac}15`,color:c.locked?"#e74c3c":ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,cursor:"pointer",flexShrink:0}}>{c.locked?"🔒":"🔓"}</button>}
-            {isMaster&&charMeta&&<button onClick={async()=>{if(!confirm(`Eliminare definitivamente ${c.name}? Questa azione è irreversibile.`))return;if(!confirm("Sei sicuro? File, foto e backup verranno cancellati."))return;const ok=await deleteCharGH(charMeta.owner,charMeta.file);if(ok){onDelete();}else alert("Errore eliminazione");}} style={{width:24,height:24,borderRadius:"50%",border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.15)",color:"#e74c3c",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,cursor:"pointer",flexShrink:0}}>🗑</button>}
-          </div>
+            {charMeta&&<button onClick={async()=>{const nm=prompt("Nome del nuovo PG (deve essere diverso):");if(!nm||!nm.trim())return;if(nm.trim()===c.name){alert("Il nome deve essere diverso dall'originale");return;}const mChars=[];try{/* check */}catch{}const res=await duplicateCharGH(charMeta.owner,charMeta.file,c,nm.trim());if(res)alert("PG duplicato!");else alert("Errore: nome già esistente o salvataggio fallito");}} style={{width:24,height:24,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,cursor:"pointer",flexShrink:0}}>📋</button>}
+            {charMeta&&(isMaster||charMeta.owner===accId)&&<button onClick={async()=>{if(!isMaster&&charMeta.owner!==accId){alert("Puoi eliminare solo i tuoi PG");return;}if(!confirm(`Eliminare definitivamente ${c.name}? Questa azione è irreversibile.`))return;if(!confirm("Sei sicuro? File, foto e backup verranno cancellati."))return;const ok=await deleteCharGH(charMeta.owner,charMeta.file);if(ok){onDelete();}else alert("Errore eliminazione");}} style={{width:24,height:24,borderRadius:"50%",border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.15)",color:"#e74c3c",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,cursor:"pointer",flexShrink:0}}>🗑</button>}</div>
         </div>
         <HPBar c={c} up={up} edit={edit} ac={ac}/>
         <div style={{display:"flex",gap:4,marginTop:8}}>
