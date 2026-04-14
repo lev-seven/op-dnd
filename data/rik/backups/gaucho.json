@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-14T15:57:46.713Z",
+  "exportedAt": "2026-04-14T16:02:57.380Z",
   "character": {
     "id": "mnyr11e3mkk1",
     "name": "Gaucho",
@@ -14,7 +14,7 @@
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
-    "passivePerception": 10,
+    "passivePerception": 20,
     "profBonus": 5,
     "hitDie": "1d8",
     "stats": {
@@ -299,9 +299,9 @@
         "originId": "mnyrruof6538",
         "type": "Azione",
         "desc": " L'abilità innata di lanciare incantesimi del Pirata Elite è Carisma (CD del tiro salvezza 18, +10 al tiro per colpire con attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza bisogno di componenti: A Volontà: individuazione del magico, dissolvi il magico • 3/giorno ciascuno: sfocatura, dominare persona, ritirata rapida, caduta morbida (sé stesso), salto (sé stesso), passo nebbioso, vedere l'invisibilità, scudo • 1/giorno ciascuno: occhio arcano, dominare mostro, velocità (sé stesso), pelle di pietra (sé stesso)",
-        "maxUses": -1,
+        "maxUses": 28,
         "uses": 0,
-        "rest": null,
+        "rest": "lungo",
         "cdStat": null,
         "fav": false
       },
