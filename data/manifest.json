@@ -73,6 +73,11 @@
         "file": "murai_ota.json",
         "name": "Murai Ota",
         "preview": "Umano · Lv 10 · Bruiser"
+      },
+      {
+        "file": "gaucho.json",
+        "name": "Gaucho",
+        "preview": "Umano · Lv 16"
       }
     ],
     "ga": []
