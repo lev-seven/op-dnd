@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T15:49:01.102Z",
+  "exportedAt": "2026-04-14T15:55:20.387Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -208,6 +208,11 @@
         "id": "fdd",
         "name": "Frutto del diavolo",
         "color": "#f46fc1"
+      },
+      {
+        "id": "mnysut0sp8t4",
+        "name": "Devilforged",
+        "color": "#1abc9c"
       }
     ],
     "attacks": [],
