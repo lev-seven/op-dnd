@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T16:05:39.373Z",
+  "exportedAt": "2026-04-14T16:07:40.252Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -134,7 +134,7 @@
       {
         "name": "Religione",
         "stat": "INT",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Sopravvivenza",
@@ -144,7 +144,7 @@
       {
         "name": "Storia",
         "stat": "INT",
-        "prof": "none"
+        "prof": "prof"
       }
     ],
     "spellSlots": {
