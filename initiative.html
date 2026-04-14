@@ -11,38 +11,62 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);font-family:'Crimson Text',Georgia,serif;min-height:100vh;background-image:radial-gradient(ellipse at 20% 10%,rgba(58,184,176,0.03) 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(200,169,94,0.04) 0%,transparent 50%)}
 button{font-family:inherit;outline:none;cursor:pointer;-webkit-user-select:none;user-select:none}
-input{font-family:inherit;outline:none}
+input,select{font-family:inherit;outline:none}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes rollB{0%{transform:scale(.7) rotate(-10deg);opacity:0}60%{transform:scale(1.1) rotate(3deg)}100%{transform:scale(1) rotate(0);opacity:1}}
 .wrap{max-width:480px;margin:0 auto;padding:16px}
 .hdr{text-align:center;padding:24px 0 16px}
 .hdr h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:2px}
 .hdr p{color:var(--text3);font-size:12px;margin-top:4px}
-.add-row{display:flex;gap:6px;margin-bottom:16px}
-.add-row input{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text);font-size:14px}
-.add-row input[type=number]{width:60px;flex:none;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:600}
-.add-row select{padding:10px 8px;border-radius:8px;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text);font-size:12px;appearance:none;font-family:'Cinzel',serif}
-.btn{padding:10px 16px;border-radius:8px;border:1.5px solid;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:0.5px}
+.sec{font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px;display:flex;align-items:center;gap:6px}
+.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+.pg-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.pg-btn{padding:8px 12px;border-radius:8px;border:1.5px solid rgba(200,169,94,0.3);background:rgba(200,169,94,0.06);color:var(--text);font-family:'Cinzel',serif;font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;transition:all 0.15s;touch-action:manipulation}
+.pg-btn:hover{border-color:var(--gold);background:rgba(200,169,94,0.15)}
+.pg-btn .dex{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--teal);background:rgba(58,184,176,0.1);padding:1px 5px;border-radius:3px}
+.pg-btn.added{opacity:0.3;pointer-events:none;border-style:dashed}
+.add-row{display:flex;gap:6px;margin-bottom:10px}
+.add-row input{flex:1;padding:9px;border-radius:8px;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text);font-size:13px}
+.add-row input[type=number]{width:55px;flex:none;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:600}
+.add-row select{padding:9px 8px;border-radius:8px;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text);font-size:11px;appearance:none;font-family:'Cinzel',serif}
+.grp-row{display:flex;gap:6px;margin-bottom:14px;align-items:center}
+.grp-row label{font-size:10px;color:var(--text3);font-family:'Cinzel',serif;white-space:nowrap}
+.grp-row input{width:44px;padding:6px;border-radius:6px;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text);text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600}
+.btn{padding:9px 14px;border-radius:8px;border:1.5px solid;font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:0.5px;touch-action:manipulation}
 .btn-gold{border-color:rgba(200,169,94,0.4);background:rgba(200,169,94,0.1);color:var(--gold)}
 .btn-green{border-color:rgba(46,204,113,0.4);background:rgba(46,204,113,0.08);color:var(--green)}
 .btn-red{border-color:rgba(231,76,60,0.3);background:rgba(231,76,60,0.08);color:var(--red)}
 .btn-teal{border-color:rgba(58,184,176,0.4);background:rgba(58,184,176,0.08);color:var(--teal)}
-.controls{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.controls{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
 .list{display:flex;flex-direction:column;gap:6px}
-.entry{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1.5px solid transparent;background:var(--bg3);transition:all 0.2s}
+.entry{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1.5px solid transparent;background:var(--bg3);transition:all 0.2s;animation:fadeIn 0.15s ease}
 .entry.active{border-color:var(--gold);background:rgba(200,169,94,0.08);box-shadow:0 0 16px rgba(200,169,94,0.1)}
-.entry.dead{opacity:0.3;text-decoration:line-through}
-.entry .init{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--gold2);min-width:32px;text-align:center}
+.entry.dead{opacity:0.3}
+.entry.dead .name{text-decoration:line-through}
+.entry .init{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--gold2);min-width:32px;text-align:center;cursor:pointer}
 .entry.monster .init{color:var(--red)}
 .entry .info{flex:1;min-width:0}
 .entry .name{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .entry .tag{font-size:9px;color:var(--text3);font-family:'Cinzel',serif;letter-spacing:1px;text-transform:uppercase}
 .entry.monster .name{color:#e88}
-.entry .hp-mini{display:flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:11px}
-.entry .hp-mini .cur{color:var(--green)}.entry .hp-mini .sep{color:var(--text3)}.entry .hp-mini .max{color:var(--text3)}
-.entry .acts{display:flex;gap:4px}
-.entry .acts button{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text2);font-size:12px;display:flex;align-items:center;justify-content:center}
+.entry .hp-row{display:flex;align-items:center;gap:3px;margin-top:3px}
+.hp-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text2);font-size:11px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;touch-action:manipulation}
+.hp-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;min-width:20px;text-align:center}
+.hp-bar{height:3px;border-radius:2px;background:var(--bg);margin-top:2px;overflow:hidden}
+.hp-fill{height:100%;border-radius:2px;transition:width 0.3s}
+.entry .acts{display:flex;gap:4px;flex-shrink:0}
+.entry .acts button{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:rgba(200,169,94,0.06);color:var(--text2);font-size:12px;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
 .round-badge{text-align:center;margin-bottom:12px;font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:2px}
 .empty{text-align:center;color:var(--text3);font-style:italic;padding:40px 0;font-size:13px}
+.roll-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:99;background:linear-gradient(180deg,#151b2e,#0f1420);border:1.5px solid rgba(200,169,94,0.4);border-radius:12px;padding:16px 20px;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,0.6);animation:rollB 0.35s ease forwards;min-width:180px}
+.roll-popup .rname{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:6px}
+.roll-popup .rtotal{font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:900;color:var(--text)}
+.roll-popup .rdetail{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-top:2px}
 </style>
+<script>
+var GITHUB_BASE="https://lev-seven.github.io/op-dnd";
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -50,12 +74,24 @@ input{font-family:inherit;outline:none}
     <h1>⚔️ Iniziativa</h1>
     <p>Tracker combattimento — TTRPG App</p>
   </div>
+
+  <div class="sec">Personaggi Campagna</div>
+  <div class="pg-grid" id="pgGrid"><span style="color:var(--text3);font-size:11px;font-style:italic">Caricamento PG...</span></div>
+
+  <div class="sec">Aggiungi Manuale</div>
   <div class="add-row">
     <input type="text" id="aName" placeholder="Nome...">
     <input type="number" id="aInit" placeholder="Init" min="0" max="30">
     <select id="aType"><option value="pg">PG</option><option value="monster">Mostro</option></select>
     <button class="btn btn-green" onclick="addEntry()">+</button>
   </div>
+  <div class="grp-row">
+    <label>HP</label>
+    <input type="number" id="aHp" placeholder="—" min="0">
+    <label>Quantità</label>
+    <input type="number" id="aQty" value="1" min="1" max="20">
+  </div>
+
   <div class="controls">
     <button class="btn btn-teal" onclick="nextTurn()">▶ Prossimo</button>
     <button class="btn btn-gold" onclick="sortAll()">↕ Riordina</button>
@@ -65,66 +101,175 @@ input{font-family:inherit;outline:none}
   <div class="list" id="list"></div>
   <div class="empty" id="emptyMsg">Aggiungi PG e mostri per iniziare il combattimento</div>
 </div>
+<div id="rollPopup" style="display:none"></div>
+
 <script>
-let entries=JSON.parse(localStorage.getItem("dnd_init")||"[]");
-let activeIdx=parseInt(localStorage.getItem("dnd_init_active")||"0");
-let round=parseInt(localStorage.getItem("dnd_init_round")||"1");
+var entries=JSON.parse(localStorage.getItem("dnd_init")||"[]");
+var activeIdx=parseInt(localStorage.getItem("dnd_init_active")||"0");
+var round=parseInt(localStorage.getItem("dnd_init_round")||"1");
+var pgData=[];
 
 function save(){localStorage.setItem("dnd_init",JSON.stringify(entries));localStorage.setItem("dnd_init_active",activeIdx);localStorage.setItem("dnd_init_round",round);}
 
+/* ═══ LOAD PG FROM MANIFEST ═══ */
+async function loadPGs(){
+  try{
+    var res=await fetch(GITHUB_BASE+"/data/manifest.json?t="+Date.now());
+    if(!res.ok)throw new Error();
+    var manifest=await res.json();
+    var chars=manifest.characters||{};
+    pgData=[];
+    for(var owner in chars){
+      for(var i=0;i<chars[owner].length;i++){
+        pgData.push({name:chars[owner][i].name,owner:owner,file:chars[owner][i].file,dexMod:null,hp:null,hpMax:null,loaded:false});
+      }
+    }
+    renderPGGrid();
+    for(var j=0;j<pgData.length;j++){loadCharDex(j);}
+  }catch(e){
+    document.getElementById("pgGrid").innerHTML='<span style="color:var(--red);font-size:11px">Errore caricamento PG</span>';
+  }
+}
+
+async function loadCharDex(idx){
+  try{
+    var pg=pgData[idx];
+    var res=await fetch(GITHUB_BASE+"/data/"+pg.owner+"/"+pg.file+"?t="+Date.now());
+    if(!res.ok)return;
+    var data=await res.json();
+    var ch=data.character||data;
+    if(ch.stats&&ch.stats.DES){pgData[idx].dexMod=ch.stats.DES.mod||0;}
+    pgData[idx].hp=ch.hpCurrent||ch.hpMax||null;
+    pgData[idx].hpMax=ch.hpMax||null;
+    pgData[idx].loaded=true;
+    renderPGGrid();
+  }catch(e){}
+}
+
+function isPGAdded(name){return entries.some(function(e){return e.name===name;});}
+
+function renderPGGrid(){
+  var grid=document.getElementById("pgGrid");
+  if(!pgData.length){grid.innerHTML='<span style="color:var(--text3);font-size:11px;font-style:italic">Nessun PG trovato</span>';return;}
+  grid.innerHTML=pgData.map(function(pg,i){
+    var added=isPGAdded(pg.name);
+    var dexStr=pg.loaded?(pg.dexMod>=0?"+"+pg.dexMod:""+pg.dexMod):"...";
+    return'<button class="pg-btn'+(added?" added":"")+'" onclick="addPG('+i+')">'+pg.name+'<span class="dex">DEX '+dexStr+'</span></button>';
+  }).join("");
+}
+
+function showRollPopup(name,roll,mod,total){
+  var el=document.getElementById("rollPopup");
+  el.style.display="block";
+  el.innerHTML='<div class="roll-popup"><div class="rname">'+name+'</div><div class="rtotal">'+total+'</div><div class="rdetail">\ud83c\udfb2 '+roll+(mod>=0?" + ":" - ")+Math.abs(mod)+'</div></div>';
+  setTimeout(function(){el.style.display="none";},2000);
+}
+
+function addPG(idx){
+  var pg=pgData[idx];
+  if(isPGAdded(pg.name))return;
+  var roll=Math.floor(Math.random()*20)+1;
+  var mod=pg.dexMod||0;
+  var total=roll+mod;
+  entries.push({name:pg.name,init:total,type:"pg",hp:pg.hp||null,hpMax:pg.hpMax||null,dead:false});
+  entries.sort(function(a,b){return b.init-a.init;});
+  activeIdx=0;
+  save();render();renderPGGrid();
+  showRollPopup(pg.name,roll,mod,total);
+}
+
+/* ═══ MANUAL ADD ═══ */
 function addEntry(){
-  const n=document.getElementById("aName").value.trim();
-  const i=parseInt(document.getElementById("aInit").value)||0;
-  const t=document.getElementById("aType").value;
+  var n=document.getElementById("aName").value.trim();
+  var i=parseInt(document.getElementById("aInit").value)||0;
+  var t=document.getElementById("aType").value;
+  var hp=parseInt(document.getElementById("aHp").value)||null;
+  var qty=Math.max(1,Math.min(20,parseInt(document.getElementById("aQty").value)||1));
   if(!n)return;
-  entries.push({name:n,init:i,type:t,hp:null,hpMax:null,dead:false});
-  entries.sort((a,b)=>b.init-a.init);
+  for(var q=0;q<qty;q++){
+    var eName=qty>1?n+" "+(q+1):n;
+    entries.push({name:eName,init:i,type:t,hp:hp,hpMax:hp,dead:false});
+  }
+  entries.sort(function(a,b){return b.init-a.init;});
   activeIdx=0;
   document.getElementById("aName").value="";
   document.getElementById("aInit").value="";
-  save();render();
+  document.getElementById("aHp").value="";
+  document.getElementById("aQty").value="1";
+  save();render();renderPGGrid();
 }
 
-function sortAll(){entries.sort((a,b)=>b.init-a.init);activeIdx=0;save();render();}
-function resetAll(){if(!confirm("Resettare tutto?"))return;entries=[];activeIdx=0;round=1;save();render();}
+function sortAll(){entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;save();render();}
+function resetAll(){if(!confirm("Resettare tutto?"))return;entries=[];activeIdx=0;round=1;save();render();renderPGGrid();}
 
 function nextTurn(){
   if(!entries.length)return;
-  let tries=0;
+  var tries=0;
   do{activeIdx=(activeIdx+1)%entries.length;tries++;if(activeIdx===0)round++;}while(entries[activeIdx].dead&&tries<entries.length);
   save();render();
 }
 
-function removeEntry(i){entries.splice(i,1);if(activeIdx>=entries.length)activeIdx=0;save();render();}
+function removeEntry(i){entries.splice(i,1);if(activeIdx>=entries.length)activeIdx=0;save();render();renderPGGrid();}
 function toggleDead(i){entries[i].dead=!entries[i].dead;save();render();}
-function editInit(i){const v=prompt("Nuova iniziativa:",entries[i].init);if(v!==null){entries[i].init=parseInt(v)||0;entries.sort((a,b)=>b.init-a.init);activeIdx=0;save();render();}}
+function editInit(i){var v=prompt("Nuova iniziativa:",entries[i].init);if(v!==null){entries[i].init=parseInt(v)||0;entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;save();render();}}
+
+function hpChange(i,delta){
+  if(entries[i].hp===null)return;
+  entries[i].hp=Math.max(0,Math.min(entries[i].hpMax||999,entries[i].hp+delta));
+  if(entries[i].hp===0)entries[i].dead=true;
+  save();render();
+}
+function hpSet(i){
+  var v=prompt("HP (usa / per max, es. 25/30):",entries[i].hp!==null?entries[i].hp+(entries[i].hpMax?"/"+entries[i].hpMax:""):"");
+  if(v===null)return;
+  if(v.indexOf("/")!==-1){var p=v.split("/");entries[i].hp=parseInt(p[0])||0;entries[i].hpMax=parseInt(p[1])||entries[i].hp;}
+  else{entries[i].hp=parseInt(v)||0;if(!entries[i].hpMax)entries[i].hpMax=entries[i].hp;}
+  save();render();
+}
 
 function render(){
   document.getElementById("roundBadge").textContent="Round "+round;
-  const list=document.getElementById("list");
-  const empty=document.getElementById("emptyMsg");
+  var list=document.getElementById("list");
+  var empty=document.getElementById("emptyMsg");
   if(!entries.length){list.innerHTML="";empty.style.display="block";return;}
   empty.style.display="none";
-  list.innerHTML=entries.map((e,i)=>{
-    const cls=["entry"];
+  list.innerHTML=entries.map(function(e,i){
+    var cls=["entry"];
     if(e.type==="monster")cls.push("monster");
     if(i===activeIdx&&!e.dead)cls.push("active");
     if(e.dead)cls.push("dead");
-    return`<div class="${cls.join(" ")}">
-      <div class="init" onclick="editInit(${i})" style="cursor:pointer" title="Modifica iniziativa">${e.init}</div>
-      <div class="info">
-        <div class="name">${e.name}</div>
-        <div class="tag">${e.type==="monster"?"Mostro":"Giocatore"}${i===activeIdx&&!e.dead?" · ▶ TURNO":""}</div>
-      </div>
-      <div class="acts">
-        <button onclick="toggleDead(${i})" title="${e.dead?"Rianima":"Abbatti"}">${e.dead?"💚":"💀"}</button>
-        <button onclick="removeEntry(${i})" title="Rimuovi">✕</button>
-      </div>
-    </div>`;
+    var hpHtml="";
+    if(e.hp!==null&&e.hpMax){
+      var pct=e.hpMax>0?Math.max(0,(e.hp/e.hpMax)*100):0;
+      var hc=pct>60?"var(--green)":pct>30?"#f39c12":"var(--red)";
+      hpHtml='<div class="hp-row">'
+        +'<button class="hp-btn" onclick="hpChange('+i+',-5)" style="font-size:8px;color:var(--red)">-5</button>'
+        +'<button class="hp-btn" onclick="hpChange('+i+',-1)" style="color:var(--red)">\u2212</button>'
+        +'<span class="hp-val" onclick="hpSet('+i+')" style="color:'+hc+';cursor:pointer">'+e.hp+'<span style="color:var(--text3);font-size:10px">/'+e.hpMax+'</span></span>'
+        +'<button class="hp-btn" onclick="hpChange('+i+',1)" style="color:var(--green)">+</button>'
+        +'<button class="hp-btn" onclick="hpChange('+i+',5)" style="font-size:8px;color:var(--green)">+5</button>'
+        +'</div>'
+        +'<div class="hp-bar"><div class="hp-fill" style="width:'+pct+'%;background:'+hc+'"></div></div>';
+    }else if(e.hp!==null){
+      hpHtml='<div class="hp-row"><span class="hp-val" onclick="hpSet('+i+')" style="color:var(--green);cursor:pointer;font-size:11px">HP '+e.hp+'</span></div>';
+    }
+    return'<div class="'+cls.join(" ")+'">'
+      +'<div class="init" onclick="editInit('+i+')" title="Modifica iniziativa">'+e.init+'</div>'
+      +'<div class="info">'
+        +'<div class="name">'+e.name+'</div>'
+        +'<div class="tag">'+(e.type==="monster"?"Mostro":"Giocatore")+(i===activeIdx&&!e.dead?" \u00b7 \u25b6 TURNO":"")+'</div>'
+        +hpHtml
+      +'</div>'
+      +'<div class="acts">'
+        +'<button onclick="toggleDead('+i+')" title="'+(e.dead?"Rianima":"Abbatti")+'">'+(e.dead?"\ud83d\udc9a":"\ud83d\udc80")+'</button>'
+        +'<button onclick="removeEntry('+i+')" title="Rimuovi">\u2715</button>'
+      +'</div>'
+    +'</div>';
   }).join("");
 }
 
 render();
+loadPGs();
 </script>
 </body>
 </html>
