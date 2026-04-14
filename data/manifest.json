@@ -80,10 +80,12 @@
         "preview": "Umano · Lv 16"
       }
     ],
-    "ga": [{
+    "ga": [
+      {
         "file": "zephyr.json",
-        "name": "Zephyr",
-        "preview": "Skypean"
-    }]
+        "name": "ZEPHYR",
+        "preview": "Skypean · Lv 9 · Devilforged + Bruiser "
+      }
+    ]
   }
 }
