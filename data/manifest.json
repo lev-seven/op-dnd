@@ -73,8 +73,19 @@
         "file": "murai_ota.json",
         "name": "Murai Ota",
         "preview": "Umano · Lv 10 · Bruiser"
+      },
+      {
+        "file": "gaucho.json",
+        "name": "Gaucho",
+        "preview": "Umano · Lv 16"
       }
     ],
-    "ga": []
+    "ga": [
+      {
+        "file": "zephyr.json",
+        "name": "ZEPHYR",
+        "preview": "Skypean · Lv 9 · Devilforged + Bruiser "
+      }
+    ]
   }
 }

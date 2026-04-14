@@ -1,0 +1,395 @@
+{
+  "account": "Ga",
+  "accountId": "ga",
+  "exportedAt": "2026-04-14T17:29:26.138Z",
+  "character": {
+    "id": "mnysnvykoe27",
+    "name": "ZEPHYR",
+    "race": "Skypean",
+    "level": 9,
+    "classes": "Devilforged + Bruiser ",
+    "ac": 16,
+    "hpMax": 81,
+    "hpCurrent": 81,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 12,
+    "passivePerception": 10,
+    "profBonus": 2,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 14,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      },
+      "DES": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "COS": {
+        "score": 14,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      },
+      "INT": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 14,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "prof"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "prof"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "prof"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 2,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 2,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      },
+      {
+        "id": "mnyt2dn8icxl",
+        "name": "Devilforged",
+        "color": "#1a4bbc"
+      },
+      {
+        "id": "mnyv4onjhel3",
+        "name": "Bruiser",
+        "color": "#f17c0e"
+      }
+    ],
+    "attacks": [],
+    "abilities": [
+      {
+        "id": "mnyv50fdkbke",
+        "name": "Devil Fruit Infusion ",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "Possibilità di lanciare \"incantesimi\"",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyvof00iafr",
+        "name": "Devil Power (Spell) Slots",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyw9xkhofve",
+        "name": "Devil Power (Spellcasting) Ability",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "Charisma is your spellcasting ability for your devilforged spells, so you use your Charisma whenever a spell refers to your spellcasting ability. In addition, you use your Charisma modifier when setting the saving throw DC for a devilforged spell you cast and when making an attack roll with one.\n\nSpell save DC = 8 + your proficiency bonus + your Charisma modifier\n\nSpell attack modifier = your proficiency bonus + your Charisma modifier",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnywbfohxx5h",
+        "name": "Infused Item (Spellcasting Focus)",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "Uso il bastone come focus arcano",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [
+      {
+        "id": "mnyv96g72z4c",
+        "name": "Booming Blade",
+        "level": 0,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "1,5 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "You brandish the weapon used in the spell's casting and make a melee attack with it against one creature within 5 feet of you. On a hit, the target suffers the weapon attack's normal effects and then becomes sheathed in booming energy until the start of your next turn. If the target willingly moves 5 feet or more before then, the target takes 1d8 thunder damage, and the spell ends.\nAt higher levels: This spell's damage increases when you reach certain levels. ",
+        "higherLevels": "At higher levels: This spell's damage increases when you reach certain levels. At 5th level, the melee attack deals an extra 1d8 thunder damage to the target on a hit, and the damage the target takes for moving increases to 2d8. Both damage rolls increase by 1d8 at 11th level (2d8 and 3d8) and again at 17th level (3d8 and 4d8)",
+        "prepared": true
+      },
+      {
+        "id": "mnyvj3o8xssh",
+        "name": "Create Bonfire",
+        "level": 0,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": true,
+        "desc": "You create a bonfire on ground that you can see within range. Until the spell ends, the magic bonfire fills a 5-foot cube. Any creature in the bonfire's space when you cast the spell must succeed on a Dexterity saving throw or take 1d8 fire damage. A creature must also make the saving throw when it moves into the bonfire's space for the first time on a turn or ends its turn there.\n \nThe bonfire ignites flammable objects in its area that aren't being worn or carried.",
+        "higherLevels": "At higher levels: The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8",
+        "prepared": true
+      },
+      {
+        "id": "mnyvzmbsc2b2",
+        "name": "Darkness",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 minuti",
+        "concentration": true,
+        "desc": "Magical darkness spreads from a point you choose within range to fill a 15-foot-radius sphere for the duration. The darkness spreads around corners. A creature with darkvision can’t see through this darkness, and nonmagical light can’t illuminate it.\nIf the point you choose is on an object you are holding or one that isn’t being worn or carried, the darkness emanates from the object and moves with it. Completely covering the source of the darkness with an opaque object, such as a bowl or a helm, blocks the darkness.\nIf any of this spell’s area overlaps with an area of light created by a spell of 2nd level or lower, the spell that created the light is dispelled",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyw27e1zzrp",
+        "name": "Invisibility",
+        "level": 2,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Touch",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "A creature you touch becomes invisible until the spell ends. Anything the target is wearing or carrying is invisible as long as it is on the target’s person. The spell ends for a target that attacks or casts a spell.",
+        "higherLevels": "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.",
+        "prepared": true
+      },
+      {
+        "id": "mnyw5gl1a81d",
+        "name": "Major Image",
+        "level": 3,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 minuti",
+        "concentration": true,
+        "desc": "You create the image of an object, a creature, or some other visible phenomenon that is no larger than a 20-foot cube. The image appears at a spot that you can see within range and lasts for the duration. It seems completely real, including sounds, smells, and temperature appropriate to the thing depicted. You can’t create sufficient heat or cold to cause damage, a sound loud enough to deal thunder damage or deafen a creature, or a smell that might sicken a creature (like a troglodyte’s stench). As long as you are within range of the illusion, you can use your action to cause the image to move to any other spot within range. As the image changes location, you can alter its appearance so that its movements appear natural for the image. For example, if you create an image of a creature and move it, you can alter the image so that it appears to be walking. Similarly, you can cause the illusion to make different sounds at different times, even making it carry on a conversation, for example. Physical interaction with the image reveals it to be an illusion, because things can pass through it. A creature that uses its action to examine the image can determine that it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the creature can see through the image, and its other sensory qualities become faint to the creature.",
+        "higherLevels": "When you cast this spell using a spell slot of 6th level or higher, the spell lasts until dispelled, without requiring your Concentration.",
+        "prepared": true
+      },
+      {
+        "id": "mnyw7xlp7eke",
+        "name": "Remove Curse",
+        "level": 3,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Touch",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "At your touch, all curses affecting one creature or object end. If the object is a cursed magic item, its curse remains, but the spell breaks its owner’s attunement to the object so it can be removed or discarded.",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
+    "notes": "Armatura pesante (svantaggio a furtività) Classe Armatura 16\n",
+    "backstory": "Zephyr è il figlio dell'Imperatore Rex che comanda Skypeat. Ignaro delle sue vere origini viene cresciuto nella povertà dalla madre, una puttana del luogo. Cresciuto desideroso di avere la propria libertà e di vedere il mondo, lascia il regno per dirigersi verso nuovi orizzonti. Arrivato in una nuova città, inizia a lavorare come carpentiere facendo qualche lavoretto e commettendo qualche illecito. Fuggito dalla città finisce poi catturato dalla marina e portato Impel Down dove dopo un mese di sofferenze, viene liberato dalla sua vera famiglia e portato a Skypeat a combattere nell'organizzazione dei Cavalieri della virtù insieme a suo Fratello Cyranò + clement + vane + altea + prospero avvelenato. Ha sentito parlare da Cyranoo di un altro fratello elaiah (ma il primo si è offerto di entrare al posto suo sacrificandosi in quanto ex marine). Vive ora come principe mentre la guerra è momentaneamente in stallo a causa delle minacce della Marina.\n\nBogarth capo delle guardie marcione mi rispetta ma è comunque ostile.\nNun capo forze armate molto importante (fratello pure lui)\nAl mio comando ho la mia vice Shaila e qualche guardia privata.\nIo, il mio gruppo, Althea (la sorella) e il suo gruppo dobbiamo recarci a NewZaun controllata dall'Imperatore Malphas (con cui siamo in guerra) per recuperare il celebre Dr Naive che è colui che avvelenò Prospero. ",
+    "diceLog": [],
+    "effects": []
+  }
+}

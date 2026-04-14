@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-13T22:13:56.386Z",
+  "exportedAt": "2026-04-14T14:08:46.572Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -14,15 +14,15 @@
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 12,
-    "passivePerception": 10,
+    "passivePerception": 11,
     "profBonus": 4,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
         "score": 19,
         "mod": 4,
-        "save": 4,
-        "profSave": false
+        "save": 8,
+        "profSave": true
       },
       "DES": {
         "score": 12,
@@ -33,8 +33,8 @@
       "COS": {
         "score": 15,
         "mod": 2,
-        "save": 2,
-        "profSave": false
+        "save": 6,
+        "profSave": true
       },
       "INT": {
         "score": 10,
@@ -89,7 +89,7 @@
       {
         "name": "Inganno",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intimidire",
@@ -129,7 +129,7 @@
       {
         "name": "Rapidità di Mano",
         "stat": "DES",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Religione",
@@ -551,6 +551,186 @@
         "rest": null,
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mnync9azins6",
+        "name": "Color of Armament ",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Abilità di Incantesimo Haki dell'Armamento \nLa Costituzione è la tua abilità di lancio incantesimi per il colore degli incantesimi dell'arma, poiché la forza di questo haki è determinata dalla tua resistenza complessiva. Usi la tua Costituzione ogni volta che un incantesimo Armament Haki si riferisce alla tua abilità di incantesimo. Inoltre, usi il modificatore della Costituzione quando imposti la CD del tiro salvezza per un incantesimo haki di armamento che lanci e quando effettui un tiro d'attacco con uno. \nCD tiro salvezza dell'Haki dell'Armamento = 8 + il bonus di competenza + il modificatore della Costituzione \nModificatore dell'attacco Haki dell'Armamento = il tuo bonus di competenza + il tuo modificatore di Costituzione \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynd0kztso0",
+        "name": "Aura of Life ",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nPuoi aumentare la tua forza di volontà per rafforzare la forza del tuo corpo usando il tuo spirito. \nPuoi spendere un'azione per guadagnare 1d6 + il tuo punteggio Costituzione + il livello del tuo personaggio in punti ferita temporanei. Puoi usare questa funzione un numero di volte pari al tuo bonus di competenza. Non puoi usare di nuovo questa funzione finché non hai completato un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynf9p6qhzv",
+        "name": "Soul Armor ",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nPuoi formare un sottile strato di armatura invisibile attorno al corpo usando la tua anima. \nCome azione, circondi il corpo con questa armatura, rendendo la tua CA pari a 13 + il tuo modificatore Costituzione quando non indossi armatura. Questa armatura dura 8 ore. Non puoi usare di nuovo questa funzione finché non hai completato un riposo lungo. \n",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyngu8z1ezi",
+        "name": "Spirit Blast ",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nOttieni la capacità di inviare esplosioni di energia attraverso i nemici usando il tuo spirito. \nQuando colpisci una creatura con un attacco da mischia o un colpo a mani nude, puoi scatenare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni di forza extra al bersaglio, oltre al danno normale dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta usata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla finché non hai completato un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynhvnrh15m",
+        "name": "Weapon Hardening ",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Avanzamento dell'Haki, non comune\nOttieni la capacità di rivestire le tue armi e gli attacchi con il tuo spirito. Più pesante è l'applicazione, più il rivestimento è scuro. \nCome azione bonus, canalizzi l'haki nel corpo o in un'arma a tua scelta. Se scegli il tuo corpo, scegli o i tuoi colpi a mani nude o un'arma naturale. Per 1 minuto, i tuoi attacchi con l'arma scelta sono considerati magici con un bonus di +1 ai tiri di attacco e ai tiri di danno. \nSe l'attacco ha già un bonus ai tiri di attacco e danno, questa caratteristica sostituisce il bonus a meno che non sia maggiore, nel qual caso non ottiene il beneficio di questa caratteristica. \nQuesto effetto termina presto se perdi conoscenza, lo usi di nuovo, lo termini come azione bonus, o inizi il turno senza tenere o toccare l'arma che hai rivestito. Una volta usata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla finché non hai completato un riposo lungo. \nSe l'evento Spirit Surge ha una rarità superiore a Rara, usa questi bonus: \nRara. L'arma scelta guadagna invece un bonus di +2 ai tiri di Attacco e ai Tiri di Danno. \nMolto rari. L'arma scelta ottiene invece un bonus di +3 ai tiri di Attacco e ai tiri di danno. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynj98gzdnn",
+        "name": "Vessel of Resilience ",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nImpari a infondere al tuo spirito una tale resilienza da migliorare la tua forma fisica. \nCome azione, puoi rafforzare le difese per 1 minuto. Durante questo periodo, hai resistenza ai danni contundenti, perforanti e taglienti da attacchi non magici, e hai un vantaggio sui tiri salvezza della Costituzione. Una volta usata questa funzione, non puoi usarla di nuovo finché non hai completato un riposo lungo.\n",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynk9u668bu",
+        "name": "Color of Observation ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Quando decidi di far avanzare il tuo Haki del Colore dell'Osservazione durante un evento Spirit Surge, puoi scegliere una delle seguenti caratteristiche qui sotto. La rarità della caratteristica di avanzamento haki che puoi scegliere è determinata dall'evento Spirit Surge. \nPer ottenere una caratteristica di Avanzamento Haki Color of Observation, è necessario avere un punteggio minimo di Saggezza di 11 e soddisfare tutti gli altri prerequisiti menzionati. \n\nObservation Haki Spellcasting Ability. \nLa Saggezza è la tua abilità di lancio incantesimi per i tuoi incantesimi Colore dell'Osservazione, poiché la forza di questo haki è determinata dalla tua percezione e dalla tua consapevolezza generale. Usi la tua Saggezza ogni volta che un incantesimo Haki di Osservazione si riferisce alla tua abilità di lancio di incantesimi. Inoltre, usi il modificatore di Saggezza quando imposti la CD del tiro salvezza per un incantesimo haki di osservazione che lanci. \nCD salvezza Haki di Osservazione = 8 + il tuo bonus di competenza + il tuo modificatore di Saggezza \nModificatore d'attacco Haki di Osservazione = il tuo bonus di competenza + il tuo modificatore di Saggezza \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynl818utn0",
+        "name": "Vision of Light ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nMigliorando la tua visione, ora puoi vedere attraverso l'oscurità più chiaramente, concedendoti la Visione Oscura. \nPuoi vedere in luce fioca entro 120 piedi da te come se fosse luce intensa, e in luce oscura come se fosse luce fioca. Non si distinguono i colori, solo nelle sfumature di grigio. \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynm62o9zh3",
+        "name": "Aura Detection ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nInizi a vedere aure che puoi identificare intorno a oggetti magici ed effetti degli incantesimi. \nPuoi lanciare Rilevare Magia a volontà, senza spendere slot incantesimo o componenti materiali. \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynmu7maprh",
+        "name": "Predict Outcome ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nPuoi vedere un piccolo sguardo nel futuro per determinare il possibile esito negativo di una situazione ed evitarlo. \nQuando fai un tiro d'attacco, una prova di abilità o un tiro salvezza, puoi scegliere di ritirare il d20. Devi ritirare il dado prima che venga determinato l'esito del primo tiro. \nIn alternativa, quando una creatura che vedi fa un attacco contro di te o fa un tiro salvezza contro uno dei tuoi incantesimi o caratteristiche, puoi costringerla a rilanciare il tiro salvezza o il tiro salvezza. \nSe il tiro che innesca il rilancio è fatto con vantaggio o svantaggio, entrambi i d20 vengono rilanciati. Una volta usata questa funzione, non puoi più usarla finché non hai completato un riposo lungo. \n",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynnx9iyzto",
+        "name": " Spirit Sense ",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nHai addestrato il tuo haki a percepire la presenza di esseri invisibili, nascosti o camuffati. \nCome azione, puoi percepire la presenza di creature che non puoi vedere entro 60 piedi da te, a patto che tu e la creatura non siate separati da una copertura totale. Puoi usare questa funzione un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi consumati quando finisci un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynoxkrnybu",
+        "name": "Predictive Strike ",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Avanzamento dell'Haki, non comune\nAffinando la percezione, puoi prevedere i movimenti dell'avversario, trasformando il suo attacco in un'opportunità di contrattacco. \nQuando una creatura ti manca con un attacco corpo a corpo, puoi usare la tua reazione per lanciare un attacco corpo a corpo contro la creatura. Puoi usare questa funzione un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi consumati quando finisci un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynpmq1gzff",
+        "name": "Aura Reading ",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nSei in grado di rilevare la presenza e il potenziale livello di minaccia di creature o pericoli pericolosi intorno a te. \nPuoi lanciare gli incantesimi Rileva Veleno e Malattia o Individua Male e Bene, senza spendere uno slot incantesimo o componenti materiali. Una volta usata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla finché non hai completato un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyns2dxsnda",
+        "name": "Far Sight ",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Avanzamento dell'Haki, non comune\nIl tuo haki di osservazione ti permette di percepire le minacce da una distanza significativa. \nCome azione bonus, puoi estendere la gittata delle armi a distanza per 1 minuto o finché non sei incapacitato. La portata degli attacchi a distanza è raddoppiata e non subisci svantaggi per aver effettuato attacchi a distanza a lunga distanza per tutta la durata. Una volta usata questa abilità, non puoi più usarla finché non hai completato un riposo lungo. \n",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynsodz8hek",
+        "name": " Echoing Shot ",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Avanzamento dell'Haki, non comune \nHai imparato a canalizzare il tuo Haki di Osservazione negli attacchi a distanza, permettendo ai tuoi colpi di curvarsi in aria. \nQuando fai un attacco a distanza e manchi il botto, puoi usare l'azione bonus per rilanciare l'attacco contro un'altra creatura nel raggio d'azione. Il nuovo attacco rimbalza su una superficie solida, come un muro o un soffitto, prima di dirigersi verso il nuovo bersaglio. Puoi usare questa funzione un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi consumati quando finisci un riposo lungo.\n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
       }
     ],
     "spells": [
@@ -610,10 +790,276 @@
         "desc": "Per la durata, percepisci la presenza e posizione di veleni, creature velenose e malattie entro 9 metri da te. Inoltre riesci a identificare il tipo di veleno, creatura velenosa o malattia.\nL’incantesimo può penetrare la maggior parte delle barriere, ma è bloccato da 30 centimetri di pietra, 2,5 centimetri di metallo comune, un sottile foglio di piombo o 1 metro di legno o terra.",
         "higherLevels": null,
         "prepared": true
+      },
+      {
+        "id": "mnyk2r0rgqap",
+        "name": "Cura Ferite",
+        "level": 1,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una creatura a contatto con te recupera un numero di punti ferita uguale a 1d8 + il tuo modificatore di caratteristica da incantatore. Questo incantesimo non ha effetto su non morti e costrutti.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 2° livello o più alto, la cura aumenta di 1d8 per ogni livello dello slot sopra il 1°.",
+        "prepared": true
+      },
+      {
+        "id": "mnyk59z8eyb4",
+        "name": "Trova Trappole",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Avverti la presenza di qualsiasi trappola a gittata che sia nella tua linea di visuale. Una trappola, ai fini di questo incantesimo, comprende qualsiasi cosa che sia in grado di infliggere un effetto improvviso o inaspettato che tu possa considerare dannoso o indesiderabile, e che è stato espressamente inteso come tale dal suo creatore. Di conseguenza, l’incantesimo percepirebbe un’area sotto l’incantesimo allarme, un glifo di interdizione, o una botola meccanica, ma non rivelerebbe una debolezza naturale del pavimento, un soffitto instabile o una buca nascosta.\nL’incantesimo si limita a rivelare la presenza delle trappole. Non apprendi la posizione delle trappole, ma apprendi la natura generica del pericolo posto dalle trappole che hai percepito.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyk80jiljtn",
+        "name": "Blocca Persone",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Scegli un umanoide a gittata e che puoi vedere. Il bersaglio deve superare un tiro salvezza su Saggezza o restare paralizzato per la durata. Al termine di ciascun suo turno, il bersaglio può effettuare un altro tiro salvezza su Saggezza. Se lo supera, per quel bersaglio l’incantesimo ha termine.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 3° livello o più alto, puoi aggiungere una creatura come bersaglio per ogni livello dello slot sopra il 2°. Quando lanci l’incantesimo, gli umanoidi bersaglio devono trovarsi entro 9 metri l’uno dall’altro.",
+        "prepared": true
+      },
+      {
+        "id": "mnykahgzvtc9",
+        "name": "Levitazione",
+        "level": 2,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Quando lanci questo incantesimo usando uno slot incantesimo di 3° livello o più alto, puoi aggiungere una creatura come bersaglio per ogni livello dello slot sopra il 2°. Quando lanci l’incantesimo, gli umanoidi bersaglio devono trovarsi entro 9 metri l’uno dall’altro.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnykccp1dvx6",
+        "name": "Silenzio",
+        "level": 2,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Per la durata dell’incantesimo, nessun suono può essere creato all’interno o attraversare una sfera di 6 metri di raggio centrata su di un punto a gittata, scelto da te. Qualsiasi creatura o oggetto che si trovi completamente all’interno della sfera è immune al danno da tuono, e le creature che sono completamente al suo interno sono assordate. È impossibile lanciare un incantesimo che comprende una componente verbale mentre si è al suo interno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnykf4ar9273",
+        "name": "Vedere Invisibilità",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": false,
+        "desc": "Per la durata dell’incantesimo, vedi le creature e gli oggetti invisibili come se fossero visibili, e inoltre puoi vedere nel Piano Etereo. Le creature e gli oggetti eterei ti appaiono spettrali e trasparenti.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnykhs7n82pq",
+        "name": "Vortice Warp",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "27m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Puoi distorcere magicamente lo spazio attorno a un'altra creatura che puoi vedere entro il raggio d'azione. Il bersaglio deve superare un tiro salvezza su Costituzione (il bersaglio può scegliere di fallire), altrimenti viene teletrasportato in uno spazio libero a tua scelta che puoi vedere entro il raggio d'azione. Lo spazio scelto deve trovarsi su una superficie o in un liquido in grado di sostenere il bersaglio senza che quest'ultimo debba comprimersi.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 3° livello o superiore, la gittata dell'incantesimo aumenta di 9 metri per ogni livello di slot superiore al 2°.",
+        "prepared": true
+      },
+      {
+        "id": "mnykm9a6btu6",
+        "name": "Gravity Sinkhole",
+        "level": 4,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una sfera di forza schiacciante con un raggio di 6 metri si forma in un punto visibile entro il raggio d'azione e attira le creature presenti al suo interno. Ogni creatura nella sfera deve effettuare un tiro salvezza su Costituzione. In caso di fallimento, la creatura subisce 5d10 danni da forza e viene trascinata in linea retta verso il centro della sfera, finendo in uno spazio libero il più vicino possibile al centro (anche se tale spazio si trova in aria). In caso di successo, la creatura subisce la metà dei danni e non viene trascinata.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 5° livello o superiore, il danno aumenta di 1d10 per ogni livello di slot superiore al 4°.",
+        "prepared": true
+      },
+      {
+        "id": "mnykony4soie",
+        "name": "Blocca Mostri",
+        "level": 5,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "27m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Scegli una creatura a gittata e che puoi vedere. Il bersaglio deve superare un tiro salvezza su Saggezza, o restare paralizzato per la durata. Questo incantesimo non ha effetto su non morti o costrutti. Al termine di ciascun suo turno, il bersaglio può effettuare un altro tiro salvezza su Saggezza. Se lo supera, per quel bersaglio l’incantesimo ha termine.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 6° livello o più alto, puoi aggiungere una creatura come bersaglio per ogni livello dello slot sopra il 5°. Quando lanci l’incantesimo, le creature bersaglio devono trovarsi entro 9 metri l’una dall’altra.",
+        "prepared": true
+      },
+      {
+        "id": "mnymxq0sjohd",
+        "name": "Cura Ferite di Massa",
+        "level": 5,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Un’onda di energia guaritrice parte da un punto a gittata, scelto da te. Scegli fino a sei creatura in una sfera di 9 metri di raggio centrata su quel punto. Ogni bersaglio recupera punti ferita uguali a 3d8 + il tuo modificatore di caratteristica da incantatore. Questo incantesimo non ha effetto su non morti o costrutti.",
+        "higherLevels": "Un’onda di energia guaritrice parte da un punto a gittata, scelto da te. Scegli fino a sei creatura in una sfera di 9 metri di raggio centrata su quel punto. Ogni bersaglio recupera punti ferita uguali a 3d8 + il tuo modificatore di caratteristica da incantatore. Questo incantesimo non ha effetto su non morti o costrutti.",
+        "prepared": true
+      },
+      {
+        "id": "mnymyxv44cga",
+        "name": "Telecinesi",
+        "level": 5,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Effetto\nOttieni la capacità di muovere o manipolare creature o oggetti tramite il pensiero. Quando lanci questo incantesimo, e come tua azione durante ciascun round, puoi esercitare la tua volontà su di una creatura od oggetto a gittata e che puoi vedere, provocando l’effetto appropriato tra quelli seguenti. Puoi agire round dopo round sempre sullo stesso bersaglio, o sceglierne uno nuovo ogni volta. Se cambi bersaglio, il bersaglio precedente non è più soggetto all’incantesimo.\n\nCreatura\nPuoi tentare di muovere una creatura di taglia Enorme o più piccola. Effettua una prova di caratteristica usando la tua caratteristica da incantatore contesa da una prova di Forza della creatura. Se vinci la contesa, muovi la creatura di 9 metri in qualsiasi direzione, compreso verso l’alto, ma senza eccedere la gittata dell’incantesimo. Fino al termine del tuo prossimo turno, la creatura è intralciata dalla tua presa telecinetica. Una creatura sollevata in alta, resta sospesa a mezz’aria.\nNei round successivi, puoi usare la tua azione per tentare di mantenere la tua presa telecinetica sulla creatura ripetendo la contesa.\n\nOggetto\nPuoi tentare di muovere un oggetto che pesa fino a 500 chili. Se l’oggetto non è indossato o trasportato, lo sposti automaticamente di 9 metri in qualsiasi direzione, ma senza superare la gittata dell’incantesimo.\n\nSe l’oggetto è indossato o trasportato da una creatura, devi effettuare una prova di caratteristica con la tua caratteristica da incantatore contesa dalla prova di Forza della creatura. Se vinci la contesa, trascini via l’oggetto da quella creatura e lo muovi di 9 metri in una qualsiasi direzione, senza però superare la gittata dell’incantesimo.\n\nPuoi esercitare un controllo preciso sugli oggetti tramite la tua presa telecinetica, riuscendo così a manipolare un attrezzo semplice, aprire una porta o un contenitore, inserire o recuperare un oggetto da un contenitore aperto, o versare del materiale in una fiala.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyn1nfynsxa",
+        "name": "Muovere Terreno",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "2 ore",
+        "concentration": true,
+        "desc": "Scegli un’area sul terreno a gittata, non più grande di 12 metri di lato. Per la durata, puoi rimodellare terriccio, sabbia o argilla nell’area in qualsiasi modo tu voglia. Puoi innalzare o abbassare l’altitudine dell’area, creare o riempire un fossato, erigere o abbassare un muro, o formare un pilastro. La portata di questi cambiamenti non può eccedere metà della dimensione più grossa dell’area. Così, se operi su di un quadrato di 12 metri di lato, puoi creare un pilastro alto 6 metri, innalzare o abbassare l’altitudine del terreno di 6 metri, scavare un fossato profondo 6 metri, e così via. Ci vogliono 10 minuti per completare questi mutamenti.\n\nAl termine di ogni 10 minuti trascorsi a concentrarsi sull’incantesimo, puoi scegliere una nuova area di terreno su cui operare.\nDato che la trasformazione del terreno avviene lentamente, le creature nell’area di solito non possono restare intrappolate o ferite dal movimento del terreno. L’incantesimo non può manipolare la pietra naturale o le costruzioni in pietra. Le rocce e le strutture si muovono per adattarsi al nuovo terreno. Se il modo in cui modelli il terreno renderebbe una struttura instabile, questa potrebbe crollare.\n\nAllo stesso modo, questo incantesimo non influenza direttamente la crescita dei vegetali. La terra smossa trasporta con sé qualsiasi vegetale presente.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyn4yaiqtes",
+        "name": "Turbine",
+        "level": 7,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "90m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Un turbine si abbatte su un punto del terreno da te specificato. Il turbine è un cilindro con un raggio di 3 metri e un'altezza di 9 metri, centrato su quel punto. Finché l'incantesimo non termina, puoi usare la tua azione per spostare il turbine fino a 9 metri in qualsiasi direzione lungo il terreno. Il turbine risucchia qualsiasi oggetto di taglia Media o inferiore che non sia fissato a nulla e che non sia indossato o trasportato da nessuno.\n\nUna creatura deve effettuare un tiro salvezza su Destrezza la prima volta in un turno in cui entra nel vortice o in cui il vortice entra nel suo spazio, incluso quando il vortice appare per la prima volta. Una creatura subisce 10d6 danni contundenti in caso di fallimento del tiro salvezza, o la metà dei danni in caso di successo. Inoltre, una creatura di taglia Grande o inferiore che fallisce il tiro salvezza deve superare un tiro salvezza su Forza o rimanere intrappolata nel vortice fino alla fine dell'incantesimo.\n\nQuando una creatura inizia il suo turno trattenuta dal turbine, viene sollevata di 1,5 metri al suo interno, a meno che non si trovi già in cima. Una creatura trattenuta si muove con il turbine e cade quando l'incantesimo termina, a meno che non abbia un modo per rimanere sospesa in aria.\n\nUna creatura immobilizzata può usare un'azione per effettuare una prova di Forza o Destrezza contro la CD del tuo tiro salvezza per incantesimi. In caso di successo, la creatura non è più immobilizzata dal turbine e viene scagliata a 3d6 × 10 piedi di distanza da esso in una direzione casuale.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyn9ma3tlai",
+        "name": "Essenza Vincolante",
+        "level": 7,
+        "school": "Necromanzia",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "Due creature visibili entro la portata devono ciascuna effettuare un tiro salvezza su Costituzione, con svantaggio se si trovano entro 9 metri l'una dall'altra. Ciascuna creatura può fallire volontariamente il tiro salvezza. Se uno dei due tiri salvezza ha successo, l'incantesimo non ha effetto. Se entrambi i tiri salvezza falliscono, le creature sono magicamente collegate per la durata, indipendentemente dalla distanza tra loro. Quando un danno o una guarigione viene inflitto a una di esse, lo stesso danno o guarigione viene inflitto anche all'altra. Se una delle creature collegate viene ridotta a 0 punti ferita o l'incantesimo termina su una delle due, l'incantesimo termina su entrambe. ",
+        "higherLevels": null,
+        "prepared": true
       }
     ],
     "notes": "",
-    "backstory": "",
+    "backstory": "Ladro\nCompetenze di Abilità Inganno, Gioco di Prestigio\nCompetenze degli Strumenti Un tipo di set di gioco, gli strumenti per ladri\nEquipaggiamento Un piede di porco, un completo di abiti comuni scuri con cappuccio, e portafoglio contenente 150.000 ฿\nCaratteristica: Corruzione\nAttraverso anni di corruzione e inganno alle forze dell'ordine, ai pirati e ai marines, hai imparato a evitare in modo affidabile punizioni per reati meno gravi come il furto minore (rubare qualsiasi cosa sotto i ฿1.000) e il gettamento di rifiuti, con la discrezione del DM nel determinare la clemenza. Anche quando vieni punito per crimini più gravi, puoi dimezzare la durata della tua punizione o della detenzione.\n\nCapitano\nIl tuo ruolo è molto semplice: motivare, guidare e comandare la nave e l'equipaggio. Il capitano di una nave può ricoprire diversi ruoli complessi, ma in genere dovrebbe essere l'individuo più forte e carismatico dell'equipaggio. Alcuni capitani possono essere diversi o avere personalità uniche, ma il loro obiettivo dovrebbe essere quello di unire i propri alleati nei momenti difficili per affrontare qualsiasi ostacolo e realizzare i propri sogni e obiettivi.\nIl capitano dovrebbe sempre avere l'ultima parola in qualsiasi decisione o piano di gruppo. Sebbene alcuni equipaggi non ruotino completamente attorno al loro capitano, è importante concedergli comunque un elevato grado di autorità nel processo decisionale.\nCaratteristica: Il carisma del capitano\nIl capitano è il capo della nave, ma non dovrebbe mai comportarsi da tiranno quando gestisce un equipaggio sano. Quando guida un attacco, i suoi alleati devono seguirlo. Quando ordina un colpo, gli altri devono rispettarlo. Quando parla, l'equipaggio deve ascoltare. Questo non dovrebbe essere un potere da abusare, ma piuttosto una qualità che i suoi compagni venerano. Se si ordina a un membro dell'equipaggio di compiere un'azione, questi si sentirà naturalmente spinto a portarla a termine. Tuttavia, se un compito va direttamente contro il suo allineamento, i suoi ideali, i suoi tratti caratteriali, la sua classe sociale, il suo background o la sua razza (o è semplicemente troppo assurdo da prendere in considerazione), gli è consentito astenersi.\nAbilità di prestigio dei pirati: Reclutamento dell'equipaggio\nUn personaggio che ricopre il ruolo di capitano può reclutare facilmente altri pirati spendendo i propri punti prestigio pirata in vari luoghi. Un capitano può spendere un punto prestigio pirata per reclutare un mercenario o uno specialista per una settimana senza doverlo pagare. Il mercenario dovrà comunque soddisfare i propri bisogni primari e richiederà il pagamento una settimana dopo la fine della settimana iniziale, a meno che non venga speso un altro punto prestigio.\nNon puoi reclutare in luoghi in cui il tuo equipaggio ha una reputazione pari o inferiore a 5.\n",
     "diceLog": [],
     "effects": []
   }
