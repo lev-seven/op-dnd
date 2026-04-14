@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T17:26:54.217Z",
+  "exportedAt": "2026-04-14T17:29:26.138Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -238,8 +238,32 @@
         "id": "mnyvof00iafr",
         "name": "Devil Power (Spell) Slots",
         "originId": "mnyt2dn8icxl",
-        "type": "Azione",
+        "type": "Passiva",
         "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyw9xkhofve",
+        "name": "Devil Power (Spellcasting) Ability",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "Charisma is your spellcasting ability for your devilforged spells, so you use your Charisma whenever a spell refers to your spellcasting ability. In addition, you use your Charisma modifier when setting the saving throw DC for a devilforged spell you cast and when making an attack roll with one.\n\nSpell save DC = 8 + your proficiency bonus + your Charisma modifier\n\nSpell attack modifier = your proficiency bonus + your Charisma modifier",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnywbfohxx5h",
+        "name": "Infused Item (Spellcasting Focus)",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "Uso il bastone come focus arcano",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
