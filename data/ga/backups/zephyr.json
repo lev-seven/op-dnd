@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T16:02:52.262Z",
+  "exportedAt": "2026-04-14T16:05:38.310Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -19,9 +19,9 @@
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 13,
-        "mod": 1,
-        "save": 1,
+        "score": 14,
+        "mod": 2,
+        "save": 2,
         "profSave": false
       },
       "DES": {
@@ -49,9 +49,9 @@
         "profSave": false
       },
       "CAR": {
-        "score": 13,
-        "mod": 1,
-        "save": 1,
+        "score": 14,
+        "mod": 2,
+        "save": 2,
         "profSave": false
       }
     },
@@ -74,7 +74,7 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
@@ -94,7 +94,7 @@
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intrattenere",
