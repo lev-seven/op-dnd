@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T16:54:57.576Z",
+  "exportedAt": "2026-04-14T17:06:11.888Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -212,12 +212,50 @@
       {
         "id": "mnyt2dn8icxl",
         "name": "Devilforged",
-        "color": "#1abc9c"
+        "color": "#1a4bbc"
+      },
+      {
+        "id": "mnyv4onjhel3",
+        "name": "Bruiser",
+        "color": "#f17c0e"
       }
     ],
     "attacks": [],
-    "abilities": [],
-    "spells": [],
+    "abilities": [
+      {
+        "id": "mnyv50fdkbke",
+        "name": "Devil Fruit Infusion ",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "Possibilità di lanciare \"incantesimi\"",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [
+      {
+        "id": "mnyv96g72z4c",
+        "name": "Booming Blade",
+        "level": 0,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "1,5 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "You brandish the weapon used in the spell's casting and make a melee attack with it against one creature within 5 feet of you. On a hit, the target suffers the weapon attack's normal effects and then becomes sheathed in booming energy until the start of your next turn. If the target willingly moves 5 feet or more before then, the target takes 1d8 thunder damage, and the spell ends.\nAt higher levels: This spell's damage increases when you reach certain levels. ",
+        "higherLevels": "At higher levels: This spell's damage increases when you reach certain levels. At 5th level, the melee attack deals an extra 1d8 thunder damage to the target on a hit, and the damage the target takes for moving increases to 2d8. Both damage rolls increase by 1d8 at 11th level (2d8 and 3d8) and again at 17th level (3d8 and 4d8)",
+        "prepared": true
+      }
+    ],
     "notes": "Armatura pesante (svantaggio a furtività) Classe Armatura 16\n",
     "backstory": "Zephyr è il figlio dell'Imperatore Rex che comanda Skypeat. Ignaro delle sue vere origini viene cresciuto nella povertà dalla madre, una puttana del luogo. Cresciuto desideroso di avere la propria libertà e di vedere il mondo, lascia il regno per dirigersi verso nuovi orizzonti. Arrivato in una nuova città, inizia a lavorare come carpentiere facendo qualche lavoretto e commettendo qualche illecito. Fuggito dalla città finisce poi catturato dalla marina e portato Impel Down dove dopo un mese di sofferenze, viene liberato dalla sua vera famiglia e portato a Skypeat a combattere nell'organizzazione dei Cavalieri della virtù insieme a suo Fratello Cyranò + clement + vane + altea + prospero avvelenato. Ha sentito parlare da Cyranoo di un altro fratello elaiah (ma il primo si è offerto di entrare al posto suo sacrificandosi in quanto ex marine). Vive ora come principe mentre la guerra è momentaneamente in stallo a causa delle minacce della Marina.\n\nBogarth capo delle guardie marcione mi rispetta ma è comunque ostile.\nNun capo forze armate molto importante (fratello pure lui)\nAl mio comando ho la mia vice Shaila e qualche guardia privata.\nIo, il mio gruppo, Althea (la sorella) e il suo gruppo dobbiamo recarci a NewZaun controllata dall'Imperatore Malphas (con cui siamo in guerra) per recuperare il celebre Dr Naive che è colui che avvelenò Prospero. ",
     "diceLog": [],
