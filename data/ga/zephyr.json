@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T15:55:20.387Z",
+  "exportedAt": "2026-04-14T16:01:12.150Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -9,8 +9,8 @@
     "level": 9,
     "classes": "Devilforged + Bruiser ",
     "ac": 10,
-    "hpMax": 10,
-    "hpCurrent": 10,
+    "hpMax": 81,
+    "hpCurrent": 81,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -19,25 +19,25 @@
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 13,
+        "mod": 1,
+        "save": 1,
         "profSave": false
       },
       "DES": {
-        "score": 10,
+        "score": 11,
         "mod": 0,
         "save": 0,
         "profSave": false
       },
       "COS": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 14,
+        "mod": 2,
+        "save": 2,
         "profSave": false
       },
       "INT": {
-        "score": 10,
+        "score": 11,
         "mod": 0,
         "save": 0,
         "profSave": false
@@ -49,9 +49,9 @@
         "profSave": false
       },
       "CAR": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 13,
+        "mod": 1,
+        "save": 1,
         "profSave": false
       }
     },
@@ -210,7 +210,7 @@
         "color": "#f46fc1"
       },
       {
-        "id": "mnysut0sp8t4",
+        "id": "mnyt2dn8icxl",
         "name": "Devilforged",
         "color": "#1abc9c"
       }
