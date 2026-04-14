@@ -80,6 +80,10 @@
         "preview": "Umano · Lv 16"
       }
     ],
-    "ga": []
+    "ga": [{
+        "file": "zephyr.json",
+        "name": "Zephyr",
+        "preview": "Skypean"
+    }]
   }
 }
