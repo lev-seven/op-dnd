@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T17:29:26.138Z",
+  "exportedAt": "2026-04-14T22:45:15.456Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -264,6 +264,42 @@
         "originId": "mnyt2dn8icxl",
         "type": "Passiva",
         "desc": "Uso il bastone come focus arcano",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnz7kfmfzcfk",
+        "name": "Devilsmith",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "At 1st level, you have developed a particular style of devilsmithing which determines the types of equipment or items you specialize at infusing with. You can choose between Gear Smithing, Blade Smithing, and Firearm Smithing, all detailed at the end of the class description. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnz7kvb3p48n",
+        "name": "Sea Devil's Emanations",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "In your exploration of the origins of Devil Fruit powers through synthesizing their lineage factors, you have uncovered the true nature of the Sea Devil's energies that imbue these powers, now capable of being released from your infused item.\n\nAt 2nd level, you gain two sea devil emanations of your choice. When you gain certain devilforged levels, you gain additional emanations of your choice, as shown in the Emanations Known column of the Devilfoged table. A level prerequisite refers to your level in this class.\n\nAdditionally, when you gain a level in this class, you can choose one of the emanations you know and replace it with another emanation that you could learn at that level.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnz7lu8n88f5",
+        "name": "Infused Devil Fruit Category",
+        "originId": "mnyt2dn8icxl",
+        "type": "Passiva",
+        "desc": "Zoan Infusion\n\nYour infused item is capable of breaking a piece of itself off or stretching out, and transforms into a specific type of creature, similar to a zoan-type devil fruit user. You learn the find familiar spell and cast it as a ritual. The spell doesn't count against your number of spells known. The familiar dissipates and returns to its original form when it becomes more than half-submerged in water or touches seastone. When the familiar disappears, the disconnected piece of your infused item returns to its original place.\n\nWhen you cast the spell, you can choose one of the normal forms for your familiar or one of the following special forms to better fit your item's zoan type: imp, pseudodragon, quasit, or sprite. Your DM may allow you to choose another form not listed here, using a custom stat block or another known creature.\n\nAdditionally, when you take the Attack action, you can forgo one of your own attacks to allow your familiar to make one attack with its reaction.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
