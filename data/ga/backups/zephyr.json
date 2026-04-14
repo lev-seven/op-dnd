@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-14T22:49:10.599Z",
+  "exportedAt": "2026-04-14T22:53:03.434Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -431,6 +431,25 @@
         "duration": "Istantanea",
         "concentration": false,
         "desc": "At your touch, all curses affecting one creature or object end. If the object is a cursed magic item, its curse remains, but the spell breaks its owner’s attunement to the object so it can be removed or discarded.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnz7verkvltx",
+        "name": "Shield of Faith",
+        "level": 2,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18 metri",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 minuti",
+        "concentration": true,
+        "desc": "A shimmering field appears and surrounds a creature of your choice within range, granting it a +2 bonus to AC for the duration.",
         "higherLevels": null,
         "prepared": true
       }
