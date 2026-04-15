@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-15T22:28:16.542Z",
+  "exportedAt": "2026-04-15T23:09:26.533Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,7 +10,7 @@
     "classes": "Tinkerer 1-4 / Bruiser 1-5",
     "ac": 18,
     "hpMax": 99,
-    "hpCurrent": 86,
+    "hpCurrent": 79,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 21,
@@ -155,7 +155,7 @@
         },
         "2": {
           "max": 3,
-          "used": 2
+          "used": 3
         },
         "3": {
           "max": 0,
@@ -773,7 +773,7 @@
         "type": "Passiva",
         "desc": "Ottieni la capacità di inviare raffiche di energia contro i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o con un attacco senz'armi, puoi sprigionare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza aggiuntivi al bersaglio, oltre al danno normale dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.",
         "maxUses": 4,
-        "uses": 3,
+        "uses": 4,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -1217,6 +1217,216 @@
       {
         "type": "damage",
         "label": "Shocking Grasp (danno)",
+        "total": 7,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 4
+            }
+          ],
+          "bonus": 0,
+          "total": 7,
+          "formula": "1d8+1d8"
+        },
+        "timestamp": 1776293366572
+      },
+      {
+        "type": "damage",
+        "label": "Calcio [Indurimento] (danno)",
+        "total": 8,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 2
+            }
+          ],
+          "bonus": 6,
+          "total": 8,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1776293361065
+      },
+      {
+        "type": "d20",
+        "label": "Calcio [Indurimento] (colpire)",
+        "total": 24,
+        "roll1": 14,
+        "roll2": 6,
+        "chosen": 14,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776293356587
+      },
+      {
+        "type": "damage",
+        "label": "Calcio [Indurimento] (danno)",
+        "total": 11,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 5
+            }
+          ],
+          "bonus": 6,
+          "total": 11,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1776293352832
+      },
+      {
+        "type": "d20",
+        "label": "Calcio [Indurimento] (colpire)",
+        "total": 20,
+        "roll1": 10,
+        "roll2": 13,
+        "chosen": 10,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776293348265
+      },
+      {
+        "type": "damage",
+        "label": "Calcio [Indurimento] (danno)",
+        "total": 8,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 2
+            }
+          ],
+          "bonus": 6,
+          "total": 8,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1776293336827
+      },
+      {
+        "type": "d20",
+        "label": "Calcio [Indurimento] (colpire)",
+        "total": 25,
+        "roll1": 15,
+        "roll2": 4,
+        "chosen": 15,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776293328577
+      },
+      {
+        "type": "damage",
+        "label": "Shocking Grasp (danno)",
+        "total": 4,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 3
+            }
+          ],
+          "bonus": 0,
+          "total": 4,
+          "formula": "1d8+1d8"
+        },
+        "timestamp": 1776293317216
+      },
+      {
+        "type": "damage",
+        "label": "Shocking Grasp (danno)",
+        "total": 13,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 8
+            }
+          ],
+          "bonus": 0,
+          "total": 13,
+          "formula": "1d8+1d8"
+        },
+        "timestamp": 1776293307762
+      },
+      {
+        "type": "damage",
+        "label": "Calcio [Indurimento] (danno)",
+        "total": 9,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 3
+            }
+          ],
+          "bonus": 6,
+          "total": 9,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1776293294813
+      },
+      {
+        "type": "d20",
+        "label": "Calcio [Indurimento] (colpire)",
+        "total": 17,
+        "roll1": 7,
+        "roll2": 12,
+        "chosen": 7,
+        "modifier": 10,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776293288436
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 4,
+        "roll1": 3,
+        "roll2": 15,
+        "chosen": 3,
+        "modifier": 1,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776292391457
+      },
+      {
+        "type": "damage",
+        "label": "Shocking Grasp (danno)",
         "total": 12,
         "isNat20": false,
         "isNat1": false,
@@ -1365,7 +1575,7 @@
       {
         "id": "mnito9phyoyx",
         "name": "Haste",
-        "rounds": 10
+        "rounds": 7
       },
       {
         "id": "mnitooxhissw",
