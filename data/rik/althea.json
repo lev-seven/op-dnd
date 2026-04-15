@@ -1,31 +1,31 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T15:17:53.183Z",
+  "exportedAt": "2026-04-15T15:21:04.990Z",
   "character": {
     "id": "mo06zas4yz2u",
     "name": "Althea",
     "race": "Umano",
     "level": 16,
     "classes": "",
-    "ac": 20,
-    "hpMax": 143,
-    "hpCurrent": 143,
+    "ac": 19,
+    "hpMax": 151,
+    "hpCurrent": 151,
     "hpTemp": 0,
     "hpPerm": 0,
-    "speed": 9,
-    "passivePerception": 19,
+    "speed": 12,
+    "passivePerception": 20,
     "profBonus": 5,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 18,
-        "mod": 4,
-        "save": 4,
-        "profSave": false
+        "score": 21,
+        "mod": 5,
+        "save": 10,
+        "profSave": true
       },
       "DES": {
-        "score": 21,
+        "score": 20,
         "mod": 5,
         "save": 10,
         "profSave": true
@@ -37,22 +37,22 @@
         "profSave": true
       },
       "INT": {
-        "score": 20,
-        "mod": 5,
-        "save": 10,
-        "profSave": true
-      },
-      "SAG": {
-        "score": 18,
-        "mod": 4,
-        "save": 9,
-        "profSave": true
-      },
-      "CAR": {
         "score": 18,
         "mod": 4,
         "save": 4,
         "profSave": false
+      },
+      "SAG": {
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 18,
+        "mod": 4,
+        "save": 9,
+        "profSave": true
       }
     },
     "skills": [
@@ -74,12 +74,12 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
         "stat": "DES",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Indagare",
@@ -89,12 +89,12 @@
       {
         "name": "Inganno",
         "stat": "CAR",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intrattenere",
@@ -338,43 +338,6 @@
         "maxUses": 3,
         "uses": 0,
         "rest": null,
-        "cdStat": null,
-        "fav": false
-      },
-      {
-        "id": "mnysnzvw9r5n",
-        "name": "Straw Doll.",
-        "originId": "fdd",
-        "type": "Azione",
-        "desc": "Come azione, puoi creare una piccola bambola voodoo di paglia di una creatura consenziente che tocchi. Se una creatura non è disposta, deve fare un tiro salvezza di Saggezza contro la CD del tuo tiro salvezza del Frutto del Diavolo. In caso di fallimento o se il bersaglio è disposto, produci una piccola versione bambola di quella creatura collegata a essa, e poi la assorbi nel tuo corpo. Anche se hai almeno una bambola nel corpo, qualsiasi danno subito può invece essere reindirizzato a una creatura collegata alla bambola corrispondente che contieni. Se una creatura con una bambola collegata che conti scende a 0 punti ferita, la sua bambola corrispondente viene distrutta. In alternativa, puoi usare un'azione bonus per espellere una bambola legata a una creatura e annullare l'effetto di questa abilità su quella creatura. Puoi tenere fino a 10 bambole voodoo di paglia in questo modo.",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "cdStat": "custom",
-        "fav": false,
-        "cdCustom": 15
-      },
-      {
-        "id": "mnysvkbrc1si",
-        "name": "Straw Monster",
-        "originId": "fdd",
-        "type": "Azione",
-        "desc": "Come azione, puoi spendere 4 o più cariche di frutti del diavolo per usare l'incantesimo Costrutto di Evocazione (Argilla), che evoca un mostro di paglia che combatte per te. Puoi spendere cariche aggiuntive di frutti del diavolo per lanciarlo a livelli più alti (1 carica per ogni livello totale dell'incantesimo).",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "cdStat": null,
-        "fav": false
-      },
-      {
-        "id": "mnysxr8boaj3",
-        "name": "Spells (Straw Techniques)",
-        "originId": "fdd",
-        "type": "Passiva",
-        "desc": "Questo potere del frutto del diavolo ha 9 cariche. Puoi spendere 1 o più delle sue cariche per lanciare uno dei seguenti incantesimi senza dover consumare componenti materiali: Intrecco (1 carica), Crescita di Spine (2 cariche), Forma di Paglia (Guardiano della Natura, solo grande forma albero; 4 cariche), Compulsione (mira solo le creature con bambole di paglia e tira salvezza con svantaggio; 4 cariche),  Domina Persona (solo un bersaglio con una bambola di paglia e tiro salvezza con svantaggio; 5 cariche). Il frutto del diavolo recupera le cariche spese ogni giorno all'alba.",
-        "maxUses": 9,
-        "uses": 0,
-        "rest": "lungo",
         "cdStat": null,
         "fav": false
       }
@@ -643,101 +606,6 @@
         "duration": "1 ora",
         "concentration": true,
         "desc": "Questo incantesimo rende la carne di una creatura consenziente toccata dall'incantatore dura come la pietra. Finché l'incantesimo non termina, il bersaglio ottiene resistenza ai danni non magici contundenti, perforanti e taglienti.",
-        "higherLevels": null,
-        "prepared": true
-      },
-      {
-        "id": "mo0039m4dqm6",
-        "name": "Evoca Costrutto",
-        "level": 4,
-        "school": "Evocazione",
-        "castingTime": "action",
-        "ritual": false,
-        "range": "27 m",
-        "components": {
-          "v": true,
-          "s": true,
-          "m": null
-        },
-        "duration": "1 ora",
-        "concentration": true,
-        "desc": "L'incantatore invoca lo spirito di un costrutto che si manifesta in uno spazio libero entro gittata che egli sia in grado di vedere. La forma corporea di questo spirito utilizza la scheda delle statistiche dello \"Spirito del Costrutto\". Quando questo incantesimo viene lanciato, l'incantatore può scegliere un materiale tra argilla, metallo o pietra. La creatura ha le sembianze di un golem o un modron (a scelta dell'incantatore), dal corpo costituito da uno di questi materiali, e in base a questa scelta vengono determinati alcuni tratti nella scheda delle statistiche del costrutto. La creatura scompare quando il valore dei suoi punti ferita scende a 0 o quando l'incantesimo termina.\n\nLa creatura diventa un alleato per l'incantatore e i suoi compagni. In combattimento, la creatura condivide il punteggio di iniziativa con l'incantatore, ma inizia il turno immediatamente dopo il suo, obbedendo ai suoi comandi verbali senza che all'incantatore venga richiesta alcuna azione. Se l'incantatore non pronuncia comandi verbali, la creatura compie la schivata e usa il suo movimento per sottrarsi al pericolo.",
-        "higherLevels": "Quando l'incantatore lancia questo incantesimo usando uno slot incantesimo di 4° livello o superiore, usa lo slot di livello più alto che compare nella sua scheda delle statistiche.",
-        "prepared": true
-      },
-      {
-        "id": "mo00ahlx6y6a",
-        "name": "Intralciare",
-        "level": 1,
-        "school": "Evocazione",
-        "castingTime": "action",
-        "ritual": false,
-        "range": "27 m",
-        "components": {
-          "v": true,
-          "s": true,
-          "m": null
-        },
-        "duration": "1 min",
-        "concentration": true,
-        "desc": "Erbacce e rampicanti spuntano dal terreno in un quadrato con lato di 6 metri che parte da un punto situato entro gittata. Per la durata dell'incantesimo, questi vegetali trasformano l'area in terreno difficile.\nUna creatura situata nell'area quando l'incantatore lancia questo incantesimo deve superare un tiro salvezza su Forza, altrimenti è trattenuta dai vegetali intralcianti finché l'incantesimo non termina. Una creatura trattenuta dai vegetali può usare la sua azione per effettuare una prova di Forza contro la CD del tiro salvezza dell'incantesimo. Se ha successo, si libera.\nQuando l'incantesimo termina, i vegetali evocati avvizziscono.",
-        "higherLevels": null,
-        "prepared": true
-      },
-      {
-        "id": "mo00ccjpu53r",
-        "name": "Crescita di Spine",
-        "level": 2,
-        "school": "Trasmutazione",
-        "castingTime": "action",
-        "ritual": false,
-        "range": "45 m",
-        "components": {
-          "v": true,
-          "s": true,
-          "m": null
-        },
-        "duration": "1 min",
-        "concentration": true,
-        "desc": "Spine e spuntoni nascono dal terreno entro un raggio di 6 metri centrato su un punto situato entro gittata. L'area diventa terreno difficile per la durata dell'incantesimo. Quando una creatura entra nell'area o si muove al suo interno, subisce 2d4 danni perforanti per ogni 1,5 metri di cui si muove.\nLa trasformazione del terreno è mimetizzata in modo da sembrare naturale. Ogni creatura che non abbia osservato l'area al momento del lancio dell'incantesimo deve effettuare una prova di Saggezza (Percezione) contro la CD del tiro salvezza dell'incantesimo per riconoscere la pericolosità del terreno prima di entrarvi.",
-        "higherLevels": null,
-        "prepared": true
-      },
-      {
-        "id": "mo00g5va8i8j",
-        "name": "Forma di Paglia",
-        "level": 4,
-        "school": "Trasmutazione",
-        "castingTime": "bonus",
-        "ritual": false,
-        "range": "Personale",
-        "components": {
-          "v": true,
-          "s": false,
-          "m": null
-        },
-        "duration": "1 min",
-        "concentration": true,
-        "desc": "Uno spirito della natura risponde alla tua chiamata e ti trasforma in un potente guardiano. La trasformazione dura fino alla fine dell'incantesimo. \nOttieni 10 punti ferita temporanei.\nEffettui i tiri salvezza sulla Costituzione con vantaggio.\nEffettui i tiri per colpire basati su Destrezza e Saggezza con vantaggio.\nFinché ti trovi a terra, il terreno entro 4,5 metri da te rappresenta un terreno difficile per i tuoi nemici.",
-        "higherLevels": null,
-        "prepared": true
-      },
-      {
-        "id": "mo00k7sgqjdd",
-        "name": "Compulsione",
-        "level": 4,
-        "school": "Ammaliamento",
-        "castingTime": "action",
-        "ritual": false,
-        "range": "9 m",
-        "components": {
-          "v": true,
-          "s": true,
-          "m": null
-        },
-        "duration": "1 min",
-        "concentration": true,
-        "desc": "Le creature a scelta dell'incantatore entro gittata, che siano in grado di sentirlo e che egli sia in grado di vedere, devono effettuare un tiro salvezza su Saggezza. Un bersaglio supera automaticamente questo tiro salvezza se non può essere affascinato. In caso di tiro salvezza fallito, un bersaglio è influenzato da questo incantesimo. Finché l'incantesimo non termina, l'incantatore può usare un'azione bonus a ogni suo turno per designare una direzione orizzontale rispetto a lui. Ogni bersaglio influenzato deve usare la maggior parte possibile del suo movimento per muoversi in quella direzione nel suo turno successivo. Può effettuare la sua azione prima di muoversi. Dopo essersi mosso in questo modo, un bersaglio può effettuare un altro tiro salvezza su Saggezza per cercare di terminare l'effetto.\nUn bersaglio non è obbligato a muoversi verso un terreno palesemente pericoloso, come un incendio o una fossa, ma provocherà attacchi di opportunità nel muoversi verso la direzione designata.",
         "higherLevels": null,
         "prepared": true
       }
