@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T12:41:49.739Z",
+  "exportedAt": "2026-04-15T12:47:02.162Z",
   "character": {
     "id": "mo00qhxr2byi",
     "name": "Morgan",
@@ -9,8 +9,8 @@
     "level": 16,
     "classes": "",
     "ac": 20,
-    "hpMax": 129,
-    "hpCurrent": 129,
+    "hpMax": 151,
+    "hpCurrent": 151,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -19,16 +19,16 @@
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 18,
-        "mod": 4,
-        "save": 6,
+        "score": 21,
+        "mod": 5,
+        "save": 10,
         "profSave": true
       },
       "DES": {
-        "score": 18,
-        "mod": 4,
-        "save": 4,
-        "profSave": false
+        "score": 20,
+        "mod": 5,
+        "save": 10,
+        "profSave": true
       },
       "COS": {
         "score": 20,
@@ -37,29 +37,29 @@
         "profSave": true
       },
       "INT": {
-        "score": 21,
-        "mod": 5,
-        "save": 7,
-        "profSave": true
-      },
-      "SAG": {
-        "score": 20,
-        "mod": 5,
-        "save": 7,
-        "profSave": true
-      },
-      "CAR": {
         "score": 18,
         "mod": 4,
         "save": 4,
         "profSave": false
+      },
+      "SAG": {
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 18,
+        "mod": 4,
+        "save": 9,
+        "profSave": true
       }
     },
     "skills": [
       {
         "name": "Acrobazia",
         "stat": "DES",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Addestrare Animali",
@@ -74,7 +74,7 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
@@ -84,7 +84,7 @@
       {
         "name": "Indagare",
         "stat": "INT",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Inganno",
@@ -94,7 +94,7 @@
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intrattenere",
@@ -104,7 +104,7 @@
       {
         "name": "Intuizione",
         "stat": "SAG",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Medicina",
@@ -114,7 +114,7 @@
       {
         "name": "Natura",
         "stat": "INT",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Percezione",
@@ -225,7 +225,7 @@
         "id": "mnys5z5oommz",
         "name": "Attacco senz'armi",
         "stat": "FOR",
-        "damage": "1d8+1d8+4+1d8+1d8+1d8",
+        "damage": "1d6+1d6+1d8+1d8+1d8",
         "type": "Contundente",
         "bonusHit": 0,
         "bonusDmg": 0,
@@ -236,7 +236,7 @@
         "id": "mnysasmt0odk",
         "name": "Lama Avvelenata",
         "stat": "FOR",
-        "damage": "1d8+1d8+4+1d8+1d8+1d8",
+        "damage": "1d12+1d12+1d8+1d8+1d8",
         "type": "Taglienti, contundenti",
         "bonusHit": 0,
         "bonusDmg": 0,
