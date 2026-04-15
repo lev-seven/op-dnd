@@ -1,0 +1,750 @@
+{
+  "account": "Rik",
+  "accountId": "rik",
+  "exportedAt": "2026-04-15T12:25:45.563Z",
+  "character": {
+    "id": "mo00qhxr2byi",
+    "name": "Morgan",
+    "race": "Umano",
+    "level": 16,
+    "classes": "",
+    "ac": 20,
+    "hpMax": 151,
+    "hpCurrent": 151,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 20,
+    "profBonus": 5,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 18,
+        "mod": 4,
+        "save": 6,
+        "profSave": true
+      },
+      "DES": {
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
+      },
+      "COS": {
+        "score": 20,
+        "mod": 5,
+        "save": 7,
+        "profSave": true
+      },
+      "INT": {
+        "score": 21,
+        "mod": 5,
+        "save": 7,
+        "profSave": true
+      },
+      "SAG": {
+        "score": 20,
+        "mod": 5,
+        "save": 7,
+        "profSave": true
+      },
+      "CAR": {
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "none"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "prof"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "prof"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 0,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      },
+      {
+        "id": "mnyreshqutwg",
+        "name": "Azione Leggendaria",
+        "color": "#bc1a79"
+      },
+      {
+        "id": "mnyrruof6538",
+        "name": "Warlord",
+        "color": "#800ef1"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "mnys5z5oommz",
+        "name": "Attacco senz'armi",
+        "stat": "FOR",
+        "damage": "1d8+1d8+4+1d8+1d8+1d8",
+        "type": "Contundente",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "desc": "Il bersaglio deve superare un tiro salvezza su Forza con CD 17 o essere atterrato."
+      },
+      {
+        "id": "mnysasmt0odk",
+        "name": "Lama Avvelenata",
+        "stat": "FOR",
+        "damage": "1d8+1d8+4+1d8+1d8+1d8",
+        "type": "Taglienti, contundenti",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "desc": "Il bersaglio deve superare un tiro salvezza su Costituzione con CD 17 o essere avvelenato per 1 ora. Se il tiro salvezza fallisce di 5 o più, il bersaglio è anche privo di sensi mentre è avvelenato in questo modo. Il bersaglio riprende conoscenza se subisce danni o se un'altra creatura compie un'azione per scuoterlo."
+      }
+    ],
+    "abilities": [
+      {
+        "id": "mnyrdnm8u16t",
+        "name": "Resistenza Leggendaria ",
+        "originId": "mnyreshqutwg",
+        "type": "Passiva",
+        "desc": " Se l'Élite dei Pirati fallisce un tiro salvezza, può scegliere di superarlo invece.\n\n",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrgtfjk9ke",
+        "name": "Haki dell'Armamento",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": " Gli attacchi con le armi del Pirata Elite contano come magici ai fini del superamento della Resistenza e dell'immunità agli attacchi e ai danni non magici, come le resistenze conferite dai Frutti del Diavolo. Il Pirata Elite aggiunge inoltre un danno da forza aggiuntivo (3d8) ai suoi attacchi con armi da mischia.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrhnm2mzge",
+        "name": "Haki dell'Osservazione  ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": " Ogniqualvolta il Pirata Elite effettua un tiro per colpire, una prova di caratteristica o un tiro salvezza, può decidere di tirare un d20 aggiuntivo. Può scegliere quale dei d20 utilizzare per il tiro per colpire, la prova di caratteristica o il tiro salvezza. Il Pirata Elite può cambiare l'esito di un tiro quando viene attaccato. Tira un d20, poi scegli se l'attacco utilizza il tiro dell'attaccante o quello del Pirata Elite. Se più di una creatura usa l'haki dell'osservazione per influenzare l'esito di un tiro, qualsiasi svantaggio o vantaggio derivante dall'haki dell'osservazione applicato al tiro verrà annullato; non vengono tirati dadi aggiuntivi.",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrj1rml4qj",
+        "name": "Haki del Conquistatore ",
+        "originId": "haki_re",
+        "type": "Azione bonus",
+        "desc": "Come azione bonus, l'Élite dei Pirati può manifestare la sua terrificante presenza. Ogni creatura a sua scelta che si trova entro 36 metri da essa e ne è consapevole deve superare un tiro salvezza su Saggezza con CD 18. Una creatura che fallisce diventa spaventata da essa per 1 minuto. Una creatura che fallisce questo tiro salvezza di 5 o più è incapacitata fino all'inizio del prossimo turno dell'Élite dei Pirati. La creatura può ripetere il tiro salvezza alla fine di ogni suo turno, ponendo fine all'effetto su di sé in caso di successo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrlfxg9s0d",
+        "name": "Incantesimi Innati",
+        "originId": "mnyrruof6538",
+        "type": "Passiva",
+        "desc": " L'abilità innata di lanciare incantesimi del Pirata Elite è Carisma (CD del tiro salvezza 18, +10 al tiro per colpire con attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza bisogno di componenti: A Volontà: individuazione del magico, dissolvi il magico • 3/giorno ciascuno: sfocatura, dominare persona, ritirata rapida, caduta morbida (sé stesso), salto (sé stesso), passo nebbioso, vedere l'invisibilità, scudo • 1/giorno ciascuno: occhio arcano, dominare mostro, velocità (sé stesso), pelle di pietra (sé stesso)",
+        "maxUses": 28,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrnhagtsdh",
+        "name": "Difesa elegante",
+        "originId": "mnyrruof6538",
+        "type": "Passiva",
+        "desc": "Finché il Pirata d'élite indossa un'armatura leggera o non ne indossa affatto e non impugna uno scudo, la sua CA include il modificatore di Carisma.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyrq9ihrq7v",
+        "name": "Attacco multiplo",
+        "originId": "mnyrruof6538",
+        "type": "Azione",
+        "desc": "Il Pirata Elite effettua un attacco con la sua lama avvelenata e due con i suoi colpi senz'armi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyselqjh965",
+        "name": "Azione Leggendaria",
+        "originId": "mnyreshqutwg",
+        "type": "Azione",
+        "desc": "Il Pirata Elite può compiere 3 azioni leggendarie, scegliendo tra le opzioni seguenti. È possibile utilizzare una sola azione leggendaria alla volta e solo alla fine del turno di un'altra creatura. Il Pirata Elite recupera le azioni leggendarie spese all'inizio del suo turno.\n\nAttacco senz'armi. Il Pirata Elite effettua un attacco senz'armi.\nPasso Rapido. Il Pirata Elite raggiunge la sua velocità massima senza provocare attacchi di opportunità.\nImpeto del Conquistatore (Costo: 2 Azioni). L'Élite Pirata rilascia un'onda d'urto debilitante usando il suo spirito. Tutte le altre creature entro 18 metri dall'Élite Pirata devono superare un tiro salvezza su Forza con CD 17 o essere atterrate.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnysnzvw9r5n",
+        "name": "Straw Doll.",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi creare una piccola bambola voodoo di paglia di una creatura consenziente che tocchi. Se una creatura non è disposta, deve fare un tiro salvezza di Saggezza contro la CD del tuo tiro salvezza del Frutto del Diavolo. In caso di fallimento o se il bersaglio è disposto, produci una piccola versione bambola di quella creatura collegata a essa, e poi la assorbi nel tuo corpo. Anche se hai almeno una bambola nel corpo, qualsiasi danno subito può invece essere reindirizzato a una creatura collegata alla bambola corrispondente che contieni. Se una creatura con una bambola collegata che conti scende a 0 punti ferita, la sua bambola corrispondente viene distrutta. In alternativa, puoi usare un'azione bonus per espellere una bambola legata a una creatura e annullare l'effetto di questa abilità su quella creatura. Puoi tenere fino a 10 bambole voodoo di paglia in questo modo.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 15
+      },
+      {
+        "id": "mnysvkbrc1si",
+        "name": "Straw Monster",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi spendere 4 o più cariche di frutti del diavolo per usare l'incantesimo Costrutto di Evocazione (Argilla), che evoca un mostro di paglia che combatte per te. Puoi spendere cariche aggiuntive di frutti del diavolo per lanciarlo a livelli più alti (1 carica per ogni livello totale dell'incantesimo).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnysxr8boaj3",
+        "name": "Spells (Straw Techniques)",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "Questo potere del frutto del diavolo ha 9 cariche. Puoi spendere 1 o più delle sue cariche per lanciare uno dei seguenti incantesimi senza dover consumare componenti materiali: Intrecco (1 carica), Crescita di Spine (2 cariche), Forma di Paglia (Guardiano della Natura, solo grande forma albero; 4 cariche), Compulsione (mira solo le creature con bambole di paglia e tira salvezza con svantaggio; 4 cariche),  Domina Persona (solo un bersaglio con una bambola di paglia e tiro salvezza con svantaggio; 5 cariche). Il frutto del diavolo recupera le cariche spese ogni giorno all'alba.",
+        "maxUses": 9,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [
+      {
+        "id": "mnzysobkl080",
+        "name": "Individuazione del Magico",
+        "level": 1,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Per la durata dell'incantesimo, l'incantatore percepisce la presenza della magia entro 9 metri da lui. Se percepisce la magia in questo modo, può usare la sua azione per vedere una debole aura attorno a ogni creatura o oggetto visibile nell'area e che contenga magia, e apprende di che scuola di magia si tratta, se ne esiste una.\nL'incantesimo può penetrare la maggior parte delle barriere, ma è bloccato da 30 cm di pietra, 2,5 cm di metallo comune, una sottile lamina di piombo o 90 cm di legno o terriccio.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzyuurcyk5u",
+        "name": "Dissolvi Magie",
+        "level": 3,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "L'incantatore sceglie una creatura, oggetto o effetto magico situato entro gittata. Ogni Incantesimo di 3° livello o inferiore termina. Per ogni incantesimo di 4° livello o superiore presente sul bersaglio, l'incantatore effettua una prova di caratteristica usando la propria caratteristica da incantatore. La CD è pari a 10 + il livello dell'incantesimo. Se supera la prova, l'incantesimo termina.",
+        "higherLevels": "Quando l'incantatore lancia questo incantesimo usando uno slot incantesimo di 4° livello o superiore, termina automaticamente gli effetti di un incantesimo sul bersaglio se il livello di quell'incantesimo è pari o inferiore al livello dello slot incantesimo usato dall'incantatore",
+        "prepared": true
+      },
+      {
+        "id": "mnzyygcatiyg",
+        "name": "Sfocatura",
+        "level": 2,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Il corpo dell'incantatore diventa sfocato, instabile e ondeggiante agli occhi di tutti coloro che sono in grado di vederlo. Per la durata dell'incantesimo, tutte le creature subiscono svantaggio ai tiri per colpire contro di lui. Un attaccante è immune a questo effetto se non si affida alla vista, per esempio se è dotato di vista cieca o se è in grado di vedere attraverso le illusioni, per esempio tramite vista pura.\n\n",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzz08xt6tqj",
+        "name": "Dominare Persone",
+        "level": 5,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "L'incantatore tenta di soggiogare un umanoide entro gittata e che egli sia in grado di vedere. Quell'umanoide deve superare un tiro salvezza su Saggezza, altrimenti sarà affascinato dall'incantatore per la durata dell'incantesimo. Se l'incantatore o le creature a lui amichevoli stanno combattendo contro l'umanoide, quest'ultimo dispone di vantaggio al tiro salvezza.\nMentre il bersaglio è affascinato, l'incantatore dispone di un legame telepatico con lui finché entrambi si trovano sullo stesso piano di esistenza. L'incantatore può usare questo legame telepatico per impartire comandi alla creatura finché è cosciente (nessuna azione richiesta), ed essa farà del suo meglio per obbedire. L'incantatore può specificare un corso d'azione semplice e generico come \"attacca quella creatura\", \"corri fin laggiù\" o \"portami quell'oggetto\". Se la creatura porta a termine l'ordine e non riceve ulteriori indicazioni da parte dell'incantatore, essa si difende e si protegge al meglio delle sue capacità.\nL'incantatore può usare la sua azione per assumere il controllo totale e preciso del bersaglio. Fino alla fine del turno successivo dell'incantatore, la creatura effettua soltanto le azioni scelte dall'incantatore e non fa niente che l'incantatore non le consenta di fare. Durante questo periodo, l'incantatore può anche fare in modo che la creatura usi una reazione, ma per farlo dovrà usare la sua stessa reazione.\nOgni volta che il bersaglio subisce danni, effettua un nuovo tiro salvezza su Saggezza contro l'incantesimo. Se lo supera, l'incantesimo termina.",
+        "higherLevels": "L'incantatore tenta di soggiogare un umanoide entro gittata e che egli sia in grado di vedere. Quell'umanoide deve superare un tiro salvezza su Saggezza, altrimenti sarà affascinato dall'incantatore per la durata dell'incantesimo. Se l'incantatore o le creature a lui amichevoli stanno combattendo contro l'umanoide, quest'ultimo dispone di vantaggio al tiro salvezza. Mentre il bersaglio è affascinato, l'incantatore dispone di un legame telepatico con lui finché entrambi si trovano sullo stesso piano di esistenza. L'incantatore può usare questo legame telepatico per impartire comandi alla creatura finché è cosciente (nessuna azione richiesta), ed essa farà del suo meglio per obbedire. L'incantatore può specificare un corso d'azione semplice e generico come \"attacca quella creatura\", \"corri fin laggiù\" o \"portami quell'oggetto\". Se la creatura porta a termine l'ordine e non riceve ulteriori indicazioni da parte dell'incantatore, essa si difende e si protegge al meglio delle sue capacità. L'incantatore può usare la sua azione per assumere il controllo totale e preciso del bersaglio. Fino alla fine del turno successivo dell'incantatore, la creatura effettua soltanto le azioni scelte dall'incantatore e non fa niente che l'incantatore non le consenta di fare. Durante questo periodo, l'incantatore può anche fare in modo che la creatura usi una reazione, ma per farlo dovrà usare la sua stessa reazione. Ogni volta che il bersaglio subisce danni, effettua un nuovo tiro salvezza su Saggezza contro l'incantesimo. Se lo supera, l'incantesimo termina.",
+        "prepared": true
+      },
+      {
+        "id": "mnzz3w2334y7",
+        "name": "Ritirata Rapida",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Questo incantesimo consente all'incantatore di muoversi a una velocità straordinaria. Quando lancia questo incantesimo, e poi come azione bonus a ogni suo turno finché l'incantesimo non termina, l'incantatore può effettuare l'azione Scatto.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzz5zdtm998",
+        "name": "Caduta Morbida",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "18 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": false,
+        "desc": "L'incantatore sceglie fino a cinque creature in caduta entro gittata. La velocità di discesa di una creatura in caduta rallenta fino a 18 metri per round finché l'incantesimo non termina. Se la creatura atterra prima che l'incantesimo termini, essa non subisce alcun danno da caduta e può atterrare in piedi, e l'incantesimo termina per quella creatura.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzz7vwoez9a",
+        "name": "Saltare",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": false,
+        "desc": "L'incantatore tocca una creatura. La distanza coperta dai salti di quella creatura è triplicata finché l'incantesimo non termina.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzz9qztrbh3",
+        "name": "Scudo",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 round",
+        "concentration": false,
+        "desc": "L'incantatore tocca una creatura. La distanza coperta dai salti di quella creatura è triplicata finché l'incantesimo non termina.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzbavcuh0v",
+        "name": "Passo Velato",
+        "level": 2,
+        "school": "Abiurazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Avvolto rapidamente da una foschia argentata, ti teletrasporti di massimo 9 metri in uno spazio non occupato che puoi vedere.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzfk0fwlge",
+        "name": "Vedere Invisibilità",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Pesonale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": false,
+        "desc": "in: Incantesimo da Bardo, Incantesimo da Stregone, Incantesimo da Mago\nVedere Invisibilità\nAccedi per salvare\nVisualizza sorgente\n(See Invisibility)\n\nDivinazione di 2° livello\nTempo di Lancio: 1 azione\nGittata: Incantatore\nComponenti: V, S, M (un pizzico di talco e una manciata di polvere d'argento)\nDurata: 1 ora\n\nPer la durata dell'incantesimo, l'incantatore vede le creature e gli oggetti invisibili come se fossero visibili e può vedere sul Piano Etereo. Le creature e gli oggetti eterei appaiono spettrali e trasparenti.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzi8vgm58q",
+        "name": "Occhio Arcano",
+        "level": 4,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "L'incantatore crea un occhio magico invisibile entro gittata che fluttua nell'aria per la durata dell'incantesimo.\nL'incantatore riceve mentalmente una serie di informazioni visive dall'occhio, che è dotato di visione normale e scurovisione fino a 9 metri. L'occhio può guardare in ogni direzione.\nCon un'azione, l'incantatore può muovere l'occhio di 9 metri in qualsiasi direzione. Non c'è limite alla distanza di cui l'occhio può allontanarsi dall'incantatore, ma esso non può entrare su un altro piano di esistenza. Una barriera solida blocca il movimento dell'occhio, che però può passare attraverso un'apertura del diametro minimo di 2,5 cm.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzk8zx4n4p",
+        "name": "Dominare Mostri",
+        "level": 8,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora ",
+        "concentration": true,
+        "desc": "L'incantatore tenta di soggiogare una creatura entro gittata e che egli sia in grado di vedere. Quella creatura deve superare un tiro salvezza su Saggezza, altrimenti sarà affascinata dall'incantatore per la durata dell'incantesimo. Se l'incantatore o le creature a lui amichevoli stanno combattendo contro la creatura, quest'ultima dispone di vantaggio al tiro salvezza.\nMentre la creatura è affascinata, l'incantatore dispone di un legame telepatico con essa finché entrambi si trovano sullo stesso piano di esistenza. L'incantatore può usare questo legame telepatico per impartire comandi alla creatura finché è cosciente (nessuna azione richiesta), ed essa farà del suo meglio per obbedire. L'incantatore può specificare un corso d'azione semplice e generico come \"attaca quella creatura\", \"corri fin laggiù\" o \"portami quell'oggetto\". Se la creatura porta a termine l'ordine e non riceve ulteriori indicazioni da parte dell'incantatore, essa si difende e si protegge al meglio delle sue capacità.\nL'incantatore può usare la sua azione per assumere il controllo totale e preciso del bersaglio. Fino alla fine del turno successivo dell'incantatore, la creatura effettua soltanto le azioni scelte dall'incantatore e non fa niente che l'incantatore non le consenta di fare. Durante questo periodo, l'incantatore può anche fare in modo che la creatura usi una reazione, ma per farlo dovrà usare la sua stessa reazione.\nOgni volta che il bersaglio subisce danni, effettua un nuovo tiro salvezza su Saggezza contro l'incantesimo. Se lo supera, l'incantesimo termina.",
+        "higherLevels": "Quando l'incantatore lancia questo incantesimo con uno slot incantesimo di 9° livello, la durata diventa concentrazione, fino a 8 ore.",
+        "prepared": true
+      },
+      {
+        "id": "mnzzmlqh0to9",
+        "name": "Velocità",
+        "level": 3,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "L'incantatore sceglie una creatura consenziente entro gittata e che egli sia in grado di vedere. Finché l'incantesimo non termina, il bersaglio ottiene un bonus di +2 alla CA, dispone di vantaggio ai tiri salvezza su Destrezza, la sua velocità raddoppia, e ottiene un'azione aggiuntiva a ogni suo turno. L'azione aggiuntiva può essere usata soltanto per effettuare un'azione di Attacco (un solo attacco con le armi), Disimpegno, Nascondersi, Scatto o Usare un Oggetto.\nQuando l'incantesimo termina, il bersaglio non può muoversi o effettuare azioni fino alla fine del suo turno successivo, in quanto è sopraffatto da un'ondata di spossatezza.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzp8xrq6va",
+        "name": "Pelle di Pietra",
+        "level": 4,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "Questo incantesimo rende la carne di una creatura consenziente toccata dall'incantatore dura come la pietra. Finché l'incantesimo non termina, il bersaglio ottiene resistenza ai danni non magici contundenti, perforanti e taglienti.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo0039m4dqm6",
+        "name": "Evoca Costrutto",
+        "level": 4,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "27 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "L'incantatore invoca lo spirito di un costrutto che si manifesta in uno spazio libero entro gittata che egli sia in grado di vedere. La forma corporea di questo spirito utilizza la scheda delle statistiche dello \"Spirito del Costrutto\". Quando questo incantesimo viene lanciato, l'incantatore può scegliere un materiale tra argilla, metallo o pietra. La creatura ha le sembianze di un golem o un modron (a scelta dell'incantatore), dal corpo costituito da uno di questi materiali, e in base a questa scelta vengono determinati alcuni tratti nella scheda delle statistiche del costrutto. La creatura scompare quando il valore dei suoi punti ferita scende a 0 o quando l'incantesimo termina.\n\nLa creatura diventa un alleato per l'incantatore e i suoi compagni. In combattimento, la creatura condivide il punteggio di iniziativa con l'incantatore, ma inizia il turno immediatamente dopo il suo, obbedendo ai suoi comandi verbali senza che all'incantatore venga richiesta alcuna azione. Se l'incantatore non pronuncia comandi verbali, la creatura compie la schivata e usa il suo movimento per sottrarsi al pericolo.",
+        "higherLevels": "Quando l'incantatore lancia questo incantesimo usando uno slot incantesimo di 4° livello o superiore, usa lo slot di livello più alto che compare nella sua scheda delle statistiche.",
+        "prepared": true
+      },
+      {
+        "id": "mo00ahlx6y6a",
+        "name": "Intralciare",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "27 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Erbacce e rampicanti spuntano dal terreno in un quadrato con lato di 6 metri che parte da un punto situato entro gittata. Per la durata dell'incantesimo, questi vegetali trasformano l'area in terreno difficile.\nUna creatura situata nell'area quando l'incantatore lancia questo incantesimo deve superare un tiro salvezza su Forza, altrimenti è trattenuta dai vegetali intralcianti finché l'incantesimo non termina. Una creatura trattenuta dai vegetali può usare la sua azione per effettuare una prova di Forza contro la CD del tiro salvezza dell'incantesimo. Se ha successo, si libera.\nQuando l'incantesimo termina, i vegetali evocati avvizziscono.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo00ccjpu53r",
+        "name": "Crescita di Spine",
+        "level": 2,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "45 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Spine e spuntoni nascono dal terreno entro un raggio di 6 metri centrato su un punto situato entro gittata. L'area diventa terreno difficile per la durata dell'incantesimo. Quando una creatura entra nell'area o si muove al suo interno, subisce 2d4 danni perforanti per ogni 1,5 metri di cui si muove.\nLa trasformazione del terreno è mimetizzata in modo da sembrare naturale. Ogni creatura che non abbia osservato l'area al momento del lancio dell'incantesimo deve effettuare una prova di Saggezza (Percezione) contro la CD del tiro salvezza dell'incantesimo per riconoscere la pericolosità del terreno prima di entrarvi.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo00g5va8i8j",
+        "name": "Forma di Paglia",
+        "level": 4,
+        "school": "Trasmutazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Uno spirito della natura risponde alla tua chiamata e ti trasforma in un potente guardiano. La trasformazione dura fino alla fine dell'incantesimo. \nOttieni 10 punti ferita temporanei.\nEffettui i tiri salvezza sulla Costituzione con vantaggio.\nEffettui i tiri per colpire basati su Destrezza e Saggezza con vantaggio.\nFinché ti trovi a terra, il terreno entro 4,5 metri da te rappresenta un terreno difficile per i tuoi nemici.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo00k7sgqjdd",
+        "name": "Compulsione",
+        "level": 4,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Le creature a scelta dell'incantatore entro gittata, che siano in grado di sentirlo e che egli sia in grado di vedere, devono effettuare un tiro salvezza su Saggezza. Un bersaglio supera automaticamente questo tiro salvezza se non può essere affascinato. In caso di tiro salvezza fallito, un bersaglio è influenzato da questo incantesimo. Finché l'incantesimo non termina, l'incantatore può usare un'azione bonus a ogni suo turno per designare una direzione orizzontale rispetto a lui. Ogni bersaglio influenzato deve usare la maggior parte possibile del suo movimento per muoversi in quella direzione nel suo turno successivo. Può effettuare la sua azione prima di muoversi. Dopo essersi mosso in questo modo, un bersaglio può effettuare un altro tiro salvezza su Saggezza per cercare di terminare l'effetto.\nUn bersaglio non è obbligato a muoversi verso un terreno palesemente pericoloso, come un incendio o una fossa, ma provocherà attacchi di opportunità nel muoversi verso la direzione designata.",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
+    "notes": "Condition Immunities Charmed, exhaustion, frightened, poisoned\nSea Weakness. You are weak to water and seastone",
+    "backstory": "",
+    "diceLog": [],
+    "effects": []
+  }
+}
