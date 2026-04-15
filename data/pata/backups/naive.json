@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-15T17:37:39.395Z",
+  "exportedAt": "2026-04-15T23:32:08.436Z",
   "character": {
     "id": "naive_001",
     "name": "Naive",
@@ -10,8 +10,8 @@
     "classes": "Chimico+Devilforged",
     "ac": 7,
     "hpMax": 89,
-    "hpCurrent": 89,
-    "hpTemp": 0,
+    "hpCurrent": 75,
+    "hpTemp": 19,
     "hpPerm": 0,
     "speed": 9,
     "passivePerception": 22,
@@ -152,15 +152,15 @@
       "slots": {
         "1": {
           "max": 4,
-          "used": 0
+          "used": 1
         },
         "2": {
           "max": 3,
-          "used": 0
+          "used": 1
         },
         "3": {
           "max": 2,
-          "used": 1
+          "used": 2
         },
         "4": {
           "max": 0,
@@ -371,7 +371,7 @@
         "type": "Azione bonus",
         "desc": "Rendi i tuoi attacchi magici, ottieni un bonus di +3 ai tiri per colpire e per i danni. Dura 1'",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -395,7 +395,7 @@
         "type": "Azione",
         "desc": "Per la durata in minuti della metà del mio livello ottengo i seguenti bonus:\n-La tua CA diventa 19\n-Puoi compiere fino a 3 attacchi magici con la tua Azione\n-Puoi lanciare 'Ingrandire/ridurre' su te stesso senza concentrazione e senza usare slot incantesimo\n-Puoi lanciare i seguenti incantesimi(Carisma)\nIllimitatamente: Ristorazione minore, Suggestione, Missile magico.\n3 volte per ognuno: Cura, Occhio arcano, Telepatia, Immagine speculare.\n1 volta per ognuno: Dominare persone, Suggestione di massa, Teletrasporto, Cancello\n\n",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -407,7 +407,7 @@
         "type": "Azione",
         "desc": "Per 1 minuto ottieni i seguenti bonus:\n-Aumenta la vita massima di 50, poi curati di 50\n-All'inizio di ogni turno ti curi di 13\n-I tuoi attacchi infliggono +9 danni bonus\n-1 volta: Giant IO; Cresci fino a diventare 'Gigantesco', i tuoi attacchi infliggono +2d8 danni bonus",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -431,7 +431,7 @@
         "type": "Passiva",
         "desc": "Ottieni la capacità di lanciare incantesimi al livello 2(Carisma)",
         "maxUses": 2,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "cdStat": null,
         "fav": true
@@ -479,7 +479,7 @@
         "type": "Azione",
         "desc": "Cura di 70",
         "maxUses": 3,
-        "uses": 0,
+        "uses": 2,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
