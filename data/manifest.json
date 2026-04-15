@@ -78,6 +78,11 @@
         "file": "gaucho.json",
         "name": "Gaucho",
         "preview": "Umano · Lv 16"
+      },
+      {
+        "file": "ecate.json",
+        "name": "Ecate",
+        "preview": "Umano · Lv 16"
       }
     ],
     "ga": [
