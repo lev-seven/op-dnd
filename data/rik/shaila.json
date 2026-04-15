@@ -1,0 +1,287 @@
+{
+  "account": "Rik",
+  "accountId": "rik",
+  "exportedAt": "2026-04-15T15:36:24.551Z",
+  "character": {
+    "id": "mo07a7zmoywf",
+    "name": "Shaila",
+    "race": "Skypean",
+    "level": 10,
+    "classes": "",
+    "ac": 18,
+    "hpMax": 108,
+    "hpCurrent": 108,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 10,
+    "profBonus": 4,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 14,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      },
+      "DES": {
+        "score": 19,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "COS": {
+        "score": 17,
+        "mod": 3,
+        "save": 7,
+        "profSave": true
+      },
+      "INT": {
+        "score": 19,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "SAG": {
+        "score": 18,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "CAR": {
+        "score": 15,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "prof"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "none"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "prof"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "prof"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 0,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      },
+      {
+        "id": "mo07j7pdzsde",
+        "name": "Ufficiale",
+        "color": "#66938a"
+      }
+    ],
+    "attacks": [],
+    "abilities": [
+      {
+        "id": "mo07fxsgyz78",
+        "name": "Armament Haki",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Gli attacchi dell'Élite Pirata sono considerati magici allo scopo di superare la Resistenza e l'immunità agli attacchi e danni non magici, come le resistenze concesse dai Frutti del Diavolo. L'Élite Pirata aggiunge anche un danno di forza aggiuntivo (3d8) ai suoi attacchi da mischia.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mo07h60cszc0",
+        "name": "Observation Haki",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Ogni volta che l'Élite Pirata effettua un tiro d'attacco, una prova di abilità o un tiro salvezza, può decidere di tirare un d20 aggiuntivo. Può scegliere quale dei d20 viene usato per il tiro d'attacco, la prova di abilità o il tiro salvezza. Il Pirata Elite può cambiare l'esito di un tiro quando viene attaccato contro di esso. Tira un d20, poi scegli se l'attacco usa il tiro dell'attaccante o quello dell'élite pirata. Se più di una creatura usa l'haki di osservazione per influenzare l'esito di un tiro, qualsiasi svantaggio o vantaggio dell'haki di osservazione applicato al tiro verrà annullato; non vengono tirati altri dadi.",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mo07inskpfs1",
+        "name": "Difesa elegante",
+        "originId": "mo07j7pdzsde",
+        "type": "Passiva",
+        "desc": "Mentre l'Élite Pirata indossa un'armatura leggera o nessuna e non impugna scudo, la sua CA include il modificatore di Carisma.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mo07jr2mqmqa",
+        "name": "Multiattacco",
+        "originId": "mo07j7pdzsde",
+        "type": "Azione",
+        "desc": "L'Élite Pirata effettua tre attacchi con la sua arma.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mo07nrbjb1bq",
+        "name": "Incantesimi Innati ",
+        "originId": "mo07j7pdzsde",
+        "type": "Passiva",
+        "desc": "L'abilità innata di incantare l'Élite Pirata è Carisma (CD salvezza incantesimi 16, +8 per colpire con gli attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza richiedere componenti: • 3 al giorno ciascuno: sfocatura, ritirata rapida, caduta morbida (sé), salto (sé), passo nebbioso, vedi invisibilità, scudo • 1 al giorno ciascuno: occhio arcano, velocità (sé), pelle di pietra (sé)",
+        "maxUses": 25,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [],
+    "notes": "",
+    "backstory": "",
+    "diceLog": [],
+    "effects": []
+  }
+}
