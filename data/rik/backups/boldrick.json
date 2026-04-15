@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T16:03:47.202Z",
+  "exportedAt": "2026-04-15T16:05:57.592Z",
   "character": {
     "id": "mo08g0gnf05q",
     "name": "Boldrick",
@@ -14,7 +14,7 @@
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
-    "passivePerception": 14,
+    "passivePerception": 16,
     "profBonus": 4,
     "hitDie": "1d8",
     "stats": {
