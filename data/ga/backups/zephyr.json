@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-15T17:04:55.656Z",
+  "exportedAt": "2026-04-15T17:08:13.078Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -15,7 +15,7 @@
     "hpPerm": 0,
     "speed": 12,
     "passivePerception": 10,
-    "profBonus": 2,
+    "profBonus": 3,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
