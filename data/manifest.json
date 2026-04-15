@@ -93,6 +93,11 @@
         "file": "althea.json",
         "name": "Althea",
         "preview": "Skypean · Lv 16"
+      },
+      {
+        "file": "shaila.json",
+        "name": "Shaila",
+        "preview": "Skypean · Lv 10"
       }
     ],
     "ga": [
