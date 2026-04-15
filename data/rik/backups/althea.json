@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T15:54:31.669Z",
+  "exportedAt": "2026-04-15T19:47:00.218Z",
   "character": {
     "id": "mo06zas4yz2u",
     "name": "Althea",
@@ -288,9 +288,9 @@
         "type": "Passiva",
         "desc": " L'abilità innata di lanciare incantesimi del Pirata Elite è Carisma (CD del tiro salvezza 18, +10 al tiro per colpire con attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza bisogno di componenti: A Volontà: individuazione del magico, dissolvi il magico • 3/giorno ciascuno: sfocatura, dominare persona, ritirata rapida, caduta morbida (sé stesso), salto (sé stesso), passo nebbioso, vedere l'invisibilità, scudo • 1/giorno ciascuno: occhio arcano, dominare mostro, velocità (sé stesso), pelle di pietra (sé stesso)",
         "maxUses": 28,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
-        "cdStat": null,
+        "cdStat": "SAG",
         "fav": false
       },
       {
