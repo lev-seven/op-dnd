@@ -1,7 +1,7 @@
 {
   "account": "Ga",
   "accountId": "ga",
-  "exportedAt": "2026-04-15T21:02:17.422Z",
+  "exportedAt": "2026-04-15T21:21:27.667Z",
   "character": {
     "id": "mnysnvykoe27",
     "name": "ZEPHYR",
@@ -10,7 +10,7 @@
     "classes": "Devilforged + Bruiser ",
     "ac": 17,
     "hpMax": 81,
-    "hpCurrent": 12,
+    "hpCurrent": 81,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 12,
