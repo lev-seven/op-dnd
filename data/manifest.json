@@ -88,6 +88,11 @@
         "file": "morgan.json",
         "name": "Morgan",
         "preview": "Umano · Lv 16"
+      },
+      {
+        "file": "althea.json",
+        "name": "Althea",
+        "preview": "Umano · Lv 16"
       }
     ],
     "ga": [
