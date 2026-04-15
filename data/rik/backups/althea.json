@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T15:23:10.787Z",
+  "exportedAt": "2026-04-15T15:54:31.669Z",
   "character": {
     "id": "mo06zas4yz2u",
     "name": "Althea",
@@ -276,18 +276,6 @@
         "type": "Passiva",
         "desc": " Ogniqualvolta il Pirata Elite effettua un tiro per colpire, una prova di caratteristica o un tiro salvezza, può decidere di tirare un d20 aggiuntivo. Può scegliere quale dei d20 utilizzare per il tiro per colpire, la prova di caratteristica o il tiro salvezza. Il Pirata Elite può cambiare l'esito di un tiro quando viene attaccato. Tira un d20, poi scegli se l'attacco utilizza il tiro dell'attaccante o quello del Pirata Elite. Se più di una creatura usa l'haki dell'osservazione per influenzare l'esito di un tiro, qualsiasi svantaggio o vantaggio derivante dall'haki dell'osservazione applicato al tiro verrà annullato; non vengono tirati dadi aggiuntivi.",
         "maxUses": 2,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": null,
-        "fav": false
-      },
-      {
-        "id": "mnyrj1rml4qj",
-        "name": "Haki del Conquistatore ",
-        "originId": "haki_re",
-        "type": "Azione bonus",
-        "desc": "Come azione bonus, l'Élite dei Pirati può manifestare la sua terrificante presenza. Ogni creatura a sua scelta che si trova entro 36 metri da essa e ne è consapevole deve superare un tiro salvezza su Saggezza con CD 18. Una creatura che fallisce diventa spaventata da essa per 1 minuto. Una creatura che fallisce questo tiro salvezza di 5 o più è incapacitata fino all'inizio del prossimo turno dell'Élite dei Pirati. La creatura può ripetere il tiro salvezza alla fine di ogni suo turno, ponendo fine all'effetto su di sé in caso di successo.",
-        "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
