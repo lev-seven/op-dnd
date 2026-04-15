@@ -83,6 +83,11 @@
         "file": "ecate.json",
         "name": "Ecate",
         "preview": "Umano · Lv 16"
+      },
+      {
+        "file": "morgan.json",
+        "name": "Morgan",
+        "preview": "Umano · Lv 16"
       }
     ],
     "ga": [
