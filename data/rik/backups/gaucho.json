@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-14T16:02:57.380Z",
+  "exportedAt": "2026-04-15T12:10:24.059Z",
   "character": {
     "id": "mnyr11e3mkk1",
     "name": "Gaucho",
@@ -297,7 +297,7 @@
         "id": "mnyrlfxg9s0d",
         "name": "Incantesimi Innati",
         "originId": "mnyrruof6538",
-        "type": "Azione",
+        "type": "Passiva",
         "desc": " L'abilità innata di lanciare incantesimi del Pirata Elite è Carisma (CD del tiro salvezza 18, +10 al tiro per colpire con attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza bisogno di componenti: A Volontà: individuazione del magico, dissolvi il magico • 3/giorno ciascuno: sfocatura, dominare persona, ritirata rapida, caduta morbida (sé stesso), salto (sé stesso), passo nebbioso, vedere l'invisibilità, scudo • 1/giorno ciascuno: occhio arcano, dominare mostro, velocità (sé stesso), pelle di pietra (sé stesso)",
         "maxUses": 28,
         "uses": 0,
@@ -379,7 +379,331 @@
         "fav": false
       }
     ],
-    "spells": [],
+    "spells": [
+      {
+        "id": "mnzysobkl080",
+        "name": "Individuazione del Magico",
+        "level": 1,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Per la durata dell'incantesimo, l'incantatore percepisce la presenza della magia entro 9 metri da lui. Se percepisce la magia in questo modo, può usare la sua azione per vedere una debole aura attorno a ogni creatura o oggetto visibile nell'area e che contenga magia, e apprende di che scuola di magia si tratta, se ne esiste una.\nL'incantesimo può penetrare la maggior parte delle barriere, ma è bloccato da 30 cm di pietra, 2,5 cm di metallo comune, una sottile lamina di piombo o 90 cm di legno o terriccio.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzyuurcyk5u",
+        "name": "Dissolvi Magie",
+        "level": 3,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "L'incantatore sceglie una creatura, oggetto o effetto magico situato entro gittata. Ogni Incantesimo di 3° livello o inferiore termina. Per ogni incantesimo di 4° livello o superiore presente sul bersaglio, l'incantatore effettua una prova di caratteristica usando la propria caratteristica da incantatore. La CD è pari a 10 + il livello dell'incantesimo. Se supera la prova, l'incantesimo termina.",
+        "higherLevels": "Quando l'incantatore lancia questo incantesimo usando uno slot incantesimo di 4° livello o superiore, termina automaticamente gli effetti di un incantesimo sul bersaglio se il livello di quell'incantesimo è pari o inferiore al livello dello slot incantesimo usato dall'incantatore",
+        "prepared": true
+      },
+      {
+        "id": "mnzyygcatiyg",
+        "name": "Sfocatura",
+        "level": 2,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Il corpo dell'incantatore diventa sfocato, instabile e ondeggiante agli occhi di tutti coloro che sono in grado di vederlo. Per la durata dell'incantesimo, tutte le creature subiscono svantaggio ai tiri per colpire contro di lui. Un attaccante è immune a questo effetto se non si affida alla vista, per esempio se è dotato di vista cieca o se è in grado di vedere attraverso le illusioni, per esempio tramite vista pura.\n\n",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzz08xt6tqj",
+        "name": "Dominare Persone",
+        "level": 5,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "L'incantatore tenta di soggiogare un umanoide entro gittata e che egli sia in grado di vedere. Quell'umanoide deve superare un tiro salvezza su Saggezza, altrimenti sarà affascinato dall'incantatore per la durata dell'incantesimo. Se l'incantatore o le creature a lui amichevoli stanno combattendo contro l'umanoide, quest'ultimo dispone di vantaggio al tiro salvezza.\nMentre il bersaglio è affascinato, l'incantatore dispone di un legame telepatico con lui finché entrambi si trovano sullo stesso piano di esistenza. L'incantatore può usare questo legame telepatico per impartire comandi alla creatura finché è cosciente (nessuna azione richiesta), ed essa farà del suo meglio per obbedire. L'incantatore può specificare un corso d'azione semplice e generico come \"attacca quella creatura\", \"corri fin laggiù\" o \"portami quell'oggetto\". Se la creatura porta a termine l'ordine e non riceve ulteriori indicazioni da parte dell'incantatore, essa si difende e si protegge al meglio delle sue capacità.\nL'incantatore può usare la sua azione per assumere il controllo totale e preciso del bersaglio. Fino alla fine del turno successivo dell'incantatore, la creatura effettua soltanto le azioni scelte dall'incantatore e non fa niente che l'incantatore non le consenta di fare. Durante questo periodo, l'incantatore può anche fare in modo che la creatura usi una reazione, ma per farlo dovrà usare la sua stessa reazione.\nOgni volta che il bersaglio subisce danni, effettua un nuovo tiro salvezza su Saggezza contro l'incantesimo. Se lo supera, l'incantesimo termina.",
+        "higherLevels": "L'incantatore tenta di soggiogare un umanoide entro gittata e che egli sia in grado di vedere. Quell'umanoide deve superare un tiro salvezza su Saggezza, altrimenti sarà affascinato dall'incantatore per la durata dell'incantesimo. Se l'incantatore o le creature a lui amichevoli stanno combattendo contro l'umanoide, quest'ultimo dispone di vantaggio al tiro salvezza. Mentre il bersaglio è affascinato, l'incantatore dispone di un legame telepatico con lui finché entrambi si trovano sullo stesso piano di esistenza. L'incantatore può usare questo legame telepatico per impartire comandi alla creatura finché è cosciente (nessuna azione richiesta), ed essa farà del suo meglio per obbedire. L'incantatore può specificare un corso d'azione semplice e generico come \"attacca quella creatura\", \"corri fin laggiù\" o \"portami quell'oggetto\". Se la creatura porta a termine l'ordine e non riceve ulteriori indicazioni da parte dell'incantatore, essa si difende e si protegge al meglio delle sue capacità. L'incantatore può usare la sua azione per assumere il controllo totale e preciso del bersaglio. Fino alla fine del turno successivo dell'incantatore, la creatura effettua soltanto le azioni scelte dall'incantatore e non fa niente che l'incantatore non le consenta di fare. Durante questo periodo, l'incantatore può anche fare in modo che la creatura usi una reazione, ma per farlo dovrà usare la sua stessa reazione. Ogni volta che il bersaglio subisce danni, effettua un nuovo tiro salvezza su Saggezza contro l'incantesimo. Se lo supera, l'incantesimo termina.",
+        "prepared": true
+      },
+      {
+        "id": "mnzz3w2334y7",
+        "name": "Ritirata Rapida",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Questo incantesimo consente all'incantatore di muoversi a una velocità straordinaria. Quando lancia questo incantesimo, e poi come azione bonus a ogni suo turno finché l'incantesimo non termina, l'incantatore può effettuare l'azione Scatto.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzz5zdtm998",
+        "name": "Caduta Morbida",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "18 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": false,
+        "desc": "L'incantatore sceglie fino a cinque creature in caduta entro gittata. La velocità di discesa di una creatura in caduta rallenta fino a 18 metri per round finché l'incantesimo non termina. Se la creatura atterra prima che l'incantesimo termini, essa non subisce alcun danno da caduta e può atterrare in piedi, e l'incantesimo termina per quella creatura.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzz7vwoez9a",
+        "name": "Saltare",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": false,
+        "desc": "L'incantatore tocca una creatura. La distanza coperta dai salti di quella creatura è triplicata finché l'incantesimo non termina.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzz9qztrbh3",
+        "name": "Scudo",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 round",
+        "concentration": false,
+        "desc": "L'incantatore tocca una creatura. La distanza coperta dai salti di quella creatura è triplicata finché l'incantesimo non termina.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzbavcuh0v",
+        "name": "Passo Velato",
+        "level": 2,
+        "school": "Abiurazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Avvolto rapidamente da una foschia argentata, ti teletrasporti di massimo 9 metri in uno spazio non occupato che puoi vedere.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzfk0fwlge",
+        "name": "Vedere Invisibilità",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Pesonale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": false,
+        "desc": "in: Incantesimo da Bardo, Incantesimo da Stregone, Incantesimo da Mago\nVedere Invisibilità\nAccedi per salvare\nVisualizza sorgente\n(See Invisibility)\n\nDivinazione di 2° livello\nTempo di Lancio: 1 azione\nGittata: Incantatore\nComponenti: V, S, M (un pizzico di talco e una manciata di polvere d'argento)\nDurata: 1 ora\n\nPer la durata dell'incantesimo, l'incantatore vede le creature e gli oggetti invisibili come se fossero visibili e può vedere sul Piano Etereo. Le creature e gli oggetti eterei appaiono spettrali e trasparenti.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzi8vgm58q",
+        "name": "Occhio Arcano",
+        "level": 4,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "L'incantatore crea un occhio magico invisibile entro gittata che fluttua nell'aria per la durata dell'incantesimo.\nL'incantatore riceve mentalmente una serie di informazioni visive dall'occhio, che è dotato di visione normale e scurovisione fino a 9 metri. L'occhio può guardare in ogni direzione.\nCon un'azione, l'incantatore può muovere l'occhio di 9 metri in qualsiasi direzione. Non c'è limite alla distanza di cui l'occhio può allontanarsi dall'incantatore, ma esso non può entrare su un altro piano di esistenza. Una barriera solida blocca il movimento dell'occhio, che però può passare attraverso un'apertura del diametro minimo di 2,5 cm.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzk8zx4n4p",
+        "name": "Dominare Mostri",
+        "level": 8,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora ",
+        "concentration": true,
+        "desc": "L'incantatore tenta di soggiogare una creatura entro gittata e che egli sia in grado di vedere. Quella creatura deve superare un tiro salvezza su Saggezza, altrimenti sarà affascinata dall'incantatore per la durata dell'incantesimo. Se l'incantatore o le creature a lui amichevoli stanno combattendo contro la creatura, quest'ultima dispone di vantaggio al tiro salvezza.\nMentre la creatura è affascinata, l'incantatore dispone di un legame telepatico con essa finché entrambi si trovano sullo stesso piano di esistenza. L'incantatore può usare questo legame telepatico per impartire comandi alla creatura finché è cosciente (nessuna azione richiesta), ed essa farà del suo meglio per obbedire. L'incantatore può specificare un corso d'azione semplice e generico come \"attaca quella creatura\", \"corri fin laggiù\" o \"portami quell'oggetto\". Se la creatura porta a termine l'ordine e non riceve ulteriori indicazioni da parte dell'incantatore, essa si difende e si protegge al meglio delle sue capacità.\nL'incantatore può usare la sua azione per assumere il controllo totale e preciso del bersaglio. Fino alla fine del turno successivo dell'incantatore, la creatura effettua soltanto le azioni scelte dall'incantatore e non fa niente che l'incantatore non le consenta di fare. Durante questo periodo, l'incantatore può anche fare in modo che la creatura usi una reazione, ma per farlo dovrà usare la sua stessa reazione.\nOgni volta che il bersaglio subisce danni, effettua un nuovo tiro salvezza su Saggezza contro l'incantesimo. Se lo supera, l'incantesimo termina.",
+        "higherLevels": "Quando l'incantatore lancia questo incantesimo con uno slot incantesimo di 9° livello, la durata diventa concentrazione, fino a 8 ore.",
+        "prepared": true
+      },
+      {
+        "id": "mnzzmlqh0to9",
+        "name": "Velocità",
+        "level": 3,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "L'incantatore sceglie una creatura consenziente entro gittata e che egli sia in grado di vedere. Finché l'incantesimo non termina, il bersaglio ottiene un bonus di +2 alla CA, dispone di vantaggio ai tiri salvezza su Destrezza, la sua velocità raddoppia, e ottiene un'azione aggiuntiva a ogni suo turno. L'azione aggiuntiva può essere usata soltanto per effettuare un'azione di Attacco (un solo attacco con le armi), Disimpegno, Nascondersi, Scatto o Usare un Oggetto.\nQuando l'incantesimo termina, il bersaglio non può muoversi o effettuare azioni fino alla fine del suo turno successivo, in quanto è sopraffatto da un'ondata di spossatezza.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnzzp8xrq6va",
+        "name": "Pelle di Pietra",
+        "level": 4,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "Questo incantesimo rende la carne di una creatura consenziente toccata dall'incantatore dura come la pietra. Finché l'incantesimo non termina, il bersaglio ottiene resistenza ai danni non magici contundenti, perforanti e taglienti.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo0039m4dqm6",
+        "name": "Evoca Costrutto",
+        "level": 4,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "27 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "L'incantatore invoca lo spirito di un costrutto che si manifesta in uno spazio libero entro gittata che egli sia in grado di vedere. La forma corporea di questo spirito utilizza la scheda delle statistiche dello \"Spirito del Costrutto\". Quando questo incantesimo viene lanciato, l'incantatore può scegliere un materiale tra argilla, metallo o pietra. La creatura ha le sembianze di un golem o un modron (a scelta dell'incantatore), dal corpo costituito da uno di questi materiali, e in base a questa scelta vengono determinati alcuni tratti nella scheda delle statistiche del costrutto. La creatura scompare quando il valore dei suoi punti ferita scende a 0 o quando l'incantesimo termina.\n\nLa creatura diventa un alleato per l'incantatore e i suoi compagni. In combattimento, la creatura condivide il punteggio di iniziativa con l'incantatore, ma inizia il turno immediatamente dopo il suo, obbedendo ai suoi comandi verbali senza che all'incantatore venga richiesta alcuna azione. Se l'incantatore non pronuncia comandi verbali, la creatura compie la schivata e usa il suo movimento per sottrarsi al pericolo.",
+        "higherLevels": "Quando l'incantatore lancia questo incantesimo usando uno slot incantesimo di 4° livello o superiore, usa lo slot di livello più alto che compare nella sua scheda delle statistiche.",
+        "prepared": true
+      },
+      {
+        "id": "mo00ahlx6y6a",
+        "name": "Intralciare",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "27 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Erbacce e rampicanti spuntano dal terreno in un quadrato con lato di 6 metri che parte da un punto situato entro gittata. Per la durata dell'incantesimo, questi vegetali trasformano l'area in terreno difficile.\nUna creatura situata nell'area quando l'incantatore lancia questo incantesimo deve superare un tiro salvezza su Forza, altrimenti è trattenuta dai vegetali intralcianti finché l'incantesimo non termina. Una creatura trattenuta dai vegetali può usare la sua azione per effettuare una prova di Forza contro la CD del tiro salvezza dell'incantesimo. Se ha successo, si libera.\nQuando l'incantesimo termina, i vegetali evocati avvizziscono.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo00ccjpu53r",
+        "name": "Crescita di Spine",
+        "level": 2,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "45 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Spine e spuntoni nascono dal terreno entro un raggio di 6 metri centrato su un punto situato entro gittata. L'area diventa terreno difficile per la durata dell'incantesimo. Quando una creatura entra nell'area o si muove al suo interno, subisce 2d4 danni perforanti per ogni 1,5 metri di cui si muove.\nLa trasformazione del terreno è mimetizzata in modo da sembrare naturale. Ogni creatura che non abbia osservato l'area al momento del lancio dell'incantesimo deve effettuare una prova di Saggezza (Percezione) contro la CD del tiro salvezza dell'incantesimo per riconoscere la pericolosità del terreno prima di entrarvi.",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
     "notes": "Condition Immunities Charmed, exhaustion, frightened, poisoned\nSea Weakness. You are weak to water and seastone",
     "backstory": "",
     "diceLog": [],
