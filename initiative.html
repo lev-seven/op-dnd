@@ -63,21 +63,19 @@ input,select{font-family:inherit;outline:none}
 .roll-popup .rname{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:6px}
 .roll-popup .rtotal{font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:900;color:var(--text)}
 .roll-popup .rdetail{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-top:2px}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:98;display:flex;align-items:center;justify-content:center;padding:14px}
+.modal-box{background:linear-gradient(180deg,#151b2e,#0f1420);border:1.5px solid rgba(200,169,94,0.4);border-radius:12px;padding:16px;width:100%;max-width:340px;max-height:80vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,0.6)}
+.modal-row{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;margin-bottom:4px;cursor:pointer;transition:all 0.15s}
+.modal-row:hover{background:rgba(200,169,94,0.06)}
+.modal-check{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all 0.15s}
 </style>
-<script>
-var GITHUB_BASE="https://lev-seven.github.io/op-dnd";
-</script>
+<script>var GITHUB_BASE="https://lev-seven.github.io/op-dnd";</script>
 </head>
 <body>
 <div class="wrap">
-  <div class="hdr">
-    <h1>⚔️ Iniziativa</h1>
-    <p>Tracker combattimento — TTRPG App</p>
-  </div>
-
-  <div class="sec">Personaggi Campagna</div>
+  <div class="hdr"><h1>⚔️ Iniziativa</h1><p>Tracker combattimento — TTRPG App</p></div>
+  <div class="sec">Personaggi in Scena <button class="btn btn-gold" onclick="openPGModal()" style="padding:4px 10px;font-size:9px;margin-left:auto">⚙ Seleziona</button></div>
   <div class="pg-grid" id="pgGrid"><span style="color:var(--text3);font-size:11px;font-style:italic">Caricamento PG...</span></div>
-
   <div class="sec">Aggiungi Manuale</div>
   <div class="add-row">
     <input type="text" id="aName" placeholder="Nome...">
@@ -86,12 +84,9 @@ var GITHUB_BASE="https://lev-seven.github.io/op-dnd";
     <button class="btn btn-green" onclick="addEntry()">+</button>
   </div>
   <div class="grp-row">
-    <label>HP</label>
-    <input type="number" id="aHp" placeholder="—" min="0">
-    <label>Quantità</label>
-    <input type="number" id="aQty" value="1" min="1" max="20">
+    <label>HP</label><input type="number" id="aHp" placeholder="—" min="0">
+    <label>Quantità</label><input type="number" id="aQty" value="1" min="1" max="20">
   </div>
-
   <div class="controls">
     <button class="btn btn-teal" onclick="nextTurn()">▶ Prossimo</button>
     <button class="btn btn-gold" onclick="sortAll()">↕ Riordina</button>
@@ -102,174 +97,120 @@ var GITHUB_BASE="https://lev-seven.github.io/op-dnd";
   <div class="empty" id="emptyMsg">Aggiungi PG e mostri per iniziare il combattimento</div>
 </div>
 <div id="rollPopup" style="display:none"></div>
-
+<div id="pgModal" style="display:none"></div>
 <script>
 var entries=JSON.parse(localStorage.getItem("dnd_init")||"[]");
 var activeIdx=parseInt(localStorage.getItem("dnd_init_active")||"0");
 var round=parseInt(localStorage.getItem("dnd_init_round")||"1");
 var pgData=[];
+var visiblePGs=JSON.parse(localStorage.getItem("dnd_init_visible")||"[]");
 
 function save(){localStorage.setItem("dnd_init",JSON.stringify(entries));localStorage.setItem("dnd_init_active",activeIdx);localStorage.setItem("dnd_init_round",round);}
+function saveVisible(){localStorage.setItem("dnd_init_visible",JSON.stringify(visiblePGs));}
 
-/* ═══ LOAD PG FROM MANIFEST ═══ */
+function openPGModal(){
+  var m=document.getElementById("pgModal");m.style.display="block";
+  m.innerHTML='<div class="modal-overlay" onclick="closePGModal()"><div class="modal-box" onclick="event.stopPropagation()">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:1px">PG in Scena</span><button onclick="closePGModal()" style="background:none;border:none;color:var(--red);font-size:15px;cursor:pointer">\u2715</button></div>'
+    +'<p style="font-size:10px;color:var(--text3);margin-bottom:10px;font-style:italic">Seleziona i personaggi presenti nella scena. Solo questi appariranno come bottoni rapidi.</p>'
+    +'<div id="pgModalList"></div>'
+    +'<div style="display:flex;gap:6px;margin-top:12px"><button class="btn btn-gold" onclick="toggleAllPGs(true)" style="flex:1;padding:7px 0">Tutti</button><button class="btn btn-red" onclick="toggleAllPGs(false)" style="flex:1;padding:7px 0">Nessuno</button><button class="btn btn-green" onclick="closePGModal()" style="flex:2;padding:7px 0">Conferma</button></div>'
+    +'</div></div>';
+  renderPGModal();
+}
+function closePGModal(){document.getElementById("pgModal").style.display="none";renderPGGrid();}
+function toggleAllPGs(on){if(on)visiblePGs=pgData.map(function(p){return p.name;});else visiblePGs=[];saveVisible();renderPGModal();}
+function togglePGVisible(idx){var name=pgData[idx].name;var i=visiblePGs.indexOf(name);if(i===-1)visiblePGs.push(name);else visiblePGs.splice(i,1);saveVisible();renderPGModal();}
+function renderPGModal(){
+  var el=document.getElementById("pgModalList");if(!el)return;
+  el.innerHTML=pgData.map(function(pg,i){
+    var on=visiblePGs.indexOf(pg.name)!==-1;
+    return'<div class="modal-row" style="background:'+(on?"rgba(46,204,113,0.08)":"rgba(200,169,94,0.04)")+';border:1px solid '+(on?"rgba(46,204,113,0.3)":"var(--border)")+'" onclick="togglePGVisible('+i+')">'
+      +'<div class="modal-check" style="border:1.5px solid '+(on?"var(--green)":"var(--text3)")+';background:'+(on?"rgba(46,204,113,0.2)":"transparent")+';color:var(--green)">'+(on?"\u2713":"")+'</div>'
+      +'<span style="font-family:Cinzel,serif;font-size:12px;font-weight:700;color:'+(on?"var(--text)":"var(--text3)")+'">'+pg.name+'</span>'
+      +'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:var(--text3)">'+pg.owner+'</span></div>';
+  }).join("");
+}
+
 async function loadPGs(){
   try{
-    var res=await fetch(GITHUB_BASE+"/data/manifest.json?t="+Date.now());
-    if(!res.ok)throw new Error();
-    var manifest=await res.json();
-    var chars=manifest.characters||{};
-    pgData=[];
-    for(var owner in chars){
-      for(var i=0;i<chars[owner].length;i++){
-        pgData.push({name:chars[owner][i].name,owner:owner,file:chars[owner][i].file,dexMod:null,hp:null,hpMax:null,loaded:false});
-      }
-    }
-    renderPGGrid();
-    for(var j=0;j<pgData.length;j++){loadCharDex(j);}
-  }catch(e){
-    document.getElementById("pgGrid").innerHTML='<span style="color:var(--red);font-size:11px">Errore caricamento PG</span>';
-  }
+    var res=await fetch(GITHUB_BASE+"/data/manifest.json?t="+Date.now());if(!res.ok)throw new Error();
+    var manifest=await res.json();var chars=manifest.characters||{};pgData=[];
+    for(var owner in chars){for(var i=0;i<chars[owner].length;i++){pgData.push({name:chars[owner][i].name,owner:owner,file:chars[owner][i].file,dexMod:null,hp:null,hpMax:null,loaded:false});}}
+    renderPGGrid();for(var j=0;j<pgData.length;j++){loadCharDex(j);}
+  }catch(e){document.getElementById("pgGrid").innerHTML='<span style="color:var(--red);font-size:11px">Errore caricamento PG</span>';}
 }
-
 async function loadCharDex(idx){
-  try{
-    var pg=pgData[idx];
-    var res=await fetch(GITHUB_BASE+"/data/"+pg.owner+"/"+pg.file+"?t="+Date.now());
-    if(!res.ok)return;
-    var data=await res.json();
-    var ch=data.character||data;
+  try{var pg=pgData[idx];var res=await fetch(GITHUB_BASE+"/data/"+pg.owner+"/"+pg.file+"?t="+Date.now());if(!res.ok)return;
+    var data=await res.json();var ch=data.character||data;
     if(ch.stats&&ch.stats.DES){pgData[idx].dexMod=ch.stats.DES.mod||0;}
-    pgData[idx].hp=ch.hpCurrent||ch.hpMax||null;
-    pgData[idx].hpMax=ch.hpMax||null;
-    pgData[idx].loaded=true;
-    renderPGGrid();
+    pgData[idx].hp=ch.hpCurrent||ch.hpMax||null;pgData[idx].hpMax=ch.hpMax||null;pgData[idx].loaded=true;renderPGGrid();
   }catch(e){}
 }
-
 function isPGAdded(name){return entries.some(function(e){return e.name===name;});}
-
 function renderPGGrid(){
   var grid=document.getElementById("pgGrid");
-  if(!pgData.length){grid.innerHTML='<span style="color:var(--text3);font-size:11px;font-style:italic">Nessun PG trovato</span>';return;}
-  grid.innerHTML=pgData.map(function(pg,i){
-    var added=isPGAdded(pg.name);
+  var filtered=pgData.filter(function(pg){return visiblePGs.indexOf(pg.name)!==-1;});
+  if(!filtered.length){grid.innerHTML='<span style="color:var(--text3);font-size:11px;font-style:italic">Premi \u2699 Seleziona per scegliere i PG in scena</span>';return;}
+  grid.innerHTML=filtered.map(function(pg){var i=pgData.indexOf(pg);var added=isPGAdded(pg.name);
     var dexStr=pg.loaded?(pg.dexMod>=0?"+"+pg.dexMod:""+pg.dexMod):"...";
     return'<button class="pg-btn'+(added?" added":"")+'" onclick="addPG('+i+')">'+pg.name+'<span class="dex">DEX '+dexStr+'</span></button>';
   }).join("");
 }
-
 function showRollPopup(name,roll,mod,total){
-  var el=document.getElementById("rollPopup");
-  el.style.display="block";
+  var el=document.getElementById("rollPopup");el.style.display="block";
   el.innerHTML='<div class="roll-popup"><div class="rname">'+name+'</div><div class="rtotal">'+total+'</div><div class="rdetail">\ud83c\udfb2 '+roll+(mod>=0?" + ":" - ")+Math.abs(mod)+'</div></div>';
   setTimeout(function(){el.style.display="none";},2000);
 }
-
 function addPG(idx){
-  var pg=pgData[idx];
-  if(isPGAdded(pg.name))return;
-  var roll=Math.floor(Math.random()*20)+1;
-  var mod=pg.dexMod||0;
-  var total=roll+mod;
+  var pg=pgData[idx];if(isPGAdded(pg.name))return;
+  var roll=Math.floor(Math.random()*20)+1;var mod=pg.dexMod||0;var total=roll+mod;
   entries.push({name:pg.name,init:total,type:"pg",hp:pg.hp||null,hpMax:pg.hpMax||null,dead:false});
-  entries.sort(function(a,b){return b.init-a.init;});
-  activeIdx=0;
-  save();render();renderPGGrid();
-  showRollPopup(pg.name,roll,mod,total);
+  entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;
+  save();render();renderPGGrid();showRollPopup(pg.name,roll,mod,total);
 }
-
-/* ═══ MANUAL ADD ═══ */
 function addEntry(){
-  var n=document.getElementById("aName").value.trim();
-  var i=parseInt(document.getElementById("aInit").value)||0;
-  var t=document.getElementById("aType").value;
-  var hp=parseInt(document.getElementById("aHp").value)||null;
-  var qty=Math.max(1,Math.min(20,parseInt(document.getElementById("aQty").value)||1));
-  if(!n)return;
-  for(var q=0;q<qty;q++){
-    var eName=qty>1?n+" "+(q+1):n;
-    entries.push({name:eName,init:i,type:t,hp:hp,hpMax:hp,dead:false});
-  }
-  entries.sort(function(a,b){return b.init-a.init;});
-  activeIdx=0;
-  document.getElementById("aName").value="";
-  document.getElementById("aInit").value="";
-  document.getElementById("aHp").value="";
-  document.getElementById("aQty").value="1";
+  var n=document.getElementById("aName").value.trim();var i=parseInt(document.getElementById("aInit").value)||0;
+  var t=document.getElementById("aType").value;var hp=parseInt(document.getElementById("aHp").value)||null;
+  var qty=Math.max(1,Math.min(20,parseInt(document.getElementById("aQty").value)||1));if(!n)return;
+  for(var q=0;q<qty;q++){var eName=qty>1?n+" "+(q+1):n;entries.push({name:eName,init:i,type:t,hp:hp,hpMax:hp,dead:false});}
+  entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;
+  document.getElementById("aName").value="";document.getElementById("aInit").value="";document.getElementById("aHp").value="";document.getElementById("aQty").value="1";
   save();render();renderPGGrid();
 }
-
 function sortAll(){entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;save();render();}
 function resetAll(){if(!confirm("Resettare tutto?"))return;entries=[];activeIdx=0;round=1;save();render();renderPGGrid();}
-
-function nextTurn(){
-  if(!entries.length)return;
-  var tries=0;
-  do{activeIdx=(activeIdx+1)%entries.length;tries++;if(activeIdx===0)round++;}while(entries[activeIdx].dead&&tries<entries.length);
-  save();render();
-}
-
+function nextTurn(){if(!entries.length)return;var tries=0;do{activeIdx=(activeIdx+1)%entries.length;tries++;if(activeIdx===0)round++;}while(entries[activeIdx].dead&&tries<entries.length);save();render();}
 function removeEntry(i){entries.splice(i,1);if(activeIdx>=entries.length)activeIdx=0;save();render();renderPGGrid();}
 function toggleDead(i){entries[i].dead=!entries[i].dead;save();render();}
 function editInit(i){var v=prompt("Nuova iniziativa:",entries[i].init);if(v!==null){entries[i].init=parseInt(v)||0;entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;save();render();}}
-
-function hpChange(i,delta){
-  if(entries[i].hp===null)return;
-  entries[i].hp=Math.max(0,Math.min(entries[i].hpMax||999,entries[i].hp+delta));
-  if(entries[i].hp===0)entries[i].dead=true;
-  save();render();
-}
+function hpChange(i,delta){if(entries[i].hp===null)return;entries[i].hp=Math.max(0,Math.min(entries[i].hpMax||999,entries[i].hp+delta));if(entries[i].hp===0)entries[i].dead=true;save();render();}
 function hpSet(i){
-  var v=prompt("HP (usa / per max, es. 25/30):",entries[i].hp!==null?entries[i].hp+(entries[i].hpMax?"/"+entries[i].hpMax:""):"");
-  if(v===null)return;
+  var v=prompt("HP (usa / per max, es. 25/30):",entries[i].hp!==null?entries[i].hp+(entries[i].hpMax?"/"+entries[i].hpMax:""):"");if(v===null)return;
   if(v.indexOf("/")!==-1){var p=v.split("/");entries[i].hp=parseInt(p[0])||0;entries[i].hpMax=parseInt(p[1])||entries[i].hp;}
-  else{entries[i].hp=parseInt(v)||0;if(!entries[i].hpMax)entries[i].hpMax=entries[i].hp;}
-  save();render();
+  else{entries[i].hp=parseInt(v)||0;if(!entries[i].hpMax)entries[i].hpMax=entries[i].hp;}save();render();
 }
-
 function render(){
   document.getElementById("roundBadge").textContent="Round "+round;
-  var list=document.getElementById("list");
-  var empty=document.getElementById("emptyMsg");
-  if(!entries.length){list.innerHTML="";empty.style.display="block";return;}
-  empty.style.display="none";
+  var list=document.getElementById("list");var empty=document.getElementById("emptyMsg");
+  if(!entries.length){list.innerHTML="";empty.style.display="block";return;}empty.style.display="none";
   list.innerHTML=entries.map(function(e,i){
-    var cls=["entry"];
-    if(e.type==="monster")cls.push("monster");
-    if(i===activeIdx&&!e.dead)cls.push("active");
-    if(e.dead)cls.push("dead");
+    var cls=["entry"];if(e.type==="monster")cls.push("monster");if(i===activeIdx&&!e.dead)cls.push("active");if(e.dead)cls.push("dead");
     var hpHtml="";
     if(e.hp!==null&&e.hpMax){
-      var pct=e.hpMax>0?Math.max(0,(e.hp/e.hpMax)*100):0;
-      var hc=pct>60?"var(--green)":pct>30?"#f39c12":"var(--red)";
+      var pct=e.hpMax>0?Math.max(0,(e.hp/e.hpMax)*100):0;var hc=pct>60?"var(--green)":pct>30?"#f39c12":"var(--red)";
       hpHtml='<div class="hp-row">'
         +'<button class="hp-btn" onclick="hpChange('+i+',-5)" style="font-size:8px;color:var(--red)">-5</button>'
         +'<button class="hp-btn" onclick="hpChange('+i+',-1)" style="color:var(--red)">\u2212</button>'
         +'<span class="hp-val" onclick="hpSet('+i+')" style="color:'+hc+';cursor:pointer">'+e.hp+'<span style="color:var(--text3);font-size:10px">/'+e.hpMax+'</span></span>'
         +'<button class="hp-btn" onclick="hpChange('+i+',1)" style="color:var(--green)">+</button>'
-        +'<button class="hp-btn" onclick="hpChange('+i+',5)" style="font-size:8px;color:var(--green)">+5</button>'
-        +'</div>'
+        +'<button class="hp-btn" onclick="hpChange('+i+',5)" style="font-size:8px;color:var(--green)">+5</button></div>'
         +'<div class="hp-bar"><div class="hp-fill" style="width:'+pct+'%;background:'+hc+'"></div></div>';
-    }else if(e.hp!==null){
-      hpHtml='<div class="hp-row"><span class="hp-val" onclick="hpSet('+i+')" style="color:var(--green);cursor:pointer;font-size:11px">HP '+e.hp+'</span></div>';
-    }
-    return'<div class="'+cls.join(" ")+'">'
-      +'<div class="init" onclick="editInit('+i+')" title="Modifica iniziativa">'+e.init+'</div>'
-      +'<div class="info">'
-        +'<div class="name">'+e.name+'</div>'
-        +'<div class="tag">'+(e.type==="monster"?"Mostro":"Giocatore")+(i===activeIdx&&!e.dead?" \u00b7 \u25b6 TURNO":"")+'</div>'
-        +hpHtml
-      +'</div>'
-      +'<div class="acts">'
-        +'<button onclick="toggleDead('+i+')" title="'+(e.dead?"Rianima":"Abbatti")+'">'+(e.dead?"\ud83d\udc9a":"\ud83d\udc80")+'</button>'
-        +'<button onclick="removeEntry('+i+')" title="Rimuovi">\u2715</button>'
-      +'</div>'
-    +'</div>';
+    }else if(e.hp!==null){hpHtml='<div class="hp-row"><span class="hp-val" onclick="hpSet('+i+')" style="color:var(--green);cursor:pointer;font-size:11px">HP '+e.hp+'</span></div>';}
+    return'<div class="'+cls.join(" ")+'"><div class="init" onclick="editInit('+i+')" title="Modifica iniziativa">'+e.init+'</div><div class="info"><div class="name">'+e.name+'</div><div class="tag">'+(e.type==="monster"?"Mostro":"Giocatore")+(i===activeIdx&&!e.dead?" \u00b7 \u25b6 TURNO":"")+'</div>'+hpHtml+'</div><div class="acts"><button onclick="toggleDead('+i+')" title="'+(e.dead?"Rianima":"Abbatti")+'">'+(e.dead?"\ud83d\udc9a":"\ud83d\udc80")+'</button><button onclick="removeEntry('+i+')" title="Rimuovi">\u2715</button></div></div>';
   }).join("");
 }
-
-render();
-loadPGs();
+render();loadPGs();
 </script>
 </body>
 </html>
