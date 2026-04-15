@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T12:25:45.563Z",
+  "exportedAt": "2026-04-15T12:41:48.465Z",
   "character": {
     "id": "mo00qhxr2byi",
     "name": "Morgan",
@@ -9,8 +9,8 @@
     "level": 16,
     "classes": "",
     "ac": 20,
-    "hpMax": 151,
-    "hpCurrent": 151,
+    "hpMax": 129,
+    "hpCurrent": 129,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
