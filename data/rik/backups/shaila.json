@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T15:49:46.289Z",
+  "exportedAt": "2026-04-15T15:53:59.041Z",
   "character": {
     "id": "mo07a7zmoywf",
     "name": "Shaila",
@@ -215,7 +215,29 @@
         "color": "#66938a"
       }
     ],
-    "attacks": [],
+    "attacks": [
+      {
+        "id": "mo087zbxihda",
+        "name": "Spada",
+        "stat": "DES",
+        "damage": "1d6+1d6+1d8+1d8+1d8",
+        "type": "Tagliente, Contundente",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "desc": "Il bersaglio deve riuscire a un tiro salvezza con CD 16 di Forza o essere messo a terra."
+      },
+      {
+        "id": "mo08br3b6dxu",
+        "name": "Fucile",
+        "stat": "DES",
+        "damage": "1d10",
+        "type": "Perforante",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      }
+    ],
     "abilities": [
       {
         "id": "mo07fxsgyz78",
