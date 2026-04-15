@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T15:53:59.041Z",
+  "exportedAt": "2026-04-15T19:08:54.461Z",
   "character": {
     "id": "mo07a7zmoywf",
     "name": "Shaila",
@@ -294,7 +294,7 @@
         "type": "Passiva",
         "desc": "L'abilità innata di incantare l'Élite Pirata è Carisma (CD salvezza incantesimi 16, +8 per colpire con gli attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza richiedere componenti: • 3 al giorno ciascuno: sfocatura, ritirata rapida, caduta morbida (sé), salto (sé), passo nebbioso, vedi invisibilità, scudo • 1 al giorno ciascuno: occhio arcano, velocità (sé), pelle di pietra (sé)",
         "maxUses": 25,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
@@ -494,7 +494,56 @@
     ],
     "notes": "",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "Spada (danno)",
+        "total": 23,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 3
+            },
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 3
+            }
+          ],
+          "bonus": 4,
+          "total": 23,
+          "formula": "1d6+1d6+1d8+1d8+1d8+4"
+        },
+        "timestamp": 1776280133285
+      },
+      {
+        "type": "d20",
+        "label": "Spada (colpire)",
+        "total": 27,
+        "roll1": 6,
+        "roll2": 19,
+        "chosen": 19,
+        "modifier": 8,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776280129082
+      }
+    ],
     "effects": []
   }
 }
