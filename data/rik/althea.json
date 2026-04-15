@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T15:15:10.804Z",
+  "exportedAt": "2026-04-15T15:17:53.183Z",
   "character": {
     "id": "mo06zas4yz2u",
     "name": "Althea",
@@ -9,23 +9,23 @@
     "level": 16,
     "classes": "",
     "ac": 20,
-    "hpMax": 151,
-    "hpCurrent": 151,
+    "hpMax": 143,
+    "hpCurrent": 143,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
-    "passivePerception": 20,
+    "passivePerception": 19,
     "profBonus": 5,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 21,
-        "mod": 5,
-        "save": 10,
-        "profSave": true
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
       },
       "DES": {
-        "score": 20,
+        "score": 21,
         "mod": 5,
         "save": 10,
         "profSave": true
@@ -37,22 +37,22 @@
         "profSave": true
       },
       "INT": {
-        "score": 18,
-        "mod": 4,
-        "save": 4,
-        "profSave": false
+        "score": 20,
+        "mod": 5,
+        "save": 10,
+        "profSave": true
       },
       "SAG": {
         "score": 18,
         "mod": 4,
-        "save": 4,
-        "profSave": false
+        "save": 9,
+        "profSave": true
       },
       "CAR": {
         "score": 18,
         "mod": 4,
-        "save": 9,
-        "profSave": true
+        "save": 4,
+        "profSave": false
       }
     },
     "skills": [
@@ -74,12 +74,12 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Furtività",
         "stat": "DES",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Indagare",
@@ -89,12 +89,12 @@
       {
         "name": "Inganno",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Intrattenere",
