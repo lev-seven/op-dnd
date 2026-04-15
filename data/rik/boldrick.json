@@ -1,16 +1,16 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T15:56:10.199Z",
+  "exportedAt": "2026-04-15T16:03:48.503Z",
   "character": {
     "id": "mo08g0gnf05q",
     "name": "Boldrick",
     "race": "Skypean",
     "level": 10,
     "classes": "",
-    "ac": 16,
-    "hpMax": 108,
-    "hpCurrent": 108,
+    "ac": 18,
+    "hpMax": 130,
+    "hpCurrent": 130,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -19,10 +19,10 @@
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 14,
-        "mod": 2,
-        "save": 2,
-        "profSave": false
+        "score": 19,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
       },
       "DES": {
         "score": 19,
@@ -37,22 +37,22 @@
         "profSave": true
       },
       "INT": {
-        "score": 19,
-        "mod": 4,
-        "save": 8,
-        "profSave": true
+        "score": 14,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
       },
       "SAG": {
-        "score": 18,
-        "mod": 4,
-        "save": 8,
-        "profSave": true
-      },
-      "CAR": {
         "score": 15,
         "mod": 2,
         "save": 2,
         "profSave": false
+      },
+      "CAR": {
+        "score": 18,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
       }
     },
     "skills": [
@@ -74,7 +74,7 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
@@ -84,7 +84,7 @@
       {
         "name": "Indagare",
         "stat": "INT",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Inganno",
@@ -119,7 +119,7 @@
       {
         "name": "Percezione",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Persuasione",
@@ -129,7 +129,7 @@
       {
         "name": "Rapidità di Mano",
         "stat": "DES",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Religione",
@@ -139,12 +139,12 @@
       {
         "name": "Sopravvivenza",
         "stat": "SAG",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Storia",
         "stat": "INT",
-        "prof": "prof"
+        "prof": "none"
       }
     ],
     "spellSlots": {
@@ -218,24 +218,14 @@
     "attacks": [
       {
         "id": "mo087zbxihda",
-        "name": "Spada",
-        "stat": "DES",
+        "name": "Attacco senz'armi",
+        "stat": "FOR",
         "damage": "1d6+1d6+1d8+1d8+1d8",
-        "type": "Tagliente, Contundente",
+        "type": "Contundente",
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false,
         "desc": "Il bersaglio deve riuscire a un tiro salvezza con CD 16 di Forza o essere messo a terra."
-      },
-      {
-        "id": "mo08br3b6dxu",
-        "name": "Fucile",
-        "stat": "DES",
-        "damage": "1d10",
-        "type": "Perforante",
-        "bonusHit": 0,
-        "bonusDmg": 0,
-        "bonusActive": false
       }
     ],
     "abilities": [
@@ -280,7 +270,7 @@
         "name": "Multiattacco",
         "originId": "mo07j7pdzsde",
         "type": "Azione",
-        "desc": "L'Élite Pirata effettua tre attacchi con la sua arma.",
+        "desc": "L'Élite Pirata effettua tre attacchi senz'armi.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
