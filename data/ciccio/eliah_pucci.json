@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-15T22:13:12.773Z",
+  "exportedAt": "2026-04-15T22:27:24.900Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,7 +10,7 @@
     "classes": "Tinkerer 1-4 / Bruiser 1-5",
     "ac": 18,
     "hpMax": 99,
-    "hpCurrent": 93,
+    "hpCurrent": 86,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 21,
@@ -155,7 +155,7 @@
         },
         "2": {
           "max": 3,
-          "used": 1
+          "used": 2
         },
         "3": {
           "max": 0,
@@ -773,7 +773,7 @@
         "type": "Passiva",
         "desc": "Ottieni la capacità di inviare raffiche di energia contro i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o con un attacco senz'armi, puoi sprigionare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza aggiuntivi al bersaglio, oltre al danno normale dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.",
         "maxUses": 4,
-        "uses": 2,
+        "uses": 3,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -1214,6 +1214,74 @@
     "notes": "669 milioni\n\nAttrezzi da cartografo\nAttrezzi da lavoro e meccanica\nOmbrelli\nLogpose+torcia+balestra a mano\nCorda 15m\nChiodi / Dardi\nPezzo di metallo strano\n\nSirano\nProspero \nClement\nAlthea\nElios\nNun\nVein\n\nAiterius Rex\n\nZigzag\nNeive \nRenzo\nGregory\n\nDjango\n\nMurai -\nRiobe\nPetunia ❤️\nLaila\nIria 🗺️\n\nShinra x\nWilson x\nAda x\n\nRina ❤️\nDixon \n\nKizuna\nGrisaglia",
     "backstory": "Eliah è uno Birkan nato a Borgo Fornari, un paese sospeso nel cielo, piccolo ma ben collegato alle rotte aeree. È cresciuto in una famiglia solida, anche se con idee molto diverse al suo interno.\n\nSuo padre Freddy Fazbear è uno Skypean cartografo esperto e un buon ingegnere. Ha passato gran parte della vita a studiare correnti, disegnare mappe e progettare strumenti per la navigazione. Fin da piccolo Eliah gli è sempre stato accanto, imparando a leggere una mappa e a capire come funziona una barca prima ancora di saperle usare davvero. Da lui ha ereditato la curiosità e il gusto per l’ingegneria.\n\nLa madre Vanessa Afton, Birkan, proviene da un ambiente ricco e privilegiato. In gioventù ha vissuto senza troppi limiti, approfittando delle possibilità che il denaro e le conoscenze le offrivano. Ama suo figlio, ma porta con sé una mentalità chiusa, fatta di pregiudizi e vecchie convinzioni che cerca, più o meno consapevolmente, di trasmettergli. Eliah, però, non le ha mai fatte proprie e ha sempre preso le distanze da quel modo di vedere il mondo.\n\nQuando compie 14 anni, Eliah sente che restare a Borgo Fornari non gli basta più. Parla con i genitori e chiede di partire per conto suo. Dopo qualche discussione, ottiene il loro consenso. Freddy gli affida una piccola barca volante e alcune mappe da completare, mentre Vanessa gli consegna un po’ di denaro per non partire a mani vuote.\n\nCon poche certezze e tanta voglia di scoprire, Eliah lascia il suo paese, deciso a costruirsi un futuro lontano dalle idee con cui è cresciuto, seguendo il cielo e le rotte che ancora non esistono.\n\nDurante uno dei primi spostamenti, una tempesta improvvisa mette fuori uso la barca di Eliah e lo lascia gravemente ferito alla deriva; viene raccolto e soccorso da Naive, un uomo pesce squalo che esercita come dottore, il quale si prende cura di lui fino a rimetterlo in forze, segnando l’inizio del loro cammino condiviso.",
     "diceLog": [
+      {
+        "type": "damage",
+        "label": "Shocking Grasp (danno)",
+        "total": 12,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 7
+            }
+          ],
+          "bonus": 0,
+          "total": 12,
+          "formula": "1d8+1d8"
+        },
+        "timestamp": 1776292025087
+      },
+      {
+        "type": "damage",
+        "label": "Calcio [Indurimento] (danno)",
+        "total": 14,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 8
+            }
+          ],
+          "bonus": 6,
+          "total": 14,
+          "formula": "1d8+6"
+        },
+        "timestamp": 1776292006762
+      },
+      {
+        "type": "d20",
+        "label": "Calcio [Indurimento] (colpire)",
+        "total": 17,
+        "roll1": 3,
+        "roll2": 7,
+        "chosen": 7,
+        "modifier": 10,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776292002396
+      },
+      {
+        "type": "d20",
+        "label": "Arcano",
+        "total": 22,
+        "roll1": 16,
+        "roll2": 5,
+        "chosen": 16,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776291961652
+      },
       {
         "type": "d20",
         "label": "Calcio [Indurimento] (colpire)",
