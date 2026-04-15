@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T16:06:06.420Z",
+  "exportedAt": "2026-04-15T19:06:15.929Z",
   "character": {
     "id": "mo08g0gnf05q",
     "name": "Boldrick",
@@ -484,7 +484,152 @@
     ],
     "notes": "",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "Attacco senz'armi (danno)",
+        "total": 29,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 4
+            },
+            {
+              "sides": 6,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 8
+            },
+            {
+              "sides": 8,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 4
+            }
+          ],
+          "bonus": 4,
+          "total": 29,
+          "formula": "1d6+1d6+1d8+1d8+1d8+4"
+        },
+        "timestamp": 1776279970039
+      },
+      {
+        "type": "d20",
+        "label": "Attacco senz'armi (colpire)",
+        "total": 18,
+        "roll1": 10,
+        "roll2": 9,
+        "chosen": 10,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776279964854
+      },
+      {
+        "type": "damage",
+        "label": "Attacco senz'armi (danno)",
+        "total": 34,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 3
+            },
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 8
+            },
+            {
+              "sides": 8,
+              "value": 6
+            }
+          ],
+          "bonus": 4,
+          "total": 34,
+          "formula": "1d6+1d6+1d8+1d8+1d8+4"
+        },
+        "timestamp": 1776279956366
+      },
+      {
+        "type": "d20",
+        "label": "Attacco senz'armi (colpire)",
+        "total": 24,
+        "roll1": 16,
+        "roll2": 18,
+        "chosen": 16,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776279952050
+      },
+      {
+        "type": "damage",
+        "label": "Attacco senz'armi (danno)",
+        "total": 17,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 4
+            },
+            {
+              "sides": 6,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 2
+            }
+          ],
+          "bonus": 4,
+          "total": 17,
+          "formula": "1d6+1d6+1d8+1d8+1d8+4"
+        },
+        "timestamp": 1776279934681
+      },
+      {
+        "type": "d20",
+        "label": "Attacco senz'armi (colpire)",
+        "total": 15,
+        "roll1": 7,
+        "roll2": 16,
+        "chosen": 7,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776279926120
+      }
+    ],
     "effects": []
   }
 }
