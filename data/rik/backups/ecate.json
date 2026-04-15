@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T12:37:44.415Z",
+  "exportedAt": "2026-04-15T12:48:14.138Z",
   "character": {
     "id": "mo00p7mgj8fy",
     "name": "Ecate",
@@ -225,7 +225,7 @@
         "id": "mnys5z5oommz",
         "name": "Attacco senz'armi",
         "stat": "FOR",
-        "damage": "1d8+1d8+4+1d8+1d8+1d8",
+        "damage": "1d6+1d6+1d8+1d8+1d8",
         "type": "Contundente",
         "bonusHit": 0,
         "bonusDmg": 0,
@@ -236,7 +236,7 @@
         "id": "mnysasmt0odk",
         "name": "Lama Avvelenata",
         "stat": "FOR",
-        "damage": "1d8+1d8+4+1d8+1d8+1d8",
+        "damage": "1d8+1d8+1d8+1d8+1d8",
         "type": "Taglienti, contundenti",
         "bonusHit": 0,
         "bonusDmg": 0,
