@@ -1,14 +1,14 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-10T17:37:08.245Z",
+  "exportedAt": "2026-04-22T20:53:10.936Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
     "race": "Umano",
     "level": 9,
     "classes": "Devilforged",
-    "ac": 10,
+    "ac": 16,
     "hpMax": 65,
     "hpCurrent": 65,
     "hpTemp": 0,
@@ -219,22 +219,35 @@
       {
         "id": "mnt677hjd19y",
         "name": "Lancia",
-        "stat": "CAR",
-        "damage": "1d10",
+        "stat": "",
+        "damage": "1d10+10",
         "type": "magico",
         "bonusHit": 0,
         "bonusDmg": 0,
-        "bonusActive": false
+        "bonusActive": false,
+        "hit": 14
       },
       {
         "id": "mnt68fbi9617",
         "name": "Pistola",
-        "stat": "CAR",
-        "damage": "1d10",
+        "stat": "",
+        "damage": "1d10+10",
         "type": "magico",
         "bonusHit": 0,
         "bonusDmg": 0,
-        "bonusActive": false
+        "bonusActive": false,
+        "hit": 14
+      },
+      {
+        "id": "moaj43cxeegx",
+        "name": "Bastonata extra",
+        "stat": "",
+        "damage": "1d4",
+        "type": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "hit": 14
       }
     ],
     "abilities": [
@@ -352,6 +365,42 @@
         "originId": "mnt6jmb4j6w6",
         "type": "Azione",
         "desc": "Attivi i poteri Paramecia, trasformando l’oggetto in un’arma (se non lo è già), scegliendone la forma a ogni attivazione.\nL’oggetto infuso può trasformarsi in un’arma a tua scelta quando attivato; sei competente mentre lo usi. Conta come arma magica.\nSe si trova a più di 1,5 m da te per 1 minuto, ritorna nella tua mano.\nL’effetto termina se muori.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moaj02okskmg",
+        "name": "Doppio attacco ",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moaj0nhbgeff",
+        "name": "+3 tiro per colpire e danni",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moaj1jixd03b",
+        "name": "Base CA 13",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
