@@ -1,0 +1,417 @@
+{
+  "account": "Pata",
+  "accountId": "pata",
+  "exportedAt": "2026-04-22T20:53:09.218Z",
+  "character": {
+    "id": "mnrpdaclenyq",
+    "name": "Question mark",
+    "race": "Umano",
+    "level": 9,
+    "classes": "Devilforged",
+    "ac": 16,
+    "hpMax": 65,
+    "hpCurrent": 65,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 10,
+    "profBonus": 4,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 7,
+        "mod": -2,
+        "save": -2,
+        "profSave": false
+      },
+      "DES": {
+        "score": 16,
+        "mod": 3,
+        "save": 3,
+        "profSave": false
+      },
+      "COS": {
+        "score": 12,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "INT": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 12,
+        "mod": 1,
+        "save": 5,
+        "profSave": true
+      },
+      "CAR": {
+        "score": 20,
+        "mod": 5,
+        "save": 9,
+        "profSave": true
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "none"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 0,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "mnt46cio8qre",
+        "name": "Talenti:Maestro Armi su Asta",
+        "color": "#ff0000"
+      },
+      {
+        "id": "mnt5slo6259h",
+        "name": "Talenti:Maestro D'armi",
+        "color": "#ff007b"
+      },
+      {
+        "id": "mnt5zwjqpdzp",
+        "name": "Talenti:Sentinella",
+        "color": "#d833db"
+      },
+      {
+        "id": "mnt62sfkn6mq",
+        "name": "Talenti: Velenoso",
+        "color": "#00ff1e"
+      },
+      {
+        "id": "mnt6jmb4j6w6",
+        "name": "Devilforged",
+        "color": "#4400ff"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "mnt677hjd19y",
+        "name": "Lancia",
+        "stat": "",
+        "damage": "1d10+10",
+        "type": "magico",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "hit": 14
+      },
+      {
+        "id": "mnt68fbi9617",
+        "name": "Pistola",
+        "stat": "",
+        "damage": "1d10+10",
+        "type": "magico",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "hit": 14
+      },
+      {
+        "id": "moaj43cxeegx",
+        "name": "Bastonata extra",
+        "stat": "",
+        "damage": "1d4",
+        "type": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "hit": 14
+      }
+    ],
+    "abilities": [
+      {
+        "id": "mnt4ags8lutg",
+        "name": "Colpo di palo",
+        "originId": "mnt46cio8qre",
+        "type": "Azione bonus",
+        "desc": "Dopo aver effettuato l’azione Attacco con bastone ferrato, lancia o arma con proprietà Pesante e Portata, puoi fare un attacco in mischia con l’estremità opposta (1d4 danni contundenti).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt5oovsi31v",
+        "name": "Attacco preventivo",
+        "originId": "mnt46cio8qre",
+        "type": "Reazione",
+        "desc": "Mentre impugni una di queste armi, puoi effettuare un attacco in mischia contro una creatura che entra nella tua portata.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt5svzxk8jv",
+        "name": "Atterramento(Lancia)",
+        "originId": "mnt5slo6259h",
+        "type": "Passiva",
+        "desc": "Quando colpisci una creatura con quest’arma, puoi costringerla a effettuare un TS su Costituzione (CD = 8 + modificatore della caratteristica usata per colpire + Bonus Competenza). Se fallisce, cade Prona.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnt5w3knrgy6",
+        "name": "Vessare(Pistola)",
+        "originId": "mnt5slo6259h",
+        "type": "Passiva",
+        "desc": "Quando colpisci una creatura con quest’arma e le infliggi danno, ottieni Vantaggio al prossimo tiro per colpire contro di essa entro la fine del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt6058iexe6",
+        "name": "Guardiano",
+        "originId": "mnt5zwjqpdzp",
+        "type": "Reazione",
+        "desc": "quando una creatura entro 1,5 m usa Disimpegno o colpisce un bersaglio diverso da te, puoi effettuare un Attacco di Opportunità contro di essa.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt619wq4uyv",
+        "name": "Arresto",
+        "originId": "mnt5zwjqpdzp",
+        "type": "Passiva",
+        "desc": "se colpisci con un Attacco di Opportunità, la velocità della creatura diventa 0 per il resto del turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt63kcngo4d",
+        "name": "Tossico",
+        "originId": "mnt62sfkn6mq",
+        "type": "Passiva",
+        "desc": "I tuoi danni da veleno ignorano la Resistenza al veleno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt65y5t3lrn",
+        "name": "Veleno Potente",
+        "originId": "mnt62sfkn6mq",
+        "type": "Azione bonus",
+        "desc": "Applichi una dose di veleno a un’arma o munizione (dura 1 minuto o fino al primo colpo andato a segno).\nSe colpisci, il bersaglio deve superare un TS su Costituzione (CD = 8 + modificatore della caratteristica aumentata + Bonus Competenza) o subisce 2d8 danni da veleno ed è Avvelenato fino alla fine del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnt6k928zwkr",
+        "name": "Potere del diavolo",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Passiva",
+        "desc": "Caratteristica da incantatore: Carisma.",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": "CAR",
+        "fav": false
+      },
+      {
+        "id": "mnt6rfz4jhve",
+        "name": "Infusione: Paramicia",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "Attivi i poteri Paramecia, trasformando l’oggetto in un’arma (se non lo è già), scegliendone la forma a ogni attivazione.\nL’oggetto infuso può trasformarsi in un’arma a tua scelta quando attivato; sei competente mentre lo usi. Conta come arma magica.\nSe si trova a più di 1,5 m da te per 1 minuto, ritorna nella tua mano.\nL’effetto termina se muori.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moaj02okskmg",
+        "name": "Doppio attacco ",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moaj0nhbgeff",
+        "name": "+3 tiro per colpire e danni",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moaj1jixd03b",
+        "name": "Base CA 13",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [],
+    "notes": "",
+    "backstory": "",
+    "diceLog": [],
+    "effects": []
+  }
+}
