@@ -1,11 +1,11 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-28T12:41:58.139Z",
+  "exportedAt": "2026-04-28T12:48:12.243Z",
   "character": {
     "id": "moim8ccbullq",
     "name": "Yago",
-    "race": "Skypean",
+    "race": "Umano",
     "level": 10,
     "classes": "",
     "ac": 16,
@@ -14,15 +14,15 @@
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
-    "passivePerception": 14,
+    "passivePerception": 13,
     "profBonus": 4,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 14,
-        "mod": 2,
-        "save": 2,
-        "profSave": false
+        "score": 19,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
       },
       "DES": {
         "score": 19,
@@ -31,21 +31,21 @@
         "profSave": true
       },
       "COS": {
-        "score": 17,
-        "mod": 3,
-        "save": 7,
-        "profSave": true
-      },
-      "INT": {
-        "score": 19,
-        "mod": 4,
-        "save": 8,
-        "profSave": true
-      },
-      "SAG": {
         "score": 18,
         "mod": 4,
         "save": 8,
+        "profSave": true
+      },
+      "INT": {
+        "score": 14,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 17,
+        "mod": 3,
+        "save": 7,
         "profSave": true
       },
       "CAR": {
@@ -74,7 +74,7 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
@@ -84,7 +84,7 @@
       {
         "name": "Indagare",
         "stat": "INT",
-        "prof": "prof"
+        "prof": "none"
       },
       {
         "name": "Inganno",
@@ -99,7 +99,7 @@
       {
         "name": "Intrattenere",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intuizione",
@@ -144,7 +144,7 @@
       {
         "name": "Storia",
         "stat": "INT",
-        "prof": "prof"
+        "prof": "none"
       }
     ],
     "spellSlots": {
@@ -218,24 +218,14 @@
     "attacks": [
       {
         "id": "mo087zbxihda",
-        "name": "Spada",
-        "stat": "DES",
+        "name": "Attacco senz'armi",
+        "stat": "FOR",
         "damage": "1d6+1d6+1d8+1d8+1d8",
-        "type": "Tagliente, Contundente",
+        "type": "Contundente",
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false,
         "desc": "Il bersaglio deve riuscire a un tiro salvezza con CD 16 di Forza o essere messo a terra."
-      },
-      {
-        "id": "mo08br3b6dxu",
-        "name": "Fucile",
-        "stat": "DES",
-        "damage": "1d10",
-        "type": "Perforante",
-        "bonusHit": 0,
-        "bonusDmg": 0,
-        "bonusActive": false
       }
     ],
     "abilities": [
@@ -280,7 +270,7 @@
         "name": "Multiattacco",
         "originId": "mo07j7pdzsde",
         "type": "Azione",
-        "desc": "L'Élite Pirata effettua tre attacchi con la sua arma.",
+        "desc": "L'Élite Pirata effettua tre attacchi senz'armi.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -294,7 +284,7 @@
         "type": "Passiva",
         "desc": "L'abilità innata di incantare l'Élite Pirata è Carisma (CD salvezza incantesimi 16, +8 per colpire con gli attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza richiedere componenti: • 3 al giorno ciascuno: sfocatura, ritirata rapida, caduta morbida (sé), salto (sé), passo nebbioso, vedi invisibilità, scudo • 1 al giorno ciascuno: occhio arcano, velocità (sé), pelle di pietra (sé)",
         "maxUses": 25,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
