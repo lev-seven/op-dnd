@@ -103,6 +103,11 @@
         "file": "boldrick.json",
         "name": "Boldrick",
         "preview": "Skypean · Lv 10"
+      },
+      {
+        "file": "yago.json",
+        "name": "Yago",
+        "preview": "Skypean · Lv 10"
       }
     ],
     "ga": [
