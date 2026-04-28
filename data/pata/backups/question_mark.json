@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-22T20:53:09.218Z",
+  "exportedAt": "2026-04-28T19:54:05.207Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -89,7 +89,7 @@
       {
         "name": "Inganno",
         "stat": "CAR",
-        "prof": "prof"
+        "prof": "mastery"
       },
       {
         "name": "Intimidire",
@@ -99,7 +99,7 @@
       {
         "name": "Intrattenere",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "mastery"
       },
       {
         "name": "Intuizione",
@@ -213,6 +213,11 @@
         "id": "mnt6jmb4j6w6",
         "name": "Devilforged",
         "color": "#4400ff"
+      },
+      {
+        "id": "moj1hjvlps4g",
+        "name": "Mane Mane no Mi",
+        "color": "#f1c40f"
       }
     ],
     "attacks": [
@@ -406,6 +411,68 @@
         "rest": null,
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "moj11licfdru",
+        "name": "Marchio del Diavolo",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione bonus",
+        "desc": "Scegli una creatura entro 9 m: è maledetta per 1 minuto. L’effetto termina prima se il bersaglio muore, muori tu o sei incapacitato.\n\nEffetti sulla creatura marchiata:\nOttieni un bonus ai danni pari al tuo Bonus Competenza.\nI tuoi attacchi contro di essa sono critici con 19–20.\nSe muore, recuperi PF pari al tuo livello da devilforged + modificatore di Carisma",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moj16469nasa",
+        "name": "Onda distruttiva",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione bonus",
+        "desc": "Quando effettui un attacco con un’arma nel tuo turno, puoi estenderne la portata di 3 m. Se colpisci, una creatura a tua scelta entro 1,5 m dal bersaglio subisce danni da forza pari al tuo modificatore di Carisma",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moj1d86rx4by",
+        "name": "Tomba di ghiaccio",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Reazione",
+        "desc": "Quando subisci danno, puoi racchiuderti nel ghiaccio fino alla fine del tuo prossimo turno. Ottieni PF temporanei pari a 10 × il tuo livello da devilforged (assorbono il danno innescante quanto possibile).\n\nDiventi vulnerabile al fuoco, la tua velocità diventa 0 e sei Incapacitato. Tutti gli effetti (e gli eventuali PF temporanei rimasti) terminano quando il ghiaccio si scioglie.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moj1htpdamgb",
+        "name": "Imitazione perfetta",
+        "originId": "moj1hjvlps4g",
+        "type": "Passiva",
+        "desc": "Svantaggio ai tiri investigare fatti su di te",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 13
+      },
+      {
+        "id": "moj1kpdceg9i",
+        "name": "Tecniche di imitazione",
+        "originId": "moj1hjvlps4g",
+        "type": "Passiva",
+        "desc": "Tasha's Hideous Laughter; 1 charge\nCause Fear; 1 charges\nMirror Image; 2 charges",
+        "maxUses": 5,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 13
       }
     ],
     "spells": [],
