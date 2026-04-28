@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-28T19:54:06.727Z",
+  "exportedAt": "2026-04-28T20:48:08.976Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -218,6 +218,11 @@
         "id": "moj1hjvlps4g",
         "name": "Mane Mane no Mi",
         "color": "#f1c40f"
+      },
+      {
+        "id": "moj2w20u9xd0",
+        "name": "Haki",
+        "color": "#9277fd"
       }
     ],
     "attacks": [
@@ -473,9 +478,98 @@
         "cdStat": "custom",
         "fav": false,
         "cdCustom": 13
+      },
+      {
+        "id": "moj2w4yealey",
+        "name": "Rivestimento",
+        "originId": "moj2w20u9xd0",
+        "type": "Azione bonus",
+        "desc": "+2 danno e tiri per colpire",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": false
       }
     ],
-    "spells": [],
+    "spells": [
+      {
+        "id": "moj2zf8jg4i7",
+        "name": "True strike",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "+1d6 dmg al tuo attacco",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "moj30u1wjjvn",
+        "name": "Mind sliver",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una creatura visibile entro gittata effettua un TS su Intelligenza: se fallisce, subisce 2d6 danni psichici e sottrae 1d4 al prossimo tiro salvezza prima della fine del tuo prossimo turno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "moj33714258t",
+        "name": "Illusione Minore",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei un suono o l’immagine di un oggetto entro gittata.\n\nSuono: da sussurro a urlo; qualsiasi tipo di rumore. Può essere continuo o a intervalli.\nImmagine: oggetto fino a un cubo di 1,5 m; non produce suoni, luce, odori o altri effetti sensoriali. Interazioni fisiche la rivelano (gli oggetti la attraversano).",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "moj3f4lql2kt",
+        "name": "Hex",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Quando colpisci il bersaglio, infliggi +1d6 danni necrotici.\nScegli una caratteristica: il bersaglio ha Svantaggio alle prove di quella caratteristica.",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
     "notes": "",
     "backstory": "",
     "diceLog": [],
