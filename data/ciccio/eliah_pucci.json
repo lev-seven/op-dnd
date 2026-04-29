@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-04-29T18:42:57.172Z",
+  "exportedAt": "2026-04-29T20:23:11.169Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -10,7 +10,7 @@
     "classes": "Tinkerer 1-4 / Bruiser 1-5",
     "ac": 18,
     "hpMax": 99,
-    "hpCurrent": 99,
+    "hpCurrent": 29,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 21,
@@ -557,7 +557,7 @@
         "type": "Passiva",
         "desc": "Dal 2° livello, la tua formazione ti permette di incanalare la Furia, energia grezza che proviene dal tuo spirito.\n• Il numero di punti Furia è determinato dal tuo livello da bruiser (vedi colonna Fury Points nella tabella Bruiser). \n• Puoi spendere punti Furia per usare varie capacità speciali. Inizi conoscendo tre abilità: Raffica Rapida, Forza Bruta e Prepararsi all’Impatto. \n• Recuperi tutti i punti Furia dopo un Riposo Breve o Lungo, allenandoti almeno 30 minuti durante il riposo. \nAlcune abilità Furia richiedono che il bersaglio superi un tiro salvezza:\nCD Furia = 8 + bonus competenza + modificatore di Costituzione",
         "maxUses": 3,
-        "uses": 0,
+        "uses": 2,
         "rest": "breve",
         "fav": true,
         "cdStat": "COS"
@@ -773,7 +773,7 @@
         "type": "Passiva",
         "desc": "Ottieni la capacità di inviare raffiche di energia contro i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o con un attacco senz'armi, puoi sprigionare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza aggiuntivi al bersaglio, oltre al danno normale dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 4,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -785,7 +785,7 @@
         "type": "Azione bonus",
         "desc": "Ottieni la capacità di ricoprire le tue armi e i tuoi attacchi con il tuo spirito. Più densa è l'applicazione, più scuro sarà il rivestimento.\nCome azione bonus, incanali l'haki nel tuo corpo o in un'arma a tua scelta. Se scegli il tuo corpo, puoi scegliere tra i tuoi attacchi senz'armi o un'arma naturale. Per 1 minuto, i tuoi attacchi con l'arma scelta sono considerati magici con un bonus di +1 ai tiri per colpire e ai tiri per i danni.\nSe l'attacco ha già un bonus ai tiri per colpire e per i danni, questa caratteristica sostituisce il bonus a meno che non sia maggiore, nel qual caso non ottiene il beneficio di questa caratteristica.\nQuesto effetto termina prima del previsto se perdi conoscenza, lo usi di nuovo, lo termini come azione bonus o inizi il tuo turno senza impugnare o toccare l'arma che hai rivestito. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo finché non completi un riposo lungo.\nSe l'evento Spirit Surge ha una rarità superiore a Raro, usa questi bonus:\nRaro. L'arma scelta ottiene invece un bonus di +2 ai tiri per colpire e ai tiri per i danni.\nMolto raro. L'arma scelta ottiene invece un bonus di +3 ai tiri per colpire e ai tiri per i danni.",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -809,7 +809,7 @@
         "type": "Azione bonus",
         "desc": "Prerequisiti: Qualità di un Re, Indurimento delle Armi.\nQuando usi la tua capacità di Indurimento dell'Arma su un'arma che stai impugnando, puoi scegliere di attivare Conquista del Re. Per il minuto successivo:\n• La tua portata con quell'arma aumenta di 3 metri.\n• Quando colpisci una creatura con quest'arma, puoi spingerla fino a 3 metri di distanza da te.\n• La creatura è stordita fino all'inizio del tuo prossimo turno, a meno che non superi un tiro salvezza su Costituzione contro la CD del tuo tiro salvezza Haki dell'Armatura.\n• Una volta per round, quando colpisci una creatura con l'arma infusa, puoi incanalare tutta la potenza del tuo Haki, infliggendo danni da forza aggiuntivi pari al doppio del tuo bonus di competenza + il tuo modificatore di Costituzione.\nUna volta utilizzata questa abilità, non puoi usarla di nuovo finché non completi un riposo lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": "CON"
@@ -857,7 +857,7 @@
         "type": "Reazione",
         "desc": "Avanzamento dell'Haki, non comune\nÈ possibile intravedere, anche se solo per un breve istante, il futuro per determinare il potenziale esito negativo di una situazione ed evitarlo.\nQuando effettui un tiro per colpire, una prova di caratteristica o un tiro salvezza, puoi scegliere di ritirare il d20. Devi ritirare il dado prima che venga determinato l'esito del tiro iniziale.\nIn alternativa, quando una creatura che puoi vedere effettua un attacco contro di te o effettua un tiro salvezza contro uno dei tuoi incantesimi o capacità, puoi costringere quella creatura a ritirare il tiro per colpire o il tiro salvezza.\nSe il tiro che attiva il rilancio viene effettuato con vantaggio o svantaggio, entrambi i d20 vengono rilanciati. Una volta utilizzata questa capacità, non potrai utilizzarla di nuovo fino al termine di un riposo lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "fav": true,
         "cdStat": null
@@ -1892,7 +1892,7 @@
       {
         "id": "mnito9phyoyx",
         "name": "Haste",
-        "rounds": 7
+        "rounds": 5
       },
       {
         "id": "mnitooxhissw",
@@ -1907,7 +1907,7 @@
       {
         "id": "mns15j6i7ql8",
         "name": "HASTE",
-        "rounds": 4
+        "rounds": 2
       }
     ]
   }
