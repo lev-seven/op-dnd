@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-28T22:08:16.084Z",
+  "exportedAt": "2026-04-29T14:51:16.925Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -295,7 +295,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": "CAR",
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnt5w3knrgy6",
@@ -307,7 +307,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnt6058iexe6",
@@ -355,7 +355,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": "CAR",
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnt6k928zwkr",
@@ -367,7 +367,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": "CAR",
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnt6rfz4jhve",
@@ -391,7 +391,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "moaj0nhbgeff",
@@ -427,7 +427,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "moj16469nasa",
@@ -439,7 +439,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "moj1d86rx4by",
@@ -451,7 +451,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "moj1htpdamgb",
@@ -476,7 +476,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "custom",
-        "fav": false,
+        "fav": true,
         "cdCustom": 13
       },
       {
@@ -489,7 +489,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": null,
-        "fav": false
+        "fav": true
       }
     ],
     "spells": [
@@ -553,7 +553,7 @@
       {
         "id": "moj3f4lql2kt",
         "name": "Hex",
-        "level": 1,
+        "level": 5,
         "school": "Evocazione",
         "castingTime": "action",
         "ritual": false,
@@ -566,6 +566,158 @@
         "duration": "Istantanea",
         "concentration": false,
         "desc": "Quando colpisci il bersaglio, infliggi +1d6 danni necrotici.\nScegli una caratteristica: il bersaglio ha Svantaggio alle prove di quella caratteristica.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok5y3v2r9qd",
+        "name": "Maledizione Maggiore",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "8 ore",
+        "concentration": false,
+        "desc": "Tocchi una creatura, che effettua un TS su Saggezza: se fallisce, è maledetta per la durata. Scegli uno degli effetti:\nSvantaggio a prove e TS di una caratteristica.\nSvantaggio ai tiri per colpire contro di te.\nAll’inizio di ogni turno, TS su Saggezza o usa Schivare.\nSubisce +1d8 danni necrotici quando la colpisci con attacchi o incantesimi.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok61m92dch0",
+        "name": "Contagio",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "7 giorni",
+        "concentration": false,
+        "desc": "Se il bersaglio fallisce 3 TS, l’effetto dura 7 giorni.\nSe riesce 3 TS, l’effetto termina.\nFinché è Avvelenato, ha Svantaggio ai TS di una caratteristica scelta.\nQualsiasi effetto che rimuoverebbe Avvelenato richiede un TS su Costituzione: se fallisce, la condizione non termina.\nTocchi una creatura: TS su Costituzione. Se fallisce, subisce 11d8 danni necrotici ed è Avvelenata.\nAlla fine di ogni suo turno ripete il TS (termina a 3 successi o 3 fallimenti).",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok63dzlu2yi",
+        "name": "Radiazione verdeggiante",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 minuti ",
+        "concentration": true,
+        "desc": "Area: sfera di 9 m di raggio; luce verdastra fioca che si diffonde anche oltre gli angoli.\nLe creature colpite emettono luce fioca (1,5 m) e non possono beneficiare dell’Invisibilità. I livelli di Esaurimento causati svaniscono al termine.\nScegli un punto entro gittata. Quando una creatura entra nell’area per la prima volta in un turno o vi inizia il turno, effettua un TS su Costituzione: se fallisce, subisce 4d10 danni radianti e ottiene 1 livello di Esaurimento.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok652zym5lg",
+        "name": "Sonno",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Non influenza non morti o creature immuni all’Ammaliato.\nLe creature si risvegliano se subiscono danni o se qualcuno usa un’azione per svegliarle.\nScegli un punto entro gittata: creature entro 6 m cadono Prone e Incoscienti finché dura l’effetto (1 minuto).\nTira 13d8: è il totale di PF influenzabili. Le creature vengono colpite in ordine crescente di PF attuali, finché il totale non si esaurisce.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok65q8ra0v8",
+        "name": "Dissolvi magie",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Termini automaticamente gli incantesimi sul bersaglio di livello pari o inferiore al 5°.\nScegli una creatura, un oggetto o un effetto magico entro gittata.\nPer ogni incantesimo di livello 6° o superiore, effettua una prova con la tua caratteristica da incantatore (CD = 10 + livello dell’incantesimo): se riesci, l’effetto termina.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok66p0nxyk3",
+        "name": "Controincantesimo",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Quando una creatura entro 18 m lancia un incantesimo con componenti, puoi tentare di interromperlo.\nIl bersaglio effettua un TS su Costituzione: se fallisce, l’incantesimo fallisce senza effetto e l’azione (o BA/Reazione) è sprecata; lo slot non viene consumato.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok67kl1gj76",
+        "name": "Lentezza",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Area: cubo di 12 m; fino a 6 creature a scelta.\nLe creature ripetono il TS su Saggezza a fine turno, terminando l’effetto con successo.\nI bersagli effettuano un TS su Saggezza: se falliscono, subiscono:\nVelocità dimezzata; −2 a CA e TS su Destrezza; niente Reazioni.\nNel loro turno possono fare o un’Azione o un’Azione Bonus (non entrambe) e un solo attacco con l’azione Attacco.\nSe lanciano un incantesimo con componente Somatica, 25% di fallire.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok69i66p6ob",
+        "name": "Rapidità",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Alla fine dell’effetto, il bersaglio è Incapacitato e Velocità 0 fino alla fine del suo turno successivo.\nScegli una creatura consenziente entro gittata. Finché dura:\nVelocità raddoppiata; +2 CA; Vantaggio ai TS su Destrezza.\nOttiene un’Azione extra per turno (solo: Attacco [1 attacco], Scatto, Disimpegno, Nascondersi o Utilizzare).",
         "higherLevels": null,
         "prepared": true
       }
