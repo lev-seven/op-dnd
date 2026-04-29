@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-29T20:12:27.528Z",
+  "exportedAt": "2026-04-29T22:50:36.879Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -230,23 +230,23 @@
         "id": "mnt677hjd19y",
         "name": "Lancia",
         "stat": "",
-        "damage": "1d10+10",
+        "damage": "1d10+11",
         "type": "magico",
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false,
-        "hit": 14
+        "hit": 15
       },
       {
         "id": "mnt68fbi9617",
         "name": "Pistola",
         "stat": "",
-        "damage": "1d10+10",
+        "damage": "1d10+11",
         "type": "magico",
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false,
-        "hit": 14
+        "hit": 15
       },
       {
         "id": "moaj43cxeegx",
@@ -257,7 +257,7 @@
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false,
-        "hit": 14
+        "hit": 15
       }
     ],
     "abilities": [
@@ -484,7 +484,7 @@
         "name": "Rivestimento",
         "originId": "moj2w20u9xd0",
         "type": "Azione bonus",
-        "desc": "+2 danno e tiri per colpire",
+        "desc": "+3 danno e tiri per colpire",
         "maxUses": 4,
         "uses": 1,
         "rest": "breve",
