@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-29T15:34:13.095Z",
+  "exportedAt": "2026-04-29T18:22:49.336Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -364,7 +364,7 @@
         "type": "Passiva",
         "desc": "Caratteristica da incantatore: Carisma.",
         "maxUses": 2,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "cdStat": "CAR",
         "fav": true
@@ -486,7 +486,7 @@
         "type": "Azione bonus",
         "desc": "+2 danno e tiri per colpire",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "cdStat": null,
         "fav": true
@@ -498,7 +498,7 @@
         "type": "Passiva",
         "desc": "Non puoi riutilizzare questa capacità finché non completi un riposo breve o lungo.\nUna volta per turno, prima di effettuare un attacco a distanza, puoi attivare questa capacità:\nl’attacco ignora copertura e il modificatore di Destrezza alla CA del bersaglio, critico con 19–20 e, se colpisce, infligge +2d6 danni dello stesso tipo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -510,7 +510,7 @@
         "type": "Azione bonus",
         "desc": "Usi questa capacità un numero di volte pari al tuo Bonus Competenza; recuperi tutti gli usi con un riposo lungo.\nImbui un’arma a distanza con il tuo Haki. Il prossimo colpo riuscito entro 1 ora infligge +2d8 danni da forza. L’effetto termina al colpo a segno o allo scadere del tempo.",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -522,7 +522,7 @@
         "type": "Azione bonus",
         "desc": "Non puoi riutilizzare questa capacità finché non completi un riposo lungo.\nQuando effettui un attacco a distanza, puoi infondere il proiettile con il tuo Haki:\nl’attacco infligge +4d8 danni da forza e ha gittata massima aumentata fino a 180 m (600 ft) senza svantaggio a lunga distanza.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
