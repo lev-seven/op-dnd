@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-29T18:24:58.975Z",
+  "exportedAt": "2026-04-29T21:38:02.445Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -10,7 +10,7 @@
     "classes": "warrior",
     "ac": 11,
     "hpMax": 81,
-    "hpCurrent": 43,
+    "hpCurrent": 81,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -152,7 +152,7 @@
       "slots": {
         "1": {
           "max": 17,
-          "used": 12
+          "used": 0
         },
         "2": {
           "max": 0,
@@ -261,6 +261,16 @@
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false
+      },
+      {
+        "id": "mokhss4morhq",
+        "name": "Ah",
+        "stat": "FOR",
+        "damage": "1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6",
+        "type": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
       }
     ],
     "abilities": [
@@ -331,7 +341,7 @@
         "type": "Azione bonus",
         "desc": "Inoltre, al 1° livello, disponi di una riserva limitata di resistenza a cui puoi attingere per proteggerti dai danni. Nel tuo turno, puoi usare un'azione bonus per recuperare punti ferita pari a 1d10 + il tuo livello da guerriero. Una volta utilizzata questa capacità, devi completare un riposo breve o lungo prima di poterla utilizzare di nuovo.",
         "maxUses": 1,
-        "uses": 1,
+        "uses": 0,
         "rest": "breve",
         "cdStat": null,
         "fav": false
@@ -343,7 +353,7 @@
         "type": "Azione",
         "desc": "A partire dal 2° livello, puoi spingerti oltre i tuoi limiti normali per un istante. Nel tuo turno, puoi compiere un'azione aggiuntiva.\nUna volta utilizzata questa capacità, devi completare un riposo breve o lungo prima di poterla utilizzare di nuovo. A partire dal 17° livello, puoi utilizzarla due volte prima di un riposo, ma solo una volta nello stesso turno.",
         "maxUses": 1,
-        "uses": 1,
+        "uses": 0,
         "rest": "breve",
         "cdStat": null,
         "fav": true
@@ -511,7 +521,7 @@
         "type": "Azione",
         "desc": "Come azione, circondi il tuo corpo con questa armatura, facendo diventare la tua CA uguale a 13 + il tuo modificatore di Costituzione quando non indossi un'armatura. Questa armatura dura 8 ore. Non puoi usare di nuovo questa caratteristica fino a quando non completi un riposo lungo.",
         "maxUses": 1,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -851,7 +861,7 @@
       }
     ],
     "notes": "Personaggi importanti:\nMalfas\nGrimm\nNoa - Rei\nEzikiel\nCallistos\nCiurma di Sosa\n\nElaiha\nNaive\nZigzag\nGregori",
-    "backstory": "",
+    "backstory": "2.000.000 berry\n\nTaglia 300.000.000 B",
     "diceLog": [
       {
         "type": "d20",
