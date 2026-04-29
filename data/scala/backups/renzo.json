@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-29T21:38:02.445Z",
+  "exportedAt": "2026-04-29T21:40:00.898Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -861,7 +861,7 @@
       }
     ],
     "notes": "Personaggi importanti:\nMalfas\nGrimm\nNoa - Rei\nEzikiel\nCallistos\nCiurma di Sosa\n\nElaiha\nNaive\nZigzag\nGregori",
-    "backstory": "2.000.000 berry\n\nTaglia 300.000.000 B",
+    "backstory": "10.000.000 berry\n\nTaglia 300.000.000 B",
     "diceLog": [
       {
         "type": "d20",
