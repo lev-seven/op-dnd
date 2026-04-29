@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-29T14:51:14.838Z",
+  "exportedAt": "2026-04-29T15:30:44.718Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -271,7 +271,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnt5oovsi31v",
@@ -283,7 +283,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnt5svzxk8jv",
@@ -331,7 +331,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnt63kcngo4d",
@@ -343,7 +343,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": false
+        "fav": true
       },
       {
         "id": "mnt65y5t3lrn",
@@ -476,7 +476,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": "custom",
-        "fav": true,
+        "fav": false,
         "cdCustom": 13
       },
       {
@@ -488,6 +488,42 @@
         "maxUses": 4,
         "uses": 0,
         "rest": "breve",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mok7dd9s5nph",
+        "name": "Tiro predittivo",
+        "originId": "moj2w20u9xd0",
+        "type": "Passiva",
+        "desc": "Non puoi riutilizzare questa capacità finché non completi un riposo breve o lungo.\nUna volta per turno, prima di effettuare un attacco a distanza, puoi attivare questa capacità:\nl’attacco ignora copertura e il modificatore di Destrezza alla CA del bersaglio, critico con 19–20 e, se colpisce, infligge +2d6 danni dello stesso tipo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mok7ge9itpwp",
+        "name": "Colpo dello spirito",
+        "originId": "moj2w20u9xd0",
+        "type": "Azione bonus",
+        "desc": "Usi questa capacità un numero di volte pari al tuo Bonus Competenza; recuperi tutti gli usi con un riposo lungo.\nImbui un’arma a distanza con il tuo Haki. Il prossimo colpo riuscito entro 1 ora infligge +2d8 danni da forza. L’effetto termina al colpo a segno o allo scadere del tempo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mok7i63aqyka",
+        "name": "Proiettile della volontà ",
+        "originId": "moj2w20u9xd0",
+        "type": "Azione bonus",
+        "desc": "Non puoi riutilizzare questa capacità finché non completi un riposo lungo.\nQuando effettui un attacco a distanza, puoi infondere il proiettile con il tuo Haki:\nl’attacco infligge +4d8 danni da forza e ha gittata massima aumentata fino a 180 m (600 ft) senza svantaggio a lunga distanza.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
         "cdStat": null,
         "fav": true
       }
