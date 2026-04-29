@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-29T15:56:36.299Z",
+  "exportedAt": "2026-04-29T18:25:00.945Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -10,7 +10,7 @@
     "classes": "warrior",
     "ac": 11,
     "hpMax": 81,
-    "hpCurrent": 81,
+    "hpCurrent": 43,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -152,7 +152,7 @@
       "slots": {
         "1": {
           "max": 17,
-          "used": 0
+          "used": 12
         },
         "2": {
           "max": 0,
@@ -230,6 +230,37 @@
         "damage": "1d6+1d6+3",
         "type": "se critico +2d6",
         "stat": ""
+      },
+      {
+        "id": "mokbudqj2w4k",
+        "name": "Intercettazione",
+        "stat": "",
+        "damage": "1d10+4",
+        "type": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "hit": 0
+      },
+      {
+        "id": "mokcmay0rfvt",
+        "name": "Secondo soffio",
+        "stat": "",
+        "damage": "1d10+4",
+        "type": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      },
+      {
+        "id": "mokcphpmo92k",
+        "name": "Great",
+        "stat": "",
+        "damage": "1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6",
+        "type": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
       }
     ],
     "abilities": [
@@ -300,7 +331,7 @@
         "type": "Azione bonus",
         "desc": "Inoltre, al 1° livello, disponi di una riserva limitata di resistenza a cui puoi attingere per proteggerti dai danni. Nel tuo turno, puoi usare un'azione bonus per recuperare punti ferita pari a 1d10 + il tuo livello da guerriero. Una volta utilizzata questa capacità, devi completare un riposo breve o lungo prima di poterla utilizzare di nuovo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "cdStat": null,
         "fav": false
@@ -312,7 +343,7 @@
         "type": "Azione",
         "desc": "A partire dal 2° livello, puoi spingerti oltre i tuoi limiti normali per un istante. Nel tuo turno, puoi compiere un'azione aggiuntiva.\nUna volta utilizzata questa capacità, devi completare un riposo breve o lungo prima di poterla utilizzare di nuovo. A partire dal 17° livello, puoi utilizzarla due volte prima di un riposo, ma solo una volta nello stesso turno.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "cdStat": null,
         "fav": true
@@ -480,7 +511,7 @@
         "type": "Azione",
         "desc": "Come azione, circondi il tuo corpo con questa armatura, facendo diventare la tua CA uguale a 13 + il tuo modificatore di Costituzione quando non indossi un'armatura. Questa armatura dura 8 ore. Non puoi usare di nuovo questa caratteristica fino a quando non completi un riposo lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -821,7 +852,133 @@
     ],
     "notes": "Personaggi importanti:\nMalfas\nGrimm\nNoa - Rei\nEzikiel\nCallistos\nCiurma di Sosa\n\nElaiha\nNaive\nZigzag\nGregori",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "d20",
+        "label": "TS DES",
+        "total": 12,
+        "roll1": 11,
+        "roll2": 17,
+        "chosen": 11,
+        "modifier": 1,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1777485214636
+      },
+      {
+        "type": "damage",
+        "label": "Great (danno)",
+        "total": 41,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 1
+            },
+            {
+              "sides": 6,
+              "value": 5
+            },
+            {
+              "sides": 6,
+              "value": 5
+            },
+            {
+              "sides": 6,
+              "value": 1
+            },
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 6,
+              "value": 1
+            },
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 6,
+              "value": 4
+            }
+          ],
+          "bonus": 0,
+          "total": 41,
+          "formula": "1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6"
+        },
+        "timestamp": 1777485099390
+      },
+      {
+        "type": "damage",
+        "label": "Secondo soffio (danno)",
+        "total": 6,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 10,
+              "value": 2
+            }
+          ],
+          "bonus": 4,
+          "total": 6,
+          "formula": "1d10+4"
+        },
+        "timestamp": 1777484978016
+      },
+      {
+        "type": "damage",
+        "label": "Intercettazione (danno)",
+        "total": 14,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 10,
+              "value": 10
+            }
+          ],
+          "bonus": 4,
+          "total": 14,
+          "formula": "1d10+4"
+        },
+        "timestamp": 1777484645380
+      },
+      {
+        "type": "damage",
+        "label": "Intercettazione (danno)",
+        "total": 8,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 10,
+              "value": 4
+            }
+          ],
+          "bonus": 4,
+          "total": 8,
+          "formula": "1d10+4"
+        },
+        "timestamp": 1777483722449
+      }
+    ],
     "effects": []
   }
 }
