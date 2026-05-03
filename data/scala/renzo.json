@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-04-29T21:40:02.786Z",
+  "exportedAt": "2026-05-03T11:11:54.553Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -213,6 +213,11 @@
         "id": "mnrhxo4t7vz7",
         "name": "EQUIPAGGIAMENTO",
         "color": "#1abc9c"
+      },
+      {
+        "id": "mopo6fplckdv",
+        "name": "Haki Re",
+        "color": "#811704"
       }
     ],
     "attacks": [
@@ -320,7 +325,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnp4qb2eoy91",
@@ -332,7 +337,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnp4r9cne0vr",
@@ -356,7 +361,7 @@
         "uses": 0,
         "rest": "breve",
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnp4vlslg23j",
@@ -440,7 +445,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnp599z8y2w6",
@@ -524,7 +529,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnq639qevo5g",
@@ -536,7 +541,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnq64k6i4u3x",
@@ -572,7 +577,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnq6ua49ukux",
@@ -584,7 +589,7 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnrhxrbuavnx",
@@ -596,7 +601,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": null,
-        "fav": true
+        "fav": false
       },
       {
         "id": "mnrhzar7qxox",
@@ -607,6 +612,18 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mopo6ui21yxx",
+        "name": "King’s Resolve",
+        "originId": "mopo6fplckdv",
+        "type": "Passiva",
+        "desc": "Il tuo spirito indomito può superare anche le circostanze più terribili.\nCome reazione, quando vieni ridotto a 0 punti ferita ma non vieni ucciso sul colpo, puoi invece scendere a 1 punto ferita. Una volta utilizzata questa capacità, non potrai più utilizzarla finché non avrai terminato un lungo riposo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
         "cdStat": null,
         "fav": false
       }
