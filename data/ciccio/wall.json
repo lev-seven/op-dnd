@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T12:59:57.972Z",
+  "exportedAt": "2026-05-04T13:02:46.843Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
@@ -407,7 +407,7 @@
         "name": "BALL",
         "originId": "mor7c9iv5en6",
         "type": "Azione",
-        "desc": "Giant Armadillo (Rhino)\nLarge beast, unaligned\nArmor Class 11 (natural armor)\nHit Points 45 (6d10 + 12)\nSpeed 40 ft.\nSTR 21 (+5)\nDEX 8 (-1)\nCON 18 (+4)\nINT 2 (-4)\nWIS 12 (+1)\nCHA 7 (-2)\nSenses passive Perception 11\nLanguages —\nChallenge 2 (450 XP)\n\nCharge. If the rhinoceros moves at least 20 feet straight toward a target and then hits it with a gore attack on the same turn, the target takes an extra 9 (2d8) bludgeoning damage. If the target is a creature, it must succeed on a DC 15 Strength saving throw or be knocked prone.\n\nActions\nGore. Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 14 (2d8 + 5) bludgeoning damage.",
+        "desc": "Giant Armadillo (Rhino)\nLarge beast, unaligned\nArmor Class 17 (natural armor + char prof)\nHit Points 45 (6d10 + 12)\nSpeed 40 ft.\nSTR 21 (+5)\nDEX 8 (-1)\nCON 18 (+4)\nINT 2 (-4)\nWIS 12 (+1)\nCHA 7 (-2)\nSenses passive Perception 11\nLanguages —\nChallenge 2 (450 XP)\n\nCharge. If the rhinoceros moves at least 20 feet straight toward a target and then hits it with a gore attack on the same turn, the target takes an extra 9 (2d8) bludgeoning damage. If the target is a creature, it must succeed on a DC 15 Strength saving throw or be knocked prone.\n\nActions\nGore. Melee Weapon Attack: +11 to hit, reach 5 ft., one target. Hit: 14 (2d8 + 5) bludgeoning damage.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
