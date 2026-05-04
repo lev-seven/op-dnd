@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T12:12:42.249Z",
+  "exportedAt": "2026-05-04T12:59:57.972Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
@@ -213,6 +213,11 @@
         "id": "mor4zri8t2vi",
         "name": "Bruiser",
         "color": "#1abc9c"
+      },
+      {
+        "id": "mor7c9iv5en6",
+        "name": "Beast Style",
+        "color": "#f1c40f"
       }
     ],
     "attacks": [],
@@ -391,6 +396,18 @@
         "originId": "mor4zri8t2vi",
         "type": "Rituale",
         "desc": "Certain great fighters desire a powerful companion in battle. Bruiser that utilize the beast style have developed a special bond with nature, allowing them to tame the fearsome beasts they might find along their journey. Through mutual respect and coordination, these bruisers and their companions make for a deadly duo.\nBonus Proficiency\n\nWhen you choose this style at 3rd level, you gain proficiency with the Animal Handling skill. If you are already proficient, you gain proficiency with the Nature or Survival skill instead.\nBeast Companion\n\nStarting at 3rd level when you learn this style, you begin to use your strength and skills to create a powerful bond with a creature of the natural world.\n\nWith 8 hours of work and the expenditure of ฿250,000 worth of rare herbs or fine food, you discover an animal to serve as your faithful companion. You normally select you companion from among the following animals: an ape, a black bear, a boar, a giant badger, a giant weasel, a mule, a panther, or a wolf. However, your DM might also pick one of these animals for you, based on the surrounding terrain and on what types of creatures would logically be present in the area.\n\nAt the end of the 8 hours, your beast companion appears and gains all the benefits of your Companion’s Bond ability. You can have only one animal companion at a time.\n\nIf your beast companion is ever slain, the bond you share allows you to return it to life by reincarnating it. With 8 hours of work and the expenditure of ฿250,000 worth of rare herbs or fine food, you call forth your companion’s spirit to find a new body for it. You can return a beast companion to life in this manner in any location, even without having its body with you.\n\nIf you use this ability to return a former animal companion to life while you have a current beast companion, your current companion leaves you and is replaced by the restored companion.\nCompanion’s Bond\n\nYour animal companion gains a variety of benefits while it is linked to you.\n\nThe animal companion loses its Multiattack action, if it has one.\n\nThe companion obeys your commands as best it can. You can use a bonus action on each of your turns to verbally command your companion to take the Attack, Dash, Disengage, Dodge, or Help action that turn. It can also use its movement at any point during your turn. It does not have its own turn unless you are incapacitated or absent, in which case your companion acts on its own and rolls initiative. Your companion never requires your command to use its reaction, such as when making an opportunity attack.\n\nYour animal companion has abilities and game statistics determined in part by your level. Your companion uses your proficiency bonus rather than its own. You add your proficiency bonus to your companion’s AC, saving throws, attack rolls, and damage rolls\n\nYour animal companion gains proficiency in two skills of your choice. It also becomes proficient with all saving throws. For each level you gain after 3rd, your animal companion gains an additional hit die determined by the creature's hit dice and increases its hit points and maximum by rolling its hit die and adding its constitution modifier to the total, then increasing its maximum hit points by that amount.\n\nWhenever you gain the Ability Score Improvement class feature, your companion’s abilities also improve. Your companion can increase one ability score of your choice by 2, or it can increase two ability scores of your choice by 1. As normal, your companion can’t increase an ability score above 20 using this feature unless its description specifies otherwise.\n\nYour companion shares your interests and alignment, and has personality traits and a design of your choice (with DM assistance if required.)\nBeast Stance\n\nAt 3rd level, you share your food, water, shelter, and training sessions with your beast companion. Additionally, you both learn to coordinate in battle using your brawling techniques. You share the following Fury abilities:\n\nMachine Gun Blows. When you use this fury ability, your companion can make one or both attacks instead of you.\n\nBrute Force. When you use this fury ability, your companion can take the Dash action.\n\nBrace for Impact. When you gain temporary hit points from this fury ability, your companion also gains the same amount of temporary hit points.\nBestial Spirit Assault\n\nAt 6th level, your companion's attacks also count as magical for the purpose of overcoming resistance and immunity to non-magical attacks and damage.\nPrimal Coordination\n\nAlso at 6th level, you and your beast companion begin to flawlessly coordinate attacks. When you use the Attack action on your turn, if your companion can see you, it can use its reaction to make a melee attack.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mor7cgq016yq",
+        "name": "BALL",
+        "originId": "mor7c9iv5en6",
+        "type": "Azione",
+        "desc": "Giant Armadillo (Rhino)\nLarge beast, unaligned\nArmor Class 11 (natural armor)\nHit Points 45 (6d10 + 12)\nSpeed 40 ft.\nSTR 21 (+5)\nDEX 8 (-1)\nCON 18 (+4)\nINT 2 (-4)\nWIS 12 (+1)\nCHA 7 (-2)\nSenses passive Perception 11\nLanguages —\nChallenge 2 (450 XP)\n\nCharge. If the rhinoceros moves at least 20 feet straight toward a target and then hits it with a gore attack on the same turn, the target takes an extra 9 (2d8) bludgeoning damage. If the target is a creature, it must succeed on a DC 15 Strength saving throw or be knocked prone.\n\nActions\nGore. Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 14 (2d8 + 5) bludgeoning damage.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
