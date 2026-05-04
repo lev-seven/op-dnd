@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T11:47:57.788Z",
+  "exportedAt": "2026-05-04T11:48:53.022Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
@@ -64,7 +64,7 @@
       {
         "name": "Addestrare Animali",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Arcano",
@@ -139,7 +139,7 @@
       {
         "name": "Sopravvivenza",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Storia",
