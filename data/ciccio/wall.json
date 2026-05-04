@@ -1,13 +1,13 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T11:38:24.767Z",
+  "exportedAt": "2026-05-04T11:39:02.690Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
     "race": "Longarm Yokay Tribesman",
     "level": 10,
-    "classes": "Warrior",
+    "classes": "Bruiser",
     "ac": 10,
     "hpMax": 10,
     "hpCurrent": 10,
