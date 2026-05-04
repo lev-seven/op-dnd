@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T12:07:01.393Z",
+  "exportedAt": "2026-05-04T12:12:27.317Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
@@ -114,7 +114,7 @@
       {
         "name": "Natura",
         "stat": "INT",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Percezione",
