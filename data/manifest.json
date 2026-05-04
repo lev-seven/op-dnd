@@ -42,6 +42,11 @@
         "file": "eliah_pucci.json",
         "name": "Eliah Pucci",
         "preview": "Sky Islander [Birkan] · Lv 9 · Tinkerer 1-4 / Bruiser 1-5"
+      },
+      {
+        "file": "wall.json",
+        "name": "WALL",
+        "preview": "Longarm Yokay Tribesman · Lv 10 · Warrior"
       }
     ],
     "pata": [
