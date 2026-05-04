@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T11:58:03.612Z",
+  "exportedAt": "2026-05-04T11:59:50.926Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
@@ -355,6 +355,30 @@
         "originId": "mor4zri8t2vi",
         "type": "Azione",
         "desc": "Starting at 7th level, you can use your action to end one Effect on yourself that is causing you to be Charmed or Frightened.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mor5c2n21kjk",
+        "name": "Brutal Frenzy",
+        "originId": "mor4zri8t2vi",
+        "type": "Passiva",
+        "desc": "At 9th level, when you are using your frenzy, you unarmed strikes and bruiser weapon deals an extra amount of damage equal to half your Proficiency bonus (rounded up).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mor5cts51r5w",
+        "name": "Unbreakable ",
+        "originId": "mor4zri8t2vi",
+        "type": "Passiva",
+        "desc": "Starting at 10th level, you don't need to have 1 fury point remaining to use the Charge Right Through feature. Additionally, you are immune to disease and poison.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
