@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T11:51:00.293Z",
+  "exportedAt": "2026-05-04T11:53:17.902Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
@@ -247,6 +247,30 @@
         "originId": "mor4zri8t2vi",
         "type": "Passiva",
         "desc": "Starting at 2nd Level, your Training allows you to harness Fury, raw power and energy that stems from your spirit. Your access to this energy is represented by a number of Fury points. Your bruiser level determines the number of points you have, as shown in the Fury Points column of the Bruiser table.\n\nYou can spend these points to fuel various Fury features. You start knowing three such features: Machine Gun Blows, Brute Force, and Brace for Impact. You learn more Fury features as you gain levels in this class.\n\nWhen you spend a Fury point, it is unavailable until you finish a Short or Long Rest, at the end of which you draw all of your expended Fury back into yourself. You must spend at least 30 minutes of the rest training to regain your Fury points.\n\nSome of your Fury features require your target to make a saving throw to resist the feature’s Effects. The saving throw DC is calculated as follows:\n\nFury save DC = 8 + your Proficiency Bonus + your Constitution modifier\nMachine Gun Blows\n\nImmediately after you take the Attack action on Your Turn, you can spend 1 fury point to make two unarmed strikes or bruiser weapon attacks as a Bonus Action.\nBrute Force\n\nYou can use a bonus action and expend 1 fury point to make a shove attack or take the Dash action.\nBrace for Impact\n\nYou can use your Fury to grit your teeth and withstand physical injuries. You can use a bonus action and spend 1 fury point to prepare for any incoming attack. You gain a number of temporary hit points equal to your scrapper die + your bruiser level.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mor52htn64ob",
+        "name": "Charge right through ",
+        "originId": "mor4zri8t2vi",
+        "type": "Passiva",
+        "desc": "At 2nd level, your spirit has grown to be able to resist harmful effects or hazards.\n\nSo long as you have at least 1 Fury point remaining, you have advantage on constitution saving throws against traps, spells, poison, disease, or breath attacks. To gain this benefit, you can’t be Incapacitated.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mor543xewy7v",
+        "name": "Brawling style",
+        "originId": "mor4zri8t2vi",
+        "type": "Passiva",
+        "desc": "At 3rd Level, you choose and develop a way of brawling that best defines your fighting style: Black Fist Style, Dragon Style, or Beast Style. all detailed at the end of the class description. Your brawling style grants you features at 3rd level and again at 6th, 11th, and 17th level.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
