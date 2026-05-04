@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T12:12:30.305Z",
+  "exportedAt": "2026-05-04T12:12:42.249Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
@@ -10,7 +10,7 @@
     "classes": "Bruiser",
     "ac": 20,
     "hpMax": 140,
-    "hpCurrent": 10,
+    "hpCurrent": 140,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
