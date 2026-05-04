@@ -1,21 +1,21 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T11:39:02.690Z",
+  "exportedAt": "2026-05-04T11:47:11.572Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
     "race": "Longarm Yokay Tribesman",
     "level": 10,
     "classes": "Bruiser",
-    "ac": 10,
-    "hpMax": 10,
+    "ac": 20,
+    "hpMax": 140,
     "hpCurrent": 10,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
     "passivePerception": 10,
-    "profBonus": 2,
+    "profBonus": 6,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
@@ -215,7 +215,63 @@
     "spells": [],
     "notes": "",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "10d12+40",
+        "total": 140,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 12,
+              "value": 11
+            },
+            {
+              "sides": 12,
+              "value": 7
+            },
+            {
+              "sides": 12,
+              "value": 12
+            },
+            {
+              "sides": 12,
+              "value": 10
+            },
+            {
+              "sides": 12,
+              "value": 11
+            },
+            {
+              "sides": 12,
+              "value": 8
+            },
+            {
+              "sides": 12,
+              "value": 5
+            },
+            {
+              "sides": 12,
+              "value": 12
+            },
+            {
+              "sides": 12,
+              "value": 12
+            },
+            {
+              "sides": 12,
+              "value": 12
+            }
+          ],
+          "bonus": 40,
+          "total": 140,
+          "formula": "10d12+40"
+        },
+        "timestamp": 1777895162895
+      }
+    ],
     "effects": []
   }
 }
