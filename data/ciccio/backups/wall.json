@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-04T11:47:05.067Z",
+  "exportedAt": "2026-05-04T11:47:54.963Z",
   "character": {
     "id": "mor4kdizmn7l",
     "name": "WALL",
@@ -19,9 +19,9 @@
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 20,
+        "mod": 5,
+        "save": 5,
         "profSave": false
       },
       "DES": {
@@ -31,27 +31,27 @@
         "profSave": false
       },
       "COS": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 18,
+        "mod": 4,
+        "save": 4,
         "profSave": false
       },
       "INT": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 4,
+        "mod": -3,
+        "save": -3,
         "profSave": false
       },
       "SAG": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 6,
+        "mod": -2,
+        "save": -2,
         "profSave": false
       },
       "CAR": {
-        "score": 10,
-        "mod": 0,
-        "save": 0,
+        "score": 6,
+        "mod": -2,
+        "save": -2,
         "profSave": false
       }
     },
