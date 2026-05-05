@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-05-05T15:10:27.669Z",
+  "exportedAt": "2026-05-05T15:10:37.091Z",
   "character": {
     "id": "mosnud83jjb6",
     "name": "Bogart",
@@ -10,7 +10,7 @@
     "classes": "Hybrid 3 / Martial Artist 6",
     "ac": 14,
     "hpMax": 81,
-    "hpCurrent": 70,
+    "hpCurrent": 81,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 18,
