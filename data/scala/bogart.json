@@ -1,11 +1,11 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-05-05T10:32:03.028Z",
+  "exportedAt": "2026-05-05T13:25:55.021Z",
   "character": {
-    "id": "mosgc1vdeh4x",
+    "id": "mosnud83jjb6",
     "name": "Bogart",
-    "race": "Lunariano / uomo pesce",
+    "race": "Lunariano / Uomo Pesce",
     "level": 1,
     "classes": "Hybrid / Martial Artist",
     "ac": 10,
@@ -15,7 +15,7 @@
     "hpPerm": 0,
     "speed": 9,
     "passivePerception": 10,
-    "profBonus": 4,
+    "profBonus": 2,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
