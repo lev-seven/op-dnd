@@ -1,0 +1,299 @@
+{
+  "account": "Pata",
+  "accountId": "pata",
+  "exportedAt": "2026-05-05T14:54:35.708Z",
+  "character": {
+    "id": "mnp3z1u85fww",
+    "name": "Charibdys II Jones",
+    "race": "Cerenea",
+    "level": 9,
+    "classes": "Martial Artist",
+    "ac": 10,
+    "hpMax": 10,
+    "hpCurrent": 10,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 10,
+    "profBonus": 2,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "DES": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "COS": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "INT": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "none"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 0,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      },
+      {
+        "id": "mosqmk3h95a8",
+        "name": "Talenti",
+        "color": "#e67e22"
+      }
+    ],
+    "attacks": [],
+    "abilities": [
+      {
+        "id": "mosqmmreqyn9",
+        "name": "Magia maledetta",
+        "originId": "mosqmk3h95a8",
+        "type": "Passiva",
+        "desc": "Hai sempre preparato Hex; scegli Intelligenza, Saggezza o Carisma come caratteristica da incantatore.\nPuoi lanciarlo 1 volta senza slot (recuperi con riposo lungo) o usando slot normalmente.\nUna creatura da te maledetta con Hex che ti colpisce subisce danni psichici pari al tuo Bonus Competenza (max 1 volta per turno).",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "SAG",
+        "fav": true
+      },
+      {
+        "id": "mosqowzk4dwd",
+        "name": "Mago del gelo",
+        "originId": "mosqmk3h95a8",
+        "type": "Passiva",
+        "desc": "Apprendi Raggio di Gelo (o un altro trucchetto da Mago se già lo conosci); usa la caratteristica aumentata.\nUna volta per turno, quando colpisci con un attacco che infligge danni da freddo, il bersaglio sottrae 1d4 al prossimo tiro salvezza prima della fine del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mosqriq267ws",
+        "name": "Veloce",
+        "originId": "mosqmk3h95a8",
+        "type": "Passiva",
+        "desc": "La tua Velocità aumenta di 3 m (10 ft).\nGli Attacchi di Opportunità contro di te hanno Svantaggio.\nLa tua Velocità aumenta di 3 m (10 ft).\nGli Attacchi di Opportunità contro di te hanno Svantaggio.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mosqtmyuydef",
+        "name": "Duellante difensivo",
+        "originId": "mosqmk3h95a8",
+        "type": "Reazione",
+        "desc": "Se impugni un’arma con Finesse e vieni colpito da un attacco in mischia, puoi aggiungere il tuo Bonus Competenza alla CA, potenzialmente facendo mancare l’attacco.\nIl bonus alla CA contro attacchi in mischia dura fino all’inizio del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      }
+    ],
+    "spells": [
+      {
+        "id": "mosqybbkiov1",
+        "name": "Maledizione",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "24 ore",
+        "concentration": true,
+        "desc": "Quando colpisci il bersaglio, infliggi +1d6 danni necrotici.\nScegli una caratteristica: il bersaglio ha Svantaggio alle prove di quella caratteristica.\nMaledici una creatura visibile entro gittata.\nSe il bersaglio scende a 0 PF, puoi trasferire la maledizione a un’altra creatura.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mosr10kfq4u9",
+        "name": "Raggio di gelo",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Effettui un attacco a distanza con incantesimo contro una creatura entro gittata.\nSe colpisci, subisce 2d8 danni da freddo e la sua Velocità è ridotta di 3 m fino all’inizio del tuo prossimo turno.",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
+    "notes": "",
+    "backstory": "",
+    "diceLog": [],
+    "effects": []
+  }
+}
