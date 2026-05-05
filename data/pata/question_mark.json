@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-04-29T23:03:04.143Z",
+  "exportedAt": "2026-05-05T14:39:41.958Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -458,7 +458,7 @@
         "name": "Imitazione perfetta",
         "originId": "moj1hjvlps4g",
         "type": "Passiva",
-        "desc": "Svantaggio ai tiri investigare fatti su di te",
+        "desc": "Vantaggio su ingannare\nSvantaggio ai tiri investigare fatti su di te",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
