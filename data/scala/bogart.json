@@ -1,40 +1,40 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-05-05T13:27:42.048Z",
+  "exportedAt": "2026-05-05T14:50:38.222Z",
   "character": {
-    "id": "mosgc1vdeh4x",
+    "id": "mosnud83jjb6",
     "name": "Bogart",
-    "race": "Lunariano / uomo pesce",
+    "race": "Lunariano / Uomo Pesce",
     "level": 9,
     "classes": "Hybrid / Martial Artist",
-    "ac": 10,
-    "hpMax": 10,
-    "hpCurrent": 10,
+    "ac": 14,
+    "hpMax": 70,
+    "hpCurrent": 70,
     "hpTemp": 0,
     "hpPerm": 0,
-    "speed": 12,
+    "speed": 15,
     "passivePerception": 10,
     "profBonus": 4,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 18,
-        "mod": 4,
-        "save": 4,
-        "profSave": false
-      },
-      "DES": {
         "score": 17,
         "mod": 3,
         "save": 3,
         "profSave": false
       },
-      "COS": {
+      "DES": {
         "score": 18,
         "mod": 4,
         "save": 4,
         "profSave": false
+      },
+      "COS": {
+        "score": 20,
+        "mod": 5,
+        "save": 9,
+        "profSave": true
       },
       "INT": {
         "score": 10,
@@ -51,8 +51,8 @@
       "CAR": {
         "score": 16,
         "mod": 3,
-        "save": 3,
-        "profSave": false
+        "save": 7,
+        "profSave": true
       }
     },
     "skills": [
@@ -74,7 +74,7 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
@@ -104,7 +104,7 @@
       {
         "name": "Intuizione",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Medicina",
@@ -124,7 +124,7 @@
       {
         "name": "Persuasione",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Rapidità di Mano",
@@ -205,13 +205,38 @@
         "color": "#f1c40f"
       },
       {
-        "id": "fdd",
-        "name": "Frutto del diavolo",
-        "color": "#f46fc1"
+        "id": "mosojvhpqaqi",
+        "name": "Abilità Razza",
+        "color": "#ad4345"
       }
     ],
     "attacks": [],
-    "abilities": [],
+    "abilities": [
+      {
+        "id": "mosojzuw3shl",
+        "name": "Resistenza al fuoco",
+        "originId": "mosojvhpqaqi",
+        "type": "Passiva",
+        "desc": "DA Lunariano resistenza ai danni da fuoco",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mosomheasy4r",
+        "name": "Ignite",
+        "originId": "mosojvhpqaqi",
+        "type": "Passiva",
+        "desc": "Da Lunariano. Conosci il trucco Produci Fiamma. Quando raggiungi il 3° livello, puoi lanciare l'incantesimo Mani Ardenti come un incantesimo di 2° livello una volta con questo tratto e recuperi la capacità di farlo quando completi un riposo lungo. Quando raggiungi il 5° livello, puoi lanciare l'incantesimo Lama di Fiamma una volta con questo tratto e recuperi la capacità di farlo quando completi un riposo lungo. Costituzione è la tua caratteristica da incantatore per questi incantesimi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      }
+    ],
     "spells": [],
     "notes": "",
     "backstory": "",
