@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-05-05T15:28:44.346Z",
+  "exportedAt": "2026-05-05T15:29:12.086Z",
   "character": {
     "id": "mosnud83jjb6",
     "name": "Bogart",
@@ -14,7 +14,7 @@
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 18,
-    "passivePerception": 10,
+    "passivePerception": 13,
     "profBonus": 4,
     "hitDie": "1d8",
     "stats": {
