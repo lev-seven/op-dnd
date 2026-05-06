@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-05-03T11:11:52.816Z",
+  "exportedAt": "2026-05-06T16:41:28.060Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -151,7 +151,7 @@
       "cantrips": 0,
       "slots": {
         "1": {
-          "max": 17,
+          "max": 0,
           "used": 0
         },
         "2": {
@@ -622,6 +622,18 @@
         "type": "Passiva",
         "desc": "Il tuo spirito indomito può superare anche le circostanze più terribili.\nCome reazione, quando vieni ridotto a 0 punti ferita ma non vieni ucciso sul colpo, puoi invece scendere a 1 punto ferita. Una volta utilizzata questa capacità, non potrai più utilizzarla finché non avrai terminato un lungo riposo.",
         "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou3hp4a6ypl",
+        "name": "Slot Potere del Frutto",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "",
+        "maxUses": 17,
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
