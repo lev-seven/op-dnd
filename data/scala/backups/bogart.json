@@ -1,7 +1,7 @@
 {
-  "account": "Ciccio",
-  "accountId": "ciccio",
-  "exportedAt": "2026-05-06T12:29:29.043Z",
+  "account": "Scala",
+  "accountId": "scala",
+  "exportedAt": "2026-05-06T16:02:24.800Z",
   "character": {
     "id": "mosnud83jjb6",
     "name": "Bogart",
@@ -13,7 +13,7 @@
     "hpCurrent": 81,
     "hpTemp": 0,
     "hpPerm": 0,
-    "speed": 18,
+    "speed": 20,
     "passivePerception": 13,
     "profBonus": 4,
     "hitDie": "1d8",
@@ -79,7 +79,7 @@
       {
         "name": "Furtività",
         "stat": "DES",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Indagare",
@@ -94,7 +94,7 @@
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intrattenere",
@@ -192,22 +192,32 @@
       {
         "id": "haki_arm",
         "name": "Haki Armatura",
-        "color": "#8e44ad"
+        "color": "#f20736"
       },
       {
         "id": "haki_oss",
         "name": "Haki Osservazione",
-        "color": "#1abc9c"
+        "color": "#e96107"
       },
       {
         "id": "haki_re",
         "name": "Haki del Re",
-        "color": "#f1c40f"
+        "color": "#990505"
       },
       {
         "id": "mosojvhpqaqi",
         "name": "Abilità Razza",
-        "color": "#ad4345"
+        "color": "#f2e9e9"
+      },
+      {
+        "id": "mou3bom18t53",
+        "name": "Classe Hybrid",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "mou3bxvwks39",
+        "name": "Classe Martial Artist",
+        "color": "#56bdd7"
       }
     ],
     "attacks": [],
@@ -235,9 +245,446 @@
         "rest": null,
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mou1pbrja01u",
+        "name": "Aura of Life - Uncommon",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Sei in grado di aumentare la tua forza di volontà per rafforzare la durezza del tuo corpo usando il tuo spirito. Puoi spendere un'azione per ottenere 1d6 + il tuo punteggio di Costituzione + il tuo livello del personaggio in punti ferita temporanei.\nPuoi usare questa caratteristica un numero di volte pari al tuo bonus di competenza. Non puoi usare nuovamente questa caratteristica finché non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou1s7pc2nuf",
+        "name": "Soul Armor - Uncommon",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Come azione, circondi il tuo corpo con questa armatura, facendo diventare la tua CA uguale a 13 + il tuo modificatore di Costituzione quando non indossi un'armatura. Questa armatura dura 8 ore. Non puoi usare di nuovo questa caratteristica fino a quando non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou1smy4jw9t",
+        "name": "Spirit Blast - Uncommon",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Acquisisci la capacità di inviare scariche di energia attraverso i tuoi nemici usando il tuo spirito.\nQuando colpisci una creatura con un attacco con arma da mischia o un colpo senz’armi, puoi scatenare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni da forza extra al bersaglio, oltre ai danni normali dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per turno durante il tuo turno. Una volta che usi questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla fino a quando non completi un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou1tu5i3r91",
+        "name": "Weapon Hardening - Uncommon",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Acquisisci la capacità di rivestire le tue armi e i tuoi attacchi con il tuo spirito. Più intensa è l'applicazione, più scuro è il rivestimento.\nCome azione bonus, canalizzi l'haki nel tuo corpo o in un'arma a tua scelta. Se scegli il tuo corpo, puoi scegliere tra i tuoi attacchi a mani nude o un'arma naturale. Per 1 minuto, i tuoi attacchi con l'arma scelta sono considerati magici con un bonus di +1 ai tiri per colpire e ai tiri per il danno.\nSe l'attacco ha già un bonus ai tiri per colpire e ai danni, questa caratteristica sostituisce il bonus a meno che non sia maggiore, nel qual caso non ottiene il beneficio di questa caratteristica.\nQuesto effetto termina prematuramente se perdi conoscenza, lo usi di nuovo, lo concludi come azione bonus o inizi il tuo turno senza tenere o toccare l'arma che hai rivestito. Una volta utilizzata questa capacità un numero di volte pari al tuo bonus di competenza, non puoi più usarla fino a quando non completi un riposo lungo.\nSe l'Evento Spirit Surge ha una rarità superiore a Raro, usa questi bonus:\nRare. The chosen weapon gains a +2 bonus to Attack rolls and Damage Rolls instead.\nVery Rare. The chosen weapon gains a +3 bonus to Attack rolls and Damage Rolls instead.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou1uqu5qido",
+        "name": "Vessel of Resilience - Uncommon",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Impari a infondere al tuo spirito una tale resilienza che essa migliora la tua forma fisica.\nCome azione, puoi rafforzare le tue difese per 1 minuto. Durante questo periodo, hai resistenza ai danni da percosse, perforazioni e taglio provenienti da attacchi non magici, e hai vantaggio nei tiri salvezza su Costituzione. Una volta utilizzata questa caratteristica, non puoi usarla di nuovo fino a quando non completi un riposo lungo",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou1xcgaoadh",
+        "name": "Shield of Vengeance - Rare",
+        "originId": "haki_arm",
+        "type": "Reazione",
+        "desc": "Formi uno scudo di ritorsione potente che colpisce gli aggressori con forza spirituale.\n\nCome reazione, quando vieni colpito da un attacco, puoi lanciare l'incantesimo Ritorsione Infernale, prendendo di mira l'aggressore. Il tipo di danno dell'incantesimo è forza, e il livello dell'incantesimo è uguale al tuo bonus di competenza. Una volta che usi questa abilità un numero di volte pari alla metà del tuo bonus di competenza (arrotondato per difetto), non puoi usarla di nuovo fino a quando non completi un riposo lungo.\n\nRitorsione Infernale: \nIndichi con il dito, e la creatura che ti ha ferito è momentaneamente circondata da fiamme infernali. La creatura deve effettuare un tiro salvezza di Destrezza. Subisce 2d10 danni da fuoco se il tiro salvezza fallisce, o la metà dei danni se riesce.",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou24vh53rxn",
+        "name": "Vision of Light - Uncommon",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Migliorando la tua visione, ora puoi vedere attraverso l'oscurità più chiaramente, acquisendo Visione Oscura.\n\nPuoi vedere in luce fioca entro 120 piedi da te come se fosse luce intensa, e nell'oscurità come se fosse luce fioca. Non puoi distinguere i colori nell'oscurità, solo sfumature di grigio.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou25wpeft99",
+        "name": "Aura Detection - Uncommon",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Inizi a vedere aure che puoi identificare intorno agli oggetti magici e agli effetti di incantesimi.\n\nPuoi lanciare Individua Magia a volontà, senza consumare uno slot di incantesimo o componenti materiali.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou26tmyff2r",
+        "name": "Predict Outcome - Uncommon",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Puoi avere un piccolo scorcio del futuro per determinare il possibile esito negativo di una situazione ed evitarlo.\n\nQuando effettui un tiro di attacco, una prova di abilità o un tiro salvezza, puoi scegliere di rilanciare il d20. Devi rilanciare il dado prima che venga determinato l'esito del tiro iniziale.\n\nIn alternativa, quando una creatura che puoi vedere effettua un attacco contro di te o effettua un tiro salvezza contro uno dei tuoi incantesimi o delle tue caratteristiche, puoi costringere quella creatura a rilanciare il tiro di attacco o il tiro salvezza.\n\nSe il tiro che attiva il rilancio è effettuato con vantaggio o svantaggio, entrambi i d20 vengono rilanciati. Una volta utilizzata questa caratteristica, non puoi usarla di nuovo fino a quando non completi un riposo lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou28t5iamej",
+        "name": "Spirit Sense - Uncommon",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Hai allenato il tuo haki per percepire la presenza di esseri che sono invisibili, nascosti o travestiti.\n\nCome azione, puoi percepire la presenza di creature che non puoi vedere entro 60 piedi da te, a condizione che tu e la creatura non siate separati da una copertura totale. Puoi usare questa caratteristica un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi spesi quando completi un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou2a0pm4ea8",
+        "name": "Predictive Strike - Uncommon",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Affinando la tua percezione, puoi prevedere i movimenti del tuo avversario, trasformando il loro attacco in un'opportunità per un contrattacco.\n\nQuando una creatura ti manca con un attacco in mischia, puoi usare la tua reazione per effettuare un attacco in mischia contro la creatura. Puoi usare questa caratteristica un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi spesi al termine di un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou2bjdnzpej",
+        "name": "Aura Reading - Uncommon",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Sei in grado di rilevare la presenza e il potenziale livello di minaccia di creature o pericoli pericolosi intorno a te.\n\nPuoi lanciare gli incantesimi Rilevare Veleno e Malattia o Rilevare Bene e Male, senza spendere uno slot incantesimo o componenti materiali. Una volta utilizzata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi usarla di nuovo fino a quando non completi un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou2czxkun6z",
+        "name": "Far Sight - Uncommon",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Il tuo haki dell'osservazione ti permette di percepire le minacce da una distanza significativa.\n\nCome azione bonus, puoi estendere la portata della tua arma a distanza per 1 minuto o finché non sei incapacitato. La portata dei tuoi attacchi con armi a distanza è raddoppiata e non subisci svantaggi quando effettui attacchi con armi a distanza a lunga gittata per tutta la durata. Una volta usata questa abilità, non puoi usarla di nuovo fino a quando non completi un lungo riposo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou2e9s21pgg",
+        "name": "Echoing Shot - Uncommon",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Hai imparato a canalizzare il tuo Haki dell'Osservazione nei tuoi attacchi a distanza, permettendo ai tuoi colpi di curvare in aria.\n\nQuando effettui un attacco con arma a distanza e manchi il bersaglio, puoi usare la tua azione bonus per rilanciare l'attacco contro una creatura diversa nel raggio d'azione. Il nuovo attacco rimbalza su una superficie solida, come un muro o un soffitto, prima di dirigersi verso il nuovo bersaglio. Puoi usare questa capacità un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi spesi al termine di un riposo lungo.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou2fbg4ele1",
+        "name": "Aura Analysis - Rare",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Prerequisiti: Aura Reading\n\nConcentrando ulteriormente la tua attenzione sulle creature che puoi vedere, puoi ottenere una lettura migliore su di loro.\n\nQuando usi la Aura Reading, hai anche l'opzione di lanciare Individua Pensieri al suo posto, senza spendere uno slot incantesimo o componenti materiali.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou3c785896m",
+        "name": "CD Salvezza",
+        "originId": "mou3bom18t53",
+        "type": "Passiva",
+        "desc": "8 + Bonus Competenza + Carisma",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou3fqnhh6gr",
+        "name": "Hybrid Poit",
+        "originId": "mou3bom18t53",
+        "type": "Passiva",
+        "desc": "",
+        "maxUses": 5,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou3ghsqgdyg",
+        "name": "KI",
+        "originId": "mou3bxvwks39",
+        "type": "Passiva",
+        "desc": "",
+        "maxUses": 6,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou857bsgwyj",
+        "name": "Poteniamento Incremento",
+        "originId": "mou3bom18t53",
+        "type": "Passiva",
+        "desc": "Quando lanci un potere ibrido che costringe una creatura a effettuare un tiro salvezza per resistere ai suoi effetti, puoi spendere 3 punti ibridi per dare svantaggio a un bersaglio del potere ibrido sul suo primo tiro salvezza effettuato contro il potere ibrido.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou86y39myth",
+        "name": "Potenziamento Rapido",
+        "originId": "mou3bom18t53",
+        "type": "Passiva",
+        "desc": "Quando lanci un potere ibrido con un tempo di lancio di 1 azione, puoi spendere 2 punti ibridi per ridurre il tempo di lancio a 1 azione bonus per questo lancio.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou88a5o73ng",
+        "name": "Tratti Animaleschi",
+        "originId": "mou3bom18t53",
+        "type": "Passiva",
+        "desc": "Hai la capacità di respirare sott'acqua e una velocità di nuoto pari alla tua velocità di camminata. Ti crescono anche branchie sulla nuca o dietro le orecchie, le dita diventano palmate e ti crescono ciglia permanenti che si estendono attraverso i vestiti",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou899e3yoqi",
+        "name": "Vista Acuta",
+        "originId": "mou3bom18t53",
+        "type": "Passiva",
+        "desc": "Dal 1° livello, man mano che sviluppi una vista animalesca, ottieni scurovisione con una portata di 36,5 metri.\n\nAl 3° livello di questa classe, impari l'incantesimo Vedere l'Invisibilità, che non conta ai fini del numero di incantesimi ibridi che conosci. Inoltre, puoi lanciarlo spendendo 2 punti ibridi o uno slot incantesimo\n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou8gks592l9",
+        "name": "CD Salvezza",
+        "originId": "mou3bxvwks39",
+        "type": "Passiva",
+        "desc": "8 + Bonus Competenza + Saggezza",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou8iojjsw22",
+        "name": "Raffica Rapida",
+        "originId": "mou3bxvwks39",
+        "type": "Azione bonus",
+        "desc": "Subito dopo aver effettuato l'azione di Attacco nel tuo turno, puoi spendere 1 punto ki per effettuare due colpi senz'armi come Azione Bonus.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou8jmh3fgie",
+        "name": "Corpo Mutante",
+        "originId": "mou3bxvwks39",
+        "type": "Azione bonus",
+        "desc": "Puoi spendere 1 punto ki per effettuare l'azione di Schivata come Azione Bonus nel tuo turno",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou8k4q0f7zz",
+        "name": "Passo Vorticoso",
+        "originId": "mou3bxvwks39",
+        "type": "Azione bonus",
+        "desc": "Puoi spendere 1 punto ki per eseguire l'azione Disimpegno e Scatto come Azione Bonus nel tuo turno, e la tua distanza di salto è raddoppiata per quel turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou8lg0nv06v",
+        "name": "Arma dell'Anima",
+        "originId": "mou3bxvwks39",
+        "type": "Passiva",
+        "desc": "Inoltre, al 2° livello, ti alleni a usare una varietà di armi come armi da artista marziale, non solo semplici armi da mischia e spade corte. Ogni volta che completi un riposo breve o lungo, puoi toccare un'arma, concentrare il tuo ki su di essa e poi considerarla un'arma da artista marziale finché non usi di nuovo questa capacità.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou8p5dhnmkv",
+        "name": "Pugno Vero delle Piastrelle Arabesche",
+        "originId": "mou3bxvwks39",
+        "type": "Passiva",
+        "desc": "A partire dal 3° livello, puoi manipolare e controllare la direzione dell'acqua dentro e intorno al corpo del tuo nemico. Ogni volta che colpisci una creatura con uno degli attacchi concessi dalla tua Raffica Rapida, puoi imporre uno dei seguenti Effetti su quel bersaglio:\n-\tDeve superare un tiro salvezza su Destrezza o essere atterrato.\n-\tDeve effettuare un tiro salvezza su Forza. Se fallisce, puoi spingerlo fino a 4,5 metri di distanza da te. Non può effettuare Reazioni fino alla fine del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou8s14izw99",
+        "name": "Pugno Vero delle Cinquemila Piastrelle",
+        "originId": "mou3bxvwks39",
+        "type": "Passiva",
+        "desc": "Al 6° livello, acquisisci la capacità di incanalare il tuo ki in devastanti onde di energia infusa d'acqua. Immediatamente dopo aver effettuato l'azione di Attacco nel tuo turno, come azione bonus, puoi spendere 2 punti ki per costringere ogni creatura in un cono di 4,5 metri a effettuare un tiro salvezza su Destrezza contro la tua CD di Tiro Salvezza Ki. Una creatura subisce tre dadi di Arti Marziali di danno da freddo in caso di tiro salvezza fallito, o la metà del danno in caso di successo.\n\nPuoi spendere punti ki aggiuntivi per aggiungere un dado di Arti Marziali al danno.\n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mou8vbhm3h18",
+        "name": "Ira del Mare",
+        "originId": "mou3bxvwks39",
+        "type": "Passiva",
+        "desc": "Inoltre, al 6° livello, i tuoi attacchi effettuati con i tuoi colpi senz'armi, armi da artista marziale o incantesimi da artista marziale infliggono danni da freddo aggiuntivi pari alla metà del tuo bonus di competenza (arrotondato per eccesso).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
       }
     ],
-    "spells": [],
+    "spells": [
+      {
+        "id": "mou2tygyt7t4",
+        "name": "Poison Spray",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "3m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Allunghi la mano verso una creatura che puoi vedere entro il raggio d'azione e proietti una nuvola di gas nocivo dal palmo. La creatura deve superare un tiro salvezza su Costituzione o subire 1d12 danni da veleno.",
+        "higherLevels": "Il danno di questo incantesimo aumenta di 1d12 quando raggiungi il 5° livello (2d12), l'11° livello (3d12) e il 17° livello (4d12).",
+        "prepared": true
+      },
+      {
+        "id": "mou2z2gl6o77",
+        "name": "Acid Splash",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "60 piedi",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Lanci una bolla di acido. Scegli una creatura che puoi vedere entro il raggio d'azione, oppure scegli due creature che puoi vedere entro il raggio d'azione e che si trovano entro 1,5 metri l'una dall'altra. Un bersaglio deve superare un tiro salvezza su Destrezza o subire 1d6 danni da acido.",
+        "higherLevels": " Il danno di questo incantesimo aumenta di 1d6 quando raggiungi il 5° livello (2d6), l'11° livello (3d6) e il 17° livello (4d6).",
+        "prepared": true
+      },
+      {
+        "id": "mou336zc8lgj",
+        "name": "Fire Bolt",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "120 piedi",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Lanci una particella di fuoco contro una creatura o un oggetto entro la gittata. Effettua un attacco con incantesimo a distanza contro il bersaglio. Se colpisci, il bersaglio subisce 1d10 danni da fuoco. Un oggetto infiammabile colpito da questo incantesimo prende fuoco se non viene indossato o trasportato.",
+        "higherLevels": "Il danno di questo incantesimo aumenta di 1d10 quando raggiungi il 5° livello (2d10), l'11° livello (3d10) e il 17° livello (4d10).",
+        "prepared": true
+      },
+      {
+        "id": "mou390yldcmj",
+        "name": "Green-Flame Blade",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Brandisci l'arma usata per lanciare l'incantesimo ed effettui un attacco in mischia contro una creatura entro 1,5 metri da te. Se colpisci, il bersaglio subisce gli effetti normali dell'attacco con l'arma e puoi far sì che una fiamma verde balzi dal bersaglio verso un'altra creatura a tua scelta che puoi vedere entro 1,5 metri da esso. La seconda creatura subisce danni da fuoco pari al tuo modificatore di caratteristica da incantatore.",
+        "higherLevels": "Al 5° livello, l'attacco in mischia infligge 1d8 danni da fuoco extra al bersaglio se va a segno, e il danno da fuoco alla seconda creatura aumenta a 1d8 + il tuo modificatore di caratteristica da incantatore. Entrambi i tiri per i danni aumentano di 1d8 all'11° livello (2d8 e 2d8) e al 17° livello (3d8 e 3d8).",
+        "prepared": true
+      }
+    ],
     "notes": "",
     "backstory": "",
     "diceLog": [],
