@@ -1,14 +1,14 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-12T10:53:31.442Z",
+  "exportedAt": "2026-05-12T11:02:38.664Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
     "race": "Tontatta",
     "level": 9,
     "classes": "Marksman",
-    "ac": 13,
+    "ac": 14,
     "hpMax": 56,
     "hpCurrent": 56,
     "hpTemp": 0,
@@ -25,9 +25,9 @@
         "profSave": true
       },
       "DES": {
-        "score": 16,
-        "mod": 3,
-        "save": 5,
+        "score": 18,
+        "mod": 4,
+        "save": 8,
         "profSave": true
       },
       "COS": {
@@ -43,9 +43,9 @@
         "profSave": false
       },
       "SAG": {
-        "score": 13,
-        "mod": 1,
-        "save": 1,
+        "score": 15,
+        "mod": 2,
+        "save": 2,
         "profSave": false
       },
       "CAR": {
@@ -208,10 +208,57 @@
         "id": "fdd",
         "name": "Frutto del diavolo",
         "color": "#f46fc1"
+      },
+      {
+        "id": "mp2imikn5nyv",
+        "name": "Tontatta",
+        "color": "#000000"
+      },
+      {
+        "id": "mp2in2kqs3hr",
+        "name": "Marksman",
+        "color": "#ff8000"
       }
     ],
     "attacks": [],
-    "abilities": [],
+    "abilities": [
+      {
+        "id": "mp2inpb212g7",
+        "name": "Glass Cannon",
+        "originId": "mp2imikn5nyv",
+        "type": "Passiva",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp2iq5yvme0f",
+        "name": "Super Strength",
+        "originId": "mp2imikn5nyv",
+        "type": "Passiva",
+        "desc": "anche se piccolo puo fare cose da adulti",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp2irg9pfxrh",
+        "name": "Master Cultivators",
+        "originId": "mp2imikn5nyv",
+        "type": "Passiva",
+        "desc": "le piante che crei ti danno resistenza hai danni del veleno  e immunita al veleno",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      }
+    ],
     "spells": [],
     "notes": "",
     "backstory": "",
