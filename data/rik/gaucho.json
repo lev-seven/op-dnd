@@ -1,14 +1,14 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T15:23:29.910Z",
+  "exportedAt": "2026-05-12T14:58:40.092Z",
   "character": {
     "id": "mnyr11e3mkk1",
     "name": "Gaucho",
     "race": "Braccialunghe",
     "level": 16,
     "classes": "",
-    "ac": 19,
+    "ac": 18,
     "hpMax": 151,
     "hpCurrent": 151,
     "hpTemp": 0,
