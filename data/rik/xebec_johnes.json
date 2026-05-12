@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-12T15:02:23.442Z",
+  "exportedAt": "2026-05-12T15:27:03.333Z",
   "character": {
     "id": "mp2reuoinndo",
     "name": "Xebec Johnes",
@@ -9,8 +9,8 @@
     "level": 16,
     "classes": "",
     "ac": 20,
-    "hpMax": 150,
-    "hpCurrent": 150,
+    "hpMax": 128,
+    "hpCurrent": 128,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -234,14 +234,14 @@
       },
       {
         "id": "mnysasmt0odk",
-        "name": "Lama Avvelenata",
+        "name": "Spada",
         "stat": "FOR",
         "damage": "1d8+1d8+1d8+1d8+1d8",
         "type": "Taglienti, contundenti",
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false,
-        "desc": "Il bersaglio deve superare un tiro salvezza su Costituzione con CD 17 o essere avvelenato per 1 ora. Se il tiro salvezza fallisce di 5 o più, il bersaglio è anche privo di sensi mentre è avvelenato in questo modo. Il bersaglio riprende conoscenza se subisce danni o se un'altra creatura compie un'azione per scuoterlo."
+        "desc": ""
       }
     ],
     "abilities": [
@@ -322,7 +322,7 @@
         "name": "Attacco multiplo",
         "originId": "mnyrruof6538",
         "type": "Azione",
-        "desc": "Il Pirata Elite effettua un attacco con la sua lama avvelenata e due con i suoi colpi senz'armi.",
+        "desc": "Il Pirata Elite effettua due attacchi con spada",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -612,7 +612,91 @@
     ],
     "notes": "Condition Immunities Charmed, exhaustion, frightened, poisoned\nSea Weakness. You are weak to water and seastone",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "17d8+68",
+        "total": 128,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 4
+            }
+          ],
+          "bonus": 68,
+          "total": 128,
+          "formula": "17d8+68"
+        },
+        "timestamp": 1778599524737
+      }
+    ],
     "effects": []
   }
 }
