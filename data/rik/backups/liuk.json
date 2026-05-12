@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-12T11:26:27.007Z",
+  "exportedAt": "2026-05-12T11:46:00.895Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -14,7 +14,7 @@
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
-    "passivePerception": 11,
+    "passivePerception": 20,
     "profBonus": 4,
     "hitDie": "1d8",
     "stats": {
@@ -119,7 +119,7 @@
       {
         "name": "Percezione",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "mastery"
       },
       {
         "name": "Persuasione",
@@ -151,15 +151,15 @@
       "cantrips": 0,
       "slots": {
         "1": {
-          "max": 0,
+          "max": 4,
           "used": 0
         },
         "2": {
-          "max": 0,
+          "max": 3,
           "used": 0
         },
         "3": {
-          "max": 0,
+          "max": 2,
           "used": 0
         },
         "4": {
@@ -252,6 +252,42 @@
         "originId": "mp2imikn5nyv",
         "type": "Passiva",
         "desc": "le piante che crei ti danno resistenza hai danni del veleno  e immunita al veleno",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp2jrt0p45z8",
+        "name": "Hawk-Eyed",
+        "originId": "mp2in2kqs3hr",
+        "type": "Passiva",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp2jv6d0e26h",
+        "name": "Lock-On",
+        "originId": "mp2in2kqs3hr",
+        "type": "Passiva",
+        "desc": "A partire dal 1 ° livello, si concentra il vostro obiettivo e l'uccisione di intenti su una creatura per colpire i loro punti deboli. Quando colpisci una creatura con un tiro di attacco usando un'arma da fuoco o una fionda, puoi contrassegnare il bersaglio per 1 minuto.\n\nLa prima volta su ciascuno dei tuoi giri che colpisci il nemico marcato e infliggi danni ad esso, incluso quando lo segni, aumenti quel danno di 1d4.\n\nPuoi utilizzare questa funzione per contrassegnare una creatura un numero di volte uguale al tuo bonus di competenza e riacquisti tutti gli usi spesi quando finisci un lungo riposo.\n\nIl danno extra di questa funzione aumenta quando si raggiungono determinati livelli in questa classe: a 1d6 al 6° livello e a 1d8 al 14° livello.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp2jxghedu6x",
+        "name": "Sharpened Shot",
+        "originId": "mp2in2kqs3hr",
+        "type": "Passiva",
+        "desc": "+2 ai danii con armi da fuoco",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
