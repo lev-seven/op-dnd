@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-12T15:20:11.128Z",
+  "exportedAt": "2026-05-12T15:20:41.476Z",
   "character": {
     "id": "mp2rd1pxbrtg",
     "name": "Linus",
@@ -31,10 +31,10 @@
         "profSave": true
       },
       "COS": {
-        "score": 18,
-        "mod": 4,
-        "save": 4,
-        "profSave": false
+        "score": 20,
+        "mod": 5,
+        "save": 10,
+        "profSave": true
       },
       "INT": {
         "score": 18,
@@ -49,10 +49,10 @@
         "profSave": true
       },
       "CAR": {
-        "score": 20,
-        "mod": 5,
-        "save": 10,
-        "profSave": true
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
       }
     },
     "skills": [
