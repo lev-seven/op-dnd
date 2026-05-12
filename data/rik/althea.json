@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-15T19:47:01.850Z",
+  "exportedAt": "2026-05-12T14:57:27.231Z",
   "character": {
     "id": "mo06zas4yz2u",
     "name": "Althea",
@@ -14,7 +14,7 @@
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 12,
-    "passivePerception": 20,
+    "passivePerception": 19,
     "profBonus": 5,
     "hitDie": "1d8",
     "stats": {
@@ -288,7 +288,7 @@
         "type": "Passiva",
         "desc": " L'abilità innata di lanciare incantesimi del Pirata Elite è Carisma (CD del tiro salvezza 18, +10 al tiro per colpire con attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza bisogno di componenti: A Volontà: individuazione del magico, dissolvi il magico • 3/giorno ciascuno: sfocatura, dominare persona, ritirata rapida, caduta morbida (sé stesso), salto (sé stesso), passo nebbioso, vedere l'invisibilità, scudo • 1/giorno ciascuno: occhio arcano, dominare mostro, velocità (sé stesso), pelle di pietra (sé stesso)",
         "maxUses": 28,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": "SAG",
         "fav": false
@@ -322,7 +322,7 @@
         "name": "Azione Leggendaria",
         "originId": "mnyreshqutwg",
         "type": "Azione",
-        "desc": "Il Pirata Elite può compiere 3 azioni leggendarie, scegliendo tra le opzioni seguenti. È possibile utilizzare una sola azione leggendaria alla volta e solo alla fine del turno di un'altra creatura. Il Pirata Elite recupera le azioni leggendarie spese all'inizio del suo turno.\n\nAttacco senz'armi. Il Pirata Elite effettua un attacco senz'armi.\nPasso Rapido. Il Pirata Elite raggiunge la sua velocità massima senza provocare attacchi di opportunità.\nImpeto del Conquistatore (Costo: 2 Azioni). L'Élite Pirata rilascia un'onda d'urto debilitante usando il suo spirito. Tutte le altre creature entro 18 metri dall'Élite Pirata devono superare un tiro salvezza su Forza con CD 17 o essere atterrate.",
+        "desc": "Il Pirata Elite può compiere 3 azioni leggendarie, scegliendo tra le opzioni seguenti. È possibile utilizzare una sola azione leggendaria alla volta e solo alla fine del turno di un'altra creatura. Il Pirata Elite recupera le azioni leggendarie spese all'inizio del suo turno.\n\nAttacco senz'armi. Il Pirata Elite effettua un attacco senz'armi.\nPasso Rapido. Il Pirata Elite raggiunge la sua velocità massima senza provocare attacchi di opportunità.",
         "maxUses": 3,
         "uses": 0,
         "rest": null,
