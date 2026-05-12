@@ -123,6 +123,11 @@
         "file": "ahrel.json",
         "name": "Ahrel",
         "preview": "Umano · Lv 16"
+      },
+      {
+        "file": "linus.json",
+        "name": "Linus",
+        "preview": "Umano · Lv 16"
       }
     ],
     "ga": [
