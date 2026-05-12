@@ -1,40 +1,40 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-12T14:44:22.652Z",
+  "exportedAt": "2026-05-12T14:56:12.435Z",
   "character": {
     "id": "mp2qroqkuy0s",
     "name": "Ahrel",
-    "race": "Umano",
+    "race": "Demone",
     "level": 16,
     "classes": "",
-    "ac": 20,
-    "hpMax": 150,
-    "hpCurrent": 150,
+    "ac": 19,
+    "hpMax": 146,
+    "hpCurrent": 148,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
-    "passivePerception": 20,
+    "passivePerception": 19,
     "profBonus": 5,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
-        "score": 18,
-        "mod": 4,
-        "save": 6,
-        "profSave": true
-      },
-      "DES": {
         "score": 21,
         "mod": 5,
         "save": 10,
         "profSave": true
       },
-      "COS": {
+      "DES": {
         "score": 18,
         "mod": 4,
-        "save": 4,
-        "profSave": false
+        "save": 9,
+        "profSave": true
+      },
+      "COS": {
+        "score": 20,
+        "mod": 5,
+        "save": 10,
+        "profSave": true
       },
       "INT": {
         "score": 18,
@@ -43,10 +43,10 @@
         "profSave": false
       },
       "SAG": {
-        "score": 20,
-        "mod": 5,
-        "save": 7,
-        "profSave": true
+        "score": 18,
+        "mod": 4,
+        "save": 4,
+        "profSave": false
       },
       "CAR": {
         "score": 20,
@@ -234,14 +234,14 @@
       },
       {
         "id": "mnysasmt0odk",
-        "name": "Lama Avvelenata",
+        "name": "Hell Fang",
         "stat": "FOR",
         "damage": "1d8+1d8+1d8+1d8+1d8",
-        "type": "Taglienti, contundenti",
+        "type": "contundenti",
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false,
-        "desc": "Il bersaglio deve superare un tiro salvezza su Costituzione con CD 17 o essere avvelenato per 1 ora. Se il tiro salvezza fallisce di 5 o più, il bersaglio è anche privo di sensi mentre è avvelenato in questo modo. Il bersaglio riprende conoscenza se subisce danni o se un'altra creatura compie un'azione per scuoterlo."
+        "desc": "Il bersaglio deve superare un tiro salvezza su Costituzione con CD 10 o essere demonizzato."
       }
     ],
     "abilities": [
@@ -276,18 +276,6 @@
         "type": "Passiva",
         "desc": " Ogniqualvolta il Pirata Elite effettua un tiro per colpire, una prova di caratteristica o un tiro salvezza, può decidere di tirare un d20 aggiuntivo. Può scegliere quale dei d20 utilizzare per il tiro per colpire, la prova di caratteristica o il tiro salvezza. Il Pirata Elite può cambiare l'esito di un tiro quando viene attaccato. Tira un d20, poi scegli se l'attacco utilizza il tiro dell'attaccante o quello del Pirata Elite. Se più di una creatura usa l'haki dell'osservazione per influenzare l'esito di un tiro, qualsiasi svantaggio o vantaggio derivante dall'haki dell'osservazione applicato al tiro verrà annullato; non vengono tirati dadi aggiuntivi.",
         "maxUses": 2,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": null,
-        "fav": false
-      },
-      {
-        "id": "mnyrj1rml4qj",
-        "name": "Haki del Conquistatore ",
-        "originId": "haki_re",
-        "type": "Azione bonus",
-        "desc": "Come azione bonus, l'Élite dei Pirati può manifestare la sua terrificante presenza. Ogni creatura a sua scelta che si trova entro 36 metri da essa e ne è consapevole deve superare un tiro salvezza su Saggezza con CD 18. Una creatura che fallisce diventa spaventata da essa per 1 minuto. Una creatura che fallisce questo tiro salvezza di 5 o più è incapacitata fino all'inizio del prossimo turno dell'Élite dei Pirati. La creatura può ripetere il tiro salvezza alla fine di ogni suo turno, ponendo fine all'effetto su di sé in caso di successo.",
-        "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
@@ -334,7 +322,7 @@
         "name": "Azione Leggendaria",
         "originId": "mnyreshqutwg",
         "type": "Azione",
-        "desc": "Il Pirata Elite può compiere 3 azioni leggendarie, scegliendo tra le opzioni seguenti. È possibile utilizzare una sola azione leggendaria alla volta e solo alla fine del turno di un'altra creatura. Il Pirata Elite recupera le azioni leggendarie spese all'inizio del suo turno.\n\nAttacco senz'armi. Il Pirata Elite effettua un attacco senz'armi.\nPasso Rapido. Il Pirata Elite raggiunge la sua velocità massima senza provocare attacchi di opportunità.\nImpeto del Conquistatore (Costo: 2 Azioni). L'Élite Pirata rilascia un'onda d'urto debilitante usando il suo spirito. Tutte le altre creature entro 18 metri dall'Élite Pirata devono superare un tiro salvezza su Forza con CD 17 o essere atterrate.",
+        "desc": "Il Pirata Elite può compiere 3 azioni leggendarie, scegliendo tra le opzioni seguenti. È possibile utilizzare una sola azione leggendaria alla volta e solo alla fine del turno di un'altra creatura. Il Pirata Elite recupera le azioni leggendarie spese all'inizio del suo turno.\n\nAttacco senz'armi. Il Pirata Elite effettua un attacco senz'armi.\nPasso Rapido. Il Pirata Elite raggiunge la sua velocità massima senza provocare attacchi di opportunità.\nAbyss Roar (Costo: 2 Azioni). L'Élite Pirata rilascia un'onda d'urto debilitante usando il suo spirito. Tutte le altre creature entro 18 metri dall'Élite Pirata devono superare un tiro salvezza su Forza con CD 17 o essere atterrate.",
         "maxUses": 3,
         "uses": 0,
         "rest": null,
@@ -612,7 +600,91 @@
     ],
     "notes": "Condition Immunities Charmed, exhaustion, frightened, poisoned\nSea Weakness. You are weak to water and seastone",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "17d8+68",
+        "total": 146,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 8
+            },
+            {
+              "sides": 8,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 8
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 8
+            }
+          ],
+          "bonus": 68,
+          "total": 146,
+          "formula": "17d8+68"
+        },
+        "timestamp": 1778597170803
+      }
+    ],
     "effects": []
   }
 }
