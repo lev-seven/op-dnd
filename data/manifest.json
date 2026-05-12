@@ -34,6 +34,13 @@
       "color": "#3008db",
       "isMaster": false,
       "ix": "0ca1e6d42945b330c85f03dc3b6695168fe2bc6921fe68cc0bfd6b7a5970ed3e"
+    },
+    {
+      "id": "luke",
+      "name": "Luke",
+      "color": "#3037da",
+      "isMaster": false,
+      "ix": "3adf32481439ea96850af4d2933f98265bd23fc1c6eac821a5776e950a22b8aa"
     }
   ],
   "characters": {
@@ -145,6 +152,13 @@
         "file": "zephyr.json",
         "name": "ZEPHYR",
         "preview": "Skypean · Lv 9 · Devilforged + Bruiser "
+      }
+    ],
+    "luke": [
+      {
+        "file": "liuk.json",
+        "name": "Liuk",
+        "preview": "Umano · Lv 16"
       }
     ]
   }
