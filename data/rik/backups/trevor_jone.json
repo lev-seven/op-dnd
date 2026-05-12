@@ -1,16 +1,16 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-12T15:20:59.380Z",
+  "exportedAt": "2026-05-12T15:25:02.833Z",
   "character": {
     "id": "mp2rdwuo4wqw",
     "name": "Trevor Jones",
     "race": "Umano",
     "level": 16,
     "classes": "",
-    "ac": 20,
-    "hpMax": 150,
-    "hpCurrent": 150,
+    "ac": 19,
+    "hpMax": 133,
+    "hpCurrent": 133,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -25,16 +25,16 @@
         "profSave": true
       },
       "DES": {
-        "score": 21,
-        "mod": 5,
-        "save": 10,
-        "profSave": true
-      },
-      "COS": {
         "score": 18,
         "mod": 4,
         "save": 4,
         "profSave": false
+      },
+      "COS": {
+        "score": 21,
+        "mod": 5,
+        "save": 10,
+        "profSave": true
       },
       "INT": {
         "score": 18,
@@ -234,14 +234,14 @@
       },
       {
         "id": "mnysasmt0odk",
-        "name": "Lama Avvelenata",
+        "name": "Spada",
         "stat": "FOR",
         "damage": "1d8+1d8+1d8+1d8+1d8",
         "type": "Taglienti, contundenti",
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false,
-        "desc": "Il bersaglio deve superare un tiro salvezza su Costituzione con CD 17 o essere avvelenato per 1 ora. Se il tiro salvezza fallisce di 5 o più, il bersaglio è anche privo di sensi mentre è avvelenato in questo modo. Il bersaglio riprende conoscenza se subisce danni o se un'altra creatura compie un'azione per scuoterlo."
+        "desc": ""
       }
     ],
     "abilities": [
@@ -612,7 +612,91 @@
     ],
     "notes": "Condition Immunities Charmed, exhaustion, frightened, poisoned\nSea Weakness. You are weak to water and seastone",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "17d8+68",
+        "total": 133,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 8
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 5
+            }
+          ],
+          "bonus": 68,
+          "total": 133,
+          "formula": "17d8+68"
+        },
+        "timestamp": 1778599349141
+      }
+    ],
     "effects": []
   }
 }
