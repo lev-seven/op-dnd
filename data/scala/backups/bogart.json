@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-05-06T16:02:32.711Z",
+  "exportedAt": "2026-05-12T16:02:40.392Z",
   "character": {
     "id": "mosnud83jjb6",
     "name": "Bogart",
@@ -682,6 +682,82 @@
         "concentration": false,
         "desc": "Brandisci l'arma usata per lanciare l'incantesimo ed effettui un attacco in mischia contro una creatura entro 1,5 metri da te. Se colpisci, il bersaglio subisce gli effetti normali dell'attacco con l'arma e puoi far sì che una fiamma verde balzi dal bersaglio verso un'altra creatura a tua scelta che puoi vedere entro 1,5 metri da esso. La seconda creatura subisce danni da fuoco pari al tuo modificatore di caratteristica da incantatore.",
         "higherLevels": "Al 5° livello, l'attacco in mischia infligge 1d8 danni da fuoco extra al bersaglio se va a segno, e il danno da fuoco alla seconda creatura aumenta a 1d8 + il tuo modificatore di caratteristica da incantatore. Entrambi i tiri per i danni aumentano di 1d8 all'11° livello (2d8 e 2d8) e al 17° livello (3d8 e 3d8).",
+        "prepared": true
+      },
+      {
+        "id": "mp2tajhqd1ae",
+        "name": "Warding Wind",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "10 minuti",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Un forte vento (20 miglia all'ora) soffia intorno a te in un raggio di 10 piedi e si muove con te, rimanendo centrato su di te. Il vento dura per tutta la durata dell'incantesimo. Il vento ha i seguenti effetti:\nAssorda te e le altre creature della sua zona. \nSpegne nella sua zona fiamme non protette, grandi quanto una torcia o più piccole. \nLa zona è un terreno difficile per creature diverse da te. \nI tiri d'attacco degli attacchi con armi a distanza presentano degli svantaggi se passano dentro o fuori dal vento. \nProtegge da vapore, gas e nebbia che possono essere dispersi dal vento forte.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp2te2kncai3",
+        "name": "Earth Tremor",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "3m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Provochi una scossa nel terreno in un raggio di 10 piedi. Ogni creatura diversa da te in quell'area deve effettuare un tiro salvezza sulla Destrezza. In caso di salvataggio fallito, una creatura subisce 1d6 danni contundenti e viene messa a terra. Se il terreno in quella zona è costituito da terra sciolta o pietra, diventa un terreno difficile finché non viene ripulito.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp2tg86zr6kg",
+        "name": "Shield",
+        "level": 1,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Appare una barriera invisibile di forza magica che ti protegge. Fino all'inizio del tuo turno successivo, hai un bonus di +5 alla CA, incluso contro l'attacco scatenante, e non subisci danni dal missile magico.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp2tjho3omre",
+        "name": "Cloud of Daggers",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Riempi l'aria con pugnali rotanti in un cubo di 5 piedi su ciascun lato, centrato su un punto che scegli nel raggio d'azione. Una creatura subisce 4d4 danni taglienti quando entra per la prima volta nell'area dell'incantesimo durante un turno o inizia il suo turno lì.",
+        "higherLevels": null,
         "prepared": true
       }
     ],
