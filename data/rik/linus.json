@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-12T15:00:59.253Z",
+  "exportedAt": "2026-05-12T15:20:12.850Z",
   "character": {
     "id": "mp2rd1pxbrtg",
     "name": "Linus",
@@ -9,8 +9,8 @@
     "level": 16,
     "classes": "",
     "ac": 20,
-    "hpMax": 150,
-    "hpCurrent": 150,
+    "hpMax": 145,
+    "hpCurrent": 145,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -222,26 +222,15 @@
     ],
     "attacks": [
       {
-        "id": "mnys5z5oommz",
-        "name": "Attacco senz'armi",
-        "stat": "FOR",
-        "damage": "1d6+1d6+1d8+1d8+1d8",
-        "type": "Contundente",
-        "bonusHit": 0,
-        "bonusDmg": 0,
-        "bonusActive": false,
-        "desc": "Il bersaglio deve superare un tiro salvezza su Forza con CD 17 o essere atterrato."
-      },
-      {
         "id": "mnysasmt0odk",
-        "name": "Lama Avvelenata",
-        "stat": "FOR",
-        "damage": "1d8+1d8+1d8+1d8+1d8",
-        "type": "Taglienti, contundenti",
-        "bonusHit": 0,
-        "bonusDmg": 0,
-        "bonusActive": false,
-        "desc": "Il bersaglio deve superare un tiro salvezza su Costituzione con CD 17 o essere avvelenato per 1 ora. Se il tiro salvezza fallisce di 5 o più, il bersaglio è anche privo di sensi mentre è avvelenato in questo modo. Il bersaglio riprende conoscenza se subisce danni o se un'altra creatura compie un'azione per scuoterlo."
+        "name": "Saintflare",
+        "stat": "DES",
+        "damage": "1d8+1d8+1d8+1d8+1d8 ",
+        "type": "Taglienti ",
+        "bonusHit": 3,
+        "bonusDmg": 3,
+        "bonusActive": true,
+        "desc": "Deals radiant damage and emits 20 feet of bright sunlight."
       }
     ],
     "abilities": [
@@ -282,18 +271,6 @@
         "fav": false
       },
       {
-        "id": "mnyrj1rml4qj",
-        "name": "Haki del Conquistatore ",
-        "originId": "haki_re",
-        "type": "Azione bonus",
-        "desc": "Come azione bonus, l'Élite dei Pirati può manifestare la sua terrificante presenza. Ogni creatura a sua scelta che si trova entro 36 metri da essa e ne è consapevole deve superare un tiro salvezza su Saggezza con CD 18. Una creatura che fallisce diventa spaventata da essa per 1 minuto. Una creatura che fallisce questo tiro salvezza di 5 o più è incapacitata fino all'inizio del prossimo turno dell'Élite dei Pirati. La creatura può ripetere il tiro salvezza alla fine di ogni suo turno, ponendo fine all'effetto su di sé in caso di successo.",
-        "maxUses": 1,
-        "uses": 0,
-        "rest": "lungo",
-        "cdStat": null,
-        "fav": false
-      },
-      {
         "id": "mnyrlfxg9s0d",
         "name": "Incantesimi Innati",
         "originId": "mnyrruof6538",
@@ -322,7 +299,7 @@
         "name": "Attacco multiplo",
         "originId": "mnyrruof6538",
         "type": "Azione",
-        "desc": "Il Pirata Elite effettua un attacco con la sua lama avvelenata e due con i suoi colpi senz'armi.",
+        "desc": "Il Pirata Elite effettua due attacchi con la spada.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -334,7 +311,7 @@
         "name": "Azione Leggendaria",
         "originId": "mnyreshqutwg",
         "type": "Azione",
-        "desc": "Il Pirata Elite può compiere 3 azioni leggendarie, scegliendo tra le opzioni seguenti. È possibile utilizzare una sola azione leggendaria alla volta e solo alla fine del turno di un'altra creatura. Il Pirata Elite recupera le azioni leggendarie spese all'inizio del suo turno.\n\nAttacco senz'armi. Il Pirata Elite effettua un attacco senz'armi.\nPasso Rapido. Il Pirata Elite raggiunge la sua velocità massima senza provocare attacchi di opportunità.\nImpeto del Conquistatore (Costo: 2 Azioni). L'Élite Pirata rilascia un'onda d'urto debilitante usando il suo spirito. Tutte le altre creature entro 18 metri dall'Élite Pirata devono superare un tiro salvezza su Forza con CD 17 o essere atterrate.",
+        "desc": "Il Pirata Elite può compiere 3 azioni leggendarie, scegliendo tra le opzioni seguenti. È possibile utilizzare una sola azione leggendaria alla volta e solo alla fine del turno di un'altra creatura. Il Pirata Elite recupera le azioni leggendarie spese all'inizio del suo turno.\n\nAttacco senz'armi. Il Pirata Elite effettua un attacco senz'armi.\nPasso Rapido. Il Pirata Elite raggiunge la sua velocità massima senza provocare attacchi di opportunità.\n",
         "maxUses": 3,
         "uses": 0,
         "rest": null,
@@ -612,7 +589,91 @@
     ],
     "notes": "Condition Immunities Charmed, exhaustion, frightened, poisoned\nSea Weakness. You are weak to water and seastone",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "17d8+68",
+        "total": 145,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 4
+            },
+            {
+              "sides": 8,
+              "value": 3
+            },
+            {
+              "sides": 8,
+              "value": 1
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 7
+            },
+            {
+              "sides": 8,
+              "value": 6
+            }
+          ],
+          "bonus": 68,
+          "total": 145,
+          "formula": "17d8+68"
+        },
+        "timestamp": 1778598202041
+      }
+    ],
     "effects": []
   }
 }
