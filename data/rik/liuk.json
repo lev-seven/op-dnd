@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-12T11:02:38.664Z",
+  "exportedAt": "2026-05-12T11:26:28.596Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -259,7 +259,46 @@
         "fav": false
       }
     ],
-    "spells": [],
+    "spells": [
+      {
+        "id": "mp2ji15lb8ww",
+        "name": "Zephyr stikre",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Ti muovi come il vento. Per tutta la durata, il tuo movimento non provoca attacchi di opportunità.\n\nUna volta prima che l'incantesimo finisca, puoi darti vantaggio su un tiro di attacco con armi al tuo turno. Quell'attacco infligge un ulteriore 1d8 danno di forza su un colpo. Che tu colpisca o manchi, la tua velocità di camminata aumenta di 30 piedi fino alla fine di quel turno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp2jkohm3jek",
+        "name": "Kinetic Jaunt",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "personale",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "\n    La velocità di camminata aumenta di 10 piedi.\n\n    Non si provocano attacchi di opportunità.\n\n    Puoi muoverti attraverso lo spazio di un'altra creatura, e non conta come terreno difficile. Se si termina il proprio turno nello spazio di un'altra creatura, si viene spostati nell'ultimo spazio non occupato che hai occupato, e si subiscono danni da 1d8 forza.\n",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
     "notes": "",
     "backstory": "",
     "diceLog": [],
