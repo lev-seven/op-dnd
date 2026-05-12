@@ -118,6 +118,11 @@
         "file": "yago.json",
         "name": "Yago",
         "preview": "Skypean · Lv 10"
+      },
+      {
+        "file": "ahrel.json",
+        "name": "Ahrel",
+        "preview": "Umano · Lv 16"
       }
     ],
     "ga": [
