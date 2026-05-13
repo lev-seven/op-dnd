@@ -98,17 +98,6 @@ async function ghLog(owner,action,token,accId,isMaster,accName){
   try{await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)});}catch{}
 }
 
-/* Helper per leggere manifest da API GitHub (non CDN) */
-async function readManifestAPI(token){
-  const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
-  const api=`https://api.github.com/repos/${user}/${repo}/contents/data/manifest.json`;
-  const hd={"Authorization":`token ${token}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
-  const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});
-  if(!r.ok)return null;
-  const j=await r.json();
-  return JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,"")))));
-}
-
 const SESS_KEY="dnd_session";
 function saveSession(accId,char){try{sessionStorage.setItem(SESS_KEY,JSON.stringify({accId,char,ts:Date.now()}));}catch{}}
 function loadSession(accId){try{const d=JSON.parse(sessionStorage.getItem(SESS_KEY));if(d&&d.accId===accId&&d.char&&(Date.now()-d.ts)<1200000)return d.char;return null;}catch{return null;}}
@@ -157,36 +146,17 @@ function AppWrapper(){
   const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
 
   /* ═══ TOKEN: criptato hardcoded — generare con encToken() in console ═══ */
-  const ENC_TOKEN='{"i":[242,249,198,195,246,210,98,134,255,226,240,153],"d":[148,242,152,171,152,64,50,218,165,16,218,113,113,11,148,221,116,85,97,45,231,18,207,128,212,212,200,11,90,248,255,92,229,68,116,237,188,231,33,232,240,16,21,173,86,207,155,143,82,149,153,66,50,154,139,109,175,7,79,164,149,243,225,243,231,139,48,66,111,107,225,243,115,85,40,211,14,87,30,113,116,222,55,107,165,22,182,89,187,221,86,21,242,253,178,107,129,188,255,28,14,20,94,161,110,101,6,57,152]}';
+  const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
   const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
 
   /* ═══ SAVE TO GITHUB (con manifest update integrato) ═══ */
   const saveToGH=async(owner,file,charObj)=>{
     if(!ghToken||!BASE())return false;
-    // Backup
     try{await ghPut(`data/${owner}/backups/${file}`,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);}catch{}
-    // Save
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
     const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(ok)clearSession();
     if(ok)ghLog(owner,"Salvataggio "+file,ghToken,accId,isMaster,acc?.name);
-    // Update manifest preview
-    if(ok){try{
-      const mRaw=await readManifestAPI(ghToken);
-      if(mRaw){
-        const list=mRaw.characters[owner]||[];
-        const entry=list.find(x=>x.file===file);
-        if(entry){
-          const newName=charObj.name||entry.name;
-          const newPrev=`${charObj.race||"?"} · Lv ${charObj.level||1}${charObj.classes?" · "+charObj.classes:""}`;
-          if(entry.name!==newName||entry.preview!==newPrev){
-            entry.name=newName;entry.preview=newPrev;
-            await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);
-            setManifest(mRaw);
-          }
-        }
-      }
-    }catch(e){console.error("Manifest preview update:",e);}}
     return ok;
   };
 
@@ -195,26 +165,15 @@ function AppWrapper(){
     if(!ghToken||!BASE()||!accId)return null;
     const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
     const owner=accId;
-    // Check duplicati
-    const mChars=manifest?.characters?.[owner]||[];
-    if(mChars.find(x=>x.file===fname)){alert("Esiste già un PG con un nome simile. Cambia il nome prima di salvare.");return null;}
-    // Save file
+    // Check duplicati via API
+    try{
+      const existing=await listCharsGH(owner);
+      if(existing.find(x=>x.file===fname)){alert("Esiste già un PG con un nome simile. Cambia il nome prima di salvare.");return null;}
+    }catch{}
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
     const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(!ok)return null;
     ghLog(owner,"Nuovo PG "+fname,ghToken,accId,isMaster,acc?.name);
-    // Update manifest
-    try{
-      const mRaw=await readManifestAPI(ghToken);
-      if(mRaw){
-        if(!mRaw.characters[owner])mRaw.characters[owner]=[];
-        if(!mRaw.characters[owner].find(x=>x.file===fname)){
-          mRaw.characters[owner].push({file:fname,name:charObj.name,preview:`${charObj.race||"?"} · Lv ${charObj.level||1}${charObj.classes?" · "+charObj.classes:""}`});
-          await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);
-          setManifest(mRaw);
-        }
-      }
-    }catch(e){console.error("Manifest new PG update failed:",e);}
     clearSession();
     setToast("PG creato! Il sito potrebbe impiegare 1-2 minuti ad aggiornare la lista.");
     setTimeout(()=>setToast(null),6000);
@@ -231,10 +190,6 @@ function AppWrapper(){
     await del(`data/${owner}/${file}`);
     await del(`data/${owner}/${file.replace(".json","")}.jpg`);
     await del(`data/${owner}/backups/${file}`);
-    try{
-      const mRaw=await readManifestAPI(ghToken);
-      if(mRaw){if(mRaw.characters[owner])mRaw.characters[owner]=mRaw.characters[owner].filter(x=>x.file!==file);await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,isMaster,acc?.name);setManifest(mRaw);}
-    }catch{}
     ghLog(owner,"Eliminato "+file,ghToken,accId,isMaster,acc?.name);
     return true;
   };
@@ -243,18 +198,36 @@ function AppWrapper(){
   const duplicateCharGH=async(owner,file,charObj,newName)=>{
     if(!ghToken||!accId)return null;
     const fname=newName.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
-    const mChars=manifest?.characters?.[owner]||[];
-    if(mChars.find(x=>x.file===fname))return null;
+    try{const existing=await listCharsGH(owner);if(existing.find(x=>x.file===fname))return null;}catch{}
     const newChar={...charObj,id:uid(),name:newName};
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:newChar};
     const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster,acc?.name);
     if(!ok)return null;
-    try{
-      const mRaw=await readManifestAPI(ghToken);
-      if(mRaw){if(!mRaw.characters[owner])mRaw.characters[owner]=[];mRaw.characters[owner].push({file:fname,name:newName,preview:`${newChar.race||"?"} · Lv ${newChar.level||1}${newChar.classes?" · "+newChar.classes:""}`});await ghPut("data/manifest.json",JSON.stringify(mRaw,null,2),ghToken,accId,acc?.isMaster,acc?.name);setManifest(mRaw);}
-    }catch{}
     ghLog(owner,"Duplicato "+file+" → "+fname,ghToken,accId,isMaster,acc?.name);
     return{owner,file:fname};
+  };
+
+  /* ═══ LISTA PG DA DIRECTORY GITHUB API ═══ */
+  const listCharsGH=async(owner)=>{
+    const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+    const api=`https://api.github.com/repos/${user}/${repo}/contents/data/${owner}`;
+    const hd=ghToken?{"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}:{"Accept":"application/vnd.github+json"};
+    try{
+      const r=await fetch(api+"?t="+Date.now(),{headers:hd,cache:"no-store"});
+      if(!r.ok)return[];
+      const files=await r.json();
+      if(!Array.isArray(files))return[];
+      const jsons=files.filter(f=>f.name.endsWith(".json")&&f.type==="file");
+      const chars=[];
+      for(const f of jsons){
+        try{
+          const raw=await fetch(f.download_url+"?t="+Date.now()).then(r=>r.json());
+          const ch=raw.character||raw;
+          if(ch.name&&ch.stats)chars.push({file:f.name,name:ch.name,preview:`${ch.race||"?"} · Lv ${ch.level||1}${ch.classes?" · "+ch.classes:""}`});
+        }catch{}
+      }
+      return chars;
+    }catch{return[];}
   };
 
   const sessionChar=accId?loadSession(accId):null;
@@ -280,18 +253,11 @@ function AppWrapper(){
         setScreen("characters");
       }}/>}
 
-      {!loading&&screen==="characters"&&(()=>{
-        let sections=[];const mChars=manifest?.characters||{};
-        if(isMaster){
-          const own=mChars[accId]||[];if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
-          manifest?.accounts?.filter(a=>a.id!==accId).forEach(a=>{const ch=mChars[a.id]||[];if(ch.length>0)sections.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color});});
-        }else{const own=mChars[accId]||[];if(own.length>0)sections.push({label:"I Miei PG",owner:accId,chars:own,color:ac});}
-        return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster}
+      {!loading&&screen==="characters"&&<CharScreenLoader acc={acc} ac={ac} isMaster={isMaster} accId={accId} manifest={manifest} listCharsGH={listCharsGH}
           onBack={()=>{setAccId(null);setScreen("accounts");}}
           onNew={()=>{setChar(newChar(""));setCharMeta(null);setScreen("sheet");}}
           onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");}}
-          onImportFile={()=>fileRef.current?.click()} loading={loading}/>;
-      })()}
+          onImportFile={()=>fileRef.current?.click()} loading={loading}/>}
 
       {!loading&&screen==="sheet"&&char&&
         <Sheet char={char} onDelete={()=>{clearSession();setChar(null);setCharMeta(null);setScreen("characters");}} duplicateCharGH={duplicateCharGH} deleteCharGH={deleteCharGH} isMaster={isMaster} up={upChar} ac={ac} acc={acc} charMeta={charMeta} ghToken={ghToken} saveToGH={saveToGH} saveNewToGH={saveNewToGH} setCharMeta={setCharMeta} accId={accId}
@@ -347,6 +313,30 @@ function AccountsScreen({manifest,onAuth}){
       </div>
     </div>
   );
+}
+
+/* ═══ CHARACTER SELECT LOADER ═══ */
+function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onNew,onLoadGH,onImportFile,loading}){
+  const[sections,setSections]=useState([]);
+  const[loadingChars,setLoadingChars]=useState(true);
+  useEffect(()=>{
+    if(!accId)return;
+    (async()=>{
+      setLoadingChars(true);
+      const secs=[];
+      const own=await listCharsGH(accId);
+      if(own.length>0)secs.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
+      if(isMaster){
+        const others=manifest?.accounts?.filter(a=>a.id!==accId)||[];
+        for(const a of others){
+          const ch=await listCharsGH(a.id);
+          if(ch.length>0)secs.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color});
+        }
+      }
+      setSections(secs);setLoadingChars(false);
+    })();
+  },[accId]);
+  return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster} onBack={onBack} onNew={onNew} onLoadGH={onLoadGH} onImportFile={onImportFile} loading={loading||loadingChars}/>;
 }
 
 function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile,loading}){
