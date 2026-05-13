@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T12:47:14.852Z",
+  "exportedAt": "2026-05-13T14:06:51.396Z",
   "character": {
     "id": "mp3zgo4mec5g",
     "name": "Calypso",
@@ -375,6 +375,30 @@
         "type": "Passiva",
         "desc": "Starting at 3rd Level, when you cast Druidcraft, you can perform the following additional tasks with it:\n\nYou can make your next Ranged Weapon attack deal fire, cold, or lightning damage instead. You can use this feature a number of times equal to twice your Intelligence modifier. You regain all uses of this feature again once you complete a short or long rest.\nYou can enhance any natural shell and turn it into a Simple Dial of your choice. You can't use this feature again until you complete a long rest. You can have a number of Dials created this way equal to your Intelligence Modifier. You can cast this spell again to remove the properties from a Simple Dial you created and revert it back to a normal shell.\nYou create a natural trap of your choice. This works the same as a Hunting Trap or Caltrops (pick one). You can use this feature a number of times equal to twice your Intelligence modifier. You regain all uses of this feature again once you complete a short or long rest.",
         "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp421rs9r64z",
+        "name": "Soul Armor",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "You can form a thin coating of invisible armor around your body using your soul.\n\nAs an action, you surround your body with this armor, making your AC equal to 13 + your Constitution modifier when you aren't wearing armor. This armor lasts for 8 hours. You cannot use this feature agian until you finish a long rest.You can form a thin coating of invisible armor around your body using your soul.\n\nAs an action, you surround your body with this armor, making your AC equal to 13 + your Constitution modifier when you aren't wearing armor. This armor lasts for 8 hours. You cannot use this feature agian until you finish a long rest.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp423qcf30gp",
+        "name": "Weapon Hardening",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "You gain the ability to coat your weapons and attacks with your spirit. The heavier the application, the darker the coating is.\n\nAs a bonus action, you channel haki into your body or a weapon of your choice. If you choose your body, you choose either your unarmed strikes or a natural weapon. For 1 minute, your attacks with the chosen weapon are considered magical with a +1 bonus to Attack rolls and Damage Rolls.\n\nIf the attack already has a bonus to its attack and damage rolls, this feature replaces the bonus unless it is greater, in which case it does not gain this feature’s benefit.\n\nThis effect ends early if you fall unconscious, use it again, end it as a bonus action, or start your turn not holding or touching the weapon you coated. Once you use this ability a number of times equal to your proficiency bonus, you can't use it again until you finish a long rest.\n\nIf the Spirit Surge Event has a rarity higher than Rare, use these bonuses:\n\nRare. The chosen weapon gains a +2 bonus to Attack rolls and Damage Rolls instead.\n\nVery Rare. The chosen weapon gains a +3 bonus to Attack rolls and Damage Rolls instead.",
+        "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
