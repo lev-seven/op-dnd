@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-13T12:38:18.887Z",
+  "exportedAt": "2026-05-13T12:41:12.810Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -311,7 +311,7 @@
         "name": "Vantage Point",
         "originId": "mp2in2kqs3hr",
         "type": "Passiva",
-        "desc": "vantaggio su furtivitá se il muovimento non supera la meta di velocita",
+        "desc": "vantaggio su furtivitá se il muovimento non supera la meta di velocita (4,5m)",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
