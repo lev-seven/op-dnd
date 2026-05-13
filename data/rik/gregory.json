@@ -1,16 +1,16 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T15:50:16.290Z",
+  "exportedAt": "2026-05-13T16:03:13.540Z",
   "character": {
     "id": "mp48fadhd5gt",
     "name": "Gregory",
     "race": "Umano",
-    "level": 1,
+    "level": 7,
     "classes": "Marksman ",
     "ac": 10,
-    "hpMax": 10,
-    "hpCurrent": 10,
+    "hpMax": 9,
+    "hpCurrent": 9,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -21,37 +21,37 @@
       "FOR": {
         "score": 8,
         "mod": -1,
-        "save": -1,
-        "profSave": false
+        "save": 1,
+        "profSave": true
       },
       "DES": {
-        "score": 15,
-        "mod": 2,
-        "save": 2,
-        "profSave": false
+        "score": 20,
+        "mod": 5,
+        "save": 7,
+        "profSave": true
       },
       "COS": {
-        "score": 9,
-        "mod": -1,
-        "save": -1,
+        "score": 12,
+        "mod": 1,
+        "save": 1,
         "profSave": false
       },
       "INT": {
-        "score": 8,
-        "mod": -1,
-        "save": -1,
+        "score": 5,
+        "mod": -3,
+        "save": -3,
         "profSave": false
       },
       "SAG": {
-        "score": 15,
-        "mod": 2,
-        "save": 2,
+        "score": 16,
+        "mod": 3,
+        "save": 3,
         "profSave": false
       },
       "CAR": {
-        "score": 11,
-        "mod": 0,
-        "save": 0,
+        "score": 9,
+        "mod": -1,
+        "save": -1,
         "profSave": false
       }
     },
@@ -79,12 +79,12 @@
       {
         "name": "Furtività",
         "stat": "DES",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Indagare",
         "stat": "INT",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Inganno",
@@ -119,7 +119,7 @@
       {
         "name": "Percezione",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "mastery"
       },
       {
         "name": "Persuasione",
@@ -208,10 +208,76 @@
         "id": "fdd",
         "name": "Frutto del diavolo",
         "color": "#f46fc1"
+      },
+      {
+        "id": "mp48qrqwcoh1",
+        "name": "Marksman",
+        "color": "#bc1a71"
       }
     ],
     "attacks": [],
-    "abilities": [],
+    "abilities": [
+      {
+        "id": "mp48qccjndox",
+        "name": "Hawk-Eyed",
+        "originId": "mp48qrqwcoh1",
+        "type": "Passiva",
+        "desc": "At 1st level, your proficiency bonus is doubled when making Perception checks. If your proficiency bonus is already doubled for the perception skill, you may choose another skill that uses your Wisdom modifier. Your proficiency bonus is now doubled for any ability check that uses the chosen proficiency instead",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp48ryfwfrlq",
+        "name": "Lock-On",
+        "originId": "mp48qrqwcoh1",
+        "type": "Passiva",
+        "desc": "Beginning at 1st level, you focus your aim and killing intent onto one creature to target their weak points. When you hit a creature with an attack roll using a firearm or sling, you can mark the target for 1 minute.\n\nThe first time on each of your turns that you hit the marked enemy and deal damage to it, including when you mark it, you increase that damage by 1d4.\n\nYou can use this feature to mark a creature a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.\n\nThis feature's extra damage increases when you reach certain levels in this class: to 1d6 at 6th level and to 1d8 at 14th level.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp48udlsigih",
+        "name": "Close Quarters Shooter",
+        "originId": "mp48qrqwcoh1",
+        "type": "Passiva",
+        "desc": "When making a ranged attack with a firearm or sling while you are within 5 feet of a hostile creature, you do not have disadvantage on the attack roll. Your ranged attacks with a firearm or sling ignore half cover and three-quarters cover against targets within 30 feet of you. You have a +1 bonus to attack rolls on ranged attacks with a firearm or sling.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp48vteomh9m",
+        "name": "Gunsmith",
+        "originId": "mp48qrqwcoh1",
+        "type": "Passiva",
+        "desc": "Beginning at 2nd level, you can use your Tinker's Tools to craft any type of nonmagical firearm or sling and ammunition for a weapon you possess by spending half of the standard cost listed in Chapter 5. During a successful long rest, you must have spent at least 1 hour during it to completely build one firearm or up to five pieces of ammunition. You cannot repeat this process until the next time you complete a long rest.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp48xpbk6uoq",
+        "name": "Prey Awareness",
+        "originId": "mp48qrqwcoh1",
+        "type": "Passiva",
+        "desc": "Beginning at 3rd level, you can use your action to expend 1 Tactic Slot to focus your awareness on the region around you. For 1 minute per Tactic Slot you expend, you can sense whether the following types of creatures are present within 1 mile of you: aberrations, celestials, dragons, elementals, fey, fiends, and undead. This feature doesn't reveal the creatures' location or number.\n\nAdditionally, you may select one creature you have seen before when you activate this feature. While this feature is active, you know if the target creature is within 1 mile of you, but not its exact location.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      }
+    ],
     "spells": [],
     "notes": "",
     "backstory": "",
