@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-13T14:16:56.513Z",
+  "exportedAt": "2026-05-13T14:19:29.478Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -31,15 +31,15 @@
         "profSave": true
       },
       "COS": {
-        "score": 11,
-        "mod": 0,
-        "save": 0,
-        "profSave": false
-      },
-      "INT": {
         "score": 13,
         "mod": 1,
         "save": 1,
+        "profSave": false
+      },
+      "INT": {
+        "score": 11,
+        "mod": 0,
+        "save": 0,
         "profSave": false
       },
       "SAG": {
