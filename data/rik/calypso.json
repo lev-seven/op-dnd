@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T11:59:27.445Z",
+  "exportedAt": "2026-05-13T12:12:59.571Z",
   "character": {
     "id": "mp3zgo4mec5g",
     "name": "Calypso",
@@ -84,7 +84,7 @@
       {
         "name": "Indagare",
         "stat": "INT",
-        "prof": "prof"
+        "prof": "mastery"
       },
       {
         "name": "Inganno",
@@ -119,7 +119,7 @@
       {
         "name": "Percezione",
         "stat": "SAG",
-        "prof": "prof"
+        "prof": "mastery"
       },
       {
         "name": "Persuasione",
@@ -148,14 +148,14 @@
       }
     ],
     "spellSlots": {
-      "cantrips": 0,
+      "cantrips": 9,
       "slots": {
         "1": {
-          "max": 0,
+          "max": 4,
           "used": 0
         },
         "2": {
-          "max": 0,
+          "max": 2,
           "used": 0
         },
         "3": {
@@ -298,6 +298,54 @@
         "maxUses": -1,
         "uses": 0,
         "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40eba2g1hn",
+        "name": " Elemental Trickster",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Elemental Tricksters have mastered the science of many complex traps, tools, and plants. They may use these tools to aid in combat or simply create a number of illusory effects to distract your opponent.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40f5lej1q6",
+        "name": "Bonus Proficiencies",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "When you choose this archetype at 3rd Level, you gain proficiency with darts, blowguns, and giant slings.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40g2iu09at",
+        "name": "Nature Powers (Spellcsating)",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "When you reach 3rd Level, you gain the ability to cast Nature Powers (Spells). See the general rules of Spellcasting and the Tinkerer spell list in chapter 8.\n\nNatural Abilities (Cantrips). You learn three natural abilities (cantrips): Druidcraft and two other Cantrips of your choice from the Tinkerer spell list. You learn another tinkerer cantrip of your choice at 10th level.\n\nNature Power Slots (Spell Slots). The Elemental Trickster Nature Powers table shows how many Nature Power Slots you have to cast Tinkerer Spells of 1st Level and higher as Nature Powers. To cast one of these Nature Powers (spells)⁠, you must expend a slot of the nature power’s level or higher. You regain all expended Nature Power Slots when you finish a Long Rest.\n\nFor example, if you know the 1st-level nature power Charm Person and have a 1st-level and a 2nd-level slot available, you can use charm person⁠ using either slot.\n\nNature Powers (Spells) Known of 1st-Level and Higher. You know three 1st-level Tinkerer Spells of your choice, two of which you must choose from the Enchantment and Illusion spells⁠ on the tinkerer spell list.\n\nThe Natural Powers Known (Spells Known) column of the Elemental Trickster Natural Powers table shows when you learn more Tinkerer spells⁠ of 1st Level or higher. Each of these spells⁠ must be an Enchantment or Illusion spell of your choice, and must be of a level for which you have Spell Slots. For instance, when you reach 7th level in this class, you can learn one new spell of 1st or 2nd Level.\n\nThe Nature Powers (Spells) you learn at 8th, 14th, and 20th level can come from any school of magic.\n\nWhenever you gain a level in this class, you can replace one of the Tinkerer Spells you know with another nature power (spell) of your choice from the tinkerer⁠ spell list. The new nature power must be of a level for which you have Nature Power Slots, and it must be an Enchantment or Illusion nature power (spell), unless you're replacing the nature power you gained at 3rd, 8th, 14th, or 20th level from any school of magic.\n\nSpecial Power Ability. Intelligence is your Special Power ability for your Tinkerer spells⁠, since you learn your Nature Powers (Spells) through dedicated study and memorization. You use your Intelligence whenever a nature power (spell) refers to your Special Power (spellcasting⁠) ability. In addition, you use your Intelligence modifier when setting⁠ the saving throw DC for a tinkerer spell you cast and when making an Attack roll with one.\n\nSpecial Power save DC = 8 + your Proficiency Bonus + your Intelligence modifier\n\nSpecial Power Attack modifier = your Proficiency Bonus + your Intelligence modifier",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40i1kgnbnu",
+        "name": "Nature's Invention",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Starting at 3rd Level, when you cast Druidcraft, you can perform the following additional tasks with it:\n\nYou can make your next Ranged Weapon attack deal fire, cold, or lightning damage instead. You can use this feature a number of times equal to twice your Intelligence modifier. You regain all uses of this feature again once you complete a short or long rest.\nYou can enhance any natural shell and turn it into a Simple Dial of your choice. You can't use this feature again until you complete a long rest. You can have a number of Dials created this way equal to your Intelligence Modifier. You can cast this spell again to remove the properties from a Simple Dial you created and revert it back to a normal shell.\nYou create a natural trap of your choice. This works the same as a Hunting Trap or Caltrops (pick one). You can use this feature a number of times equal to twice your Intelligence modifier. You regain all uses of this feature again once you complete a short or long rest.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
         "cdStat": null,
         "fav": false
       }
