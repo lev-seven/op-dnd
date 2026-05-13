@@ -1,12 +1,12 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T12:47:03.055Z",
+  "exportedAt": "2026-05-13T12:47:14.852Z",
   "character": {
     "id": "mp3zgo4mec5g",
     "name": "Calypso",
     "race": "Umano Kuja",
-    "level": 1,
+    "level": 8,
     "classes": "Rogue",
     "ac": 15,
     "hpMax": 69,
