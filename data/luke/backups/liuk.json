@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-13T12:42:16.342Z",
+  "exportedAt": "2026-05-13T13:01:36.518Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -212,12 +212,17 @@
       {
         "id": "mp2imikn5nyv",
         "name": "Tontatta",
-        "color": "#000000"
+        "color": "#00ff00"
       },
       {
         "id": "mp2in2kqs3hr",
         "name": "Marksman",
         "color": "#ff8000"
+      },
+      {
+        "id": "mp41z2hhrx1a",
+        "name": "Frutto",
+        "color": "#ff0000"
       }
     ],
     "attacks": [],
@@ -312,6 +317,30 @@
         "originId": "mp2in2kqs3hr",
         "type": "Passiva",
         "desc": "vantaggio su furtivitá se il muovimento non supera la meta di velocita (4,5m)",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp420ntgv50b",
+        "name": "Debolezza marina",
+        "originId": "mp41z2hhrx1a",
+        "type": "Passiva",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp424wu3wbyx",
+        "name": "Paw Push",
+        "originId": "mp41z2hhrx1a",
+        "type": "Azione",
+        "desc": "Spingi una creatura fino ad un massimo di 9m ogni 3m é 1d6 (se colpisce una superfice solida )se la seconda creatura viene colpita dalla prima deve fare tiro salvezza su destrezza contro CD fruttolo o subire lo stesso danno e va prono",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
