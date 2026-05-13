@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-14T14:08:48.058Z",
+  "exportedAt": "2026-05-13T14:39:32.005Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -731,6 +731,31 @@
         "rest": "lungo",
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mp45ve3g0kwg",
+        "name": "King's Resolve",
+        "originId": "haki_re",
+        "type": "Reazione",
+        "desc": "Your indomitable spirit can overcome even the most dire circumstances.\n\nAs a reaction when you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. Once you use this ability, you can't use it again until you finish a long rest.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp45xhuygz31",
+        "name": "Roar of the Monarch",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Your powerful will resonates through your voice, making it a weapon on its own.\n\nAs an action, you can release a thunderous yell. Each creature within a 15-foot cone must make a Constitution saving throw or be deafened and stunned until the end of your next turn. Once you use this feature, you can't use it again until you finish a long rest.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 14
       }
     ],
     "spells": [
