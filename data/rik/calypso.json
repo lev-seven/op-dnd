@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T11:42:42.422Z",
+  "exportedAt": "2026-05-13T11:59:27.445Z",
   "character": {
     "id": "mp3zgo4mec5g",
     "name": "Calypso",
@@ -9,8 +9,8 @@
     "level": 1,
     "classes": "Rogue",
     "ac": 10,
-    "hpMax": 10,
-    "hpCurrent": 10,
+    "hpMax": 69,
+    "hpCurrent": 69,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -25,15 +25,15 @@
         "profSave": false
       },
       "DES": {
-        "score": 16,
-        "mod": 3,
-        "save": 5,
+        "score": 20,
+        "mod": 5,
+        "save": 7,
         "profSave": true
       },
       "COS": {
-        "score": 14,
-        "mod": 2,
-        "save": 2,
+        "score": 16,
+        "mod": 3,
+        "save": 3,
         "profSave": false
       },
       "INT": {
@@ -59,7 +59,7 @@
       {
         "name": "Acrobazia",
         "stat": "DES",
-        "prof": "none"
+        "prof": "mastery"
       },
       {
         "name": "Addestrare Animali",
@@ -79,12 +79,12 @@
       {
         "name": "Furtività",
         "stat": "DES",
-        "prof": "none"
+        "prof": "mastery"
       },
       {
         "name": "Indagare",
         "stat": "INT",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Inganno",
@@ -119,7 +119,7 @@
       {
         "name": "Percezione",
         "stat": "SAG",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Persuasione",
@@ -208,10 +208,100 @@
         "id": "fdd",
         "name": "Frutto del diavolo",
         "color": "#f46fc1"
+      },
+      {
+        "id": "mp3zvtt5tpzl",
+        "name": "Rogue",
+        "color": "#1a3dbc"
       }
     ],
     "attacks": [],
-    "abilities": [],
+    "abilities": [
+      {
+        "id": "mp3zwcdjz6yw",
+        "name": "Expertise",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.\n\nAt 6th level, you can choose two more of your proficiencies (in skills or with thieves' tools) to gain this benefit.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp3zyhsfyoav",
+        "name": "Sneak Attack",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Beginning at 1st level, you know how to strike subtly and exploit a foe's distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.\n\nYou don't need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn't incapacitated, and you don't have disadvantage on the attack roll.\n\nThe amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp3zzoq9stas",
+        "name": "Thieves' Cant",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "During your rogue training you learned thieves' cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves' cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly.\n\nIn addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves' guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp401y0pymoc",
+        "name": "Cunning Action",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Starting at 2nd level, your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp4040rkhk96",
+        "name": "Steady Aim",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Azione bonus",
+        "desc": "At 3rd level, as a bonus action, you give yourself advantage on your next attack roll on the current turn. You can use this bonus action only if you haven't moved during this turn, and after you use the bonus action, your speed is 0 until the end of the current turn.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp4084frw4zt",
+        "name": "Uncanny Dodge",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Reazione",
+        "desc": "Starting at 5th level, when an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp409t0efnb8",
+        "name": "Evasion",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Beginning at 7th level, you can nimbly dodge out of the way of certain area Effects, such as a devil fruit user's fireball ability or an Ice Storm attack. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      }
+    ],
     "spells": [],
     "notes": "",
     "backstory": "",
