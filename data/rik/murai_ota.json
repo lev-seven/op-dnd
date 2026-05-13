@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-04-14T14:08:48.058Z",
+  "exportedAt": "2026-05-13T15:31:38.473Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -553,18 +553,6 @@
         "fav": false
       },
       {
-        "id": "mnync9azins6",
-        "name": "Color of Armament ",
-        "originId": "haki_arm",
-        "type": "Passiva",
-        "desc": "Abilità di Incantesimo Haki dell'Armamento \nLa Costituzione è la tua abilità di lancio incantesimi per il colore degli incantesimi dell'arma, poiché la forza di questo haki è determinata dalla tua resistenza complessiva. Usi la tua Costituzione ogni volta che un incantesimo Armament Haki si riferisce alla tua abilità di incantesimo. Inoltre, usi il modificatore della Costituzione quando imposti la CD del tiro salvezza per un incantesimo haki di armamento che lanci e quando effettui un tiro d'attacco con uno. \nCD tiro salvezza dell'Haki dell'Armamento = 8 + il bonus di competenza + il modificatore della Costituzione \nModificatore dell'attacco Haki dell'Armamento = il tuo bonus di competenza + il tuo modificatore di Costituzione \n",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "cdStat": null,
-        "fav": false
-      },
-      {
         "id": "mnynd0kztso0",
         "name": "Aura of Life ",
         "originId": "haki_arm",
@@ -621,18 +609,6 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "cdStat": null,
-        "fav": false
-      },
-      {
-        "id": "mnynk9u668bu",
-        "name": "Color of Observation ",
-        "originId": "haki_oss",
-        "type": "Passiva",
-        "desc": "Quando decidi di far avanzare il tuo Haki del Colore dell'Osservazione durante un evento Spirit Surge, puoi scegliere una delle seguenti caratteristiche qui sotto. La rarità della caratteristica di avanzamento haki che puoi scegliere è determinata dall'evento Spirit Surge. \nPer ottenere una caratteristica di Avanzamento Haki Color of Observation, è necessario avere un punteggio minimo di Saggezza di 11 e soddisfare tutti gli altri prerequisiti menzionati. \n\nObservation Haki Spellcasting Ability. \nLa Saggezza è la tua abilità di lancio incantesimi per i tuoi incantesimi Colore dell'Osservazione, poiché la forza di questo haki è determinata dalla tua percezione e dalla tua consapevolezza generale. Usi la tua Saggezza ogni volta che un incantesimo Haki di Osservazione si riferisce alla tua abilità di lancio di incantesimi. Inoltre, usi il modificatore di Saggezza quando imposti la CD del tiro salvezza per un incantesimo haki di osservazione che lanci. \nCD salvezza Haki di Osservazione = 8 + il tuo bonus di competenza + il tuo modificatore di Saggezza \nModificatore d'attacco Haki di Osservazione = il tuo bonus di competenza + il tuo modificatore di Saggezza \n",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
         "cdStat": null,
         "fav": false
       },
@@ -699,7 +675,7 @@
       {
         "id": "mnynpmq1gzff",
         "name": "Aura Reading ",
-        "originId": "haki_arm",
+        "originId": "haki_oss",
         "type": "Passiva",
         "desc": "Avanzamento dell'Haki, non comune\nSei in grado di rilevare la presenza e il potenziale livello di minaccia di creature o pericoli pericolosi intorno a te. \nPuoi lanciare gli incantesimi Rileva Veleno e Malattia o Individua Male e Bene, senza spendere uno slot incantesimo o componenti materiali. Una volta usata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla finché non hai completato un riposo lungo. \n",
         "maxUses": 4,
@@ -731,6 +707,31 @@
         "rest": "lungo",
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mp45ve3g0kwg",
+        "name": "King's Resolve",
+        "originId": "haki_re",
+        "type": "Reazione",
+        "desc": "Your indomitable spirit can overcome even the most dire circumstances.\n\nAs a reaction when you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. Once you use this ability, you can't use it again until you finish a long rest.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp45xhuygz31",
+        "name": "Roar of the Monarch",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Your powerful will resonates through your voice, making it a weapon on its own.\n\nAs an action, you can release a thunderous yell. Each creature within a 15-foot cone must make a Constitution saving throw or be deafened and stunned until the end of your next turn. Once you use this feature, you can't use it again until you finish a long rest.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 14
       }
     ],
     "spells": [
@@ -1060,7 +1061,60 @@
     ],
     "notes": "",
     "backstory": "Ladro\nCompetenze di Abilità Inganno, Gioco di Prestigio\nCompetenze degli Strumenti Un tipo di set di gioco, gli strumenti per ladri\nEquipaggiamento Un piede di porco, un completo di abiti comuni scuri con cappuccio, e portafoglio contenente 150.000 ฿\nCaratteristica: Corruzione\nAttraverso anni di corruzione e inganno alle forze dell'ordine, ai pirati e ai marines, hai imparato a evitare in modo affidabile punizioni per reati meno gravi come il furto minore (rubare qualsiasi cosa sotto i ฿1.000) e il gettamento di rifiuti, con la discrezione del DM nel determinare la clemenza. Anche quando vieni punito per crimini più gravi, puoi dimezzare la durata della tua punizione o della detenzione.\n\nCapitano\nIl tuo ruolo è molto semplice: motivare, guidare e comandare la nave e l'equipaggio. Il capitano di una nave può ricoprire diversi ruoli complessi, ma in genere dovrebbe essere l'individuo più forte e carismatico dell'equipaggio. Alcuni capitani possono essere diversi o avere personalità uniche, ma il loro obiettivo dovrebbe essere quello di unire i propri alleati nei momenti difficili per affrontare qualsiasi ostacolo e realizzare i propri sogni e obiettivi.\nIl capitano dovrebbe sempre avere l'ultima parola in qualsiasi decisione o piano di gruppo. Sebbene alcuni equipaggi non ruotino completamente attorno al loro capitano, è importante concedergli comunque un elevato grado di autorità nel processo decisionale.\nCaratteristica: Il carisma del capitano\nIl capitano è il capo della nave, ma non dovrebbe mai comportarsi da tiranno quando gestisce un equipaggio sano. Quando guida un attacco, i suoi alleati devono seguirlo. Quando ordina un colpo, gli altri devono rispettarlo. Quando parla, l'equipaggio deve ascoltare. Questo non dovrebbe essere un potere da abusare, ma piuttosto una qualità che i suoi compagni venerano. Se si ordina a un membro dell'equipaggio di compiere un'azione, questi si sentirà naturalmente spinto a portarla a termine. Tuttavia, se un compito va direttamente contro il suo allineamento, i suoi ideali, i suoi tratti caratteriali, la sua classe sociale, il suo background o la sua razza (o è semplicemente troppo assurdo da prendere in considerazione), gli è consentito astenersi.\nAbilità di prestigio dei pirati: Reclutamento dell'equipaggio\nUn personaggio che ricopre il ruolo di capitano può reclutare facilmente altri pirati spendendo i propri punti prestigio pirata in vari luoghi. Un capitano può spendere un punto prestigio pirata per reclutare un mercenario o uno specialista per una settimana senza doverlo pagare. Il mercenario dovrà comunque soddisfare i propri bisogni primari e richiederà il pagamento una settimana dopo la fine della settimana iniziale, a meno che non venga speso un altro punto prestigio.\nNon puoi reclutare in luoghi in cui il tuo equipaggio ha una reputazione pari o inferiore a 5.\n",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 7,
+        "roll1": 1,
+        "roll2": 11,
+        "chosen": 1,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": true,
+        "timestamp": 1778686250184
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 9,
+        "roll1": 1,
+        "roll2": 20,
+        "chosen": 1,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": true,
+        "timestamp": 1778685835049
+      },
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 12,
+        "roll1": 6,
+        "roll2": 4,
+        "chosen": 6,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1778685577084
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 15,
+        "roll1": 7,
+        "roll2": 12,
+        "chosen": 7,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1778685337321
+      }
+    ],
     "effects": []
   }
 }

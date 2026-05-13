@@ -105,6 +105,10 @@
         "file": "morgan.json",
         "name": "Morgan",
         "preview": "Umano · Lv 16"
+      },{
+        "file": "calypso.json",
+        "name": "Calypso",
+        "preview": "prova"
       },
       {
         "file": "althea.json",
@@ -158,7 +162,7 @@
       {
         "file": "liuk.json",
         "name": "Liuk",
-        "preview": "Umano · Lv 16"
+        "preview": "Tontatta · Lv 9 · Marksman"
       }
     ]
   }
