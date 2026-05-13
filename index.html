@@ -220,7 +220,7 @@ function AppWrapper(){
       const jsons=files.filter(f=>f.name.endsWith(".json")&&f.type==="file");
       return jsons.map(f=>{
         const name=f.name.replace(".json","").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
-        return{file:f.name,name:name,preview:"Caricamento..."};
+        return{file:f.name,name:name,preview:"..."};
       });
     }catch{return[];}
   };
@@ -349,32 +349,34 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onN
 function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile,loading}){
   return(
     <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflow:"hidden"}}>
-      <div style={{padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",position:"sticky",top:0,background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10}}>
+      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10}}>
         <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
         <Av src={accAvatarUrl(acc?.id)} fallback={acc?.isMaster?"👑":acc?.name?.[0]||"?"} size={36} color={ac}/>
         <div style={{flex:1}}><h2 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:700,color:ac}}>{acc?.name}</h2>{isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master</span>}</div>
         {isMaster&&<button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>}
       </div>
-      <div style={{flex:1,minHeight:0,padding:"16px",paddingBottom:"calc(80px + var(--safe-bottom))",maxWidth:400,margin:"0 auto",width:"100%",overflowY:"auto",WebkitOverflowScrolling:"touch",boxSizing:"border-box"}}>
-        {sections.map((sec,si)=>(
-          <div key={si} style={{marginBottom:20}}>
-            <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
-            <div style={{display:"flex",flexDirection:"column",gap:8}}>
-              {sec.chars.map((gc,i)=>(
-                <button key={i} onClick={()=>onLoadGH(sec.owner,gc.file)} disabled={loading} style={{...SS.ac,borderColor:sec.color+"33",background:`linear-gradient(135deg,${sec.color}0c,transparent)`,opacity:loading?0.5:1}}>
-                  <Av src={charAvatarUrl(sec.owner,gc.file)} fallback={gc.name?gc.name[0]:"?"} size={40} color={sec.color} round={false}/>
-                  <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#e8dcc8"}}>{gc.name}</span><br/><span style={{fontSize:10,color:"#665a3e"}}>{gc.preview||gc.file}</span></div>
-                  <span style={{fontSize:16,color:sec.color+"66"}}>→</span>
-                </button>
-              ))}
+      <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
+        <div style={{padding:"16px",paddingBottom:80,maxWidth:400,margin:"0 auto",width:"100%"}}>
+          {sections.map((sec,si)=>(
+            <div key={si} style={{marginBottom:20}}>
+              <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
+              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {sec.chars.map((gc,i)=>(
+                  <button key={i} onClick={()=>onLoadGH(sec.owner,gc.file)} disabled={loading} style={{...SS.ac,borderColor:sec.color+"33",background:`linear-gradient(135deg,${sec.color}0c,transparent)`,opacity:loading?0.5:1}}>
+                    <Av src={charAvatarUrl(sec.owner,gc.file)} fallback={gc.name?gc.name[0]:"?"} size={40} color={sec.color} round={false}/>
+                    <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#e8dcc8"}}>{gc.name}</span><br/><span style={{fontSize:10,color:"#665a3e"}}>{gc.preview||gc.file}</span></div>
+                    <span style={{fontSize:16,color:sec.color+"66"}}>→</span>
+                  </button>
+                ))}
+              </div>
             </div>
+          ))}
+          {sections.length===0&&BASE()&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"10px 0 20px",fontSize:13}}>Nessun personaggio salvato.</p>}
+          <h3 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:"#c8a95e88",letterSpacing:2,textTransform:"uppercase",marginTop:16,marginBottom:10}}>Oppure...</h3>
+          <div style={{display:"flex",flexDirection:"column",gap:10}}>
+            <button onClick={onNew} style={{padding:"16px",borderRadius:12,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left",width:"100%"}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:26}}>✨</span><div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:ac,display:"block"}}>Nuovo PG</span><span style={{fontSize:11,color:"#998866"}}>Crea un personaggio da zero</span></div></div></button>
+            <button onClick={onImportFile} style={{padding:"16px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left",width:"100%"}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:26}}>📂</span><div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale</span></div></div></button>
           </div>
-        ))}
-        {sections.length===0&&BASE()&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"10px 0 20px",fontSize:13}}>Nessun personaggio salvato.</p>}
-        <h3 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:"#c8a95e88",letterSpacing:2,textTransform:"uppercase",marginTop:16,marginBottom:10}}>Oppure...</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:10}}>
-          <button onClick={onNew} style={{padding:"16px",borderRadius:12,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left",width:"100%"}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:26}}>✨</span><div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:ac,display:"block"}}>Nuovo PG</span><span style={{fontSize:11,color:"#998866"}}>Crea un personaggio da zero</span></div></div></button>
-          <button onClick={onImportFile} style={{padding:"16px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left",width:"100%"}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:26}}>📂</span><div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale</span></div></div></button>
         </div>
       </div>
     </div>
