@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T12:14:13.893Z",
+  "exportedAt": "2026-05-13T12:40:02.116Z",
   "character": {
     "id": "mp3zgo4mec5g",
     "name": "Calypso",
@@ -148,7 +148,7 @@
       }
     ],
     "spellSlots": {
-      "cantrips": 9,
+      "cantrips": 3,
       "slots": {
         "1": {
           "max": 4,
@@ -350,7 +350,179 @@
         "fav": false
       }
     ],
-    "spells": [],
+    "spells": [
+      {
+        "id": "mp40vrlzh8ul",
+        "name": "Druidcraft",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Whispering to the spirits of nature, you create one of the following effects within range:\n\nYou create a tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hours. The effect might manifest as a golden orb for clear skies, a cloud for rain, falling snowflakes for snow, and so on. This effect persists for 1 round.\nYou instantly make a flower blossom, a seed pod open, or a leaf bud bloom.\nYou create an instantaneous, harmless sensory effect, such as falling leaves, a puff of wind, the sound of a small animal, or the faint odor of skunk. The effect must fit in a 5-foot cube.\nYou instantly light or snuff out a candle, a torch, or a small campfire.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp4145djavnn",
+        "name": "Frostbite",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "You cause numbing frost to form on one creature that you can see within range. The target must make a Constitution saving throw. On a failed save, the target takes 1d6 cold damage, and it has disadvantage on the next weapon attack roll it makes before the end of its next turn.",
+        "higherLevels": "The spell’s damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+        "prepared": true
+      },
+      {
+        "id": "mp418lavgcpc",
+        "name": "Minor Illusion",
+        "level": 0,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": false,
+        "desc": "You create a sound or an image of an object within range that lasts for the duration. The illusion also ends if you dismiss it as an action or cast this spell again.\n\nIf you create a sound, its volume can range from a whisper to a scream. It can be your voice, someone else’s voice, a lion’s roar, a beating of drums, or any other sound you choose. The sound continues unabated throughout the duration, or you can make discrete sounds at different times before the spell ends.\n\nIf you create an image of an object—such as a chair, muddy footprints, or a small chest—it must be no larger than a 5-foot cube. The image can’t create sound, light, smell, or any other sensory effect. Physical interaction with the image reveals it to be an illusion, because things can pass through it.\n\nIf a creature uses its action to examine the sound or image, the creature can determine that it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp41cv8lwd4v",
+        "name": "Charm Person",
+        "level": 1,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1o",
+        "concentration": false,
+        "desc": "You attempt to charm a humanoid you can see within range. It must make a Wisdom saving throw, and does so with advantage if you or your companions are fighting it. If it fails the saving throw, it is charmed by you until the spell ends or until you or your companions do anything harmful to it. The charmed creature regards you as a friendly acquaintance. When the spell ends, the creature knows it was charmed by you.",
+        "higherLevels": " When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st. The creatures must be within 30 feet of each other when you target them.",
+        "prepared": true
+      },
+      {
+        "id": "mp41g3fnuz2q",
+        "name": "Frost Fingers",
+        "level": 1,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "personale (15-foot cone)",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Freezing cold blasts from your fingertips in a 15-foot cone. Each creature in that area must make a Constitution saving throw, taking 2d8 cold damage on a failed save, or half as much damage on a successful one.\n\nThe cold freezes nonmagical liquids in the area that aren't being worn or carried.",
+        "higherLevels": " When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d8 for each slot level above 1st.",
+        "prepared": true
+      },
+      {
+        "id": "mp41ia61ig99",
+        "name": "Ice Knife",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "You create a shard of ice and fling it at one creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 piercing damage. Hit or miss, the shard then explodes. The target and each creature within 5 feet of the point where the ice exploded must succeed on a Dexterity saving throw or take 2d6 cold damage.",
+        "higherLevels": "When you cast this spell using a spell slot of 2nd level or higher, the cold damage increases by 1d6 for each slot level above 1st.",
+        "prepared": true
+      },
+      {
+        "id": "mp41lsicrm2c",
+        "name": "Rime's Binding Ice",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "personale (30-foot cone)",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "A burst of cold energy emanates from you in a 30-foot cone. Each creature in that area must make a Constitution saving throw. On a failed save, a creature takes 3d8 cold damage and is hindered by ice formations for 1 minute, or until it or another creature within reach of it uses an action to break away the ice. A creature hindered by ice has its speed reduced to 0. On a successful save, a creature takes half as much damage and isn’t hindered by ice.\n\n",
+        "higherLevels": "When you cast this spell using a spell slot of 3rd level or higher, increase the cold damage by 1d8 for each slot level above 2nd.",
+        "prepared": true
+      },
+      {
+        "id": "mp41okmqzuhm",
+        "name": "Snilloc's Snowball Swarm",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "30m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "A flurry of magic snowballs erupts from a point you choose within range. Each creature in a 5-foot-radius sphere centered on that point must make a Dexterity saving throw. A creature takes 3d6 cold damage on a failed save, or half as much damage on a successful one.",
+        "higherLevels": " When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.",
+        "prepared": true
+      },
+      {
+        "id": "mp41q8vu6dtm",
+        "name": "Fortune's Favor",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1o",
+        "concentration": false,
+        "desc": "You impart latent luck to yourself or one willing creature you can see within range. When the chosen creature makes an attack roll, an ability check, or a saving throw before the spell ends, it can dismiss this spell on itself to roll an additional d20 and choose which of the d20s to use. Alternatively, when an attack roll is made against the chosen creature, it can dismiss this spell on itself to roll a d20 and choose which of the d20s to use, the one it rolled or the one the attacker rolled.\n\nIf the original d20 roll has advantage or disadvantage, the creature rolls the additional d20 after advantage or disadvantage has been applied to the original roll.",
+        "higherLevels": "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.",
+        "prepared": true
+      }
+    ],
     "notes": "",
     "backstory": "",
     "diceLog": [],
