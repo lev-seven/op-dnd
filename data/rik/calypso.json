@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T12:40:03.748Z",
+  "exportedAt": "2026-05-13T12:47:03.055Z",
   "character": {
     "id": "mp3zgo4mec5g",
     "name": "Calypso",
@@ -74,7 +74,7 @@
       {
         "name": "Atletica",
         "stat": "FOR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Furtività",
@@ -94,7 +94,7 @@
       {
         "name": "Intimidire",
         "stat": "CAR",
-        "prof": "none"
+        "prof": "prof"
       },
       {
         "name": "Intrattenere",
@@ -215,7 +215,38 @@
         "color": "#1a3dbc"
       }
     ],
-    "attacks": [],
+    "attacks": [
+      {
+        "id": "mp41ww2p0kfg",
+        "name": "Coltello",
+        "stat": "DES",
+        "damage": "1d4",
+        "type": "perforante",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      },
+      {
+        "id": "mp41z1pfb4dp",
+        "name": "Lancia ",
+        "stat": "DES",
+        "damage": "1d6",
+        "type": "perforante",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      },
+      {
+        "id": "mp41zrr18snu",
+        "name": "Arco lungo",
+        "stat": "DES",
+        "damage": "1d8",
+        "type": "perforanti",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      }
+    ],
     "abilities": [
       {
         "id": "mp3zwcdjz6yw",
@@ -523,7 +554,7 @@
         "prepared": true
       }
     ],
-    "notes": "",
+    "notes": "Kuja\nSkill Proficiencies Athletics, Intimidation\n\nTool Proficiencies One type of gaming set, vehicles (land)\n\nEquipment An insignia of a snake, a white Kuja cape, a bone dice set or playing card set, a set of common clothes, and a wallet containing ฿100,000\n\nFeature: Kuja Warrior\nYou were born and raised on Amazon Lily, alongside many others in the Kuja tribe. All warriors here are women, and have fierce fighting abilities and nearly unmatched strength. Before venturing away from Amazon Lily, you may have lived as a pirate, islander, or warrior for the Kuja Clan. Any other Kuja Tribe member you encounter will treat you with respect, along with any other female in your party.",
     "backstory": "",
     "diceLog": [],
     "effects": []
