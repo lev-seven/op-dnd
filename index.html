@@ -59,15 +59,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-<<<<<<< HEAD
-const APP_VERSION="v1187";
-=======
-<<<<<<< HEAD
 const APP_VERSION="v1303";
-=======
-const APP_VERSION="v1303";
->>>>>>> 2876e2b2e42eecc01bc4da936c877a26ed3d017e
->>>>>>> 6496732d19c7433266d7c31dcdde53cdf7db73c7
 
 function Av({src,fallback,size,color,round,style:extra}){
   const[ok,setOk]=useState(true);
