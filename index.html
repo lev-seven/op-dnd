@@ -59,11 +59,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-<<<<<<< HEAD
 const APP_VERSION="v1187";
-=======
-const APP_VERSION="v1298";
->>>>>>> 2876e2b2e42eecc01bc4da936c877a26ed3d017e
 
 function Av({src,fallback,size,color,round,style:extra}){
   const[ok,setOk]=useState(true);
@@ -257,7 +253,7 @@ function AppWrapper(){
         setScreen("characters");
       }}/>}
 
-      {!loading&&screen==="characters"&&<CharScreenLoader acc={acc} ac={ac} isMaster={isMaster} accId={accId} manifest={manifest} listCharsGH={listCharsGH} ghToken={ghToken}
+      {!loading&&screen==="characters"&&<CharScreenLoader acc={acc} ac={ac} isMaster={isMaster} accId={accId} manifest={manifest} listCharsGH={listCharsGH}
           onBack={()=>{setAccId(null);setScreen("accounts");}}
           onNew={()=>{setChar(newChar(""));setCharMeta(null);setScreen("sheet");}}
           onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");}}
@@ -324,7 +320,7 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onN
   const[sections,setSections]=useState([]);
   const[loadingChars,setLoadingChars]=useState(true);
   useEffect(()=>{
-    if(!accId||!ghToken)return;
+    if(!accId)return;
     (async()=>{
       setLoadingChars(true);
       const secs=[];
@@ -339,7 +335,7 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onN
       }
       setSections(secs);setLoadingChars(false);
     })();
-  },[accId,ghToken]);
+  },[accId]);
   return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster} onBack={onBack} onNew={onNew} onLoadGH={onLoadGH} onImportFile={onImportFile} loading={loading||loadingChars}/>;
 }
 
