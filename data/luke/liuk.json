@@ -1,7 +1,7 @@
 {
-  "account": "Rik",
-  "accountId": "rik",
-  "exportedAt": "2026-05-12T11:46:02.552Z",
+  "account": "Luke",
+  "accountId": "luke",
+  "exportedAt": "2026-05-13T12:19:20.474Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -275,7 +275,7 @@
         "name": "Lock-On",
         "originId": "mp2in2kqs3hr",
         "type": "Passiva",
-        "desc": "A partire dal 1 ° livello, si concentra il vostro obiettivo e l'uccisione di intenti su una creatura per colpire i loro punti deboli. Quando colpisci una creatura con un tiro di attacco usando un'arma da fuoco o una fionda, puoi contrassegnare il bersaglio per 1 minuto.\n\nLa prima volta su ciascuno dei tuoi giri che colpisci il nemico marcato e infliggi danni ad esso, incluso quando lo segni, aumenti quel danno di 1d4.\n\nPuoi utilizzare questa funzione per contrassegnare una creatura un numero di volte uguale al tuo bonus di competenza e riacquisti tutti gli usi spesi quando finisci un lungo riposo.\n\nIl danno extra di questa funzione aumenta quando si raggiungono determinati livelli in questa classe: a 1d6 al 6° livello e a 1d8 al 14° livello.",
+        "desc": "A partire dal 1 ° livello, si concentra il vostro obiettivo e l'uccisione di intenti su una creatura per colpire i loro punti deboli. Quando colpisci una creatura con un tiro di attacco usando un'arma da fuoco o una fionda, puoi contrassegnare il bersaglio per 1 minuto.\n\nLa prima volta su ciascuno dei tuoi giri che colpisci il nemico marcato e infliggi danni ad esso, incluso quando lo segni, aumenti quel danno di 1d4+sagg.mod.\n\nPuoi utilizzare questa funzione per contrassegnare una creatura un numero di volte uguale al tuo bonus di competenza e riacquisti tutti gli usi spesi quando finisci un lungo riposo.\n\nIl danno extra di questa funzione aumenta quando si raggiungono determinati livelli in questa classe: a 1d6 al 6° livello e a 1d8 al 14° livello.",
         "maxUses": 4,
         "uses": 0,
         "rest": "lungo",
@@ -288,6 +288,18 @@
         "originId": "mp2in2kqs3hr",
         "type": "Passiva",
         "desc": "+2 ai danii con armi da fuoco",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40zicke9wg",
+        "name": "Fleet Foot",
+        "originId": "mp2in2kqs3hr",
+        "type": "Azione bonus",
+        "desc": "puoi dashare nel tuo tunro e viene cosiderasta un azione  bonus",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
@@ -331,6 +343,25 @@
         "duration": "1 min",
         "concentration": true,
         "desc": "\n    La velocità di camminata aumenta di 10 piedi.\n\n    Non si provocano attacchi di opportunità.\n\n    Puoi muoverti attraverso lo spazio di un'altra creatura, e non conta come terreno difficile. Se si termina il proprio turno nello spazio di un'altra creatura, si viene spostati nell'ultimo spazio non occupato che hai occupato, e si subiscono danni da 1d8 forza.\n",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp40istmjkd3",
+        "name": "Prey Awareness",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": true,
+        "desc": "percezione di creature entro 1km ma non puoi sapere la locazione esatta : aberrazioni, celesti, draghi, elementali, fey, demoni, e non morti\nPuoi selezionare una creatura vista in precedenza mentre é attiva la spell",
         "higherLevels": null,
         "prepared": true
       }
