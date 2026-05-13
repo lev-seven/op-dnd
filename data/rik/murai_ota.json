@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T14:53:18.477Z",
+  "exportedAt": "2026-05-13T15:31:38.473Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -1061,7 +1061,60 @@
     ],
     "notes": "",
     "backstory": "Ladro\nCompetenze di Abilità Inganno, Gioco di Prestigio\nCompetenze degli Strumenti Un tipo di set di gioco, gli strumenti per ladri\nEquipaggiamento Un piede di porco, un completo di abiti comuni scuri con cappuccio, e portafoglio contenente 150.000 ฿\nCaratteristica: Corruzione\nAttraverso anni di corruzione e inganno alle forze dell'ordine, ai pirati e ai marines, hai imparato a evitare in modo affidabile punizioni per reati meno gravi come il furto minore (rubare qualsiasi cosa sotto i ฿1.000) e il gettamento di rifiuti, con la discrezione del DM nel determinare la clemenza. Anche quando vieni punito per crimini più gravi, puoi dimezzare la durata della tua punizione o della detenzione.\n\nCapitano\nIl tuo ruolo è molto semplice: motivare, guidare e comandare la nave e l'equipaggio. Il capitano di una nave può ricoprire diversi ruoli complessi, ma in genere dovrebbe essere l'individuo più forte e carismatico dell'equipaggio. Alcuni capitani possono essere diversi o avere personalità uniche, ma il loro obiettivo dovrebbe essere quello di unire i propri alleati nei momenti difficili per affrontare qualsiasi ostacolo e realizzare i propri sogni e obiettivi.\nIl capitano dovrebbe sempre avere l'ultima parola in qualsiasi decisione o piano di gruppo. Sebbene alcuni equipaggi non ruotino completamente attorno al loro capitano, è importante concedergli comunque un elevato grado di autorità nel processo decisionale.\nCaratteristica: Il carisma del capitano\nIl capitano è il capo della nave, ma non dovrebbe mai comportarsi da tiranno quando gestisce un equipaggio sano. Quando guida un attacco, i suoi alleati devono seguirlo. Quando ordina un colpo, gli altri devono rispettarlo. Quando parla, l'equipaggio deve ascoltare. Questo non dovrebbe essere un potere da abusare, ma piuttosto una qualità che i suoi compagni venerano. Se si ordina a un membro dell'equipaggio di compiere un'azione, questi si sentirà naturalmente spinto a portarla a termine. Tuttavia, se un compito va direttamente contro il suo allineamento, i suoi ideali, i suoi tratti caratteriali, la sua classe sociale, il suo background o la sua razza (o è semplicemente troppo assurdo da prendere in considerazione), gli è consentito astenersi.\nAbilità di prestigio dei pirati: Reclutamento dell'equipaggio\nUn personaggio che ricopre il ruolo di capitano può reclutare facilmente altri pirati spendendo i propri punti prestigio pirata in vari luoghi. Un capitano può spendere un punto prestigio pirata per reclutare un mercenario o uno specialista per una settimana senza doverlo pagare. Il mercenario dovrà comunque soddisfare i propri bisogni primari e richiederà il pagamento una settimana dopo la fine della settimana iniziale, a meno che non venga speso un altro punto prestigio.\nNon puoi reclutare in luoghi in cui il tuo equipaggio ha una reputazione pari o inferiore a 5.\n",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 7,
+        "roll1": 1,
+        "roll2": 11,
+        "chosen": 1,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": true,
+        "timestamp": 1778686250184
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 9,
+        "roll1": 1,
+        "roll2": 20,
+        "chosen": 1,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": true,
+        "timestamp": 1778685835049
+      },
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 12,
+        "roll1": 6,
+        "roll2": 4,
+        "chosen": 6,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1778685577084
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 15,
+        "roll1": 7,
+        "roll2": 12,
+        "chosen": 7,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1778685337321
+      }
+    ],
     "effects": []
   }
 }
