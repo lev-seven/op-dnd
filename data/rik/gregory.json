@@ -1,14 +1,14 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T16:20:51.828Z",
+  "exportedAt": "2026-05-13T16:43:21.538Z",
   "character": {
     "id": "mp48fadhd5gt",
     "name": "Gregory",
     "race": "Umano",
     "level": 7,
     "classes": "Marksman ",
-    "ac": 15,
+    "ac": 18,
     "hpMax": 9,
     "hpCurrent": 9,
     "hpTemp": 0,
@@ -213,6 +213,16 @@
         "id": "mp48qrqwcoh1",
         "name": "Marksman",
         "color": "#bc1a71"
+      },
+      {
+        "id": "mp49qjvl5t04",
+        "name": "Talent",
+        "color": "#04af40"
+      },
+      {
+        "id": "mp49uup5wc77",
+        "name": "Martial Artist",
+        "color": "#5d5bcd"
       }
     ],
     "attacks": [],
@@ -355,6 +365,66 @@
         "originId": "mp48qrqwcoh1",
         "type": "Passiva",
         "desc": "At 7th level, you gain extra resilience against your prey’s assaults on your mind and body. Whenever a creature marked by your Bounty's Brand forces you to make a saving throw and whenever you make an ability check to escape that target's grapple, add 1d6 to your roll.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp49pn94b6en",
+        "name": "Tavern Brawler",
+        "originId": "mp49qjvl5t04",
+        "type": "Passiva",
+        "desc": "Accustomed to rough-and-tumble fighting using whatever weapons happen to be at hand, you gain the following benefits:\n\nIncrease your Strength or Constitution score by 1, to a maximum of 20.\nYou are proficient with improvised weapons and unarmed strikes.\nYour unarmed strike uses a d4 for damage.\nWhen you hit a creature with an unarmed strike or an improvised weapon on your turn, you can use a bonus action to attempt to grapple the target.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp49uz1wd8wy",
+        "name": "Unarmored Defense",
+        "originId": "mp49uup5wc77",
+        "type": "Passiva",
+        "desc": "Beginning at 1st level, while you are wearing no armor and not wielding a Shield, your AC equals 10 + your Dexterity modifier + your Wisdom modifier.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp49vth779d9",
+        "name": "Martial Arts",
+        "originId": "mp49uup5wc77",
+        "type": "Passiva",
+        "desc": "At 1st level, your practice of Martial Arts gives you mastery of Combat styles that use unarmed strikes and martial artist Weapons, which are shortswords and any simple melee weapons⁠ that don’t have the Two-Handed or heavy property.\n\nYou gain the following benefits while you are unarmed or wielding only martial artist Weapons and you aren’t wearing armor or wielding a shield:\n\nYou can use Dexterity instead of Strength for the Attack and Damage Rolls of your unarmed strikes and martial artist Weapons.\nYou can roll a d6 in place of the normal damage of your Unarmed Strike or martial artist weapon. This die changes as you gain martial artist levels, as shown in the Martial Arts column of the Martial Artist table.\nWhen you use the Attack action with an Unarmed Strike or a martial artist weapon on Your Turn, you can make one Unarmed Strike as a Bonus Action. For example, if you take the Attack action and Attack with a Quarterstaff, you can also make an Unarmed Strike as a Bonus Action, assuming you haven’t already taken a Bonus Action this turn.\nCertain martial arts schools use specialized forms of the martial artist Weapons. For example, you might use a club that is two lengths of wood connected by a short chain (called a nunchaku) or a Sickle with a shorter, straighter blade (called a kama). Whatever name you use for a martial artist weapon, you can use the game statistics provided for the weapon.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp4a6wphzq7c",
+        "name": "Weapon Hardening",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "You gain the ability to coat your weapons and attacks with your spirit. The heavier the application, the darker the coating is.\n\nAs a bonus action, you channel haki into your body or a weapon of your choice. If you choose your body, you choose either your unarmed strikes or a natural weapon. For 1 minute, your attacks with the chosen weapon are considered magical with a +1 bonus to Attack rolls and Damage Rolls.\n\nIf the attack already has a bonus to its attack and damage rolls, this feature replaces the bonus unless it is greater, in which case it does not gain this feature’s benefit.\n\nThis effect ends early if you fall unconscious, use it again, end it as a bonus action, or start your turn not holding or touching the weapon you coated. Once you use this ability a number of times equal to your proficiency bonus, you can't use it again until you finish a long rest.",
+        "maxUses": 3,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp4ae3ym0qt3",
+        "name": "Vision of Light",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "By enhancing your vision, you can now see through darkness more clearly, granting you Darkvision.\n\nYou can see in dim light within 120 feet of you as if it were bright light, and in darkn⁠ess as if it were dim light. You can’t discern color in darkne⁠ss⁠, only Shades of Gray.",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
