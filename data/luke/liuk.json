@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-13T13:01:38.326Z",
+  "exportedAt": "2026-05-13T13:23:24.692Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -340,12 +340,26 @@
         "name": "Paw Push",
         "originId": "mp41z2hhrx1a",
         "type": "Azione",
-        "desc": "Spingi una creatura fino ad un massimo di 9m ogni 3m é 1d6 (se colpisce una superfice solida )se la seconda creatura viene colpita dalla prima deve fare tiro salvezza su destrezza contro CD fruttolo o subire lo stesso danno e va prono",
+        "desc": "Spingi una creatura fino ad un massimo di 9m ogni 3m é 1d6 (se colpisce una superfice solida )se la seconda creatura viene colpita dalla prima deve fare tiro salvezza su destrezza contro CD o subire lo stesso danno e va prono. addizionale 1 punto frutto 3mt massimo 30",
         "maxUses": -1,
         "uses": 0,
         "rest": null,
-        "cdStat": null,
-        "fav": false
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 15
+      },
+      {
+        "id": "mp435tv080je",
+        "name": "Paw Cannon",
+        "originId": "mp41z2hhrx1a",
+        "type": "Azione",
+        "desc": "Proiettile d'aria fino a 36m che se colpisce una creatura fa danno elettrico 4d6 piu 1d6 per punto frutto utilizzato MAX 12D6. tiro salvezza FORZA O VA PRONO",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 15
       }
     ],
     "spells": [
