@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-13T12:19:20.474Z",
+  "exportedAt": "2026-05-13T12:38:18.887Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -305,6 +305,18 @@
         "rest": null,
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mp41o7y4c35e",
+        "name": "Vantage Point",
+        "originId": "mp2in2kqs3hr",
+        "type": "Passiva",
+        "desc": "vantaggio su furtivitá se il muovimento non supera la meta di velocita",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
       }
     ],
     "spells": [
@@ -362,6 +374,25 @@
         "duration": "Istantanea",
         "concentration": true,
         "desc": "percezione di creature entro 1km ma non puoi sapere la locazione esatta : aberrazioni, celesti, draghi, elementali, fey, demoni, e non morti\nPuoi selezionare una creatura vista in precedenza mentre é attiva la spell",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp41d756afxc",
+        "name": "Empowered Bullet",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "45\\180",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": "proiettili speciali"
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "danno base piu 1d6 per livello slot",
         "higherLevels": null,
         "prepared": true
       }
