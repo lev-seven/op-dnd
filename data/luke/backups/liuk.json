@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-13T14:19:29.478Z",
+  "exportedAt": "2026-05-13T14:53:08.036Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -223,9 +223,25 @@
         "id": "mp41z2hhrx1a",
         "name": "Frutto",
         "color": "#ff0000"
+      },
+      {
+        "id": "mp46cn91cos7",
+        "name": "Armi",
+        "color": "#ffffff"
       }
     ],
-    "attacks": [],
+    "attacks": [
+      {
+        "id": "mp46etkok1nq",
+        "name": "L'ammazza bambini",
+        "stat": "DES",
+        "damage": "2d6",
+        "type": "perforante",
+        "bonusHit": 0,
+        "bonusDmg": 2,
+        "bonusActive": true
+      }
+    ],
     "abilities": [
       {
         "id": "mp2inpb212g7",
@@ -425,6 +441,54 @@
         "cdStat": "custom",
         "fav": false,
         "cdCustom": 15
+      },
+      {
+        "id": "mp45uqob1ecp",
+        "name": "Predict Outcome",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "quando fai un tiro su attacco, salvezza o abilitá puoi sceglire di ritirare il dado.\nin alternativa se un nemico fa un tiro delle medesime per counter le tue puoi forzarlo a ritirare ",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp4615lzn70l",
+        "name": "Echoing Shot",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "se manchi il  bersaglio puoi usare la tua azione bonus per curvare il proiettile e farlo rimbalzare su un altro nemico ",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp463mtg4cqf",
+        "name": "Hawk's Gaze",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "La tua Osservazione Haki ti dà una vista oltre la vista, permettendoti di individuare minacce e obiettivi lontani con facilità.\n\nSi ottiene vantaggio sui controlli di Saggezza (Percezione) che si basano sulla vista. Inoltre, è possibile distinguere i dettagli di creature e oggetti anche estremamente lontani fino a 2 piedi di diametro.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp46ar4phqbn",
+        "name": "X-Ray Vision",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Amplificando la tua visione con il tuo spirito, sei in grado di vedere attraverso gli oggetti fisici.\n\nCome azione, si ottiene la possibilità di vedere attraverso oggetti solidi a una gamma di 30 piedi. All’interno di questo intervallo, hai la visione oscura se non ce l’hai già. Questo mirino speciale dura 1 minuto o fino alla fine della concentrazione (come se ti stessi concentrando su un incantesimo). Durante quel periodo, percepisci gli oggetti come immagini spettrali e trasparenti.\n\nUna volta utilizzata questa funzione, non puoi usarla di nuovo fino a quando non finisci un riposo breve o lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": false
       }
     ],
     "spells": [
