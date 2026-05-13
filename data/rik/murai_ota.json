@@ -1,7 +1,7 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T14:39:32.005Z",
+  "exportedAt": "2026-05-13T14:53:18.477Z",
   "character": {
     "id": "mnxnhi9y8yye",
     "name": "Murai Ota",
@@ -553,18 +553,6 @@
         "fav": false
       },
       {
-        "id": "mnync9azins6",
-        "name": "Color of Armament ",
-        "originId": "haki_arm",
-        "type": "Passiva",
-        "desc": "Abilità di Incantesimo Haki dell'Armamento \nLa Costituzione è la tua abilità di lancio incantesimi per il colore degli incantesimi dell'arma, poiché la forza di questo haki è determinata dalla tua resistenza complessiva. Usi la tua Costituzione ogni volta che un incantesimo Armament Haki si riferisce alla tua abilità di incantesimo. Inoltre, usi il modificatore della Costituzione quando imposti la CD del tiro salvezza per un incantesimo haki di armamento che lanci e quando effettui un tiro d'attacco con uno. \nCD tiro salvezza dell'Haki dell'Armamento = 8 + il bonus di competenza + il modificatore della Costituzione \nModificatore dell'attacco Haki dell'Armamento = il tuo bonus di competenza + il tuo modificatore di Costituzione \n",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
-        "cdStat": null,
-        "fav": false
-      },
-      {
         "id": "mnynd0kztso0",
         "name": "Aura of Life ",
         "originId": "haki_arm",
@@ -621,18 +609,6 @@
         "maxUses": 1,
         "uses": 0,
         "rest": "lungo",
-        "cdStat": null,
-        "fav": false
-      },
-      {
-        "id": "mnynk9u668bu",
-        "name": "Color of Observation ",
-        "originId": "haki_oss",
-        "type": "Passiva",
-        "desc": "Quando decidi di far avanzare il tuo Haki del Colore dell'Osservazione durante un evento Spirit Surge, puoi scegliere una delle seguenti caratteristiche qui sotto. La rarità della caratteristica di avanzamento haki che puoi scegliere è determinata dall'evento Spirit Surge. \nPer ottenere una caratteristica di Avanzamento Haki Color of Observation, è necessario avere un punteggio minimo di Saggezza di 11 e soddisfare tutti gli altri prerequisiti menzionati. \n\nObservation Haki Spellcasting Ability. \nLa Saggezza è la tua abilità di lancio incantesimi per i tuoi incantesimi Colore dell'Osservazione, poiché la forza di questo haki è determinata dalla tua percezione e dalla tua consapevolezza generale. Usi la tua Saggezza ogni volta che un incantesimo Haki di Osservazione si riferisce alla tua abilità di lancio di incantesimi. Inoltre, usi il modificatore di Saggezza quando imposti la CD del tiro salvezza per un incantesimo haki di osservazione che lanci. \nCD salvezza Haki di Osservazione = 8 + il tuo bonus di competenza + il tuo modificatore di Saggezza \nModificatore d'attacco Haki di Osservazione = il tuo bonus di competenza + il tuo modificatore di Saggezza \n",
-        "maxUses": -1,
-        "uses": 0,
-        "rest": null,
         "cdStat": null,
         "fav": false
       },
@@ -699,7 +675,7 @@
       {
         "id": "mnynpmq1gzff",
         "name": "Aura Reading ",
-        "originId": "haki_arm",
+        "originId": "haki_oss",
         "type": "Passiva",
         "desc": "Avanzamento dell'Haki, non comune\nSei in grado di rilevare la presenza e il potenziale livello di minaccia di creature o pericoli pericolosi intorno a te. \nPuoi lanciare gli incantesimi Rileva Veleno e Malattia o Individua Male e Bene, senza spendere uno slot incantesimo o componenti materiali. Una volta usata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla finché non hai completato un riposo lungo. \n",
         "maxUses": 4,
