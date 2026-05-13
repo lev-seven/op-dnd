@@ -218,15 +218,10 @@ function AppWrapper(){
       const files=await r.json();
       if(!Array.isArray(files))return[];
       const jsons=files.filter(f=>f.name.endsWith(".json")&&f.type==="file");
-      const chars=[];
-      for(const f of jsons){
-        try{
-          const raw=await fetch(f.download_url+"?t="+Date.now()).then(r=>r.json());
-          const ch=raw.character||raw;
-          if(ch.name&&ch.stats)chars.push({file:f.name,name:ch.name,preview:`${ch.race||"?"} · Lv ${ch.level||1}${ch.classes?" · "+ch.classes:""}`});
-        }catch{}
-      }
-      return chars;
+      return jsons.map(f=>{
+        const name=f.name.replace(".json","").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+        return{file:f.name,name:name,preview:"Caricamento..."};
+      });
     }catch{return[];}
   };
 
