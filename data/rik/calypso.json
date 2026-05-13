@@ -1,21 +1,21 @@
 {
   "account": "Rik",
   "accountId": "rik",
-  "exportedAt": "2026-05-13T12:12:59.571Z",
+  "exportedAt": "2026-05-13T12:14:15.468Z",
   "character": {
     "id": "mp3zgo4mec5g",
     "name": "Calypso",
     "race": "Umano Kuja",
     "level": 1,
     "classes": "Rogue",
-    "ac": 10,
+    "ac": 15,
     "hpMax": 69,
     "hpCurrent": 69,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
-    "passivePerception": 10,
-    "profBonus": 2,
+    "passivePerception": 15,
+    "profBonus": 3,
     "hitDie": "1d8",
     "stats": {
       "FOR": {
