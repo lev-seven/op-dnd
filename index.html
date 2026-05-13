@@ -253,7 +253,7 @@ function AppWrapper(){
         setScreen("characters");
       }}/>}
 
-      {!loading&&screen==="characters"&&<CharScreenLoader acc={acc} ac={ac} isMaster={isMaster} accId={accId} manifest={manifest} listCharsGH={listCharsGH}
+      {!loading&&screen==="characters"&&<CharScreenLoader acc={acc} ac={ac} isMaster={isMaster} accId={accId} manifest={manifest} listCharsGH={listCharsGH} ghToken={ghToken}
           onBack={()=>{setAccId(null);setScreen("accounts");}}
           onNew={()=>{setChar(newChar(""));setCharMeta(null);setScreen("sheet");}}
           onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");}}
@@ -320,7 +320,7 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onN
   const[sections,setSections]=useState([]);
   const[loadingChars,setLoadingChars]=useState(true);
   useEffect(()=>{
-    if(!accId)return;
+    if(!accId||!ghToken)return;
     (async()=>{
       setLoadingChars(true);
       const secs=[];
@@ -335,7 +335,7 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onN
       }
       setSections(secs);setLoadingChars(false);
     })();
-  },[accId]);
+  },[accId,ghToken]);
   return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster} onBack={onBack} onNew={onNew} onLoadGH={onLoadGH} onImportFile={onImportFile} loading={loading||loadingChars}/>;
 }
 
