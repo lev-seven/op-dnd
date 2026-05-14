@@ -600,7 +600,7 @@ function SkillList({skills,stats,pb,ac,oR,sM}){
 
 function STab({c,up,edit,oR,sM,ac}){
   const uS=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave")ns[k].save=ns[k].mod+(v?c.profBonus:0);up({stats:ns});};
-  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
     <Sec ac={ac}>Caratteristiche</Sec>
     <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(6,1fr)":"repeat(3,1fr)",gap:5}}>{Object.entries(c.stats).map(([k,v])=>(
       <div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"7px 3px 5px",border:`1px solid ${ac}15`}}>
@@ -653,7 +653,7 @@ function ATab({c,up,sM,ac}){
   const tF=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,fav:!a.fav}:a)});
   const rest=t=>{let u={abilities:c.abilities.map(a=>{if(a.maxUses===-1)return a;if(t==="lungo")return{...a,uses:0};if(t==="breve"&&a.rest==="breve")return{...a,uses:0};return a;})};if(t==="lungo"){u.hpCurrent=c.hpMax;u.hpTemp=0;u.hpPerm=0;}up(u);};
   const groups=c.origins.map(o=>o.id).filter(oid=>sorted.some(a=>a.originId===oid));
-  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
     <div style={{display:"flex",gap:5,marginBottom:8}}><button onClick={()=>rest("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>☀️ R. Breve</button><button onClick={()=>rest("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>🌙 R. Lungo</button></div>
     <EfxTracker effects={c.effects||[]} onChange={fx=>up({effects:fx})} ac={ac}/>
     <div style={{display:"flex",gap:5,marginBottom:12}}><button onClick={()=>sM({type:"ability"})} style={{...SS.gn,padding:"5px 12px",fontSize:10}}>+ Azione</button><button onClick={()=>sM({type:"origins"})} style={{...SS.bg,padding:"5px 12px",fontSize:10}}>⚙ Provenienze</button></div>
@@ -681,7 +681,7 @@ function DTab({c,up,log,oR,ac}){
   const[cf,sCf]=useState("");const[cm,sCm]=useState(0);
   const aD=s=>{const cur=cf.trim();sCf(cur?`${cur}+1d${s}`:`1d${s}`);};
   const rl=()=>{const b=cf.trim()||"1d20",f=b+(cm?(cm>=0?`+${cm}`:`${cm}`):"");if(b.toLowerCase().includes("d20"))oR({label:f,type:"d20",modifier:cm});else oR({label:f,type:"damage",formula:f});};
-  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
     <Sec ac={ac}>Tiro Rapido</Sec>
     <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(6,1fr)":"repeat(3,1fr)",gap:5,marginBottom:8}}>{[4,6,8,10,12,20].map(d=>(<button key={d} onClick={()=>{if(d===20)oR({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;oR({label:f,type:"damage",formula:f});}}} style={{padding:"14px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",touchAction:"manipulation"}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span></button>))}</div>
     <Sec ac={ac}>Costruisci Formula</Sec>
@@ -711,7 +711,7 @@ function SpTab({c,up,sM,ac}){
   const filtered=filter==="prep"?spells.filter(s=>s.prepared):spells;
   const grouped={};filtered.forEach(s=>{const k=s.level||0;if(!grouped[k])grouped[k]=[];grouped[k].push(s);});
   const lvKeys=Object.keys(grouped).map(Number).sort((a,b)=>a-b);
-  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
     {(activeSlots.length>0||ss.cantrips>0)&&<div style={{background:`${ac}08`,borderRadius:8,padding:"8px 10px",marginBottom:10,border:`1px solid ${ac}15`}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}><span style={{fontFamily:"'Cinzel'",fontSize:10,fontWeight:700,color:ac,letterSpacing:1}}>SLOT INCANTESIMO</span><button onClick={restoreAll} style={{fontSize:9,color:"#3498db",background:"none",border:"none",cursor:"pointer",fontFamily:"'Cinzel'"}}>↺ Ripristina</button></div>
       {ss.cantrips>0&&<div style={{fontSize:10,color:"#998866",marginBottom:4,fontFamily:"'JetBrains Mono'"}}>Trucchetti: {ss.cantrips}</div>}
@@ -766,7 +766,7 @@ function SpSlotsM({c,up,oC}){
 
 function NTab({c,up,ac}){
   const[n,sN]=useState(c.notes||"");const[bs,sBs]=useState(c.backstory||"");
-  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
     <Sec ac={ac}>Note di Sessione</Sec><textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Appunti..." style={{width:"100%",minHeight:200,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
     <Sec ac={ac}>📜 Storia del Personaggio</Sec><textarea value={bs} onChange={e=>{sBs(e.target.value);up({backstory:e.target.value});}} placeholder="Background..." style={{width:"100%",minHeight:200,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
   </div>);
