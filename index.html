@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--app-h:100vh;--app-h:100dvh;--nav-h:calc(56px + env(safe-area-inset-bottom,0px));--safe-bottom:env(safe-area-inset-bottom,0px)}
+:root{--app-h:100vh;--app-h:100dvh;--nav-h:calc(56px + env(safe-area-inset-bottom,0px));--safe-bottom:env(safe-area-inset-bottom,0px);--content-w:480px}
 html{height:var(--app-h);overflow:hidden}
 body{height:var(--app-h);overflow:hidden;font-family:'Crimson Text',Georgia,serif;color:#e8dcc8;background:#0a0e17}
 #root{height:100%;overflow:hidden}
@@ -23,8 +23,10 @@ input,textarea,select,button{font-family:inherit;outline:none}
 ::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-@media(min-width:768px){#root>div>div{max-width:720px!important}}
-@media(min-width:1100px){#root>div>div{max-width:1000px!important}}
+@media(min-width:600px){:root{--content-w:560px}}
+@media(min-width:768px){:root{--content-w:680px}}
+@media(min-width:1100px){:root{--content-w:800px}}
+@media(min-width:1400px){:root{--content-w:940px}}
 button{-webkit-user-select:none;user-select:none}
 </style>
 <script>window.GITHUB_BASE="https://lev-seven.github.io/op-dnd/";</script>
@@ -59,7 +61,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v1318";
+const APP_VERSION="v700";
 
 function Av({src,fallback,size,color,round,style:extra}){
   const[ok,setOk]=useState(true);
@@ -149,14 +151,59 @@ function AppWrapper(){
   const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
   const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
 
-  /* ═══ SAVE TO GITHUB (con manifest update integrato) ═══ */
+  /* ═══ GITHUB FILE HELPERS ═══ */
+  const ghGetFile=async(path)=>{
+    const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+    const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+    const hd={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+    try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(!r.ok)return null;return await r.json();}catch{return null;}
+  };
+  const ghDelFile=async(path)=>{
+    const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+    const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+    const hd={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+    try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(!r.ok)return;const j=await r.json();await fetch(api,{method:"DELETE",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify({message:`[${acc?.name}] Delete ${path}`,sha:j.sha})});}catch{}
+  };
+
+  /* ═══ SAVE TO GITHUB (con rinomina se nome cambiato) ═══ */
   const saveToGH=async(owner,file,charObj)=>{
     if(!ghToken||!BASE())return false;
-    try{await ghPut(`data/${owner}/backups/${file}`,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);}catch{}
+    const newFname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
+    const renamed=newFname!==file;
+    const targetFile=renamed?newFname:file;
+    // Se rinomina, check duplicati
+    if(renamed){
+      try{const existing=await listCharsGH(owner);if(existing.find(x=>x.file===newFname)){alert("Esiste già un PG con questo nome.");return false;}}catch{}
+    }
+    // Backup
+    try{await ghPut(`data/${owner}/backups/${targetFile}`,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);}catch{}
+    // Save
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
-    const ok=await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
-    if(ok)clearSession();
-    if(ok)ghLog(owner,"Salvataggio "+file,ghToken,accId,isMaster,acc?.name);
+    const ok=await ghPut(`data/${owner}/${targetFile}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
+    if(!ok)return false;
+    // Se rinominato, copia foto e cancella vecchi file
+    if(renamed){
+      const oldPhoto=`data/${owner}/${file.replace(".json","")}.jpg`;
+      const photoData=await ghGetFile(oldPhoto);
+      if(photoData&&photoData.content){
+        const newPhoto=`data/${owner}/${newFname.replace(".json","")}.jpg`;
+        const u2=new URL(BASE());const user2=u2.hostname.split(".")[0];const repo2=u2.pathname.replace(/^\/|\/$/g,"");
+        const api2=`https://api.github.com/repos/${user2}/${repo2}/contents/${newPhoto}`;
+        const hd2={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","Content-Type":"application/json"};
+        let sha2=null;try{const rr=await fetch(api2+"?t="+Date.now(),{headers:hd2,cache:"no-store"});if(rr.ok){sha2=(await rr.json()).sha;}}catch{}
+        const body2={message:`[${acc?.name}] Rename photo`,content:photoData.content.replace(/\n/g,"")};
+        if(sha2)body2.sha=sha2;
+        await fetch(api2,{method:"PUT",headers:hd2,body:JSON.stringify(body2)});
+        await ghDelFile(oldPhoto);
+      }
+      await ghDelFile(`data/${owner}/${file}`);
+      await ghDelFile(`data/${owner}/backups/${file}`);
+      ghLog(owner,`Rinominato ${file} → ${targetFile}`,ghToken,accId,isMaster,acc?.name);
+      setCharMeta({owner,file:targetFile});
+    }else{
+      ghLog(owner,"Salvataggio "+file,ghToken,accId,isMaster,acc?.name);
+    }
+    clearSession();
     return ok;
   };
 
@@ -184,12 +231,9 @@ function AppWrapper(){
   const deleteCharGH=async(owner,file)=>{
     if(!ghToken)return false;
     if(!isMaster&&owner!==accId)return false;
-    const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
-    const hd={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
-    const del=async(path)=>{try{const r=await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}?t=`+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok){const j=await r.json();await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`,{method:"DELETE",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify({message:`[${acc?.name}] Delete ${path}`,sha:j.sha})});}}catch{}};
-    await del(`data/${owner}/${file}`);
-    await del(`data/${owner}/${file.replace(".json","")}.jpg`);
-    await del(`data/${owner}/backups/${file}`);
+    await ghDelFile(`data/${owner}/${file}`);
+    await ghDelFile(`data/${owner}/${file.replace(".json","")}.jpg`);
+    await ghDelFile(`data/${owner}/backups/${file}`);
     ghLog(owner,"Eliminato "+file,ghToken,accId,isMaster,acc?.name);
     return true;
   };
@@ -217,11 +261,10 @@ function AppWrapper(){
       if(!r.ok)return[];
       const files=await r.json();
       if(!Array.isArray(files))return[];
-      const jsons=files.filter(f=>f.name.endsWith(".json")&&f.type==="file");
-      return jsons.map(f=>{
-        const name=f.name.replace(".json","").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
-        return{file:f.name,name:name,preview:"..."};
-      });
+      return files.filter(f=>f.name.endsWith(".json")&&f.type==="file").map(f=>({
+        file:f.name,
+        name:f.name.replace(".json","").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())
+      }));
     }catch{return[];}
   };
 
@@ -331,53 +374,41 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onN
       setSections(secs);setLoadingChars(false);
     })();
   },[accId]);
-  if(loadingChars)return<div style={{minHeight:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",display:"flex",flexDirection:"column"}}>
-    <div style={{padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)"}}>
-      <button onClick={onBack} style={{width:32,height:32,borderRadius:"50%",border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.08)",color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",fontWeight:700}}>←</button>
-      <h2 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:700,color:ac}}>{acc?.name}</h2>
-    </div>
-    <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center"}}>
-      <div style={{textAlign:"center"}}>
-        <div style={{width:36,height:36,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 14px"}}/>
-        <p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:12,letterSpacing:1}}>Caricamento PG...</p>
-      </div>
-    </div>
-  </div>;
-  return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster} onBack={onBack} onNew={onNew} onLoadGH={onLoadGH} onImportFile={onImportFile} loading={loading}/>;
+  return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster} onBack={onBack} onNew={onNew} onLoadGH={onLoadGH} onImportFile={onImportFile} loading={loading||loadingChars}/>;
 }
 
 function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile,loading}){
   return(
     <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflow:"hidden"}}>
-      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10}}>
+      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10,maxWidth:"var(--content-w)",margin:"0 auto",width:"100%"}}>
         <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
         <Av src={accAvatarUrl(acc?.id)} fallback={acc?.isMaster?"👑":acc?.name?.[0]||"?"} size={36} color={ac}/>
         <div style={{flex:1}}><h2 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:700,color:ac}}>{acc?.name}</h2>{isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master</span>}</div>
-        {isMaster&&<button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>}
+        <button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>
       </div>
       <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
-        <div style={{padding:"16px",paddingBottom:80,maxWidth:400,margin:"0 auto",width:"100%"}}>
-          {sections.map((sec,si)=>(
-            <div key={si} style={{marginBottom:20}}>
-              <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
-              <div style={{display:"flex",flexDirection:"column",gap:8}}>
-                {sec.chars.map((gc,i)=>(
-                  <button key={i} onClick={()=>onLoadGH(sec.owner,gc.file)} disabled={loading} style={{...SS.ac,borderColor:sec.color+"33",background:`linear-gradient(135deg,${sec.color}0c,transparent)`,opacity:loading?0.5:1}}>
-                    <Av src={charAvatarUrl(sec.owner,gc.file)} fallback={gc.name?gc.name[0]:"?"} size={40} color={sec.color} round={false}/>
-                    <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#e8dcc8"}}>{gc.name}</span><br/><span style={{fontSize:10,color:"#665a3e"}}>{gc.preview||gc.file}</span></div>
-                    <span style={{fontSize:16,color:sec.color+"66"}}>→</span>
-                  </button>
-                ))}
-              </div>
+        <div style={{padding:"16px",paddingBottom:80,maxWidth:"var(--content-w)",margin:"0 auto",width:"100%"}}>
+        {sections.map((sec,si)=>(
+          <div key={si} style={{marginBottom:20}}>
+            <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
+            <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:8}}>
+              {sec.chars.map((gc,i)=>(
+                <button key={i} onClick={()=>onLoadGH(sec.owner,gc.file)} disabled={loading} style={{...SS.ac,borderColor:sec.color+"33",background:`linear-gradient(135deg,${sec.color}0c,transparent)`,opacity:loading?0.5:1}}>
+                  <Av src={charAvatarUrl(sec.owner,gc.file)} fallback={gc.name?gc.name[0]:"?"} size={40} color={sec.color} round={false}/>
+                  <div style={{flex:1,textAlign:"left"}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#e8dcc8"}}>{gc.name}</span></div>
+                  <span style={{fontSize:16,color:sec.color+"66"}}>→</span>
+                </button>
+              ))}
             </div>
-          ))}
-          {sections.length===0&&BASE()&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"10px 0 20px",fontSize:13}}>Nessun personaggio salvato.</p>}
-          <h3 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:"#c8a95e88",letterSpacing:2,textTransform:"uppercase",marginTop:16,marginBottom:10}}>Oppure...</h3>
-          <div style={{display:"flex",flexDirection:"column",gap:10}}>
-            <button onClick={onNew} style={{padding:"16px",borderRadius:12,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left",width:"100%"}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:26}}>✨</span><div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:ac,display:"block"}}>Nuovo PG</span><span style={{fontSize:11,color:"#998866"}}>Crea un personaggio da zero</span></div></div></button>
-            <button onClick={onImportFile} style={{padding:"16px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left",width:"100%"}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:26}}>📂</span><div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale</span></div></div></button>
           </div>
+        ))}
+        {sections.length===0&&BASE()&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"10px 0 20px",fontSize:13}}>Nessun personaggio salvato.</p>}
+        <h3 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:"#c8a95e88",letterSpacing:2,textTransform:"uppercase",marginTop:16,marginBottom:10}}>Oppure...</h3>
+        <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=600?"repeat(2,1fr)":"1fr",gap:10}}>
+          <button onClick={onNew} style={{padding:"16px",borderRadius:12,border:`2px solid ${ac}44`,background:`linear-gradient(135deg,${ac}12,${ac}06)`,cursor:"pointer",textAlign:"left",width:"100%"}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:26}}>✨</span><div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:ac,display:"block"}}>Nuovo PG</span><span style={{fontSize:11,color:"#998866"}}>Crea un personaggio da zero</span></div></div></button>
+          <button onClick={onImportFile} style={{padding:"16px",borderRadius:12,border:"2px solid #2ecc7144",background:"linear-gradient(135deg,rgba(46,204,113,0.08),rgba(46,204,113,0.03))",cursor:"pointer",textAlign:"left",width:"100%"}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:26}}>📂</span><div><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:14,color:"#2ecc71",display:"block"}}>Importa da File</span><span style={{fontSize:11,color:"#998866"}}>Carica un JSON locale</span></div></div></button>
         </div>
+      </div>
       </div>
     </div>
   );
@@ -438,7 +469,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
 
   const NAV_HEIGHT=56;
   return(
-    <div style={{position:"relative",maxWidth:window.innerWidth>=1100?"min(100%,1000px)":window.innerWidth>=768?"min(100%,720px)":"480px",margin:"0 auto",height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
+    <div style={{position:"relative",maxWidth:"var(--content-w)",margin:"0 auto",height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
       <div style={{flexShrink:0,background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"10px 14px 8px"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
           <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
@@ -546,7 +577,7 @@ function SkillList({skills,stats,pb,ac,oR,sM}){
   const pIcon=p=>p==="mastery"?"★ ":p==="prof"?"● ":"";
   return<>
     <div style={{display:"flex",gap:3,marginBottom:4}}>{SK_SORTS.map(s=><button key={s.id} onClick={()=>setSort(s.id)} style={{padding:"2px 7px",borderRadius:4,border:`1px solid ${sort===s.id?ac+"66":ac+"22"}`,background:sort===s.id?ac+"15":"transparent",color:sort===s.id?ac:"#665a3e",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer",fontWeight:sort===s.id?700:400}}>{s.l}</button>)}</div>
-    <div style={{display:"flex",flexDirection:"column",gap:3}}>{sorted.map(s=>(
+    <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:3}}>{sorted.map(s=>(
       <div key={s.idx} style={{display:"flex",alignItems:"center",gap:4}}>
         <button onClick={()=>oR({label:s.name,type:"d20",modifier:s._m})} style={{flex:1,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 10px",background:`${ac}06`,borderRadius:6,border:`1px solid ${ac}10`,cursor:"pointer",textAlign:"left",touchAction:"manipulation"}}>
           <span style={{fontSize:12,color:"#e8dcc8"}}><span style={{color:s._p==="mastery"?"#f1c40f":s._p==="prof"?ac:"transparent"}}>{pIcon(s._p)}</span>{s.name}{s.stat?<span style={{fontSize:9,color:"#665a3e",marginLeft:4}}>({s.stat})</span>:null}</span>
@@ -561,7 +592,7 @@ function STab({c,up,edit,oR,sM,ac}){
   const uS=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave")ns[k].save=ns[k].mod+(v?c.profBonus:0);up({stats:ns});};
   return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
     <Sec ac={ac}>Caratteristiche</Sec>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5}}>{Object.entries(c.stats).map(([k,v])=>(
+    <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(6,1fr)":"repeat(3,1fr)",gap:5}}>{Object.entries(c.stats).map(([k,v])=>(
       <div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"7px 3px 5px",border:`1px solid ${ac}15`}}>
         <span style={{fontSize:9,fontWeight:700,color:"#998866",letterSpacing:2,fontFamily:"'Cinzel'"}}>{k}</span>
         {edit?(<><input type="number" value={v.score} onChange={e=>uS(k,"score",parseInt(e.target.value)||0)} style={{...SS.inp,width:38,fontSize:17,textAlign:"center",fontWeight:700,fontFamily:"'JetBrains Mono'",color:"#e8dcc8",padding:"1px"}}/><span style={{fontSize:11,color:ac,fontFamily:"'JetBrains Mono'",fontWeight:600}}>{v.mod>=0?`+${v.mod}`:v.mod}</span><label style={{display:"flex",alignItems:"center",gap:2,fontSize:7,color:"#998866",cursor:"pointer",marginTop:2}}><input type="checkbox" checked={v.profSave} onChange={e=>uS(k,"profSave",e.target.checked)} style={{width:9,height:9,accentColor:ac}}/>Comp.TS</label></>
@@ -642,7 +673,7 @@ function DTab({c,up,log,oR,ac}){
   const rl=()=>{const b=cf.trim()||"1d20",f=b+(cm?(cm>=0?`+${cm}`:`${cm}`):"");if(b.toLowerCase().includes("d20"))oR({label:f,type:"d20",modifier:cm});else oR({label:f,type:"damage",formula:f});};
   return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
     <Sec ac={ac}>Tiro Rapido</Sec>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:8}}>{[4,6,8,10,12,20].map(d=>(<button key={d} onClick={()=>{if(d===20)oR({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;oR({label:f,type:"damage",formula:f});}}} style={{padding:"14px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",touchAction:"manipulation"}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span></button>))}</div>
+    <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(6,1fr)":"repeat(3,1fr)",gap:5,marginBottom:8}}>{[4,6,8,10,12,20].map(d=>(<button key={d} onClick={()=>{if(d===20)oR({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;oR({label:f,type:"damage",formula:f});}}} style={{padding:"14px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",touchAction:"manipulation"}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span></button>))}</div>
     <Sec ac={ac}>Costruisci Formula</Sec>
     <div style={{background:`${ac}06`,borderRadius:7,padding:9,border:`1px solid ${ac}15`,marginBottom:12}}>
       <div style={{display:"flex",gap:3,flexWrap:"wrap",marginBottom:5}}>{[4,6,8,10,12,20].map(s=>(<button key={s} onClick={()=>aD(s)} style={{padding:"4px 9px",borderRadius:4,border:`1.5px solid ${ac}33`,background:`${ac}0a`,color:ac,fontSize:10,fontWeight:700,fontFamily:"'JetBrains Mono'",cursor:"pointer",touchAction:"manipulation"}}>+d{s}</button>))}<button onClick={()=>sCf("")} style={{padding:"4px 9px",borderRadius:4,border:"1.5px solid #e74c3c33",color:"#e74c3c",fontSize:10,cursor:"pointer",background:"transparent"}}>✕</button></div>
@@ -731,7 +762,7 @@ function NTab({c,up,ac}){
   </div>);
 }
 
-function Sh({t,oC,children}){return(<div style={SS.po} onClick={oC}><div style={{...SS.pc,maxHeight:"80vh",overflowY:"auto",maxWidth:360}} onClick={e=>e.stopPropagation()}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>{t}</span><button onClick={oC} style={{background:"none",border:"none",color:"#e74c3c",fontSize:15,cursor:"pointer"}}>✕</button></div>{children}</div></div>);}
+function Sh({t,oC,children}){return(<div style={SS.po} onClick={oC}><div style={{...SS.pc,maxHeight:"80vh",overflowY:"auto",maxWidth:window.innerWidth>=768?520:380}} onClick={e=>e.stopPropagation()}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{fontFamily:"'Cinzel'",fontSize:14,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>{t}</span><button onClick={oC} style={{background:"none",border:"none",color:"#e74c3c",fontSize:15,cursor:"pointer"}}>✕</button></div>{children}</div></div>);}
 function Fl({l,children}){return<div style={{marginBottom:9}}><label style={{display:"block",fontSize:9,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700,letterSpacing:1,marginBottom:2}}>{l}</label>{children}</div>;}
 
 function AM({c,up,data,oC}){
@@ -806,7 +837,7 @@ const SS={
   bb:{width:32,height:32,borderRadius:"50%",border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.08)",color:"#c8a95e",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",flexShrink:0,fontWeight:700},
   hs:{width:22,height:22,borderRadius:"50%",border:"1px solid #c8a95e22",background:"rgba(200,169,94,0.08)",color:"#c8a95e",fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700},
   po:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.85)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},
-  pc:{background:"linear-gradient(180deg,#151b2e,#0f1420)",border:"1.5px solid #c8a95e55",borderRadius:12,padding:"18px 16px 16px",width:"100%",maxWidth:320,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
+  pc:{background:"linear-gradient(180deg,#151b2e,#0f1420)",border:"1.5px solid #c8a95e55",borderRadius:12,padding:"18px 16px 16px",width:"100%",maxWidth:window.innerWidth>=768?480:400,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
   pb:{flex:1,padding:"7px 0",borderRadius:7,border:"1.5px solid",fontSize:11,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
 };
 
