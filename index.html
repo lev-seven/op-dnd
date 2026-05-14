@@ -397,7 +397,7 @@ function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile
         <button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>
       </div>
       <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
-        <div style={{padding:"16px",paddingBottom:80,margin:"0 auto",width:"100%"}}>
+        <div style={{padding:"16px",paddingBottom:140,margin:"0 auto",width:"100%"}}>
         {sections.map((sec,si)=>(
           <div key={si} style={{marginBottom:20}}>
             <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
@@ -512,7 +512,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
         </div>
       </div>
 
-      <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",paddingBottom:`calc(${NAV_HEIGHT}px + var(--safe-bottom) + 8px)`}}>
+      <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",paddingBottom:`calc(${NAV_HEIGHT}px + var(--safe-bottom) + 60px)`}}>
         {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
         {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
