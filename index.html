@@ -29,6 +29,15 @@ input,textarea,select,button{font-family:inherit;outline:none}
   input,textarea,select{font-size:15px!important}
 }
 button{-webkit-user-select:none;user-select:none}
+@media(min-width:768px){
+  #root{zoom:1.2}
+}
+@media(min-width:1100px){
+  #root{zoom:1.35}
+}
+@media(min-width:1400px){
+  #root{zoom:1.5}
+}
 </style>
 <script>window.GITHUB_BASE="https://lev-seven.github.io/op-dnd/";</script>
 </head>
@@ -147,6 +156,9 @@ function AppWrapper(){
   const ac=acc?.color||"#c8a95e";
   const isMaster=acc?.isMaster||false;
   const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
+
+  const wide=window.innerWidth>=768;
+  const fs=wide?1.35:1;
 
   /* ═══ TOKEN: criptato hardcoded — generare con encToken() in console ═══ */
   const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
