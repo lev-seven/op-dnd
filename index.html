@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--app-h:100vh;--app-h:100dvh;--nav-h:calc(56px + env(safe-area-inset-bottom,0px));--safe-bottom:env(safe-area-inset-bottom,0px);--content-w:480px;--fs:1}
+:root{--app-h:100vh;--app-h:100dvh;--nav-h:calc(56px + env(safe-area-inset-bottom,0px));--safe-bottom:env(safe-area-inset-bottom,0px)}
 html{height:var(--app-h);overflow:hidden}
 body{height:var(--app-h);overflow:hidden;font-family:'Crimson Text',Georgia,serif;color:#e8dcc8;background:#0a0e17}
 #root{height:100%;overflow:hidden}
@@ -23,18 +23,12 @@ input,textarea,select,button{font-family:inherit;outline:none}
 ::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-@media(min-width:600px){:root{--content-w:96vw}}
-@media(min-width:768px){:root{--content-w:92vw;--fs:1.15}}
-@media(min-width:1100px){:root{--content-w:88vw;--fs:1.2}}
-@media(min-width:1400px){:root{--content-w:min(85vw,1400px);--fs:1.25}}
-button{-webkit-user-select:none;user-select:none}
 @media(min-width:768px){
-  body{font-size:calc(16px * var(--fs))}
-  input,textarea,select{font-size:calc(13px * var(--fs))!important}
-  button{font-size:calc(12px * var(--fs))}
-  h1{font-size:calc(20px * var(--fs))!important}
-  h2{font-size:calc(14px * var(--fs))!important}
+  :root{--content-w:100%}
+  body{font-size:18px}
+  input,textarea,select{font-size:15px!important}
 }
+button{-webkit-user-select:none;user-select:none}
 </style>
 <script>window.GITHUB_BASE="https://lev-seven.github.io/op-dnd/";</script>
 </head>
@@ -387,14 +381,14 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onN
 function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile,loading}){
   return(
     <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflow:"hidden"}}>
-      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10,maxWidth:"var(--content-w)",margin:"0 auto",width:"100%"}}>
+      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10,margin:"0 auto",width:"100%"}}>
         <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
         <Av src={accAvatarUrl(acc?.id)} fallback={acc?.isMaster?"👑":acc?.name?.[0]||"?"} size={36} color={ac}/>
         <div style={{flex:1}}><h2 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:700,color:ac}}>{acc?.name}</h2>{isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master</span>}</div>
         <button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>
       </div>
       <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
-        <div style={{padding:"16px",paddingBottom:80,maxWidth:"var(--content-w)",margin:"0 auto",width:"100%"}}>
+        <div style={{padding:"16px",paddingBottom:80,margin:"0 auto",width:"100%"}}>
         {sections.map((sec,si)=>(
           <div key={si} style={{marginBottom:20}}>
             <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
@@ -476,7 +470,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
 
   const NAV_HEIGHT=56;
   return(
-    <div style={{position:"relative",maxWidth:"var(--content-w)",margin:"0 auto",height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
+    <div style={{position:"relative",margin:"0 auto",height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
       <div style={{flexShrink:0,background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"10px 14px 8px"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
           <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
