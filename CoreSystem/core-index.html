@@ -99,9 +99,11 @@ function App(){
   const[toast,setToast]=useState(null);
   const fileRef=useRef(null);
 
+  const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
+  const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
+
   useEffect(()=>{(async()=>{
     const m=await fetchJ(BASE()+"/data/manifest.json");setManifest(m);
-    // Leggi auth da sessionStorage (passata dal main)
     try{
       const auth=JSON.parse(sessionStorage.getItem("core_auth"));
       if(auth&&auth.accId&&(Date.now()-auth.ts)<3600000){
@@ -110,15 +112,11 @@ function App(){
         setScreen("list");setLoading(false);return;
       }
     }catch{}
-    // Fallback: mostra login
     setScreen("login");setLoading(false);
   })();},[]);
   const acc=manifest?.accounts?.find(a=>a.id===accId);
   const isMaster=acc?.isMaster||false;
   const up=useCallback(u=>setChar(p=>({...p,...u})),[]);
-
-  const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
-  const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
 
   const listChars=async(owner)=>{
     const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
