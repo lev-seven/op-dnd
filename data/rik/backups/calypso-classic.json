@@ -1,0 +1,586 @@
+{
+  "account": "Rik",
+  "accountId": "rik",
+  "exportedAt": "2026-05-13T14:06:49.746Z",
+  "character": {
+    "id": "mp3zgo4mec5g",
+    "name": "Calypso",
+    "race": "Umano Kuja",
+    "level": 8,
+    "classes": "Rogue",
+    "ac": 15,
+    "hpMax": 69,
+    "hpCurrent": 69,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 15,
+    "profBonus": 3,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "DES": {
+        "score": 20,
+        "mod": 5,
+        "save": 7,
+        "profSave": true
+      },
+      "COS": {
+        "score": 16,
+        "mod": 3,
+        "save": 3,
+        "profSave": false
+      },
+      "INT": {
+        "score": 14,
+        "mod": 2,
+        "save": 4,
+        "profSave": true
+      },
+      "SAG": {
+        "score": 13,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 13,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "mastery"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "prof"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "mastery"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "mastery"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "mastery"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 3,
+      "slots": {
+        "1": {
+          "max": 4,
+          "used": 0
+        },
+        "2": {
+          "max": 2,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      },
+      {
+        "id": "mp3zvtt5tpzl",
+        "name": "Rogue",
+        "color": "#1a3dbc"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "mp41ww2p0kfg",
+        "name": "Coltello",
+        "stat": "DES",
+        "damage": "1d4",
+        "type": "perforante",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      },
+      {
+        "id": "mp41z1pfb4dp",
+        "name": "Lancia ",
+        "stat": "DES",
+        "damage": "1d6",
+        "type": "perforante",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      },
+      {
+        "id": "mp41zrr18snu",
+        "name": "Arco lungo",
+        "stat": "DES",
+        "damage": "1d8",
+        "type": "perforanti",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      }
+    ],
+    "abilities": [
+      {
+        "id": "mp3zwcdjz6yw",
+        "name": "Expertise",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.\n\nAt 6th level, you can choose two more of your proficiencies (in skills or with thieves' tools) to gain this benefit.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp3zyhsfyoav",
+        "name": "Sneak Attack",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Beginning at 1st level, you know how to strike subtly and exploit a foe's distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.\n\nYou don't need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn't incapacitated, and you don't have disadvantage on the attack roll.\n\nThe amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp3zzoq9stas",
+        "name": "Thieves' Cant",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "During your rogue training you learned thieves' cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves' cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly.\n\nIn addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves' guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp401y0pymoc",
+        "name": "Cunning Action",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Starting at 2nd level, your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp4040rkhk96",
+        "name": "Steady Aim",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Azione bonus",
+        "desc": "At 3rd level, as a bonus action, you give yourself advantage on your next attack roll on the current turn. You can use this bonus action only if you haven't moved during this turn, and after you use the bonus action, your speed is 0 until the end of the current turn.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp4084frw4zt",
+        "name": "Uncanny Dodge",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Reazione",
+        "desc": "Starting at 5th level, when an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp409t0efnb8",
+        "name": "Evasion",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Beginning at 7th level, you can nimbly dodge out of the way of certain area Effects, such as a devil fruit user's fireball ability or an Ice Storm attack. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40eba2g1hn",
+        "name": " Elemental Trickster",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Elemental Tricksters have mastered the science of many complex traps, tools, and plants. They may use these tools to aid in combat or simply create a number of illusory effects to distract your opponent.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40f5lej1q6",
+        "name": "Bonus Proficiencies",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "When you choose this archetype at 3rd Level, you gain proficiency with darts, blowguns, and giant slings.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40g2iu09at",
+        "name": "Nature Powers (Spellcsating)",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "When you reach 3rd Level, you gain the ability to cast Nature Powers (Spells). See the general rules of Spellcasting and the Tinkerer spell list in chapter 8.\n\nNatural Abilities (Cantrips). You learn three natural abilities (cantrips): Druidcraft and two other Cantrips of your choice from the Tinkerer spell list. You learn another tinkerer cantrip of your choice at 10th level.\n\nNature Power Slots (Spell Slots). The Elemental Trickster Nature Powers table shows how many Nature Power Slots you have to cast Tinkerer Spells of 1st Level and higher as Nature Powers. To cast one of these Nature Powers (spells)⁠, you must expend a slot of the nature power’s level or higher. You regain all expended Nature Power Slots when you finish a Long Rest.\n\nFor example, if you know the 1st-level nature power Charm Person and have a 1st-level and a 2nd-level slot available, you can use charm person⁠ using either slot.\n\nNature Powers (Spells) Known of 1st-Level and Higher. You know three 1st-level Tinkerer Spells of your choice, two of which you must choose from the Enchantment and Illusion spells⁠ on the tinkerer spell list.\n\nThe Natural Powers Known (Spells Known) column of the Elemental Trickster Natural Powers table shows when you learn more Tinkerer spells⁠ of 1st Level or higher. Each of these spells⁠ must be an Enchantment or Illusion spell of your choice, and must be of a level for which you have Spell Slots. For instance, when you reach 7th level in this class, you can learn one new spell of 1st or 2nd Level.\n\nThe Nature Powers (Spells) you learn at 8th, 14th, and 20th level can come from any school of magic.\n\nWhenever you gain a level in this class, you can replace one of the Tinkerer Spells you know with another nature power (spell) of your choice from the tinkerer⁠ spell list. The new nature power must be of a level for which you have Nature Power Slots, and it must be an Enchantment or Illusion nature power (spell), unless you're replacing the nature power you gained at 3rd, 8th, 14th, or 20th level from any school of magic.\n\nSpecial Power Ability. Intelligence is your Special Power ability for your Tinkerer spells⁠, since you learn your Nature Powers (Spells) through dedicated study and memorization. You use your Intelligence whenever a nature power (spell) refers to your Special Power (spellcasting⁠) ability. In addition, you use your Intelligence modifier when setting⁠ the saving throw DC for a tinkerer spell you cast and when making an Attack roll with one.\n\nSpecial Power save DC = 8 + your Proficiency Bonus + your Intelligence modifier\n\nSpecial Power Attack modifier = your Proficiency Bonus + your Intelligence modifier",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp40i1kgnbnu",
+        "name": "Nature's Invention",
+        "originId": "mp3zvtt5tpzl",
+        "type": "Passiva",
+        "desc": "Starting at 3rd Level, when you cast Druidcraft, you can perform the following additional tasks with it:\n\nYou can make your next Ranged Weapon attack deal fire, cold, or lightning damage instead. You can use this feature a number of times equal to twice your Intelligence modifier. You regain all uses of this feature again once you complete a short or long rest.\nYou can enhance any natural shell and turn it into a Simple Dial of your choice. You can't use this feature again until you complete a long rest. You can have a number of Dials created this way equal to your Intelligence Modifier. You can cast this spell again to remove the properties from a Simple Dial you created and revert it back to a normal shell.\nYou create a natural trap of your choice. This works the same as a Hunting Trap or Caltrops (pick one). You can use this feature a number of times equal to twice your Intelligence modifier. You regain all uses of this feature again once you complete a short or long rest.",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp421rs9r64z",
+        "name": "Soul Armor",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "You can form a thin coating of invisible armor around your body using your soul.\n\nAs an action, you surround your body with this armor, making your AC equal to 13 + your Constitution modifier when you aren't wearing armor. This armor lasts for 8 hours. You cannot use this feature agian until you finish a long rest.You can form a thin coating of invisible armor around your body using your soul.\n\nAs an action, you surround your body with this armor, making your AC equal to 13 + your Constitution modifier when you aren't wearing armor. This armor lasts for 8 hours. You cannot use this feature agian until you finish a long rest.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp423qcf30gp",
+        "name": "Weapon Hardening",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "You gain the ability to coat your weapons and attacks with your spirit. The heavier the application, the darker the coating is.\n\nAs a bonus action, you channel haki into your body or a weapon of your choice. If you choose your body, you choose either your unarmed strikes or a natural weapon. For 1 minute, your attacks with the chosen weapon are considered magical with a +1 bonus to Attack rolls and Damage Rolls.\n\nIf the attack already has a bonus to its attack and damage rolls, this feature replaces the bonus unless it is greater, in which case it does not gain this feature’s benefit.\n\nThis effect ends early if you fall unconscious, use it again, end it as a bonus action, or start your turn not holding or touching the weapon you coated. Once you use this ability a number of times equal to your proficiency bonus, you can't use it again until you finish a long rest.\n\nIf the Spirit Surge Event has a rarity higher than Rare, use these bonuses:\n\nRare. The chosen weapon gains a +2 bonus to Attack rolls and Damage Rolls instead.\n\nVery Rare. The chosen weapon gains a +3 bonus to Attack rolls and Damage Rolls instead.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [
+      {
+        "id": "mp40vrlzh8ul",
+        "name": "Druidcraft",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Whispering to the spirits of nature, you create one of the following effects within range:\n\nYou create a tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hours. The effect might manifest as a golden orb for clear skies, a cloud for rain, falling snowflakes for snow, and so on. This effect persists for 1 round.\nYou instantly make a flower blossom, a seed pod open, or a leaf bud bloom.\nYou create an instantaneous, harmless sensory effect, such as falling leaves, a puff of wind, the sound of a small animal, or the faint odor of skunk. The effect must fit in a 5-foot cube.\nYou instantly light or snuff out a candle, a torch, or a small campfire.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp4145djavnn",
+        "name": "Frostbite",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "You cause numbing frost to form on one creature that you can see within range. The target must make a Constitution saving throw. On a failed save, the target takes 1d6 cold damage, and it has disadvantage on the next weapon attack roll it makes before the end of its next turn.",
+        "higherLevels": "The spell’s damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+        "prepared": true
+      },
+      {
+        "id": "mp418lavgcpc",
+        "name": "Minor Illusion",
+        "level": 0,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": false,
+        "desc": "You create a sound or an image of an object within range that lasts for the duration. The illusion also ends if you dismiss it as an action or cast this spell again.\n\nIf you create a sound, its volume can range from a whisper to a scream. It can be your voice, someone else’s voice, a lion’s roar, a beating of drums, or any other sound you choose. The sound continues unabated throughout the duration, or you can make discrete sounds at different times before the spell ends.\n\nIf you create an image of an object—such as a chair, muddy footprints, or a small chest—it must be no larger than a 5-foot cube. The image can’t create sound, light, smell, or any other sensory effect. Physical interaction with the image reveals it to be an illusion, because things can pass through it.\n\nIf a creature uses its action to examine the sound or image, the creature can determine that it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mp41cv8lwd4v",
+        "name": "Charm Person",
+        "level": 1,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1o",
+        "concentration": false,
+        "desc": "You attempt to charm a humanoid you can see within range. It must make a Wisdom saving throw, and does so with advantage if you or your companions are fighting it. If it fails the saving throw, it is charmed by you until the spell ends or until you or your companions do anything harmful to it. The charmed creature regards you as a friendly acquaintance. When the spell ends, the creature knows it was charmed by you.",
+        "higherLevels": " When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st. The creatures must be within 30 feet of each other when you target them.",
+        "prepared": true
+      },
+      {
+        "id": "mp41g3fnuz2q",
+        "name": "Frost Fingers",
+        "level": 1,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "personale (15-foot cone)",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Freezing cold blasts from your fingertips in a 15-foot cone. Each creature in that area must make a Constitution saving throw, taking 2d8 cold damage on a failed save, or half as much damage on a successful one.\n\nThe cold freezes nonmagical liquids in the area that aren't being worn or carried.",
+        "higherLevels": " When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d8 for each slot level above 1st.",
+        "prepared": true
+      },
+      {
+        "id": "mp41ia61ig99",
+        "name": "Ice Knife",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "You create a shard of ice and fling it at one creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 piercing damage. Hit or miss, the shard then explodes. The target and each creature within 5 feet of the point where the ice exploded must succeed on a Dexterity saving throw or take 2d6 cold damage.",
+        "higherLevels": "When you cast this spell using a spell slot of 2nd level or higher, the cold damage increases by 1d6 for each slot level above 1st.",
+        "prepared": true
+      },
+      {
+        "id": "mp41lsicrm2c",
+        "name": "Rime's Binding Ice",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "personale (30-foot cone)",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "A burst of cold energy emanates from you in a 30-foot cone. Each creature in that area must make a Constitution saving throw. On a failed save, a creature takes 3d8 cold damage and is hindered by ice formations for 1 minute, or until it or another creature within reach of it uses an action to break away the ice. A creature hindered by ice has its speed reduced to 0. On a successful save, a creature takes half as much damage and isn’t hindered by ice.\n\n",
+        "higherLevels": "When you cast this spell using a spell slot of 3rd level or higher, increase the cold damage by 1d8 for each slot level above 2nd.",
+        "prepared": true
+      },
+      {
+        "id": "mp41okmqzuhm",
+        "name": "Snilloc's Snowball Swarm",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "30m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "A flurry of magic snowballs erupts from a point you choose within range. Each creature in a 5-foot-radius sphere centered on that point must make a Dexterity saving throw. A creature takes 3d6 cold damage on a failed save, or half as much damage on a successful one.",
+        "higherLevels": " When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.",
+        "prepared": true
+      },
+      {
+        "id": "mp41q8vu6dtm",
+        "name": "Fortune's Favor",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "1 minuto",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1o",
+        "concentration": false,
+        "desc": "You impart latent luck to yourself or one willing creature you can see within range. When the chosen creature makes an attack roll, an ability check, or a saving throw before the spell ends, it can dismiss this spell on itself to roll an additional d20 and choose which of the d20s to use. Alternatively, when an attack roll is made against the chosen creature, it can dismiss this spell on itself to roll a d20 and choose which of the d20s to use, the one it rolled or the one the attacker rolled.\n\nIf the original d20 roll has advantage or disadvantage, the creature rolls the additional d20 after advantage or disadvantage has been applied to the original roll.",
+        "higherLevels": "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.",
+        "prepared": true
+      }
+    ],
+    "notes": "Kuja\nSkill Proficiencies Athletics, Intimidation\n\nTool Proficiencies One type of gaming set, vehicles (land)\n\nEquipment An insignia of a snake, a white Kuja cape, a bone dice set or playing card set, a set of common clothes, and a wallet containing ฿100,000\n\nFeature: Kuja Warrior\nYou were born and raised on Amazon Lily, alongside many others in the Kuja tribe. All warriors here are women, and have fierce fighting abilities and nearly unmatched strength. Before venturing away from Amazon Lily, you may have lived as a pirate, islander, or warrior for the Kuja Clan. Any other Kuja Tribe member you encounter will treat you with respect, along with any other female in your party.",
+    "backstory": "",
+    "diceLog": [],
+    "effects": []
+  }
+}
