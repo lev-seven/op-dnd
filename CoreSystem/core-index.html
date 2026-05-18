@@ -502,8 +502,23 @@ function Pill({on,dim,color,onClick,title,children}){
 /* ═══ MANUAL PAGE ═══ */
 function ManualPage({onBack}){
   const R=G.CORE_RULES||{};const W=G.WOUND_TIERS||[];const HP=G.HERO_POINT||{};
+  const WC=G.WCAT||{};const AR=G.ARMORS||[];const SH=G.SHIELDS||[];const CO=G.CONDITIONS||[];
+  if(!G.WCAT){return React.createElement("div",{style:{height:"var(--app-h)",display:"flex",flexDirection:"column"}},
+    React.createElement("div",{style:{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}},
+      React.createElement("button",{onClick:onBack,style:{...SS.btn,padding:"6px 10px"}},"←"),
+      React.createElement("h2",{style:{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}},"Manuale")
+    ),
+    React.createElement("div",{style:{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:20}},
+      React.createElement("p",{style:{color:"var(--red)",textAlign:"center",fontSize:13}},"⚠️ core-data.js non caricato. Assicurati che il file sia nella cartella CoreSystem/ su GitHub.")
+    )
+  );}
   const s={sec:{fontFamily:"Cinzel",fontSize:14,fontWeight:700,color:"var(--gold)",letterSpacing:1,margin:"20px 0 10px",paddingBottom:6,borderBottom:"1px solid var(--b1)"},p:{fontSize:13,color:"var(--tx2)",lineHeight:1.7,marginBottom:10},box:{background:"var(--s2)",border:"1px solid var(--b1)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--tx2)",lineHeight:1.6},formula:{background:"var(--s3)",borderLeft:"3px solid var(--gold)",borderRadius:6,padding:"10px 14px",fontFamily:"JetBrains Mono",fontSize:13,color:"var(--gold)",marginBottom:10},tbl:{width:"100%",borderCollapse:"collapse",marginBottom:12,fontSize:12},th:{background:"var(--s3)",color:"var(--tx2)",fontFamily:"Cinzel",fontSize:10,letterSpacing:1,padding:"7px 10px",textAlign:"left",border:"1px solid var(--b1)"},td:{padding:"6px 10px",border:"1px solid var(--b1)",color:"var(--tx2)"}};
-  const Tbl=({cols,rows})=>React.createElement("table",{style:s.tbl},React.createElement("thead",null,React.createElement("tr",null,cols.map((c,i)=>React.createElement("th",{key:i,style:s.th},c)))),React.createElement("tbody",null,rows.map((r,i)=>React.createElement("tr",{key:i},r.map((c,j)=>React.createElement("td",{key:j,style:{...s.td,...(j===0?{color:"var(--gold)",fontFamily:"JetBrains Mono",fontSize:11}:{})}},c))))));
+  const Tbl=({cols,rows})=>React.createElement("table",{style:s.tbl},React.createElement("thead",null,React.createElement("tr",null,cols.map((c,i)=>React.createElement("th",{key:i,style:s.th},c)))),React.createElement("tbody",null,(rows||[]).map((r,i)=>React.createElement("tr",{key:i},r.map((c,j)=>React.createElement("td",{key:j,style:{...s.td,...(j===0?{color:"var(--gold)",fontFamily:"JetBrains Mono",fontSize:11}:{})}},c||"—"))))));
+  const rules=(HP.rules||[]).map((r,i)=>React.createElement("p",{key:i,style:{margin:"4px 0",fontSize:12}},"\u2192 "+r));
+  const esempi=(HP.esempi||[]).map((e,i)=>React.createElement("div",{key:i,style:{...s.box,borderLeftColor:"var(--gold)",borderLeftWidth:3}},
+    React.createElement("p",{style:{color:"var(--tx)",fontSize:12,marginBottom:4}},'"'+e.azione+'"'),
+    React.createElement("p",{style:{color:"var(--green)",fontSize:11,margin:0}},"\u2192 "+e.esito)
+  ));
   return React.createElement("div",{style:{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}},
     React.createElement("div",{style:{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}},
       React.createElement("button",{onClick:onBack,style:{...SS.btn,padding:"6px 10px"}},"←"),
@@ -539,17 +554,17 @@ function ManualPage({onBack}){
       ),
       // 6. ARMI
       React.createElement("div",{style:s.sec},"6. Armi"),
-      Tbl({cols:["Cat","+Attacco","-Difesa","Talento","Init"],rows:Object.entries(G.WCAT).map(([k,v])=>[`Cat ${k}`,`+${v.bonus}`,k==="C"?"-1":k==="D"?"-2, 2mani":"—",v.req?tById(v.req)?.nome:"—",v.initMod?`${v.initMod}`:"—"])}),
+      Tbl({cols:["Cat","+Attacco","-Difesa","Talento","Init"],rows:Object.entries(WC).map(([k,v])=>[`Cat ${k}`,`+${v.bonus}`,k==="C"?"-1":k==="D"?"-2, 2mani":"—",v.req?(tById(v.req)?.nome||"?"):"—",v.initMod?`${v.initMod}`:"—"])}),
       // 7. ARMATURE
       React.createElement("div",{style:s.sec},"7. Armature"),
-      Tbl({cols:["Armatura","+Difesa","Penalità","Movimento","Req"],rows:G.ARMORS.map(a=>[a.nome,`+${a.bonus}`,a.penMente?`-${a.penMente} MENTE`+(a.penAnima?`, -${a.penAnima} ANIMA`:""):"—",`${a.movimento}m`,a.req?`CORPO ${a.req}+`:"—"])}),
+      Tbl({cols:["Armatura","+Difesa","Penalità","Movimento","Req"],rows:AR.map(a=>[a.nome,`+${a.bonus}`,a.penMente?`-${a.penMente} MENTE`+(a.penAnima?`, -${a.penAnima} ANIMA`:""):"—",`${a.movimento}m`,a.req?`CORPO ${a.req}+`:"—"])}),
       // 8. SCUDI
       React.createElement("div",{style:s.sec},"8. Scudi"),
-      Tbl({cols:["Scudo","+Difesa","Penalità","Restrizioni"],rows:G.SHIELDS.map(sh=>[sh.nome,`+${sh.bonus}`,sh.penMente?`-${sh.penMente} MENTE`+(sh.penAnima?`, -${sh.penAnima} ANIMA`:""):"—",sh.rest?`Solo Cat ${sh.rest.join("/")}`:sh.id===0?"":"Nessuna"])}),
+      Tbl({cols:["Scudo","+Difesa","Penalità","Restrizioni"],rows:SH.map(sh=>[sh.nome,`+${sh.bonus}`,sh.penMente?`-${sh.penMente} MENTE`+(sh.penAnima?`, -${sh.penAnima} ANIMA`:""):"—",sh.rest?`Solo Cat ${sh.rest.join("/")}`:sh.id===0?"":"Nessuna"])}),
       React.createElement("p",{style:s.p},"Difesa totale = CORPO + armatura + scudo. Nessun cap, bilanciato dalle penalità cumulate."),
       // 9. CONDIZIONI
       React.createElement("div",{style:s.sec},"9. Condizioni (max 2 attive)"),
-      Tbl({cols:["Condizione","Effetto","Durata"],rows:(G.CONDITIONS||[]).map(c=>[c.nome,c.effetto,c.durata])}),
+      Tbl({cols:["Condizione","Effetto","Durata"],rows:CO.map(c=>[c.nome,c.effetto,c.durata])}),
       // 10. MAGIE
       React.createElement("div",{style:s.sec},"10. Magie"),
       React.createElement("div",{style:s.formula},"Slot = max(MENTE, ANIMA) - 2"),
@@ -561,15 +576,12 @@ function ManualPage({onBack}){
       React.createElement("div",{style:s.sec},"12. Miglioramenti Fisici (max 3)"),
       React.createElement("p",{style:s.p},"Separati dai talenti. Modifiche permanenti con pro e contro meccanici. Alcuni richiedono manutenzione. Stili: Cyberpunk, Fantasy, Horror, Anime, Universale."),
       // 13. PUNTO EROE
-      React.createElement("div",{style:s.sec},"13. Punto Eroe ⭐"),
-      React.createElement("p",{style:s.p},`Ogni PG inizia con ${HP.maxPerSession||2} Punti Eroe per sessione.`),
-      React.createElement("div",{style:s.box},...(HP.rules||[]).map((r,i)=>React.createElement("p",{key:i,style:{margin:"4px 0",fontSize:12}},`→ ${r}`))),
-      (HP.esempi||[]).length>0&&React.createElement("div",{style:{marginBottom:10}},
+      React.createElement("div",{style:s.sec},"13. Punto Eroe \u2B50"),
+      React.createElement("p",{style:s.p},"Ogni PG inizia con "+(HP.maxPerSession||2)+" Punti Eroe per sessione."),
+      React.createElement("div",{style:s.box},rules),
+      esempi.length>0&&React.createElement("div",{style:{marginBottom:10}},
         React.createElement("div",{style:{fontSize:11,color:"var(--tx3)",fontFamily:"Cinzel",marginBottom:6}},"ESEMPI"),
-        ...(HP.esempi||[]).map((e,i)=>React.createElement("div",{key:i,style:{...s.box,borderLeftColor:"var(--gold)",borderLeftWidth:3}},
-          React.createElement("p",{style:{color:"var(--tx)",fontSize:12,marginBottom:4}},`"${e.azione}"`),
-          React.createElement("p",{style:{color:"var(--green)",fontSize:11,margin:0}},`→ ${e.esito}`)
-        ))
+        esempi
       ),
       // 14. MOSTRI
       React.createElement("div",{style:s.sec},"14. Mostri"),
