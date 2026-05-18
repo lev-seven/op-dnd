@@ -1,0 +1,539 @@
+{
+  "account": "Rik",
+  "accountId": "rik",
+  "exportedAt": "2026-04-28T12:48:10.475Z",
+  "character": {
+    "id": "moim8ccbullq",
+    "name": "Yago",
+    "race": "Umano",
+    "level": 10,
+    "classes": "",
+    "ac": 16,
+    "hpMax": 108,
+    "hpCurrent": 108,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 13,
+    "profBonus": 4,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 19,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "DES": {
+        "score": 19,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "COS": {
+        "score": 18,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "INT": {
+        "score": 14,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 17,
+        "mod": 3,
+        "save": 7,
+        "profSave": true
+      },
+      "CAR": {
+        "score": 15,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "prof"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "prof"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 0,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      },
+      {
+        "id": "mo07j7pdzsde",
+        "name": "Ufficiale",
+        "color": "#66938a"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "mo087zbxihda",
+        "name": "Attacco senz'armi",
+        "stat": "FOR",
+        "damage": "1d6+1d6+1d8+1d8+1d8",
+        "type": "Contundente",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "desc": "Il bersaglio deve riuscire a un tiro salvezza con CD 16 di Forza o essere messo a terra."
+      }
+    ],
+    "abilities": [
+      {
+        "id": "mo07fxsgyz78",
+        "name": "Armament Haki",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Gli attacchi dell'Élite Pirata sono considerati magici allo scopo di superare la Resistenza e l'immunità agli attacchi e danni non magici, come le resistenze concesse dai Frutti del Diavolo. L'Élite Pirata aggiunge anche un danno di forza aggiuntivo (3d8) ai suoi attacchi da mischia.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mo07h60cszc0",
+        "name": "Observation Haki",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Ogni volta che l'Élite Pirata effettua un tiro d'attacco, una prova di abilità o un tiro salvezza, può decidere di tirare un d20 aggiuntivo. Può scegliere quale dei d20 viene usato per il tiro d'attacco, la prova di abilità o il tiro salvezza. Il Pirata Elite può cambiare l'esito di un tiro quando viene attaccato contro di esso. Tira un d20, poi scegli se l'attacco usa il tiro dell'attaccante o quello dell'élite pirata. Se più di una creatura usa l'haki di osservazione per influenzare l'esito di un tiro, qualsiasi svantaggio o vantaggio dell'haki di osservazione applicato al tiro verrà annullato; non vengono tirati altri dadi.",
+        "maxUses": 2,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mo07inskpfs1",
+        "name": "Difesa elegante",
+        "originId": "mo07j7pdzsde",
+        "type": "Passiva",
+        "desc": "Mentre l'Élite Pirata indossa un'armatura leggera o nessuna e non impugna scudo, la sua CA include il modificatore di Carisma.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mo07jr2mqmqa",
+        "name": "Multiattacco",
+        "originId": "mo07j7pdzsde",
+        "type": "Azione",
+        "desc": "L'Élite Pirata effettua tre attacchi senz'armi.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mo07nrbjb1bq",
+        "name": "Incantesimi Innati ",
+        "originId": "mo07j7pdzsde",
+        "type": "Passiva",
+        "desc": "L'abilità innata di incantare l'Élite Pirata è Carisma (CD salvezza incantesimi 16, +8 per colpire con gli attacchi magici). Può lanciare innatamente i seguenti incantesimi, senza richiedere componenti: • 3 al giorno ciascuno: sfocatura, ritirata rapida, caduta morbida (sé), salto (sé), passo nebbioso, vedi invisibilità, scudo • 1 al giorno ciascuno: occhio arcano, velocità (sé), pelle di pietra (sé)",
+        "maxUses": 25,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      }
+    ],
+    "spells": [
+      {
+        "id": "mo07u6cik0im",
+        "name": "Sfocatura",
+        "level": 2,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Il tuo corpo diventa sfocato, indistinto e tremolante a chiunque ti veda. Per la durata dell’incantesimo, tutte le creature hanno svantaggio sui tiri per colpire contro di te. Gli attaccanti che non si affidano alla vista sono immuni a questo effetto, per esempio se hanno vista cieca o sono in grado di distinguere le illusioni, come per visione del vero.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo07w2y95fd0",
+        "name": "Ritirata Rapida",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": false,
+        "desc": "Questo incantesimo consente all'incantatore di muoversi a una velocità straordinaria. Quando lancia questo incantesimo, e poi come azione bonus a ogni suo turno finché l'incantesimo non termina, l'incantatore può effettuare l'azione Scatto.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo07xapc8ycu",
+        "name": "Caduta Morbida",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": false,
+        "desc": "L'incantatore sceglie fino a cinque creature in caduta entro gittata. La velocità di discesa di una creatura in caduta rallenta fino a 18 metri per round finché l'incantesimo non termina. Se la creatura atterra prima che l'incantesimo termini, essa non subisce alcun danno da caduta e può atterrare in piedi, e l'incantesimo termina per quella creatura.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo07ywge6x6o",
+        "name": "Saltare",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": false,
+        "desc": "L'incantatore tocca una creatura. La distanza coperta dai salti di quella creatura è triplicata finché l'incantesimo non termina.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo080kp8cjz3",
+        "name": "Passo Velato",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "bonus",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": false,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "L'incantatore è avvolto per un istante da una foschia argentata e si teletrasporta di un massimo di 9 metri fino a uno spazio libero che egli sia in grado di vedere.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo0819oiuvup",
+        "name": "Vedere Invisibiltà",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": false,
+        "desc": "Per la durata dell'incantesimo, l'incantatore vede le creature e gli oggetti invisibili come se fossero visibili e può vedere sul Piano Etereo. Le creature e gli oggetti eterei appaiono spettrali e trasparenti.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo082kqwbe5s",
+        "name": "Scudo",
+        "level": 1,
+        "school": "Abiurazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 round",
+        "concentration": false,
+        "desc": "Una barriera di forza magica invisibile si materializza e protegge l'incantatore. Fino all'inizio del proprio turno successivo, l'incantatore ottiene un bonus +5 alla CA da applicare anche all'attacco innescante e non subisce danni dall'incantesimo dardo incantato.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo083oocgkvq",
+        "name": "Occhio Arcano",
+        "level": 4,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9 m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "L'incantatore crea un occhio magico invisibile entro gittata che fluttua nell'aria per la durata dell'incantesimo.\nL'incantatore riceve mentalmente una serie di informazioni visive dall'occhio, che è dotato di visione normale e scurovisione fino a 9 metri. L'occhio può guardare in ogni direzione.\nCon un'azione, l'incantatore può muovere l'occhio di 9 metri in qualsiasi direzione. Non c'è limite alla distanza di cui l'occhio può allontanarsi dall'incantatore, ma esso non può entrare su un altro piano di esistenza. Una barriera solida blocca il movimento dell'occhio, che però può passare attraverso un'apertura del diametro minimo di 2,5 cm.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo085j4we1tv",
+        "name": "Velocità",
+        "level": 3,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "9m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "L'incantatore sceglie una creatura consenziente entro gittata e che egli sia in grado di vedere. Finché l'incantesimo non termina, il bersaglio ottiene un bonus di +2 alla CA, dispone di vantaggio ai tiri salvezza su Destrezza, la sua velocità raddoppia, e ottiene un'azione aggiuntiva a ogni suo turno. L'azione aggiuntiva può essere usata soltanto per effettuare un'azione di Attacco (un solo attacco con le armi), Disimpegno, Nascondersi, Scatto o Usare un Oggetto.\nQuando l'incantesimo termina, il bersaglio non può muoversi o effettuare azioni fino alla fine del suo turno successivo, in quanto è sopraffatto da un'ondata di spossatezza.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mo086e6ydtdz",
+        "name": "Pelle di Pietra",
+        "level": 4,
+        "school": "Abiurazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "Questo incantesimo rende la carne di una creatura consenziente toccata dall'incantatore dura come la pietra. Finché l'incantesimo non termina, il bersaglio ottiene resistenza ai danni non magici contundenti, perforanti e taglienti.",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
+    "notes": "",
+    "backstory": "",
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "Spada (danno)",
+        "total": 23,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 3
+            },
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 8,
+              "value": 2
+            },
+            {
+              "sides": 8,
+              "value": 5
+            },
+            {
+              "sides": 8,
+              "value": 3
+            }
+          ],
+          "bonus": 4,
+          "total": 23,
+          "formula": "1d6+1d6+1d8+1d8+1d8+4"
+        },
+        "timestamp": 1776280133285
+      },
+      {
+        "type": "d20",
+        "label": "Spada (colpire)",
+        "total": 27,
+        "roll1": 6,
+        "roll2": 19,
+        "chosen": 19,
+        "modifier": 8,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1776280129082
+      }
+    ],
+    "effects": []
+  }
+}
