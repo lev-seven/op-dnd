@@ -61,7 +61,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v1549";
+const APP_VERSION="v700";
 
 function Av({src,fallback,size,color,round,style:extra}){
   const[ok,setOk]=useState(true);
@@ -399,7 +399,7 @@ function GameModeScreen({acc,ac,onChoice,onBack}){
             <span style={{fontFamily:"'Cinzel'",fontWeight:900,fontSize:18,color:"#3498db",display:"block",marginBottom:4}}>Classic</span>
             <span style={{fontSize:11,color:"#998866",lineHeight:1.4,display:"block"}}>D&D 5e Homebrew</span>
           </button>}
-          {canCore?<button onClick={()=>onChoice("core")} style={{width:180,padding:"28px 20px",borderRadius:14,border:"2px solid #e8a03044",background:"linear-gradient(135deg,rgba(232,160,48,0.12),rgba(232,160,48,0.04))",cursor:"pointer",textAlign:"center",transition:"all 0.2s"}}>
+          {canCore?<button onClick={()=>window.location.href=BASE()+'/CoreSystem/core-index.html'} style={{width:180,padding:"28px 20px",borderRadius:14,border:"2px solid #e8a03044",background:"linear-gradient(135deg,rgba(232,160,48,0.12),rgba(232,160,48,0.04))",cursor:"pointer",textAlign:"center",transition:"all 0.2s"}}>
             <span style={{fontSize:32,display:"block",marginBottom:8}}>⚔️</span>
             <span style={{fontFamily:"'Cinzel'",fontWeight:900,fontSize:18,color:"#e8a030",display:"block",marginBottom:4}}>C.O.R.E.</span>
             <span style={{fontSize:11,color:"#998866",lineHeight:1.4,display:"block"}}>Compact Open Rules Engine</span>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#0c0c10"/>
+<title>C.O.R.E. — TTRPG App</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0c0c10;--s1:#131318;--s2:#1a1a22;--s3:#21212c;--b1:#2a2a38;--b2:#3a3a4e;--tx:#dddae8;--tx2:#9996aa;--tx3:#55536a;--gold:#e8a030;--gbg:#3a2810;--green:#48c88a;--red:#e05050;--blue:#5890e8;--purple:#a070e8;--cyan:#40c8c8;--app-h:100vh;--app-h:100dvh;--safe-bottom:env(safe-area-inset-bottom,0px)}
+html{height:var(--app-h);overflow:hidden}
+body{height:var(--app-h);overflow:hidden;font-family:'Outfit',sans-serif;color:var(--tx);background:var(--bg);font-size:14px}
+#root{height:100%;overflow:hidden}
+input,textarea,select,button{font-family:inherit;outline:none}
+button{cursor:pointer;-webkit-user-select:none;user-select:none}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:768px){html{zoom:1.15}}
+@media(min-width:1200px){html{zoom:1.25}}
+</style>
+<script>window.GITHUB_BASE="https://lev-seven.github.io/op-dnd/";</script>
+<script src="core-data.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+const{useState,useEffect,useCallback,useRef}=React;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
+async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
+async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
+function hex2b(h){const b=new Uint8Array(h.length/2);for(let i=0;i<h.length;i+=2)b[i/2]=parseInt(h.substr(i,2),16);return b;}
+async function aesDec(stored,passHash){try{const{i,d}=JSON.parse(stored);const k=await crypto.subtle.importKey("raw",hex2b(passHash).slice(0,32),{name:"AES-GCM"},false,["decrypt"]);const dec=await crypto.subtle.decrypt({name:"AES-GCM",iv:new Uint8Array(i)},k,new Uint8Array(d));return new TextDecoder().decode(dec);}catch{return null;}}
+async function ghPut(path,content,token,accId,isMaster,accName){
+  if(!isMaster&&accId){const allowed=path==="data/manifest.json"||path.startsWith(`data/${accId}/`);if(!allowed)return false;}
+  const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+  const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  const hd={"Authorization":`token ${token}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+  let sha=null;try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok){sha=(await r.json()).sha;}}catch{}
+  const body={message:`[${accName||accId||"?"}] Update ${path}`,content:btoa(unescape(encodeURIComponent(content)))};
+  if(sha)body.sha=sha;
+  return(await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)})).ok;
+}
+
+/* ═══ CORE HELPERS ═══ */
+const G=window; // access SPELLS, TALENTS, etc from core-data.js
+function tById(id){return G.TALENTS?.find(t=>t.id===id)}
+function sById(id){return G.SPELLS?.find(s=>s.id===id)}
+function aById(id){return G.AUGMENTS?.find(a=>a.id===id)}
+function catCap(c){return c.talenti.includes('cap_15')?15:c.talenti.includes('cap_12')?12:10}
+function hpMax(c){return c.corpo+c.mente+c.anima}
+function hpPct(c){const mx=hpMax(c);return mx>0?Math.max(0,c.hpCurrent/mx):0;}
+function woundTier(c){const mx=hpMax(c),lost=mx-c.hpCurrent,t=Math.floor(mx/3);if(c.hpCurrent<=0)return 3;if(lost>=t*2)return 2;if(lost>=t)return 1;return 0;}
+function wInfo(t){return(G.WOUND_TIERS||[])[Math.min(t,3)]||{nome:'?',penalita:0};}
+function maxSlots(c){return Math.max(0,Math.max(c.mente,c.anima)-2)}
+function hasTalent(c,id){return c.talenti.includes(id)}
+function canUseCat(c,cat){const w=G.WCAT[cat];return!w.req||hasTalent(c,w.req)}
+function armorData(id){return(G.ARMORS||[])[id]||G.ARMORS[0]}
+function shieldData(id){return(G.SHIELDS||[]).find(s=>s.id===id)||G.SHIELDS[0]}
+function totalDefBonus(c){return armorData(c.armatura).bonus+shieldData(c.scudo).bonus}
+function totalPenMente(c){return armorData(c.armatura).penMente+shieldData(c.scudo).penMente}
+function totalPenAnima(c){return armorData(c.armatura).penAnima+shieldData(c.scudo).penAnima}
+function movement(c){return armorData(c.armatura).movimento}
+function initBonus(c){const s=c.competenza;if(!s)return 0;return c[s]+(G.WCAT[c.armaCat]?.initMod||0);}
+function atkBonus(c){const stat=c.armaMagi?c.mente:c.corpo;const comp=c.competenza===(c.armaMagi?'mente':'corpo')?2:0;return stat+(G.WCAT[c.armaCat]?.bonus||0)+comp;}
+function defCorpo(c){return c.corpo+totalDefBonus(c)}
+function displayName(f){return f.replace(/-(classic|core)\.json$/,"").replace(/\.json$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());}
+
+function newCoreChar(n){return{id:uid(),name:n||"Nuovo PG",system:"core",corpo:4,mente:4,anima:4,hpCurrent:12,competenza:null,armaCat:"B",armaPerk:"b1",armaNome:"",armaDist:false,armaMagi:false,scudo:0,armatura:0,talenti:[],augmenti:[],magie:[],conditions:[],notes:"",backstory:""};}
+
+const SS={
+  inp:{background:'var(--s3)',border:'1px solid var(--b1)',borderRadius:6,color:'var(--tx)',fontFamily:'Outfit',fontSize:13,padding:'6px 9px',outline:'none',boxSizing:'border-box'},
+  btn:{borderRadius:6,border:'1px solid var(--b2)',background:'none',color:'var(--tx2)',fontFamily:'Outfit',fontSize:12,fontWeight:500,padding:'6px 12px',cursor:'pointer'},
+  gold:{borderRadius:6,border:'1.5px solid rgba(232,160,48,0.4)',background:'rgba(232,160,48,0.1)',color:'var(--gold)',fontFamily:'Cinzel',fontWeight:700,fontSize:12,cursor:'pointer',letterSpacing:0.5,textAlign:'center'},
+  green:{borderRadius:6,border:'1.5px solid rgba(72,200,138,0.4)',background:'rgba(72,200,138,0.08)',color:'var(--green)',fontFamily:'Cinzel',fontWeight:700,fontSize:12,cursor:'pointer',textAlign:'center'},
+  red:{borderRadius:6,border:'1.5px solid rgba(224,80,80,0.3)',background:'rgba(224,80,80,0.08)',color:'var(--red)',fontFamily:'Cinzel',fontWeight:700,fontSize:12,cursor:'pointer',textAlign:'center'},
+  card:{background:'var(--s1)',border:'1px solid var(--b1)',borderRadius:10,padding:12,marginBottom:8},
+  po:{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.85)',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:999,padding:14},
+  pc:{background:'linear-gradient(180deg,var(--s1),var(--bg))',border:'1.5px solid rgba(232,160,48,0.3)',borderRadius:12,padding:'18px 16px',width:'100%',maxWidth:440,boxShadow:'0 12px 48px rgba(0,0,0,0.6)'},
+};
+const TABS=[{id:"sheet",icon:"⚔️",label:"Scheda"},{id:"actions",icon:"🎭",label:"Azioni"},{id:"spells",icon:"📕",label:"Magie"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"},{id:"save",icon:"💾",label:"Salva"}];
+
+/* ═══ APP ═══ */
+function App(){
+  const[screen,setScreen]=useState("login");
+  const[manifest,setManifest]=useState(null);
+  const[accId,setAccId]=useState(null);
+  const[ghToken,setGhToken]=useState(null);
+  const[char,setChar]=useState(null);
+  const[charMeta,setCharMeta]=useState(null);
+  const[loading,setLoading]=useState(true);
+  const[chars,setChars]=useState([]);
+  const[loadingChars,setLoadingChars]=useState(false);
+  const[toast,setToast]=useState(null);
+  const fileRef=useRef(null);
+
+  useEffect(()=>{(async()=>{const m=await fetchJ(BASE()+"/data/manifest.json");setManifest(m);setLoading(false);})();},[]);
+  const acc=manifest?.accounts?.find(a=>a.id===accId);
+  const isMaster=acc?.isMaster||false;
+  const up=useCallback(u=>setChar(p=>({...p,...u})),[]);
+
+  const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
+  const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
+
+  const listChars=async(owner)=>{
+    const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+    const hd=ghToken?{"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}:{"Accept":"application/vnd.github+json"};
+    try{
+      const r=await fetch(`https://api.github.com/repos/${user}/${repo}/contents/data/${owner}?t=`+Date.now(),{headers:hd,cache:"no-store"});
+      if(!r.ok)return[];const files=await r.json();if(!Array.isArray(files))return[];
+      return files.filter(f=>f.name.endsWith("-core.json")&&f.type==="file").map(f=>({file:f.name,name:displayName(f.name)}));
+    }catch{return[];}
+  };
+
+  const loadAllChars=async()=>{
+    setLoadingChars(true);
+    const secs=[];
+    const own=await listChars(accId);
+    if(own.length)secs.push({label:"I Miei PG",owner:accId,chars:own,color:"var(--gold)"});
+    if(isMaster){for(const a of(manifest?.accounts?.filter(x=>x.id!==accId)||[])){const ch=await listChars(a.id);if(ch.length)secs.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color||"var(--blue)"});}}
+    setChars(secs);setLoadingChars(false);
+  };
+
+  const loadChar=async(owner,file)=>{
+    setLoading(true);const raw=await fetchJ(`${BASE()}/data/${owner}/${file}`);setLoading(false);
+    if(!raw)return null;const ch=raw.character||raw;
+    if(ch.corpo!==undefined)return ch;return null;
+  };
+
+  const saveChar=async(owner,file,charObj)=>{
+    if(!ghToken)return false;
+    const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
+    return await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster,acc?.name);
+  };
+
+  const saveNewChar=async(charObj)=>{
+    if(!ghToken||!accId)return null;
+    const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+"-core.json";
+    const ok=await ghPut(`data/${accId}/${fname}`,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);
+    if(!ok)return null;
+    setToast("PG Core creato!");setTimeout(()=>setToast(null),4000);
+    return{owner:accId,file:fname};
+  };
+
+  useEffect(()=>{if(screen==="list"&&accId&&ghToken)loadAllChars();},[screen,accId,ghToken]);
+
+  return React.createElement("div",{style:{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"var(--bg)"}},
+    loading&&React.createElement(Loader,null),
+
+    !loading&&screen==="login"&&React.createElement(LoginScreen,{manifest,onAuth:async(id)=>{
+      setAccId(id);const tk=await decToken();if(tk)setGhToken(tk);setScreen("list");
+    }}),
+
+    !loading&&screen==="list"&&React.createElement(CharList,{acc,isMaster,chars,loadingChars,
+      onBack:()=>{window.location.href=BASE()+"/";},
+      onNew:()=>{setChar(newCoreChar(""));setCharMeta(null);setScreen("sheet");},
+      onLoad:async(owner,file)=>{const c=await loadChar(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");},
+    }),
+
+    !loading&&screen==="sheet"&&char&&React.createElement(CoreSheet,{c:char,up,acc,charMeta,ghToken,isMaster,accId,
+      saveChar,saveNewChar,setCharMeta,
+      onBack:()=>{setChar(null);setCharMeta(null);setScreen("list");},
+    }),
+
+    toast&&React.createElement("div",{style:{position:"fixed",bottom:30,left:"50%",transform:"translateX(-50%)",zIndex:100,padding:"10px 20px",borderRadius:8,background:"var(--s1)",border:"1.5px solid rgba(72,200,138,0.4)",color:"var(--green)",fontFamily:"Cinzel",fontSize:12,fontWeight:700,boxShadow:"0 6px 24px rgba(0,0,0,0.5)"}},"\u2705 ",toast)
+  );
+}
+
+function Loader(){return React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"center",height:"var(--app-h)"}},
+  React.createElement("div",{style:{textAlign:"center"}},
+    React.createElement("div",{style:{width:40,height:40,border:"3px solid var(--b1)",borderTop:"3px solid var(--gold)",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}),
+    React.createElement("p",{style:{color:"var(--gold)",fontFamily:"Cinzel",fontSize:14}},"Caricamento...")
+  )
+);}
+
+/* ═══ LOGIN ═══ */
+function LoginScreen({manifest,onAuth}){
+  const[user,setUser]=useState("");const[pw,setPw]=useState("");const[err,setErr]=useState("");const[show,setShow]=useState(false);
+  const accs=manifest?.accounts||[];
+  const check=async()=>{
+    if(!user.trim()||pw.length<6){setErr("Credenziali non valide");return;}
+    const found=accs.find(a=>a.name.toLowerCase()===user.trim().toLowerCase()||a.id===user.trim().toLowerCase());
+    if(!found){setErr("Utente non trovato");return;}
+    const hashed=await H(pw+"$ttrpg-op-2026$");const dh=await H(hashed);
+    if(dh===found.ix)onAuth(found.id);else setErr("Password errata");
+  };
+  return React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"var(--app-h)",padding:"0 20px"}},
+    React.createElement("div",{style:{textAlign:"center",maxWidth:340,width:"100%"}},
+      React.createElement("h1",{style:{fontFamily:"Cinzel",fontSize:28,fontWeight:900,color:"var(--gold)",marginBottom:4,letterSpacing:3}},"C.O.R.E."),
+      React.createElement("p",{style:{color:"var(--tx3)",fontSize:11,fontFamily:"JetBrains Mono",marginBottom:30}},"Compact Open Rules Engine"),
+      React.createElement("input",{value:user,onChange:e=>setUser(e.target.value),placeholder:"Nome utente...",onKeyDown:e=>e.key==="Enter"&&check(),style:{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px",marginBottom:10}}),
+      React.createElement("div",{style:{position:"relative",marginBottom:16}},
+        React.createElement("input",{type:show?"text":"password",value:pw,onChange:e=>setPw(e.target.value),onKeyDown:e=>e.key==="Enter"&&check(),placeholder:"Password...",style:{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px 44px 12px 12px"}}),
+        React.createElement("button",{onClick:()=>setShow(!show),style:{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"var(--tx3)",fontSize:16,cursor:"pointer"}},show?"\uD83D\uDE48":"\uD83D\uDC41")
+      ),
+      err&&React.createElement("p",{style:{color:"var(--red)",fontSize:12,marginBottom:12}},err),
+      React.createElement("button",{onClick:check,style:{...SS.gold,width:"100%",padding:"12px 0",fontSize:15}},"Entra"),
+      React.createElement("button",{onClick:()=>window.location.href=BASE()+"/",style:{marginTop:16,background:"none",border:"none",color:"var(--tx3)",fontSize:11,cursor:"pointer",fontFamily:"Outfit"}},"← Torna a Classic")
+    )
+  );
+}
+
+/* ═══ CHAR LIST ═══ */
+function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad}){
+  if(loadingChars)return React.createElement("div",{style:{display:"flex",flexDirection:"column",height:"var(--app-h)"}},
+    React.createElement("div",{style:{padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}},
+      React.createElement("button",{onClick:onBack,style:{...SS.btn,padding:"6px 10px"}},"←"),
+      React.createElement("h2",{style:{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)",flex:1}},acc?.name),
+      React.createElement("span",{style:{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono"}},"C.O.R.E.")
+    ),
+    React.createElement("div",{style:{flex:1,display:"flex",alignItems:"center",justifyContent:"center"}},
+      React.createElement("div",{style:{textAlign:"center"}},
+        React.createElement("div",{style:{width:36,height:36,border:"3px solid var(--b1)",borderTop:"3px solid var(--gold)",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 14px"}}),
+        React.createElement("p",{style:{color:"var(--gold)",fontFamily:"Cinzel",fontSize:12}},"Caricamento PG...")
+      )
+    )
+  );
+
+  return React.createElement("div",{style:{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}},
+    React.createElement("div",{style:{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}},
+      React.createElement("button",{onClick:onBack,style:{...SS.btn,padding:"6px 10px"}},"←"),
+      React.createElement("h2",{style:{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)",flex:1}},acc?.name),
+      isMaster&&React.createElement("span",{style:{fontSize:9,color:"var(--gold)",opacity:0.6,fontFamily:"Cinzel"}},"👑 Master"),
+      React.createElement("span",{style:{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono",background:"var(--gbg)",padding:"3px 8px",borderRadius:4}},"C.O.R.E.")
+    ),
+    React.createElement("div",{style:{flex:1,overflowY:"auto",padding:18,paddingBottom:100}},
+      chars.map((sec,si)=>React.createElement("div",{key:si,style:{marginBottom:20}},
+        React.createElement("div",{style:{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}},
+          React.createElement("span",{style:{fontFamily:"Cinzel",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}},sec.label.toUpperCase())
+        ),
+        React.createElement("div",{style:{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:8}},
+          sec.chars.map((gc,i)=>React.createElement("button",{key:i,onClick:()=>onLoad(sec.owner,gc.file),style:{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:10,border:"1px solid var(--b1)",background:"var(--s1)",cursor:"pointer",textAlign:"left",width:"100%"}},
+            React.createElement("div",{style:{width:36,height:36,borderRadius:8,background:"var(--gbg)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"Cinzel",fontWeight:900,fontSize:16,color:"var(--gold)",flexShrink:0}},gc.name?gc.name[0]:"?"),
+            React.createElement("span",{style:{fontFamily:"Cinzel",fontWeight:700,fontSize:14,color:"var(--tx)"}},gc.name),
+            React.createElement("span",{style:{marginLeft:"auto",color:"var(--tx3)",fontSize:14}},"→")
+          ))
+        )
+      )),
+      chars.length===0&&React.createElement("p",{style:{textAlign:"center",color:"var(--tx3)",fontStyle:"italic",padding:"20px 0"}},"Nessun PG Core trovato."),
+      React.createElement("button",{onClick:onNew,style:{...SS.gold,width:"100%",padding:"14px 0",fontSize:14,marginTop:16}},"✨ Nuovo PG Core")
+    )
+  );
+}
+
+/* ═══ CORE SHEET ═══ */
+function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewChar,setCharMeta,onBack}){
+  const[tab,setTab]=useState("sheet");
+  const[saving,setSaving]=useState(false);
+  const mx=hpMax(c),pct=hpPct(c),tier=woundTier(c),wi=wInfo(tier);
+  const hc=pct>0.6?"var(--green)":pct>0.3?"var(--gold)":"var(--red)";
+
+  const doSave=async()=>{
+    if(!ghToken)return;setSaving(true);
+    let ok;
+    if(charMeta){ok=await saveChar(charMeta.owner,charMeta.file,c);}
+    else{const res=await saveNewChar(c);ok=!!res;if(res)setCharMeta(res);}
+    setSaving(false);
+    if(ok)setTimeout(()=>setTab("sheet"),1500);
+  };
+
+  useEffect(()=>{if(tab==="save"&&!saving)doSave();},[tab]);
+
+  const NAV=56;
+  return React.createElement("div",{style:{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"var(--bg)"}},
+    // HEADER
+    React.createElement("div",{style:{flexShrink:0,padding:"10px 16px",borderBottom:"1px solid var(--b1)",background:"var(--s1)"}},
+      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:8}},
+        React.createElement("button",{onClick:()=>{if(confirm("Hai salvato?"))onBack();},style:{...SS.btn,padding:"4px 8px",fontSize:12}},"←"),
+        React.createElement("input",{value:c.name,onChange:e=>up({name:e.target.value}),style:{...SS.inp,flex:1,fontFamily:"Cinzel",fontSize:17,fontWeight:700,color:"var(--gold)",background:"transparent",border:"none",padding:"2px 4px"}}),
+        React.createElement("span",{style:{fontSize:9,fontFamily:"JetBrains Mono",color:"var(--gold)",background:"var(--gbg)",padding:"2px 6px",borderRadius:4}},"CORE")
+      ),
+      // STATS ROW
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(3,1fr) 2fr",gap:6,marginBottom:8}},
+        ...[["CORPO","corpo"],["MENTE","mente"],["ANIMA","anima"]].map(([l,k])=>
+          React.createElement("div",{key:k,style:{textAlign:"center",background:"var(--s3)",borderRadius:6,padding:"4px",border:"1px solid var(--b1)"}},
+            React.createElement("div",{style:{fontSize:9,fontWeight:600,letterSpacing:1,color:"var(--tx3)",textTransform:"uppercase"}},l),
+            React.createElement("input",{type:"number",value:c[k],onChange:e=>{const v=Math.max(1,Math.min(catCap(c),parseInt(e.target.value)||1));up({[k]:v,hpCurrent:Math.min(c.hpCurrent,c.corpo+c.mente+c.anima+(v-c[k]))});},style:{width:44,background:"none",border:"none",color:"var(--tx)",fontFamily:"JetBrains Mono",fontSize:22,fontWeight:500,textAlign:"center",outline:"none"}})
+          )
+        ),
+        // HP
+        React.createElement("div",{style:{background:"var(--s3)",borderRadius:6,padding:"4px 8px",border:"1px solid var(--b1)"}},
+          React.createElement("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center"}},
+            React.createElement("span",{style:{fontSize:9,fontWeight:600,color:"var(--tx3)"}},`HP ${c.hpCurrent}/${mx}`),
+            React.createElement("span",{style:{fontSize:10,fontFamily:"JetBrains Mono",fontWeight:600,color:hc}},wi.nome)
+          ),
+          React.createElement("div",{style:{height:6,background:"var(--bg)",borderRadius:3,overflow:"hidden",margin:"4px 0"}},
+            React.createElement("div",{style:{height:"100%",borderRadius:3,width:`${pct*100}%`,background:hc,transition:"width 0.3s"}})
+          ),
+          React.createElement("div",{style:{display:"flex",gap:3}},
+            ...[-5,-1,1,5].map(n=>React.createElement("button",{key:n,onClick:()=>up({hpCurrent:Math.max(0,Math.min(mx,c.hpCurrent+n))}),style:{flex:1,padding:"2px 0",borderRadius:4,border:`1px solid ${n>0?"rgba(72,200,138,0.3)":"rgba(224,80,80,0.3)"}`,background:n>0?"rgba(72,200,138,0.08)":"rgba(224,80,80,0.08)",color:n>0?"var(--green)":"var(--red)",fontSize:11,fontFamily:"JetBrains Mono",fontWeight:600,cursor:"pointer"}},n>0?`+${n}`:n))
+          )
+        )
+      ),
+      // QUICK STATS
+      React.createElement("div",{style:{display:"flex",gap:4,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)"}},
+        React.createElement("span",null,`ATK +${atkBonus(c)}`),
+        React.createElement("span",null,`DEF ${defCorpo(c)}`),
+        React.createElement("span",null,`INIT +${initBonus(c)}`),
+        React.createElement("span",null,`MOV ${movement(c)}m`),
+        React.createElement("span",null,`SLOT ${maxSlots(c)}`)
+      )
+    ),
+    // CONTENT
+    React.createElement("div",{style:{flex:1,overflowY:"auto",padding:16,paddingBottom:NAV+40}},
+      tab==="sheet"&&React.createElement(SheetTab,{c,up}),
+      tab==="actions"&&React.createElement(ActionsTab,{c,up}),
+      tab==="spells"&&React.createElement(SpellsTab,{c,up}),
+      tab==="dice"&&React.createElement(DiceTab,{c,up}),
+      tab==="notes"&&React.createElement(NotesTab,{c,up}),
+      tab==="save"&&React.createElement("div",{style:{textAlign:"center",padding:40,color:"var(--tx3)"}},saving?"⏳ Salvataggio...":"✓")
+    ),
+    // NAV
+    React.createElement("nav",{style:{position:"fixed",bottom:0,left:0,right:0,display:"flex",background:"rgba(12,12,16,0.98)",borderTop:"1px solid var(--b1)",zIndex:60,paddingBottom:"var(--safe-bottom)"}},
+      TABS.map(t=>React.createElement("button",{key:t.id,onClick:()=>setTab(t.id),style:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"8px 0 6px",background:"transparent",border:"none",borderTop:tab===t.id?"2px solid var(--gold)":"2px solid transparent",color:tab===t.id?"var(--gold)":"var(--tx3)",fontFamily:"Outfit",minHeight:NAV,cursor:"pointer"}},
+        React.createElement("span",{style:{fontSize:18}},t.icon),
+        React.createElement("span",{style:{fontSize:8,marginTop:3,fontWeight:tab===t.id?600:400}},t.label)
+      ))
+    )
+  );
+}
+
+/* ═══ SHEET TAB ═══ */
+function SheetTab({c,up}){
+  const perks=G.WPERKS[c.armaCat]||[];
+  const activePerk=perks.find(p=>p.id===c.armaPerk);
+  return React.createElement("div",{style:{animation:"fadeIn 0.15s ease"}},
+    React.createElement(Sec,null,"Competenza (+2)"),
+    React.createElement("div",{style:{display:"flex",gap:4,marginBottom:12,flexWrap:"wrap"}},
+      React.createElement(Pill,{on:!c.competenza,onClick:()=>up({competenza:null})},"Nessuna"),
+      ...["corpo","mente","anima"].map(s=>React.createElement(Pill,{key:s,on:c.competenza===s,onClick:()=>up({competenza:s})},s.toUpperCase()))
+    ),
+    React.createElement(Sec,null,"Arma"),
+    React.createElement("div",{style:{display:"flex",gap:6,marginBottom:8,flexWrap:"wrap",alignItems:"center"}},
+      React.createElement("input",{value:c.armaNome,onChange:e=>up({armaNome:e.target.value}),placeholder:"Nome arma...",style:{...SS.inp,flex:1,minWidth:120}}),
+      React.createElement("select",{value:c.armaCat,onChange:e=>{const v=e.target.value;up({armaCat:v,armaPerk:(G.WPERKS[v]||[])[0]?.id||null});},style:{...SS.inp,width:140}},
+        Object.entries(G.WCAT).map(([k,v])=>React.createElement("option",{key:k,value:k,disabled:!canUseCat(c,k)},`Cat ${k} — ${v.nome} +${v.bonus}`))
+      )
+    ),
+    React.createElement("div",{style:{display:"flex",gap:4,flexWrap:"wrap",marginBottom:6}},
+      perks.map(p=>React.createElement(Pill,{key:p.id,on:c.armaPerk===p.id,onClick:()=>up({armaPerk:p.id}),title:p.desc},p.nome))
+    ),
+    activePerk&&React.createElement("div",{style:{fontSize:11,color:"var(--tx2)",padding:"6px 8px",background:"var(--s3)",borderRadius:6,marginBottom:8,border:"1px solid var(--b1)"}},React.createElement("em",{style:{color:"var(--green)"}},activePerk.nome)," — ",activePerk.desc),
+    React.createElement("div",{style:{display:"flex",gap:6,marginBottom:12}},
+      React.createElement(Pill,{on:c.armaDist,onClick:()=>up({armaDist:!c.armaDist})},"A distanza"),
+      React.createElement(Pill,{on:c.armaMagi,onClick:()=>up({armaMagi:!c.armaMagi})},"Magica (MENTE)")
+    ),
+    React.createElement(Sec,null,"Armatura"),
+    React.createElement("div",{style:{display:"flex",gap:4,flexWrap:"wrap",marginBottom:12}},
+      G.ARMORS.map(a=>React.createElement(Pill,{key:a.id,on:c.armatura===a.id,onClick:()=>{if(a.req&&c.corpo<a.req){alert(`Richiede CORPO ${a.req}+`);return;}up({armatura:a.id});},title:a.note},`${a.nome} +${a.bonus}`))
+    ),
+    React.createElement(Sec,null,"Scudo"),
+    React.createElement("div",{style:{display:"flex",gap:4,flexWrap:"wrap",marginBottom:12}},
+      G.SHIELDS.map(s=>{const blocked=s.rest&&!s.rest.includes(c.armaCat);return React.createElement(Pill,{key:s.id,on:c.scudo===s.id,onClick:()=>{if(blocked)return;up({scudo:s.id});},dim:blocked,title:s.note},s.nome);})
+    ),
+    React.createElement("div",{style:{...SS.card,fontFamily:"JetBrains Mono",fontSize:11}},
+      React.createElement("div",{style:{display:"flex",justifyContent:"space-between",padding:"2px 0",borderBottom:"1px solid rgba(255,255,255,0.03)"}},React.createElement("span",{style:{color:"var(--tx3)"}},"⚔ Attacco avg"),React.createElement("span",{style:{color:"var(--gold)"}},"1d12+",atkBonus(c)," = ",(6.5+atkBonus(c)).toFixed(1))),
+      React.createElement("div",{style:{display:"flex",justifyContent:"space-between",padding:"2px 0",borderBottom:"1px solid rgba(255,255,255,0.03)"}},React.createElement("span",{style:{color:"var(--tx3)"}},"🛡 Difesa CORPO"),React.createElement("span",{style:{color:"var(--green)"}},defCorpo(c))),
+      React.createElement("div",{style:{display:"flex",justifyContent:"space-between",padding:"2px 0",borderBottom:"1px solid rgba(255,255,255,0.03)"}},React.createElement("span",{style:{color:"var(--tx3)"}},"Penalità"),React.createElement("span",{style:{color:"var(--red)"}},totalPenMente(c)?`MENTE -${totalPenMente(c)} `:"",totalPenAnima(c)?`ANIMA -${totalPenAnima(c)}`:""," ",!totalPenMente(c)&&!totalPenAnima(c)?"Nessuna":"")),
+      React.createElement("div",{style:{display:"flex",justifyContent:"space-between",padding:"2px 0"}},React.createElement("span",{style:{color:"var(--tx3)"}},"Iniziativa"),React.createElement("span",{style:{color:"var(--cyan)"}},"1d12+",initBonus(c)))
+    )
+  );
+}
+
+/* ═══ ACTIONS TAB ═══ */
+function ActionsTab({c,up}){
+  return React.createElement("div",{style:{animation:"fadeIn 0.15s ease"}},
+    React.createElement(Sec,null,`Talenti ${c.talenti.length}/5`),
+    React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}},
+      (G.TALENTS||[]).map(t=>{
+        const sel=c.talenti.includes(t.id);const dim=c.talenti.length>=5&&!sel;const req=t.req&&!hasTalent(c,t.req)&&!sel;
+        return React.createElement(Pill,{key:t.id,on:sel,dim:dim||req,onClick:()=>{
+          if(dim||req)return;
+          if(sel)up({talenti:c.talenti.filter(x=>x!==t.id)});
+          else up({talenti:[...c.talenti,t.id]});
+        },title:`${t.desc}\nPRO: ${t.pro}\nCON: ${t.con}`},(t.cat==="accesso"?"⚡ ":t.cat==="limite"?"⬆ ":"")+t.nome);
+      })
+    ),
+    React.createElement(Sec,null,`Miglioramenti ${c.augmenti.length}/3`),
+    React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}},
+      (G.AUGMENTS||[]).map(a=>{
+        const sel=c.augmenti.includes(a.id);const dim=c.augmenti.length>=3&&!sel;
+        return React.createElement(Pill,{key:a.id,on:sel,dim:dim,color:"var(--red)",onClick:()=>{
+          if(dim)return;
+          if(sel)up({augmenti:c.augmenti.filter(x=>x!==a.id)});
+          else up({augmenti:[...c.augmenti,a.id]});
+        },title:`${a.desc}\nPRO: ${a.pro}\nCON: ${a.con}`},a.nome);
+      })
+    ),
+    React.createElement(Sec,null,"Condizioni Attive"),
+    React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4}},
+      (G.CONDITIONS||[]).map(cond=>{
+        const active=c.conditions?.find(x=>x.id===cond.id);
+        return React.createElement(Pill,{key:cond.id,on:!!active,onClick:()=>{
+          if(active)up({conditions:(c.conditions||[]).filter(x=>x.id!==cond.id)});
+          else{let conds=[...(c.conditions||[]),{id:cond.id,rounds:2}];if(conds.length>2)conds=conds.slice(-2);up({conditions:conds});}
+        },title:cond.effetto},cond.nome);
+      })
+    )
+  );
+}
+
+/* ═══ SPELLS TAB ═══ */
+function SpellsTab({c,up}){
+  const nCt=(c.magie||[]).filter(id=>sById(id)?.tipo==="ct").length;
+  const nMg=(c.magie||[]).filter(id=>sById(id)?.tipo==="mg").length;
+  const ms=maxSlots(c);
+  const hasMb=hasTalent(c,"gate_mb"),haMa=hasTalent(c,"gate_ma");
+  const toggle=sid=>{
+    const sp=sById(sid);if(!sp)return;
+    if((c.magie||[]).includes(sid)){up({magie:(c.magie||[]).filter(x=>x!==sid)});return;}
+    if(sp.tipo==="ct"&&nCt>=2)return;
+    if(sp.tipo==="mg"){if(nMg>=ms)return;if(sp.lvl<=2&&!hasMb)return;if(sp.lvl>=3&&!haMa)return;}
+    up({magie:[...(c.magie||[]),sid]});
+  };
+  return React.createElement("div",{style:{animation:"fadeIn 0.15s ease"}},
+    React.createElement(Sec,null,`Cantrip ${nCt}/2`),
+    React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}},
+      (G.SPELLS||[]).filter(s=>s.tipo==="ct").map(s=>React.createElement(Pill,{key:s.id,on:(c.magie||[]).includes(s.id),dim:nCt>=2&&!(c.magie||[]).includes(s.id),onClick:()=>toggle(s.id),title:s.mec},(s.stat==="ANIMA"?"♦ ":"✦ ")+s.nome))
+    ),
+    React.createElement(Sec,null,`Magie ${nMg}/${ms}`),
+    !hasMb&&!haMa&&React.createElement("p",{style:{color:"var(--tx3)",fontStyle:"italic",fontSize:12}},"Seleziona talento Magia Base."),
+    [1,2,3,4].map(lvl=>{
+      if(lvl<=2&&!hasMb)return null;if(lvl>=3&&!haMa)return null;
+      return React.createElement("div",{key:lvl,style:{marginBottom:8}},
+        React.createElement("div",{style:{fontSize:10,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginBottom:4}},`L${lvl} +${lvl-1}`),
+        React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4}},
+          (G.SPELLS||[]).filter(s=>s.tipo==="mg"&&s.lvl===lvl).map(s=>{
+            const sv=s.stat==="ANIMA"?c.anima:c.mente;const locked=sv<s.min;
+            return React.createElement(Pill,{key:s.id,on:(c.magie||[]).includes(s.id),dim:(nMg>=ms&&!(c.magie||[]).includes(s.id))||locked,onClick:()=>{if(!locked)toggle(s.id);},title:locked?`Req ${s.stat} ${s.min}+`:s.mec},(locked?"🔒 ":"")+(s.stat==="ANIMA"?"♦ ":"✦ ")+s.nome);
+          })
+        )
+      );
+    })
+  );
+}
+
+/* ═══ DICE TAB ═══ */
+function DiceTab({c,up}){
+  const[result,setResult]=useState(null);
+  const roll=(label,mod)=>{const r=Math.floor(Math.random()*12)+1;setResult({label,roll:r,mod,total:r+mod,nat12:r===12,nat1:r===1});};
+  return React.createElement("div",{style:{animation:"fadeIn 0.15s ease"}},
+    React.createElement(Sec,null,"Tiro Rapido d12"),
+    React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:6,marginBottom:12}},
+      React.createElement("button",{onClick:()=>roll("Attacco",atkBonus(c)),style:{...SS.gold,padding:"14px 0"}},"⚔ Attacco +",atkBonus(c)),
+      React.createElement("button",{onClick:()=>roll("Iniziativa",initBonus(c)),style:{...SS.gold,padding:"14px 0"}},"⚡ Iniziativa +",initBonus(c)),
+      ...["corpo","mente","anima"].map(s=>React.createElement("button",{key:s,onClick:()=>roll(`Tiro ${s.toUpperCase()}`,c[s]+(c.competenza===s?2:0)),style:{...SS.btn,padding:"12px 0"}},s.toUpperCase()," +",c[s]+(c.competenza===s?2:0))),
+      React.createElement("button",{onClick:()=>roll("d12 nudo",0),style:{...SS.btn,padding:"12px 0"}},"d12 nudo")
+    ),
+    result&&React.createElement("div",{style:{textAlign:"center",padding:20,background:"var(--s1)",borderRadius:10,border:`1.5px solid ${result.nat12?"var(--gold)":result.nat1?"var(--red)":"var(--b1)"}`,marginBottom:12}},
+      React.createElement("div",{style:{fontSize:10,color:"var(--tx3)",fontFamily:"Cinzel",marginBottom:4}},result.label),
+      React.createElement("div",{style:{fontSize:48,fontWeight:900,fontFamily:"JetBrains Mono",color:result.nat12?"var(--gold)":result.nat1?"var(--red)":"var(--tx)"}},result.total),
+      React.createElement("div",{style:{fontSize:11,color:"var(--tx3)",fontFamily:"JetBrains Mono"}},"[",result.roll,"]",result.mod!==0&&(result.mod>0?` + ${result.mod}`:` - ${Math.abs(result.mod)}`)),
+      result.nat12&&React.createElement("div",{style:{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}},"★ CRITICO ★"),
+      result.nat1&&React.createElement("div",{style:{color:"var(--red)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}},"✗ FALLIMENTO ✗")
+    )
+  );
+}
+
+/* ═══ NOTES TAB ═══ */
+function NotesTab({c,up}){
+  return React.createElement("div",{style:{animation:"fadeIn 0.15s ease"}},
+    React.createElement(Sec,null,"Note di Sessione"),
+    React.createElement("textarea",{value:c.notes||"",onChange:e=>up({notes:e.target.value}),placeholder:"Appunti...",style:{...SS.inp,width:"100%",minHeight:200,resize:"vertical",lineHeight:1.6}}),
+    React.createElement(Sec,null,"Backstory"),
+    React.createElement("textarea",{value:c.backstory||"",onChange:e=>up({backstory:e.target.value}),placeholder:"Background...",style:{...SS.inp,width:"100%",minHeight:200,resize:"vertical",lineHeight:1.6}})
+  );
+}
+
+/* ═══ COMMON COMPONENTS ═══ */
+function Sec({children}){return React.createElement("h3",{style:{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:"var(--gold)",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px"}},children);}
+function Pill({on,dim,color,onClick,title,children}){
+  const c=color||"var(--gold)";
+  return React.createElement("span",{onClick:dim?null:onClick,title,style:{fontSize:11,padding:"4px 10px",borderRadius:20,cursor:dim?"default":"pointer",border:`1px solid ${on?c:"var(--b1)"}`,background:on?`${c}18`:"var(--s3)",color:on?c:"var(--tx2)",opacity:dim?0.25:1,transition:"all 0.15s",userSelect:"none"}},children);
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+</script>
+</body>
+</html>
