@@ -104,7 +104,7 @@ function App(){
   const[toast,setToast]=useState(null);
   const fileRef=useRef(null);
 
-  const ENC_TOKEN='INSERISCI_QUI_OUTPUT_ENCTOKEN';
+  const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
   const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
 
   useEffect(()=>{(async()=>{
@@ -449,6 +449,7 @@ function ActionsTab({c,up,onDetail}){
     c.augmenti.length>0&&React.createElement("div",{style:{marginBottom:12}},
       c.augmenti.map(aid=>{const a=aById(aid);if(!a)return null;return React.createElement("div",{key:aid,style:{padding:"8px 10px",borderRadius:6,background:"var(--s3)",border:"1px solid var(--b1)",marginBottom:4,borderLeft:"3px solid var(--red)"}},
         React.createElement("div",{style:{fontFamily:"Cinzel",fontWeight:700,fontSize:12,color:"var(--tx)",marginBottom:4}},a.nome,React.createElement("span",{style:{fontSize:9,color:"var(--tx3)",fontWeight:400,marginLeft:6}},a.tipo)),
+        a.perk&&React.createElement("div",{style:{fontSize:11,color:"var(--cyan)",padding:"4px 8px",background:"rgba(64,200,200,0.08)",borderRadius:4,marginBottom:4,lineHeight:1.4,border:"1px solid rgba(64,200,200,0.15)"}},"\u2B50 ",a.perk),
         React.createElement("div",{style:{display:"flex",gap:6}},
           React.createElement("div",{style:{flex:1,fontSize:10,color:"var(--green)",lineHeight:1.4}},"\u2714 ",a.pro),
           React.createElement("div",{style:{flex:1,fontSize:10,color:"var(--red)",lineHeight:1.4}},"\u2718 ",a.con)
@@ -566,6 +567,7 @@ function InfoModal({item,type,onClose}){
         item.con&&React.createElement("div",{style:{flex:1,fontSize:11,padding:"6px 8px",borderRadius:6,background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.2)",color:"var(--red)"}},"\u2718 ",item.con)
       ),
       item.manutenzione&&React.createElement("div",{style:{fontSize:10,color:"var(--gold)",padding:"4px 8px",background:"rgba(232,160,48,0.08)",borderRadius:4,marginTop:4}},"\u26A0 Manutenzione: ",item.manutenzione),
+      item.perk&&React.createElement("div",{style:{fontSize:11,color:"var(--cyan)",padding:"6px 8px",background:"rgba(64,200,200,0.08)",borderRadius:4,marginTop:4,border:"1px solid rgba(64,200,200,0.15)",lineHeight:1.4}},"\u2B50 PERK: ",item.perk),
       item.req&&React.createElement("div",{style:{fontSize:10,color:"var(--tx3)",marginTop:4}},"Richiede: ",(tById(item.req)?.nome||item.req))
     )
   );
