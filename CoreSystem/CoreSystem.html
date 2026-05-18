@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.O.R.E. System</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="ttrpg-data.js"></script>
+<style>
+:root{--bg:#0c0c10;--s1:#131318;--s2:#1a1a22;--s3:#21212c;--b1:#2a2a38;--b2:#3a3a4e;--tx:#dddae8;--tx2:#9996aa;--tx3:#55536a;--gold:#e8a030;--gbg:#3a2810;--green:#48c88a;--red:#e05050;--blue:#5890e8;--purple:#a070e8;--cyan:#40c8c8;--r:8px;--rl:12px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.6;min-height:100vh}
+h1,h2{font-family:'Cinzel',serif;font-weight:700;letter-spacing:.03em}
+.hdr{display:flex;align-items:center;gap:12px;padding:9px 18px;background:var(--s1);border-bottom:1px solid var(--b1)}
+.hdr-logo{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:.15em}
+.hdr-full{font-size:10px;color:var(--tx3);font-family:'JetBrains Mono'}
+.tabs{display:flex;gap:0;padding:0 18px;background:var(--s1);border-bottom:1px solid var(--b1);overflow-x:auto}
+.tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--tx2);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;padding:8px 13px;cursor:pointer;transition:all .15s;margin-bottom:-1px;white-space:nowrap}
+.tab:hover{color:var(--tx)}.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tc{display:none}.tc.on{display:block}
+.sg{display:grid;grid-template-columns:1fr 1fr;height:calc(100vh - 90px);overflow:hidden}
+.col{overflow-y:auto;padding:12px;scrollbar-width:thin;scrollbar-color:var(--b2) transparent}
+.col:first-child{border-right:1px solid var(--b1)}
+.col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--b1)}
+.col-hdr h2{font-size:12px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase}
+.btn{background:none;border:1px solid var(--b2);border-radius:var(--r);color:var(--tx2);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;padding:5px 11px;cursor:pointer;transition:all .15s}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn-pg{background:rgba(88,144,232,.1);border-color:#2a3a60;color:var(--blue)}.btn-pg:hover{border-color:var(--blue)}
+.btn-ne{background:rgba(224,80,80,.08);border-color:#3a1a1a;color:#e08080}.btn-ne:hover{border-color:var(--red)}
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--rl);margin-bottom:9px;overflow:hidden}
+.card.pg{border-left:3px solid var(--blue)}.card.ne{border-left:3px solid var(--red)}
+.card-hdr{display:flex;align-items:center;gap:7px;padding:8px 10px;background:var(--s2);cursor:pointer;user-select:none}
+.name-inp{flex:1;background:none;border:none;color:var(--tx);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;outline:none;min-width:0}
+.name-inp::placeholder{color:var(--tx3)}
+.badge{font-family:'JetBrains Mono';font-size:9px;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.08em;flex-shrink:0}
+.badge-pg{background:#1a2540;color:var(--blue)}.badge-ne{background:#2a1515;color:var(--red)}
+.wbadge{font-family:'JetBrains Mono';font-size:9px;padding:2px 7px;border-radius:4px;flex-shrink:0}
+.w0{background:#0f2a1a;color:var(--green)}.w1{background:#2a2210;color:var(--gold)}.w2{background:#2a1414;color:#e08080}.w3{background:#1a0808;color:var(--red)}
+.caret{color:var(--tx3);font-size:11px;transition:transform .2s;flex-shrink:0}.coll .caret{transform:rotate(-90deg)}
+.del-btn{background:none;border:none;color:var(--tx3);cursor:pointer;font-size:14px;padding:2px 5px;line-height:1;flex-shrink:0}.del-btn:hover{color:var(--red)}
+.cbody{padding:11px}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.stat-blk{background:var(--s3);border:1px solid var(--b1);border-radius:var(--r);padding:6px;text-align:center}
+.stat-lbl{font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase;margin-bottom:2px}
+.stat-inp{width:44px;background:none;border:none;color:var(--tx);font-family:'JetBrains Mono';font-size:22px;font-weight:500;text-align:center;outline:none}
+.stat-inp::-webkit-inner-spin-button{-webkit-appearance:none}
+.hp-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.hp-lbl{font-size:10px;color:var(--tx3);font-weight:600;text-transform:uppercase;letter-spacing:.1em}
+.hp-inp{background:none;border:1px solid var(--b1);border-radius:6px;color:var(--tx);font-family:'JetBrains Mono';font-size:14px;padding:2px 6px;width:52px;text-align:center;outline:none}
+.hp-inp:focus{border-color:var(--gold)}
+.hp-max{font-size:11px;color:var(--tx3);font-family:'JetBrains Mono'}
+.hp-bar-w{height:6px;background:var(--s3);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.hp-bar{height:100%;border-radius:3px;transition:width .3s,background .3s}
+.hp-info{display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-bottom:10px}
+.sec-title{font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--tx3);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:8px}
+.text-inp{background:var(--s3);border:1px solid var(--b1);border-radius:var(--r);color:var(--tx);font-family:'Outfit',sans-serif;font-size:12px;padding:5px 9px;outline:none}
+.text-inp:focus{border-color:var(--gold)}.text-inp::placeholder{color:var(--tx3)}
+.sel{background:var(--s3);border:1px solid var(--b1);border-radius:var(--r);color:var(--tx);font-family:'Outfit',sans-serif;font-size:12px;padding:5px 22px 5px 8px;outline:none;cursor:pointer;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2355536a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center}
+.chk{display:none}.chk+label{font-size:11px;padding:3px 9px;border:1px solid var(--b1);border-radius:20px;cursor:pointer;color:var(--tx2);transition:all .15s}
+.chk:checked+label{border-color:var(--purple);color:var(--purple);background:rgba(160,112,232,.1)}
+.copt{display:none}.copt+label{font-size:11px;padding:3px 9px;border:1px solid var(--b1);border-radius:20px;cursor:pointer;color:var(--tx2);transition:all .15s}
+.copt:checked+label{border-color:var(--cyan);color:var(--cyan);background:rgba(64,200,200,.08)}
+.perk-opts{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.perk-pill{font-size:11px;padding:3px 9px;border:1px solid var(--b1);border-radius:20px;cursor:pointer;color:var(--tx2);background:var(--s3);transition:all .15s;user-select:none}
+.perk-pill.on{border-color:var(--green);color:var(--green);background:rgba(72,200,138,.1)}
+.shield-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.sh-opt{display:none}.sh-opt+label{font-size:11px;padding:3px 9px;border:1px solid var(--b1);border-radius:20px;cursor:pointer;color:var(--tx2);transition:all .15s}
+.sh-opt:checked+label{border-color:var(--blue);color:var(--blue);background:rgba(88,144,232,.1)}
+.pills{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.pill{font-size:11px;padding:3px 9px;border-radius:20px;cursor:pointer;border:1px solid var(--b1);background:var(--s3);color:var(--tx2);transition:all .15s;user-select:none}
+.pill.sel-t{background:rgba(88,144,232,.12);border-color:var(--blue);color:var(--blue)}
+.pill.sel-g{background:rgba(232,160,48,.12);border-color:var(--gold);color:var(--gold)}
+.pill.sel-l{background:rgba(64,200,200,.1);border-color:var(--cyan);color:var(--cyan)}
+.pill.sel-c{background:rgba(72,200,138,.12);border-color:var(--green);color:var(--green)}
+.pill.sel-m{background:rgba(160,112,232,.12);border-color:var(--purple);color:var(--purple)}
+.pill.sel-a{background:rgba(232,160,48,.1);border-color:var(--gold);color:var(--gold)}
+.pill.sel-aug{background:rgba(224,80,80,.12);border-color:#e05050;color:#e08080}
+.pill.dim{opacity:.25;cursor:default;pointer-events:none}
+.cpanel{background:var(--s3);border:1px solid var(--b1);border-radius:var(--r);padding:9px 11px;margin-bottom:10px;font-family:'JetBrains Mono';font-size:12px}
+.cr{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03)}.cr:last-child{border-bottom:none}
+.ck{color:var(--tx3);font-size:11px}.cv{color:var(--tx);font-weight:500}
+.note-ta{width:100%;background:var(--s3);border:1px solid var(--b1);border-radius:var(--r);color:var(--tx);font-family:'Outfit',sans-serif;font-size:12px;padding:7px;resize:vertical;min-height:46px;outline:none}
+.note-ta::placeholder{color:var(--tx3)}
+.ref{padding:20px 24px;max-width:1100px;overflow-y:auto;height:calc(100vh - 90px)}
+.ref>h2{font-size:15px;color:var(--gold);margin-bottom:4px}
+.ref-sub{font-size:11px;color:var(--tx3);margin-bottom:14px;font-family:'JetBrains Mono'}
+.ref-sec{font-family:'Cinzel',serif;font-size:12px;color:var(--tx2);margin:16px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--b1)}
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:9px;margin-bottom:4px}
+.rc{background:var(--s1);border:1px solid var(--b1);border-radius:var(--rl);padding:12px}
+.rc-cat{font-family:'JetBrains Mono';font-size:10px;color:var(--gold);margin-bottom:3px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.rc-name{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--tx);margin-bottom:6px}
+.rc-desc{font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:6px}
+.rc-mant{font-size:10px;color:var(--gold);background:rgba(232,160,48,.08);border:1px solid rgba(232,160,48,.2);border-radius:4px;padding:3px 7px;margin-bottom:6px}
+.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;margin:2px 2px 2px 0}
+.tp{background:rgba(72,200,138,.1);color:var(--green);border:1px solid rgba(72,200,138,.2)}
+.tc2{background:rgba(224,80,80,.08);color:#e08080;border:1px solid rgba(224,80,80,.18)}
+.rule-box{background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:10px 14px;margin:10px 0;font-size:12px;color:var(--tx2);line-height:1.7}
+.rule-box strong{color:var(--tx)}
+.sb{display:inline-block;font-size:9px;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono';letter-spacing:.04em}
+.sb-un{background:rgba(150,150,180,.12);color:#9090b0;border:1px solid rgba(150,150,180,.2)}
+.sb-fa{background:rgba(232,160,48,.12);color:#e8a030;border:1px solid rgba(232,160,48,.2)}
+.sb-cy{background:rgba(64,200,200,.1);color:var(--cyan);border:1px solid rgba(64,200,200,.2)}
+.sb-no{background:rgba(180,180,180,.08);color:#aaa;border:1px solid rgba(180,180,180,.18)}
+.sb-ho{background:rgba(160,70,232,.1);color:#a046e8;border:1px solid rgba(160,70,232,.2)}
+.sb-an{background:rgba(240,100,60,.1);color:#f0643c;border:1px solid rgba(240,100,60,.2)}
+.sb-pa{background:rgba(100,200,80,.1);color:#64c850;border:1px solid rgba(100,200,80,.2)}
+.man-p{font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:12px}
+.man-formula{background:var(--s3);border:1px solid var(--b1);border-left:3px solid var(--gold);border-radius:var(--r);padding:10px 14px;margin:10px 0;font-family:'JetBrains Mono';font-size:13px;color:var(--gold)}
+.man-table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:12px}
+.man-table th{background:var(--s3);color:var(--tx2);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;padding:7px 10px;text-align:left;border:1px solid var(--b1)}
+.man-table td{padding:6px 10px;border:1px solid var(--b1);color:var(--tx2)}
+.man-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.man-table td:first-child{color:var(--gold);font-family:'JetBrains Mono';font-size:11px}
+.man-list{list-style:none;margin:6px 0 12px;padding:0}
+.man-list li{font-size:12px;color:var(--tx2);padding:3px 0 3px 18px;position:relative;line-height:1.6}
+.man-list li::before{content:'->'; position:absolute;left:0;color:var(--gold);font-size:10px;top:4px}
+.man-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
+.man-callout{background:linear-gradient(135deg,rgba(232,160,48,.08),rgba(232,160,48,.03));border:1px solid rgba(232,160,48,.25);border-radius:var(--rl);padding:12px 16px;margin:12px 0}
+.man-callout-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:6px}
+.scheda-wrap{padding:16px;overflow-y:auto;height:calc(100vh - 90px);background:var(--bg)}
+.print-btn{display:flex;align-items:center;gap:8px;margin:0 auto 14px;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);color:var(--tx2);font-family:'Outfit',sans-serif;font-size:13px;padding:8px 20px;cursor:pointer;transition:all .15s}
+.print-btn:hover{border-color:var(--gold);color:var(--gold)}
+.scheda{background:#f5f3ec;color:#1a1820;max-width:800px;margin:0 auto;border:2px solid #2a2838;border-radius:6px;font-family:'Outfit',sans-serif;font-size:13px;overflow:hidden}
+.s-hdr{background:#1a1820;color:#e8a030;font-family:'Cinzel',serif;text-align:center;padding:11px;font-size:15px;letter-spacing:.12em}
+.s-sec{border-bottom:1px solid #d8d4cc;padding:11px 15px}.s-sec:last-child{border-bottom:none}
+.s-title{font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:#2a2838;border-bottom:1px solid #ccc;padding-bottom:4px;margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase}
+.s-lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#888;margin-bottom:3px}
+.s-inp{border:none;border-bottom:1.5px solid #999;background:transparent;font-family:'Outfit',sans-serif;font-size:13px;color:#1a1820;width:100%;padding:2px 4px;outline:none}
+.s-inp::placeholder{color:#aaa}.s-inp:focus{border-bottom-color:#1a1820}
+.s-stat-box{border:2px solid #2a2838;border-radius:5px;text-align:center;padding:7px 4px}
+.s-num{width:52px;font-size:28px;font-family:'JetBrains Mono';text-align:center;border:none;background:transparent;color:#1a1820;outline:none;font-weight:500}
+.s-num::-webkit-inner-spin-button{-webkit-appearance:none}
+.s-stat-lbl{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:#2a2838;display:block;margin-bottom:2px}
+.s-hp-bar{height:8px;background:#ddd;border-radius:4px;overflow:hidden;margin:5px 0}
+.s-hp-fill{height:100%;background:#48c88a;border-radius:4px;transition:width .3s,background .3s}
+.s-sel{border:none;border-bottom:1.5px solid #999;background:transparent;font-family:'Outfit',sans-serif;font-size:12px;color:#1a1820;padding:2px 4px;outline:none;width:100%;cursor:pointer;-webkit-appearance:none}
+.s-check-row{display:flex;flex-direction:column;gap:4px}
+.s-check-lbl{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer;color:#2a2838}
+.s-check-lbl input{width:13px;height:13px;cursor:pointer;accent-color:#2a2838}
+.s-slot{background:rgba(0,0,0,.04);border:1px solid #ccc;border-radius:4px;padding:6px 8px;margin-bottom:5px}
+.s-slot-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#888;margin-bottom:3px}
+.s-perk-desc{font-size:10px;color:#666;margin-top:4px;font-style:italic;min-height:14px}
+.s-note-ta{width:100%;border:1px solid #ccc;border-radius:4px;background:rgba(0,0,0,.03);font-family:'Outfit',sans-serif;font-size:12px;color:#1a1820;padding:7px;min-height:60px;resize:vertical;outline:none}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-lbl{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;color:#2a2838}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+@media print{.print-btn,.hdr,.tabs{display:none!important}.scheda-wrap{height:auto;padding:0;overflow:visible}.scheda{border-radius:0;max-width:none;width:100%;border:none}body{background:white}.tc{display:block!important}#t-sessione,#t-armi,#t-magie,#t-talenti,#t-modifiche,#t-manuale{display:none!important}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div>
+    <div class="hdr-logo">C.O.R.E.</div>
+    <div class="hdr-full">CoreSystem — Compact Open Rules Engine</div>
+  </div>
+  <span style="margin-left:auto;font-size:10px;color:var(--tx3)">auto-save</span>
+</header>
+<nav class="tabs">
+  <button class="tab on" data-t="sessione">Sessione</button>
+  <button class="tab" data-t="armi">Armi</button>
+  <button class="tab" data-t="magie">Magie</button>
+  <button class="tab" data-t="talenti">Talenti</button>
+  <button class="tab" data-t="modifiche">Modifiche</button>
+  <button class="tab" data-t="manuale">Manuale</button>
+  <button class="tab" data-t="scheda">Scheda</button>
+</nav>
+<div class="tc on" id="t-sessione">
+  <div class="sg">
+    <div class="col">
+      <div class="col-hdr"><h2>Giocatori</h2><div style="display:flex;align-items:center;gap:8px"><span id="cnt-pg" style="font-size:11px;color:var(--tx3);font-family:'JetBrains Mono'">0 PG</span><button class="btn btn-pg" onclick="addChar('pg')">+ PG</button></div></div>
+      <div id="lst-pg"></div>
+    </div>
+    <div class="col">
+      <div class="col-hdr"><h2>Nemici</h2><div style="display:flex;align-items:center;gap:8px"><span id="cnt-ne" style="font-size:11px;color:var(--tx3);font-family:'JetBrains Mono'">0 nemici</span><button class="btn btn-ne" onclick="addChar('ne')">+ Nemico</button></div></div>
+      <div id="lst-ne"></div>
+    </div>
+  </div>
+</div>
+<div class="tc" id="t-armi"><div class="ref" id="r-armi"></div></div>
+<div class="tc" id="t-magie"><div class="ref" id="r-magie"></div></div>
+<div class="tc" id="t-talenti"><div class="ref" id="r-talenti"></div></div>
+<div class="tc" id="t-modifiche"><div class="ref" id="r-modifiche"></div></div>
+<div class="tc" id="t-manuale"><div class="ref" id="r-manuale"></div></div>
+<div class="tc" id="t-scheda">
+<div class="scheda-wrap">
+<button class="print-btn" onclick="window.print()">Stampa / PDF</button>
+<div class="scheda">
+  <div class="s-hdr">C.O.R.E. — SCHEDA PERSONAGGIO</div>
+  <div class="s-sec"><div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:9px"><div><div class="s-lbl">Nome</div><input class="s-inp" type="text" placeholder="Nome..."></div><div><div class="s-lbl">Ruolo</div><input class="s-inp" type="text" placeholder="es. Hacker, Mago..."></div></div><div><div class="s-lbl">Concetto</div><input class="s-inp" type="text" placeholder="Una frase che definisce il personaggio..."></div></div>
+  <div class="s-sec"><div style="display:grid;grid-template-columns:repeat(3,auto) 1fr;gap:12px;align-items:start">
+    <div class="s-stat-box"><span class="s-stat-lbl">CORPO</span><input class="s-num" id="s-c" type="number" min="1" max="10" value="4" oninput="sHP()"><div style="font-size:9px;color:#888;margin-top:2px">Forza / Resist.</div></div>
+    <div class="s-stat-box"><span class="s-stat-lbl">MENTE</span><input class="s-num" id="s-m" type="number" min="1" max="10" value="4" oninput="sHP()"><div style="font-size:9px;color:#888;margin-top:2px">Magia / Intel.</div></div>
+    <div class="s-stat-box"><span class="s-stat-lbl">ANIMA</span><input class="s-num" id="s-a" type="number" min="1" max="10" value="4" oninput="sHP()"><div style="font-size:9px;color:#888;margin-top:2px">Carisma / Vol.</div></div>
+    <div><div style="display:flex;justify-content:space-between"><div class="s-lbl">HP Max</div><div id="s-hpmax" style="font-family:'JetBrains Mono';font-size:20px;font-weight:600;color:#1a1820">12</div></div>
+    <div class="s-hp-bar"><div class="s-hp-fill" id="s-hpfill" style="width:100%"></div></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:5px"><div class="s-lbl" style="white-space:nowrap">HP Att.</div><input class="s-inp" id="s-hpcur" type="number" min="0" value="12" style="width:60px;font-family:'JetBrains Mono';font-size:16px;font-weight:600;text-align:center" oninput="sBar()"><div id="s-wound" style="font-size:10px;color:#48c88a;font-family:'JetBrains Mono';font-weight:600">INTEGRO</div></div>
+    <div style="font-size:10px;color:#888;margin-top:3px">Ferita ogni <span id="s-tier">4</span> HP persi</div></div>
+  </div></div>
+  <div class="s-sec"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div><div class="s-title">Competenza (+2 stat scelta)</div><div class="radio-row"><label class="radio-lbl"><input type="radio" name="s-comp" value="" checked> Nessuna</label><label class="radio-lbl"><input type="radio" name="s-comp" value="corpo"> CORPO</label><label class="radio-lbl"><input type="radio" name="s-comp" value="mente"> MENTE</label><label class="radio-lbl"><input type="radio" name="s-comp" value="anima"> ANIMA</label></div></div>
+    <div><div class="s-title">Scudo</div><div class="s-check-row"><label class="s-check-lbl"><input type="radio" name="s-sc" value="0" checked> Nessuno</label><label class="s-check-lbl"><input type="radio" name="s-sc" value="1"> Piccolo (+1)</label><label class="s-check-lbl"><input type="radio" name="s-sc" value="2"> Medio (+2, no Cat D)</label><label class="s-check-lbl"><input type="radio" name="s-sc" value="3"> Torre (+3, solo A/B)</label></div></div>
+  </div></div>
+  <div class="s-sec"><div class="s-title">Arma</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:8px;align-items:end"><div><div class="s-lbl">Nome</div><input class="s-inp" type="text" placeholder="es. Claymore, Pistola..."></div><div><div class="s-lbl">Categoria</div><select class="s-sel" id="s-cat" onchange="sCat()"></select></div><div><div class="s-lbl">Perk</div><select class="s-sel" id="s-perk" onchange="sPerk()"></select></div></div>
+    <div id="s-perk-desc" class="s-perk-desc">-</div>
+    <div style="display:flex;gap:18px;margin-top:9px"><label class="s-check-lbl"><input type="checkbox"><span>A distanza</span></label><label class="s-check-lbl"><input type="checkbox"><span>Magica (MENTE/ANIMA)</span></label></div>
+  </div>
+  <div class="s-sec"><div class="s-title">Talenti (max 5 — Accessi e Limiti contano)</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px">
+      <div><div class="s-lbl">1</div><select class="s-sel s-t-sel" onchange="sUpdateAll()"></select></div>
+      <div><div class="s-lbl">2</div><select class="s-sel s-t-sel" onchange="sUpdateAll()"></select></div>
+      <div><div class="s-lbl">3</div><select class="s-sel s-t-sel" onchange="sUpdateAll()"></select></div>
+      <div><div class="s-lbl">4</div><select class="s-sel s-t-sel" onchange="sUpdateAll()"></select></div>
+      <div><div class="s-lbl">5</div><select class="s-sel s-t-sel" onchange="sUpdateAll()"></select></div>
+    </div>
+  </div>
+  <div class="s-sec"><div class="s-title">Miglioramenti Fisici (max 3 — separati dai talenti)</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px">
+      <div><div class="s-lbl">Mod. 1</div><select class="s-sel s-aug-sel"></select></div>
+      <div><div class="s-lbl">Mod. 2</div><select class="s-sel s-aug-sel"></select></div>
+      <div><div class="s-lbl">Mod. 3</div><select class="s-sel s-aug-sel"></select></div>
+    </div>
+  </div>
+  <div class="s-sec"><div style="display:grid;grid-template-columns:1fr 2fr;gap:16px">
+    <div><div class="s-title">Cantrip (max 2)</div>
+      <div class="s-slot"><div class="s-slot-lbl">Cantrip 1</div><select class="s-sel s-ct-sel"></select></div>
+      <div class="s-slot"><div class="s-slot-lbl">Cantrip 2</div><select class="s-sel s-ct-sel"></select></div></div>
+    <div><div class="s-title">Magie <span id="s-slot-info" style="font-size:9px;font-weight:400">(0 slot)</span></div>
+      <div id="s-magie-slots"><div style="font-size:11px;color:#888">Seleziona talento Magia (Base).</div></div></div>
+  </div></div>
+  <div class="s-sec"><div class="s-title">Note</div><textarea class="s-note-ta" placeholder="Storia, effetti attivi, augmenti, memo..."></textarea></div>
+  <div class="s-sec" style="background:rgba(0,0,0,.03)"><div class="s-title">Promemoria C.O.R.E.</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      <div style="background:rgba(0,0,0,.04);border:1px solid #ccc;border-radius:4px;padding:7px"><div style="font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:#2a2838;text-transform:uppercase;margin-bottom:3px">Fisico</div><div style="font-size:10px;color:#555">1d12+CORPO+cat vs CORPO (+Comp +2)</div></div>
+      <div style="background:rgba(0,0,0,.04);border:1px solid #ccc;border-radius:4px;padding:7px"><div style="font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:#2a2838;text-transform:uppercase;margin-bottom:3px">Magico</div><div style="font-size:10px;color:#555">1d12+MENTE/ANIMA+livello vs stat</div></div>
+      <div style="background:rgba(0,0,0,.04);border:1px solid #ccc;border-radius:4px;padding:7px"><div style="font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:#2a2838;text-transform:uppercase;margin-bottom:3px">Ferite</div><div style="font-size:10px;color:#555">1/3: -1 / 2/3: -2 / 0: K.O.</div></div>
+      <div style="background:rgba(0,0,0,.04);border:1px solid #ccc;border-radius:4px;padding:7px"><div style="font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:#2a2838;text-transform:uppercase;margin-bottom:3px">Cap Stat</div><div style="font-size:10px;color:#555">10 / 12 / 15</div></div>
+    </div>
+  </div>
+</div></div></div>
+<script>
+if(typeof WCAT==='undefined'){document.body.innerHTML='<div style="padding:40px;color:#e05050;font-family:monospace"><b>ERRORE:</b> ttrpg-data.js non trovato.<br>Entrambi i file devono essere nella stessa cartella.</div>';throw new Error();}
+
+function tById(id){return TALENTS.find(t=>t.id===id)}
+function sById(id){return SPELLS.find(s=>s.id===id)}
+function aById(id){return AUGMENTS.find(a=>a.id===id)}
+function catCap(c){return c.talenti.includes('cap_15')?15:c.talenti.includes('cap_12')?12:10}
+function hasTalent(c,id){return c.talenti.includes(id)}
+function canUseCat(c,cat){const w=WCAT[cat];return !w.req||hasTalent(c,w.req)}
+function spellStat(sp,c){return sp.stat==='ANIMA'?c.anima:c.mente}
+function maxSlots(c){return Math.max(0,Math.max(c.mente,c.anima)-2)}
+function stileBadge(stile){const s=STILI[stile]||{lbl:stile,icon:'?',cls:'sb-un'};return '<span class="sb '+s.cls+'">'+s.icon+' '+s.lbl+'</span>'}
+
+let chars=[];
+function save(){localStorage.setItem('core_v1',JSON.stringify(chars))}
+function load(){try{const d=localStorage.getItem('core_v1');if(d)chars=JSON.parse(d)}catch(e){chars=[]}}
+
+function newChar(tipo){
+  const c={id:Date.now()+Math.random(),tipo,nome:'',corpo:4,mente:4,anima:4,hpOvr:tipo==='ne'?12:null,hpCur:12,armaNome:'',armaCat:'B',armaPerk:'b1',armaDist:false,armaMagi:false,scudo:0,competenza:null,talenti:[],augmenti:[],magie:[],note:'',coll:false};
+  c.hpCur=hpMax(c);return c;
+}
+function addChar(tipo){chars.push(newChar(tipo));save();render()}
+function delChar(id){chars=chars.filter(c=>c.id!=id);save();render()}
+
+function upd(id,f,v){
+  const c=chars.find(c=>c.id==id);if(!c)return;
+  c[f]=v;
+  if(f==='armaCat'){const ps=WPERKS[v]||[];if(!ps.find(p=>p.id===c.armaPerk))c.armaPerk=ps[0]?.id||null;const sh=SHIELDS[c.scudo];if(sh&&sh.rest&&!sh.rest.includes(v))c.scudo=0;}
+  if(f==='scudo'){const sh=SHIELDS[v];if(sh&&sh.rest&&!sh.rest.includes(c.armaCat))c.scudo=0;}
+  if(['corpo','mente','anima'].includes(f)&&c.hpOvr===null)c.hpCur=Math.min(c.hpCur,hpMax(c));
+  if(f==='hpOvr')c.hpCur=Math.min(c.hpCur,v||hpMax(c));
+  save();renderCard(id);
+}
+function setPerk(id,pid){const c=chars.find(c=>c.id==id);if(!c)return;c.armaPerk=pid;save();renderCard(id);}
+
+function togTalent(id,tid){
+  const c=chars.find(c=>c.id==id);if(!c)return;
+  const talent=tById(tid);
+  if(c.talenti.includes(tid)){
+    let rem=[tid],ch=true;
+    while(ch){ch=false;TALENTS.forEach(t=>{if(t.req&&rem.includes(t.req)&&!rem.includes(t.id)){rem.push(t.id);ch=true;}});}
+    c.talenti=c.talenti.filter(x=>!rem.includes(x));
+    if(!canUseCat(c,c.armaCat)){for(const cat of['C','B','A'])if(canUseCat(c,cat)){c.armaCat=cat;c.armaPerk=(WPERKS[cat]||[])[0]?.id||null;break;}}
+    const hasMb=hasTalent(c,'gate_mb'),haMa=hasTalent(c,'gate_ma');
+    c.magie=c.magie.filter(mid=>{const sp=sById(mid);if(!sp||sp.tipo==='ct')return true;if(sp.lvl<=2&&!hasMb)return false;if(sp.lvl>=3&&!haMa)return false;return true;});
+  }else{
+    if(c.talenti.length>=5)return;
+    if(talent?.req&&!hasTalent(c,talent.req))return;
+    c.talenti.push(tid);
+  }
+  save();renderCard(id);
+}
+function togAugment(id,aid){
+  const c=chars.find(c=>c.id==id);if(!c)return;
+  if(!c.augmenti)c.augmenti=[];
+  if(c.augmenti.includes(aid))c.augmenti=c.augmenti.filter(x=>x!==aid);
+  else{if(c.augmenti.length>=3)return;c.augmenti.push(aid);}
+  save();renderCard(id);
+}
+function togSpell(id,sid){
+  const c=chars.find(c=>c.id==id);if(!c)return;const sp=sById(sid);if(!sp)return;
+  if(c.magie.includes(sid)){c.magie=c.magie.filter(x=>x!==sid);}
+  else{
+    const isCt=sp.tipo==='ct';
+    const nCt=c.magie.filter(m=>sById(m)?.tipo==='ct').length;
+    const nMg=c.magie.filter(m=>sById(m)?.tipo==='mg').length;
+    if(isCt&&nCt>=2)return;
+    if(!isCt){if(nMg>=maxSlots(c))return;if(sp.lvl<=2&&!hasTalent(c,'gate_mb'))return;if(sp.lvl>=3&&!hasTalent(c,'gate_ma'))return;if(spellStat(sp,c)<sp.min)return;}
+    c.magie.push(sid);
+  }
+  save();renderCard(id);
+}
+function togColl(id){const c=chars.find(c=>c.id==id);if(!c)return;c.coll=!c.coll;save();renderCard(id);}
+
+function hpMax(c){return c.hpOvr!==null?c.hpOvr:c.corpo+c.mente+c.anima}
+function catBonus(c){return WCAT[c.armaCat]?.bonus??0}
+function shieldBonus(c){return SHIELDS[c.scudo]?.bonus??0}
+function atkStat(c){return c.armaMagi?c.mente:c.corpo}
+function compBonus(c,sn){return c.competenza===sn?2:0}
+function avgAtk(c){const sn=c.armaMagi?'mente':'corpo';return 6.5+atkStat(c)+catBonus(c)+compBonus(c,sn);}
+function woundTier(c){const mx=hpMax(c),lost=mx-c.hpCur,t=Math.floor(mx/3);if(c.hpCur<=0)return 3;if(lost>=t*2)return 2;if(lost>=t)return 1;return 0;}
+function wInfo(t){return [{lbl:'INTEGRO',cls:'w0',pen:'+0'},{lbl:'FERITO',cls:'w1',pen:'-1'},{lbl:'CRITICO',cls:'w2',pen:'-2'},{lbl:'INCAPACITATO',cls:'w3',pen:'K.O.'}][Math.min(t,3)];}
+function hpColor(p){return p>0.6?'#48c88a':p>0.3?'#e8a030':'#e05050'}
+
+function buildCard(c){
+  if(!c.augmenti)c.augmenti=[];
+  const mx=hpMax(c),pct=Math.max(0,Math.min(1,c.hpCur/mx));
+  const tier=woundTier(c),wi=wInfo(tier);
+  const avg=avgAtk(c),sb=shieldBonus(c),cb=catBonus(c),as=atkStat(c);
+  const sn=c.armaMagi?'mente':'corpo',cBon=compBonus(c,sn);
+  const defPen=c.armaCat==='C'?'-1':c.armaCat==='D'?'-2':'+0';
+  const ms=maxSlots(c),nCt=c.magie.filter(m=>sById(m)?.tipo==='ct').length,nMg=c.magie.filter(m=>sById(m)?.tipo==='mg').length;
+  const t3=Math.floor(mx/3),hasMb=hasTalent(c,'gate_mb'),haMa=hasTalent(c,'gate_ma');
+
+  const compOpts=['corpo','mente','anima'].map(o=>'<input type="radio" class="copt" name="comp-'+c.id+'" id="comp-'+c.id+'-'+o+'" value="'+o+'" '+(c.competenza===o?'checked':'')+' onchange="upd('+c.id+',\'competenza\',\''+o+'\')"><label for="comp-'+c.id+'-'+o+'">'+o.toUpperCase()+'</label>').join('');
+  const catOpts=Object.entries(WCAT).map(([k,v])=>'<option value="'+k+'" '+(c.armaCat===k?'selected':'')+' '+(!canUseCat(c,k)?'disabled':'')+'>'+(canUseCat(c,k)?'':'🔒 ')+'Cat '+k+' — '+v.nome+'</option>').join('');
+  const perks=WPERKS[c.armaCat]||[];
+  const perkHTML=perks.map(p=>'<div class="perk-pill '+(c.armaPerk===p.id?'on':'')+'" onclick="setPerk('+c.id+',\''+p.id+'\')" title="'+p.desc+'">'+p.nome+'</div>').join('');
+  const activePerk=perks.find(p=>p.id===c.armaPerk);
+  const shHTML=SHIELDS.map(sh=>{const bl=sh.rest&&!sh.rest.includes(c.armaCat);return '<input type="radio" class="sh-opt" name="sh-'+c.id+'" id="sh-'+c.id+'-'+sh.id+'" value="'+sh.id+'" '+(c.scudo===sh.id?'checked':'')+' '+(bl?'disabled':'')+' onchange="upd('+c.id+',\'scudo\',+this.value)"><label for="sh-'+c.id+'-'+sh.id+'" '+(bl?'style="opacity:.3;cursor:not-allowed"':'')+'">'+sh.nome+'</label>';}).join('');
+
+  const tPills=TALENTS.map(t=>{
+    const sel=c.talenti.includes(t.id),dim=c.talenti.length>=5&&!sel,req=t.req&&!hasTalent(c,t.req)&&!sel;
+    const cls=sel?(t.cat==='accesso'?'sel-g':t.cat==='limite'?'sel-l':'sel-t'):'';
+    return '<span class="pill '+cls+' '+((dim||req)?'dim':'')+'" onclick="'+((dim||req)?'':('togTalent('+c.id+',\''+t.id+'\')'))+'" title="'+t.desc+(t.req&&!sel?' [req: '+(tById(t.req)?.nome||'?')+']':'')+'">'+(t.cat==='accesso'?'⚡ ':t.cat==='limite'?'⬆ ':'')+t.nome+'</span>';
+  }).join('');
+
+  const augPills=AUGMENTS.map(a=>{
+    const sel=c.augmenti.includes(a.id),dim=c.augmenti.length>=3&&!sel;
+    return '<span class="pill '+(sel?'sel-aug':'')+' '+(dim?'dim':'')+'" onclick="'+(dim?'':('togAugment('+c.id+',\''+a.id+'\')'))+'" title="PRO: '+a.pro+' | CON: '+a.con+(a.manutenzione?' | MANT: '+a.manutenzione:'')+'">'+a.nome+' <span style="font-size:9px;opacity:.5">'+a.tipo+'</span></span>';
+  }).join('');
+
+  const ctPills=SPELLS.filter(s=>s.tipo==='ct').map(s=>{
+    const sel=c.magie.includes(s.id),dim=nCt>=2&&!sel;
+    return '<span class="pill '+(sel?'sel-c':'')+' '+(dim?'dim':'')+'" onclick="'+(dim?'':('togSpell('+c.id+',\''+s.id+'\')'))+'" title="'+s.mec+' ['+s.stat+']">'+(s.stat==='ANIMA'?'♦':'✦')+' '+s.nome+'</span>';
+  }).join('');
+
+  let spellHTML='';
+  if(!hasMb&&!haMa){spellHTML='<span style="font-size:11px;color:var(--tx3)">Seleziona talento Magia (Base).</span>';}
+  else{[1,2,3,4].forEach(lvl=>{if(lvl<=2&&!hasMb)return;if(lvl>=3&&!haMa)return;spellHTML+='<div style="font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.1em;margin:5px 0 3px">L'+lvl+' <span style="color:var(--purple)">+'+(lvl-1)+' tiro</span></div><div class="pills" style="margin-bottom:4px">'+SPELLS.filter(s=>s.tipo==='mg'&&s.lvl===lvl).map(s=>{const sel=c.magie.includes(s.id);const sv=spellStat(s,c);const lck=sv<s.min;const dim=nMg>=ms&&!sel;const col=s.stat==='ANIMA'?'sel-a':'sel-m';return '<span class="pill '+(sel?col:'')+' '+((dim||lck)?'dim':'')+'" onclick="'+((dim||lck)?'':('togSpell('+c.id+',\''+s.id+'\')'))+'" title="'+(lck?'Req '+s.stat+' '+s.min+'+':s.mec)+'">'+  (lck?'🔒 ':'')+s.nome+' <span style="font-size:9px;opacity:.5">'+s.stat+s.min+'</span></span>';}).join('')+'</div>';});}
+
+  const augEffects=c.augmenti.filter(aid=>aById(aid)).map(aid=>{const a=aById(aid);return '<div style="font-size:10px;color:var(--tx2);padding:3px 6px;margin-bottom:3px;background:rgba(224,80,80,.06);border:1px solid rgba(224,80,80,.15);border-radius:5px"><em style="color:#e08080">'+a.nome+'</em> PRO: <span style="color:var(--green)">'+a.pro.substring(0,60)+'</span>'+(a.manutenzione?' <span style="color:var(--gold)">⚠ manutenzione</span>':'')+'</div>';}).join('');
+
+  const body=c.coll?'':'<div class="cbody"><div class="stats-row">'+['corpo','mente','anima'].map(s=>'<div class="stat-blk"><div class="stat-lbl">'+s.toUpperCase()+'</div><input class="stat-inp" type="number" min="1" max="'+catCap(c)+'" value="'+c[s]+'" onchange="upd('+c.id+',\''+s+'\',+this.value)"></div>').join('')+'</div>'+
+  '<div class="hp-row"><span class="hp-lbl">HP</span><input class="hp-inp" type="number" min="0" value="'+c.hpCur+'" onchange="upd('+c.id+',\'hpCur\',+this.value)"><span class="hp-max">/ '+mx+'</span><span style="font-size:10px;color:var(--tx3);margin-left:6px">max</span><input class="hp-inp" type="number" min="1" value="'+mx+'" style="width:48px;color:var(--tx3)" onchange="upd('+c.id+',\'hpOvr\',+this.value)"></div>'+
+  '<div class="hp-bar-w"><div class="hp-bar" style="width:'+(pct*100).toFixed(1)+'%;background:'+hpColor(pct)+'"></div></div>'+
+  '<div class="hp-info"><span>Ferita ogni '+t3+' HP · cap '+catCap(c)+'</span><span>'+wi.lbl+(wi.pen!=='+0'?' ('+wi.pen+')':'')+'</span></div>'+
+  '<div class="sec-title">Competenza <span style="font-size:9px;color:var(--tx3);font-weight:400">+2 ai tiri della stat scelta</span></div>'+
+  '<div class="comp-row" style="margin-bottom:10px"><input type="radio" class="copt" name="comp-'+c.id+'" id="comp-'+c.id+'-n" '+(c.competenza?'':'checked')+' onchange="upd('+c.id+',\'competenza\',null)"><label for="comp-'+c.id+'-n" style="color:var(--tx3)">Nessuna</label>'+compOpts+'</div>'+
+  '<div class="sec-title">Arma</div><div class="row" style="margin-bottom:6px"><input class="text-inp" type="text" placeholder="Nome arma..." style="flex:1" value="'+c.armaNome+'" onchange="upd('+c.id+',\'armaNome\',this.value)"><select class="sel" onchange="upd('+c.id+',\'armaCat\',this.value)">'+catOpts+'</select></div>'+
+  '<div class="perk-opts">'+perkHTML+'</div>'+
+  (activePerk?'<div style="font-size:11px;color:var(--tx3);margin-bottom:8px;padding:5px 8px;background:var(--s3);border-radius:var(--r);border:1px solid var(--b1)"><em style="color:var(--green)">'+activePerk.nome+'</em> — '+activePerk.desc+'</div>':'')+
+  '<div class="row" style="margin-bottom:10px"><input type="checkbox" class="chk" id="d-'+c.id+'" '+(c.armaDist?'checked':'')+' onchange="upd('+c.id+',\'armaDist\',this.checked)"><label for="d-'+c.id+'">A distanza</label><input type="checkbox" class="chk" id="mg-'+c.id+'" '+(c.armaMagi?'checked':'')+' onchange="upd('+c.id+',\'armaMagi\',this.checked)"><label for="mg-'+c.id+'">Magica (MENTE)</label></div>'+
+  '<div class="sec-title">Scudo</div><div class="shield-row">'+shHTML+'</div>'+
+  '<div class="cpanel"><div class="cr"><span class="ck">⚔ attacco avg</span><span class="cv">1d12+<span style="color:var(--gold)">'+as+'</span>+<span style="color:var(--blue)">'+cb+'</span>'+(cBon?'+<span style="color:var(--cyan)">'+cBon+'</span>':'')+' = <span style="color:var(--gold)">'+avg.toFixed(1)+'</span></span></div><div class="cr"><span class="ck">🛡 difesa CORPO</span><span class="cv"><span style="color:var(--green)">'+c.corpo+'</span>'+(sb?'+scudo <span style="color:var(--blue)">'+sb+'</span>= <span style="color:var(--green)">'+(c.corpo+sb)+'</span>':'')+'</span></div><div class="cr"><span class="ck">arma/slot</span><span class="cv">'+defPen+(c.armaDist?' noDefSkill':'')+(c.armaCat==='D'?' 2mani':'')+' · slot: '+nMg+'/'+ms+'</span></div></div>'+
+  '<div class="sec-title">Talenti <span style="font-family:\'JetBrains Mono\';font-size:10px;color:var(--tx3)">'+c.talenti.length+'/5 · ⚡accesso · ⬆limite</span></div><div class="pills">'+tPills+'</div>'+
+  '<div class="sec-title">Miglioramenti Fisici <span style="font-family:\'JetBrains Mono\';font-size:10px;color:var(--tx3)">'+c.augmenti.length+'/3</span></div><div class="pills">'+augPills+'</div>'+
+  (augEffects?'<div style="margin-bottom:10px">'+augEffects+'</div>':'')+
+  '<div class="sec-title">Cantrip <span style="font-family:\'JetBrains Mono\';font-size:10px;color:var(--tx3)">'+nCt+'/2</span></div><div class="pills">'+ctPills+'</div>'+
+  '<div class="sec-title">Magie'+(hasMb?' <span style="font-family:\'JetBrains Mono\';font-size:10px;color:var(--tx3)">'+nMg+'/'+ms+' · ✦MENTE · ♦ANIMA</span>':'')+'</div><div style="margin-bottom:10px">'+spellHTML+'</div>'+
+  '<div class="sec-title">Note</div><textarea class="note-ta" placeholder="Effetti attivi, memo..." onchange="upd('+c.id+',\'note\',this.value)">'+c.note+'</textarea></div>';
+
+  return '<div class="card '+c.tipo+' '+(c.coll?'coll':'')+'" id="card-'+c.id+'"><div class="card-hdr" onclick="togColl('+c.id+')"><span class="badge badge-'+c.tipo+'">'+(c.tipo==='pg'?'PG':'NPC')+'</span><input class="name-inp" type="text" placeholder="'+(c.tipo==='pg'?'Nome personaggio':'Nome nemico')+'" value="'+c.nome+'" onclick="event.stopPropagation()" onchange="upd('+c.id+',\'nome\',this.value)"><span class="wbadge '+wi.cls+'">'+wi.lbl+'</span><span class="caret">▼</span><button class="del-btn" onclick="event.stopPropagation();delChar('+c.id+')">✕</button></div>'+body+'</div>';
+}
+function renderCard(id){const c=chars.find(c=>c.id==id);if(!c)return;const el=document.getElementById('card-'+id);if(el)el.outerHTML=buildCard(c);updateCounts();}
+function render(){
+  const pg=chars.filter(c=>c.tipo==='pg'),ne=chars.filter(c=>c.tipo==='ne');
+  document.getElementById('lst-pg').innerHTML=pg.length?pg.map(buildCard).join(''):'<div style="text-align:center;padding:40px 20px;color:var(--tx3);font-size:12px">Nessun personaggio.</div>';
+  document.getElementById('lst-ne').innerHTML=ne.length?ne.map(buildCard).join(''):'<div style="text-align:center;padding:40px 20px;color:var(--tx3);font-size:12px">Nessun nemico.</div>';
+  updateCounts();
+}
+function updateCounts(){const p=chars.filter(c=>c.tipo==='pg').length,n=chars.filter(c=>c.tipo==='ne').length;document.getElementById('cnt-pg').textContent=p+' PG';document.getElementById('cnt-ne').textContent=n+(n===1?' nemico':' nemici');}
+function buildRefs(){
+  // ARMI
+  let a='<h2>Armi</h2><div class="ref-sub">Attunement per categoria — nome libero — scegli 1 perk tra 5</div>';
+  Object.entries(WCAT).forEach(([k,v])=>{a+='<div class="ref-sec" '+(k==='D'?'style="color:var(--red)"':k==='C'?'style="color:var(--gold)"':'')+'>Cat '+k+' — '+v.nome+' +'+v.bonus+(v.req?' · richiede talento Armi':'')+' </div><div style="font-size:11px;color:#e08080;margin-bottom:9px">Svantaggio: '+v.svan+'</div><div class="ref-grid">';WPERKS[k].forEach(p=>{a+='<div class="rc"><div class="rc-cat">Perk Cat '+k+'</div><div class="rc-name">'+p.nome+'</div><div class="rc-desc">'+p.desc+'</div><span class="tag tp">+ '+p.pro+'</span><span class="tag tc2">- '+p.con+'</span></div>';});a+='</div>';});
+  a+='<div class="ref-sec">Scudi</div><div class="ref-grid">';SHIELDS.filter(s=>s.id>0).forEach(s=>{a+='<div class="rc"><div class="rc-cat">+'+s.bonus+' CORPO difesa</div><div class="rc-name">'+s.nome+'</div><div class="rc-desc">'+s.note+'</div></div>';});a+='</div>';
+  document.getElementById('r-armi').innerHTML=a;
+
+  // MAGIE
+  let m='<h2>Magie</h2><div class="ref-sub">✦ scalano su MENTE · ♦ scalano su ANIMA · slot = max(MENTE,ANIMA)-2</div>';
+  m+='<table class="man-table"><thead><tr><th>Livello</th><th>+Tiro</th><th>Req. Stat</th><th>Talento</th></tr></thead><tbody><tr><td>Cantrip</td><td>+0</td><td>—</td><td>—</td></tr><tr><td>L1</td><td>+0</td><td>>=3</td><td>Magia Base</td></tr><tr><td>L2</td><td>+1</td><td>>=4</td><td>Magia Base</td></tr><tr><td>L3</td><td>+2</td><td>>=5</td><td>Magia Avanzata</td></tr><tr><td>L4</td><td>+3</td><td>>=6</td><td>Magia Avanzata</td></tr></tbody></table>';
+  m+='<div class="ref-sec">Cantrip — tutti · max 2</div><div class="ref-grid">';
+  SPELLS.filter(s=>s.tipo==='ct').forEach(s=>{const ic=s.stat==='ANIMA'?'♦':'✦';m+='<div class="rc"><div class="rc-cat">'+ic+' Cantrip · '+s.stat+' '+stileBadge(s.stile)+'</div><div class="rc-name">'+s.nome+'</div><div class="rc-desc">'+s.mec+'</div><span class="tag tp">+ '+s.pro+'</span><span class="tag tc2">- '+s.con+'</span></div>';});m+='</div>';
+  [1,2,3,4].forEach(lvl=>{const col=lvl<=2?'var(--blue)':'var(--purple)';m+='<div class="ref-sec" style="color:'+col+'">L'+lvl+' — +'+(lvl-1)+' al tiro</div><div class="ref-grid">';SPELLS.filter(s=>s.tipo==='mg'&&s.lvl===lvl).forEach(s=>{const ic=s.stat==='ANIMA'?'♦':'✦';m+='<div class="rc"><div class="rc-cat">'+ic+' '+s.stat+' >='+s.min+' '+stileBadge(s.stile)+'</div><div class="rc-name">'+s.nome+'</div><div class="rc-desc">'+s.mec+'</div><span class="tag tp">+ '+s.pro+'</span><span class="tag tc2">- '+s.con+'</span></div>';});m+='</div>';});
+  document.getElementById('r-magie').innerHTML=m;
+
+  // TALENTI
+  let t='<h2>Talenti</h2><div class="ref-sub">Max 5 per personaggio. Accessi e Limiti contano come talenti normali.</div>';
+  t+='<div class="ref-sec" style="color:var(--gold)">⚡ Accessi — sbloccano contenuti avanzati</div><div class="ref-grid">';
+  TALENTS.filter(x=>x.cat==='accesso').forEach(x=>{t+='<div class="rc" style="border-color:var(--gold)"><div class="rc-cat">⚡ Accesso '+stileBadge(x.stile)+(x.req?' · req: '+(tById(x.req)?.nome||'?'):'')+' </div><div class="rc-name">'+x.nome+'</div><div class="rc-desc">'+x.desc+'</div><span class="tag tp">+ '+x.pro+'</span><span class="tag tc2">- '+x.con+'</span></div>';});t+='</div>';
+  t+='<div class="ref-sec" style="color:var(--cyan)">⬆ Limiti — aumentano cap caratteristiche</div><div class="ref-grid">';
+  TALENTS.filter(x=>x.cat==='limite').forEach(x=>{t+='<div class="rc" style="border-color:var(--cyan)"><div class="rc-cat">⬆ Limite '+stileBadge(x.stile)+(x.req?' · req: '+(tById(x.req)?.nome||'?'):'')+' </div><div class="rc-name">'+x.nome+'</div><div class="rc-desc">'+x.desc+'</div><span class="tag tp">+ '+x.pro+'</span><span class="tag tc2">- '+x.con+'</span></div>';});t+='</div>';
+  [{k:'corpo',lbl:'Corpo',col:'var(--green)'},{k:'mente',lbl:'Mente',col:'var(--blue)'},{k:'anima',lbl:'Anima',col:'var(--purple)'},{k:'ibrido',lbl:'Ibrido',col:'var(--gold)'}].forEach(cat=>{t+='<div class="ref-sec" style="color:'+cat.col+'">'+cat.lbl+'</div><div class="ref-grid">';TALENTS.filter(x=>x.cat===cat.k).forEach(x=>{t+='<div class="rc"><div class="rc-cat">'+cat.lbl+' '+stileBadge(x.stile)+'</div><div class="rc-name">'+x.nome+'</div><div class="rc-desc">'+x.desc+'</div><span class="tag tp">+ '+x.pro+'</span><span class="tag tc2">- '+x.con+'</span></div>';});t+='</div>';});
+  document.getElementById('r-talenti').innerHTML=t;
+
+  // MODIFICHE
+  let mod='<h2>Miglioramenti Fisici</h2><div class="ref-sub">Separati dai talenti — max 3 per personaggio — ogni modifica ha pro e contro meccanici</div>';
+  mod+='<div class="rule-box"><strong>Come funzionano:</strong> Le Modifiche Fisiche sono installazioni permanenti o cambiamenti biologici irreversibili. Non si "imparano" come i talenti — si <em>subiscono</em> o si <em>scelgono</em> come parte della storia. Danno vantaggi significativi ma hanno sempre un costo narrativo o meccanico.</div>';
+  const stiliOrdine=['cyberpunk','fantasy','horror','anime','universale','noir','post-ap'];
+  stiliOrdine.forEach(stile=>{const augs=AUGMENTS.filter(a=>a.stile===stile);if(!augs.length)return;const s=STILI[stile]||{};mod+='<div class="ref-sec">'+s.icon+' '+s.lbl+'</div><div class="ref-grid">';augs.forEach(a=>{mod+='<div class="rc"><div class="rc-cat">'+stileBadge(a.stile)+' <span style="color:var(--tx3)">'+a.tipo+'</span></div><div class="rc-name">'+a.nome+'</div><div class="rc-desc">'+a.desc+'</div><span class="tag tp">+ '+a.pro+'</span><span class="tag tc2">- '+a.con+'</span>'+(a.manutenzione?'<div class="rc-mant">⚠ Manutenzione: '+a.manutenzione+'</div>':'')+'</div>';});mod+='</div>';});
+  document.getElementById('r-modifiche').innerHTML=mod;
+}
+
+function buildManuale(){
+  document.getElementById('r-manuale').innerHTML='<h2>Manuale — C.O.R.E.</h2>'+
+  '<div class="man-callout"><div class="man-callout-title">Filosofia</div><p class="man-p" style="margin:0">Un dado, tre caratteristiche, regole modulari. La complessita cresce con il personaggio, non con le regole. Il sistema e pensato per adattarsi a qualsiasi genere: fantasy, cyberpunk, noir, horror, anime. Ogni elemento ha un tag <strong>stile</strong> che indica il suo "core" di appartenenza — ma tutti i contenuti funzionano insieme.</p></div>'+
+  '<div class="ref-sec">1. Caratteristiche e Cap</div>'+
+  '<table class="man-table"><thead><tr><th>Caratteristica</th><th>Governa</th><th>Difende vs</th></tr></thead><tbody><tr><td>CORPO</td><td>Forza, resistenza, fisico</td><td>Attacchi fisici, magie offensive</td></tr><tr><td>MENTE</td><td>Intelligenza, magia arcana, tech</td><td>Magie mentali, hacking</td></tr><tr><td>ANIMA</td><td>Carisma, volonta, spirito</td><td>Incantesimi sociali, paura</td></tr></tbody></table>'+
+  '<table class="man-table"><thead><tr><th>Cap Caratteristica</th><th>Max raggiungibile</th></tr></thead><tbody><tr><td>Base</td><td>10</td></tr><tr><td>Talento: Limite Elevato</td><td>12</td></tr><tr><td>Talento: Limite Maestro</td><td>15</td></tr></tbody></table>'+
+  '<div class="ref-sec">2. HP e Creazione</div>'+
+  '<div class="man-formula">HP (PG) = CORPO + MENTE + ANIMA &nbsp;·&nbsp; HP (Mostri) = espliciti</div>'+
+  '<ul class="man-list"><li>12 punti da distribuire (min 1 per stat, cap 10 base)</li><li>1 Talento iniziale · fino a 2 cantrip (opzionale)</li><li>Competenza: scegli 1 stat (+2 a tutti i tiri con quella stat)</li><li>Arma: nome + categoria A/B + perk · scudo (opzionale)</li></ul>'+
+  '<div class="ref-sec">3. Meccanica D12</div>'+
+  '<div class="man-formula">Risultato = 1d12 + Caratteristica + Modificatori &nbsp;·&nbsp; Danno = Risultato - Difesa (min 0)</div>'+
+  '<table class="man-table"><thead><tr><th>Tipo attacco</th><th>Formula</th><th>vs Difesa</th></tr></thead><tbody><tr><td>Fisico</td><td>1d12 + CORPO + bonus cat arma (+ Comp +2)</td><td>CORPO + scudo</td></tr><tr><td>Magico MENTE</td><td>1d12 + MENTE + bonus livello (+ Comp +2)</td><td>Stat pertinente</td></tr><tr><td>Magico ANIMA</td><td>1d12 + ANIMA + bonus livello (+ Comp +2)</td><td>Stat pertinente</td></tr></tbody></table>'+
+  '<div class="ref-sec">4. Competenza</div>'+
+  '<div class="man-p">Scegli una caratteristica alla creazione: +2 a <em>tutti</em> i tiri che usano quella stat — attacchi, skill, resistenze.</div>'+
+  '<div class="ref-sec">5. Ferite e Recupero</div>'+
+  '<table class="man-table"><thead><tr><th>Tier</th><th>Condizione</th><th>HP persi</th><th>Penalita</th></tr></thead><tbody><tr><td>0</td><td>Integro</td><td>&lt; 1/3</td><td>—</td></tr><tr><td>1</td><td>Ferito</td><td>>= 1/3</td><td>-1 tutti i tiri</td></tr><tr><td>2</td><td>Critico</td><td>>= 2/3</td><td>-2 tutti i tiri</td></tr><tr><td>3</td><td>Incapacitato</td><td>0 HP</td><td>Non agisce. 3 round per stabilizzarlo.</td></tr></tbody></table>'+
+  '<div class="man-2col"><div class="rule-box"><strong>Riposo Breve</strong> (10 min) — recupera CORPO HP. No slot magie.</div><div class="rule-box"><strong>Riposo Lungo</strong> (8 ore) — tutti HP + tutti gli slot magia.</div></div>'+
+  '<div class="ref-sec">6. Armi</div>'+
+  '<table class="man-table"><thead><tr><th>Cat</th><th>+Attacco</th><th>-Difesa</th><th>Talento</th></tr></thead><tbody><tr><td>A</td><td>+0</td><td>—</td><td>—</td></tr><tr><td>B</td><td>+2</td><td>—</td><td>—</td></tr><tr><td>C</td><td>+4</td><td>-1</td><td>Armi Base</td></tr><tr><td>D</td><td>+6</td><td>-2, 2mani</td><td>Armi Avanzato</td></tr></tbody></table>'+
+  '<div class="ref-sec">7. Magie — Slot e Progressione</div>'+
+  '<div class="man-p">Magie MENTE scalano su MENTE. Magie ANIMA scalano su ANIMA. Pool slot condiviso, calcolato sulla stat piu alta.</div>'+
+  '<table class="man-table"><thead><tr><th>max(MENTE,ANIMA)</th><th>Slot Magie</th></tr></thead><tbody><tr><td>1-2</td><td>0</td></tr><tr><td>3</td><td>1</td></tr><tr><td>4</td><td>2</td></tr><tr><td>5</td><td>3</td></tr><tr><td>6</td><td>4</td></tr><tr><td>7+</td><td>stat - 2</td></tr></tbody></table>'+
+  '<div class="ref-sec">8. Talenti (max 5) e Accessi</div>'+
+  '<table class="man-table"><thead><tr><th>Tipo</th><th>Funzione</th></tr></thead><tbody><tr><td>⚡ Accesso</td><td>Sblocca armi Cat C/D o magie L3-4</td></tr><tr><td>⬆ Limite</td><td>Cap stat: 10 -> 12 -> 15</td></tr><tr><td>CORPO/MENTE/ANIMA</td><td>Capacita passive o attive</td></tr><tr><td>Ibrido</td><td>Versatilita e adattamento</td></tr></tbody></table>'+
+  '<div class="ref-sec">9. Miglioramenti Fisici (max 3)</div>'+
+  '<div class="man-p">Separati dai talenti. Modifiche permanenti con pro e contro meccanici. Alcuni richiedono manutenzione. Stili: Cyberpunk (cyberware), Fantasy (bioware/alchemico), Horror (patti/biomod), Anime (poteri spirituali), Universale.</div>'+
+  '<div class="ref-sec">10. Mostri</div>'+
+  '<table class="man-table"><thead><tr><th>Rango</th><th>HP</th><th>Durata (4 PG)</th></tr></thead><tbody><tr><td>Gregario</td><td>4-8</td><td>1 colpo</td></tr><tr><td>Normale</td><td>12-20</td><td>2-3 round</td></tr><tr><td>Elite</td><td>25-40</td><td>4-6 round</td></tr><tr><td>Boss</td><td>50-100</td><td>6-10 round</td></tr></tbody></table>'+
+  '<div class="ref-sec">11. Progressione</div>'+
+  '<table class="man-table"><thead><tr><th>Avanzamento</th><th>Frequenza suggerita</th></tr></thead><tbody><tr><td>+1 a una caratteristica</td><td>Ogni milestone narrativo</td></tr><tr><td>+1 talento (max 5)</td><td>Ogni 3-5 sessioni</td></tr><tr><td>+1 modifica fisica (max 3)</td><td>Milestone o acquisto in-world</td></tr></tbody></table>';
+}
+
+// SCHEDA
+function sHP(){
+  const c=+document.getElementById('s-c').value||0,m=+document.getElementById('s-m').value||0,a=+document.getElementById('s-a').value||0;
+  const mx=c+m+a;document.getElementById('s-hpmax').textContent=mx;document.getElementById('s-tier').textContent=Math.floor(mx/3);
+  const cur=document.getElementById('s-hpcur');if(+cur.value>mx)cur.value=mx;cur.max=mx;sBar();sUpdateAll();
+}
+function sBar(){
+  const mx=+document.getElementById('s-hpmax').textContent||12,cur=+document.getElementById('s-hpcur').value||0;
+  const pct=Math.max(0,Math.min(1,cur/mx)),lost=mx-cur,t=Math.floor(mx/3);
+  const fill=document.getElementById('s-hpfill');fill.style.width=(pct*100).toFixed(1)+'%';fill.style.background=pct>0.6?'#48c88a':pct>0.3?'#e8a030':'#e05050';
+  const wd=document.getElementById('s-wound');
+  if(cur<=0){wd.textContent='INCAPACITATO';wd.style.color='#e05050';}
+  else if(lost>=t*2){wd.textContent='CRITICO';wd.style.color='#e08080';}
+  else if(lost>=t){wd.textContent='FERITO';wd.style.color='#e8a030';}
+  else{wd.textContent='INTEGRO';wd.style.color='#48c88a';}
+}
+function sGetSel(){return[...document.querySelectorAll('.s-t-sel')].map(s=>s.value).filter(v=>v)}
+function sUpdateAll(){
+  const sel=sGetSel(),hasAb=sel.includes('gate_ab'),hasAa=sel.includes('gate_aa'),hasMb=sel.includes('gate_mb'),haMa=sel.includes('gate_ma');
+  const catEl=document.getElementById('s-cat'),cur=catEl.value;
+  catEl.innerHTML=Object.entries(WCAT).map(([k,v])=>{const lk=(k==='C'&&!hasAb)||(k==='D'&&!hasAa);return'<option value="'+k+'" '+(cur===k?'selected':'')+' '+(lk?'disabled':'')+'>'+(lk?'🔒 ':'')+'Cat '+k+' — '+v.nome+'</option>';}).join('');
+  if((catEl.value==='C'&&!hasAb)||(catEl.value==='D'&&!hasAa))catEl.value='B';
+  sCat();sSpells(hasMb,haMa);
+}
+function sCat(){const cat=document.getElementById('s-cat').value,perks=WPERKS[cat]||[];document.getElementById('s-perk').innerHTML=perks.map(p=>'<option value="'+p.id+'">'+p.nome+'</option>').join('');sPerk();}
+function sPerk(){const cat=document.getElementById('s-cat').value,pid=document.getElementById('s-perk').value,perk=(WPERKS[cat]||[]).find(p=>p.id===pid);document.getElementById('s-perk-desc').textContent=perk?perk.desc:'';}
+function sSpells(hasMb,haMa){
+  const mente=+document.getElementById('s-m').value||0,anima=+document.getElementById('s-a').value||0;
+  const ms=Math.max(0,Math.max(mente,anima)-2);
+  document.getElementById('s-slot-info').textContent='('+ms+' slot)';
+  const container=document.getElementById('s-magie-slots');
+  if(!hasMb&&!haMa){container.innerHTML='<div style="font-size:11px;color:#888">Seleziona talento Magia (Base).</div>';return;}
+  let html='';
+  for(let i=0;i<ms;i++){const opts=SPELLS.filter(s=>{if(s.tipo!=='mg')return false;const sv=s.stat==='ANIMA'?anima:mente;if(sv<s.min)return false;if(s.lvl<=2&&!hasMb)return false;if(s.lvl>=3&&!haMa)return false;return true;}).map(s=>'<option value="'+s.id+'">['+s.stat+' L'+s.lvl+'+'+s.bonus+'] '+s.nome+'</option>').join('');html+='<div class="s-slot"><div class="s-slot-lbl">Slot '+(i+1)+'</div><select class="s-sel"><option value="">— Scegli —</option>'+opts+'</select></div>';}
+  container.innerHTML=html||'<div style="font-size:11px;color:#888">Nessuno slot (stat <= 2).</div>';
+}
+function sInitScheda(){
+  document.getElementById('s-cat').innerHTML=Object.entries(WCAT).map(([k,v])=>'<option value="'+k+'">Cat '+k+' — '+v.nome+'</option>').join('');sCat();
+  const cats=['accesso','limite','corpo','mente','anima','ibrido'];
+  const labels={accesso:'⚡ Accessi',limite:'⬆ Limiti',corpo:'CORPO',mente:'MENTE',anima:'ANIMA',ibrido:'Ibrido'};
+  const tOpts='<option value="">— Nessuno —</option>'+cats.map(cat=>{const ts=TALENTS.filter(t=>t.cat===cat);if(!ts.length)return'';return'<optgroup label="'+labels[cat]+'">'+ts.map(t=>'<option value="'+t.id+'">'+t.nome+(t.req?' (req: '+(tById(t.req)?.nome||'?')+')':'')+' </option>').join('')+'</optgroup>';}).join('');
+  document.querySelectorAll('.s-t-sel').forEach(sel=>{sel.innerHTML=tOpts;});
+  const stiliOrd=['cyberpunk','fantasy','horror','anime','universale','noir','post-ap'];
+  const augOpts='<option value="">— Nessuno —</option>'+stiliOrd.map(st=>{const augs=AUGMENTS.filter(a=>a.stile===st);if(!augs.length)return'';return'<optgroup label="'+(STILI[st]?.icon||'')+' '+(STILI[st]?.lbl||st)+'">'+augs.map(a=>'<option value="'+a.id+'">'+a.nome+' ('+a.tipo+')</option>').join('')+'</optgroup>';}).join('');
+  document.querySelectorAll('.s-aug-sel').forEach(sel=>{sel.innerHTML=augOpts;});
+  const ctOpts='<option value="">— Nessuno —</option>'+SPELLS.filter(s=>s.tipo==='ct').map(s=>'<option value="'+s.id+'">'+(s.stat==='ANIMA'?'♦':'✦')+' '+s.nome+' ['+s.stat+']</option>').join('');
+  document.querySelectorAll('.s-ct-sel').forEach(sel=>{sel.innerHTML=ctOpts;});
+  sUpdateAll();
+}
+
+document.querySelectorAll('.tab').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));btn.classList.add('on');document.getElementById('t-'+btn.dataset.t).classList.add('on');});});
+
+load();render();buildRefs();buildManuale();sInitScheda();
+</script>
+</body>
+</html>
