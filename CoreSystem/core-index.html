@@ -71,7 +71,7 @@ function atkBonus(c){const stat=c.armaMagi?c.mente:c.corpo;const comp=c.competen
 function defCorpo(c){return c.corpo+totalDefBonus(c)}
 function displayName(f){return f.replace(/-(classic|core)\.json$/,"").replace(/\.json$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());}
 
-function newCoreChar(n){return{id:uid(),name:n||"Nuovo PG",system:"core",corpo:4,mente:4,anima:4,hpCurrent:12,competenza:null,armaCat:"B",armaPerk:"b1",armaNome:"",armaDist:false,armaMagi:false,scudo:0,armatura:0,talenti:[],augmenti:[],magie:[],conditions:[],notes:"",backstory:""};}
+function newCoreChar(n){return{id:uid(),name:n||"Nuovo PG",system:"core",corpo:4,mente:4,anima:4,hpCurrent:12,competenza:null,armaCat:"B",armaPerk:"b1",armaNome:"",armaDist:false,armaMagi:false,scudo:0,armatura:0,talenti:[],augmenti:[],magie:[],conditions:[],heroPoints:2,notes:"",backstory:""};}
 
 const SS={
   inp:{background:'var(--s3)',border:'1px solid var(--b1)',borderRadius:6,color:'var(--tx)',fontFamily:'Outfit',fontSize:13,padding:'6px 9px',outline:'none',boxSizing:'border-box'},
@@ -87,7 +87,7 @@ const TABS=[{id:"sheet",icon:"⚔️",label:"Scheda"},{id:"actions",icon:"🎭",
 
 /* ═══ APP ═══ */
 function App(){
-  const[screen,setScreen]=useState("login");
+  const[screen,setScreen]=useState("init");
   const[manifest,setManifest]=useState(null);
   const[accId,setAccId]=useState(null);
   const[ghToken,setGhToken]=useState(null);
@@ -99,7 +99,20 @@ function App(){
   const[toast,setToast]=useState(null);
   const fileRef=useRef(null);
 
-  useEffect(()=>{(async()=>{const m=await fetchJ(BASE()+"/data/manifest.json");setManifest(m);setLoading(false);})();},[]);
+  useEffect(()=>{(async()=>{
+    const m=await fetchJ(BASE()+"/data/manifest.json");setManifest(m);
+    // Leggi auth da sessionStorage (passata dal main)
+    try{
+      const auth=JSON.parse(sessionStorage.getItem("core_auth"));
+      if(auth&&auth.accId&&(Date.now()-auth.ts)<3600000){
+        setAccId(auth.accId);
+        const tk=await decToken();if(tk)setGhToken(tk);
+        setScreen("list");setLoading(false);return;
+      }
+    }catch{}
+    // Fallback: mostra login
+    setScreen("login");setLoading(false);
+  })();},[]);
   const acc=manifest?.accounts?.find(a=>a.id===accId);
   const isMaster=acc?.isMaster||false;
   const up=useCallback(u=>setChar(p=>({...p,...u})),[]);
@@ -297,12 +310,16 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
         )
       ),
       // QUICK STATS
-      React.createElement("div",{style:{display:"flex",gap:4,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)"}},
+      React.createElement("div",{style:{display:"flex",gap:4,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)",alignItems:"center",flexWrap:"wrap"}},
         React.createElement("span",null,`ATK +${atkBonus(c)}`),
         React.createElement("span",null,`DEF ${defCorpo(c)}`),
         React.createElement("span",null,`INIT +${initBonus(c)}`),
         React.createElement("span",null,`MOV ${movement(c)}m`),
-        React.createElement("span",null,`SLOT ${maxSlots(c)}`)
+        React.createElement("span",null,`SLOT ${maxSlots(c)}`),
+        React.createElement("span",{style:{marginLeft:"auto",display:"flex",gap:3,alignItems:"center"}},
+          ...Array.from({length:3}).map((_,i)=>React.createElement("span",{key:i,onClick:()=>{const hp=c.heroPoints||0;if(i<hp)up({heroPoints:hp-1});else if(i===hp&&hp<3)up({heroPoints:hp+1});},style:{fontSize:16,cursor:"pointer",opacity:i<(c.heroPoints||0)?1:0.2}},"\u2B50")),
+          React.createElement("span",{style:{fontSize:9,color:"var(--gold)",marginLeft:2}},"PE")
+        )
       )
     ),
     // CONTENT

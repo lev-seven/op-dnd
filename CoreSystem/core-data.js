@@ -341,5 +341,28 @@ const WOUND_TIERS = [
 // ═══ REST ═══
 const REST_RULES = {
   breve: {nome:'Riposo Breve', durata:'10 minuti', effetto:'Recupera CORPO HP. Slot magie non recuperati.'},
-  lungo: {nome:'Riposo Lungo', durata:'8 ore',     effetto:'Tutti HP recuperati. Tutti slot magia recuperati.'}
+  lungo: {nome:'Riposo Lungo', durata:'8 ore',     effetto:'Tutti HP recuperati. Tutti slot magia recuperati. Punti Eroe ripristinati.'}
+};
+
+// ═══ PUNTO EROE — Ispirato a 7th Sea ═══
+const HERO_POINT = {
+  nome: 'Punto Eroe',
+  maxPerSession: 2,
+  refresh: 'Inizio sessione (o Riposo Lungo a discrezione del GM)',
+  rules: [
+    'Ogni PG inizia la sessione con 2 Punti Eroe.',
+    'Il giocatore descrive un\'azione drammatica, narrativa, eroica o disperata.',
+    'Il GM valuta la descrizione: se è coerente col personaggio e la scena, l\'azione riesce automaticamente senza tiro.',
+    'Se il GM ritiene che l\'azione sia troppo potente per un successo automatico, concede invece +6 al tiro.',
+    'Il Punto Eroe si consuma in entrambi i casi.',
+    'Un Punto Eroe può anche essere speso per: negare un colpo mortale (resti a 1 HP), aggiungere un dettaglio narrativo alla scena (con approvazione GM), oppure agire fuori turno con una reazione narrativa.',
+    'Il GM può assegnare un Punto Eroe extra come ricompensa per giocate particolarmente creative o eroiche (max 3 totali).',
+    'I Punti Eroe non si accumulano tra sessioni.'
+  ],
+  esempi: [
+    {azione:'Il bardo salta dal balcone, afferra il lampadario e oscilla verso il nemico cantando.', esito:'Successo automatico — azione spettacolare e coerente col personaggio.'},
+    {azione:'Il guerriero vuole tagliare in due il drago con un solo colpo.', esito:'+6 al tiro — troppo potente per un successo automatico, ma il bonus è enorme.'},
+    {azione:'Il ladro vuole che ci sia una finestra aperta nel muro del castello.', esito:'Successo — il giocatore aggiunge un dettaglio narrativo ragionevole.'},
+    {azione:'Il mago sta per morire: "Il mio maestro mi ha insegnato un ultimo trucco."', esito:'Nega il colpo mortale — resta a 1 HP con una motivazione narrativa.'}
+  ]
 };
