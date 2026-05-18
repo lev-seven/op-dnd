@@ -1,0 +1,1120 @@
+{
+  "account": "Rik",
+  "accountId": "rik",
+  "exportedAt": "2026-05-13T15:31:38.473Z",
+  "character": {
+    "id": "mnxnhi9y8yye",
+    "name": "Murai Ota",
+    "race": "Umano",
+    "level": 10,
+    "classes": "Bruiser",
+    "ac": 13,
+    "hpMax": 105,
+    "hpCurrent": 105,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 12,
+    "passivePerception": 11,
+    "profBonus": 4,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 19,
+        "mod": 4,
+        "save": 8,
+        "profSave": true
+      },
+      "DES": {
+        "score": 12,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "COS": {
+        "score": 15,
+        "mod": 2,
+        "save": 6,
+        "profSave": true
+      },
+      "INT": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 13,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "CAR": {
+        "score": 14,
+        "mod": 2,
+        "save": 2,
+        "profSave": false
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "prof"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "prof"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 0,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "haki_arm",
+        "name": "Haki Armatura",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "haki_oss",
+        "name": "Haki Osservazione",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "haki_re",
+        "name": "Haki del Re",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "fdd",
+        "name": "Frutto del diavolo",
+        "color": "#f46fc1"
+      },
+      {
+        "id": "mnxo1him7q5z",
+        "name": "Bruiser",
+        "color": "#bc1a1a"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "mnxoe582kar2",
+        "name": "Mazza Seastone",
+        "stat": "FOR",
+        "damage": "1d8",
+        "type": "contundente",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      }
+    ],
+    "abilities": [
+      {
+        "id": "mnxo1po0ntvw",
+        "name": "Unarmored Defense ",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "Anche se non indossi alcuna armatura e non usi uno scudo, la tua classe di armatura è pari a 10 + il tuo modificatore di Destrezza + il tuo modificatore di Costituzione.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxop0txop0c",
+        "name": "Scrapper",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "Al primo livello, la tua vita a lottare e combattere con bestie, umani o altre creature duri ti ha dato la padronanza degli stili di combattimento che usano colpi a mani nude e armi da bruiser, che sono semplici armi da mischia senza la proprietà a due mani, le sciabole e le armi improvvisate. Non puoi usare la proprietà di finezza di un'arma mentre la usi come arma da bruiser. \nOttieni i seguenti benefici mentre sei disarmato o con armi da bruiser e non indossi armatura né scudo: \n•\tPuoi tirare un d6 al posto del danno normale da colpo a mani nude o da bruiser. Questo dado cambia man mano che sali di livello dei bruiser, come mostrato nella colonna scrapper nella tabella dei bruiser. \n•\tQuando usi l'azione Attacco con un colpo a mani nude o un'arma da bruiser durante il tuo turno, puoi eseguire un colpo o una presa a mani nude come azione bonus. Ad esempio, se prendi l'azione Attacco e Attacca con una clava, puoi anche fare un Colpo a Mani Nude o una presa come Azione Bonus, supponendo che tu non abbia già eseguito un'Azione Bonus in questo turno. \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxoro6axlfi",
+        "name": "Fury ",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "A partire dal 2° Livello, il tuo allenamento ti permette di incanalare la Furia, la potenza e l'energia grezza che derivano dal tuo spirito. Il tuo accesso a questa energia è rappresentato da diversi punti Furia. Il tuo livello di bruiser determina il numero di punti che hai, come mostrato nella colonna Fury Points della tabella dei Bruiser. \nPuoi spendere questi punti per alimentare varie caratteristiche di Fury. Si iniziano a conoscere tre di queste caratteristiche: Machine Gun Blows, Brute Force, Brace for Impact. Impari altre caratteristiche di Fury man mano che sali di livello in questa classe. \nQuando spendi un punto Furia, non è disponibile finché non completi un Riposo Breve o Lungo, al termine del quale riporti tutta la Furia consumata dentro di te. Devi dedicare almeno 30 minuti di riposo ad allenarti per recuperare i tuoi punti Furia. \nAlcune delle tue abilità Furia richiedono al bersaglio di effettuare un tiro salvezza per resistere agli Effetti della caratteristica. La CD del tiro salvezza si calcola come segue: \nCD tiro salvezza Furia = 8 + il tuo bonus Competenza + il modificatore della Costituzione\n",
+        "maxUses": 6,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxoslc3w64i",
+        "name": "Machine Gun Blows",
+        "originId": "mnxo1him7q5z",
+        "type": "Azione bonus",
+        "desc": "Subito dopo aver eseguito l'azione Attacco al tuo turno, puoi spendere 1 punto furia per eseguire due colpi a mani nude o attacchi con armi da bruiser come Azione Bonus.\n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxou4rtqimx",
+        "name": "Brute Force",
+        "originId": "mnxo1him7q5z",
+        "type": "Azione bonus",
+        "desc": "Puoi usare un'azione bonus e spendere 1 punto furia per fare un attacco di spinta o prendere l'azione Scatto",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxovmf6l2ie",
+        "name": "Brace for Impact",
+        "originId": "mnxo1him7q5z",
+        "type": "Azione bonus",
+        "desc": "Puoi usare la tua Furia per stringere i denti e resistere a ferite fisiche. Puoi usare un'azione bonus e spendere 1 punto furia per prepararti a qualsiasi attacco in arrivo. Guadagni un numero di punti ferita temporanee pari al dado scrapper + il livello del tuo bruiser.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxox2y0l9ja",
+        "name": "Charge Right Through",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "Al secondo livello, il tuo spirito è cresciuto e è in grado di resistere a effetti o pericoli dannosi.\nFinché ti resta almeno 1 punto Furia, hai vantaggio sui tiri salvezza della costituzione contro trappole, incantesimi, veleno, malattie o attacchi di magici. Per ottenere questo beneficio, non puoi essere incapacitato.\n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxoxlursqjt",
+        "name": "Blood for Brawn",
+        "originId": "mnxo1him7q5z",
+        "type": "Reazione",
+        "desc": "A partire dal 3° livello, quando vieni ridotto alla metà del massimo o meno dei punti ferita, puoi usare la tua reazione per guadagnare punti ferita temporanei pari a un lancio del dado scrapper + livello Bruiser e recuperi tutti i punti furia spesi. Non puoi usare di nuovo questa funzione finché non hai completato  un riposo breve o lungo.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxp1n8kaxjj",
+        "name": "Demon Stance",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "Sempre al terzo livello, sviluppi una sete di sangue demoniaca, che ti conferisce potere mentre distruggi i tuoi nemici. Quando riduci una creatura entro 5 piedi da te a 0 punti ferita, guadagni punti ferita temporanee pari al tuo modificatore Costituzione + al tuo livello Bruiser (minimo 1 punto ferita temporaneo).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxp32vjtvwk",
+        "name": "Haki-Coated",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "Al livello 6, puoi sbloccare qualsiasi talento \"non comune\" di Avanzamento Haki del Colore dell'Armamento dal Capitolo 7 di questo libro. Se hai già fatto tutti i talenti di armament haki non comuni, puoi prendere un talento di avanzamento di haki non comune sotto un colore di haki diverso, a patto di soddisfare i prerequisiti.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxp6l0eau2x",
+        "name": "Thrill of the Fight",
+        "originId": "mnxo1him7q5z",
+        "type": "Azione bonus",
+        "desc": "Al 4° livello, sei travolto da una sensazione di eccitazione o rabbia durante la battaglia. Come azione bonus, entri in una frenesia assetata di sangue.\nQuando sei in frenesia, ottieni i seguenti vantaggi e svantaggi purché non usi uno scudo o non indossi un'armatura pesante:\n•\tHai vantaggio nei tiri di forza e nei tiri di salvezza di forza.\n•\tHai resistenza ai danni da contundente, perforante e tagliente.\n•\tQuando una creatura che vedi a meno di 5 piedi da te ti colpisce con un attacco corpo a corpo, puoi usare la tua reazione per colpire con le mani nude o un attacco con l'arma bruiser contro la creatura.\n•\tI tiri d'attacco contro di te hanno vantaggio.\n\nSe riesci a lanciare incantesimi, non puoi lanciarli né concentrarti su di essi mentre sei in furia.\nLa tua frenesia dura 1 minuto. Finisce presto se vieni stordito o se il tuo turno finisce e non hai attaccato una creatura ostile dall'ultimo turno o subito danni da allora. Puoi anche terminare la tua frenesia nei tuoi turni come azione bonus.\nUna volta che hai usato la tua frenesia un numero di volte pari al bonus di Competenza, devi completare un riposo lungo prima di potervi entrare di nuovo.\n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxp8kzal7hu",
+        "name": "Extra Attack",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "A partire dal 5° livello, puoi attaccare due volte, invece di una, ogni volta che compi l'azione Attacco nel tuo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxp9vi7seso",
+        "name": "Rampage",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "A partire dal 5° livello, puoi lanciare attacchi sconsiderati contro i nemici, rendendo il tuo stile di combattimento un'arma a doppio taglio. Quando colpisci un bersaglio con un colpo a mani nude o con un'arma da bruiser, puoi scegliere di infliggergli danni aggiuntivi pari al dado del tuo scrapper. Se lo fai, devi tirare un altro dado scrapper e infliggere danni da forza a te stesso come parte dell'attacco.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpa8szx5pd",
+        "name": "Fast Movement",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "A partire dal 5° livello, la velocità aumenta di 10 piedi finché non indossi armatura pesante.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpcl267cmu",
+        "name": "Spirit Assault",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "A partire dal livello 6, hai istintivamente imparato a incorporare un po' di haki nei tuoi attacchi. I tuoi colpi senza armi e l'arma dei bruiser contano come magici per superare la resistenza e l'immunità agli attacchi e ai danni non magici.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpcz2g6wg9",
+        "name": " Corsa Frenetica",
+        "originId": "mnxo1him7q5z",
+        "type": "Azione bonus",
+        "desc": "Al 7° livello, come parte dell'azione bonus che compi per entrare nella tua frenesia, puoi aumentare fino a metà della tua velocità.\nInoltre, se sei sorpreso all'inizio del combattimento e non sei incapacitato, puoi agire normalmente al primo turno, ma solo se entri nella frenesia prima di fare qualsiasi altra cosa in quel turno.\n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpf2om9agm",
+        "name": "Unbending Resolve",
+        "originId": "mnxo1him7q5z",
+        "type": "Azione",
+        "desc": "A partire dal 7° livello, puoi usare la tua azione per finire un effetto che ti sta causando Incantazione o Paura.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpfg122wfc",
+        "name": "Brutal Frenzy",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "Al 9° livello, quando usi la tua frenesia, i tuoi colpi a mani nude e l'arma da bruiser infliggono una quantità extra di danno pari alla metà del bonus di Competenza (arrotondato verso l'alto).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpggod96hb",
+        "name": "Unbreakable",
+        "originId": "mnxo1him7q5z",
+        "type": "Passiva",
+        "desc": "A partire dal 10° livello, non serve avere un punto furia rimasto per usare la funzione Charge Right Through. Inoltre, sei immune a malattie e veleni.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpvcc3afba",
+        "name": "ROOM",
+        "originId": "fdd",
+        "type": "Azione bonus",
+        "desc": " puoi usare un'azione bonus per creare una sfera psichica di 60 piedi di raggio, o \"stanza\", centrata su dove ti trovi quando la crei. Devi mantenere la concentrazione su questa stanza (come se fossi concentrato su un incantesimo). La stanza dura 1 minuto, o finché non la termini usando un'azione bonus. Puoi avere solo una stanza alla volta. Ogni turno, puoi usare un'altra azione bonus per aumentare il raggio della stanza di altri 60 piedi. Qualsiasi creatura che vedi nella stanza può essere presa di mira da qualsiasi incantesimo di livello lanciato usando questo frutto del diavolo sotto \"Incantesimi della stanza\", indipendentemente dalla portata dell'incantesimo. Inoltre, la portata degli incantesimi o qualsiasi effetto di incantesimo elencato in \"incantesimi di stanza\" può essere esteso a qualsiasi punto all'interno della \"stanza\", ma è anche limitato dalla portata della stanza e non può essere lanciato al di fuori di essa né influenzare nulla al di fuori del raggio della stanza. Ad esempio, la portata del passo nebbioso aumenta da 60 piedi fino a quella di qualsiasi punto all'interno del raggio della stanza. Gli Incantesimi di Stanza che normalmente richiedono concentrazione non richiedono concentrazione mentre sono lanciati entro il raggio della Stanza, ma terminano quando la durata della Stanza termina o quando perdi la concentrazione sulla stanza. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpwnpumv6y",
+        "name": "Scan",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Puoi spendere un'azione per scansionare il raggio della stanza e individuare una creatura che non vedi, che si trova dietro una copertura completa o nascosta nel raggio d'azione della stanza. Puoi farlo tirando una prova di percezione contro la furtività della creatura per localizzarla. Una creatura avvistata in questo modo non può ottenere i benefici di copertura completa contro i tuoi Incantesimi di Frutto del Diavolo mentre è nel raggio d'azione della stanza, e può essere vista da te come se fosse completamente visibile, diventando delineata dal Fuoco Fatato. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxpy9m8l37l",
+        "name": "Surgery Scalpel",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Come azione, puoi designare un'arma da mischia con cui sei abile e che infligge danni taglienti o perforanti come il tuo Surgery Scalpel quando usi i poteri Ope Ope no Mi. L'arma diventa magica allo scopo di superare la resistenza, se non lo è già. Inoltre, quando colpisci una creatura nella tua Stanza con il Surgery Scalpel, una volta per turno puoi rinunciare a infliggere danni e invece usare uno dei seguenti effetti contro il bersaglio: \n•\tInjection Shot: Puoi spendere 1 carica di frutto del diavolo per infliggere 2d8 danni necrotici extra al bersaglio con il tuo Injection Shot. \n•\tGamma Knife: Puoi spendere 3 cariche di frutti del diavolo per infliggere 3d8 danni radianti extra al bersaglio con il tuo Bisturi Chirurgico. Inoltre, la creatura deve superare un tiro salvezza della Costituzione contro la tua CD salvezza del Frutto del Diavolo o rimanere avvelenata per 1 minuto. Il bersaglio può ripetere il tiro salvezza alla fine di ogni turno, terminando la condizione in caso di successo. \n•\tAmputate: Tagli pulitamente un arto della creatura per 10 minuti, senza farle del male. Ogni volta che rimuovi gli arti di una creatura in questo modo, questa acquisisce un livello di stanchezza (fino a un massimo di 5 livelli di stanchezza) purché gli arti non siano attaccati. Una creatura a cui sono stati rimossi gli arti in questo modo può spendere un'azione per riattaccare tutti gli arti, ponendo fine a tutti i livelli di stanchezza applicati dall'amputazione su se stessa. Puoi spendere 1 carica di frutto del diavolo usando questo attacco durante il tuo turno per applicare \"Radio Knife\" all'Amputazione, infliggendo 1d8 danni elettrici al bersaglio e facendo sì che la creatura non riesca a riattaccare l'arto mancante a meno che non riesca a superare un tiro salvezza Saggezza contro la tua CD salvezza del Frutto del Diavolo come parte della sua azione per riattaccare gli arti. Se la creatura fallisce il tiro salvezza, la sua azione viene sprecata e gli arti rimangono liberi. \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxq5avz471s",
+        "name": "Shambles",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "Puoi mirare a due creature o oggetti, incluso te stesso, all'interno della tua \"stanza\" come azione. I due bersagli si teletrasportano magicamente negli spazi dell'altro e si scambiano i posti. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxq5yhk086g",
+        "name": "Immortality Surgery",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "Passando 10 minuti ad operare su un'altra creatura, le concedi l'immortalità. Il bersaglio smette di invecchiare. È immune a qualsiasi effetto che possa invecchiarlo, e non può morire di vecchiaia. Tuttavia, morirai e sarai ridotto in polvere dopo aver completato questo intervento. ",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxqaftgvyt8",
+        "name": "Awakening (K-ROOM and R-ROOM)",
+        "originId": "fdd",
+        "type": "Azione",
+        "desc": "). Una volta risvegliato il tuo potere, puoi usare un'azione per attivare K-ROOM o R-ROOM, oppure un'azione per alternare tra i due, terminando qualsiasi Stanza attualmente attiva. Puoi usare una di queste stanze speciali per 1 minuto dopo aver attivato il risveglio (ma non puoi attivare la tua stanza normale o entrambe contemporaneamente), oppure finché non perdi conoscenza, e non richiedono concentrazione per mantenere:\n•\tK-ROOM: Applichi la tua stanza al tuo Surgery Scalpel designato come un rivestimento speciale per tutta la durata. Mentre questa speciale Stanza è attiva, la portata della tua arma Surgery Scalpel diventa di 60 piedi. Puoi usare un'azione bonus mentre il tuo rivestimento K-ROOM è attivo per estendere la portata del tuo Surgery Scalpel di altri 60 piedi. Inoltre, quando colpisci una creatura con il Surgery Scalpel rivestito K-ROOM, una volta per turno puoi rinunciare a infliggere danni e invece usare uno dei seguenti effetti contro il bersaglio:\n1.\tShock Surge: Invii una scossa letale attraverso il bersaglio, infliggendo 10d10 danni fulmine.\n2.\tPuncture Surge: Il bersaglio viene spinto lontano da te fino alla fine della portata della tua arma e atterrato. Se un bersaglio lanciato colpisce una superficie solida, il bersaglio subisce 3 (1d6) danni contundenti per ogni 10 piedi in cui è stato spinto. Se il bersaglio viene spinto contro un'altra creatura, quella creatura deve superare un tiro salvezza di Destrezza contro il tuo Frutto del Diavolo o subire lo stesso danno e essere buttata a terra.\n•\tR-ROOM: Applichi la tua Stanza a un bersaglio entro 120 piedi da te. La stanza è una sfera con un raggio di 10 piedi che circonda il bersaglio. Fino alla fine della durata, la sfera si muove con il bersaglio, centrato su di esso. Questa stanza funge da incantesimo di campo antimagico.\nNon potrai più usare questa funzione per altre 24 ore.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxqbemfe4e7",
+        "name": "Cariche Ope Ope",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": "",
+        "maxUses": 17,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnxqdw9nwoar",
+        "name": "Room Spells",
+        "originId": "fdd",
+        "type": "Passiva",
+        "desc": ". Questo potere del frutto del diavolo ha 17 cariche. Mentre sei all'interno della \"stanza\", puoi spendere 1 o più delle sue cariche per lanciare uno dei seguenti incantesimi senza dover consumare componenti materiali: catapulta (1 carica, può essere lanciata a livelli più alti spendendo cariche aggiuntive), rilevare veleno e malattia (1 carica), cura ferite (1 carica, può essere lanciata a livelli più alti spendendo cariche aggiuntive),  trova trappole (2 cariche), trattieni la persona (2 cariche, può essere lanciata a livelli più alti spendendo cariche aggiuntive), levitare (2 cariche), silenzio (2 cariche), vedere invisibilità (solo all'interno della stanza; 2 cariche), vortice warp (2 cariche), vortice sinkhole (4 cariche), hold monster (5 cariche), mass cure wounds (5 cariche), telecinesi (5 cariche), move terra (6 cariche), whirlwind (7 cariche),  oppure essenza di legame (7 cariche). Il frutto del diavolo recupera le cariche spese ogni giorno all'alba.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynd0kztso0",
+        "name": "Aura of Life ",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nPuoi aumentare la tua forza di volontà per rafforzare la forza del tuo corpo usando il tuo spirito. \nPuoi spendere un'azione per guadagnare 1d6 + il tuo punteggio Costituzione + il livello del tuo personaggio in punti ferita temporanei. Puoi usare questa funzione un numero di volte pari al tuo bonus di competenza. Non puoi usare di nuovo questa funzione finché non hai completato un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynf9p6qhzv",
+        "name": "Soul Armor ",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nPuoi formare un sottile strato di armatura invisibile attorno al corpo usando la tua anima. \nCome azione, circondi il corpo con questa armatura, rendendo la tua CA pari a 13 + il tuo modificatore Costituzione quando non indossi armatura. Questa armatura dura 8 ore. Non puoi usare di nuovo questa funzione finché non hai completato un riposo lungo. \n",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyngu8z1ezi",
+        "name": "Spirit Blast ",
+        "originId": "haki_arm",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nOttieni la capacità di inviare esplosioni di energia attraverso i nemici usando il tuo spirito. \nQuando colpisci una creatura con un attacco da mischia o un colpo a mani nude, puoi scatenare un'ondata di energia spirituale dal tuo corpo per infliggere 2d8 danni di forza extra al bersaglio, oltre al danno normale dell'attacco. Puoi amplificare un attacco in questo modo solo una volta per round durante il tuo turno. Una volta usata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla finché non hai completato un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynhvnrh15m",
+        "name": "Weapon Hardening ",
+        "originId": "haki_arm",
+        "type": "Azione bonus",
+        "desc": "Avanzamento dell'Haki, non comune\nOttieni la capacità di rivestire le tue armi e gli attacchi con il tuo spirito. Più pesante è l'applicazione, più il rivestimento è scuro. \nCome azione bonus, canalizzi l'haki nel corpo o in un'arma a tua scelta. Se scegli il tuo corpo, scegli o i tuoi colpi a mani nude o un'arma naturale. Per 1 minuto, i tuoi attacchi con l'arma scelta sono considerati magici con un bonus di +1 ai tiri di attacco e ai tiri di danno. \nSe l'attacco ha già un bonus ai tiri di attacco e danno, questa caratteristica sostituisce il bonus a meno che non sia maggiore, nel qual caso non ottiene il beneficio di questa caratteristica. \nQuesto effetto termina presto se perdi conoscenza, lo usi di nuovo, lo termini come azione bonus, o inizi il turno senza tenere o toccare l'arma che hai rivestito. Una volta usata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla finché non hai completato un riposo lungo. \nSe l'evento Spirit Surge ha una rarità superiore a Rara, usa questi bonus: \nRara. L'arma scelta guadagna invece un bonus di +2 ai tiri di Attacco e ai Tiri di Danno. \nMolto rari. L'arma scelta ottiene invece un bonus di +3 ai tiri di Attacco e ai tiri di danno. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynj98gzdnn",
+        "name": "Vessel of Resilience ",
+        "originId": "haki_arm",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nImpari a infondere al tuo spirito una tale resilienza da migliorare la tua forma fisica. \nCome azione, puoi rafforzare le difese per 1 minuto. Durante questo periodo, hai resistenza ai danni contundenti, perforanti e taglienti da attacchi non magici, e hai un vantaggio sui tiri salvezza della Costituzione. Una volta usata questa funzione, non puoi usarla di nuovo finché non hai completato un riposo lungo.\n",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynl818utn0",
+        "name": "Vision of Light ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nMigliorando la tua visione, ora puoi vedere attraverso l'oscurità più chiaramente, concedendoti la Visione Oscura. \nPuoi vedere in luce fioca entro 120 piedi da te come se fosse luce intensa, e in luce oscura come se fosse luce fioca. Non si distinguono i colori, solo nelle sfumature di grigio. \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynm62o9zh3",
+        "name": "Aura Detection ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nInizi a vedere aure che puoi identificare intorno a oggetti magici ed effetti degli incantesimi. \nPuoi lanciare Rilevare Magia a volontà, senza spendere slot incantesimo o componenti materiali. \n",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynmu7maprh",
+        "name": "Predict Outcome ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nPuoi vedere un piccolo sguardo nel futuro per determinare il possibile esito negativo di una situazione ed evitarlo. \nQuando fai un tiro d'attacco, una prova di abilità o un tiro salvezza, puoi scegliere di ritirare il d20. Devi ritirare il dado prima che venga determinato l'esito del primo tiro. \nIn alternativa, quando una creatura che vedi fa un attacco contro di te o fa un tiro salvezza contro uno dei tuoi incantesimi o caratteristiche, puoi costringerla a rilanciare il tiro salvezza o il tiro salvezza. \nSe il tiro che innesca il rilancio è fatto con vantaggio o svantaggio, entrambi i d20 vengono rilanciati. Una volta usata questa funzione, non puoi più usarla finché non hai completato un riposo lungo. \n",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynnx9iyzto",
+        "name": " Spirit Sense ",
+        "originId": "haki_oss",
+        "type": "Azione",
+        "desc": "Avanzamento dell'Haki, non comune\nHai addestrato il tuo haki a percepire la presenza di esseri invisibili, nascosti o camuffati. \nCome azione, puoi percepire la presenza di creature che non puoi vedere entro 60 piedi da te, a patto che tu e la creatura non siate separati da una copertura totale. Puoi usare questa funzione un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi consumati quando finisci un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynoxkrnybu",
+        "name": "Predictive Strike ",
+        "originId": "haki_oss",
+        "type": "Reazione",
+        "desc": "Avanzamento dell'Haki, non comune\nAffinando la percezione, puoi prevedere i movimenti dell'avversario, trasformando il suo attacco in un'opportunità di contrattacco. \nQuando una creatura ti manca con un attacco corpo a corpo, puoi usare la tua reazione per lanciare un attacco corpo a corpo contro la creatura. Puoi usare questa funzione un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi consumati quando finisci un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynpmq1gzff",
+        "name": "Aura Reading ",
+        "originId": "haki_oss",
+        "type": "Passiva",
+        "desc": "Avanzamento dell'Haki, non comune\nSei in grado di rilevare la presenza e il potenziale livello di minaccia di creature o pericoli pericolosi intorno a te. \nPuoi lanciare gli incantesimi Rileva Veleno e Malattia o Individua Male e Bene, senza spendere uno slot incantesimo o componenti materiali. Una volta usata questa abilità un numero di volte pari al tuo bonus di competenza, non puoi più usarla finché non hai completato un riposo lungo. \n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnyns2dxsnda",
+        "name": "Far Sight ",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Avanzamento dell'Haki, non comune\nIl tuo haki di osservazione ti permette di percepire le minacce da una distanza significativa. \nCome azione bonus, puoi estendere la gittata delle armi a distanza per 1 minuto o finché non sei incapacitato. La portata degli attacchi a distanza è raddoppiata e non subisci svantaggi per aver effettuato attacchi a distanza a lunga distanza per tutta la durata. Una volta usata questa abilità, non puoi più usarla finché non hai completato un riposo lungo. \n",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnynsodz8hek",
+        "name": " Echoing Shot ",
+        "originId": "haki_oss",
+        "type": "Azione bonus",
+        "desc": "Avanzamento dell'Haki, non comune \nHai imparato a canalizzare il tuo Haki di Osservazione negli attacchi a distanza, permettendo ai tuoi colpi di curvarsi in aria. \nQuando fai un attacco a distanza e manchi il botto, puoi usare l'azione bonus per rilanciare l'attacco contro un'altra creatura nel raggio d'azione. Il nuovo attacco rimbalza su una superficie solida, come un muro o un soffitto, prima di dirigersi verso il nuovo bersaglio. Puoi usare questa funzione un numero di volte pari al tuo bonus di competenza. Recuperi tutti gli usi consumati quando finisci un riposo lungo.\n",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp45ve3g0kwg",
+        "name": "King's Resolve",
+        "originId": "haki_re",
+        "type": "Reazione",
+        "desc": "Your indomitable spirit can overcome even the most dire circumstances.\n\nAs a reaction when you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. Once you use this ability, you can't use it again until you finish a long rest.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mp45xhuygz31",
+        "name": "Roar of the Monarch",
+        "originId": "haki_re",
+        "type": "Azione",
+        "desc": "Your powerful will resonates through your voice, making it a weapon on its own.\n\nAs an action, you can release a thunderous yell. Each creature within a 15-foot cone must make a Constitution saving throw or be deafened and stunned until the end of your next turn. Once you use this feature, you can't use it again until you finish a long rest.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 14
+      }
+    ],
+    "spells": [
+      {
+        "id": "mnxpryqgy17w",
+        "name": "Countershock",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Contatto",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Dalle tue mani saettano lampi che infliggono una scossa a una creatura con cui provi a entrare in contatto. Effettua un attacco in mischia con incantesimo contro il bersaglio. Hai vantaggio sul tiro per colpire se il bersaglio sta indossando un’armatura fatta di metallo. Se colpisci, il bersaglio subisce 1d8 danni da fulmine, e non può effettuare reazioni fino all’inizio del suo prossimo turno.",
+        "higherLevels": "Il danno dell'incantesimo aumenta di 1d8 quando raggiungi il 5° livello (2d8), l'11° livello (3d8) e il 17° livello (4d8).",
+        "prepared": true
+      },
+      {
+        "id": "mnxqm0i8uv42",
+        "name": "Catapulta",
+        "level": 1,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": false,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "\nScegli un oggetto del peso compreso tra 0,5 e 2,3 kg entro il raggio d'azione, che non sia indossato o trasportato. L'oggetto vola in linea retta fino a 27 metri in una direzione a tua scelta prima di cadere a terra, fermandosi prima se impatta contro una superficie solida. Se l'oggetto colpisse una creatura, quest'ultima deve effettuare un tiro salvezza su Destrezza. In caso di fallimento, l'oggetto colpisce il bersaglio e si ferma. Quando l'oggetto colpisce qualcosa, sia l'oggetto che ciò che colpisce subiscono 3d8 danni contundenti.",
+        "higherLevels": " Quando lanci questo incantesimo usando uno slot incantesimo di 2° livello o superiore, il peso massimo degli oggetti che puoi bersagliare con questo incantesimo aumenta di 5 libbre e il danno aumenta di 1d8 per ogni livello di slot superiore al 1°.",
+        "prepared": true
+      },
+      {
+        "id": "mnxqrzz5yfkl",
+        "name": "Individuazione di malattie e veleni",
+        "level": 1,
+        "school": "Divinazione",
+        "castingTime": "ritual",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Per la durata, percepisci la presenza e posizione di veleni, creature velenose e malattie entro 9 metri da te. Inoltre riesci a identificare il tipo di veleno, creatura velenosa o malattia.\nL’incantesimo può penetrare la maggior parte delle barriere, ma è bloccato da 30 centimetri di pietra, 2,5 centimetri di metallo comune, un sottile foglio di piombo o 1 metro di legno o terra.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyk2r0rgqap",
+        "name": "Cura Ferite",
+        "level": 1,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una creatura a contatto con te recupera un numero di punti ferita uguale a 1d8 + il tuo modificatore di caratteristica da incantatore. Questo incantesimo non ha effetto su non morti e costrutti.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 2° livello o più alto, la cura aumenta di 1d8 per ogni livello dello slot sopra il 1°.",
+        "prepared": true
+      },
+      {
+        "id": "mnyk59z8eyb4",
+        "name": "Trova Trappole",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Avverti la presenza di qualsiasi trappola a gittata che sia nella tua linea di visuale. Una trappola, ai fini di questo incantesimo, comprende qualsiasi cosa che sia in grado di infliggere un effetto improvviso o inaspettato che tu possa considerare dannoso o indesiderabile, e che è stato espressamente inteso come tale dal suo creatore. Di conseguenza, l’incantesimo percepirebbe un’area sotto l’incantesimo allarme, un glifo di interdizione, o una botola meccanica, ma non rivelerebbe una debolezza naturale del pavimento, un soffitto instabile o una buca nascosta.\nL’incantesimo si limita a rivelare la presenza delle trappole. Non apprendi la posizione delle trappole, ma apprendi la natura generica del pericolo posto dalle trappole che hai percepito.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyk80jiljtn",
+        "name": "Blocca Persone",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Scegli un umanoide a gittata e che puoi vedere. Il bersaglio deve superare un tiro salvezza su Saggezza o restare paralizzato per la durata. Al termine di ciascun suo turno, il bersaglio può effettuare un altro tiro salvezza su Saggezza. Se lo supera, per quel bersaglio l’incantesimo ha termine.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 3° livello o più alto, puoi aggiungere una creatura come bersaglio per ogni livello dello slot sopra il 2°. Quando lanci l’incantesimo, gli umanoidi bersaglio devono trovarsi entro 9 metri l’uno dall’altro.",
+        "prepared": true
+      },
+      {
+        "id": "mnykahgzvtc9",
+        "name": "Levitazione",
+        "level": 2,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Quando lanci questo incantesimo usando uno slot incantesimo di 3° livello o più alto, puoi aggiungere una creatura come bersaglio per ogni livello dello slot sopra il 2°. Quando lanci l’incantesimo, gli umanoidi bersaglio devono trovarsi entro 9 metri l’uno dall’altro.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnykccp1dvx6",
+        "name": "Silenzio",
+        "level": 2,
+        "school": "Illusione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Per la durata dell’incantesimo, nessun suono può essere creato all’interno o attraversare una sfera di 6 metri di raggio centrata su di un punto a gittata, scelto da te. Qualsiasi creatura o oggetto che si trovi completamente all’interno della sfera è immune al danno da tuono, e le creature che sono completamente al suo interno sono assordate. È impossibile lanciare un incantesimo che comprende una componente verbale mentre si è al suo interno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnykf4ar9273",
+        "name": "Vedere Invisibilità",
+        "level": 2,
+        "school": "Divinazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "Personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": false,
+        "desc": "Per la durata dell’incantesimo, vedi le creature e gli oggetti invisibili come se fossero visibili, e inoltre puoi vedere nel Piano Etereo. Le creature e gli oggetti eterei ti appaiono spettrali e trasparenti.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnykhs7n82pq",
+        "name": "Vortice Warp",
+        "level": 2,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "27m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Puoi distorcere magicamente lo spazio attorno a un'altra creatura che puoi vedere entro il raggio d'azione. Il bersaglio deve superare un tiro salvezza su Costituzione (il bersaglio può scegliere di fallire), altrimenti viene teletrasportato in uno spazio libero a tua scelta che puoi vedere entro il raggio d'azione. Lo spazio scelto deve trovarsi su una superficie o in un liquido in grado di sostenere il bersaglio senza che quest'ultimo debba comprimersi.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 3° livello o superiore, la gittata dell'incantesimo aumenta di 9 metri per ogni livello di slot superiore al 2°.",
+        "prepared": true
+      },
+      {
+        "id": "mnykm9a6btu6",
+        "name": "Gravity Sinkhole",
+        "level": 4,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una sfera di forza schiacciante con un raggio di 6 metri si forma in un punto visibile entro il raggio d'azione e attira le creature presenti al suo interno. Ogni creatura nella sfera deve effettuare un tiro salvezza su Costituzione. In caso di fallimento, la creatura subisce 5d10 danni da forza e viene trascinata in linea retta verso il centro della sfera, finendo in uno spazio libero il più vicino possibile al centro (anche se tale spazio si trova in aria). In caso di successo, la creatura subisce la metà dei danni e non viene trascinata.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 5° livello o superiore, il danno aumenta di 1d10 per ogni livello di slot superiore al 4°.",
+        "prepared": true
+      },
+      {
+        "id": "mnykony4soie",
+        "name": "Blocca Mostri",
+        "level": 5,
+        "school": "Ammaliamento",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "27m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Scegli una creatura a gittata e che puoi vedere. Il bersaglio deve superare un tiro salvezza su Saggezza, o restare paralizzato per la durata. Questo incantesimo non ha effetto su non morti o costrutti. Al termine di ciascun suo turno, il bersaglio può effettuare un altro tiro salvezza su Saggezza. Se lo supera, per quel bersaglio l’incantesimo ha termine.",
+        "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 6° livello o più alto, puoi aggiungere una creatura come bersaglio per ogni livello dello slot sopra il 5°. Quando lanci l’incantesimo, le creature bersaglio devono trovarsi entro 9 metri l’una dall’altra.",
+        "prepared": true
+      },
+      {
+        "id": "mnymxq0sjohd",
+        "name": "Cura Ferite di Massa",
+        "level": 5,
+        "school": "Invocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Un’onda di energia guaritrice parte da un punto a gittata, scelto da te. Scegli fino a sei creatura in una sfera di 9 metri di raggio centrata su quel punto. Ogni bersaglio recupera punti ferita uguali a 3d8 + il tuo modificatore di caratteristica da incantatore. Questo incantesimo non ha effetto su non morti o costrutti.",
+        "higherLevels": "Un’onda di energia guaritrice parte da un punto a gittata, scelto da te. Scegli fino a sei creatura in una sfera di 9 metri di raggio centrata su quel punto. Ogni bersaglio recupera punti ferita uguali a 3d8 + il tuo modificatore di caratteristica da incantatore. Questo incantesimo non ha effetto su non morti o costrutti.",
+        "prepared": true
+      },
+      {
+        "id": "mnymyxv44cga",
+        "name": "Telecinesi",
+        "level": 5,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 min",
+        "concentration": true,
+        "desc": "Effetto\nOttieni la capacità di muovere o manipolare creature o oggetti tramite il pensiero. Quando lanci questo incantesimo, e come tua azione durante ciascun round, puoi esercitare la tua volontà su di una creatura od oggetto a gittata e che puoi vedere, provocando l’effetto appropriato tra quelli seguenti. Puoi agire round dopo round sempre sullo stesso bersaglio, o sceglierne uno nuovo ogni volta. Se cambi bersaglio, il bersaglio precedente non è più soggetto all’incantesimo.\n\nCreatura\nPuoi tentare di muovere una creatura di taglia Enorme o più piccola. Effettua una prova di caratteristica usando la tua caratteristica da incantatore contesa da una prova di Forza della creatura. Se vinci la contesa, muovi la creatura di 9 metri in qualsiasi direzione, compreso verso l’alto, ma senza eccedere la gittata dell’incantesimo. Fino al termine del tuo prossimo turno, la creatura è intralciata dalla tua presa telecinetica. Una creatura sollevata in alta, resta sospesa a mezz’aria.\nNei round successivi, puoi usare la tua azione per tentare di mantenere la tua presa telecinetica sulla creatura ripetendo la contesa.\n\nOggetto\nPuoi tentare di muovere un oggetto che pesa fino a 500 chili. Se l’oggetto non è indossato o trasportato, lo sposti automaticamente di 9 metri in qualsiasi direzione, ma senza superare la gittata dell’incantesimo.\n\nSe l’oggetto è indossato o trasportato da una creatura, devi effettuare una prova di caratteristica con la tua caratteristica da incantatore contesa dalla prova di Forza della creatura. Se vinci la contesa, trascini via l’oggetto da quella creatura e lo muovi di 9 metri in una qualsiasi direzione, senza però superare la gittata dell’incantesimo.\n\nPuoi esercitare un controllo preciso sugli oggetti tramite la tua presa telecinetica, riuscendo così a manipolare un attrezzo semplice, aprire una porta o un contenitore, inserire o recuperare un oggetto da un contenitore aperto, o versare del materiale in una fiala.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyn1nfynsxa",
+        "name": "Muovere Terreno",
+        "level": 0,
+        "school": "Trasmutazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "36m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "2 ore",
+        "concentration": true,
+        "desc": "Scegli un’area sul terreno a gittata, non più grande di 12 metri di lato. Per la durata, puoi rimodellare terriccio, sabbia o argilla nell’area in qualsiasi modo tu voglia. Puoi innalzare o abbassare l’altitudine dell’area, creare o riempire un fossato, erigere o abbassare un muro, o formare un pilastro. La portata di questi cambiamenti non può eccedere metà della dimensione più grossa dell’area. Così, se operi su di un quadrato di 12 metri di lato, puoi creare un pilastro alto 6 metri, innalzare o abbassare l’altitudine del terreno di 6 metri, scavare un fossato profondo 6 metri, e così via. Ci vogliono 10 minuti per completare questi mutamenti.\n\nAl termine di ogni 10 minuti trascorsi a concentrarsi sull’incantesimo, puoi scegliere una nuova area di terreno su cui operare.\nDato che la trasformazione del terreno avviene lentamente, le creature nell’area di solito non possono restare intrappolate o ferite dal movimento del terreno. L’incantesimo non può manipolare la pietra naturale o le costruzioni in pietra. Le rocce e le strutture si muovono per adattarsi al nuovo terreno. Se il modo in cui modelli il terreno renderebbe una struttura instabile, questa potrebbe crollare.\n\nAllo stesso modo, questo incantesimo non influenza direttamente la crescita dei vegetali. La terra smossa trasporta con sé qualsiasi vegetale presente.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyn4yaiqtes",
+        "name": "Turbine",
+        "level": 7,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "90m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 min",
+        "concentration": true,
+        "desc": "Un turbine si abbatte su un punto del terreno da te specificato. Il turbine è un cilindro con un raggio di 3 metri e un'altezza di 9 metri, centrato su quel punto. Finché l'incantesimo non termina, puoi usare la tua azione per spostare il turbine fino a 9 metri in qualsiasi direzione lungo il terreno. Il turbine risucchia qualsiasi oggetto di taglia Media o inferiore che non sia fissato a nulla e che non sia indossato o trasportato da nessuno.\n\nUna creatura deve effettuare un tiro salvezza su Destrezza la prima volta in un turno in cui entra nel vortice o in cui il vortice entra nel suo spazio, incluso quando il vortice appare per la prima volta. Una creatura subisce 10d6 danni contundenti in caso di fallimento del tiro salvezza, o la metà dei danni in caso di successo. Inoltre, una creatura di taglia Grande o inferiore che fallisce il tiro salvezza deve superare un tiro salvezza su Forza o rimanere intrappolata nel vortice fino alla fine dell'incantesimo.\n\nQuando una creatura inizia il suo turno trattenuta dal turbine, viene sollevata di 1,5 metri al suo interno, a meno che non si trovi già in cima. Una creatura trattenuta si muove con il turbine e cade quando l'incantesimo termina, a meno che non abbia un modo per rimanere sospesa in aria.\n\nUna creatura immobilizzata può usare un'azione per effettuare una prova di Forza o Destrezza contro la CD del tuo tiro salvezza per incantesimi. In caso di successo, la creatura non è più immobilizzata dal turbine e viene scagliata a 3d6 × 10 piedi di distanza da esso in una direzione casuale.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mnyn9ma3tlai",
+        "name": "Essenza Vincolante",
+        "level": 7,
+        "school": "Necromanzia",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "18m",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 ora",
+        "concentration": true,
+        "desc": "Due creature visibili entro la portata devono ciascuna effettuare un tiro salvezza su Costituzione, con svantaggio se si trovano entro 9 metri l'una dall'altra. Ciascuna creatura può fallire volontariamente il tiro salvezza. Se uno dei due tiri salvezza ha successo, l'incantesimo non ha effetto. Se entrambi i tiri salvezza falliscono, le creature sono magicamente collegate per la durata, indipendentemente dalla distanza tra loro. Quando un danno o una guarigione viene inflitto a una di esse, lo stesso danno o guarigione viene inflitto anche all'altra. Se una delle creature collegate viene ridotta a 0 punti ferita o l'incantesimo termina su una delle due, l'incantesimo termina su entrambe. ",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
+    "notes": "",
+    "backstory": "Ladro\nCompetenze di Abilità Inganno, Gioco di Prestigio\nCompetenze degli Strumenti Un tipo di set di gioco, gli strumenti per ladri\nEquipaggiamento Un piede di porco, un completo di abiti comuni scuri con cappuccio, e portafoglio contenente 150.000 ฿\nCaratteristica: Corruzione\nAttraverso anni di corruzione e inganno alle forze dell'ordine, ai pirati e ai marines, hai imparato a evitare in modo affidabile punizioni per reati meno gravi come il furto minore (rubare qualsiasi cosa sotto i ฿1.000) e il gettamento di rifiuti, con la discrezione del DM nel determinare la clemenza. Anche quando vieni punito per crimini più gravi, puoi dimezzare la durata della tua punizione o della detenzione.\n\nCapitano\nIl tuo ruolo è molto semplice: motivare, guidare e comandare la nave e l'equipaggio. Il capitano di una nave può ricoprire diversi ruoli complessi, ma in genere dovrebbe essere l'individuo più forte e carismatico dell'equipaggio. Alcuni capitani possono essere diversi o avere personalità uniche, ma il loro obiettivo dovrebbe essere quello di unire i propri alleati nei momenti difficili per affrontare qualsiasi ostacolo e realizzare i propri sogni e obiettivi.\nIl capitano dovrebbe sempre avere l'ultima parola in qualsiasi decisione o piano di gruppo. Sebbene alcuni equipaggi non ruotino completamente attorno al loro capitano, è importante concedergli comunque un elevato grado di autorità nel processo decisionale.\nCaratteristica: Il carisma del capitano\nIl capitano è il capo della nave, ma non dovrebbe mai comportarsi da tiranno quando gestisce un equipaggio sano. Quando guida un attacco, i suoi alleati devono seguirlo. Quando ordina un colpo, gli altri devono rispettarlo. Quando parla, l'equipaggio deve ascoltare. Questo non dovrebbe essere un potere da abusare, ma piuttosto una qualità che i suoi compagni venerano. Se si ordina a un membro dell'equipaggio di compiere un'azione, questi si sentirà naturalmente spinto a portarla a termine. Tuttavia, se un compito va direttamente contro il suo allineamento, i suoi ideali, i suoi tratti caratteriali, la sua classe sociale, il suo background o la sua razza (o è semplicemente troppo assurdo da prendere in considerazione), gli è consentito astenersi.\nAbilità di prestigio dei pirati: Reclutamento dell'equipaggio\nUn personaggio che ricopre il ruolo di capitano può reclutare facilmente altri pirati spendendo i propri punti prestigio pirata in vari luoghi. Un capitano può spendere un punto prestigio pirata per reclutare un mercenario o uno specialista per una settimana senza doverlo pagare. Il mercenario dovrà comunque soddisfare i propri bisogni primari e richiederà il pagamento una settimana dopo la fine della settimana iniziale, a meno che non venga speso un altro punto prestigio.\nNon puoi reclutare in luoghi in cui il tuo equipaggio ha una reputazione pari o inferiore a 5.\n",
+    "diceLog": [
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 7,
+        "roll1": 1,
+        "roll2": 11,
+        "chosen": 1,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": true,
+        "timestamp": 1778686250184
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 9,
+        "roll1": 1,
+        "roll2": 20,
+        "chosen": 1,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": true,
+        "timestamp": 1778685835049
+      },
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 12,
+        "roll1": 6,
+        "roll2": 4,
+        "chosen": 6,
+        "modifier": 6,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1778685577084
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 15,
+        "roll1": 7,
+        "roll2": 12,
+        "chosen": 7,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1778685337321
+      }
+    ],
+    "effects": []
+  }
+}
