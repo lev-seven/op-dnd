@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--app-h:100vh;--app-h:100dvh;--nav-h:calc(56px + env(safe-area-inset-bottom,0px));--safe-bottom:env(safe-area-inset-bottom,0px)}
+:root{--app-h:100vh;--app-h:100dvh;--nav-h:calc(56px + env(safe-area-inset-bottom,0px));--safe-bottom:env(safe-area-inset-bottom,0px);--content-w:480px}
 html{height:var(--app-h);overflow:hidden}
 body{height:var(--app-h);overflow:hidden;font-family:'Crimson Text',Georgia,serif;color:#e8dcc8;background:#0a0e17}
 #root{height:100%;overflow:hidden}
@@ -23,18 +23,11 @@ input,textarea,select,button{font-family:inherit;outline:none}
 ::-webkit-scrollbar-thumb{background:#c8a95e33;border-radius:2px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-@media(min-width:768px){
-  :root{--content-w:100%}
-  body{font-size:18px}
-  input,textarea,select{font-size:15px!important}
-}
+@media(min-width:600px){:root{--content-w:560px}}
+@media(min-width:768px){:root{--content-w:680px}}
+@media(min-width:1100px){:root{--content-w:800px}}
+@media(min-width:1400px){:root{--content-w:940px}}
 button{-webkit-user-select:none;user-select:none}
-@media(min-width:768px){
-  html{zoom:1.3}
-}
-@media(min-width:1100px){
-  html{zoom:1.4}
-}
 </style>
 <script>window.GITHUB_BASE="https://lev-seven.github.io/op-dnd/";</script>
 </head>
@@ -68,7 +61,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v1398";
+const APP_VERSION="v700";
 
 function Av({src,fallback,size,color,round,style:extra}){
   const[ok,setOk]=useState(true);
@@ -139,6 +132,7 @@ function AppWrapper(){
   const[screen,setScreen]=useState("accounts");
   const[manifest,setManifest]=useState(null);
   const[accId,setAccId]=useState(null);
+  const[gameMode,setGameMode]=useState(null); // "classic" | "core"
   const[char,setChar]=useState(null);
   const[charMeta,setCharMeta]=useState(null);
   const[loading,setLoading]=useState(true);
@@ -153,9 +147,6 @@ function AppWrapper(){
   const ac=acc?.color||"#c8a95e";
   const isMaster=acc?.isMaster||false;
   const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
-
-  const wide=window.innerWidth>=768;
-  const fs=wide?1.35:1;
 
   /* ═══ TOKEN: criptato hardcoded — generare con encToken() in console ═══ */
   const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
@@ -178,12 +169,14 @@ function AppWrapper(){
   /* ═══ SAVE TO GITHUB (con rinomina se nome cambiato) ═══ */
   const saveToGH=async(owner,file,charObj)=>{
     if(!ghToken||!BASE())return false;
-    const newFname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
+    // Preserva il suffisso -classic/-core dal file corrente
+    const mode=fileGameMode(file)||gameMode||"classic";
+    const newFname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+`-${mode}.json`;
     const renamed=newFname!==file;
     const targetFile=renamed?newFname:file;
     // Se rinomina, check duplicati
     if(renamed){
-      try{const existing=await listCharsGH(owner);if(existing.find(x=>x.file===newFname)){alert("Esiste già un PG con questo nome.");return false;}}catch{}
+      try{const existing=await listCharsGH(owner,mode);if(existing.find(x=>x.file===newFname)){alert("Esiste già un PG con questo nome.");return false;}}catch{}
     }
     // Backup
     try{await ghPut(`data/${owner}/backups/${targetFile}`,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);}catch{}
@@ -220,11 +213,12 @@ function AppWrapper(){
   /* ═══ SAVE NEW TO GITHUB ═══ */
   const saveNewToGH=async(charObj)=>{
     if(!ghToken||!BASE()||!accId)return null;
-    const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
+    const mode=gameMode||"classic";
+    const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+`-${mode}.json`;
     const owner=accId;
     // Check duplicati via API
     try{
-      const existing=await listCharsGH(owner);
+      const existing=await listCharsGH(owner,mode);
       if(existing.find(x=>x.file===fname)){alert("Esiste già un PG con un nome simile. Cambia il nome prima di salvare.");return null;}
     }catch{}
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
@@ -251,8 +245,9 @@ function AppWrapper(){
   /* ═══ DUPLICATE CHAR ═══ */
   const duplicateCharGH=async(owner,file,charObj,newName)=>{
     if(!ghToken||!accId)return null;
-    const fname=newName.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+".json";
-    try{const existing=await listCharsGH(owner);if(existing.find(x=>x.file===fname))return null;}catch{}
+    const mode=fileGameMode(file)||gameMode||"classic";
+    const fname=newName.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+`-${mode}.json`;
+    try{const existing=await listCharsGH(owner,mode);if(existing.find(x=>x.file===fname))return null;}catch{}
     const newChar={...charObj,id:uid(),name:newName};
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:newChar};
     const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster,acc?.name);
@@ -261,8 +256,54 @@ function AppWrapper(){
     return{owner,file:fname};
   };
 
+  /* ═══ MIGRAZIONE: rinomina file senza suffisso → -classic ═══ */
+  const migrateFiles=async(owner)=>{
+    if(!ghToken)return;
+    const migKey=`migrated_${owner}`;
+    if(localStorage.getItem(migKey))return;
+    const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
+    const api=`https://api.github.com/repos/${user}/${repo}/contents/data/${owner}`;
+    const hd={"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+    try{
+      const r=await fetch(api+"?t="+Date.now(),{headers:hd,cache:"no-store"});
+      if(!r.ok)return;
+      const files=await r.json();
+      if(!Array.isArray(files))return;
+      const toMigrate=files.filter(f=>f.name.endsWith(".json")&&f.type==="file"&&!hasGameSuffix(f.name));
+      for(const f of toMigrate){
+        const newName=addSuffix(f.name,"classic");
+        // Read content
+        const data=await ghGetFile(`data/${owner}/${f.name}`);
+        if(!data||!data.content)continue;
+        // Write with new name
+        await ghPut(`data/${owner}/${newName}`,decodeURIComponent(escape(atob(data.content.replace(/\n/g,"")))),ghToken,accId,isMaster,acc?.name);
+        // Rename photo if exists
+        const oldPhoto=f.name.replace(".json",".jpg");
+        const photoFile=files.find(x=>x.name===oldPhoto);
+        if(photoFile){
+          const photoData=await ghGetFile(`data/${owner}/${oldPhoto}`);
+          if(photoData&&photoData.content){
+            const newPhoto=newName.replace(".json",".jpg");
+            await ghPut(`data/${owner}/${newPhoto}`,atob(photoData.content.replace(/\n/g,"")),ghToken,accId,isMaster,acc?.name);
+            await ghDelFile(`data/${owner}/${oldPhoto}`);
+          }
+        }
+        // Rename backup if exists
+        const backupData=await ghGetFile(`data/${owner}/backups/${f.name}`);
+        if(backupData&&backupData.content){
+          await ghPut(`data/${owner}/backups/${newName}`,decodeURIComponent(escape(atob(backupData.content.replace(/\n/g,"")))),ghToken,accId,isMaster,acc?.name);
+          await ghDelFile(`data/${owner}/backups/${f.name}`);
+        }
+        // Delete old
+        await ghDelFile(`data/${owner}/${f.name}`);
+      }
+      if(toMigrate.length>0)ghLog(owner,`Migrati ${toMigrate.length} PG → -classic`,ghToken,accId,isMaster,acc?.name);
+    }catch(e){console.error("Migration error:",e);}
+    localStorage.setItem(migKey,"1");
+  };
+
   /* ═══ LISTA PG DA DIRECTORY GITHUB API ═══ */
-  const listCharsGH=async(owner)=>{
+  const listCharsGH=async(owner,mode)=>{
     const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
     const api=`https://api.github.com/repos/${user}/${repo}/contents/data/${owner}`;
     const hd=ghToken?{"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}:{"Accept":"application/vnd.github+json"};
@@ -271,9 +312,10 @@ function AppWrapper(){
       if(!r.ok)return[];
       const files=await r.json();
       if(!Array.isArray(files))return[];
-      return files.filter(f=>f.name.endsWith(".json")&&f.type==="file").map(f=>({
+      const suffix=mode==="core"?"-core.json":"-classic.json";
+      return files.filter(f=>f.name.endsWith(suffix)&&f.type==="file").map(f=>({
         file:f.name,
-        name:f.name.replace(".json","").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())
+        name:displayName(f.name)
       }));
     }catch{return[];}
   };
@@ -298,11 +340,13 @@ function AppWrapper(){
         setAccId(id);setPassHash(ph);
         const tk=await decToken();
         if(tk){setGhToken(tk);ghLog("default","Login",tk,id,manifest?.accounts?.find(a=>a.id===id)?.isMaster,manifest?.accounts?.find(a=>a.id===id)?.name);}
-        setScreen("characters");
+        setScreen("gamemode");
       }}/>}
 
-      {!loading&&screen==="characters"&&<CharScreenLoader acc={acc} ac={ac} isMaster={isMaster} accId={accId} manifest={manifest} listCharsGH={listCharsGH}
-          onBack={()=>{setAccId(null);setScreen("accounts");}}
+      {!loading&&screen==="gamemode"&&<GameModeScreen acc={acc} ac={ac} onChoice={(mode)=>{setGameMode(mode);setScreen("characters");}} onBack={()=>{setAccId(null);setGameMode(null);setScreen("accounts");}}/>}
+
+      {!loading&&screen==="characters"&&<CharScreenLoader acc={acc} ac={ac} isMaster={isMaster} accId={accId} manifest={manifest} listCharsGH={listCharsGH} migrateFiles={migrateFiles} gameMode={gameMode} ghToken={ghToken}
+          onBack={()=>{setGameMode(null);setScreen("gamemode");}}
           onNew={()=>{setChar(newChar(""));setCharMeta(null);setScreen("sheet");}}
           onLoadGH={async(owner,file)=>{const c=await loadGH(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");}}
           onImportFile={()=>fileRef.current?.click()} loading={loading}/>}
@@ -329,6 +373,47 @@ function AppWrapper(){
 }
 
 function Ld({msg}){return<div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827)"}}><div style={{textAlign:"center"}}><div style={{width:40,height:40,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/><p style={{color:"#c8a95e",fontFamily:"'Cinzel'",fontSize:14}}>{msg}</p></div></div>;}
+
+/* ═══ SUFFIX HELPERS ═══ */
+const SUFFIX_CLASSIC="-classic";
+const SUFFIX_CORE="-core";
+function hasGameSuffix(fname){return fname.endsWith(SUFFIX_CLASSIC+".json")||fname.endsWith(SUFFIX_CORE+".json");}
+function addSuffix(fname,mode){return fname.replace(/\.json$/,`-${mode}.json`);}
+function stripSuffix(fname){return fname.replace(/-(classic|core)\.json$/,".json");}
+function displayName(fname){return fname.replace(/-(classic|core)\.json$/,"").replace(/\.json$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());}
+function fileGameMode(fname){if(fname.endsWith("-core.json"))return"core";if(fname.endsWith("-classic.json"))return"classic";return null;}
+
+/* ═══ GAME MODE SCREEN ═══ */
+function GameModeScreen({acc,ac,onChoice,onBack}){
+  const canClassic=acc?.classic!==false;
+  const canCore=acc?.core===true;
+  return(
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"var(--app-h)",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",padding:"0 20px"}}>
+      <div style={{textAlign:"center",maxWidth:420,width:"100%"}}>
+        <button onClick={onBack} style={{position:"absolute",top:16,left:16,width:36,height:36,borderRadius:"50%",border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.08)",color:"#c8a95e",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,cursor:"pointer"}}>←</button>
+        <h1 style={{fontFamily:"'Cinzel'",fontSize:22,fontWeight:900,color:ac,marginBottom:6,letterSpacing:2}}>Scegli il Sistema</h1>
+        <p style={{color:"#665a3e",fontSize:12,marginBottom:32}}>Ciao {acc?.name}! Quale sistema vuoi usare?</p>
+        <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap"}}>
+          {canClassic&&<button onClick={()=>onChoice("classic")} style={{width:180,padding:"28px 20px",borderRadius:14,border:"2px solid #3498db44",background:"linear-gradient(135deg,rgba(52,152,219,0.12),rgba(52,152,219,0.04))",cursor:"pointer",textAlign:"center",transition:"all 0.2s"}}>
+            <span style={{fontSize:32,display:"block",marginBottom:8}}>📜</span>
+            <span style={{fontFamily:"'Cinzel'",fontWeight:900,fontSize:18,color:"#3498db",display:"block",marginBottom:4}}>Classic</span>
+            <span style={{fontSize:11,color:"#998866",lineHeight:1.4,display:"block"}}>D&D 5e Homebrew</span>
+          </button>}
+          {canCore?<button onClick={()=>onChoice("core")} style={{width:180,padding:"28px 20px",borderRadius:14,border:"2px solid #e8a03044",background:"linear-gradient(135deg,rgba(232,160,48,0.12),rgba(232,160,48,0.04))",cursor:"pointer",textAlign:"center",transition:"all 0.2s"}}>
+            <span style={{fontSize:32,display:"block",marginBottom:8}}>⚔️</span>
+            <span style={{fontFamily:"'Cinzel'",fontWeight:900,fontSize:18,color:"#e8a030",display:"block",marginBottom:4}}>C.O.R.E.</span>
+            <span style={{fontSize:11,color:"#998866",lineHeight:1.4,display:"block"}}>Compact Open Rules Engine</span>
+          </button>
+          :<div style={{width:180,padding:"28px 20px",borderRadius:14,border:"2px dashed #ffffff15",textAlign:"center",opacity:0.4}}>
+            <span style={{fontSize:32,display:"block",marginBottom:8}}>🔒</span>
+            <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:16,color:"#665a3e",display:"block",marginBottom:4}}>C.O.R.E.</span>
+            <span style={{fontSize:10,color:"#665a3e",display:"block"}}>Non abilitato</span>
+          </div>}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function AccountsScreen({manifest,onAuth}){
   const[user,setUser]=useState("");const[pw,setPw]=useState("");const[err,setErr]=useState("");const[show,setShow]=useState(false);const[checking,setChecking]=useState(false);
@@ -364,40 +449,48 @@ function AccountsScreen({manifest,onAuth}){
 }
 
 /* ═══ CHARACTER SELECT LOADER ═══ */
-function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,onBack,onNew,onLoadGH,onImportFile,loading}){
+function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,migrateFiles,gameMode,ghToken,onBack,onNew,onLoadGH,onImportFile,loading}){
   const[sections,setSections]=useState([]);
   const[loadingChars,setLoadingChars]=useState(true);
   useEffect(()=>{
-    if(!accId)return;
+    if(!accId||!ghToken)return;
     (async()=>{
       setLoadingChars(true);
+      // Migrazione automatica al primo accesso
+      await migrateFiles(accId);
+      if(isMaster){
+        const others=manifest?.accounts?.filter(a=>a.id!==accId)||[];
+        for(const a of others)await migrateFiles(a.id);
+      }
+      // Carica PG filtrati per gameMode
+      const mode=gameMode||"classic";
       const secs=[];
-      const own=await listCharsGH(accId);
+      const own=await listCharsGH(accId,mode);
       if(own.length>0)secs.push({label:"I Miei PG",owner:accId,chars:own,color:ac});
       if(isMaster){
         const others=manifest?.accounts?.filter(a=>a.id!==accId)||[];
         for(const a of others){
-          const ch=await listCharsGH(a.id);
+          const ch=await listCharsGH(a.id,mode);
           if(ch.length>0)secs.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color});
         }
       }
       setSections(secs);setLoadingChars(false);
     })();
-  },[accId]);
+  },[accId,ghToken]);
   return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster} onBack={onBack} onNew={onNew} onLoadGH={onLoadGH} onImportFile={onImportFile} loading={loading||loadingChars}/>;
 }
 
 function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile,loading}){
   return(
     <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflow:"hidden"}}>
-      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10,margin:"0 auto",width:"100%"}}>
+      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10,maxWidth:"var(--content-w)",margin:"0 auto",width:"100%"}}>
         <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
         <Av src={accAvatarUrl(acc?.id)} fallback={acc?.isMaster?"👑":acc?.name?.[0]||"?"} size={36} color={ac}/>
         <div style={{flex:1}}><h2 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:700,color:ac}}>{acc?.name}</h2>{isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master</span>}</div>
         <button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>
       </div>
       <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
-        <div style={{padding:"16px",paddingBottom:300,margin:"0 auto",width:"100%"}}>
+        <div style={{padding:"16px",paddingBottom:80,maxWidth:"var(--content-w)",margin:"0 auto",width:"100%"}}>
         {sections.map((sec,si)=>(
           <div key={si} style={{marginBottom:20}}>
             <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
@@ -479,7 +572,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
 
   const NAV_HEIGHT=56;
   return(
-    <div style={{position:"relative",margin:"0 auto",height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
+    <div style={{position:"relative",maxWidth:"var(--content-w)",margin:"0 auto",height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)"}}>
       <div style={{flexShrink:0,background:`linear-gradient(180deg,${ac}11,transparent)`,borderBottom:`1px solid ${ac}22`,padding:"10px 14px 8px"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
           <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
@@ -512,7 +605,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
         </div>
       </div>
 
-      <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",paddingBottom:`calc(${NAV_HEIGHT}px + var(--safe-bottom) + 60px)`}}>
+      <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",paddingBottom:`calc(${NAV_HEIGHT}px + var(--safe-bottom) + 8px)`}}>
         {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
         {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
@@ -521,7 +614,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
         {tab==="export"&&<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'",pointerEvents:"none"}}><div style={{marginBottom:12}}>{saving?"⏳ Salvataggio in corso...":"⏳ Elaborazione..."}</div>{saving&&<div style={{width:30,height:30,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto"}}/>}</div>}
       </div>
 
-      <nav style={{position:"fixed",bottom:0,left:0,right:0,display:"flex",background:"rgba(8,12,20,0.98)",backdropFilter:"blur(16px)",borderTop:`1px solid ${ac}22`,zIndex:60,paddingBottom:"var(--safe-bottom)"}}>
+      <nav style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",background:"rgba(8,12,20,0.98)",backdropFilter:"blur(16px)",borderTop:`1px solid ${ac}22`,zIndex:60,paddingBottom:"var(--safe-bottom)"}}>
         {TABS.map(t=>(
           <button key={t.id} onClick={()=>{if(saving)return;if(t.id==="export"&&c.locked&&!isMaster){alert("Scheda bloccata dal Master");return;}setTab(t.id);}} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"8px 0 6px",background:"transparent",border:"none",borderTop:tab===t.id?`2px solid ${ac}`:"2px solid transparent",color:tab===t.id?ac:"#4a4030",cursor:"pointer",fontFamily:"'Cinzel'",transition:"color 0.15s,border-color 0.15s",minHeight:NAV_HEIGHT,touchAction:"manipulation"}}>
             <span style={{fontSize:18,lineHeight:1}}>{t.icon}</span>
@@ -600,7 +693,7 @@ function SkillList({skills,stats,pb,ac,oR,sM}){
 
 function STab({c,up,edit,oR,sM,ac}){
   const uS=(k,f,v)=>{const ns={...c.stats};ns[k]={...ns[k],[f]:v};if(f==="score"){ns[k].mod=Math.floor((v-10)/2);ns[k].save=ns[k].mod+(ns[k].profSave?c.profBonus:0);}if(f==="profSave")ns[k].save=ns[k].mod+(v?c.profBonus:0);up({stats:ns});};
-  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
     <Sec ac={ac}>Caratteristiche</Sec>
     <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(6,1fr)":"repeat(3,1fr)",gap:5}}>{Object.entries(c.stats).map(([k,v])=>(
       <div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",background:`${ac}0a`,borderRadius:7,padding:"7px 3px 5px",border:`1px solid ${ac}15`}}>
@@ -653,7 +746,7 @@ function ATab({c,up,sM,ac}){
   const tF=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,fav:!a.fav}:a)});
   const rest=t=>{let u={abilities:c.abilities.map(a=>{if(a.maxUses===-1)return a;if(t==="lungo")return{...a,uses:0};if(t==="breve"&&a.rest==="breve")return{...a,uses:0};return a;})};if(t==="lungo"){u.hpCurrent=c.hpMax;u.hpTemp=0;u.hpPerm=0;}up(u);};
   const groups=c.origins.map(o=>o.id).filter(oid=>sorted.some(a=>a.originId===oid));
-  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
     <div style={{display:"flex",gap:5,marginBottom:8}}><button onClick={()=>rest("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>☀️ R. Breve</button><button onClick={()=>rest("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>🌙 R. Lungo</button></div>
     <EfxTracker effects={c.effects||[]} onChange={fx=>up({effects:fx})} ac={ac}/>
     <div style={{display:"flex",gap:5,marginBottom:12}}><button onClick={()=>sM({type:"ability"})} style={{...SS.gn,padding:"5px 12px",fontSize:10}}>+ Azione</button><button onClick={()=>sM({type:"origins"})} style={{...SS.bg,padding:"5px 12px",fontSize:10}}>⚙ Provenienze</button></div>
@@ -681,7 +774,7 @@ function DTab({c,up,log,oR,ac}){
   const[cf,sCf]=useState("");const[cm,sCm]=useState(0);
   const aD=s=>{const cur=cf.trim();sCf(cur?`${cur}+1d${s}`:`1d${s}`);};
   const rl=()=>{const b=cf.trim()||"1d20",f=b+(cm?(cm>=0?`+${cm}`:`${cm}`):"");if(b.toLowerCase().includes("d20"))oR({label:f,type:"d20",modifier:cm});else oR({label:f,type:"damage",formula:f});};
-  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
     <Sec ac={ac}>Tiro Rapido</Sec>
     <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(6,1fr)":"repeat(3,1fr)",gap:5,marginBottom:8}}>{[4,6,8,10,12,20].map(d=>(<button key={d} onClick={()=>{if(d===20)oR({label:`d20${cm?(cm>0?`+${cm}`:cm):""}`,type:"d20",modifier:cm});else{const f=`1d${d}${cm?(cm>=0?`+${cm}`:`${cm}`):""}`;oR({label:f,type:"damage",formula:f});}}} style={{padding:"14px 0",borderRadius:7,border:`1.5px solid ${ac}33`,background:`${ac}0a`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",touchAction:"manipulation"}}><span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:900,color:ac}}>d{d}</span></button>))}</div>
     <Sec ac={ac}>Costruisci Formula</Sec>
@@ -711,7 +804,7 @@ function SpTab({c,up,sM,ac}){
   const filtered=filter==="prep"?spells.filter(s=>s.prepared):spells;
   const grouped={};filtered.forEach(s=>{const k=s.level||0;if(!grouped[k])grouped[k]=[];grouped[k].push(s);});
   const lvKeys=Object.keys(grouped).map(Number).sort((a,b)=>a-b);
-  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
     {(activeSlots.length>0||ss.cantrips>0)&&<div style={{background:`${ac}08`,borderRadius:8,padding:"8px 10px",marginBottom:10,border:`1px solid ${ac}15`}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}><span style={{fontFamily:"'Cinzel'",fontSize:10,fontWeight:700,color:ac,letterSpacing:1}}>SLOT INCANTESIMO</span><button onClick={restoreAll} style={{fontSize:9,color:"#3498db",background:"none",border:"none",cursor:"pointer",fontFamily:"'Cinzel'"}}>↺ Ripristina</button></div>
       {ss.cantrips>0&&<div style={{fontSize:10,color:"#998866",marginBottom:4,fontFamily:"'JetBrains Mono'"}}>Trucchetti: {ss.cantrips}</div>}
@@ -766,7 +859,7 @@ function SpSlotsM({c,up,oC}){
 
 function NTab({c,up,ac}){
   const[n,sN]=useState(c.notes||"");const[bs,sBs]=useState(c.backstory||"");
-  return(<div style={{padding:"12px 12px 200px",animation:"fadeIn 0.15s ease"}}>
+  return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
     <Sec ac={ac}>Note di Sessione</Sec><textarea value={n} onChange={e=>{sN(e.target.value);up({notes:e.target.value});}} placeholder="Appunti..." style={{width:"100%",minHeight:200,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
     <Sec ac={ac}>📜 Storia del Personaggio</Sec><textarea value={bs} onChange={e=>{sBs(e.target.value);up({backstory:e.target.value});}} placeholder="Background..." style={{width:"100%",minHeight:200,padding:10,borderRadius:7,border:`1px solid ${ac}22`,background:`${ac}06`,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:13,lineHeight:1.5,resize:"vertical",boxSizing:"border-box",outline:"none"}}/>
   </div>);
@@ -838,19 +931,18 @@ function SM({c,up,data,oC}){
 
 function Sec({ac,children}){return<h2 style={{fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,color:ac||"#c8a95e",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px",display:"inline-block"}}>{children}</h2>;}
 
-const W=window.innerWidth>=768?1.4:1;
 const SS={
-  inp:{background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:14*W,padding:"6px 8px",outline:"none",boxSizing:"border-box"},
-  bg:{borderRadius:7,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",fontSize:14*W},
-  gn:{borderRadius:5,border:"1.5px solid #2ecc7144",background:"rgba(46,204,113,0.08)",color:"#2ecc71",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:13*W},
-  rd:{borderRadius:5,border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:13*W},
-  pb:{flex:1,padding:"7px 0",borderRadius:7,border:"1.5px solid",fontSize:13*W,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
+  inp:{background:"rgba(200,169,94,0.08)",border:"1px solid #c8a95e33",borderRadius:5,color:"#e8dcc8",fontFamily:"'Crimson Text'",fontSize:12,padding:"5px 7px",outline:"none",boxSizing:"border-box"},
+  bg:{borderRadius:7,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center",fontSize:12},
+  gn:{borderRadius:5,border:"1.5px solid #2ecc7144",background:"rgba(46,204,113,0.08)",color:"#2ecc71",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
+  rd:{borderRadius:5,border:"1.5px solid #e74c3c44",background:"rgba(231,76,60,0.08)",color:"#e74c3c",fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",textAlign:"center",fontSize:11},
   ac:{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:10,border:"1.5px solid",cursor:"pointer",width:"100%",textAlign:"left",background:"transparent"},
   bb:{width:32,height:32,borderRadius:"50%",border:"1.5px solid #c8a95e33",background:"rgba(200,169,94,0.08)",color:"#c8a95e",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",flexShrink:0,fontWeight:700},
   hs:{width:22,height:22,borderRadius:"50%",border:"1px solid #c8a95e22",background:"rgba(200,169,94,0.08)",color:"#c8a95e",fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700},
   po:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.85)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},
   pc:{background:"linear-gradient(180deg,#151b2e,#0f1420)",border:"1.5px solid #c8a95e55",borderRadius:12,padding:"18px 16px 16px",width:"100%",maxWidth:window.innerWidth>=768?480:400,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
-  };
+  pb:{flex:1,padding:"7px 0",borderRadius:7,border:"1.5px solid",fontSize:11,fontWeight:600,fontFamily:"'Cinzel'",cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
+};
 
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(AppWrapper));
 </script>
