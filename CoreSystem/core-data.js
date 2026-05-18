@@ -29,9 +29,19 @@ var CORE_RULES = {
   slotFormula: 'max(MENTE, ANIMA) - 2',
   baseMovement: 9,
   maxConditions: 2,
-  defBonusCap: null, // nessun cap, bilanciato dai malus
-  initiative: '1d12 + stat di competenza (senza competenza: 1d12 nudo)',
-  initiativeParita: 'MENTE più alta agisce prima'
+  defBonusCap: null,
+  initiative: '1d12 + stat di competenza + bonus competenza',
+  initiativeParita: 'MENTE più alta agisce prima',
+  compFormula: 'max(1, floor(stat / 2))',
+  compTable: [
+    {stat:'1-2',  bonus:1},
+    {stat:'3-4',  bonus:2},
+    {stat:'5-6',  bonus:3},
+    {stat:'7-8',  bonus:4},
+    {stat:'9-10', bonus:5},
+    {stat:'11-12',bonus:6},
+    {stat:'13-15',bonus:7}
+  ]
 };
 
 // ═══ CONDIZIONI (max 2 attive contemporaneamente) ═══
