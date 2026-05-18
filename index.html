@@ -343,7 +343,7 @@ function AppWrapper(){
         setScreen("gamemode");
       }}/>}
 
-      {!loading&&screen==="gamemode"&&<GameModeScreen acc={acc} ac={ac} onChoice={(mode)=>{setGameMode(mode);setScreen("characters");}} onBack={()=>{setAccId(null);setGameMode(null);setScreen("accounts");}}/>}
+      {!loading&&screen==="gamemode"&&<GameModeScreen acc={acc} ac={ac} accId={accId} onChoice={(mode)=>{setGameMode(mode);setScreen("characters");}} onBack={()=>{setAccId(null);setGameMode(null);setScreen("accounts");}}/>}
 
       {!loading&&screen==="characters"&&<CharScreenLoader acc={acc} ac={ac} isMaster={isMaster} accId={accId} manifest={manifest} listCharsGH={listCharsGH} migrateFiles={migrateFiles} gameMode={gameMode} ghToken={ghToken}
           onBack={()=>{setGameMode(null);setScreen("gamemode");}}
@@ -384,7 +384,7 @@ function displayName(fname){return fname.replace(/-(classic|core)\.json$/,"").re
 function fileGameMode(fname){if(fname.endsWith("-core.json"))return"core";if(fname.endsWith("-classic.json"))return"classic";return null;}
 
 /* ═══ GAME MODE SCREEN ═══ */
-function GameModeScreen({acc,ac,onChoice,onBack}){
+function GameModeScreen({acc,ac,accId,onChoice,onBack}){
   const canClassic=acc?.classic!==false;
   const canCore=acc?.core===true;
   return(
