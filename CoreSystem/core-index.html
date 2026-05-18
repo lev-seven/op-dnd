@@ -412,7 +412,7 @@ function SheetTab({c,up}){
 function ActionsTab({c,up,onDetail}){
   return React.createElement("div",{style:{animation:"fadeIn 0.15s ease"}},
     React.createElement(Sec,null,`Talenti ${c.talenti.length}/5`),
-    React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}},
+    React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4,marginBottom:6}},
       (G.TALENTS||[]).map(t=>{
         const sel=c.talenti.includes(t.id);const dim=c.talenti.length>=5&&!sel;const req=t.req&&!hasTalent(c,t.req)&&!sel;
         return React.createElement(Pill,{key:t.id,on:sel,dim:dim||req,onClick:()=>{
@@ -422,8 +422,21 @@ function ActionsTab({c,up,onDetail}){
         },title:`${t.desc}\nPRO: ${t.pro}\nCON: ${t.con}`},(t.cat==="accesso"?"⚡ ":t.cat==="limite"?"⬆ ":"")+t.nome);
       })
     ),
+    c.talenti.length>0&&React.createElement("div",{style:{marginBottom:12}},
+      c.talenti.map(tid=>{const t=tById(tid);if(!t)return null;return React.createElement("div",{key:tid,style:{padding:"8px 10px",borderRadius:6,background:"var(--s3)",border:"1px solid var(--b1)",marginBottom:4,borderLeft:`3px solid ${t.cat==="accesso"?"var(--gold)":t.cat==="limite"?"var(--cyan)":"var(--blue)"}`}},
+        React.createElement("div",{style:{fontFamily:"Cinzel",fontWeight:700,fontSize:12,color:"var(--tx)",marginBottom:4}},t.nome,React.createElement("span",{style:{fontSize:9,color:"var(--tx3)",fontWeight:400,marginLeft:6}},t.cat)),
+        React.createElement("p",{style:{fontSize:10,color:"var(--tx2)",lineHeight:1.4,marginBottom:4}},t.desc),
+        React.createElement("div",{style:{display:"flex",gap:6}},
+          React.createElement("div",{style:{flex:1,fontSize:10,color:"var(--green)",lineHeight:1.4}},"\u2714 ",t.pro),
+          React.createElement("div",{style:{flex:1,fontSize:10,color:"var(--red)",lineHeight:1.4}},"\u2718 ",t.con)
+        )
+      );})
+    ),
     React.createElement(Sec,null,`Miglioramenti ${c.augmenti.length}/3`),
-    React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}},
+    c.augmenti.length>=3&&React.createElement("div",{style:{padding:"8px 10px",borderRadius:6,background:"rgba(224,80,80,0.1)",border:"1px solid rgba(224,80,80,0.3)",marginBottom:8,fontSize:11,color:"#e08080",lineHeight:1.5}},
+      "\u26A0 ",React.createElement("strong",null,"Rischio Umanità")," — Con 3 modifiche: -1 ANIMA social con non-modificati. Inizio sessione: ANIMA vs 8 o complicazione dal GM."
+    ),
+    React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4,marginBottom:6}},
       (G.AUGMENTS||[]).map(a=>{
         const sel=c.augmenti.includes(a.id);const dim=c.augmenti.length>=3&&!sel;
         return React.createElement(Pill,{key:a.id,on:sel,dim:dim,color:"var(--red)",onClick:()=>{
@@ -432,6 +445,16 @@ function ActionsTab({c,up,onDetail}){
           else up({augmenti:[...c.augmenti,a.id]});
         },title:`${a.desc}\nPRO: ${a.pro}\nCON: ${a.con}`},a.nome);
       })
+    ),
+    c.augmenti.length>0&&React.createElement("div",{style:{marginBottom:12}},
+      c.augmenti.map(aid=>{const a=aById(aid);if(!a)return null;return React.createElement("div",{key:aid,style:{padding:"8px 10px",borderRadius:6,background:"var(--s3)",border:"1px solid var(--b1)",marginBottom:4,borderLeft:"3px solid var(--red)"}},
+        React.createElement("div",{style:{fontFamily:"Cinzel",fontWeight:700,fontSize:12,color:"var(--tx)",marginBottom:4}},a.nome,React.createElement("span",{style:{fontSize:9,color:"var(--tx3)",fontWeight:400,marginLeft:6}},a.tipo)),
+        React.createElement("div",{style:{display:"flex",gap:6}},
+          React.createElement("div",{style:{flex:1,fontSize:10,color:"var(--green)",lineHeight:1.4}},"\u2714 ",a.pro),
+          React.createElement("div",{style:{flex:1,fontSize:10,color:"var(--red)",lineHeight:1.4}},"\u2718 ",a.con)
+        ),
+        a.manutenzione&&React.createElement("div",{style:{fontSize:9,color:"var(--gold)",marginTop:3}},"\u26A0 ",a.manutenzione)
+      );})
     ),
     React.createElement(Sec,null,"Condizioni Attive"),
     React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:4}},
@@ -630,7 +653,7 @@ function CompendiumPage({onBack}){
         )
       )
     ),
-    React.createElement("div",{style:{flex:1,overflowY:"auto",padding:"12px 18px 80px"}},content),
+    React.createElement("div",{style:{flex:1,overflowY:"auto",padding:"12px 18px 160px"}},content),
     detail&&React.createElement(InfoModal,{item:detail.item,type:detail.type,onClose:()=>setDetail(null)})
   );
 }
