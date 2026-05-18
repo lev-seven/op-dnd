@@ -41,7 +41,18 @@ var CORE_RULES = {
     {stat:'9-10', bonus:5},
     {stat:'11-12',bonus:6},
     {stat:'13-15',bonus:7}
-  ]
+  ],
+  humanityRules: {
+    safe: 2,
+    max: 3,
+    warning: 'Con 3 Miglioramenti Fisici il personaggio rischia di perdere umanità.',
+    rules: [
+      'Fino a 2 modifiche: nessuna penalità.',
+      'Con 3 modifiche: il personaggio è marcatamente non-umano. -1 ANIMA permanente a tutti i tiri sociali con non-modificati.',
+      'Con 3 modifiche: a inizio di ogni sessione, tira ANIMA vs 8. Se fallisci, il GM introduce una complicazione legata alla perdita di umanità (incubi, rigetto, istinto incontrollabile, paura della gente).',
+      'Se un effetto o evento in gioco riduce ANIMA a 0 mentre hai 3 modifiche, il personaggio perde il controllo permanentemente (diventa PNG del GM).'
+    ]
+  }
 };
 
 // ═══ CONDIZIONI (max 2 attive contemporaneamente) ═══

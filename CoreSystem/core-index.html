@@ -17,6 +17,10 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:767px){
+  .pill-wrap{gap:3px!important}
+  input,select,textarea{font-size:16px!important}
+}
 @media(min-width:768px){html{zoom:1.15}}
 @media(min-width:1200px){html{zoom:1.25}}
 </style>
@@ -100,7 +104,7 @@ function App(){
   const[toast,setToast]=useState(null);
   const fileRef=useRef(null);
 
-  const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
+  const ENC_TOKEN='INSERISCI_QUI_OUTPUT_ENCTOKEN';
   const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
 
   useEffect(()=>{(async()=>{
@@ -245,7 +249,8 @@ function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad,onManual,
       React.createElement("button",{onClick:onBack,style:{...SS.btn,padding:"6px 10px"}},"←"),
       React.createElement("h2",{style:{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)",flex:1}},acc?.name),
       isMaster&&React.createElement("span",{style:{fontSize:9,color:"var(--gold)",opacity:0.6,fontFamily:"Cinzel"}},"👑 Master"),
-      React.createElement("span",{style:{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono",background:"var(--gbg)",padding:"3px 8px",borderRadius:4}},"C.O.R.E.")
+      React.createElement("span",{style:{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono",background:"var(--gbg)",padding:"3px 8px",borderRadius:4}},"C.O.R.E."),
+      React.createElement("button",{onClick:()=>window.open(BASE()+"/CoreSystem/core-initiative.html","_blank"),style:{width:32,height:32,borderRadius:"50%",border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}},"\u2694\uFE0F")
     ),
     React.createElement("div",{style:{flex:1,overflowY:"auto",padding:18,paddingBottom:100}},
       chars.map((sec,si)=>React.createElement("div",{key:si,style:{marginBottom:20}},

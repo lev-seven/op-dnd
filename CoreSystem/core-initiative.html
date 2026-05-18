@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0c0c10">
+<title>Iniziativa C.O.R.E.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0c10;--s1:#131318;--s2:#1a1a22;--s3:#21212c;--b1:#2a2a38;--gold:#e8a030;--green:#48c88a;--red:#e05050;--blue:#5890e8;--tx:#dddae8;--tx2:#9996aa;--tx3:#55536a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;min-height:100vh}
+button{font-family:inherit;outline:none;cursor:pointer;-webkit-user-select:none;user-select:none}
+input,select{font-family:inherit;outline:none}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes rollB{0%{transform:scale(.7) rotate(-10deg);opacity:0}60%{transform:scale(1.1) rotate(3deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.wrap{max-width:560px;margin:0 auto;padding:16px}
+.hdr{text-align:center;padding:20px 0 14px}
+.hdr h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:2px}
+.hdr p{color:var(--tx3);font-size:11px;margin-top:4px;font-family:'JetBrains Mono'}
+.sec{font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px;display:flex;align-items:center;gap:6px}
+.sec::after{content:'';flex:1;height:1px;background:var(--b1)}
+.pg-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.pg-btn{padding:8px 12px;border-radius:8px;border:1.5px solid rgba(232,160,48,0.3);background:rgba(232,160,48,0.06);color:var(--tx);font-family:'Cinzel',serif;font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;transition:all 0.15s;touch-action:manipulation}
+.pg-btn:hover{border-color:var(--gold);background:rgba(232,160,48,0.15)}
+.pg-btn .comp{font-family:'JetBrains Mono';font-size:9px;color:var(--green);background:rgba(72,200,138,0.1);padding:1px 5px;border-radius:3px}
+.pg-btn.added{opacity:0.3;pointer-events:none;border-style:dashed}
+.add-row{display:flex;gap:6px;margin-bottom:10px}
+.add-row input{flex:1;padding:9px;border-radius:8px;border:1px solid var(--b1);background:var(--s3);color:var(--tx);font-size:13px}
+.add-row input[type=number]{width:55px;flex:none;text-align:center;font-family:'JetBrains Mono';font-weight:600}
+.grp-row{display:flex;gap:6px;margin-bottom:14px;align-items:center}
+.grp-row label{font-size:10px;color:var(--tx3);font-family:'Cinzel',serif;white-space:nowrap}
+.grp-row input{width:44px;padding:6px;border-radius:6px;border:1px solid var(--b1);background:var(--s3);color:var(--tx);text-align:center;font-family:'JetBrains Mono';font-size:12px;font-weight:600}
+.btn{padding:9px 14px;border-radius:8px;border:1.5px solid;font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:0.5px;touch-action:manipulation}
+.btn-gold{border-color:rgba(232,160,48,0.4);background:rgba(232,160,48,0.1);color:var(--gold)}
+.btn-green{border-color:rgba(72,200,138,0.4);background:rgba(72,200,138,0.08);color:var(--green)}
+.btn-red{border-color:rgba(224,80,80,0.3);background:rgba(224,80,80,0.08);color:var(--red)}
+.controls{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.list{display:flex;flex-direction:column;gap:6px}
+.entry{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1.5px solid transparent;background:var(--s1);transition:all 0.2s;animation:fadeIn 0.15s ease}
+.entry.active{border-color:var(--gold);background:rgba(232,160,48,0.08);box-shadow:0 0 16px rgba(232,160,48,0.1)}
+.entry.dead{opacity:0.3}
+.entry.dead .name{text-decoration:line-through}
+.entry .init{font-family:'JetBrains Mono';font-size:20px;font-weight:700;color:var(--gold);min-width:32px;text-align:center;cursor:pointer}
+.entry.monster .init{color:var(--red)}
+.entry .info{flex:1;min-width:0}
+.entry .name{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.entry .tag{font-size:9px;color:var(--tx3);font-family:'Cinzel',serif;letter-spacing:1px;text-transform:uppercase}
+.entry.monster .name{color:#e88}
+.entry .hp-row{display:flex;align-items:center;gap:3px;margin-top:3px}
+.hp-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--b1);background:var(--s3);color:var(--tx2);font-size:11px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono';touch-action:manipulation}
+.hp-val{font-family:'JetBrains Mono';font-size:13px;font-weight:700;min-width:20px;text-align:center}
+.hp-bar{height:3px;border-radius:2px;background:var(--bg);margin-top:2px;overflow:hidden}
+.hp-fill{height:100%;border-radius:2px;transition:width 0.3s}
+.entry .acts{display:flex;gap:4px;flex-shrink:0}
+.entry .acts button{width:26px;height:26px;border-radius:50%;border:1px solid var(--b1);background:var(--s3);color:var(--tx2);font-size:12px;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
+.round-badge{text-align:center;margin-bottom:12px;font-family:'Cinzel',serif;font-size:12px;color:var(--green);letter-spacing:2px}
+.empty{text-align:center;color:var(--tx3);font-style:italic;padding:40px 0;font-size:13px}
+.roll-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:99;background:linear-gradient(180deg,var(--s1),var(--bg));border:1.5px solid rgba(232,160,48,0.4);border-radius:12px;padding:16px 20px;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,0.6);animation:rollB 0.35s ease forwards;min-width:180px}
+.roll-popup .rname{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:6px}
+.roll-popup .rtotal{font-family:'JetBrains Mono';font-size:36px;font-weight:900;color:var(--tx)}
+.roll-popup .rdetail{font-family:'JetBrains Mono';font-size:11px;color:var(--tx3);margin-top:2px}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:98;display:flex;align-items:center;justify-content:center;padding:14px}
+.modal-box{background:linear-gradient(180deg,var(--s1),var(--bg));border:1.5px solid rgba(232,160,48,0.4);border-radius:12px;padding:16px;width:100%;max-width:340px;max-height:80vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,0.6)}
+.modal-row{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;margin-bottom:4px;cursor:pointer;transition:all 0.15s}
+.modal-check{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all 0.15s}
+</style>
+<script>var GITHUB_BASE="https://lev-seven.github.io/op-dnd";</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <h1>⚔️ Iniziativa C.O.R.E.</h1>
+    <p>1d12 + stat competenza + bonus</p>
+  </div>
+  <div class="sec">Personaggi in Scena <button class="btn btn-gold" onclick="openPGModal()" style="padding:4px 10px;font-size:9px;margin-left:auto">⚙ Seleziona</button></div>
+  <div class="pg-grid" id="pgGrid"><span style="color:var(--tx3);font-size:11px;font-style:italic">Caricamento PG...</span></div>
+  <div class="sec">Aggiungi Manuale</div>
+  <div class="add-row">
+    <input type="text" id="aName" placeholder="Nome...">
+    <input type="number" id="aInit" placeholder="Init" min="0" max="40">
+    <button class="btn btn-green" onclick="addEntry()">+</button>
+  </div>
+  <div class="grp-row">
+    <label>HP</label><input type="number" id="aHp" placeholder="—" min="0">
+    <label>Quantità</label><input type="number" id="aQty" value="1" min="1" max="20">
+  </div>
+  <div class="controls">
+    <button class="btn" style="border-color:var(--green);color:var(--green)" onclick="nextTurn()">▶ Prossimo</button>
+    <button class="btn btn-gold" onclick="sortAll()">↕ Riordina</button>
+    <button class="btn btn-red" onclick="resetAll()">✕ Reset</button>
+  </div>
+  <div class="round-badge" id="roundBadge">Round 1</div>
+  <div class="list" id="list"></div>
+  <div class="empty" id="emptyMsg">Aggiungi PG e nemici per iniziare</div>
+</div>
+<div id="rollPopup" style="display:none"></div>
+<div id="pgModal" style="display:none"></div>
+<script>
+var entries=JSON.parse(localStorage.getItem("core_init")||"[]");
+var activeIdx=parseInt(localStorage.getItem("core_init_active")||"0");
+var round=parseInt(localStorage.getItem("core_init_round")||"1");
+var pgData=[];
+var visiblePGs=JSON.parse(localStorage.getItem("core_init_visible")||"[]");
+
+function save(){localStorage.setItem("core_init",JSON.stringify(entries));localStorage.setItem("core_init_active",activeIdx);localStorage.setItem("core_init_round",round);}
+function saveVisible(){localStorage.setItem("core_init_visible",JSON.stringify(visiblePGs));}
+function compBonus(stat){return Math.max(1,Math.floor((stat||0)/2));}
+
+function openPGModal(){var m=document.getElementById("pgModal");m.style.display="flex";m.className="modal-overlay";renderPGModal();}
+function closePGModal(){document.getElementById("pgModal").style.display="none";renderPGGrid();}
+function toggleAllPGs(on){if(on)visiblePGs=pgData.map(function(p){return p.name;});else visiblePGs=[];saveVisible();renderPGModal();}
+function togglePGVisible(idx){var name=pgData[idx].name;var i=visiblePGs.indexOf(name);if(i===-1)visiblePGs.push(name);else visiblePGs.splice(i,1);saveVisible();renderPGModal();}
+function renderPGModal(){
+  var m=document.getElementById("pgModal");
+  var rows=pgData.map(function(pg,i){
+    var on=visiblePGs.indexOf(pg.name)!==-1;
+    return'<div class="modal-row" onclick="togglePGVisible('+i+')" style="background:'+(on?"rgba(72,200,138,0.08)":"rgba(232,160,48,0.04)")+';border:1px solid '+(on?"rgba(72,200,138,0.3)":"var(--b1)")+'">'
+      +'<div class="modal-check" style="border:1.5px solid '+(on?"var(--green)":"var(--tx3)")+';background:'+(on?"rgba(72,200,138,0.2)":"transparent")+';color:var(--green)">'+(on?"\u2713":"")+'</div>'
+      +'<span style="font-family:Cinzel,serif;font-size:12px;font-weight:700;color:'+(on?"var(--tx)":"var(--tx3)")+'">'+pg.name+'</span>'
+      +'<span style="margin-left:auto;font-family:JetBrains Mono;font-size:9px;color:var(--tx3)">'+pg.owner+'</span></div>';
+  }).join("");
+  if(!pgData.length)rows='<div style="text-align:center;color:var(--tx3);font-style:italic;padding:20px;font-size:12px">Nessun PG Core trovato</div>';
+  m.innerHTML='<div class="modal-box" onclick="event.stopPropagation()">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:1px">PG in Scena</span><button onclick="closePGModal()" style="background:none;border:none;color:var(--red);font-size:15px;cursor:pointer">\u2715</button></div>'
+    +rows
+    +'<div style="display:flex;gap:6px;margin-top:12px"><button class="btn btn-gold" onclick="toggleAllPGs(true)" style="flex:1;padding:7px 0">Tutti</button><button class="btn btn-red" onclick="toggleAllPGs(false)" style="flex:1;padding:7px 0">Nessuno</button><button class="btn btn-green" onclick="closePGModal()" style="flex:2;padding:7px 0;font-weight:700">Conferma</button></div>'
+    +'</div>';
+  m.onclick=function(e){if(e.target===m)closePGModal();};
+}
+
+async function loadPGs(){
+  try{
+    var res=await fetch(GITHUB_BASE+"/data/manifest.json?t="+Date.now());
+    if(!res.ok)throw new Error();
+    var manifest=await res.json();
+    var chars=manifest.characters||{};
+    pgData=[];
+    // Scan directories for -core.json files
+    for(var owner in chars){
+      try{
+        var u=new URL(GITHUB_BASE);var user=u.hostname.split(".")[0];var repo=u.pathname.replace(/^\/|\/$/g,"");
+        var api="https://api.github.com/repos/"+user+"/"+repo+"/contents/data/"+owner;
+        var r=await fetch(api+"?t="+Date.now(),{headers:{"Accept":"application/vnd.github+json"}});
+        if(!r.ok)continue;
+        var files=await r.json();
+        if(!Array.isArray(files))continue;
+        var coreFiles=files.filter(function(f){return f.name.endsWith("-core.json")&&f.type==="file";});
+        for(var j=0;j<coreFiles.length;j++){
+          try{
+            var data=await fetch(coreFiles[j].download_url+"?t="+Date.now()).then(function(r){return r.json();});
+            var ch=data.character||data;
+            if(ch.corpo!==undefined){
+              var compStat=ch.competenza?ch[ch.competenza]:0;
+              var cb=ch.competenza?compBonus(compStat):0;
+              pgData.push({name:ch.name,owner:owner,file:coreFiles[j].name,compStat:ch.competenza||null,statVal:compStat,compB:cb,initMod:compStat+cb,hp:ch.hpCurrent||null,hpMax:(ch.corpo||0)+(ch.mente||0)+(ch.anima||0),loaded:true});
+            }
+          }catch(e){}
+        }
+      }catch(e){}
+    }
+    renderPGGrid();
+  }catch(e){document.getElementById("pgGrid").innerHTML='<span style="color:var(--red);font-size:11px">Errore caricamento</span>';}
+}
+
+function isPGAdded(name){return entries.some(function(e){return e.name===name;});}
+function renderPGGrid(){
+  var grid=document.getElementById("pgGrid");
+  var filtered=pgData.filter(function(pg){return visiblePGs.indexOf(pg.name)!==-1;});
+  if(!filtered.length){grid.innerHTML='<span style="color:var(--tx3);font-size:11px;font-style:italic">Premi \u2699 Seleziona per scegliere i PG</span>';return;}
+  grid.innerHTML=filtered.map(function(pg){
+    var added=isPGAdded(pg.name);
+    return'<button class="pg-btn'+(added?" added":"")+'" onclick="addPG(\''+pg.name.replace(/'/g,"\\'")+'\')">'
+      +pg.name
+      +'<span class="comp">+'+(pg.initMod||0)+'</span>'
+      +'</button>';
+  }).join("");
+}
+
+function showRollPopup(name,roll,mod,total){
+  var el=document.getElementById("rollPopup");el.style.display="block";
+  el.innerHTML='<div class="roll-popup"><div class="rname">'+name+'</div><div class="rtotal">'+total+'</div><div class="rdetail">\uD83C\uDFB2 '+roll+' + '+mod+'</div></div>';
+  setTimeout(function(){el.style.display="none";},2000);
+}
+
+function addPG(name){
+  var pg=pgData.find(function(p){return p.name===name;});
+  if(!pg||isPGAdded(name))return;
+  var roll=Math.floor(Math.random()*12)+1;
+  var mod=pg.initMod||0;
+  var total=roll+mod;
+  entries.push({name:pg.name,init:total,type:"pg",hp:pg.hp||null,hpMax:pg.hpMax||null,dead:false});
+  entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;
+  save();render();renderPGGrid();showRollPopup(pg.name,roll,mod,total);
+}
+
+function addEntry(){
+  var n=document.getElementById("aName").value.trim();
+  var i=parseInt(document.getElementById("aInit").value)||0;
+  var hp=parseInt(document.getElementById("aHp").value)||null;
+  var qty=Math.max(1,Math.min(20,parseInt(document.getElementById("aQty").value)||1));
+  if(!n)return;
+  for(var q=0;q<qty;q++){var eName=qty>1?n+" "+(q+1):n;entries.push({name:eName,init:i,type:"monster",hp:hp,hpMax:hp,dead:false});}
+  entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;
+  document.getElementById("aName").value="";document.getElementById("aInit").value="";document.getElementById("aHp").value="";document.getElementById("aQty").value="1";
+  save();render();
+}
+function sortAll(){entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;save();render();}
+function resetAll(){if(!confirm("Resettare tutto?"))return;entries=[];activeIdx=0;round=1;save();render();renderPGGrid();}
+function nextTurn(){if(!entries.length)return;var tries=0;do{activeIdx=(activeIdx+1)%entries.length;tries++;if(activeIdx===0)round++;}while(entries[activeIdx].dead&&tries<entries.length);save();render();}
+function removeEntry(i){entries.splice(i,1);if(activeIdx>=entries.length)activeIdx=0;save();render();renderPGGrid();}
+function toggleDead(i){entries[i].dead=!entries[i].dead;save();render();}
+function editInit(i){var v=prompt("Nuova iniziativa:",entries[i].init);if(v!==null){entries[i].init=parseInt(v)||0;entries.sort(function(a,b){return b.init-a.init;});activeIdx=0;save();render();}}
+function hpChange(i,delta){if(entries[i].hp===null)return;entries[i].hp=Math.max(0,Math.min(entries[i].hpMax||999,entries[i].hp+delta));if(entries[i].hp===0)entries[i].dead=true;save();render();}
+function hpSet(i){var v=prompt("HP (usa / per max):",entries[i].hp!==null?entries[i].hp+(entries[i].hpMax?"/"+entries[i].hpMax:""):"");if(v===null)return;if(v.indexOf("/")!==-1){var p=v.split("/");entries[i].hp=parseInt(p[0])||0;entries[i].hpMax=parseInt(p[1])||entries[i].hp;}else{entries[i].hp=parseInt(v)||0;if(!entries[i].hpMax)entries[i].hpMax=entries[i].hp;}save();render();}
+
+function render(){
+  document.getElementById("roundBadge").textContent="Round "+round;
+  var list=document.getElementById("list");var empty=document.getElementById("emptyMsg");
+  if(!entries.length){list.innerHTML="";empty.style.display="block";return;}
+  empty.style.display="none";
+  list.innerHTML=entries.map(function(e,i){
+    var cls=["entry"];if(e.type==="monster")cls.push("monster");if(i===activeIdx&&!e.dead)cls.push("active");if(e.dead)cls.push("dead");
+    var hpHtml="";
+    if(e.hp!==null&&e.hpMax){
+      var pct=e.hpMax>0?Math.max(0,(e.hp/e.hpMax)*100):0;
+      var hc=pct>60?"var(--green)":pct>30?"var(--gold)":"var(--red)";
+      hpHtml='<div class="hp-row">'
+        +'<button class="hp-btn" onclick="hpChange('+i+',-5)" style="font-size:8px;color:var(--red)">-5</button>'
+        +'<button class="hp-btn" onclick="hpChange('+i+',-1)" style="color:var(--red)">\u2212</button>'
+        +'<span class="hp-val" onclick="hpSet('+i+')" style="color:'+hc+';cursor:pointer">'+e.hp+'<span style="color:var(--tx3);font-size:10px">/'+e.hpMax+'</span></span>'
+        +'<button class="hp-btn" onclick="hpChange('+i+',1)" style="color:var(--green)">+</button>'
+        +'<button class="hp-btn" onclick="hpChange('+i+',5)" style="font-size:8px;color:var(--green)">+5</button>'
+        +'</div><div class="hp-bar"><div class="hp-fill" style="width:'+pct+'%;background:'+hc+'"></div></div>';
+    }
+    return'<div class="'+cls.join(" ")+'">'
+      +'<div class="init" onclick="editInit('+i+')" title="Modifica">'+e.init+'</div>'
+      +'<div class="info"><div class="name">'+e.name+'</div>'
+      +'<div class="tag">'+(e.type==="monster"?"Nemico":"Giocatore")+(i===activeIdx&&!e.dead?" \u00b7 \u25b6 TURNO":"")+'</div>'
+      +hpHtml+'</div>'
+      +'<div class="acts">'
+      +'<button onclick="toggleDead('+i+')" title="'+(e.dead?"Rianima":"Abbatti")+'">'+(e.dead?"\uD83D\uDC9A":"\uD83D\uDC80")+'</button>'
+      +'<button onclick="removeEntry('+i+')" title="Rimuovi">\u2715</button>'
+      +'</div></div>';
+  }).join("");
+}
+render();loadPGs();
+</script>
+</body>
+</html>
