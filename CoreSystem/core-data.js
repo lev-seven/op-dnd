@@ -4,7 +4,7 @@
 //  Versione con condizioni, armature, iniziativa, nuovi contenuti
 // ============================================================
 
-const STILI = {
+var STILI = {
   universale: { lbl:'Universale', icon:'⬡', cls:'sb-un' },
   fantasy:    { lbl:'Fantasy',    icon:'⚔', cls:'sb-fa' },
   cyberpunk:  { lbl:'Cyberpunk',  icon:'◈', cls:'sb-cy' },
@@ -15,7 +15,7 @@ const STILI = {
 };
 
 // ═══ REGOLE BASE ═══
-const CORE_RULES = {
+var CORE_RULES = {
   stats: ['CORPO','MENTE','ANIMA'],
   hpFormula: 'CORPO + MENTE + ANIMA',
   startPoints: 12,
@@ -35,7 +35,7 @@ const CORE_RULES = {
 };
 
 // ═══ CONDIZIONI (max 2 attive contemporaneamente) ═══
-const CONDITIONS = [
+var CONDITIONS = [
   {id:'stunned',   nome:'Stordito',    effetto:'Salti la prossima azione.',                                    durata:'1 round',                           gravita:'alta'},
   {id:'blinded',   nome:'Accecato',    effetto:'-2 ai tuoi tiri di attacco.',                                  durata:'1-2 round',                         gravita:'media'},
   {id:'poisoned',  nome:'Avvelenato',  effetto:'-1 a tutti i tiri.',                                           durata:'3 round, CORPO vs CD per uscirne',  gravita:'media'},
@@ -47,7 +47,7 @@ const CONDITIONS = [
 ];
 
 // ═══ ARMATURE ═══
-const ARMORS = [
+var ARMORS = [
   {id:0, nome:'Nessuna',  bonus:0, penMente:0, penAnima:0, movimento:9, req:0,  note:''},
   {id:1, nome:'Leggera',  bonus:1, penMente:0, penAnima:0, movimento:9, req:0,  note:'Nessuna restrizione.'},
   {id:2, nome:'Media',    bonus:2, penMente:1, penAnima:0, movimento:7, req:4,  note:'-1 tiri MENTE. Movimento 7m. Richiede CORPO 4+.'},
@@ -55,14 +55,14 @@ const ARMORS = [
 ];
 
 // ═══ ARMI ═══
-const WCAT = {
+var WCAT = {
   A:{ nome:'Leggera',   bonus:0, req:null,      svan:'Danno singolo basso. Quasi inutile contro difese alte.', initMod:0 },
   B:{ nome:'Standard',  bonus:2, req:null,      svan:'Nessuno — bilanciata per eccellenza.', initMod:0 },
   C:{ nome:'Pesante',   bonus:4, req:'gate_ab', svan:'-1 alla propria difesa. Ingombrante.', initMod:0 },
   D:{ nome:'Devastante',bonus:6, req:'gate_aa', svan:'-2 difesa. Richiede due mani. -1 iniziativa.', initMod:-1 }
 };
 
-const WPERKS = {
+var WPERKS = {
   A:[
     {id:'a1',nome:'Velocita',    desc:'Attacca due volte per round. Ogni attacco a -2 al tiro.',              pro:'Ottimo per finire nemici.',             con:'Danno basso contro difese alte.'},
     {id:'a2',nome:'Furtivo',     desc:'+2 al tiro vs bersagli che non ti hanno visto in questo round.',       pro:'Bonus per chi agisce per primo.',       con:'Perso se il nemico e allertato.'},
@@ -93,7 +93,7 @@ const WPERKS = {
   ]
 };
 
-const SHIELDS = [
+var SHIELDS = [
   {id:0, nome:'Nessuno',    bonus:0, penMente:0, penAnima:0, rest:null,           note:''},
   {id:1, nome:'Piccolo +1', bonus:1, penMente:0, penAnima:0, rest:null,           note:'Nessuna restrizione d\'arma.'},
   {id:2, nome:'Medio +2',   bonus:2, penMente:1, penAnima:0, rest:['A','B','C'], note:'No Cat D. -1 tiri MENTE.'},
@@ -101,7 +101,7 @@ const SHIELDS = [
 ];
 
 // ═══ INCOMPATIBILITA ═══
-const INCOMPATIBILITIES = [
+var INCOMPATIBILITIES = [
   {items:['shield_2','shield_3','cat_D'], rule:'Scudo Medio/Torre incompatibile con Cat D (due mani).'},
   {items:['armor_3','cantrip_anima'],     rule:'Armatura Pesante impedisce cantrip ANIMA (troppo ingombro).'},
   {items:['shield','dual_wield'],         rule:'Scudo incompatibile con Doppia Impugnatura (serve mano libera).'},
@@ -110,7 +110,7 @@ const INCOMPATIBILITIES = [
 ];
 
 // ═══ MAGIE ═══
-const SPELLS = [
+var SPELLS = [
   // CANTRIP — tutti, max 2
   {id:'c01',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Fiamma Minore',     bonus:0,mec:'1d12+MENTE vs CORPO (fuoco). Luce, accende oggetti.',                         pro:'Offensivo e narrativo.',           con:'Danno basso, raggio corto.'},
   {id:'c02',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Scudo Arcano',      bonus:0,mec:'Reazione: +3 difesa vs prossimo attacco magico. 1x/round.',                   pro:'Gratuito, non usa azione.',        con:'Solo vs magie.'},
@@ -195,7 +195,7 @@ const SPELLS = [
 ];
 
 // ═══ TALENTI ═══
-const TALENTS = [
+var TALENTS = [
   // ACCESSI
   {id:'gate_ab',cat:'accesso',stile:'universale',req:null,      nome:'Armi - Base',     desc:'Sblocca Cat C e i suoi 5 perk.',                              pro:'Accesso a +4 attacco.',           con:'Costa 1 slot talento.'},
   {id:'gate_aa',cat:'accesso',stile:'universale',req:'gate_ab', nome:'Armi - Avanzato', desc:'Sblocca Cat D. Richiede Armi Base.',                          pro:'Massimo potere fisico.',           con:'Richiede Armi Base.'},
@@ -271,7 +271,7 @@ const TALENTS = [
 ];
 
 // ═══ AUGMENTS / MIGLIORAMENTI FISICI (max 3) ═══
-const AUGMENTS = [
+var AUGMENTS = [
   // CYBERPUNK
   {id:'aug_oc',stile:'cyberpunk',tipo:'Cyberware',nome:'Occhi Cybertici',desc:'HUD integrato, zoom 10x, visione notturna.',pro:'+2 tiri MENTE visivi. Visione notturna.',con:'Visibili (LED). -1 ANIMA in contesti conservatori.',manutenzione:'Calibrazione mensile.'},
   {id:'aug_bm',stile:'cyberpunk',tipo:'Cyberware',nome:'Braccio Meccanico',desc:'Esoscheletro. Forza idraulica.',pro:'+2 CORPO attacchi fisici. Solleva il doppio.',con:'-1 ANIMA formale. -1 CORPO stealth.',manutenzione:'Calibrazione settimanale.'},
@@ -313,7 +313,7 @@ const AUGMENTS = [
 ];
 
 // ═══ MOSTRI ESEMPIO ═══
-const MONSTERS = [
+var MONSTERS = [
   // GREGARI (HP 4-8, 1 colpo)
   {id:'mon01',nome:'Goblin',tier:'gregario',corpo:3,mente:2,anima:1,hp:6,armaCat:'A',armaPerk:'a2',scudo:0,armatura:0,competenza:null,talenti:[],augmenti:[],magie:[],note:'Attacca in gruppo. Fugge se solo.'},
   {id:'mon02',nome:'Scheletro',tier:'gregario',corpo:3,mente:1,anima:1,hp:5,armaCat:'A',armaPerk:'a3',scudo:0,armatura:0,competenza:null,talenti:[],augmenti:[],magie:[],note:'Immune Spaventato. Vulnerabile a danni contundenti.'},
@@ -331,7 +331,7 @@ const MONSTERS = [
 ];
 
 // ═══ WOUND TIERS ═══
-const WOUND_TIERS = [
+var WOUND_TIERS = [
   {tier:0, nome:'Integro',      penalita:0,  desc:'Nessuna penalita.'},
   {tier:1, nome:'Ferito',       penalita:-1, desc:'-1 a tutti i tiri.'},
   {tier:2, nome:'Critico',      penalita:-2, desc:'-2 a tutti i tiri.'},
@@ -339,13 +339,13 @@ const WOUND_TIERS = [
 ];
 
 // ═══ REST ═══
-const REST_RULES = {
+var REST_RULES = {
   breve: {nome:'Riposo Breve', durata:'10 minuti', effetto:'Recupera CORPO HP. Slot magie non recuperati.'},
   lungo: {nome:'Riposo Lungo', durata:'8 ore',     effetto:'Tutti HP recuperati. Tutti slot magia recuperati. Punti Eroe ripristinati.'}
 };
 
 // ═══ PUNTO EROE — Ispirato a 7th Sea ═══
-const HERO_POINT = {
+var HERO_POINT = {
   nome: 'Punto Eroe',
   maxPerSession: 2,
   refresh: 'Inizio sessione (o Riposo Lungo a discrezione del GM)',
