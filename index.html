@@ -61,7 +61,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v1409";
+const APP_VERSION="v700";
 
 function Av({src,fallback,size,color,round,style:extra}){
   const[ok,setOk]=useState(true);
@@ -477,17 +477,25 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,migrateFil
       setSections(secs);setLoadingChars(false);
     })();
   },[accId,ghToken]);
-  return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster} onBack={onBack} onNew={onNew} onLoadGH={onLoadGH} onImportFile={onImportFile} loading={loading||loadingChars}/>;
+  return<CharScreen acc={acc} ac={ac} sections={sections} isMaster={isMaster} gameMode={gameMode} onBack={onBack} onNew={onNew} onLoadGH={onLoadGH} onImportFile={onImportFile} loading={loading||loadingChars}/>;
 }
 
-function CharScreen({acc,ac,sections,isMaster,onBack,onNew,onLoadGH,onImportFile,loading}){
+function CharScreen({acc,ac,sections,isMaster,gameMode,onBack,onNew,onLoadGH,onImportFile,loading}){
+  const isCore=gameMode==="core";
+  const modeColor=isCore?"#e8a030":"#3498db";
+  const modeLabel=isCore?"C.O.R.E.":"Classic D&D 5e";
+  const modeIcon=isCore?"⚔️":"📜";
   return(
     <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",background:"linear-gradient(180deg,#0a0e17,#111827,#0f1420)",overflow:"hidden"}}>
-      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10,maxWidth:"var(--content-w)",margin:"0 auto",width:"100%"}}>
+      <div style={{flexShrink:0,padding:"14px 16px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #c8a95e15",background:"rgba(10,14,23,0.97)",backdropFilter:"blur(10px)",zIndex:10}}>
         <button onClick={onBack} style={{...SS.bb,borderColor:ac+"44",color:ac}}>←</button>
         <Av src={accAvatarUrl(acc?.id)} fallback={acc?.isMaster?"👑":acc?.name?.[0]||"?"} size={36} color={ac}/>
         <div style={{flex:1}}><h2 style={{fontFamily:"'Cinzel'",fontSize:17,fontWeight:700,color:ac}}>{acc?.name}</h2>{isMaster&&<span style={{fontSize:10,color:"#c8a95e88",fontFamily:"'Cinzel'"}}>👑 Master</span>}</div>
         <button onClick={()=>window.open(BASE()+"/initiative.html","_blank")} title="Iniziativa" style={{width:32,height:32,borderRadius:"50%",border:`1.5px solid ${ac}44`,background:`${ac}15`,color:ac,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>
+      </div>
+      <div style={{flexShrink:0,padding:"8px 16px",background:`linear-gradient(135deg,${modeColor}12,${modeColor}06)`,borderBottom:`1px solid ${modeColor}22`,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+        <span style={{fontSize:16}}>{modeIcon}</span>
+        <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:13,color:modeColor,letterSpacing:2}}>{modeLabel}</span>
       </div>
       <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch"}}>
         <div style={{padding:"16px",paddingBottom:80,maxWidth:"var(--content-w)",margin:"0 auto",width:"100%"}}>
