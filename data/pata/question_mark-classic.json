@@ -1,0 +1,766 @@
+{
+  "account": "Pata",
+  "accountId": "pata",
+  "exportedAt": "2026-05-13T18:25:14.406Z",
+  "character": {
+    "id": "mnrpdaclenyq",
+    "name": "Question mark",
+    "race": "Umano",
+    "level": 9,
+    "classes": "Devilforged",
+    "ac": 16,
+    "hpMax": 65,
+    "hpCurrent": 65,
+    "hpTemp": 0,
+    "hpPerm": 0,
+    "speed": 9,
+    "passivePerception": 10,
+    "profBonus": 4,
+    "hitDie": "1d8",
+    "stats": {
+      "FOR": {
+        "score": 7,
+        "mod": -2,
+        "save": -2,
+        "profSave": false
+      },
+      "DES": {
+        "score": 16,
+        "mod": 3,
+        "save": 3,
+        "profSave": false
+      },
+      "COS": {
+        "score": 12,
+        "mod": 1,
+        "save": 1,
+        "profSave": false
+      },
+      "INT": {
+        "score": 10,
+        "mod": 0,
+        "save": 0,
+        "profSave": false
+      },
+      "SAG": {
+        "score": 12,
+        "mod": 1,
+        "save": 5,
+        "profSave": true
+      },
+      "CAR": {
+        "score": 20,
+        "mod": 5,
+        "save": 9,
+        "profSave": true
+      }
+    },
+    "skills": [
+      {
+        "name": "Acrobazia",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Addestrare Animali",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Arcano",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Atletica",
+        "stat": "FOR",
+        "prof": "none"
+      },
+      {
+        "name": "Furtività",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Indagare",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Inganno",
+        "stat": "CAR",
+        "prof": "mastery"
+      },
+      {
+        "name": "Intimidire",
+        "stat": "CAR",
+        "prof": "prof"
+      },
+      {
+        "name": "Intrattenere",
+        "stat": "CAR",
+        "prof": "mastery"
+      },
+      {
+        "name": "Intuizione",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Medicina",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Natura",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Percezione",
+        "stat": "SAG",
+        "prof": "prof"
+      },
+      {
+        "name": "Persuasione",
+        "stat": "CAR",
+        "prof": "none"
+      },
+      {
+        "name": "Rapidità di Mano",
+        "stat": "DES",
+        "prof": "none"
+      },
+      {
+        "name": "Religione",
+        "stat": "INT",
+        "prof": "none"
+      },
+      {
+        "name": "Sopravvivenza",
+        "stat": "SAG",
+        "prof": "none"
+      },
+      {
+        "name": "Storia",
+        "stat": "INT",
+        "prof": "none"
+      }
+    ],
+    "spellSlots": {
+      "cantrips": 0,
+      "slots": {
+        "1": {
+          "max": 0,
+          "used": 0
+        },
+        "2": {
+          "max": 0,
+          "used": 0
+        },
+        "3": {
+          "max": 0,
+          "used": 0
+        },
+        "4": {
+          "max": 0,
+          "used": 0
+        },
+        "5": {
+          "max": 0,
+          "used": 0
+        },
+        "6": {
+          "max": 0,
+          "used": 0
+        },
+        "7": {
+          "max": 0,
+          "used": 0
+        },
+        "8": {
+          "max": 0,
+          "used": 0
+        },
+        "9": {
+          "max": 0,
+          "used": 0
+        }
+      }
+    },
+    "origins": [
+      {
+        "id": "mnt46cio8qre",
+        "name": "Talenti:Maestro Armi su Asta",
+        "color": "#ff0000"
+      },
+      {
+        "id": "mnt5slo6259h",
+        "name": "Talenti:Maestro D'armi",
+        "color": "#ff007b"
+      },
+      {
+        "id": "mnt5zwjqpdzp",
+        "name": "Talenti:Sentinella",
+        "color": "#d833db"
+      },
+      {
+        "id": "mnt62sfkn6mq",
+        "name": "Talenti: Velenoso",
+        "color": "#00ff1e"
+      },
+      {
+        "id": "mnt6jmb4j6w6",
+        "name": "Devilforged",
+        "color": "#4400ff"
+      },
+      {
+        "id": "moj1hjvlps4g",
+        "name": "Mane Mane no Mi",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "moj2w20u9xd0",
+        "name": "Haki",
+        "color": "#9277fd"
+      }
+    ],
+    "attacks": [
+      {
+        "id": "mnt677hjd19y",
+        "name": "Lancia",
+        "stat": "",
+        "damage": "1d10+11",
+        "type": "magico",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "hit": 15
+      },
+      {
+        "id": "mnt68fbi9617",
+        "name": "Pistola",
+        "stat": "",
+        "damage": "1d10+11",
+        "type": "magico",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "hit": 15
+      },
+      {
+        "id": "moaj43cxeegx",
+        "name": "Bastonata extra",
+        "stat": "",
+        "damage": "1d4",
+        "type": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false,
+        "hit": 15
+      }
+    ],
+    "abilities": [
+      {
+        "id": "mnt4ags8lutg",
+        "name": "Colpo di palo",
+        "originId": "mnt46cio8qre",
+        "type": "Azione bonus",
+        "desc": "Dopo aver effettuato l’azione Attacco con bastone ferrato, lancia o arma con proprietà Pesante e Portata, puoi fare un attacco in mischia con l’estremità opposta (1d4 danni contundenti).",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnt5oovsi31v",
+        "name": "Attacco preventivo",
+        "originId": "mnt46cio8qre",
+        "type": "Reazione",
+        "desc": "Mentre impugni una di queste armi, puoi effettuare un attacco in mischia contro una creatura che entra nella tua portata.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnt5svzxk8jv",
+        "name": "Atterramento(Lancia)",
+        "originId": "mnt5slo6259h",
+        "type": "Passiva",
+        "desc": "Quando colpisci una creatura con quest’arma, puoi costringerla a effettuare un TS su Costituzione (CD = 8 + modificatore della caratteristica usata per colpire + Bonus Competenza). Se fallisce, cade Prona.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": true
+      },
+      {
+        "id": "mnt5w3knrgy6",
+        "name": "Vessare(Pistola)",
+        "originId": "mnt5slo6259h",
+        "type": "Passiva",
+        "desc": "Quando colpisci una creatura con quest’arma e le infliggi danno, ottieni Vantaggio al prossimo tiro per colpire contro di essa entro la fine del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnt6058iexe6",
+        "name": "Guardiano",
+        "originId": "mnt5zwjqpdzp",
+        "type": "Reazione",
+        "desc": "quando una creatura entro 1,5 m usa Disimpegno o colpisce un bersaglio diverso da te, puoi effettuare un Attacco di Opportunità contro di essa.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "mnt619wq4uyv",
+        "name": "Arresto",
+        "originId": "mnt5zwjqpdzp",
+        "type": "Passiva",
+        "desc": "se colpisci con un Attacco di Opportunità, la velocità della creatura diventa 0 per il resto del turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnt63kcngo4d",
+        "name": "Tossico",
+        "originId": "mnt62sfkn6mq",
+        "type": "Passiva",
+        "desc": "I tuoi danni da veleno ignorano la Resistenza al veleno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mnt65y5t3lrn",
+        "name": "Veleno Potente",
+        "originId": "mnt62sfkn6mq",
+        "type": "Azione bonus",
+        "desc": "Applichi una dose di veleno a un’arma o munizione (dura 1 minuto o fino al primo colpo andato a segno).\nSe colpisci, il bersaglio deve superare un TS su Costituzione (CD = 8 + modificatore della caratteristica aumentata + Bonus Competenza) o subisce 2d8 danni da veleno ed è Avvelenato fino alla fine del tuo prossimo turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "CAR",
+        "fav": true
+      },
+      {
+        "id": "mnt6k928zwkr",
+        "name": "Potere del diavolo",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Passiva",
+        "desc": "Caratteristica da incantatore: Carisma.",
+        "maxUses": 2,
+        "uses": 1,
+        "rest": "breve",
+        "cdStat": "CAR",
+        "fav": true
+      },
+      {
+        "id": "mnt6rfz4jhve",
+        "name": "Infusione: Paramicia",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "Attivi i poteri Paramecia, trasformando l’oggetto in un’arma (se non lo è già), scegliendone la forma a ogni attivazione.\nL’oggetto infuso può trasformarsi in un’arma a tua scelta quando attivato; sei competente mentre lo usi. Conta come arma magica.\nSe si trova a più di 1,5 m da te per 1 minuto, ritorna nella tua mano.\nL’effetto termina se muori.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moaj02okskmg",
+        "name": "Doppio attacco ",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "moaj0nhbgeff",
+        "name": "+3 tiro per colpire e danni",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moaj1jixd03b",
+        "name": "Base CA 13",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "fav": false
+      },
+      {
+        "id": "moj11licfdru",
+        "name": "Marchio del Diavolo",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione bonus",
+        "desc": "Scegli una creatura entro 9 m: è maledetta per 1 minuto. L’effetto termina prima se il bersaglio muore, muori tu o sei incapacitato.\n\nEffetti sulla creatura marchiata:\nOttieni un bonus ai danni pari al tuo Bonus Competenza.\nI tuoi attacchi contro di essa sono critici con 19–20.\nSe muore, recuperi PF pari al tuo livello da devilforged + modificatore di Carisma",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "moj16469nasa",
+        "name": "Onda distruttiva",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Azione bonus",
+        "desc": "Quando effettui un attacco con un’arma nel tuo turno, puoi estenderne la portata di 3 m. Se colpisci, una creatura a tua scelta entro 1,5 m dal bersaglio subisce danni da forza pari al tuo modificatore di Carisma",
+        "maxUses": 4,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "moj1d86rx4by",
+        "name": "Tomba di ghiaccio",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Reazione",
+        "desc": "Quando subisci danno, puoi racchiuderti nel ghiaccio fino alla fine del tuo prossimo turno. Ottieni PF temporanei pari a 10 × il tuo livello da devilforged (assorbono il danno innescante quanto possibile).\n\nDiventi vulnerabile al fuoco, la tua velocità diventa 0 e sei Incapacitato. Tutti gli effetti (e gli eventuali PF temporanei rimasti) terminano quando il ghiaccio si scioglie.",
+        "maxUses": 1,
+        "uses": 0,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "moj1htpdamgb",
+        "name": "Imitazione perfetta",
+        "originId": "moj1hjvlps4g",
+        "type": "Passiva",
+        "desc": "Vantaggio su ingannare\nSvantaggio ai tiri investigare fatti su di te",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 13
+      },
+      {
+        "id": "moj1kpdceg9i",
+        "name": "Tecniche di imitazione",
+        "originId": "moj1hjvlps4g",
+        "type": "Passiva",
+        "desc": "Tasha's Hideous Laughter; 1 charge\nCause Fear; 1 charges\nMirror Image; 2 charges",
+        "maxUses": 5,
+        "uses": 0,
+        "rest": "lungo",
+        "cdStat": "custom",
+        "fav": false,
+        "cdCustom": 13
+      },
+      {
+        "id": "moj2w4yealey",
+        "name": "Rivestimento",
+        "originId": "moj2w20u9xd0",
+        "type": "Azione bonus",
+        "desc": "+3 danno e tiri per colpire",
+        "maxUses": 4,
+        "uses": 1,
+        "rest": "breve",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mok7dd9s5nph",
+        "name": "Tiro predittivo",
+        "originId": "moj2w20u9xd0",
+        "type": "Passiva",
+        "desc": "Non puoi riutilizzare questa capacità finché non completi un riposo breve o lungo.\nUna volta per turno, prima di effettuare un attacco a distanza, puoi attivare questa capacità:\nl’attacco ignora copertura e il modificatore di Destrezza alla CA del bersaglio, critico con 19–20 e, se colpisce, infligge +2d6 danni dello stesso tipo.",
+        "maxUses": 1,
+        "uses": 1,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mok7ge9itpwp",
+        "name": "Colpo dello spirito",
+        "originId": "moj2w20u9xd0",
+        "type": "Azione bonus",
+        "desc": "Usi questa capacità un numero di volte pari al tuo Bonus Competenza; recuperi tutti gli usi con un riposo lungo.\nImbui un’arma a distanza con il tuo Haki. Il prossimo colpo riuscito entro 1 ora infligge +2d8 danni da forza. L’effetto termina al colpo a segno o allo scadere del tempo.",
+        "maxUses": 4,
+        "uses": 1,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mok7i63aqyka",
+        "name": "Proiettile della volontà ",
+        "originId": "moj2w20u9xd0",
+        "type": "Azione bonus",
+        "desc": "Non puoi riutilizzare questa capacità finché non completi un riposo lungo.\nQuando effettui un attacco a distanza, puoi infondere il proiettile con il tuo Haki:\nl’attacco infligge +4d8 danni da forza e ha gittata massima aumentata fino a 180 m (600 ft) senza svantaggio a lunga distanza.",
+        "maxUses": 1,
+        "uses": 1,
+        "rest": "lungo",
+        "cdStat": null,
+        "fav": true
+      }
+    ],
+    "spells": [
+      {
+        "id": "moj2zf8jg4i7",
+        "name": "True strike",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "personale",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "+1d6 dmg al tuo attacco",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "moj30u1wjjvn",
+        "name": "Mind sliver",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Una creatura visibile entro gittata effettua un TS su Intelligenza: se fallisce, subisce 2d6 danni psichici e sottrae 1d4 al prossimo tiro salvezza prima della fine del tuo prossimo turno.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "moj33714258t",
+        "name": "Illusione Minore",
+        "level": 0,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Crei un suono o l’immagine di un oggetto entro gittata.\n\nSuono: da sussurro a urlo; qualsiasi tipo di rumore. Può essere continuo o a intervalli.\nImmagine: oggetto fino a un cubo di 1,5 m; non produce suoni, luce, odori o altri effetti sensoriali. Interazioni fisiche la rivelano (gli oggetti la attraversano).",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "moj3f4lql2kt",
+        "name": "Hex",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Quando colpisci il bersaglio, infliggi +1d6 danni necrotici.\nScegli una caratteristica: il bersaglio ha Svantaggio alle prove di quella caratteristica.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok5y3v2r9qd",
+        "name": "Maledizione Maggiore",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "8 ore",
+        "concentration": false,
+        "desc": "Tocchi una creatura, che effettua un TS su Saggezza: se fallisce, è maledetta per la durata. Scegli uno degli effetti:\nSvantaggio a prove e TS di una caratteristica.\nSvantaggio ai tiri per colpire contro di te.\nAll’inizio di ogni turno, TS su Saggezza o usa Schivare.\nSubisce +1d8 danni necrotici quando la colpisci con attacchi o incantesimi.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok61m92dch0",
+        "name": "Contagio",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "7 giorni",
+        "concentration": false,
+        "desc": "Se il bersaglio fallisce 3 TS, l’effetto dura 7 giorni.\nSe riesce 3 TS, l’effetto termina.\nFinché è Avvelenato, ha Svantaggio ai TS di una caratteristica scelta.\nQualsiasi effetto che rimuoverebbe Avvelenato richiede un TS su Costituzione: se fallisce, la condizione non termina.\nTocchi una creatura: TS su Costituzione. Se fallisce, subisce 11d8 danni necrotici ed è Avvelenata.\nAlla fine di ogni suo turno ripete il TS (termina a 3 successi o 3 fallimenti).",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok63dzlu2yi",
+        "name": "Radiazione verdeggiante",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "10 minuti ",
+        "concentration": true,
+        "desc": "Area: sfera di 9 m di raggio; luce verdastra fioca che si diffonde anche oltre gli angoli.\nLe creature colpite emettono luce fioca (1,5 m) e non possono beneficiare dell’Invisibilità. I livelli di Esaurimento causati svaniscono al termine.\nScegli un punto entro gittata. Quando una creatura entra nell’area per la prima volta in un turno o vi inizia il turno, effettua un TS su Costituzione: se fallisce, subisce 4d10 danni radianti e ottiene 1 livello di Esaurimento.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok652zym5lg",
+        "name": "Sonno",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Non influenza non morti o creature immuni all’Ammaliato.\nLe creature si risvegliano se subiscono danni o se qualcuno usa un’azione per svegliarle.\nScegli un punto entro gittata: creature entro 6 m cadono Prone e Incoscienti finché dura l’effetto (1 minuto).\nTira 13d8: è il totale di PF influenzabili. Le creature vengono colpite in ordine crescente di PF attuali, finché il totale non si esaurisce.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok65q8ra0v8",
+        "name": "Dissolvi magie",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Termini automaticamente gli incantesimi sul bersaglio di livello pari o inferiore al 5°.\nScegli una creatura, un oggetto o un effetto magico entro gittata.\nPer ogni incantesimo di livello 6° o superiore, effettua una prova con la tua caratteristica da incantatore (CD = 10 + livello dell’incantesimo): se riesci, l’effetto termina.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok66p0nxyk3",
+        "name": "Controincantesimo",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "reaction",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "Istantanea",
+        "concentration": false,
+        "desc": "Quando una creatura entro 18 m lancia un incantesimo con componenti, puoi tentare di interromperlo.\nIl bersaglio effettua un TS su Costituzione: se fallisce, l’incantesimo fallisce senza effetto e l’azione (o BA/Reazione) è sprecata; lo slot non viene consumato.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok67kl1gj76",
+        "name": "Lentezza",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Area: cubo di 12 m; fino a 6 creature a scelta.\nLe creature ripetono il TS su Saggezza a fine turno, terminando l’effetto con successo.\nI bersagli effettuano un TS su Saggezza: se falliscono, subiscono:\nVelocità dimezzata; −2 a CA e TS su Destrezza; niente Reazioni.\nNel loro turno possono fare o un’Azione o un’Azione Bonus (non entrambe) e un solo attacco con l’azione Attacco.\nSe lanciano un incantesimo con componente Somatica, 25% di fallire.",
+        "higherLevels": null,
+        "prepared": true
+      },
+      {
+        "id": "mok69i66p6ob",
+        "name": "Rapidità",
+        "level": 5,
+        "school": "Evocazione",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": {
+          "v": true,
+          "s": true,
+          "m": null
+        },
+        "duration": "1 minuto",
+        "concentration": true,
+        "desc": "Alla fine dell’effetto, il bersaglio è Incapacitato e Velocità 0 fino alla fine del suo turno successivo.\nScegli una creatura consenziente entro gittata. Finché dura:\nVelocità raddoppiata; +2 CA; Vantaggio ai TS su Destrezza.\nOttiene un’Azione extra per turno (solo: Attacco [1 attacco], Scatto, Disimpegno, Nascondersi o Utilizzare).",
+        "higherLevels": null,
+        "prepared": true
+      }
+    ],
+    "notes": "",
+    "backstory": "",
+    "diceLog": [],
+    "effects": []
+  }
+}
