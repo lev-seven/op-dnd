@@ -27,6 +27,8 @@ input,textarea,select,button{font-family:inherit;outline:none}
 @media(min-width:768px){:root{--content-w:680px}}
 @media(min-width:1100px){:root{--content-w:800px}}
 @media(min-width:1400px){:root{--content-w:940px}}
+@media(min-width:768px){html{zoom:1.15}}
+@media(min-width:1200px){html{zoom:1.25}}
 button{-webkit-user-select:none;user-select:none}
 </style>
 <script>window.GITHUB_BASE="https://lev-seven.github.io/op-dnd/";</script>
@@ -36,6 +38,7 @@ button{-webkit-user-select:none;user-select:none}
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="classic-data.js"></script>
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef,useMemo}=React;
 
@@ -61,7 +64,7 @@ function normalizeCharJSON(data){
 function accAvatarUrl(accId){const b=BASE();return b?`${b}/data/${accId}/${accId}.jpg`:null;}
 function charAvatarUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/${owner}/${file.replace(/\.json$/,"")}.jpg`;}
 function charHtmlUrl(owner,file){const b=BASE();if(!b||!file)return null;return`${b}/data/default/template_scheda_personaggio.html?owner=${owner}&file=${file}`;}
-const APP_VERSION="v1565";
+const APP_VERSION="v1566";
 
 function Av({src,fallback,size,color,round,style:extra}){
   const[ok,setOk]=useState(true);
@@ -124,7 +127,145 @@ function migrateSkills(skills){
   const defMap={};DEFAULT_SKILLS.forEach(d=>{defMap[d.name.toLowerCase()]=d.stat;});
   return skills.map(s=>{const pr=normProf(s.prof);if(s.stat)return{...s,prof:pr};const match=defMap[s.name.toLowerCase()];if(match)return{name:s.name,stat:match,prof:pr==="none"?"prof":pr};return{name:s.name,stat:null,mod:s.mod||0,prof:pr};});
 }
-function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:DEFAULT_SKILLS.map(s=>({...s})),spellSlots:{cantrips:0,slots:{"1":{max:0,used:0},"2":{max:0,used:0},"3":{max:0,used:0},"4":{max:0,used:0},"5":{max:0,used:0},"6":{max:0,used:0},"7":{max:0,used:0},"8":{max:0,used:0},"9":{max:0,used:0}}},origins:[...DO],attacks:[],abilities:[],spells:[],notes:"",backstory:"",diceLog:[],effects:[]};}
+function newChar(n){return{id:uid(),name:n||"Nuovo PG",race:"",level:1,classes:"",ac:10,hpMax:10,hpCurrent:10,hpTemp:0,hpPerm:0,speed:9,passivePerception:10,profBonus:2,hitDie:"1d8",locked:false,stats:{FOR:{score:10,mod:0,save:0,profSave:false},DES:{score:10,mod:0,save:0,profSave:false},COS:{score:10,mod:0,save:0,profSave:false},INT:{score:10,mod:0,save:0,profSave:false},SAG:{score:10,mod:0,save:0,profSave:false},CAR:{score:10,mod:0,save:0,profSave:false}},skills:DEFAULT_SKILLS.map(s=>({...s})),spellSlots:{cantrips:0,slots:{"1":{max:0,used:0},"2":{max:0,used:0},"3":{max:0,used:0},"4":{max:0,used:0},"5":{max:0,used:0},"6":{max:0,used:0},"7":{max:0,used:0},"8":{max:0,used:0},"9":{max:0,used:0}}},origins:[...DO],attacks:[],abilities:[],spells:[],notes:"",backstory:"",diceLog:[],effects:[]};}
+
+/* ═══ COMPENDIO CLASSIC MODAL ═══ */
+function CompendioClassicModal({c,up,onClose}){
+  const[tab,setTab]=useState("spells");
+  const[search,setSearch]=useState("");
+  const[tagFilter,setTagFilter]=useState("all");
+  const[levelFilter,setLevelFilter]=useState("all");
+
+  const spells=window.SPELLS_5E||[];
+  const abilities=window.ABILITIES_5E||[];
+  const tagLabels=window.TAG_LABELS_5E||{};
+  const noData=!window.SPELLS_5E;
+  const tags=Object.keys(tagLabels);
+
+  const filteredSpells=useMemo(()=>{
+    const q=search.toLowerCase();
+    return spells.filter(s=>{
+      const matchSearch=s.name.toLowerCase().includes(q)||(s.desc||"").toLowerCase().includes(q);
+      const matchTag=tagFilter==="all"||(s.tags||[]).includes(tagFilter);
+      const matchLevel=levelFilter==="all"||s.level===parseInt(levelFilter);
+      return matchSearch&&matchTag&&matchLevel;
+    });
+  },[spells,search,tagFilter,levelFilter]);
+
+  const filteredAbilities=useMemo(()=>{
+    const q=search.toLowerCase();
+    return abilities.filter(a=>{
+      const matchSearch=a.name.toLowerCase().includes(q)||(a.desc||"").toLowerCase().includes(q);
+      const matchTag=tagFilter==="all"||(a.tags||[]).includes(tagFilter);
+      return matchSearch&&matchTag;
+    });
+  },[abilities,search,tagFilter]);
+
+  const spellAdded=useCallback(s=>(c.spells||[]).some(x=>x.name===s.name),[c.spells]);
+  const abilityAdded=useCallback(a=>(c.abilities||[]).some(x=>x.name===a.name),[c.abilities]);
+
+  const addSpell=s=>{
+    if(spellAdded(s))return;
+    up({spells:[...(c.spells||[]),{
+      id:s.id+"_"+uid(),name:s.name,level:s.level,school:s.school,
+      castingTime:s.castingTime,ritual:s.ritual||false,range:s.range,
+      components:{...s.components},duration:s.duration,
+      concentration:s.concentration||false,desc:s.desc,
+      higherLevels:s.higherLevels||null,prepared:false
+    }]});
+  };
+
+  const addAbility=a=>{
+    if(abilityAdded(a))return;
+    const origin=c.origins.find(o=>o.id===a.originTag)||c.origins[0];
+    up({abilities:[...(c.abilities||[]),{
+      id:uid(),name:a.name,originId:origin?.id||"",
+      type:a.type||"Azione",desc:a.desc,
+      maxUses:a.maxUses!=null?a.maxUses:-1,uses:0,
+      rest:a.rest||null,cdStat:a.cdStat||null,
+      cdCustom:a.cdCustom||null,fav:false
+    }]});
+  };
+
+  const switchTab=t=>{setTab(t);setSearch("");setTagFilter("all");setLevelFilter("all");};
+
+  return(
+    <div style={SS.po} onClick={onClose}>
+      <div style={{...SS.pc,maxWidth:520,maxHeight:"88vh",display:"flex",flexDirection:"column",padding:"16px 14px 12px"}} onClick={e=>e.stopPropagation()}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+          <span style={{fontFamily:"'Cinzel'",fontSize:15,fontWeight:700,color:"#c8a95e",letterSpacing:1}}>📚 Compendio</span>
+          <button onClick={onClose} style={{background:"none",border:"none",color:"#e74c3c",fontSize:16,cursor:"pointer"}}>✕</button>
+        </div>
+        <div style={{display:"flex",gap:4,marginBottom:8}}>
+          {[["spells","📕 Magie"],["actions","⚔️ Abilità"]].map(([t,l])=>(
+            <button key={t} onClick={()=>switchTab(t)} style={{flex:1,padding:"7px 0",borderRadius:6,border:`1.5px solid ${tab===t?"#c8a95e":"#c8a95e22"}`,background:tab===t?"rgba(200,169,94,0.15)":"transparent",color:tab===t?"#c8a95e":"#665a3e",fontFamily:"'Cinzel'",fontSize:11,fontWeight:700,cursor:"pointer"}}>{l}</button>
+          ))}
+        </div>
+        <div style={{display:"flex",gap:4,marginBottom:6,flexWrap:"wrap"}}>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Cerca..." style={{...SS.inp,flex:1,minWidth:100,fontSize:11,padding:"5px 8px"}}/>
+          {tab==="spells"&&(
+            <select value={levelFilter} onChange={e=>setLevelFilter(e.target.value)} style={{...SS.inp,width:80,fontSize:10,padding:"4px 5px"}}>
+              <option value="all">Tutti Lv</option>
+              {[0,1,2,3,4,5,6,7,8,9].map(l=><option key={l} value={l}>{l===0?"Cantrip":`Livello ${l}`}</option>)}
+            </select>
+          )}
+          {tags.length>0&&(
+            <select value={tagFilter} onChange={e=>setTagFilter(e.target.value)} style={{...SS.inp,width:90,fontSize:10,padding:"4px 5px"}}>
+              <option value="all">Tutti</option>
+              {tags.map(t=><option key={t} value={t}>{tagLabels[t]||t}</option>)}
+            </select>
+          )}
+        </div>
+        <div style={{flex:1,overflowY:"auto"}}>
+          {noData&&<p style={{textAlign:"center",color:"#e74c3c",fontSize:12,padding:"24px 0",lineHeight:1.6}}>⚠ classic-data.js non caricato correttamente.<br/>Verifica che il file sia nella root del repo.</p>}
+          {tab==="spells"&&filteredSpells.map(s=>{
+            const added=spellAdded(s);
+            return(
+              <div key={s.id} style={{padding:"8px 10px",borderRadius:7,background:added?"rgba(46,204,113,0.04)":"rgba(200,169,94,0.03)",border:`1px solid ${added?"#2ecc7133":"#c8a95e13"}`,marginBottom:4,display:"flex",alignItems:"flex-start",gap:8}}>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap",marginBottom:1}}>
+                    <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{s.name}</span>
+                    <span style={{fontSize:8,color:"#665a3e",background:"rgba(200,169,94,0.1)",padding:"1px 4px",borderRadius:3}}>{s.level===0?"Cantrip":`Lv${s.level}`}</span>
+                    <span style={{fontSize:8,color:"#665a3e"}}>{s.school}</span>
+                    {(s.tags||[]).map(t=><span key={t} style={{fontSize:8,color:"#c8a95e88",background:"rgba(200,169,94,0.06)",padding:"1px 4px",borderRadius:3,border:"1px solid #c8a95e22"}}>{tagLabels[t]||t}</span>)}
+                  </div>
+                  <p style={{fontSize:10,color:"#bfb49a",lineHeight:1.4,margin:"0 0 2px",overflow:"hidden",textOverflow:"ellipsis",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical"}}>{s.desc}</p>
+                  <p style={{fontSize:9,color:"#665a3e",margin:0,fontFamily:"'JetBrains Mono'"}}>{s.castingTime} · {s.range} · {s.duration}{s.concentration?" · Conc.":""}{s.ritual?" · Rit.":""}</p>
+                </div>
+                <button onClick={()=>addSpell(s)} disabled={added} style={{padding:"4px 8px",borderRadius:5,border:`1.5px solid ${added?"#2ecc7144":"#2ecc7188"}`,background:added?"rgba(46,204,113,0.12)":"rgba(46,204,113,0.07)",color:"#2ecc71",fontSize:10,fontFamily:"'Cinzel'",cursor:added?"default":"pointer",flexShrink:0,fontWeight:700,marginTop:2}}>
+                  {added?"✓":"+ Aggiungi"}
+                </button>
+              </div>
+            );
+          })}
+          {tab==="actions"&&filteredAbilities.map(a=>{
+            const added=abilityAdded(a);
+            const matchOrigin=c.origins.find(o=>o.id===a.originTag);
+            return(
+              <div key={a.id} style={{padding:"8px 10px",borderRadius:7,background:added?"rgba(46,204,113,0.04)":"rgba(200,169,94,0.03)",border:`1px solid ${added?"#2ecc7133":"#c8a95e13"}`,marginBottom:4,display:"flex",alignItems:"flex-start",gap:8}}>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap",marginBottom:1}}>
+                    <span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:12,color:"#e8dcc8"}}>{a.name}</span>
+                    <span style={{fontSize:8,color:"#665a3e",background:"rgba(200,169,94,0.1)",padding:"1px 4px",borderRadius:3}}>{a.type}</span>
+                    {matchOrigin&&<span style={{fontSize:8,color:matchOrigin.color||"#c8a95e",background:`${matchOrigin.color||"#c8a95e"}15`,padding:"1px 4px",borderRadius:3,border:`1px solid ${matchOrigin.color||"#c8a95e"}44`}}>{matchOrigin.name}</span>}
+                    {(a.tags||[]).map(t=><span key={t} style={{fontSize:8,color:"#c8a95e88",background:"rgba(200,169,94,0.06)",padding:"1px 4px",borderRadius:3,border:"1px solid #c8a95e22"}}>{tagLabels[t]||t}</span>)}
+                  </div>
+                  <p style={{fontSize:10,color:"#bfb49a",lineHeight:1.4,margin:"0 0 2px",overflow:"hidden",textOverflow:"ellipsis",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical"}}>{a.desc}</p>
+                  {a.maxUses!==-1&&<p style={{fontSize:9,color:"#665a3e",margin:0,fontFamily:"'JetBrains Mono'"}}>{a.maxUses} usi · {a.rest==="breve"?"R. Breve":a.rest==="lungo"?"R. Lungo":"—"}</p>}
+                </div>
+                <button onClick={()=>addAbility(a)} disabled={added} style={{padding:"4px 8px",borderRadius:5,border:`1.5px solid ${added?"#2ecc7144":"#2ecc7188"}`,background:added?"rgba(46,204,113,0.12)":"rgba(46,204,113,0.07)",color:"#2ecc71",fontSize:10,fontFamily:"'Cinzel'",cursor:added?"default":"pointer",flexShrink:0,fontWeight:700,marginTop:2}}>
+                  {added?"✓":"+ Aggiungi"}
+                </button>
+              </div>
+            );
+          })}
+          {tab==="spells"&&!noData&&filteredSpells.length===0&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"24px 0",fontSize:12}}>{spells.length===0?"Nessuna magia nel compendio — popola SPELLS_5E in classic-data.js":"Nessun risultato"}</p>}
+          {tab==="actions"&&!noData&&filteredAbilities.length===0&&<p style={{textAlign:"center",color:"#665a3e",fontStyle:"italic",padding:"24px 0",fontSize:12}}>{abilities.length===0?"Nessuna abilità nel compendio — popola ABILITIES_5E in classic-data.js":"Nessun risultato"}</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* ═══ APP WRAPPER ═══ */
 function AppWrapper(){
@@ -132,7 +273,7 @@ function AppWrapper(){
   const[screen,setScreen]=useState("accounts");
   const[manifest,setManifest]=useState(null);
   const[accId,setAccId]=useState(null);
-  const[gameMode,setGameMode]=useState(null); // "classic" | "core"
+  const[gameMode,setGameMode]=useState(null);
   const[char,setChar]=useState(null);
   const[charMeta,setCharMeta]=useState(null);
   const[loading,setLoading]=useState(true);
@@ -148,11 +289,9 @@ function AppWrapper(){
   const isMaster=acc?.isMaster||false;
   const upChar=useCallback(u=>setChar(p=>({...p,...u})),[]);
 
-  /* ═══ TOKEN: criptato hardcoded — generare con encToken() in console ═══ */
   const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
   const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
 
-  /* ═══ GITHUB FILE HELPERS ═══ */
   const ghGetFile=async(path)=>{
     const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
     const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
@@ -166,25 +305,19 @@ function AppWrapper(){
     try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(!r.ok)return;const j=await r.json();await fetch(api,{method:"DELETE",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify({message:`[${acc?.name}] Delete ${path}`,sha:j.sha})});}catch{}
   };
 
-  /* ═══ SAVE TO GITHUB (con rinomina se nome cambiato) ═══ */
   const saveToGH=async(owner,file,charObj)=>{
     if(!ghToken||!BASE())return false;
-    // Preserva il suffisso -classic/-core dal file corrente
     const mode=fileGameMode(file)||gameMode||"classic";
     const newFname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+`-${mode}.json`;
     const renamed=newFname!==file;
     const targetFile=renamed?newFname:file;
-    // Se rinomina, check duplicati
     if(renamed){
       try{const existing=await listCharsGH(owner,mode);if(existing.find(x=>x.file===newFname)){alert("Esiste già un PG con questo nome.");return false;}}catch{}
     }
-    // Backup
     try{await ghPut(`data/${owner}/backups/${targetFile}`,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);}catch{}
-    // Save
     const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
     const ok=await ghPut(`data/${owner}/${targetFile}`,JSON.stringify(payload,null,2),ghToken,accId,acc?.isMaster,acc?.name);
     if(!ok)return false;
-    // Se rinominato, copia foto e cancella vecchi file
     if(renamed){
       const oldPhoto=`data/${owner}/${file.replace(".json","")}.jpg`;
       const photoData=await ghGetFile(oldPhoto);
@@ -210,13 +343,11 @@ function AppWrapper(){
     return ok;
   };
 
-  /* ═══ SAVE NEW TO GITHUB ═══ */
   const saveNewToGH=async(charObj)=>{
     if(!ghToken||!BASE()||!accId)return null;
     const mode=gameMode||"classic";
     const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+`-${mode}.json`;
     const owner=accId;
-    // Check duplicati via API
     try{
       const existing=await listCharsGH(owner,mode);
       if(existing.find(x=>x.file===fname)){alert("Esiste già un PG con un nome simile. Cambia il nome prima di salvare.");return null;}
@@ -231,7 +362,6 @@ function AppWrapper(){
     return{owner,file:fname};
   };
 
-  /* ═══ DELETE CHAR ═══ */
   const deleteCharGH=async(owner,file)=>{
     if(!ghToken)return false;
     if(!isMaster&&owner!==accId)return false;
@@ -242,21 +372,19 @@ function AppWrapper(){
     return true;
   };
 
-  /* ═══ DUPLICATE CHAR ═══ */
   const duplicateCharGH=async(owner,file,charObj,newName)=>{
     if(!ghToken||!accId)return null;
     const mode=fileGameMode(file)||gameMode||"classic";
     const fname=newName.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+`-${mode}.json`;
     try{const existing=await listCharsGH(owner,mode);if(existing.find(x=>x.file===fname))return null;}catch{}
-    const newChar={...charObj,id:uid(),name:newName};
-    const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:newChar};
+    const newC={...charObj,id:uid(),name:newName};
+    const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:newC};
     const ok=await ghPut(`data/${owner}/${fname}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster,acc?.name);
     if(!ok)return null;
     ghLog(owner,"Duplicato "+file+" → "+fname,ghToken,accId,isMaster,acc?.name);
     return{owner,file:fname};
   };
 
-  /* ═══ MIGRAZIONE: rinomina file senza suffisso → -classic ═══ */
   const migrateFiles=async(owner)=>{
     if(!ghToken)return;
     const migKey=`migrated_${owner}`;
@@ -272,12 +400,9 @@ function AppWrapper(){
       const toMigrate=files.filter(f=>f.name.endsWith(".json")&&f.type==="file"&&!hasGameSuffix(f.name));
       for(const f of toMigrate){
         const newName=addSuffix(f.name,"classic");
-        // Read content
         const data=await ghGetFile(`data/${owner}/${f.name}`);
         if(!data||!data.content)continue;
-        // Write with new name
         await ghPut(`data/${owner}/${newName}`,decodeURIComponent(escape(atob(data.content.replace(/\n/g,"")))),ghToken,accId,isMaster,acc?.name);
-        // Rename photo if exists
         const oldPhoto=f.name.replace(".json",".jpg");
         const photoFile=files.find(x=>x.name===oldPhoto);
         if(photoFile){
@@ -288,13 +413,11 @@ function AppWrapper(){
             await ghDelFile(`data/${owner}/${oldPhoto}`);
           }
         }
-        // Rename backup if exists
         const backupData=await ghGetFile(`data/${owner}/backups/${f.name}`);
         if(backupData&&backupData.content){
           await ghPut(`data/${owner}/backups/${newName}`,decodeURIComponent(escape(atob(backupData.content.replace(/\n/g,"")))),ghToken,accId,isMaster,acc?.name);
           await ghDelFile(`data/${owner}/backups/${f.name}`);
         }
-        // Delete old
         await ghDelFile(`data/${owner}/${f.name}`);
       }
       if(toMigrate.length>0)ghLog(owner,`Migrati ${toMigrate.length} PG → -classic`,ghToken,accId,isMaster,acc?.name);
@@ -302,7 +425,6 @@ function AppWrapper(){
     localStorage.setItem(migKey,"1");
   };
 
-  /* ═══ LISTA PG DA DIRECTORY GITHUB API ═══ */
   const listCharsGH=async(owner,mode)=>{
     const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
     const api=`https://api.github.com/repos/${user}/${repo}/contents/data/${owner}`;
@@ -456,13 +578,11 @@ function CharScreenLoader({acc,ac,isMaster,accId,manifest,listCharsGH,migrateFil
     if(!accId||!ghToken)return;
     (async()=>{
       setLoadingChars(true);
-      // Migrazione automatica al primo accesso
       await migrateFiles(accId);
       if(isMaster){
         const others=manifest?.accounts?.filter(a=>a.id!==accId)||[];
         for(const a of others)await migrateFiles(a.id);
       }
-      // Carica PG filtrati per gameMode
       const mode=gameMode||"classic";
       const secs=[];
       const own=await listCharsGH(accId,mode);
@@ -527,7 +647,10 @@ function CharScreen({acc,ac,sections,isMaster,gameMode,onBack,onNew,onLoadGH,onI
 
 function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicateCharGH,deleteCharGH,setCharMeta,accId,isMaster,onBack,onExport,onImport,onDelete}){
   const[tab,setTab]=useState("stats");const[edit,setEdit]=useState(false);const[popup,setPopup]=useState(null);const[modal,setModal]=useState(null);const[avZoom,setAvZoom]=useState(false);
+  const[compendioOpen,setCompendioOpen]=useState(false);
   const avUpRef=useRef(null);const[avKey,setAvKey]=useState(0);const[localAv,setLocalAv]=useState(null);
+  const openCompendio=useCallback(()=>setCompendioOpen(true),[]);
+
   const uploadAvatar=async(e)=>{
     const file=e.target.files[0];if(!file||!ghToken||!charMeta)return;
     const reader=new FileReader();
@@ -558,7 +681,6 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
   const htmlUrl=charMeta?charHtmlUrl(charMeta.owner,charMeta.file):null;
   useEffect(()=>{if(accId&&c)saveSession(accId,c);},[c,accId]);
 
-  /* ═══ doSave semplificato — manifest update è in saveToGH ═══ */
   const doSave=async()=>{
     if(!ghToken){onExport();return;}
     try{
@@ -615,9 +737,9 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
 
       <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",paddingBottom:`calc(${NAV_HEIGHT}px + var(--safe-bottom) + 8px)`}}>
         {tab==="stats"&&<STab c={c} up={up} edit={edit} oR={oR} sM={setModal} ac={ac}/>}
-        {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac}/>}
+        {tab==="actions"&&<ATab c={c} up={up} sM={setModal} ac={ac} openCompendio={openCompendio}/>}
         {tab==="dice"&&<DTab c={c} up={up} log={log} oR={oR} ac={ac}/>}
-        {tab==="spells"&&<SpTab c={c} up={up} sM={setModal} ac={ac}/>}
+        {tab==="spells"&&<SpTab c={c} up={up} sM={setModal} ac={ac} openCompendio={openCompendio}/>}
         {tab==="notes"&&<NTab c={c} up={up} ac={ac}/>}
         {tab==="export"&&<div style={{padding:20,textAlign:"center",color:"#998866",fontSize:13,fontFamily:"'Cinzel'",pointerEvents:"none"}}><div style={{marginBottom:12}}>{saving?"⏳ Salvataggio in corso...":"⏳ Elaborazione..."}</div>{saving&&<div style={{width:30,height:30,border:"3px solid #c8a95e22",borderTop:"3px solid #c8a95e",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto"}}/>}</div>}
       </div>
@@ -639,6 +761,7 @@ function Sheet({char:c,up,ac,acc,charMeta,ghToken,saveToGH,saveNewToGH,duplicate
       {modal?.type==="spell"&&<SpM c={c} up={up} data={modal.data} oC={()=>setModal(null)}/>}
       {modal?.type==="spellSlots"&&<SpSlotsM c={c} up={up} oC={()=>setModal(null)}/>}
       {avZoom&&avatarUrl&&<div onClick={()=>setAvZoom(false)} style={SS.po}><div onClick={e=>e.stopPropagation()} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:10}}><img src={localAv||avatarUrl+"?t="+avKey} style={{maxWidth:"85vw",maxHeight:"75vh",borderRadius:12,objectFit:"contain",boxShadow:"0 8px 40px rgba(0,0,0,0.8)"}} alt=""/>{ghToken&&charMeta&&<button onClick={()=>{setAvZoom(false);avUpRef.current?.click();}} style={{padding:"6px 16px",borderRadius:6,border:"1.5px solid #c8a95e44",background:"rgba(200,169,94,0.1)",color:"#c8a95e",fontSize:11,fontFamily:"'Cinzel'",fontWeight:700,cursor:"pointer"}}>📷 Cambia foto</button>}</div></div>}
+      {compendioOpen&&<CompendioClassicModal c={c} up={up} onClose={()=>setCompendioOpen(false)}/>}
     </div>
   );
 }
@@ -747,7 +870,7 @@ function EfxTracker({effects,onChange,ac}){
   </div>);
 }
 
-function ATab({c,up,sM,ac}){
+function ATab({c,up,sM,ac,openCompendio}){
   const sorted=sortAbs(c.abilities,c.origins),favs=sorted.filter(a=>a.fav);
   const uA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:a.uses+1}:a)});
   const rA=id=>up({abilities:c.abilities.map(a=>a.id===id?{...a,uses:Math.max(0,a.uses-1)}:a)});
@@ -757,7 +880,11 @@ function ATab({c,up,sM,ac}){
   return(<div style={{padding:"12px 12px 20px",animation:"fadeIn 0.15s ease"}}>
     <div style={{display:"flex",gap:5,marginBottom:8}}><button onClick={()=>rest("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #f39c1233",background:"rgba(243,156,18,0.1)",color:"#f39c12",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>☀️ R. Breve</button><button onClick={()=>rest("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid #3498db33",background:"rgba(52,152,219,0.15)",color:"#3498db",fontSize:11,fontWeight:700,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>🌙 R. Lungo</button></div>
     <EfxTracker effects={c.effects||[]} onChange={fx=>up({effects:fx})} ac={ac}/>
-    <div style={{display:"flex",gap:5,marginBottom:12}}><button onClick={()=>sM({type:"ability"})} style={{...SS.gn,padding:"5px 12px",fontSize:10}}>+ Azione</button><button onClick={()=>sM({type:"origins"})} style={{...SS.bg,padding:"5px 12px",fontSize:10}}>⚙ Provenienze</button></div>
+    <div style={{display:"flex",gap:5,marginBottom:12,flexWrap:"wrap"}}>
+      <button onClick={()=>sM({type:"ability"})} style={{...SS.gn,padding:"5px 12px",fontSize:10}}>+ Nuova</button>
+      <button onClick={openCompendio} style={{padding:"5px 12px",borderRadius:5,border:"1.5px solid #8e44ad44",background:"rgba(142,68,173,0.08)",color:"#a070e8",fontSize:10,fontFamily:"'Cinzel'",fontWeight:700,cursor:"pointer"}}>📚 Compendio</button>
+      <button onClick={()=>sM({type:"origins"})} style={{...SS.bg,padding:"5px 12px",fontSize:10}}>⚙ Provenienze</button>
+    </div>
     {favs.length>0&&(<><div style={{borderLeft:`3px solid ${ac}`,paddingLeft:7,marginBottom:5}}><span style={{color:ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>★ PREFERITI</span></div>{favs.map(a=><AbC key={a.id+"f"} a={a} c={c} u={uA} r={rA} t={tF} e={d=>sM({type:"ability",data:d})}/>)}<div style={{height:10}}/></>)}
     {groups.map(oid=>{const or=c.origins.find(o=>o.id===oid),abs=sorted.filter(a=>a.originId===oid),cdA=abs.find(a=>a.cdStat),cd=cdA?(cdA.cdStat==="custom"?cdA.cdCustom||null:calcCD(c.profBonus,c.stats,cdA.cdStat)):null;
       return(<div key={oid} style={{marginBottom:14}}><div style={{borderLeft:`3px solid ${or?.color||ac}`,paddingLeft:7,marginBottom:5,display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{color:or?.color||ac,fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,letterSpacing:1}}>{(or?.name||"?").toUpperCase()}</span>{cd&&<span style={{fontSize:11,color:"#fff",fontFamily:"'JetBrains Mono'",fontWeight:700,background:"linear-gradient(135deg,rgba(200,169,94,0.3),rgba(200,169,94,0.15))",padding:"2px 7px",borderRadius:4,border:"1.5px solid #c8a95e88"}}>CD {cd}</span>}</div>{abs.map(a=><AbC key={a.id} a={a} c={c} u={uA} r={rA} t={tF} e={d=>sM({type:"ability",data:d})}/>)}</div>);})}
@@ -803,7 +930,7 @@ const SCHOOLS=["Abiurazione","Ammaliamento","Divinazione","Evocazione","Illusion
 const CT_OPTS=["action","bonus","reaction","1 minuto","10 minuti","1 ora","8 ore","24 ore","ritual"];
 const ctLabel=v=>v==="action"?"Azione":v==="bonus"?"Bonus":v==="reaction"?"Reazione":v==="ritual"?"Rituale":v;
 
-function SpTab({c,up,sM,ac}){
+function SpTab({c,up,sM,ac,openCompendio}){
   const[filter,setFilter]=useState("prep");const ss=c.spellSlots||{cantrips:0,slots:{}};const spells=c.spells||[];
   const useSlot=lv=>{const ns={...ss,slots:{...ss.slots}};ns.slots[lv]={...ns.slots[lv],used:Math.min((ns.slots[lv]?.used||0)+1,ns.slots[lv]?.max||0)};up({spellSlots:ns});};
   const restoreSlot=lv=>{const ns={...ss,slots:{...ss.slots}};ns.slots[lv]={...ns.slots[lv],used:Math.max((ns.slots[lv]?.used||0)-1,0)};up({spellSlots:ns});};
@@ -818,7 +945,12 @@ function SpTab({c,up,sM,ac}){
       {ss.cantrips>0&&<div style={{fontSize:10,color:"#998866",marginBottom:4,fontFamily:"'JetBrains Mono'"}}>Trucchetti: {ss.cantrips}</div>}
       <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>{activeSlots.map(([lv,v])=>{const avail=v.max-v.used;return(<div key={lv} style={{display:"flex",alignItems:"center",gap:3,padding:"3px 6px",borderRadius:5,background:avail===0?"rgba(231,76,60,0.1)":`${ac}0a`,border:`1px solid ${avail===0?"#e74c3c33":ac+"22"}`}}><span style={{fontSize:9,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700}}>Lv{lv}</span><span style={{fontSize:12,fontFamily:"'JetBrains Mono'",fontWeight:700,color:avail===0?"#e74c3c":ac}}>{avail}<span style={{color:"#665a3e"}}>/{v.max}</span></span><button onClick={()=>useSlot(lv)} disabled={avail===0} style={{width:18,height:18,borderRadius:"50%",border:"none",background:"rgba(231,76,60,0.15)",color:"#e74c3c",fontSize:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:avail===0?0.3:1}}>−</button><button onClick={()=>restoreSlot(lv)} disabled={v.used===0} style={{width:18,height:18,borderRadius:"50%",border:"none",background:"rgba(46,204,113,0.12)",color:"#2ecc71",fontSize:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:v.used===0?0.3:1}}>+</button></div>);})}</div>
     </div>}
-    <div style={{display:"flex",gap:5,marginBottom:10}}><button onClick={()=>setFilter(f=>f==="prep"?"all":"prep")} style={{...SS.bg,padding:"5px 10px",fontSize:10,borderColor:ac+"44"}}>{filter==="prep"?"📖 Preparate":"📚 Tutte"}</button><button onClick={()=>sM({type:"spell"})} style={{...SS.gn,padding:"5px 10px",fontSize:10}}>+ Magia</button><button onClick={()=>sM({type:"spellSlots"})} style={{padding:"5px 10px",borderRadius:5,border:`1px solid ${ac}22`,background:"transparent",color:"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>⚙ Slot</button></div>
+    <div style={{display:"flex",gap:5,marginBottom:10,flexWrap:"wrap"}}>
+      <button onClick={()=>setFilter(f=>f==="prep"?"all":"prep")} style={{...SS.bg,padding:"5px 10px",fontSize:10,borderColor:ac+"44"}}>{filter==="prep"?"📖 Preparate":"📚 Tutte"}</button>
+      <button onClick={()=>sM({type:"spell"})} style={{...SS.gn,padding:"5px 10px",fontSize:10}}>+ Nuova</button>
+      <button onClick={openCompendio} style={{padding:"5px 10px",borderRadius:5,border:"1.5px solid #8e44ad44",background:"rgba(142,68,173,0.08)",color:"#a070e8",fontSize:10,fontFamily:"'Cinzel'",fontWeight:700,cursor:"pointer"}}>📚 Compendio</button>
+      <button onClick={()=>sM({type:"spellSlots"})} style={{padding:"5px 10px",borderRadius:5,border:`1px solid ${ac}22`,background:"transparent",color:"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer"}}>⚙ Slot</button>
+    </div>
     {lvKeys.length===0&&<p style={{color:"#665a3e",fontStyle:"italic",textAlign:"center",fontSize:12,padding:"20px 0"}}>{filter==="prep"?"Nessuna magia preparata":"Nessuna magia nel libro"}</p>}
     {lvKeys.map(lv=>(<div key={lv} style={{marginBottom:12}}><div style={{borderLeft:`3px solid ${lv===0?"#7f8c8d":ac}`,paddingLeft:7,marginBottom:5}}><span style={{fontFamily:"'Cinzel'",fontWeight:700,fontSize:11,color:lv===0?"#7f8c8d":ac,letterSpacing:1}}>{lv===0?"TRUCCHETTI":`LIVELLO ${lv}`}</span></div>{grouped[lv].map(sp=><SpCard key={sp.id} sp={sp} ac={ac} onEdit={()=>sM({type:"spell",data:sp})} onToggle={()=>{up({spells:spells.map(s=>s.id===sp.id?{...s,prepared:!s.prepared}:s)});}}/>)}</div>))}
   </div>);
@@ -877,7 +1009,7 @@ function Sh({t,oC,children}){return(<div style={SS.po} onClick={oC}><div style={
 function Fl({l,children}){return<div style={{marginBottom:9}}><label style={{display:"block",fontSize:9,color:"#998866",fontFamily:"'Cinzel'",fontWeight:700,letterSpacing:1,marginBottom:2}}>{l}</label>{children}</div>;}
 
 function AM({c,up,data,oC}){
-  const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",stat:"FOR",damage:"",type:"",bonusHit:0,bonusDmg:0,bonusActive:false});
+  const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",stat:"FOR",hit:0,damage:"",type:"",desc:"",bonusHit:0,bonusDmg:0,bonusActive:false});
   const sv=()=>{if(!f.name)return;if(isE)up({attacks:c.attacks.map(a=>a.id===f.id?f:a)});else up({attacks:[...c.attacks,f]});oC();};
   const dl=()=>{if(!confirm("Eliminare l'attacco "+f.name+"?"))return;up({attacks:c.attacks.filter(a=>a.id!==f.id)});oC();};
   const aD=s=>{const cur=f.damage.trim();sf({...f,damage:cur?`${cur}+1d${s}`:`1d${s}`});};
@@ -896,7 +1028,7 @@ function AM({c,up,data,oC}){
 }
 
 function BM({c,up,data,oC}){
-  const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",originId:c.origins[0]?.id||"",type:"Azione",desc:"",maxUses:-1,uses:0,rest:null,cdStat:null,fav:false});const[um,sUm]=useState(f.maxUses===-1?"u":"l");
+  const isE=!!data;const[f,sf]=useState(data||{id:uid(),name:"",originId:c.origins[0]?.id||"",type:"Azione",desc:"",maxUses:-1,uses:0,rest:null,cdStat:null,cdCustom:null,fav:false});const[um,sUm]=useState(f.maxUses===-1?"u":"l");
   const sv=()=>{if(!f.name)return;const fin={...f,maxUses:um==="u"?-1:(f.maxUses>0?f.maxUses:1)};if(um==="u"){fin.rest=null;fin.uses=0;}if(isE)up({abilities:c.abilities.map(a=>a.id===fin.id?fin:a)});else up({abilities:[...c.abilities,fin]});oC();};
   const dl=()=>{if(!confirm("Eliminare l'azione "+f.name+"?"))return;up({abilities:c.abilities.filter(a=>a.id!==f.id)});oC();};
   return(<Sh t={isE?"Modifica Azione":"Nuova Azione"} oC={oC}>
@@ -904,7 +1036,7 @@ function BM({c,up,data,oC}){
     <Fl l="Descrizione"><textarea value={f.desc} onChange={e=>sf({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:44,resize:"vertical"}}/></Fl>
     <Fl l="Tipo"><div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{AT.map(t=><button key={t} onClick={()=>sf({...f,type:t})} style={{padding:"4px 8px",borderRadius:4,border:`1.5px solid ${f.type===t?"#c8a95e":"#c8a95e22"}`,background:f.type===t?"rgba(200,169,94,0.15)":"transparent",color:f.type===t?"#c8a95e":"#998866",fontSize:10,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>{t}</button>)}</div></Fl>
     <Fl l="Provenienza"><select value={f.originId} onChange={e=>sf({...f,originId:e.target.value})} style={{...SS.inp,width:"100%",appearance:"none"}}>{c.origins.map(o=><option key={o.id} value={o.id}>{o.name}</option>)}</select></Fl>
-    <Fl l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null,cdCustom:e.target.value==="custom"?f.cdCustom||10:undefined})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{SK.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}<option value="custom">Custom</option></select></Fl>
+    <Fl l="CD"><select value={f.cdStat||""} onChange={e=>sf({...f,cdStat:e.target.value||null,cdCustom:e.target.value==="custom"?f.cdCustom||10:null})} style={{...SS.inp,width:"100%",appearance:"none"}}><option value="">Nessuna</option>{SK.map(k=><option key={k} value={k}>{k} (CD {calcCD(c.profBonus,c.stats,k)})</option>)}<option value="custom">Custom</option></select></Fl>
     {f.cdStat==="custom"&&<Fl l="Valore CD"><input type="number" value={f.cdCustom||10} onChange={e=>sf({...f,cdCustom:parseInt(e.target.value)||0})} style={{...SS.inp,width:60}}/></Fl>}
     <Fl l="Utilizzi"><div style={{display:"flex",gap:3,marginBottom:5}}>{[["u","Illimitati"],["l","Limitati"]].map(([m,l])=><button key={m} onClick={()=>sUm(m)} style={{...SS.pb,flex:1,fontSize:9,padding:"5px 0",borderColor:um===m?"#c8a95e":"#c8a95e22",background:um===m?"rgba(200,169,94,0.15)":"transparent",color:um===m?"#c8a95e":"#998866",touchAction:"manipulation"}}>{l}</button>)}</div>{um==="l"&&(<><input type="number" min={1} value={f.maxUses>0?f.maxUses:1} onChange={e=>sf({...f,maxUses:Math.max(1,parseInt(e.target.value)||1)})} style={{...SS.inp,width:55,marginBottom:5}}/><div style={{display:"flex",gap:3}}>{RT.map(r=><button key={r.l} onClick={()=>sf({...f,rest:r.v})} style={{padding:"3px 7px",borderRadius:4,border:`1.5px solid ${f.rest===r.v?"#3498db":"#3498db22"}`,background:f.rest===r.v?"rgba(52,152,219,0.15)":"transparent",color:f.rest===r.v?"#3498db":"#998866",fontSize:9,fontFamily:"'Cinzel'",cursor:"pointer",touchAction:"manipulation"}}>{r.l}</button>)}</div></>)}</Fl>
     <div style={{display:"flex",gap:5,marginTop:12}}>{isE&&<button onClick={dl} style={{...SS.pb,background:"rgba(231,76,60,0.15)",borderColor:"#e74c3c44",color:"#e74c3c"}}>Elimina</button>}<button onClick={sv} style={{...SS.pb,flex:2,background:"rgba(46,204,113,0.15)",borderColor:"#2ecc71",color:"#2ecc71",fontWeight:700}}>Salva</button></div>

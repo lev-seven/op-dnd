@@ -6,27 +6,45 @@
     "id": "",
     "name": "",
     "race": "",
-    "level": 0,
+    "level": 1,
     "classes": "",
-    "ac": 0,
-    "hpMax": 0,
-    "hpCurrent": 0,
+    "ac": 10,
+    "hpMax": 10,
+    "hpCurrent": 10,
     "hpTemp": 0,
     "hpPerm": 0,
-    "speed": 0,
-    "passivePerception": 0,
-    "profBonus": 0,
-    "hitDie": "",
+    "speed": 9,
+    "passivePerception": 10,
+    "profBonus": 2,
+    "hitDie": "1d8",
+    "locked": false,
     "stats": {
-      "FOR": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "DES": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "COS": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "INT": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "SAG": { "score": 0, "mod": 0, "save": 0, "profSave": false },
-      "CAR": { "score": 0, "mod": 0, "save": 0, "profSave": false }
+      "FOR": { "score": 10, "mod": 0, "save": 0, "profSave": false },
+      "DES": { "score": 10, "mod": 0, "save": 0, "profSave": false },
+      "COS": { "score": 10, "mod": 0, "save": 0, "profSave": false },
+      "INT": { "score": 10, "mod": 0, "save": 0, "profSave": false },
+      "SAG": { "score": 10, "mod": 0, "save": 0, "profSave": false },
+      "CAR": { "score": 10, "mod": 0, "save": 0, "profSave": false }
     },
     "skills": [
-      { "name": "", "stat": "", "mod": 0, "prof": "none" }
+      { "name": "Acrobazia",          "stat": "DES", "prof": "none" },
+      { "name": "Addestrare Animali", "stat": "SAG", "prof": "none" },
+      { "name": "Arcano",             "stat": "INT", "prof": "none" },
+      { "name": "Atletica",           "stat": "FOR", "prof": "none" },
+      { "name": "Furtività",          "stat": "DES", "prof": "none" },
+      { "name": "Indagare",           "stat": "INT", "prof": "none" },
+      { "name": "Inganno",            "stat": "CAR", "prof": "none" },
+      { "name": "Intimidire",         "stat": "CAR", "prof": "none" },
+      { "name": "Intrattenere",       "stat": "CAR", "prof": "none" },
+      { "name": "Intuizione",         "stat": "SAG", "prof": "none" },
+      { "name": "Medicina",           "stat": "SAG", "prof": "none" },
+      { "name": "Natura",             "stat": "INT", "prof": "none" },
+      { "name": "Percezione",         "stat": "SAG", "prof": "none" },
+      { "name": "Persuasione",        "stat": "CAR", "prof": "none" },
+      { "name": "Rapidità di Mano",   "stat": "DES", "prof": "none" },
+      { "name": "Religione",          "stat": "INT", "prof": "none" },
+      { "name": "Sopravvivenza",      "stat": "SAG", "prof": "none" },
+      { "name": "Storia",             "stat": "INT", "prof": "none" }
     ],
     "spellSlots": {
       "cantrips": 0,
@@ -43,24 +61,66 @@
       }
     },
     "origins": [
-      { "id": "", "name": "", "color": "" }
+      { "id": "haki_arm", "name": "Haki Armatura",    "color": "#8e44ad" },
+      { "id": "haki_oss", "name": "Haki Osservazione", "color": "#1abc9c" },
+      { "id": "haki_re",  "name": "Haki del Re",       "color": "#f1c40f" },
+      { "id": "fdd",      "name": "Frutto del diavolo","color": "#f46fc1" }
     ],
     "attacks": [
       {
-        "id": "", "name": "", "stat": "", "damage": "",
-        "type": "", "bonusHit": 0, "bonusDmg": 0,
+        "id": "",
+        "name": "",
+        "stat": "FOR",
+        "hit": 0,
+        "damage": "",
+        "type": "",
+        "desc": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
         "bonusActive": false
       }
     ],
     "abilities": [
-      { "id": "", "name": "", "originId": "", "type": "", "desc": "", "maxUses": 0, "uses": 0, "rest": null, "fav": false, "cdStat": null }
+      {
+        "id": "",
+        "name": "",
+        "originId": "",
+        "type": "Azione",
+        "desc": "",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "fav": false,
+        "cdStat": null,
+        "cdCustom": null
+      }
     ],
     "spells": [
-      { "id": "", "name": "", "level": 0, "school": "", "castingTime": "", "ritual": false, "range": "", "components": { "v": false, "s": false, "m": null }, "duration": "", "concentration": false, "desc": "", "higherLevels": null, "prepared": false }
+      {
+        "id": "",
+        "name": "",
+        "level": 0,
+        "school": "",
+        "castingTime": "action",
+        "ritual": false,
+        "range": "",
+        "components": { "v": false, "s": false, "m": null },
+        "duration": "",
+        "concentration": false,
+        "desc": "",
+        "higherLevels": null,
+        "prepared": false
+      }
     ],
     "notes": "",
     "backstory": "",
     "diceLog": [],
-    "effects": []
+    "effects": [
+      {
+        "id": "",
+        "name": "",
+        "rounds": 0
+      }
+    ]
   }
 }
