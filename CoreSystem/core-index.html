@@ -171,7 +171,10 @@ function App(){
       onBack:()=>{window.location.href=BASE()+"/";},
       onNew:()=>{setChar(newCoreChar(""));setCharMeta(null);setScreen("sheet");},
       onLoad:async(owner,file)=>{const c=await loadChar(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");},
+      onManual:()=>setScreen("manual"),
     }),
+
+    !loading&&screen==="manual"&&React.createElement(ManualPage,{onBack:()=>setScreen("list")}),
 
     !loading&&screen==="sheet"&&char&&React.createElement(CoreSheet,{c:char,up,acc,charMeta,ghToken,isMaster,accId,
       saveChar,saveNewChar,setCharMeta,
@@ -217,7 +220,7 @@ function LoginScreen({manifest,onAuth}){
 }
 
 /* ═══ CHAR LIST ═══ */
-function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad}){
+function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad,onManual}){
   if(loadingChars)return React.createElement("div",{style:{display:"flex",flexDirection:"column",height:"var(--app-h)"}},
     React.createElement("div",{style:{padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}},
       React.createElement("button",{onClick:onBack,style:{...SS.btn,padding:"6px 10px"}},"←"),
@@ -253,7 +256,10 @@ function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad}){
         )
       )),
       chars.length===0&&React.createElement("p",{style:{textAlign:"center",color:"var(--tx3)",fontStyle:"italic",padding:"20px 0"}},"Nessun PG Core trovato."),
-      React.createElement("button",{onClick:onNew,style:{...SS.gold,width:"100%",padding:"14px 0",fontSize:14,marginTop:16}},"✨ Nuovo PG Core")
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:16}},
+        React.createElement("button",{onClick:onNew,style:{...SS.gold,padding:"14px 0",fontSize:13}},"✨ Nuovo PG"),
+        React.createElement("button",{onClick:onManual,style:{...SS.btn,padding:"14px 0",fontSize:13,borderColor:"rgba(232,160,48,0.3)",color:"var(--gold)"}},"📖 Manuale")
+      )
     )
   );
 }
@@ -491,6 +497,88 @@ function Sec({children}){return React.createElement("h3",{style:{fontFamily:"Cin
 function Pill({on,dim,color,onClick,title,children}){
   const c=color||"var(--gold)";
   return React.createElement("span",{onClick:dim?null:onClick,title,style:{fontSize:11,padding:"4px 10px",borderRadius:20,cursor:dim?"default":"pointer",border:`1px solid ${on?c:"var(--b1)"}`,background:on?`${c}18`:"var(--s3)",color:on?c:"var(--tx2)",opacity:dim?0.25:1,transition:"all 0.15s",userSelect:"none"}},children);
+}
+
+/* ═══ MANUAL PAGE ═══ */
+function ManualPage({onBack}){
+  const R=G.CORE_RULES||{};const W=G.WOUND_TIERS||[];const HP=G.HERO_POINT||{};
+  const s={sec:{fontFamily:"Cinzel",fontSize:14,fontWeight:700,color:"var(--gold)",letterSpacing:1,margin:"20px 0 10px",paddingBottom:6,borderBottom:"1px solid var(--b1)"},p:{fontSize:13,color:"var(--tx2)",lineHeight:1.7,marginBottom:10},box:{background:"var(--s2)",border:"1px solid var(--b1)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--tx2)",lineHeight:1.6},formula:{background:"var(--s3)",borderLeft:"3px solid var(--gold)",borderRadius:6,padding:"10px 14px",fontFamily:"JetBrains Mono",fontSize:13,color:"var(--gold)",marginBottom:10},tbl:{width:"100%",borderCollapse:"collapse",marginBottom:12,fontSize:12},th:{background:"var(--s3)",color:"var(--tx2)",fontFamily:"Cinzel",fontSize:10,letterSpacing:1,padding:"7px 10px",textAlign:"left",border:"1px solid var(--b1)"},td:{padding:"6px 10px",border:"1px solid var(--b1)",color:"var(--tx2)"}};
+  const Tbl=({cols,rows})=>React.createElement("table",{style:s.tbl},React.createElement("thead",null,React.createElement("tr",null,cols.map((c,i)=>React.createElement("th",{key:i,style:s.th},c)))),React.createElement("tbody",null,rows.map((r,i)=>React.createElement("tr",{key:i},r.map((c,j)=>React.createElement("td",{key:j,style:{...s.td,...(j===0?{color:"var(--gold)",fontFamily:"JetBrains Mono",fontSize:11}:{})}},c))))));
+  return React.createElement("div",{style:{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}},
+    React.createElement("div",{style:{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}},
+      React.createElement("button",{onClick:onBack,style:{...SS.btn,padding:"6px 10px"}},"←"),
+      React.createElement("h2",{style:{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}},"Manuale C.O.R.E.")
+    ),
+    React.createElement("div",{style:{flex:1,overflowY:"auto",padding:"12px 18px 80px",maxWidth:900,margin:"0 auto",width:"100%"}},
+      React.createElement("div",{style:{...s.box,background:"linear-gradient(135deg,rgba(232,160,48,0.08),rgba(232,160,48,0.03))",borderColor:"rgba(232,160,48,0.25)"}},
+        React.createElement("div",{style:{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",marginBottom:6}},"Filosofia"),
+        React.createElement("p",{style:{...s.p,margin:0}},"Un dado, tre caratteristiche, regole modulari. La complessità cresce col personaggio, non con le regole. Adattabile a qualsiasi genere.")
+      ),
+      // 1. CARATTERISTICHE
+      React.createElement("div",{style:s.sec},"1. Caratteristiche"),
+      Tbl({cols:["Stat","Governa","Difende vs"],rows:[["CORPO","Forza, resistenza, fisico","Attacchi fisici"],["MENTE","Intelligenza, magia, tech","Magie mentali, hacking"],["ANIMA","Carisma, volontà, spirito","Magie sociali, paura"]]}),
+      Tbl({cols:["Cap","Max"],rows:[["Base","10"],["Limite Elevato","12"],["Limite Maestro","15"]]}),
+      // 2. HP
+      React.createElement("div",{style:s.sec},"2. HP e Creazione"),
+      React.createElement("div",{style:s.formula},"HP = CORPO + MENTE + ANIMA"),
+      React.createElement("p",{style:s.p},"12 punti da distribuire (min 1/stat, cap 10). 1 Talento iniziale. Max 2 cantrip. Competenza: scegli 1 stat (+2). Arma: nome + categoria + perk. Scudo e armatura opzionali."),
+      // 3. MECCANICA D12
+      React.createElement("div",{style:s.sec},"3. Meccanica d12"),
+      React.createElement("div",{style:s.formula},"Risultato = 1d12 + Stat + Modificatori · Danno = Risultato - Difesa (min 0)"),
+      Tbl({cols:["Tipo","Formula","vs Difesa"],rows:[["Fisico","1d12 + CORPO + cat arma (+Comp +2)","CORPO + scudo + armatura"],["Magico MENTE","1d12 + MENTE + livello magia (+Comp +2)","Stat pertinente"],["Magico ANIMA","1d12 + ANIMA + livello magia (+Comp +2)","Stat pertinente"]]}),
+      // 4. INIZIATIVA
+      React.createElement("div",{style:s.sec},"4. Iniziativa"),
+      React.createElement("div",{style:s.formula},"Iniziativa = 1d12 + Stat di Competenza · Senza competenza: 1d12 nudo"),
+      React.createElement("p",{style:s.p},"Parità: MENTE più alta agisce prima. Cat D: -1 iniziativa."),
+      // 5. FERITE
+      React.createElement("div",{style:s.sec},"5. Ferite"),
+      Tbl({cols:["Tier","Condizione","HP persi","Penalità"],rows:W.map(w=>[w.tier,w.nome,w.tier===0?"< 1/3":w.tier===1?">= 1/3":w.tier===2?">= 2/3":"0 HP",w.penalita===null?"Non agisce. 3 round.":w.penalita===0?"—":`${w.penalita} tutti i tiri`])}),
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}},
+        React.createElement("div",{style:s.box},React.createElement("strong",{style:{color:"var(--tx)"}},"Riposo Breve")," (10 min) — recupera CORPO HP."),
+        React.createElement("div",{style:s.box},React.createElement("strong",{style:{color:"var(--tx)"}},"Riposo Lungo")," (8 ore) — tutti HP + slot magia + Punti Eroe.")
+      ),
+      // 6. ARMI
+      React.createElement("div",{style:s.sec},"6. Armi"),
+      Tbl({cols:["Cat","+Attacco","-Difesa","Talento","Init"],rows:Object.entries(G.WCAT).map(([k,v])=>[`Cat ${k}`,`+${v.bonus}`,k==="C"?"-1":k==="D"?"-2, 2mani":"—",v.req?tById(v.req)?.nome:"—",v.initMod?`${v.initMod}`:"—"])}),
+      // 7. ARMATURE
+      React.createElement("div",{style:s.sec},"7. Armature"),
+      Tbl({cols:["Armatura","+Difesa","Penalità","Movimento","Req"],rows:G.ARMORS.map(a=>[a.nome,`+${a.bonus}`,a.penMente?`-${a.penMente} MENTE`+(a.penAnima?`, -${a.penAnima} ANIMA`:""):"—",`${a.movimento}m`,a.req?`CORPO ${a.req}+`:"—"])}),
+      // 8. SCUDI
+      React.createElement("div",{style:s.sec},"8. Scudi"),
+      Tbl({cols:["Scudo","+Difesa","Penalità","Restrizioni"],rows:G.SHIELDS.map(sh=>[sh.nome,`+${sh.bonus}`,sh.penMente?`-${sh.penMente} MENTE`+(sh.penAnima?`, -${sh.penAnima} ANIMA`:""):"—",sh.rest?`Solo Cat ${sh.rest.join("/")}`:sh.id===0?"":"Nessuna"])}),
+      React.createElement("p",{style:s.p},"Difesa totale = CORPO + armatura + scudo. Nessun cap, bilanciato dalle penalità cumulate."),
+      // 9. CONDIZIONI
+      React.createElement("div",{style:s.sec},"9. Condizioni (max 2 attive)"),
+      Tbl({cols:["Condizione","Effetto","Durata"],rows:(G.CONDITIONS||[]).map(c=>[c.nome,c.effetto,c.durata])}),
+      // 10. MAGIE
+      React.createElement("div",{style:s.sec},"10. Magie"),
+      React.createElement("div",{style:s.formula},"Slot = max(MENTE, ANIMA) - 2"),
+      Tbl({cols:["Livello","+Tiro","Req Stat","Talento"],rows:[["Cantrip","+0","—","—"],["L1","+0",">=3","Magia Base"],["L2","+1",">=4","Magia Base"],["L3","+2",">=5","Magia Avanzata"],["L4","+3",">=6","Magia Avanzata"]]}),
+      // 11. TALENTI
+      React.createElement("div",{style:s.sec},"11. Talenti (max 5)"),
+      Tbl({cols:["Tipo","Funzione"],rows:[["⚡ Accesso","Sblocca armi Cat C/D o magie L3-4"],["⬆ Limite","Cap stat: 10 → 12 → 15"],["CORPO/MENTE/ANIMA","Capacità passive o attive"],["Ibrido","Versatilità e adattamento"]]}),
+      // 12. AUGMENT
+      React.createElement("div",{style:s.sec},"12. Miglioramenti Fisici (max 3)"),
+      React.createElement("p",{style:s.p},"Separati dai talenti. Modifiche permanenti con pro e contro meccanici. Alcuni richiedono manutenzione. Stili: Cyberpunk, Fantasy, Horror, Anime, Universale."),
+      // 13. PUNTO EROE
+      React.createElement("div",{style:s.sec},"13. Punto Eroe ⭐"),
+      React.createElement("p",{style:s.p},`Ogni PG inizia con ${HP.maxPerSession||2} Punti Eroe per sessione.`),
+      React.createElement("div",{style:s.box},...(HP.rules||[]).map((r,i)=>React.createElement("p",{key:i,style:{margin:"4px 0",fontSize:12}},`→ ${r}`))),
+      (HP.esempi||[]).length>0&&React.createElement("div",{style:{marginBottom:10}},
+        React.createElement("div",{style:{fontSize:11,color:"var(--tx3)",fontFamily:"Cinzel",marginBottom:6}},"ESEMPI"),
+        ...(HP.esempi||[]).map((e,i)=>React.createElement("div",{key:i,style:{...s.box,borderLeftColor:"var(--gold)",borderLeftWidth:3}},
+          React.createElement("p",{style:{color:"var(--tx)",fontSize:12,marginBottom:4}},`"${e.azione}"`),
+          React.createElement("p",{style:{color:"var(--green)",fontSize:11,margin:0}},`→ ${e.esito}`)
+        ))
+      ),
+      // 14. MOSTRI
+      React.createElement("div",{style:s.sec},"14. Mostri"),
+      Tbl({cols:["Rango","HP","Durata (4 PG)"],rows:[["Gregario","4-8","1 colpo"],["Normale","12-20","2-3 round"],["Elite","25-40","4-6 round"],["Boss","50-100","6-10 round"]]}),
+      // 15. PROGRESSIONE
+      React.createElement("div",{style:s.sec},"15. Progressione"),
+      Tbl({cols:["Avanzamento","Frequenza"],rows:[["+1 a una stat","Milestone narrativo"],["+1 talento (max 5)","Ogni 3-5 sessioni"],["+1 modifica (max 3)","Milestone o in-world"]]})
+    )
+  );
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
