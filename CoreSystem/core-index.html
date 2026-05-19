@@ -32,7 +32,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef}=React;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const CORE_VERSION='3.0.0';
+const CORE_VERSION='3.2.0';
 const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
@@ -50,8 +50,8 @@ async function ghPut(path,content,token,accId,isMaster,accName){
 }
 const WCAT_BONUS={A:1,B:2,C:3,D:4,DX:5};
 const UPGRADE_COSTS={A:{to:"B",oro:2,tempo:"4 ore"},B:{to:"C",oro:20,tempo:"1 giorno"},C:{to:"D",oro:80,tempo:"3 giorni"},D:{to:"DX",oro:400,tempo:"1 settimana",note:"+ materiali rari"}};
-const SPELL_BONUS={ct:1,1:2,2:4,3:6,4:8};
-const SPELL_COST={1:1,2:1,3:2,4:2};
+const SPELL_BONUS={ct:0,1:2,2:4,3:6,4:8};
+const SPELL_COST={1:1,2:2,3:2,4:3};
 const SPELL_MINS={1:6,2:8,3:10,4:12};
 const MAX_TALENTI=4;const MAX_AUGMENTI=2;const CAP_CREAZIONE=7;
 const G=window;
@@ -98,7 +98,8 @@ function spellSpecComp(sp,c){
   return 0;
 }
 function atkBonus(c){const stat=c.armaMagi?(c.mente||0):(c.corpo||0);const wB=WCAT_BONUS[c.armaCat]||0;const comp=(c.competenza===(c.armaMagi?"mente":"corpo"))?compBonus(c):0;const spec=weaponSpecComp(c);const dxPen=(c.armaCat==="DX"&&!canUseCat(c,"DX"))?-4:0;return stat+wB+comp+spec+dxPen;}
-function spellBonus(sp,c){const base=sp.tipo==="ct"?SPELL_BONUS.ct:(SPELL_BONUS[sp.lvl]||0);const im=(c&&sp.tipo==="mg"&&(sp.lvl||0)<=2&&intuizioneMagica(c)&&hasTalent(c,"gate_mb"))?1:0;const spec=spellSpecComp(sp,c);return base+im+spec;}
+function ctBonus(c){if(hasTalent(c,"gate_ma"))return 2;if(hasTalent(c,"gate_mb"))return 1;return 0;}
+function spellBonus(sp,c){const base=sp.tipo==="ct"?ctBonus(c):(SPELL_BONUS[sp.lvl]||0);const im=(c&&sp.tipo==="mg"&&(sp.lvl||0)<=2&&intuizioneMagica(c)&&hasTalent(c,"gate_mb"))?1:0;const spec=spellSpecComp(sp,c);return base+im+spec;}
 function spellCost(sp){return sp.tipo==="ct"?0:(SPELL_COST[sp.lvl]||1);}
 function spellMinStat(sp){return sp.tipo==="ct"?0:(SPELL_MINS[sp.lvl]||3);}
 function statPen(v){return v<=0?-2:v<=2?-1:0;}
@@ -691,7 +692,7 @@ function SpellsTab({c,up,isMaster}){
       {isMaster&&<button onClick={()=>setSpellModal(true)} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel"}}>+ Homebrew</button>}
     </div>
     {nCt<2&&<select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
-      <option value="">+ Aggiungi cantrip (+{SPELL_BONUS.ct} tiro, illimitati)...</option>
+      <option value="">+ Aggiungi cantrip (+{0} base tiro (gate: +1/+2), illimitati)...</option>
       {(allSp.filter(s=>s.tipo==="ct"&&!c.magie.includes(s.id))).map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"◆":"◇"} {s.nome} ({s.stat})</option>)}
     </select>}
     {selSp.filter(s=>s.tipo==="ct").map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)} c={c}/>)}
@@ -995,7 +996,7 @@ function AddToCompendioModal({type,onClose,onAdd}){
 function AddSpellModal({onClose,onAdd}){
   const[f,setF]=useState({id:"sp_"+uid(),nome:"",tipo:"ct",lvl:1,stat:"MENTE",stile:"universale",mec:"",pro:"",con:""});
   const[addChar,setAddChar]=useState(true);
-  const lvl=parseInt(f.lvl)||1;const autoB=f.tipo==="ct"?SPELL_BONUS.ct:(SPELL_BONUS[lvl]||0);const autoM=f.tipo==="ct"?0:(SPELL_MINS[lvl]||3);const autoC=f.tipo==="ct"?0:(SPELL_COST[lvl]||1);
+  const lvl=parseInt(f.lvl)||1;const autoB=f.tipo==="ct"?ctBonus(c):(SPELL_BONUS[lvl]||0);const autoM=f.tipo==="ct"?0:(SPELL_MINS[lvl]||3);const autoC=f.tipo==="ct"?0:(SPELL_COST[lvl]||1);
   const save=()=>{if(!f.nome.trim()||!f.mec.trim())return;onAdd({...f,nome:f.nome.trim(),lvl,bonus:autoB,min:autoM},addChar);};
   return<div style={SS.po} onClick={onClose}>
     <div style={{...SS.pc,maxWidth:420,maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
