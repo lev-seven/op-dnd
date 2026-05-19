@@ -472,6 +472,77 @@ var TALENTS = [
     pro:'Trasforma ANIMA in una risorsa offensiva. Ferma attacchi senza usare slot magici.',
     con:'Solo contro bersagli intelligenti capaci di comprendere una minaccia sociale. Inutile contro bestie o automi.'},
 
+
+  /* ═══ SPECIALIZZAZIONI — ARMI ═══
+     Aggiungono il bonus di Competenza ai tiri con armi specifiche.
+     Non si cumulano con la Competenza principale se copre gia' la stessa stat.
+     Richiedono una Competenza attiva per essere utili.
+  ═══════════════════════════════ */
+  {id:'spec_cat_a',cat:'corpo',stile:'universale',
+   nome:'Precisione Leggera',
+   desc:'Hai affinato la tecnica con le armi leggere fino a farne un\'estensione naturale. Aggiungi il tuo bonus di Competenza a tutti i tiri di attacco con armi Categoria A.',
+   pro:'+Comp ai tiri Cat A — ottimo per build MENTE/ANIMA che usano armi',
+   con:'Solo Cat A. Non si cumula con Comp CORPO gia\ attiva.'},
+  {id:'spec_cat_b',cat:'corpo',stile:'universale',
+   nome:'Disciplina da Combattimento',
+   desc:'Anni di pratica con le armi standard ti hanno dato padronanza completa della categoria. Aggiungi il tuo bonus di Competenza a tutti i tiri di attacco con armi Categoria B.',
+   pro:'+Comp ai tiri Cat B — la categoria piu usata in assoluto',
+   con:'Solo Cat B. Non si cumula con Comp CORPO.'},
+  {id:'spec_cat_c',cat:'corpo',stile:'universale',req:'armi_pesanti',
+   nome:'Maestria Pesante',
+   desc:'Porti le armi pesanti con la stessa fluidita con cui un altro porta un coltello. Aggiungi il tuo bonus di Competenza a tutti i tiri di attacco con armi Categoria C.',
+   pro:'+Comp ai tiri Cat C — trasforma un guerriero pesante in un mostro',
+   con:'Richiede Armi Pesanti. Non si cumula con Comp CORPO.'},
+  {id:'spec_cat_d',cat:'corpo',stile:'universale',req:'armi_letali',
+   nome:'Arte del Devastatore',
+   desc:'Non e\ solo forza — e\ tecnica applicata alla devastazione assoluta. Aggiungi il tuo bonus di Competenza ai tiri con armi Categoria D.',
+   pro:'+Comp ai tiri Cat D — massimizza la categoria piu\ alta',
+   con:'Richiede Armi Letali. Non si cumula con Comp CORPO.'},
+  {id:'spec_distanza',cat:'corpo',stile:'universale',
+   nome:'Occhio del Cecchino',
+   desc:'La distanza non e\ un ostacolo, e\ un vantaggio strategico. Aggiungi il tuo bonus di Competenza a tutti i tiri di attacco con qualsiasi arma a distanza.',
+   pro:'+Comp con ogni arma a distanza indipendentemente dalla categoria',
+   con:'Solo attacchi a distanza. Inutile in corpo a corpo.'},
+  {id:'spec_mischia',cat:'corpo',stile:'universale',
+   nome:'Combattente Puro',
+   desc:'In mischia sei nel tuo elemento naturale. Aggiungi il tuo bonus di Competenza a tutti i tiri di attacco in corpo a corpo (non a distanza).',
+   pro:'+Comp in mischia con qualsiasi categoria di arma',
+   con:'Inutile con armi a distanza.'},
+  {id:'spec_arcano_corpo',cat:'ibrido',stile:'universale',
+   nome:'Canale Arcano',
+   desc:'Hai imparato a incanalare le formule magiche direttamente attraverso il filo dell\'arma. Aggiungi il tuo bonus di Competenza ai tiri con armi usate come armi magiche (stat MENTE).',
+   pro:'+Comp quando l\'arma usa MENTE come stat di attacco',
+   con:'Solo armi con toggle Magica attivo.'},
+
+  /* ═══ SPECIALIZZAZIONI — MAGIE ═══
+     Aggiungono Competenza ai tiri con magie specifiche.
+     Non si cumulano con Comp MENTE/ANIMA se quella stat e\ gia\ la tua competenza principale.
+  ═══════════════════════════════ */
+  {id:'spec_cantrip',cat:'mente',stile:'universale',
+   nome:'Maestro dei Cantrip',
+   desc:'I tuoi cantrip hanno la stessa precisione e potenza di una magia di livello, frutto di pratica ossessiva sulle fondamenta. Aggiungi il tuo bonus di Competenza a tutti i tiri con cantrip.',
+   pro:'+Comp su tutti i cantrip illimitati — fortissimo su build orientate ai cantrip',
+   con:'Solo cantrip. Non si cumula con Comp MENTE/ANIMA gia\ attiva sulla stessa stat.'},
+  {id:'spec_magia_L12',cat:'mente',stile:'universale',req:'gate_mb',
+   nome:'Magia Precisa',
+   desc:'Le magie di primo e secondo livello escono con chirurgica precisione, come se ogni formula fosse perfettamente incisa nella memoria. Aggiungi il tuo bonus di Competenza ai tiri con magie L1 e L2.',
+   pro:'+Comp su L1-L2 — le magie piu usate e ricorrenti in combattimento',
+   con:'Solo L1-L2. Richiede Magia Base.'},
+  {id:'spec_magia_L34',cat:'mente',stile:'universale',req:'gate_ma',
+   nome:'Grande Incantatore',
+   desc:'Le magie piu potenti perdono il loro costo cognitivo nelle tue mani — le esegui con la stessa fluidita delle basi. Aggiungi il tuo bonus di Competenza ai tiri con magie L3 e L4.',
+   pro:'+Comp su L3-L4 — massimizza le magie piu devastanti',
+   con:'Solo L3-L4. Richiede Magia Avanzata. Investimento pesante (2 talenti).'},
+  {id:'spec_magia_mente',cat:'mente',stile:'universale',req:'gate_mb',
+   nome:'Arcanista Preciso',
+   desc:'Le formule arcane basate sulla volonta intellettuale fluiscono attraverso di te con precisione assoluta. Aggiungi il tuo bonus di Competenza a tutte le magie con stat MENTE (cantrip inclusi).',
+   pro:'+Comp a TUTTE le magie MENTE — copre ogni livello con una sola scelta',
+   con:'Solo magie MENTE. Richiede Magia Base.'},
+  {id:'spec_magia_anima',cat:'anima',stile:'universale',req:'gate_mb',
+   nome:'Animista Esperto',
+   desc:'La connessione con le energie dell\'ANIMA e\ diventata cosi\ profonda che ogni incantesimo animistico amplifica la tua essenza. Aggiungi il tuo bonus di Competenza a tutte le magie con stat ANIMA.',
+   pro:'+Comp a TUTTE le magie ANIMA — ideale per build pure ANIMA',
+   con:'Solo magie ANIMA. Richiede Magia Base.'},
 ];
 
 // ═══ AUGMENTS / MIGLIORAMENTI FISICI (max 2) ═══
