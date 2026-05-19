@@ -32,7 +32,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef}=React;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const CORE_VERSION='2.4.0';
+const CORE_VERSION='2.5.0';
 const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
@@ -71,8 +71,33 @@ function totalPenAnima(c){return armorData(c).penAnima+shieldData(c).penAnima;}
 function movement(c){return armorData(c).movimento||9;}
 function compBonus(c){if(!c.competenza)return 0;return Math.max(1,Math.floor((c[c.competenza]||0)/2));}
 function initBonus(c){if(!c.competenza)return 0;return(c[c.competenza]||0)+compBonus(c);}
-function atkBonus(c){const stat=c.armaMagi?(c.mente||0):(c.corpo||0);const wB=WCAT_BONUS[c.armaCat]||0;const comp=(c.competenza===(c.armaMagi?"mente":"corpo"))?compBonus(c):0;return stat+wB+comp;}
-function spellBonus(sp,c){const base=sp.tipo==="ct"?SPELL_BONUS.ct:(SPELL_BONUS[sp.lvl]||0);const im=(c&&sp.tipo==="mg"&&(sp.lvl||0)<=2&&intuizioneMagica(c)&&hasTalent(c,"gate_mb"))?1:0;return base+im;}
+function weaponSpecComp(c){
+  // Extra comp from specialization talents — no double-count with main competency
+  const statMai=c.armaMagi?"mente":"corpo";
+  if(c.competenza===statMai)return 0; // main comp already covers this
+  const cat=(c.armaCat||"B");const isDist=c.armaDist;const isMagi=c.armaMagi;
+  const cb=compBonus(c);if(cb===0)return 0; // no competency set, spec is useless
+  if(hasTalent(c,"spec_cat_"+cat.toLowerCase()))return cb;
+  if(isDist&&hasTalent(c,"spec_distanza"))return cb;
+  if(!isDist&&hasTalent(c,"spec_mischia"))return cb;
+  if(isMagi&&hasTalent(c,"spec_arcano_corpo"))return cb;
+  return 0;
+}
+function spellSpecComp(sp,c){
+  if(!c)return 0;
+  const statKey=(sp.stat||"MENTE").toLowerCase();
+  if(c.competenza===statKey)return 0; // main comp already covers this
+  const cb=compBonus(c);if(cb===0)return 0;
+  const tipo=sp.tipo;const lvl=sp.lvl||0;
+  if(statKey==="mente"&&hasTalent(c,"spec_magia_mente"))return cb;
+  if(statKey==="anima"&&hasTalent(c,"spec_magia_anima"))return cb;
+  if(tipo==="ct"&&hasTalent(c,"spec_cantrip"))return cb;
+  if(tipo==="mg"&&lvl<=2&&hasTalent(c,"spec_magia_L12"))return cb;
+  if(tipo==="mg"&&lvl>=3&&hasTalent(c,"spec_magia_L34"))return cb;
+  return 0;
+}
+function atkBonus(c){const stat=c.armaMagi?(c.mente||0):(c.corpo||0);const wB=WCAT_BONUS[c.armaCat]||0;const comp=(c.competenza===(c.armaMagi?"mente":"corpo"))?compBonus(c):0;const spec=weaponSpecComp(c);return stat+wB+comp+spec;}
+function spellBonus(sp,c){const base=sp.tipo==="ct"?SPELL_BONUS.ct:(SPELL_BONUS[sp.lvl]||0);const im=(c&&sp.tipo==="mg"&&(sp.lvl||0)<=2&&intuizioneMagica(c)&&hasTalent(c,"gate_mb"))?1:0;const spec=spellSpecComp(sp,c);return base+im+spec;}
 function spellCost(sp){return sp.tipo==="ct"?0:(SPELL_COST[sp.lvl]||1);}
 function spellMinStat(sp){return sp.tipo==="ct"?0:(SPELL_MINS[sp.lvl]||3);}
 function statPen(v){return v<=0?-2:v<=2?-1:0;}
@@ -260,14 +285,14 @@ function SessionView({c,up,setViewMode}){
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
         <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--tx3)",letterSpacing:1}}>STATISTICHE</span>
         <div style={{display:"flex",gap:6,fontSize:9,fontFamily:"JetBrains Mono",color:"var(--tx3)"}}>
-          <span>ATK +{atkBonus(c)}</span><span>DEF {(c.corpo||0)+totalDefBonus(c)}</span>
+          <span style={{color:weaponSpecComp(c)>0?"var(--gold)":"var(--tx3)"}}>ATK +{atkBonus(c)}{weaponSpecComp(c)>0&&<span style={{fontSize:8,color:"var(--gold)"}}> ★</span>}</span><span>DEF {(c.corpo||0)+totalDefBonus(c)}</span>
         </div>
       </div>
       {statRow("CORPO","corpo","var(--red)")}
       {statRow("MENTE","mente","var(--blue)")}
       {statRow("ANIMA","anima","var(--purple)")}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:4,marginTop:8}}>
-        <button onClick={()=>roll("Attacco",atkBonus(c))} style={{padding:"8px 0",borderRadius:6,border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer"}}>⚔️ Attacco +{atkBonus(c)}</button>
+        <button onClick={()=>roll("Attacco",atkBonus(c))} style={{padding:"8px 0",borderRadius:6,border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer",lineHeight:1.4}}>⚔️ Attacco +{atkBonus(c)}{weaponSpecComp(c)>0&&<span style={{display:"block",fontSize:8,color:"rgba(232,160,48,0.7)",fontFamily:"JetBrains Mono",fontWeight:400}}>★+{weaponSpecComp(c)} spec</span>}</button>
         <button onClick={()=>roll("Iniziativa",initBonus(c))} style={{padding:"8px 0",borderRadius:6,border:"1.5px solid rgba(64,200,200,0.3)",background:"rgba(64,200,200,0.06)",color:"var(--cyan)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer"}}>⚡ Iniziativa +{initBonus(c)}</button>
       </div>
     </div>
@@ -397,7 +422,7 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
         </div>
       </div>
       <div style={{display:"flex",gap:6,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)",alignItems:"center",flexWrap:"wrap"}}>
-        <span>ATK +{atkBonus(c)}</span><span>DEF {(c.corpo||0)+totalDefBonus(c)}</span>
+        <span style={{color:weaponSpecComp(c)>0?"var(--gold)":"var(--tx3)"}}>ATK +{atkBonus(c)}{weaponSpecComp(c)>0&&<span style={{fontSize:8,color:"var(--gold)"}}> ★</span>}</span><span>DEF {(c.corpo||0)+totalDefBonus(c)}</span>
         {c.competenza&&<span style={{color:"var(--cyan)"}}>COMP +{compBonus(c)}</span>}
         <span>INIT +{initBonus(c)}</span><span>MOV {movement(c)}m</span>
         <span style={{color:slotsLeft===0&&slots>0?"var(--red)":slots>0?"var(--purple)":"var(--tx3)"}}>SLOT {slotsLeft}/{slots}</span>
@@ -544,7 +569,7 @@ function CoreSpellCard({spell,onRemove,c}){
             <span style={{color:"var(--tx3)"}}>1d12 </span>
             + {statKey.toUpperCase()}(<span style={{color:col,fontWeight:700}}>{statVal}</span>)
             {compB>0&&<span> + Comp(<span style={{color:"var(--cyan)"}}>{compB}</span>)</span>}
-            {bonus>0&&<span> + {spell.tipo==="ct"?"ct":"L"+(spell.lvl||0)}(<span style={{color:"var(--gold)"}}>+{bonus}</span>)</span>}
+            {bonus>0&&<span> + {spell.tipo==="ct"?"ct":"L"+(spell.lvl||0)}(<span style={{color:"var(--gold)"}}>+{bonus}</span>{spellSpecComp(spell,c)>0&&<span style={{color:"var(--cyan)",fontSize:9}}> ★sp</span>}){" "}</span>}
             <span style={{color:"var(--tx3)"}}> = 1d12+</span><span style={{color:"var(--gold)",fontWeight:700,fontSize:12}}>{totalB}</span>
             <span style={{color:"var(--tx3)",fontSize:9}}> avg {(6.5+totalB).toFixed(1)}</span>
           </div>
@@ -677,9 +702,9 @@ function DiceTab({c}){
   return<div style={{animation:"fadeIn 0.15s ease",paddingBottom:24}}>
     <Sec>Tiro Rapido d12</Sec>
     <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:6,marginBottom:12}}>
-      <button onClick={()=>roll("Attacco",atkBonus(c))} style={{...SS.gold,padding:"14px 0"}}>Attacco +{atkBonus(c)}</button>
+      <button onClick={()=>roll("Attacco",atkBonus(c))} style={{...SS.gold,padding:"14px 0"}}>⚔️ Attacco +{atkBonus(c)}{weaponSpecComp(c)>0&&<span style={{display:"block",fontSize:8,color:"rgba(232,160,48,0.7)",fontFamily:"JetBrains Mono",fontWeight:400}}>★+{weaponSpecComp(c)} spec</span>}</button>
       <button onClick={()=>roll("Iniziativa",initBonus(c))} style={{...SS.gold,padding:"14px 0"}}>Iniziativa +{initBonus(c)}</button>
-      {["corpo","mente","anima"].map(s=><button key={s} onClick={()=>roll("Tiro "+s.toUpperCase(),(c[s]||0)+(c.competenza===s?compBonus(c):0))} style={{...SS.btn,padding:"12px 0"}}>{s.toUpperCase()} +{(c[s]||0)+(c.competenza===s?compBonus(c):0)}</button>)}
+      {["corpo","mente","anima"].map(s=>{const sv=c[s]||0;const isC=c.competenza===s;const cb=isC?compBonus(c):0;const tot=sv+cb;return<button key={s} onClick={()=>roll((isC?"["+s.toUpperCase()+" ★]":"Tiro "+s.toUpperCase()),tot)} style={{...SS.btn,padding:"10px 0",borderColor:isC?"rgba(64,200,200,0.4)":"var(--b2)",color:isC?"var(--cyan)":"var(--tx2)",position:"relative"}}><div style={{fontFamily:"Cinzel",fontSize:11,fontWeight:isC?700:400}}>{s.toUpperCase()}</div><div style={{fontFamily:"JetBrains Mono",fontSize:13,fontWeight:700,color:isC?"var(--cyan)":"var(--tx)"}}>+{tot}</div>{isC&&<div style={{fontSize:8,color:"var(--cyan)",fontFamily:"JetBrains Mono",lineHeight:1}}>★ +{cb} comp</div>}</button>;})}
       <button onClick={()=>roll("d12 nudo",0)} style={{...SS.btn,padding:"12px 0"}}>d12 nudo</button>
     </div>
     {result&&<div style={{textAlign:"center",padding:20,background:"var(--s1)",borderRadius:10,border:"1.5px solid "+(result.nat12?"var(--gold)":result.nat1?"var(--red)":"var(--b1)"),marginBottom:12}}>
