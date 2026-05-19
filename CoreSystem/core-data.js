@@ -225,7 +225,78 @@ var SPELLS = [
   {id:'m41',tipo:'mg',lvl:4,min:12,stat:'ANIMA',stile:'horror',   nome:'Grande Maledizione',bonus:8,mec:'1d12+ANIMA+8 vs ANIMA. Maledizione permanente fino a dispel.',             pro:'Permanente.',                      con:'Effetto specifico col GM.'},
   {id:'m42',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'cyberpunk',nome:'Trasferimento Coscienza',bonus:8,mec:'1d12+MENTE+8 vs MENTE. Scambi coscienza con bersaglio 10 min.',      pro:'Infiltrazione totale.',            con:'Il tuo corpo è vulnerabile.'},
   {id:'m47',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'horror',   nome:'Frammentazione Cosmica',bonus:8,mec:'1d12+MENTE+8 vs MENTE. Fallisce ogni tiro con 1-4 per 2 round.',      pro:'Raddoppia fallimenti critici.',    con:'Se fallisci: -1 MENTE.'},
-  {id:'m55',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'universale',nome:'Disintegrazione', bonus:8,mec:'1d12+MENTE+8 vs CORPO. Ignora bonus armatura. Danno = margine x2.',         pro:'Ignora armatura, danno doppio.',   con:'Non ignora scudo.'}
+  {id:'m55',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'universale',nome:'Disintegrazione', bonus:8,mec:'1d12+MENTE+8 vs CORPO. Ignora bonus armatura. Danno = margine x2.',         pro:'Ignora armatura, danno doppio.',   con:'Non ignora scudo.'},
+
+
+  // ─── NUOVE MAGIE — meccaniche da altri sistemi GDR ───
+
+  // ─ HORROR ─
+  {id:'sp_furto_vitale',   tipo:'mg',lvl:2,min:8, stat:'MENTE',stile:'horror',
+    nome:'Furto Vitale',   bonus:4,
+    mec:'Attacchi in mischia canalizzando energia necromantica verso il bersaglio. Quando colpisci e infliggi almeno un punto di danno, recuperi Punti Vita pari alla metà del danno inflitto, arrotondato per difetto. Se il bersaglio viene abbattuto dal colpo, recuperi Punti Vita pari all\'intero danno.',
+    pro:'Autosufficienza in combattimento. Puoi sostenere scontri prolungati senza alleati.',
+    con:'Solo attacchi in mischia. Nessuna cura se non si infligge danno.'},
+
+  {id:'sp_paura_abissale', tipo:'mg',lvl:2,min:8, stat:'ANIMA',stile:'horror',
+    nome:'Paura Abissale',  bonus:4,
+    mec:'Proietti una visione di terrore soprannaturale su tutti i nemici entro cinque metri. Effettua un singolo tiro di attacco usando ANIMA. Ogni bersaglio la cui Difesa viene superata da quel tiro acquisisce la condizione Spaventato per due round.',
+    pro:'Colpisce più bersagli con un singolo tiro. Potente contro gregari e creature con bassa ANIMA.',
+    con:'Nessun danno diretto. Richiede vicinanza al gruppo nemico. Boss con ANIMA alta spesso resistono.'},
+
+  {id:'sp_velo_oblio',     tipo:'mg',lvl:2,min:8, stat:'ANIMA',stile:'horror',
+    nome:"Velo dell'Oblio", bonus:4,
+    mec:'Un bersaglio intelligente entro dieci metri deve superare un tiro di MENTE contro il tuo tiro di ANIMA. Se fallisce, dimentica l\'ultimo round di eventi: abbassa le armi, perde il senso del contesto e salta il suo prossimo turno. La magia non lascia tracce visibili.',
+    pro:'Rimuove un nemico per un turno intero senza infliggere danno. Efficace contro avversari intelligenti.',
+    con:'Solo contro bersagli con memoria e cognizione. Il Master decide il comportamento dopo l\'oblio.'},
+
+  // ─ FANTASY ─
+  {id:'sp_canzone_guerra', tipo:'mg',lvl:1,min:6, stat:'ANIMA',stile:'fantasy',
+    nome:'Canzone di Guerra',bonus:2,
+    mec:'Intoni una melodia di battaglia che persiste per due round. Per tutta la durata, tutti gli alleati entro dieci metri ottengono più uno a tutti i tiri di attacco, sia fisici che magici.',
+    pro:'Buff di gruppo che scala con il numero di alleati. Efficace su qualsiasi stile di combattimento.',
+    con:'Nessun effetto su te stesso. Richiede alleati nelle vicinanze. Bonus modesto in solitaria.'},
+
+  {id:'sp_colpo_tonante',  tipo:'mg',lvl:1,min:6, stat:'MENTE',stile:'fantasy',
+    nome:'Colpo Tonante',   bonus:2,
+    mec:'Emetti un\'onda di forza in un cono di tre metri nella direzione scelta. Ogni bersaglio nel cono subisce il danno del tiro e viene spinto indietro di tre metri. Se sbatte contro un ostacolo solido, subisce due punti di danno aggiuntivi.',
+    pro:'Controllo del campo. Spinge i nemici lontano dagli alleati o verso posizioni svantaggiate.',
+    con:'Breve portata. Poco danno senza ostacoli nelle vicinanze. Solo bersagli di fronte.'},
+
+  // ─ CYBERPUNK ─
+  {id:'sp_catena_fulmini', tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'cyberpunk',
+    nome:'Catena Fulminante',bonus:6,
+    mec:'Lanci un fulmine sul bersaglio principale con tiro normale. Se infliggi almeno un punto di danno, il fulmine salta su un secondo nemico entro cinque metri con tiro a meno due. Se anche questo subisce danno, può saltare su un terzo bersaglio con tiro a meno quattro. Ogni salto richiede un tiro separato.',
+    pro:'Potenzialmente devastante contro gruppi ravvicinati. Efficienza crescente con il numero di nemici.',
+    con:'I nemici devono essere vicini tra loro. Il terzo salto raramente si concretizza contro avversari competenti.'},
+
+  {id:'sp_scarica_emp',    tipo:'mg',lvl:2,min:8, stat:'MENTE',stile:'cyberpunk',
+    nome:'Scarica EMP',     bonus:4,
+    mec:'Emetti un impulso elettromagnetico che colpisce tutti i bersagli con componenti cibernetiche entro sei metri. Ogni bersaglio colpito subisce il danno del tiro e perde accesso a qualsiasi capacità speciale derivante da ciberware o tecnologia per un round. Bersagli senza componenti tecnologiche non subiscono alcun effetto.',
+    pro:'Area automatica contro nemici cibernetici. Devasta truppe tecnologiche.',
+    con:'Inutile contro bersagli biologici puri o creature magiche. Il Master definisce cosa è tecnologico.'},
+
+  // ─ ANIME ─
+  {id:'sp_bolla_tempo',    tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'anime',
+    nome:'Bolla di Tempo',  bonus:8,
+    mec:'Congeli temporalmente un bersaglio per due round: non può agire, muoversi né difendersi attivamente. La sua Difesa scende al solo valore di CORPO per tutta la durata, poiché non può reagire. Alla fine di ogni suo turno, il bersaglio effettua un tiro di MENTE contro la tua MENTE per liberarsi anticipatamente.',
+    pro:'Rimuove completamente un bersaglio dalla scena per almeno un round, anche un boss.',
+    con:'Singolo bersaglio. Il più costoso del sistema. I nemici con MENTE alta si liberano frequentemente.'},
+
+  // ─ NOIR ─
+  {id:'sp_nebbia_londra',  tipo:'mg',lvl:1,min:6, stat:'MENTE',stile:'noir',
+    nome:'Nebbia di Londra',bonus:2,
+    mec:'Crei una zona di nebbia densa di cinque metri di raggio centrata su un punto entro quindici metri da te. I tiri di attacco diretti all\'interno o attraverso la nebbia subiscono meno tre. La nebbia persiste per tre round o finché non viene dissipata da vento forte o magia specifica.',
+    pro:'Protezione di gruppo dal fuoco nemico. Copre ritirate tattiche o avanzate silenziose.',
+    con:'Penalizza anche gli alleati che combattono nella nebbia. Nulla ferma i danni da magie ad area.'},
+
+  // ─ CANTRIP ANIMA aggiuntivo ─
+  {id:'ct_lamento_oscuro', tipo:'ct',lvl:0,  min:0, stat:'ANIMA',stile:'horror',
+    nome:'Lamento Oscuro',  bonus:1,
+    mec:'Un urlo di energia oscura si scaglia sul bersaglio, alimentato dall\'ANIMA invece che dalla MENTE. Permette ai personaggi con forte investimento in ANIMA di avere un cantrip offensivo nella loro caratteristica principale senza sacrificare punti in MENTE.',
+    pro:'Cantrip offensivo basato su ANIMA. Ideale per build animistiche pure.',
+    con:'Stessa efficacia di un cantrip standard. Meccanicamente identico ad altri cantrip, differisce solo per stat.'},
+
+
 ];
 
 // ═══ TALENTI ═══
@@ -303,7 +374,7 @@ var TALENTS = [
   {id:'t41',cat:'ibrido',stile:'horror',   req:null,nome:'Presagio',            desc:'GM ti avverte di pericoli soprannaturali nell\'area immediata.',       pro:'Nessuna sorpresa soprannaturale.',con:'Il GM decide il timing.'},
   {id:'t42',cat:'ibrido',stile:'post-ap', req:null,nome:'Sopravvivenza Estrema',desc:'+3 tiri CORPO sopravvivenza. Non puoi perderti. 1x/giorno trova risorse.',pro:'Indispensabile in aree ostili.', con:'Inutile in ambienti urbani.'},
   {id:'t49',cat:'ibrido',stile:'anime',   req:null,nome:'Tecnica Segreta',     desc:'1x/sessione: dichiara nome tecnica, +5 prossimo tiro. Narrativamente vincolata.',pro:'Bonus enorme nel momento giusto.',con:'1 uso. Deve essere coerente.'},
-  {id:'t56',cat:'ibrido',stile:'fantasy',  req:null,nome:'Legame Familiare',    desc:'Hai un familiare. +2 tiri MENTE esplorazione. 1x/combat intercetta 1 attacco (muore, torna dopo riposo lungo).',pro:'Difesa + esplorazione.',con:'Se muore, 1 riposo senza bonus.'}
+  {id:'t56',cat:'ibrido',stile:'fantasy',  req:null,nome:'Legame Familiare',    desc:'Hai un familiare. +2 tiri MENTE esplorazione. 1x/combat intercetta 1 attacco (muore, torna dopo riposo lungo).',pro:'Difesa + esplorazione.',con:'Se muore, 1 riposo senza bonus.'},
 
 // ─── TALENTI AZIONE (nuovi: meccaniche da altri sistemi GDR) ───
 
@@ -444,75 +515,6 @@ var AUGMENTS = [
   {id:'aug_mi',stile:'noir',tipo:'Neurologia',nome:'Mente da Investigatore',desc:'Condizionamento cognitivo.',pro:'GM dice se hai perso qualcosa. +2 MENTE vs illusioni.',con:'-1 ANIMA in situazioni emotive.',manutenzione:null,perk:'Deduzione Lampo: 1x/sessione, il GM rivela 1 indizio critico sulla scena.'},
   {id:'aug_it',stile:'post-ap',tipo:'Biologico',nome:'Immunizzazione Tossica',desc:'Corpo adattato a tossine.',pro:'Immune ambienti tossici. +3 vs veleni.',con:'-1 cure magiche/alchemiche.',manutenzione:null,perk:'Metabolismo Adattivo: 1x/sessione, ignora 1 effetto ambientale per 1 ora.'}
 ];
-
-
-  // ─── NUOVE MAGIE — meccaniche da altri sistemi GDR ───
-
-  // ─ HORROR ─
-  {id:'sp_furto_vitale',   tipo:'mg',lvl:2,min:8, stat:'MENTE',stile:'horror',
-    nome:'Furto Vitale',   bonus:4,
-    mec:'Attacchi in mischia canalizzando energia necromantica verso il bersaglio. Quando colpisci e infliggi almeno un punto di danno, recuperi Punti Vita pari alla metà del danno inflitto, arrotondato per difetto. Se il bersaglio viene abbattuto dal colpo, recuperi Punti Vita pari all\'intero danno.',
-    pro:'Autosufficienza in combattimento. Puoi sostenere scontri prolungati senza alleati.',
-    con:'Solo attacchi in mischia. Nessuna cura se non si infligge danno.'},
-
-  {id:'sp_paura_abissale', tipo:'mg',lvl:2,min:8, stat:'ANIMA',stile:'horror',
-    nome:'Paura Abissale',  bonus:4,
-    mec:'Proietti una visione di terrore soprannaturale su tutti i nemici entro cinque metri. Effettua un singolo tiro di attacco usando ANIMA. Ogni bersaglio la cui Difesa viene superata da quel tiro acquisisce la condizione Spaventato per due round.',
-    pro:'Colpisce più bersagli con un singolo tiro. Potente contro gregari e creature con bassa ANIMA.',
-    con:'Nessun danno diretto. Richiede vicinanza al gruppo nemico. Boss con ANIMA alta spesso resistono.'},
-
-  {id:'sp_velo_oblio',     tipo:'mg',lvl:2,min:8, stat:'ANIMA',stile:'horror',
-    nome:"Velo dell'Oblio", bonus:4,
-    mec:'Un bersaglio intelligente entro dieci metri deve superare un tiro di MENTE contro il tuo tiro di ANIMA. Se fallisce, dimentica l\'ultimo round di eventi: abbassa le armi, perde il senso del contesto e salta il suo prossimo turno. La magia non lascia tracce visibili.',
-    pro:'Rimuove un nemico per un turno intero senza infliggere danno. Efficace contro avversari intelligenti.',
-    con:'Solo contro bersagli con memoria e cognizione. Il Master decide il comportamento dopo l\'oblio.'},
-
-  // ─ FANTASY ─
-  {id:'sp_canzone_guerra', tipo:'mg',lvl:1,min:6, stat:'ANIMA',stile:'fantasy',
-    nome:'Canzone di Guerra',bonus:2,
-    mec:'Intoni una melodia di battaglia che persiste per due round. Per tutta la durata, tutti gli alleati entro dieci metri ottengono più uno a tutti i tiri di attacco, sia fisici che magici.',
-    pro:'Buff di gruppo che scala con il numero di alleati. Efficace su qualsiasi stile di combattimento.',
-    con:'Nessun effetto su te stesso. Richiede alleati nelle vicinanze. Bonus modesto in solitaria.'},
-
-  {id:'sp_colpo_tonante',  tipo:'mg',lvl:1,min:6, stat:'MENTE',stile:'fantasy',
-    nome:'Colpo Tonante',   bonus:2,
-    mec:'Emetti un\'onda di forza in un cono di tre metri nella direzione scelta. Ogni bersaglio nel cono subisce il danno del tiro e viene spinto indietro di tre metri. Se sbatte contro un ostacolo solido, subisce due punti di danno aggiuntivi.',
-    pro:'Controllo del campo. Spinge i nemici lontano dagli alleati o verso posizioni svantaggiate.',
-    con:'Breve portata. Poco danno senza ostacoli nelle vicinanze. Solo bersagli di fronte.'},
-
-  // ─ CYBERPUNK ─
-  {id:'sp_catena_fulmini', tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'cyberpunk',
-    nome:'Catena Fulminante',bonus:6,
-    mec:'Lanci un fulmine sul bersaglio principale con tiro normale. Se infliggi almeno un punto di danno, il fulmine salta su un secondo nemico entro cinque metri con tiro a meno due. Se anche questo subisce danno, può saltare su un terzo bersaglio con tiro a meno quattro. Ogni salto richiede un tiro separato.',
-    pro:'Potenzialmente devastante contro gruppi ravvicinati. Efficienza crescente con il numero di nemici.',
-    con:'I nemici devono essere vicini tra loro. Il terzo salto raramente si concretizza contro avversari competenti.'},
-
-  {id:'sp_scarica_emp',    tipo:'mg',lvl:2,min:8, stat:'MENTE',stile:'cyberpunk',
-    nome:'Scarica EMP',     bonus:4,
-    mec:'Emetti un impulso elettromagnetico che colpisce tutti i bersagli con componenti cibernetiche entro sei metri. Ogni bersaglio colpito subisce il danno del tiro e perde accesso a qualsiasi capacità speciale derivante da ciberware o tecnologia per un round. Bersagli senza componenti tecnologiche non subiscono alcun effetto.',
-    pro:'Area automatica contro nemici cibernetici. Devasta truppe tecnologiche.',
-    con:'Inutile contro bersagli biologici puri o creature magiche. Il Master definisce cosa è tecnologico.'},
-
-  // ─ ANIME ─
-  {id:'sp_bolla_tempo',    tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'anime',
-    nome:'Bolla di Tempo',  bonus:8,
-    mec:'Congeli temporalmente un bersaglio per due round: non può agire, muoversi né difendersi attivamente. La sua Difesa scende al solo valore di CORPO per tutta la durata, poiché non può reagire. Alla fine di ogni suo turno, il bersaglio effettua un tiro di MENTE contro la tua MENTE per liberarsi anticipatamente.',
-    pro:'Rimuove completamente un bersaglio dalla scena per almeno un round, anche un boss.',
-    con:'Singolo bersaglio. Il più costoso del sistema. I nemici con MENTE alta si liberano frequentemente.'},
-
-  // ─ NOIR ─
-  {id:'sp_nebbia_londra',  tipo:'mg',lvl:1,min:6, stat:'MENTE',stile:'noir',
-    nome:'Nebbia di Londra',bonus:2,
-    mec:'Crei una zona di nebbia densa di cinque metri di raggio centrata su un punto entro quindici metri da te. I tiri di attacco diretti all\'interno o attraverso la nebbia subiscono meno tre. La nebbia persiste per tre round o finché non viene dissipata da vento forte o magia specifica.',
-    pro:'Protezione di gruppo dal fuoco nemico. Copre ritirate tattiche o avanzate silenziose.',
-    con:'Penalizza anche gli alleati che combattono nella nebbia. Nulla ferma i danni da magie ad area.'},
-
-  // ─ CANTRIP ANIMA aggiuntivo ─
-  {id:'ct_lamento_oscuro', tipo:'ct',lvl:0,  min:0, stat:'ANIMA',stile:'horror',
-    nome:'Lamento Oscuro',  bonus:1,
-    mec:'Un urlo di energia oscura si scaglia sul bersaglio, alimentato dall\'ANIMA invece che dalla MENTE. Permette ai personaggi con forte investimento in ANIMA di avere un cantrip offensivo nella loro caratteristica principale senza sacrificare punti in MENTE.',
-    pro:'Cantrip offensivo basato su ANIMA. Ideale per build animistiche pure.',
-    con:'Stessa efficacia di un cantrip standard. Meccanicamente identico ad altri cantrip, differisce solo per stat.'},
 
 // ═══ MOSTRI ESEMPIO ═══
 // Talenti con ID corretti (armi_pesanti, armi_letali, gate_mb, gate_ma)
