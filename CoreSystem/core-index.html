@@ -50,14 +50,15 @@ async function ghPut(path,content,token,accId,isMaster,accName){
 }
 
 /* ═══════════════════════════════════════════
-   COSTANTI BILANCIAMENTO  (override core-data.js)
+   COSTANTI BILANCIAMENTO
    Armi:  Cat A+1  B+2  C+3  D+4  — illimitate
-   Magie: ct+0  L1+2(1pt)  L2+4(2pt)  L3+6(3pt)  L4+8(4pt)
+   Magie: ct+1  L1+2(1pt)  L2+4(2pt)  L3+6(3pt)  L4+8(4pt)
+   Cantrip +1 = uguale a Cat A (FIX #2)
    Stat min: L1≥6  L2≥8  L3≥10  L4≥12
    Cap creazione: max 7/stat al livello 1
 ═══════════════════════════════════════════ */
 const WCAT_BONUS={A:1,B:2,C:3,D:4};
-const SPELL_BONUS={ct:0,1:2,2:4,3:6,4:8};
+const SPELL_BONUS={ct:1,1:2,2:4,3:6,4:8};   // FIX #2: ct era 0
 const SPELL_COST={1:1,2:2,3:3,4:4};
 const SPELL_MINS={1:6,2:8,3:10,4:12};
 const MAX_TALENTI=4;
@@ -94,7 +95,12 @@ function atkBonus(c){
   return stat+wB+comp;
 }
 function defCorpo(c){return(c.corpo||0)+totalDefBonus(c);}
-function spellBonus(sp){return sp.tipo==="ct"?0:(SPELL_BONUS[sp.lvl]||0);}
+/* FIX #2 + #3: cantrip +1; se MENTE≥10 E gate_mb → +1 aggiuntivo su L1-L2 */
+function spellBonus(sp,c){
+  const base=sp.tipo==="ct"?SPELL_BONUS.ct:(SPELL_BONUS[sp.lvl]||0);
+  const imBonus=(c&&sp.tipo==="mg"&&(sp.lvl||0)<=2&&intuizioneMagica(c)&&hasTalent(c,"gate_mb"))?1:0;
+  return base+imBonus;
+}
 function spellCost(sp){return sp.tipo==="ct"?0:(SPELL_COST[sp.lvl]||1);}
 function spellMinStat(sp){return sp.tipo==="ct"?0:(SPELL_MINS[sp.lvl]||3);}
 function statPen(v){return v<=0?-2:v<=2?-1:0;}
@@ -302,7 +308,6 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
 
   return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"var(--bg)"}}>
     <div style={{flexShrink:0,padding:"10px 16px",borderBottom:"1px solid var(--b1)",background:"var(--s1)"}}>
-      {/* Nome + livello */}
       <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
         <button onClick={()=>{if(confirm("Hai salvato?"))onBack();}} style={{...SS.btn,padding:"4px 8px",fontSize:12}}>{"\u2190"}</button>
         <input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,flex:1,fontFamily:"Cinzel",fontSize:17,fontWeight:700,color:"var(--gold)",background:"transparent",border:"none",padding:"2px 4px"}}/>
@@ -312,7 +317,6 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
         </div>
         <span style={{fontSize:9,fontFamily:"JetBrains Mono",color:"var(--gold)",background:"var(--gbg)",padding:"2px 6px",borderRadius:4}}>CORE</span>
       </div>
-      {/* Stat + HP */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr) 2fr",gap:6,marginBottom:6}}>
         {[["CORPO","corpo"],["MENTE","mente"],["ANIMA","anima"]].map(([l,k])=>{
           const val=c[k]||0;const cap=creationCap(c);const pen=statPen(val);
@@ -322,7 +326,6 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
             {pen<0&&<div style={{fontSize:8,color:"var(--red)",fontFamily:"JetBrains Mono",lineHeight:1}}>{pen}</div>}
           </div>;
         })}
-        {/* HP panel */}
         <div style={{background:"var(--s3)",borderRadius:6,padding:"4px 8px",border:"1px solid "+(tier>0?tierColor+"44":"var(--b1)"),transition:"border-color 0.3s"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <span style={{fontSize:9,fontWeight:600,color:"var(--tx3)"}}>HP {c.hpCurrent}/{mx}</span>
@@ -337,7 +340,6 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
           </div>
         </div>
       </div>
-      {/* Quick stats row */}
       <div style={{display:"flex",gap:4,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)",alignItems:"center",flexWrap:"wrap"}}>
         <span>ATK +{atkBonus(c)+cond}</span>
         <span>DEF {defCorpo(c)}</span>
@@ -426,7 +428,7 @@ function SheetTab({c,up}){
   </div>;
 }
 
-/* ═══ CORE ITEM CARD (talenti & miglioramenti) ═══ */
+/* ═══ CORE ITEM CARD ═══ */
 function CoreItemCard({item,color,onRemove,perkUses,hasPerkUse,onUsePerk,onRestorePerk}){
   const[open,setOpen]=useState(false);
   const perkUsed=hasPerkUse&&perkUses>=1;
@@ -467,19 +469,21 @@ function CoreItemCard({item,color,onRemove,perkUses,hasPerkUse,onUsePerk,onResto
   </div>;
 }
 
-/* ═══ CORE SPELL CARD ═══ */
-function CoreSpellCard({spell,onRemove}){
+/* ═══ CORE SPELL CARD — accetta prop c per il bonus IM (FIX #3) ═══ */
+function CoreSpellCard({spell,onRemove,c}){
   const[open,setOpen]=useState(false);
   const stileInfo=(G.STILI||{})[spell.stile]||{};
   const col=spell.stat==="ANIMA"?"var(--purple)":"var(--blue)";
-  const bonus=spellBonus(spell);const cost=spellCost(spell);const minS=spellMinStat(spell);
+  const bonus=spellBonus(spell,c);   // FIX #3: passa c
+  const cost=spellCost(spell);const minS=spellMinStat(spell);
+  const imExtra=c&&spell.tipo==="mg"&&(spell.lvl||0)<=2&&intuizioneMagica(c)&&hasTalent(c,"gate_mb");
   return<div style={{background:"var(--s2)",borderRadius:8,padding:"9px 11px",marginBottom:5,border:"1px solid "+col+"22",borderLeft:"3px solid "+col}}>
     <div style={{display:"flex",alignItems:"center",gap:6}}>
       <div style={{flex:1,minWidth:0}}>
         <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
           <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:12,color:"var(--tx)"}}>{spell.nome}</span>
           <span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:col+"15",color:col}}>{spell.tipo==="ct"?"Cantrip":"L"+spell.lvl}</span>
-          {bonus>0&&<span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:"rgba(232,160,48,0.15)",color:"var(--gold)",fontFamily:"JetBrains Mono",fontWeight:700}}>+{bonus}</span>}
+          {bonus>0&&<span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:"rgba(232,160,48,0.15)",color:"var(--gold)",fontFamily:"JetBrains Mono",fontWeight:700}}>+{bonus}{imExtra&&<span style={{color:"var(--purple)"}}> ✦IM</span>}</span>}
           {cost>0&&<span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:"rgba(160,112,232,0.12)",color:"var(--purple)",fontFamily:"JetBrains Mono"}}>{cost}pt</span>}
           <span style={{fontSize:8,color:"var(--tx3)"}}>{spell.stat}</span>
           {stileInfo.icon&&<span style={{fontSize:9,color:"var(--tx3)"}}>{stileInfo.icon}</span>}
@@ -495,7 +499,7 @@ function CoreSpellCard({spell,onRemove}){
         {spell.pro&&<div style={{flex:1,fontSize:10,color:"var(--green)",lineHeight:1.4}}>{"\u2714"} {spell.pro}</div>}
         {spell.con&&<div style={{flex:1,fontSize:10,color:"var(--red)",lineHeight:1.4}}>{"\u2718"} {spell.con}</div>}
       </div>}
-      {spell.tipo==="mg"&&<p style={{fontSize:9,color:"var(--tx3)",marginTop:2,fontFamily:"JetBrains Mono"}}>Req. {spell.stat}{"\u2265"}{minS} · +{bonus} tiro · {cost}pt slot</p>}
+      {spell.tipo==="mg"&&<p style={{fontSize:9,color:"var(--tx3)",marginTop:2,fontFamily:"JetBrains Mono"}}>Req. {spell.stat}{"\u2265"}{minS} · +{bonus} tiro{imExtra?" (incl. +1 IM)":""} · {cost}pt slot</p>}
     </div>}
   </div>;
 }
@@ -542,7 +546,7 @@ function AddSpellModal({onClose,onAdd}){
   const[f,setF]=useState({id:"sp_cust_"+uid(),nome:"",tipo:"ct",lvl:1,stat:"MENTE",stile:"universale",mec:"",pro:"",con:""});
   const[addChar,setAddChar]=useState(true);
   const lvl=parseInt(f.lvl)||1;
-  const autoBonus=f.tipo==="ct"?0:(SPELL_BONUS[lvl]||0);
+  const autoBonus=f.tipo==="ct"?SPELL_BONUS.ct:(SPELL_BONUS[lvl]||0);
   const autoMin=f.tipo==="ct"?0:(SPELL_MINS[lvl]||3);
   const autoCost=f.tipo==="ct"?0:(SPELL_COST[lvl]||1);
   const save=()=>{
@@ -597,14 +601,11 @@ function ActionsTab({c,up,isMaster}){
   const catLabels={accesso:"\u26a1 Accessi",limite:"\u2b06 Limiti",corpo:"CORPO",mente:"MENTE",anima:"ANIMA",ibrido:"Ibrido"};
   const stileIcons={universale:"\u2b21",fantasy:"\u2694",cyberpunk:"\u25c8",noir:"\u25c9",horror:"\u263d",anime:"\u26a1","post-ap":"\u2622"};
   return<div style={{animation:"fadeIn 0.15s ease"}}>
-    {/* Riposi */}
     <div style={{display:"flex",gap:5,marginBottom:12}}>
       <button onClick={()=>riposo("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(232,160,48,0.3)",background:"rgba(232,160,48,0.08)",color:"var(--gold)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"\u2600\ufe0f"} Riposo Breve<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>+CORPO HP</span></button>
       <button onClick={()=>riposo("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.08)",color:"var(--blue)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"🌙"} Riposo Lungo<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>Tutto ripristinato</span></button>
       <button onClick={resetCombat} title="Reset perk 1x/combat" style={{width:50,borderRadius:7,border:"1px solid var(--b1)",background:"var(--s3)",color:"var(--tx3)",fontSize:11,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"\u2694\ufe0f"}<br/><span style={{fontSize:7}}>reset</span></button>
     </div>
-
-    {/* Talenti */}
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
       <Sec>Talenti {c.talenti.length}/{MAX_TALENTI}</Sec>
       {isMaster&&<button onClick={()=>setCustModal("talent")} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
@@ -617,8 +618,6 @@ function ActionsTab({c,up,isMaster}){
       onRemove={()=>up({talenti:c.talenti.filter(id=>id!==t.id)})}
       perkUses={getPU(t.id)} hasPerkUse={hasPU(t)} onUsePerk={()=>usePerk(t.id)} onRestorePerk={()=>restorePerk(t.id)}/>)}
     {c.talenti.length===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"6px 0 10px"}}>Nessun talento selezionato.</p>}
-
-    {/* Miglioramenti */}
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6,marginTop:14}}>
       <Sec>Miglioramenti {c.augmenti.length}/{MAX_AUGMENTI}</Sec>
       {isMaster&&<button onClick={()=>setCustModal("augment")} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
@@ -634,43 +633,34 @@ function ActionsTab({c,up,isMaster}){
       onRemove={()=>up({augmenti:c.augmenti.filter(id=>id!==a.id)})}
       perkUses={getPU(a.id)} hasPerkUse={hasPU(a)} onUsePerk={()=>usePerk(a.id)} onRestorePerk={()=>restorePerk(a.id)}/>)}
     {c.augmenti.length===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"6px 0 10px"}}>Nessun miglioramento selezionato.</p>}
-
-    {/* Condizioni */}
     <Sec style={{marginTop:14}}>Condizioni</Sec>
     {(c.conditions||[]).length>=3&&<div style={{fontSize:10,color:"var(--red)",padding:"4px 8px",borderRadius:4,background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.25)",marginBottom:6,fontFamily:"JetBrains Mono"}}>{"\u26a0"} 3+ condizioni attive: -2 a tutti i tiri</div>}
     <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
       {(G.CONDITIONS||[]).map(cond=>{const active=(c.conditions||[]).find(x=>x.id===cond.id);return<Pill key={cond.id} on={!!active} onClick={()=>{if(active)up({conditions:(c.conditions||[]).filter(x=>x.id!==cond.id)});else up({conditions:[...(c.conditions||[]),{id:cond.id,rounds:2}]});}} title={cond.effetto}>{cond.nome}</Pill>;})}
     </div>
-
     {custModal&&<AddToCompendioModal type={custModal} onClose={()=>setCustModal(null)}
       onAdd={(item,addC)=>{pushCustomItem(custModal,item);if(addC){if(custModal==="talent"&&c.talenti.length<MAX_TALENTI)up({talenti:[...c.talenti,item.id]});else if(custModal==="augment"&&c.augmenti.length<MAX_AUGMENTI)up({augmenti:[...c.augmenti,item.id]});}setCustModal(null);}}/>}
   </div>;
 }
 
-/* ══════════════ SPELLS TAB — slot-cost per level ══════════════ */
+/* ══════════════ SPELLS TAB ══════════════ */
 function SpellsTab({c,up,isMaster}){
   const[spellModal,setSpellModal]=useState(false);
   const ms=maxSlots(c);const used=c.slotUsati||0;const avail=Math.max(0,ms-used);
   const hasMb=hasTalent(c,"gate_mb");const hasMa=hasTalent(c,"gate_ma");const hasIM=intuizioneMagica(c);
   const canL12=hasMb||hasIM;const canL34=hasMa;
   const redundant=hasMb&&hasIM;
-
   const allSp=G.SPELLS||[];
   const selSp=c.magie.map(id=>allSp.find(s=>s.id===id)).filter(Boolean);
   const nCt=selSp.filter(s=>s.tipo==="ct").length;
-
   const availCt=allSp.filter(s=>s.tipo==="ct"&&!c.magie.includes(s.id));
   const availMg=lvl=>allSp.filter(s=>s.tipo==="mg"&&s.lvl===lvl&&!c.magie.includes(s.id)&&canLearnSpell(c,s));
-
   const addSpell=id=>{const sp=allSp.find(s=>s.id===id);if(!sp)return;if(sp.tipo==="ct"&&nCt>=2)return;up({magie:[...c.magie,id]});};
   const removeSpell=id=>up({magie:c.magie.filter(x=>x!==id)});
-
   const useSlot=lvl=>{const cost=SPELL_COST[lvl]||1;if(used+cost<=ms)up({slotUsati:used+cost});};
   const restoreBy=cost=>{if(used>=cost)up({slotUsati:used-cost});};
   const restoreAll=()=>up({slotUsati:0});
-
   return<div style={{animation:"fadeIn 0.15s ease"}}>
-    {/* Slot tracker */}
     {ms>0&&<div style={{background:"var(--s2)",borderRadius:8,padding:"10px 12px",marginBottom:12,border:"1px solid var(--b1)"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
         <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--gold)",letterSpacing:1}}>SLOT MAGIA (punti)</span>
@@ -679,7 +669,6 @@ function SpellsTab({c,up,isMaster}){
       <div style={{display:"flex",gap:4,marginBottom:8,flexWrap:"wrap"}}>
         {Array.from({length:ms}).map((_,i)=><div key={i} style={{width:14,height:14,borderRadius:"50%",background:i<used?"var(--b2)":"var(--gold)",border:"1.5px solid "+(i<used?"var(--b1)":"var(--gold)"),opacity:i<used?0.2:1,transition:"all 0.2s"}}/>)}
       </div>
-      {/* Bottoni consuma per livello */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:4,marginBottom:6}}>
         {[1,2,3,4].map(lvl=>{const cost=SPELL_COST[lvl];const lvlOk=lvl<=2?canL12:canL34;const dis=!lvlOk||avail<cost;return<button key={lvl} onClick={()=>!dis&&useSlot(lvl)} style={{padding:"5px 0",borderRadius:5,border:"1.5px solid rgba(224,80,80,0.3)",background:dis?"rgba(255,255,255,0.03)":"rgba(224,80,80,0.08)",color:dis?"var(--b2)":"var(--red)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:dis?"default":"pointer",lineHeight:1.3}}>L{lvl}<br/><span style={{fontSize:8,opacity:0.7}}>{"−"+cost+"pt"}</span></button>;})}
       </div>
@@ -688,49 +677,42 @@ function SpellsTab({c,up,isMaster}){
         <button onClick={restoreAll} style={{flex:2,padding:"3px 0",borderRadius:4,border:"1.5px solid rgba(72,200,138,0.3)",background:"rgba(72,200,138,0.06)",color:"var(--green)",fontSize:9,fontFamily:"Cinzel",cursor:"pointer"}}>{"\u21ba"} Tutti</button>
       </div>
     </div>}
-
-    {/* Intuizione Magica banner */}
     {hasIM&&<div style={{padding:"6px 10px",borderRadius:6,background:"rgba(160,112,232,0.08)",border:"1px solid rgba(160,112,232,0.25)",marginBottom:8,fontSize:10}}>
       <span style={{color:"var(--purple)",fontFamily:"Cinzel",fontWeight:700}}>{"\u2728"} Intuizione Magica</span>
       <span style={{color:"var(--tx3)",marginLeft:6}}>MENTE{"\u226510"}: accesso automatico L1-L2</span>
-      {redundant&&<div style={{color:"var(--gold)",fontSize:9,marginTop:3}}>{"\u26a0"} Hai anche Magia Base — talento ridondante, sostituibile con Magia Avanzata</div>}
+      {redundant&&<div style={{color:"var(--cyan)",fontSize:9,marginTop:3}}>{"\u2b50"} Magia Base + MENTE≥10: +1 aggiuntivo ai tiri L1-L2 (✦IM visibile sulle card)</div>}
     </div>}
-
-    {/* Cantrip */}
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-      <Sec>Cantrip {nCt}/2 (+0, illimitati)</Sec>
+      <Sec>Cantrip {nCt}/2 (+{SPELL_BONUS.ct}, illimitati)</Sec>
       {isMaster&&<button onClick={()=>setSpellModal(true)} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
     </div>
     {nCt<2&&<select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
       <option value="">+ Aggiungi cantrip...</option>
       {availCt.map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"\u2666":"\u2726"} {s.nome} ({s.stat})</option>)}
     </select>}
-    {selSp.filter(s=>s.tipo==="ct").map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)}/>)}
+    {selSp.filter(s=>s.tipo==="ct").map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)} c={c}/>)}
     {nCt===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"4px 0 10px"}}>Nessun cantrip selezionato.</p>}
-
-    {/* Magie L1-L2 */}
     {canL12&&<>
       <Sec style={{marginTop:12}}>Magie L1-L2 {!hasMb&&hasIM?"(Intuizione Magica)":""}</Sec>
       {[1,2].map(lvl=>{
         const bonus=SPELL_BONUS[lvl];const cost=SPELL_COST[lvl];const minS=SPELL_MINS[lvl];
         const lvlSp=selSp.filter(s=>s.tipo==="mg"&&s.lvl===lvl);const av=availMg(lvl);
+        const imBonusActive=redundant;
         return<div key={lvl} style={{marginBottom:10}}>
           <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginBottom:5,paddingLeft:2,display:"flex",gap:8}}>
             <span style={{color:"var(--blue)"}}>L{lvl}</span>
-            <span style={{color:"var(--gold)"}}>+{bonus} tiro</span>
+            <span style={{color:"var(--gold)"}}>+{imBonusActive?bonus+1:bonus} tiro{imBonusActive&&<span style={{color:"var(--purple)"}}> (✦IM)</span>}</span>
             <span style={{color:"var(--purple)"}}>{cost}pt slot</span>
             <span>stat{"\u2265"}{minS}</span>
           </div>
           {av.length>0&&<select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:6,fontSize:10}}>
-            <option value="">+ Aggiungi L{lvl} (+{bonus}, costo {cost}pt)...</option>
+            <option value="">+ Aggiungi L{lvl} (+{imBonusActive?bonus+1:bonus}{imBonusActive?" ✦IM":""}, costo {cost}pt)...</option>
             {av.map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"\u2666":"\u2726"} {s.nome} ({s.stat})</option>)}
           </select>}
-          {lvlSp.map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)}/>)}
+          {lvlSp.map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)} c={c}/>)}
         </div>;
       })}
     </>}
-
-    {/* Magie L3-L4 */}
     {canL34&&<>
       <Sec style={{marginTop:12}}>Magie L3-L4 (Magia Avanzata)</Sec>
       {[3,4].map(lvl=>{
@@ -747,15 +729,13 @@ function SpellsTab({c,up,isMaster}){
             <option value="">+ Aggiungi L{lvl} (+{bonus}, costo {cost}pt)...</option>
             {av.map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"\u2666":"\u2726"} {s.nome} ({s.stat})</option>)}
           </select>}
-          {lvlSp.map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)}/>)}
+          {lvlSp.map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)} c={c}/>)}
         </div>;
       })}
     </>}
-
     {!canL12&&!canL34&&<div style={{padding:"16px",borderRadius:8,background:"var(--s2)",border:"1px solid var(--b1)",textAlign:"center",marginTop:8}}>
       <p style={{fontSize:11,color:"var(--tx3)"}}>Seleziona <span style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700}}>Magia Base</span> o raggiungi <span style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700}}>MENTE 10</span> per le magie L1-L2.</p>
     </div>}
-
     {spellModal&&<AddSpellModal onClose={()=>setSpellModal(false)}
       onAdd={(item,addC)=>{pushCustomItem("spell",item);if(addC)up({magie:[...c.magie,item.id]});setSpellModal(false);}}/>}
   </div>;
@@ -884,6 +864,262 @@ function InfoModal({item,type,onClose}){
   </div>;
 }
 
+/* ══════════════ MANUAL PAGE — versione wiki con testo pieno ══════════════ */
+function ManualPage({onBack}){
+  const W=G.WOUND_TIERS||[];
+  const scrollRef=useRef(null);
+
+  /* Scroll verso l'ID della tabella all'interno del container */
+  const goTo=(n)=>{
+    const el=document.getElementById("manual-t"+n);
+    const box=scrollRef.current;
+    if(!el||!box)return;
+    const top=box.scrollTop+el.getBoundingClientRect().top-box.getBoundingClientRect().top-20;
+    box.scrollTo({top,behavior:"smooth"});
+  };
+  const goTop=()=>scrollRef.current?.scrollTo({top:0,behavior:"smooth"});
+
+  /* Ref wiki cliccabile — [N] in apice */
+  const WR=({n})=><sup onClick={()=>goTo(n)} title={"Vai alla Tabella T"+n} style={{cursor:"pointer",color:"var(--cyan)",fontFamily:"JetBrains Mono",fontSize:9,margin:"0 1px",userSelect:"none",textDecoration:"underline dotted",opacity:0.9}}>[{n}]</sup>;
+
+  const s={
+    sec:{fontFamily:"Cinzel",fontSize:14,fontWeight:700,color:"var(--gold)",letterSpacing:1,margin:"22px 0 10px",paddingBottom:6,borderBottom:"1px solid var(--b1)"},
+    p:{fontSize:13,color:"var(--tx2)",lineHeight:1.85,marginBottom:12},
+    hl:{color:"var(--tx)",fontWeight:600},
+    box:{background:"var(--s2)",border:"1px solid var(--b1)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--tx2)",lineHeight:1.65},
+    formula:{background:"var(--s3)",borderLeft:"3px solid var(--gold)",borderRadius:6,padding:"10px 14px",fontFamily:"JetBrains Mono",fontSize:12,color:"var(--gold)",marginBottom:12,whiteSpace:"pre-line",lineHeight:1.7},
+    warn:{background:"rgba(224,80,80,0.07)",border:"1px solid rgba(224,80,80,0.25)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"#e08080",lineHeight:1.65},
+    note:{background:"rgba(64,200,200,0.07)",border:"1px solid rgba(64,200,200,0.2)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--cyan)",lineHeight:1.65},
+    tblSec:{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:"var(--cyan)",letterSpacing:1,margin:"28px 0 8px",paddingTop:14,borderTop:"2px solid rgba(64,200,200,0.18)",display:"flex",justifyContent:"space-between",alignItems:"center"},
+    tbl:{width:"100%",borderCollapse:"collapse",marginBottom:14,fontSize:12},
+    th:{background:"var(--s3)",color:"var(--tx2)",fontFamily:"Cinzel",fontSize:10,letterSpacing:1,padding:"7px 10px",textAlign:"left",border:"1px solid var(--b1)"},
+    td:{padding:"6px 10px",border:"1px solid var(--b1)",color:"var(--tx2)",verticalAlign:"top"},
+    tdh:{padding:"6px 10px",border:"1px solid var(--b1)",color:"var(--gold)",fontFamily:"JetBrains Mono",fontSize:11,fontWeight:700,verticalAlign:"top"},
+    appHdr:{fontFamily:"Cinzel",fontSize:15,fontWeight:700,color:"var(--cyan)",letterSpacing:2,margin:"36px 0 4px",textAlign:"center",paddingTop:16,borderTop:"2px solid rgba(64,200,200,0.2)"},
+    appSub:{color:"var(--tx3)",fontSize:10,textAlign:"center",fontFamily:"JetBrains Mono",marginBottom:8,letterSpacing:0.5},
+    backTop:{fontSize:9,padding:"3px 10px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",cursor:"pointer",fontFamily:"JetBrains Mono"},
+  };
+
+  const Tbl=({cols,rows})=>(
+    <table style={s.tbl}>
+      <thead><tr>{cols.map((c,i)=><th key={i} style={s.th}>{c}</th>)}</tr></thead>
+      <tbody>{(rows||[]).map((r,ri)=><tr key={ri} style={{background:ri%2===0?"transparent":"rgba(255,255,255,0.018)"}}>
+        {r.map((cell,ci)=><td key={ci} style={ci===0?s.tdh:s.td}>{cell||"—"}</td>)}
+      </tr>)}</tbody>
+    </table>
+  );
+
+  const TblHdr=({n,label})=>(
+    <div id={"manual-t"+n} style={s.tblSec}>
+      <span>{"T"+n+" — "+label}</span>
+      <button onClick={goTop} style={s.backTop}>↑ torna su</button>
+    </div>
+  );
+
+  if(!G.WCAT)return(
+    <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column"}}>
+      <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
+        <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
+        <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Manuale</h2>
+      </div>
+      <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+        <p style={{color:"var(--red)",textAlign:"center",fontSize:13}}>{"\u26a0\ufe0f"} core-data.js non caricato.</p>
+      </div>
+    </div>
+  );
+
+  return(
+    <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}}>
+      <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
+        <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
+        <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Manuale C.O.R.E.</h2>
+        <span style={{marginLeft:"auto",fontSize:9,color:"var(--cyan)",fontFamily:"JetBrains Mono",opacity:0.7}}>Tabelle T1–T8 in fondo ↓</span>
+      </div>
+
+      <div ref={scrollRef} style={{flex:1,overflowY:"auto",padding:"14px 18px 100px",maxWidth:900,margin:"0 auto",width:"100%"}}>
+
+        {/* ── FILOSOFIA ── */}
+        <div style={{...s.box,background:"linear-gradient(135deg,rgba(232,160,48,0.08),rgba(232,160,48,0.03))",borderColor:"rgba(232,160,48,0.25)",marginTop:4}}>
+          <div style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",marginBottom:6,letterSpacing:1}}>Filosofia del Sistema</div>
+          <p style={{...s.p,margin:0,fontSize:12,lineHeight:1.7}}>C.O.R.E. (Compact Open Rules Engine) nasce da un principio semplice: le regole devono servire la storia, non il contrario. Un solo dado — il d12 — tre caratteristiche e un sistema modulare che si adatta a qualunque ambientazione, dal fantasy classico al cyberpunk, dall'horror cosmico all'anime da torneo. La complessità cresce con il personaggio, non con il regolamento: al primo livello si gioca con pochissime regole, e ogni nuova scelta — talento, miglioramento, magia — aggiunge strati solo quando il giocatore è pronto ad accoglierli.</p>
+        </div>
+
+        {/* ── 1. CARATTERISTICHE ── */}
+        <div style={s.sec}>1. Caratteristiche &amp; Creazione</div>
+        <p style={s.p}>Un personaggio è definito da tre caratteristiche fondamentali<WR n={1}/>. <span style={s.hl}>CORPO</span> governa la forza fisica, la resistenza ai traumi e la capacità di incassare i danni — è la caratteristica del guerriero, del tank, di chi vuole stare in prima linea. I Punti Vita massimi del personaggio equivalgono alla somma di CORPO + MENTE + ANIMA, ma è CORPO a determinare la difesa base contro gli attacchi fisici e la quantità di HP recuperata durante un Riposo Breve. <span style={s.hl}>MENTE</span> rappresenta l'intelligenza, la precisione, le conoscenze tecniche e la padronanza della magia arcana: chi ha MENTE alta lancia incantesimi con maggiore potenza, si interfaccia con sistemi complessi e, in caso di parità nell'iniziativa, agisce sempre per primo. <span style={s.hl}>ANIMA</span> incarna la forza di volontà, il carisma e la connessione spirituale: è la stat delle magie animistiche e delle benedizioni, dell'intimidazione fisica e psicologica, e della resistenza al terrore e alla coercizione. I personaggi con ANIMA alta ispirano, spaventano e proteggono spiritualmente i loro compagni.</p>
+        <p style={s.p}>Alla creazione, ogni giocatore distribuisce <span style={s.hl}>12 punti</span> tra le tre caratteristiche, con un minimo obbligatorio di 1 e un massimo di 7 per stat — il cosiddetto cap di creazione al livello 1. I Punti Vita di partenza equivalgono alla somma risultante, tipicamente intorno a 12. Il primo talento viene scelto liberamente durante la creazione e non richiede prerequisiti. Nota bene: valori di caratteristica molto bassi non sono neutri. Una stat uguale a 0 impone −2 a tutti i tiri che la utilizzano, mentre una stat tra 1 e 2 impone −1. Costruire un personaggio iperspecializzato significa accettare consapevolmente queste penalità sulle stat sacrificate.</p>
+        <div style={s.formula}>{"HP max = CORPO + MENTE + ANIMA\nCap creazione (Lv 1): min 1 — max 7 per stat — 12 punti totali da distribuire"}</div>
+
+        {/* ── 2. MECCANICA ── */}
+        <div style={s.sec}>2. Meccanica Core: il d12</div>
+        <p style={s.p}>Il cuore del sistema è straordinariamente semplice: ogni azione rilevante si risolve tirando <span style={s.hl}>1d12</span> e sommando la caratteristica più pertinente insieme a tutti i modificatori applicabili. Per gli attacchi in combattimento, il danno inflitto è la differenza tra il totale del tiro e la difesa del bersaglio, con un minimo di 0. La difesa base contro gli attacchi fisici è sempre il valore di CORPO del bersaglio, incrementato dai bonus di armatura e scudo. Per le azioni fuori combattimento, il GM fissa una difficoltà fissa da superare con il tiro.</p>
+        <div style={s.formula}>{"Attacco:  1d12 + Stat + Bonus arma o magia + Bonus competenza (se corrisponde)\nDanno:    risultato totale − DEF bersaglio (minimo 0)\nDifesa:   CORPO + bonus armatura + bonus scudo"}</div>
+        <p style={s.p}>Due risultati speciali interrompono qualsiasi calcolo: un <span style={{color:"var(--gold)",fontWeight:700}}>12 naturale</span> sul dado è sempre un Critico — l'azione riesce in modo straordinario indipendentemente dalla difesa del bersaglio, e il GM è incoraggiato ad amplificarne gli effetti narrativamente. Un <span style={{color:"var(--red)",fontWeight:700}}>1 naturale</span> è sempre un Fallimento Critico: qualcosa va storto in modo spettacolare, spesso con conseguenze narrative che superano il semplice mancato effetto dell'azione.</p>
+
+        {/* ── 3. COMPETENZA ── */}
+        <div style={s.sec}>3. Competenza</div>
+        <p style={s.p}>Ogni personaggio sceglie una sola caratteristica come propria area di specializzazione. In tutti i tiri che utilizzano quella stat — attacchi fisici, incantesimi, azioni sociali, prove atletiche, iniziativa — si aggiunge un <span style={s.hl}>bonus di competenza</span> pari a max(1, floor(stat ÷ 2))<WR n={2}/>. Il bonus scala con la stat: con CORPO 6 il bonus è +3, con MENTE 10 è +5, con una caratteristica al cap di 15 il bonus arriva a +7. La competenza sul CORPO si applica agli attacchi fisici; la competenza sulla MENTE si applica agli attacchi se l'arma è impostata come "Magica (MENTE)"; la competenza sull'ANIMA si applica alle magie animistiche e alle prove sociali.</p>
+        <p style={s.p}>La scelta della competenza è la decisione tattica più importante durante la creazione del personaggio: definisce il ruolo nell'avventura e differenzia meccanicamente due personaggi anche se hanno le stesse statistiche. Non si può cambiare la competenza durante il gioco, se non con un evento narrativo di grande impatto e con l'approvazione del Master.</p>
+
+        {/* ── 4. ARMI ── */}
+        <div style={s.sec}>4. Sistema delle Armi</div>
+        <p style={s.p}>Le armi sono una risorsa <span style={s.hl}>illimitata</span>: possono essere usate ogni round senza restrizioni di slot, cariche o turni di recupero. Questo le distingue fondamentalmente dalle magie. Sono divise in quattro categorie di potenza crescente<WR n={3}/>, ciascuna con cinque perk esclusivi tra cui scegliere uno solo. Il perk dell'arma definisce lo stile di combattimento del personaggio e viene scelto durante la preparazione; può essere cambiato solo durante un Riposo Lungo, quando si decide di allenarsi con una tecnica diversa.</p>
+        <p style={s.p}>La <span style={s.hl}>Categoria A</span> (+1 al tiro) non ha requisiti: chiunque può impugnare un coltello, una pistola leggera o un bastone. È la scelta dei personaggi non orientati al combattimento fisico, ma anche la base per chi usa la Doppia Impugnatura (due armi A, talento specifico). La <span style={s.hl}>Categoria B</span> (+2) è la categoria bilanciata per eccellenza — spada, ascia, pistola — senza requisiti di stat o di talento. La <span style={s.hl}>Categoria C</span> (+3) richiede CORPO uguale o superiore a 6: un personaggio con sufficiente forza bruta può maneggiarla gratuitamente, senza spendere talenti. In alternativa, il talento Armi Pesanti consente l'accesso anche a chi ha CORPO inferiore a 6 — utile per certi archetype ibridi. La <span style={s.hl}>Categoria D</span> (+4) è riservata ai combattenti più specializzati: richiede CORPO almeno 10 e il talento <span style={s.hl}>Armi Letali</span>, che è standalone e non richiede prerequisiti. Due mani obbligatorie: nessuno scudo. −1 all'iniziativa.</p>
+        <p style={s.p}>Il bonus di categoria è fisso e non scala automaticamente con il livello. La crescita del guerriero nel lungo termine deriva dalla progressione delle caratteristiche, dall'aumento del bonus di competenza e dall'acquisizione di talenti che potenziamo i perk o sbloccano capacità speciali.</p>
+
+        {/* ── 5. MAGIE ── */}
+        <div style={s.sec}>5. Sistema delle Magie</div>
+        <p style={s.p}>Le magie sono più potenti delle armi ma consumano <span style={s.hl}>slot-punti</span><WR n={4}/> — una riserva di energia magica che si esaurisce durante la giornata e si recupera soltanto con un Riposo Lungo. Il numero di slot-punti disponibili dipende dalla caratteristica magica più alta del personaggio, secondo la formula <span style={{color:"var(--gold)",fontFamily:"JetBrains Mono"}}>max(MENTE, ANIMA) − 2</span><WR n={5}/>. Un personaggio con MENTE 8 dispone di 6 slot-punti: sufficienti per sei lanci di Livello 1, tre di Livello 2, o combinazioni miste a piacere fino all'esaurimento del pool.</p>
+        <p style={s.p}>Le magie si dividono in <span style={s.hl}>Cantrip</span> e quattro Livelli di potenza. I Cantrip non consumano slot, possono essere lanciati un numero illimitato di volte e forniscono +1 al tiro — esattamente quanto un'arma di Categoria A. Ogni personaggio può avere al massimo due Cantrip equipaggiati contemporaneamente. Sono il fallback del mago: quando gli slot si esauriscono, i Cantrip garantiscono che il personaggio rimanga utile in combattimento senza tornare a dover impugnare una spada. Le <span style={s.hl}>Magie di Livello 1</span> danno +2 al tiro (come Cat B) e costano 1 slot-punto. Il <span style={s.hl}>Livello 2</span> dà +4 al tiro e costa 2 slot-punti — già superiore a Cat C. Il <span style={s.hl}>Livello 3</span> dà +6 e costa 3 slot-punti. Il <span style={s.hl}>Livello 4</span>, il culmine assoluto del potere magico, dà +8 al tiro e costa 4 slot-punti: il doppio di Cat D, ma con un costo che svuota rapidamente anche il pool più ampio.</p>
+        <p style={s.p}>L'accesso alle magie è regolato da talenti. Il talento <span style={s.hl}>Magia Base</span> sblocca i Livelli 1 e 2. Il talento <span style={s.hl}>Magia Avanzata</span> (che richiede Magia Base come prerequisito) sblocca i Livelli 3 e 4. Esiste però un'alternativa naturale a Magia Base: un personaggio che raggiunge <span style={s.hl}>MENTE uguale o superiore a 10</span> ottiene automaticamente accesso a Livello 1 e 2 tramite l'Intuizione Magica, liberando un prezioso slot talento per specializzazioni diverse. I Livelli 3 e 4 richiedono sempre e comunque il talento Magia Avanzata — non esiste alternativa a questo requisito, nemmeno con MENTE altissima.</p>
+        <div style={s.note}><span style={{fontFamily:"Cinzel",fontWeight:700}}>Bonus Intuizione Magica (FIX v2):</span> Se un personaggio possiede sia MENTE ≥ 10 <em>sia</em> il talento Magia Base, i due requisiti non si cancellano a vicenda. Al contrario, la combinazione di intuito naturale e studio formale conferisce un +1 aggiuntivo a tutti i tiri con magie di Livello 1 e Livello 2 — ricompensando concretamente chi ha investito in entrambe le vie di accesso. Questo bonus è visibile sulle card delle magie come <strong>✦IM</strong>.</div>
+
+        {/* ── 6. CONFRONTO ── */}
+        <div style={s.sec}>6. Armi e Magie a confronto</div>
+        <p style={s.p}>Il principio fondamentale del sistema è l'asimmetria intenzionale<WR n={6}/>: le armi producono danno costante e illimitato, le magie producono danno maggiore ma si esauriscono. Questo non è un difetto di bilanciamento — è la scelta di design più importante di C.O.R.E. La simulazione matematica su sei round di combattimento mostra che un guerriero con Categoria C e CORPO 7 produce nella media la stessa quantità di danni totali di un mago che lancia magie di Livello 1 in sequenza con MENTE 7: entrambi producono circa 79–87 punti di danno su sei round contro un bersaglio con difesa 5. Il delta è inferiore al 10%.</p>
+        <p style={s.p}>La differenza è nella distribuzione: il mago picchia più forte nelle prime round grazie ai Livelli 2 e 3, poi cede terreno quando il pool si esaurisce e deve ricorrere ai Cantrip. Il guerriero invece mantiene esattamente lo stesso ritmo per l'intera durata dello scontro, indefinitamente, senza mai scendere sotto il suo massimo. Questo crea dinamiche tattiche reali: quando conviene consumare la magia di Livello 3 tenuta in riserva? La si usa sul minion di turno per chiudere lo scontro in fretta, o la si conserva per il boss della scena successiva?</p>
+        <p style={s.p}>A livelli alti il vantaggio del mago in burst diventa più accentuato — una magia di Livello 4 supera di +4 l'attacco di Cat D — ma il pool si esaurisce ancora più rapidamente, rendendo il confronto ancor più strategico. La scelta tra guerriero e mago non è "quale è più forte", ma "quale stile di gioco si preferisce".</p>
+
+        {/* ── 7. FERITE ── */}
+        <div style={s.sec}>7. Ferite e Condizioni</div>
+        <p style={s.p}>Quando i Punti Vita scendono, il sistema di ferite entra in gioco in tre fasi<WR n={7}/>. Perdendo più di un terzo degli HP massimi si diventa <span style={{color:"var(--gold)",fontWeight:700}}>Feriti</span>: −1 a tutti i tiri, senza eccezioni. Perdendo più di due terzi si è in <span style={{color:"var(--red)",fontWeight:700}}>Stato Critico</span>: −2 a tutti i tiri. A 0 HP si è <span style={{color:"#c03030",fontWeight:700}}>Incapacitati</span> e non si agisce: servono tre round di azioni da parte di un alleato per stabilizzare il personaggio, senza i quali la situazione peggiora narrativamente.</p>
+        <p style={s.p}>Il sistema è intenzionalmente letale: un singolo colpo ben assestato può trascinare un personaggio dalla piena salute allo stato Ferito in un istante. Questo crea tensione reale in ogni round e rende ogni scelta tattica significativa — non c'è mai la sensazione di essere una spugna invulnerabile. Il Riposo Breve (10 minuti) recupera un numero di HP pari al valore di CORPO del personaggio, permettendo un recupero parziale tra gli scontri senza ripristinare gli slot magia.</p>
+        <p style={s.p}>Le <span style={s.hl}>Condizioni</span> — Stordito, Avvelenato, Spaventato, Rallentato e altre — si accumulano durante lo scontro. Fino a due condizioni attive contemporaneamente non aggiungono penalità extra oltre ai loro effetti specifici. Dalla terza condizione in poi, tuttavia, tutti i tiri subiscono un ulteriore −2 cumulativo: la spirale discendente delle condizioni multiple è uno dei principali strumenti del GM per creare momenti di vera pressione sul gruppo.</p>
+
+        {/* ── 8. PROGRESSIONE ── */}
+        <div style={s.sec}>8. Progressione del Personaggio</div>
+        <p style={s.p}>Il sistema scala fino al <span style={s.hl}>livello 15</span><WR n={8}/>. A ogni livello pari si guadagna +1 a una caratteristica a scelta del giocatore: questa è la principale via di crescita delle stat e consente di affinare il build nel tempo, colmare lacune o alzare una caratteristica secondaria verso soglie di sblocco (come MENTE 10 per l'Intuizione Magica). Sette livelli pari fino al 15 significano +7 punti stat totali nel corso di una campagna completa.</p>
+        <p style={s.p}>I <span style={s.hl}>Talenti</span> sono l'altra metà della progressione e vengono acquisiti ai livelli 1, 5, 9 e 13 per un massimo assoluto di quattro. Questo ritmo lento e deliberato rende ogni talento una scelta davvero significativa: non esistono "talenti spazzatura da prendere per forza" né "talenti obbligatori per non essere inutili". Ogni slot è abbastanza raro da dover essere pianificato con cura. Il cap standard delle caratteristiche è 10: per superarlo servono i talenti <span style={s.hl}>Limite Elevato</span> (porta il cap a 12, 1 talento) e <span style={s.hl}>Limite Maestro</span> (porta il cap a 15, richiede Limite Elevato). Investire due talenti su quattro per alzare il cap è una scelta radicale che definisce un'intera filosofia di personaggio — un iperspecialista disposto a sacrificare versatilità per numeri massimi.</p>
+        <p style={s.p}>I <span style={s.hl}>Miglioramenti Fisici</span> — cyberware, patti soprannaturali, biomodifiche corporee, rune incise nella carne — rappresentano alterazioni permanenti del personaggio. Il massimo acquisibile è due, su decisione narrativa del Master: non si prendono "a livello X", ma emergono dalla storia. Sono sempre una scelta di grande impatto sia meccanico che narrativo, e portano con sé conseguenze e costi che vanno oltre il semplice bonus meccanico.</p>
+
+        {/* ── 9. RIPOSI ── */}
+        <div style={s.sec}>9. Riposi</div>
+        <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=500?"1fr 1fr":"1fr",gap:10,marginBottom:14}}>
+          <div style={s.box}>
+            <div style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:"var(--gold)",marginBottom:6,letterSpacing:0.5}}>{"\u2600\ufe0f"} RIPOSO BREVE — 10 minuti</div>
+            Il personaggio recupera un numero di HP pari al proprio valore di CORPO. Gli slot magia non si recuperano con un riposo breve: il mago che ha esaurito il pool deve aspettare il Riposo Lungo. Utile per ricaricare le energie fisiche tra uno scontro e il successivo, ma non per ripristinare la piena efficienza magica. Si può fare più volte al giorno.
+          </div>
+          <div style={s.box}>
+            <div style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:"var(--blue)",marginBottom:6,letterSpacing:0.5}}>{"🌙"} RIPOSO LUNGO — 8 ore</div>
+            Ripristina integralmente tutti i Punti Vita, tutti gli slot magia, entrambi i Punti Eroe base e azzera tutte le condizioni attive. È il reset completo del personaggio tra sessioni di gioco o tra grandi sequenze narrative. I perk con utilizzo 1x/combat si azzerano già a fine ogni combattimento, non richiedono il Riposo Lungo.
+          </div>
+        </div>
+
+        {/* ── 10. PUNTI EROE ── */}
+        <div style={s.sec}>10. Punti Eroe ⭐</div>
+        <p style={s.p}>Ogni personaggio comincia ogni sessione con <span style={s.hl}>2 Punti Eroe</span>, con un massimo assoluto di 3 (non accumulabili tra sessioni). Spendere un Punto Eroe significa alzarsi in piedi e fare qualcosa di memorabile: il giocatore descrive un'azione drammatica, eroica o disperata, coerente con il personaggio e la situazione. Se il GM valuta la descrizione autentica e narrativamente interessante, l'azione <span style={{color:"var(--green)",fontWeight:700}}>riesce automaticamente senza tiro di dado</span>. Se è troppo potente per un successo garantito ma merita comunque di essere premiata, il GM può convertire il Punto Eroe in un bonus di <span style={{color:"var(--gold)",fontWeight:700}}>+6 al tiro</span>. In entrambi i casi il Punto Eroe si consuma.</p>
+        <p style={s.p}>Oltre all'azione drammatica, un Punto Eroe può essere speso per: negare un colpo che avrebbe portato il personaggio a 0 HP (resta a 1 HP con una giustificazione narrativa — "il pendente di mia nonna ha fermato la lama"), aggiungere un dettaglio alla scena coerente con la fiction ("voglio che ci sia una finestra aperta in quel muro"), o agire fuori dal proprio turno con una reazione narrativa. Il Master può assegnare Punti Eroe extra come ricompensa per giocate particolarmente creative, coraggiose o commoventi — fino al cap di 3. I Punti Eroe non si portano alla sessione successiva: ogni sessione si ricomincia da 2.</p>
+
+        {/* ══ APPENDICE TABELLE ══ */}
+        <div style={s.appHdr}>APPENDICE — Tabelle di Riferimento</div>
+        <div style={s.appSub}>Clicca [N] nel testo per saltare direttamente alla tabella corrispondente · "↑ torna su" per tornare all'inizio</div>
+
+        {/* T1 */}
+        <TblHdr n={1} label="Le Tre Caratteristiche"/>
+        <Tbl cols={["Caratteristica","Governa","Difesa / Threshold","Note meccaniche"]}
+          rows={[
+            ["CORPO","Forza fisica, resistenza, HP, Riposo Breve","DEF base vs attacchi fisici (DEF = CORPO + armor + scudo)","Soglie ferita basate su HP (= CORPO+MENTE+ANIMA). HP recuperati col Riposo Breve = CORPO"],
+            ["MENTE","Intelligenza, magia arcana, tech, iniziativa","Magie mentali, illusioni, hacking","A parità di iniziativa, MENTE più alta agisce prima. Intuizione Magica: MENTE ≥ 10"],
+            ["ANIMA","Carisma, volontà, magia animistica","Magie sociali, paura, coercizione","Pool slot = max(MENTE, ANIMA) − 2. Governa intimidazione e benedizioni"],
+          ]}/>
+        <div style={{...s.box,fontSize:11,marginTop:-8}}>
+          Penalità stat bassa: stat 0 = −2 a tutti i tiri correlati · stat 1–2 = −1. Tre o più condizioni attive contemporaneamente aggiungono −2 a tutti i tiri (globale).
+        </div>
+
+        {/* T2 */}
+        <TblHdr n={2} label="Bonus di Competenza"/>
+        <Tbl cols={["Valore stat","Bonus comp","Valore stat","Bonus comp"]}
+          rows={[["1–2","+1","9–10","+5"],["3–4","+2","11–12","+6"],["5–6","+3","13–15","+7"],["7–8","+4","",""]]}/>
+        <div style={{...s.box,fontSize:11,marginTop:-8}}>Formula: max(1, floor(stat ÷ 2)). Il bonus si applica a <em>tutti</em> i tiri con la stat di competenza scelta — attacchi, magie, azioni, iniziativa.</div>
+
+        {/* T3 */}
+        <TblHdr n={3} label="Categorie Arma"/>
+        <Tbl cols={["Cat","+Tiro","Requisito","Talento (alternativa)","Note"]}
+          rows={[
+            ["A","+1","Nessuno","—","Base per Doppia Impugnatura (2×A, talento spec.)"],
+            ["B","+2","Nessuno","—","Categoria bilanciata per eccellenza"],
+            ["C","+3","CORPO ≥ 6 (gratuito)","Armi Pesanti (per CORPO < 6)","Iniziativa non penalizzata"],
+            ["D","+4","CORPO ≥ 10 + talento","Armi Letali (standalone, 1 talento)","Due mani. No scudo. −1 iniziativa"],
+          ]}/>
+
+        {/* T4 */}
+        <TblHdr n={4} label="Sistema Magie"/>
+        <Tbl cols={["Livello","+Tiro","Costo slot","Stat minima","Accesso"]}
+          rows={[
+            ["Cantrip","+1","0pt — illimitato","—","Sempre (max 2 equipaggiati)"],
+            ["L1","+2","1pt","Stat ≥ 6","Magia Base (talento) — oppure MENTE ≥ 10 (Intuizione Magica)"],
+            ["L2","+4","2pt","Stat ≥ 8","Magia Base (talento) — oppure MENTE ≥ 10 (Intuizione Magica)"],
+            ["L3","+6","3pt","Stat ≥ 10","Magia Avanzata obbligatorio — nessuna eccezione"],
+            ["L4","+8","4pt","Stat ≥ 12","Magia Avanzata obbligatorio — nessuna eccezione"],
+          ]}/>
+        <div style={{...s.box,fontSize:11,marginTop:-8,borderColor:"rgba(160,112,232,0.3)",background:"rgba(160,112,232,0.06)"}}>
+          <span style={{color:"var(--purple)",fontWeight:700}}>Bonus Intuizione Magica:</span> MENTE ≥ 10 + talento Magia Base attivi simultaneamente → +1 aggiuntivo a tutti i tiri L1–L2 (indicato come ✦IM sulle card della scheda personaggio).
+        </div>
+
+        {/* T5 */}
+        <TblHdr n={5} label="Pool Slot per Stat (max(MENTE, ANIMA) − 2)"/>
+        <Tbl cols={["max(MENTE,ANIMA)","Pool pt","L1 lanci max","L2 lanci max","L3 lanci max","L4 lanci max"]}
+          rows={[3,4,5,6,7,8,9,10,11,12].map(stat=>{
+            const pool=Math.max(0,stat-2);
+            return[stat+"",pool+"",pool+"",""+Math.floor(pool/2),""+Math.floor(pool/3),""+Math.floor(pool/4)];
+          })}/>
+        <div style={{...s.box,fontSize:11,marginTop:-8}}>
+          I lanci "max" indicano il numero massimo usando <em>solo</em> quel livello. In pratica si mischiano i livelli liberamente fino ad esaurimento del pool. Il pool si recupera interamente solo con un Riposo Lungo.
+        </div>
+
+        {/* T6 */}
+        <TblHdr n={6} label="Confronto Armi vs Magie (stat 10, DEF bersaglio = 5)"/>
+        <Tbl cols={["Tipo","+Tiro","Danno medio","Disponibilità","Talenti richiesti"]}
+          rows={[
+            ["Cantrip (magia)","+1",""+(6.5+10+1-5).toFixed(1)+" avg","Illimitata","0 (accesso libero)"],
+            ["Cat A (arma)","+1",""+(6.5+10+1-5).toFixed(1)+" avg","Illimitata","0"],
+            ["Cat B (arma)","+2",""+(6.5+10+2-5).toFixed(1)+" avg","Illimitata","0"],
+            ["L1 (magia)","+2",""+(6.5+10+2-5).toFixed(1)+" avg","Limitata — 1pt/cast","1 (Magia Base o MENTE≥10)"],
+            ["Cat C (arma)","+3",""+(6.5+10+3-5).toFixed(1)+" avg","Illimitata","0 con CORPO≥6"],
+            ["L2 (magia)","+4",""+(6.5+10+4-5).toFixed(1)+" avg","Limitata — 2pt/cast","1 (Magia Base o MENTE≥10)"],
+            ["Cat D (arma)","+4",""+(6.5+10+4-5).toFixed(1)+" avg","Illimitata","1 (Armi Letali) + CORPO≥10"],
+            ["L3 (magia)","+6",""+(6.5+10+6-5).toFixed(1)+" avg","Limitata — 3pt/cast","2 (Magia Base + Avanzata)"],
+            ["L4 (magia)","+8",""+(6.5+10+8-5).toFixed(1)+" avg","Limitata — 4pt/cast","2 (Magia Base + Avanzata)"],
+          ]}/>
+
+        {/* T7 */}
+        <TblHdr n={7} label="Wound Tiers — Ferite"/>
+        <Tbl cols={["Tier","Nome","Soglia HP","Penalità ai tiri","Descrizione"]}
+          rows={(W.length?W:[
+            {tier:0,nome:"Integro",penalita:0,desc:"Nessuna penalità."},
+            {tier:1,nome:"Ferito",penalita:-1,desc:"-1 a tutti i tiri."},
+            {tier:2,nome:"Critico",penalita:-2,desc:"-2 a tutti i tiri."},
+            {tier:3,nome:"Incapacitato",penalita:null,desc:"Non agisce."},
+          ]).map(w=>[
+            "Tier "+w.tier,
+            w.nome,
+            w.tier===0?"HP pieno":w.tier===1?"≥ 1/3 HP persi":w.tier===2?"≥ 2/3 HP persi":"0 HP",
+            w.penalita===null?"—":w.penalita===0?"Nessuna":w.penalita+" a tutti i tiri",
+            w.tier===3?"Non agisce. 3 round per stabilizzarlo da parte di un alleato.":w.desc,
+          ])}/>
+        <div style={{...s.warn,marginTop:-8}}>
+          <strong>Regola Condizioni:</strong> con 3 o più condizioni attive contemporaneamente, tutti i tiri del personaggio subiscono un ulteriore −2 cumulativo (in aggiunta alle penalità individuali di ogni condizione).
+        </div>
+
+        {/* T8 */}
+        <TblHdr n={8} label="Progressione Livelli (cap: 15)"/>
+        <Tbl cols={["Livello","Guadagno","Dettaglio"]}
+          rows={[
+            ["1","Creazione personaggio","12pt da distribuire (min 1 / max 7 per stat). 1° Talento. HP = C+M+A. Pool slot attivo."],
+            ["2, 4, 6, 8, 10, 12, 14","+1 stat a scelta","Qualsiasi caratteristica (entro cap attuale). 7 incrementi totali nella campagna completa."],
+            ["5","+1 Talento — 2° su 4","Secondo talento del personaggio."],
+            ["9","+1 Talento — 3° su 4","Terzo talento del personaggio."],
+            ["13","+1 Talento — 4° e ultimo","Quarto e ultimo talento acquisibile."],
+            ["Qualsiasi (narrativo)","Miglioramento Fisico (max 2)","Solo su decisione narrativa del Master. Non automatico con il livello."],
+            ["Con talento Limite Elevato","Cap stat: 10 → 12","Richiede 1 talento dedicato."],
+            ["Con talento Limite Maestro","Cap stat: 12 → 15","Richiede Limite Elevato + 1 ulteriore talento. 2 slot totali."],
+          ]}/>
+
+      </div>
+    </div>
+  );
+}
+
 /* ═══ HOMEBREW GUIDE ═══ */
 function HomebrewGuide({onBack}){
   const s={sec:{fontFamily:"Cinzel",fontSize:14,fontWeight:700,color:"var(--gold)",letterSpacing:1,margin:"20px 0 10px",paddingBottom:6,borderBottom:"1px solid var(--b1)"},p:{fontSize:13,color:"var(--tx2)",lineHeight:1.7,marginBottom:10},box:{background:"var(--s2)",border:"1px solid var(--b1)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--tx2)",lineHeight:1.6},warn:{background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.2)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"#e08080",lineHeight:1.6},good:{background:"rgba(72,200,138,0.08)",border:"1px solid rgba(72,200,138,0.2)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--green)",lineHeight:1.6}};
@@ -897,91 +1133,17 @@ function HomebrewGuide({onBack}){
       <p style={s.p}>Armi e magie sono asimmetriche per design. Le armi fanno danno costante illimitato. Le magie fanno più danno ma si esauriscono. Non cercare di pareggiarle: hanno trade-off diversi.</p>
       <div style={{...s.box,fontFamily:"JetBrains Mono",fontSize:11,lineHeight:1.8}}>
         ARMI:  Cat A +1 · B +2 · C +3 · D +4  (illimitate){"\n"}
-        MAGIE: Cantrip +0 · L1 +2 (1pt) · L2 +4 (2pt) · L3 +6 (3pt) · L4 +8 (4pt){"\n"}
-        Pool slot = max(MENTE,ANIMA)−2  (es. MENTE 10 = 8pt)
+        MAGIE: Cantrip +1 · L1 +2 (1pt) · L2 +4 (2pt) · L3 +6 (3pt) · L4 +8 (4pt){"\n"}
+        Pool slot = max(MENTE, ANIMA) − 2  (es. MENTE 10 = 8pt)
       </div>
       <div style={s.sec}>Regole d'Oro</div>
-      <div style={s.good}>✔ Rispetta i bonus per livello: non superarli{"\n"}✔ Effetti debilitanti: durata ≤3 round{"\n"}✔ PRO e CON entrambi meccanicamente rilevanti{"\n"}✔ Un talento non deve essere strettamente migliore di un altro</div>
-      <div style={s.warn}>✘ Non superare i bonus della tabella standard{"\n"}✘ Non effetti permanenti senza grandi costi{"\n"}✘ Non ignorare il requisito stat minima per le magie{"\n"}✘ Non cantrip con effetti da magia L1+</div>
+      <div style={s.good}>{"✔ Rispetta i bonus per livello: non superarli\n✔ Effetti debilitanti: durata ≤3 round\n✔ PRO e CON entrambi meccanicamente rilevanti\n✔ Un talento non deve essere strettamente migliore di un altro"}</div>
+      <div style={s.warn}>{"✘ Non superare i bonus della tabella standard\n✘ Non effetti permanenti senza grandi costi\n✘ Non ignorare il requisito stat minima per le magie\n✘ Non cantrip con effetti da magia L1+"}</div>
       <div style={s.sec}>Aggiungere in-session (Master)</div>
       <p style={s.p}>Dalla scheda, tab Azioni o Magie, il bottone <strong style={{color:"var(--gold)"}}>+ Compendio</strong> apre il form. I bonus e min-stat vengono calcolati automaticamente dal livello scelto. Salvato in localStorage, visibile subito per tutti i PG su quel dispositivo.</p>
       <div style={{...s.box,fontFamily:"JetBrains Mono",fontSize:11}}>
-        PERK tracciato: scrivi "1x/combat:" nel campo Perk.{"\n"}
-        Es: "1x/combat: se colpisci, il nemico subisce Stordito 1 round."{"\n"}
-        Il bottone Usa/↺ appare automaticamente nella card del PG.
+        {"PERK tracciato: scrivi \"1x/combat:\" nel campo Perk.\nEs: \"1x/combat: se colpisci, il nemico subisce Stordito 1 round.\"\nIl bottone Usa/↺ appare automaticamente nella card del PG."}
       </div>
-    </div>
-  </div>;
-}
-
-/* ═══ MANUAL PAGE ═══ */
-function ManualPage({onBack}){
-  const R=G.CORE_RULES||{};const W=G.WOUND_TIERS||[];const HP=G.HERO_POINT||{};
-  const AR=G.ARMORS||[];const SH=G.SHIELDS||[];const CO=G.CONDITIONS||[];
-  if(!G.WCAT)return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column"}}>
-    <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
-      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
-      <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Manuale</h2>
-    </div>
-    <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}><p style={{color:"var(--red)",textAlign:"center",fontSize:13}}>{"\u26a0\ufe0f"} core-data.js non caricato.</p></div>
-  </div>;
-
-  const s={sec:{fontFamily:"Cinzel",fontSize:14,fontWeight:700,color:"var(--gold)",letterSpacing:1,margin:"20px 0 10px",paddingBottom:6,borderBottom:"1px solid var(--b1)"},p:{fontSize:13,color:"var(--tx2)",lineHeight:1.7,marginBottom:10},box:{background:"var(--s2)",border:"1px solid var(--b1)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--tx2)",lineHeight:1.6},formula:{background:"var(--s3)",borderLeft:"3px solid var(--gold)",borderRadius:6,padding:"10px 14px",fontFamily:"JetBrains Mono",fontSize:13,color:"var(--gold)",marginBottom:10},tbl:{width:"100%",borderCollapse:"collapse",marginBottom:12,fontSize:12},th:{background:"var(--s3)",color:"var(--tx2)",fontFamily:"Cinzel",fontSize:10,letterSpacing:1,padding:"7px 10px",textAlign:"left",border:"1px solid var(--b1)"},td:{padding:"6px 10px",border:"1px solid var(--b1)",color:"var(--tx2)"}};
-  const Tbl=({cols,rows})=><table style={s.tbl}><thead><tr>{cols.map((c,i)=><th key={i} style={s.th}>{c}</th>)}</tr></thead><tbody>{(rows||[]).map((r,i)=><tr key={i}>{r.map((c,j)=><td key={j} style={{...s.td,...(j===0?{color:"var(--gold)",fontFamily:"JetBrains Mono",fontSize:11}:{})}}>{c||"—"}</td>)}</tr>)}</tbody></table>;
-
-  return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}}>
-    <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
-      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
-      <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Manuale C.O.R.E.</h2>
-    </div>
-    <div style={{flex:1,overflowY:"auto",padding:"12px 18px 80px",maxWidth:900,margin:"0 auto",width:"100%"}}>
-      <div style={{...s.box,background:"linear-gradient(135deg,rgba(232,160,48,0.08),rgba(232,160,48,0.03))",borderColor:"rgba(232,160,48,0.25)"}}>
-        <div style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",marginBottom:6}}>Filosofia</div>
-        <p style={{...s.p,margin:0}}>Un dado, tre caratteristiche, regole modulari. Armi = costante illimitato. Magie = burst limitato. La complessità cresce col personaggio, non con le regole.</p>
-      </div>
-      <div style={s.sec}>1. Caratteristiche & Creazione</div>
-      <div style={s.formula}>HP = CORPO + MENTE + ANIMA · Cap Lv1: max {CAP_CREAZIONE}/stat · 12 punti totali</div>
-      <Tbl cols={["Stat","Governa","Difende vs"]} rows={[["CORPO","Forza, resistenza","Attacchi fisici"],["MENTE","Intelligenza, magia, tech","Magie mentali"],["ANIMA","Carisma, volontà","Magie sociali, paura"]]}/>
-      <p style={s.p}>12 punti da distribuire alla creazione (min 1/stat, max 7/stat al Lv1). 1 Talento iniziale. Max 2 cantrip. Competenza: scegli 1 stat. Arma: nome + categoria + perk.</p>
-      <div style={s.sec}>2. Meccanica d12</div>
-      <div style={s.formula}>Risultato = 1d12 + Stat + Modificatori · Danno = Risultato − Difesa (min 0)</div>
-      <div style={s.sec}>3. Categorie Arma — illimitate</div>
-      <Tbl cols={["Cat","+Attacco","Requisito"]} rows={[["A","+1","Sempre"],["B","+2","Sempre"],["C","+3","CORPO≥6 o Armi Pesanti (talento)"],["D","+4","CORPO≥10 + Armi Letali (talento, obbligatorio)"]]}/>
-      <div style={s.sec}>4. Magie — Sistema Slot-Punti</div>
-      <div style={s.formula}>Slot-punti = max(MENTE, ANIMA) − 2 · Ogni magia consuma punti pari al livello</div>
-      <Tbl cols={["Livello","+Tiro","Costo Slot","Min Stat","Accesso"]} rows={[
-        ["Cantrip","+0","0pt","—","Sempre (max 2)"],
-        ["L1","+2","1pt","Stat≥6","Magia Base o MENTE≥10 (Intuizione Magica)"],
-        ["L2","+4","2pt","Stat≥8","Magia Base o MENTE≥10 (Intuizione Magica)"],
-        ["L3","+6","3pt","Stat≥10","Magia Avanzata (obbligatorio, nessuna eccezione)"],
-        ["L4","+8","4pt","Stat≥12","Magia Avanzata (obbligatorio, nessuna eccezione)"],
-      ]}/>
-      <div style={{...s.box,fontSize:11}}><strong style={{color:"var(--purple)"}}>Intuizione Magica:</strong> MENTE≥10 sblocca L1-L2 automaticamente, liberando un talento per Magia Avanzata. L3-L4 richiedono SEMPRE Magia Avanzata.</div>
-      <div style={s.sec}>5. Confronto Armi vs Magie (stat 10)</div>
-      <Tbl cols={["Tipo","Bonus tiro","Danno avg","Disponibilità"]} rows={[
-        ["Cat D (guerriero)","+4",""+(6.5+10+4).toFixed(1),"Illimitata — punto forte"],
-        ["L4 (mago, 2 lanci)","+8",""+(6.5+10+8).toFixed(1),"2× per sessione (8pt pool)"],
-        ["Cantrip (backup mago)","+0",""+(6.5+10).toFixed(1),"Illimitata — backup"],
-      ]}/>
-      <div style={s.sec}>6. Ferite</div>
-      <Tbl cols={["Tier","Stato HP","Penalità"]} rows={W.map(w=>[w.nome,w.tier===0?"Pieno":w.tier===1?"≥1/3 persi":w.tier===2?"≥2/3 persi":"0 HP",w.penalita===null?"Non agisce, 3 round.":w.penalita===0?"—":w.penalita+" a tutti i tiri"])}/>
-      <div style={{...s.box,fontSize:11,color:"var(--red)"}}>3+ condizioni attive: −2 a tutti i tiri (globale)</div>
-      <div style={s.sec}>7. Progressione (cap Lv 15)</div>
-      <Tbl cols={["Evento","Momento"]} rows={[
-        ["12pt (max "+CAP_CREAZIONE+"/stat) + 1 talento","Lv 1 — Creazione"],
-        ["+1 stat a scelta","Lv 2,4,6,8,10,12,14"],
-        ["+1 Talento (2°/"+MAX_TALENTI+")","Lv 5"],
-        ["+1 Talento (3°/"+MAX_TALENTI+")","Lv 9"],
-        ["+1 Talento (4° e ultimo)","Lv 13"],
-        ["Modifiche corporee (max "+MAX_AUGMENTI+")","Narrative, decide Master"],
-      ]}/>
-      <div style={s.sec}>8. Riposi</div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}}>
-        <div style={s.box}><strong style={{color:"var(--tx)"}}>Riposo Breve</strong><br/>+CORPO HP · Slot non recuperati</div>
-        <div style={s.box}><strong style={{color:"var(--tx)"}}>Riposo Lungo</strong><br/>HP + slot + perkUses + condizioni: tutto ripristinato</div>
-      </div>
-      <div style={s.sec}>9. Punti Eroe ⭐</div>
-      <p style={s.p}>Partenza: 2 PE · Cap: 3 PE · Non si recuperano automaticamente — il Master li concede a discrezione per giocata eccezionale. Effetto: +1 a +6 al tiro, o successo automatico.</p>
     </div>
   </div>;
 }
