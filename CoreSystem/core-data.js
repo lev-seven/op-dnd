@@ -294,7 +294,7 @@ var SPELLS = [
     nome:'Lamento Oscuro',  bonus:1,
     mec:'Un urlo di energia oscura si scaglia sul bersaglio, alimentato dall\'ANIMA invece che dalla MENTE. Permette ai personaggi con forte investimento in ANIMA di avere un cantrip offensivo nella loro caratteristica principale senza sacrificare punti in MENTE.',
     pro:'Cantrip offensivo basato su ANIMA. Ideale per build animistiche pure.',
-    con:'Stessa efficacia di un cantrip standard. Meccanicamente identico ad altri cantrip, differisce solo per stat.'},
+    con:'Stessa efficacia di un cantrip standard. Meccanicamente identico ad altri cantrip, differisce solo per stat.'}
 
 
 ];
@@ -470,7 +470,7 @@ var TALENTS = [
     desc:'Alcune persone non hanno bisogno di estrarre un\'arma per essere pericolose. Il modo in cui guardano qualcuno è sufficiente. La voce che non si alza mai, le parole scelte con chirurgica precisione, il silenzio nel posto giusto: tutto comunica una cosa sola, con assoluta chiarezza.',
     perk:'Puoi usare ANIMA al posto di CORPO per i tiri di intimidazione e per imporre condizioni psicologiche a bersagli intelligenti. 1x/combat: come azione, effettua un tiro di ANIMA contro la MENTE del bersaglio. In caso di successo, il bersaglio non ti attacca nel round corrente — anche se è già in posizione di farlo.',
     pro:'Trasforma ANIMA in una risorsa offensiva. Ferma attacchi senza usare slot magici.',
-    con:'Solo contro bersagli intelligenti capaci di comprendere una minaccia sociale. Inutile contro bestie o automi.'},
+    con:'Solo contro bersagli intelligenti capaci di comprendere una minaccia sociale. Inutile contro bestie o automi.'}
 
 ];
 
