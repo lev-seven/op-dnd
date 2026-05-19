@@ -28,6 +28,8 @@ var CORE_RULES = {
   maxAugments: 2,         // massimo miglioramenti fisici
   maxCantrips: 2,
   slotFormula: 'max(MENTE, ANIMA) - 2',
+  spellSlotCosts: {ct:0, 1:1, 2:1, 3:2, 4:2}, // L1-L2 costano 1 slot, L3-L4 costano 2 slot
+  shortRestSlotRecovery: 'max(1, floor(max(MENTE,ANIMA)/4))',
   baseMovement: 9,
   // Armi: illimitate, bonus fisso per categoria
   // Magie: più forti, ma consumano slot-punti
@@ -140,6 +142,103 @@ var INCOMPATIBILITIES = [
 // bonus = bonus fisso al tiro d12 (da costanti app: ct:0 L1:+2 L2:+4 L3:+6 L4:+8)
 // min   = stat minima richiesta (ct:0 L1:6 L2:8 L3:10 L4:12)
 // Le magie sono più potenti delle armi di pari livello, ma consumano slot-punti.
+  // ─── TALENTI AZIONE (nuovi: meccaniche da altri sistemi GDR) ───
+
+  // ─ UNIVERSALI ─
+  {id:'furia',            cat:'corpo',  stile:'universale',req:null,
+    nome:'Furia',
+    desc:'Esistono combattenti che non cercano la vittoria con la tecnica, ma con la ferocia pura. Quando entri in stato di furia, il tuo corpo supera ogni limitazione razionale: percepisci il dolore come qualcosa di distante, i tuoi colpi diventano devastanti e imprevedibili. La mente smette di ragionare e il corpo prende il controllo.',
+    perk:'1x/combat: entra in furia come azione libera. Per tre round: i tuoi attacchi infliggono due punti di danno aggiuntivi al risultato finale. In compenso, la tua Difesa scende di due punti per tutta la durata. Non puoi spendere slot magici né lanciare incantesimi mentre sei in furia, a meno che una magia non indichi esplicitamente il contrario.',
+    pro:'Danno aggiuntivo fisso garantito per tre round.',
+    con:'Difesa ridotta di due punti. Nessuna magia per tre round. Non cumulabile con Adrenalina Pura nello stesso turno.'},
+
+  {id:'contrattacco',     cat:'corpo',  stile:'universale',req:'armi_pesanti',
+    nome:'Contrattacco',
+    desc:'Non tutti i guerrieri aspettano il proprio turno in silenzio. Hai sviluppato un istinto raro: sentire il momento preciso in cui il nemico ha sbagliato l\'angolo di attacco e sfruttarlo prima ancora che lui se ne accorga. La guardia di un avversario impreciso diventa la tua apertura.',
+    perk:'1x/combat: quando un nemico ti attacca in mischia e il suo tiro totale è inferiore alla tua Difesa, esegui immediatamente un attacco di risposta fuori dal tuo turno, con tutti i tuoi normali bonus. Non è possibile usare questa risposta contro attacchi a distanza o incantesimi.',
+    pro:'Trasforma i mancati nemici in opportunità offensive. Più forte contro avversari aggressivi.',
+    con:'Richiede che il nemico ti attacchi in mischia e manchi. Inutile contro combattenti a distanza.'},
+
+  {id:'zufolo_bardico',   cat:'anima',  stile:'universale',req:null,
+    nome:'Zufolo Bardico',
+    desc:'Che sia una ballata improvvisata, un discorso fulmineo o un gesto nel momento giusto, sai toccare qualcosa di profondo in chi ti sta accanto. Il tuo talento non è distruttivo: è quella voce che fa sembrare possibile l\'impossibile anche a chi non ci crede.',
+    perk:'1x/combat: designa un alleato entro dieci metri. Prima che effettui il suo prossimo tiro, aggiunge al risultato un bonus pari al tuo valore di ANIMA. Puoi dichiararlo dopo che il dado è stato tirato ma prima che l\'esito venga risolto.',
+    pro:'Bonus scalabile con ANIMA. Applicabile ad attacchi fisici, magici, difese o prove.',
+    con:'Richiede alleati in prossimità. Nessun effetto diretto su te stesso. Solo una volta per combattimento.'},
+
+  {id:'marchio_cacciatore',cat:'mente', stile:'universale',req:null,
+    nome:'Marchio del Cacciatore',
+    desc:'Studiare un bersaglio prima di colpirlo non è codardìa: è professionalità. Hai imparato a osservare i dettagli che contano — la postura, le aperture nell\'equipaggiamento, il ritmo della respirazione. Una volta che hai il tuo bersaglio nel mirino, lo conosci meglio di quanto lui conosca se stesso.',
+    perk:'All\'inizio del combattimento, o come azione intera, designa un bersaglio visibile come tua preda. Fino alla fine del combattimento ottieni più due ai tiri di attacco contro di lui e puoi sempre valutare visivamente il suo stato di salute — se ha ferite leggere, gravi o è in condizioni critiche. Il marchio cade alla morte del bersaglio.',
+    pro:'Bonus fisso costante contro il bersaglio prioritario. Informazione tattica gratuita.',
+    con:'Solo contro un bersaglio alla volta. Cambiarlo richiede un\'azione intera.'},
+
+  {id:'recupero_arcano',  cat:'mente',  stile:'universale',req:'gate_mb',
+    nome:'Recupero Arcano',
+    desc:'La magia non proviene solo dai libri. Proviene dall\'esperienza, dalla resilienza, dalla capacità di trovare quiete nel caos. Sai meditare anche in condizioni difficili, recuperando le energie spirituali più velocemente degli altri.',
+    perk:'1x/sessione: durante o subito dopo un Riposo Breve, recuperi slot magici aggiuntivi pari alla metà del tuo valore di MENTE, arrotondato per difetto (minimo uno).',
+    pro:'Con MENTE alta recuperi slot significativi ogni sessione.',
+    con:'Una sola volta per sessione, non per ogni Riposo Breve. Richiede Magia Base.'},
+
+  {id:'limite_ultimo',    cat:'ibrido', stile:'universale',req:null,
+    nome:'Limite Ultimo',
+    desc:'C\'è un fuoco che brucia più forte quando si è sull\'orlo della sconfitta. Ogni ferita subita alimenta una riserva di potere disperato che, al momento giusto, si scatena in un\'esplosione di violenza pura. Non è tecnica: è sopravvivenza.',
+    perk:'Guadagni una Carica Limite ogni volta che le tue ferite peggiorano di livello, fino a un massimo di tre cariche. Le cariche si conservano tra un combattimento e l\'altro. Quando hai almeno due cariche, puoi spenderle tutte come azione: il tuo prossimo attacco ottiene un bonus aggiuntivo pari al numero di cariche moltiplicato per quattro. Le cariche si azzerano dopo l\'uso.',
+    pro:'Con tre cariche il bonus aggiuntivo è dodici — devastante. Si attiva naturalmente subendo danni.',
+    con:'Con tre cariche sei in Stato Critico: meno due a tutti i tiri di base. Richiede di essere feriti per attivarsi.'},
+
+  {id:'patto_abisso',     cat:'mente',  stile:'horror',    req:null,
+    nome:'Patto dell\'Abisso',
+    desc:'Hai consegnato qualcosa di irrecuperabile in cambio di potere. Forse un momento di disperazione. Forse una scelta ponderata. L\'entità con cui hai stretto questo accordo è reale, presente, e ha un interesse nel tenerti in vita — almeno per ora. I tre Punti Vita che mancano non torneranno mai.',
+    pro:'Più uno permanente a tutte le magie. Un slot magico recuperato automaticamente dopo ogni Riposo Breve.',
+    con:'Meno tre Punti Vita massimi permanenti — le soglie di ferita cambiano di conseguenza. L\'entità è un antagonista narrativo che il Master utilizza.'},
+
+  {id:'adrenalina_pura',  cat:'corpo',  stile:'universale',req:null,
+    nome:'Adrenalina Pura',
+    desc:'Ci sono persone che in situazioni normali sono già letali. E poi ci sono quelle che, quando la tensione raggiunge il culmine, trovano una marcia in più che non dovrebbero avere. Non è magia. Non è allenamento. È il corpo che si rifiuta di perdere.',
+    perk:'1x/combat: nel tuo turno, dopo aver già effettuato un attacco, esegui immediatamente un secondo attacco con gli stessi bonus. Non è utilizzabile quando sei in Stato Critico.',
+    pro:'Doppio attacco in un singolo turno. Con armi di categoria alta il danno potenziale è enorme.',
+    con:'Una volta per combattimento. Impossibile in Stato Critico. Non cumulabile con Furia nello stesso turno.'},
+
+  // ─ CYBERPUNK ─
+  {id:'interfaccia_neurale',cat:'mente',stile:'cyberpunk',req:null,
+    nome:'Interfaccia Neurale',
+    desc:'Il tuo sistema nervoso è stato modificato per comunicare direttamente con le reti digitali. Non hai bisogno di terminali o interfacce fisiche. In un mondo dove la tecnologia ha colonizzato ogni superficie, questo ti rende qualcosa di pericolosamente versatile.',
+    perk:'1x/combat: hackera un dispositivo tecnologico o un nemico con ciberware entro dieci metri. Effettua un tiro di MENTE contro la sua MENTE. In caso di successo scegli uno: il dispositivo si disattiva per un round, il nemico perde due punti di Difesa per due round, oppure ottieni accesso a informazioni riservate che il bersaglio voleva tenere segrete.',
+    pro:'Versatile contro nemici cibernetici. Può fornire informazioni tattiche o vantaggio meccanico.',
+    con:'Inutile contro bersagli puramente biologici o magici. La complessità del sistema è decisa dal Master.'},
+
+  {id:'protocollo_emergenza',cat:'corpo',stile:'cyberpunk',req:null,
+    nome:'Protocollo di Emergenza',
+    desc:'Il tuo corpo incorpora sistemi di stabilizzazione automatica progettati per situazioni estreme. Non è magia: è ingegneria. Quando la situazione diventa critica, entrano in azione senza che tu debba fare nulla.',
+    perk:'Passivo: quando entri in Stato Critico per la prima volta in un combattimento, recuperi immediatamente Punti Vita pari a CORPO diviso due, arrotondato per eccesso, e la condizione Rallentato scompare se era attiva. Funziona una sola volta per Riposo Lungo.',
+    pro:'Buffer automatico nel momento più pericoloso. Zero costo di azione, si attiva da solo.',
+    con:'Solo in Stato Critico. Una volta per Riposo Lungo. Non evita l\'Incapacitazione se il danno è sufficiente in un singolo colpo.'},
+
+  // ─ HORROR ─
+  {id:'conoscenza_proibita',cat:'mente',stile:'horror',   req:null,
+    nome:'Conoscenza Proibita',
+    desc:'Hai letto ciò che non andava letto. Ora certe cose ti sono chiare in modo terrificante: i pattern nascosti nel caos, le connessioni che nessuno vuole vedere, la struttura fredda di ciò che sta dietro la realtà. Ti ha cambiato in qualcosa che il mondo non era pronto ad avere.',
+    perk:'Un numero di volte per Riposo Lungo pari al tuo valore di ANIMA: quando fallisci un tiro di magia o di MENTE, puoi trasformarlo in successo. Se lo fai, subisci due punti di danno psichico — perdi due Punti Vita massimi fino al prossimo Riposo Lungo.',
+    pro:'Garantisce successi nei momenti decisivi. La frequenza di utilizzo scala con ANIMA.',
+    con:'Ogni uso riduce i Punti Vita massimi di due fino al riposo. Abusato, porta rapidamente alla soglia critica.'},
+
+  // ─ NOIR ─
+  {id:'istinto_sopravvivenza',cat:'mente',stile:'noir',   req:null,
+    nome:'Istinto di Sopravvivenza',
+    desc:'La città insegna cose che i libri non possono insegnare. Dopo abbastanza anni a guardarti le spalle, certe cose le senti prima di vederle. L\'ombra che si muove in modo sbagliato. Il silenzio che precede l\'agguato. Quella sensazione allo stomaco che precede sempre il momento in cui tutto va storto.',
+    perk:'Passivo: non puoi essere colto di sorpresa — sei sempre presente nell\'iniziativa. 1x/sessione, puoi dichiarare di notare qualcosa che normalmente richiederebbe un tiro di MENTE: il Master decide cosa e quanto dettaglio.',
+    pro:'Immunità agli agguati. Percezione gratuita una volta per sessione.',
+    con:'Puramente difensivo e informativo. Nessun effetto diretto offensivo.'},
+
+  {id:'parole_piombo',    cat:'anima',  stile:'noir',     req:null,
+    nome:'Parole di Piombo',
+    desc:'Alcune persone non hanno bisogno di estrarre un\'arma per essere pericolose. Il modo in cui guardano qualcuno è sufficiente. La voce che non si alza mai, le parole scelte con chirurgica precisione, il silenzio nel posto giusto: tutto comunica una cosa sola, con assoluta chiarezza.',
+    perk:'Puoi usare ANIMA al posto di CORPO per i tiri di intimidazione e per imporre condizioni psicologiche a bersagli intelligenti. 1x/combat: come azione, effettua un tiro di ANIMA contro la MENTE del bersaglio. In caso di successo, il bersaglio non ti attacca nel round corrente — anche se è già in posizione di farlo.',
+    pro:'Trasforma ANIMA in una risorsa offensiva. Ferma attacchi senza usare slot magici.',
+    con:'Solo contro bersagli intelligenti capaci di comprendere una minaccia sociale. Inutile contro bestie o automi.'},
+
+
 var SPELLS = [
   // ── CANTRIP ── bonus:0, min:0, illimitati (max 2 equipaggiati)
   {id:'c01',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Fiamma Minore',     bonus:0,mec:'1d12+MENTE vs CORPO (fuoco). Luce, accende oggetti.',                         pro:'Offensivo e narrativo.',           con:'Danno basso, raggio corto.'},
@@ -344,6 +443,75 @@ var AUGMENTS = [
   {id:'aug_mi',stile:'noir',tipo:'Neurologia',nome:'Mente da Investigatore',desc:'Condizionamento cognitivo.',pro:'GM dice se hai perso qualcosa. +2 MENTE vs illusioni.',con:'-1 ANIMA in situazioni emotive.',manutenzione:null,perk:'Deduzione Lampo: 1x/sessione, il GM rivela 1 indizio critico sulla scena.'},
   {id:'aug_it',stile:'post-ap',tipo:'Biologico',nome:'Immunizzazione Tossica',desc:'Corpo adattato a tossine.',pro:'Immune ambienti tossici. +3 vs veleni.',con:'-1 cure magiche/alchemiche.',manutenzione:null,perk:'Metabolismo Adattivo: 1x/sessione, ignora 1 effetto ambientale per 1 ora.'}
 ];
+
+
+  // ─── NUOVE MAGIE — meccaniche da altri sistemi GDR ───
+
+  // ─ HORROR ─
+  {id:'sp_furto_vitale',   tipo:'mg',lvl:2,min:8, stat:'MENTE',stile:'horror',
+    nome:'Furto Vitale',   bonus:4,
+    mec:'Attacchi in mischia canalizzando energia necromantica verso il bersaglio. Quando colpisci e infliggi almeno un punto di danno, recuperi Punti Vita pari alla metà del danno inflitto, arrotondato per difetto. Se il bersaglio viene abbattuto dal colpo, recuperi Punti Vita pari all\'intero danno.',
+    pro:'Autosufficienza in combattimento. Puoi sostenere scontri prolungati senza alleati.',
+    con:'Solo attacchi in mischia. Nessuna cura se non si infligge danno.'},
+
+  {id:'sp_paura_abissale', tipo:'mg',lvl:2,min:8, stat:'ANIMA',stile:'horror',
+    nome:'Paura Abissale',  bonus:4,
+    mec:'Proietti una visione di terrore soprannaturale su tutti i nemici entro cinque metri. Effettua un singolo tiro di attacco usando ANIMA. Ogni bersaglio la cui Difesa viene superata da quel tiro acquisisce la condizione Spaventato per due round.',
+    pro:'Colpisce più bersagli con un singolo tiro. Potente contro gregari e creature con bassa ANIMA.',
+    con:'Nessun danno diretto. Richiede vicinanza al gruppo nemico. Boss con ANIMA alta spesso resistono.'},
+
+  {id:'sp_velo_oblio',     tipo:'mg',lvl:2,min:8, stat:'ANIMA',stile:'horror',
+    nome:"Velo dell'Oblio", bonus:4,
+    mec:'Un bersaglio intelligente entro dieci metri deve superare un tiro di MENTE contro il tuo tiro di ANIMA. Se fallisce, dimentica l\'ultimo round di eventi: abbassa le armi, perde il senso del contesto e salta il suo prossimo turno. La magia non lascia tracce visibili.',
+    pro:'Rimuove un nemico per un turno intero senza infliggere danno. Efficace contro avversari intelligenti.',
+    con:'Solo contro bersagli con memoria e cognizione. Il Master decide il comportamento dopo l\'oblio.'},
+
+  // ─ FANTASY ─
+  {id:'sp_canzone_guerra', tipo:'mg',lvl:1,min:6, stat:'ANIMA',stile:'fantasy',
+    nome:'Canzone di Guerra',bonus:2,
+    mec:'Intoni una melodia di battaglia che persiste per due round. Per tutta la durata, tutti gli alleati entro dieci metri ottengono più uno a tutti i tiri di attacco, sia fisici che magici.',
+    pro:'Buff di gruppo che scala con il numero di alleati. Efficace su qualsiasi stile di combattimento.',
+    con:'Nessun effetto su te stesso. Richiede alleati nelle vicinanze. Bonus modesto in solitaria.'},
+
+  {id:'sp_colpo_tonante',  tipo:'mg',lvl:1,min:6, stat:'MENTE',stile:'fantasy',
+    nome:'Colpo Tonante',   bonus:2,
+    mec:'Emetti un\'onda di forza in un cono di tre metri nella direzione scelta. Ogni bersaglio nel cono subisce il danno del tiro e viene spinto indietro di tre metri. Se sbatte contro un ostacolo solido, subisce due punti di danno aggiuntivi.',
+    pro:'Controllo del campo. Spinge i nemici lontano dagli alleati o verso posizioni svantaggiate.',
+    con:'Breve portata. Poco danno senza ostacoli nelle vicinanze. Solo bersagli di fronte.'},
+
+  // ─ CYBERPUNK ─
+  {id:'sp_catena_fulmini', tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'cyberpunk',
+    nome:'Catena Fulminante',bonus:6,
+    mec:'Lanci un fulmine sul bersaglio principale con tiro normale. Se infliggi almeno un punto di danno, il fulmine salta su un secondo nemico entro cinque metri con tiro a meno due. Se anche questo subisce danno, può saltare su un terzo bersaglio con tiro a meno quattro. Ogni salto richiede un tiro separato.',
+    pro:'Potenzialmente devastante contro gruppi ravvicinati. Efficienza crescente con il numero di nemici.',
+    con:'I nemici devono essere vicini tra loro. Il terzo salto raramente si concretizza contro avversari competenti.'},
+
+  {id:'sp_scarica_emp',    tipo:'mg',lvl:2,min:8, stat:'MENTE',stile:'cyberpunk',
+    nome:'Scarica EMP',     bonus:4,
+    mec:'Emetti un impulso elettromagnetico che colpisce tutti i bersagli con componenti cibernetiche entro sei metri. Ogni bersaglio colpito subisce il danno del tiro e perde accesso a qualsiasi capacità speciale derivante da ciberware o tecnologia per un round. Bersagli senza componenti tecnologiche non subiscono alcun effetto.',
+    pro:'Area automatica contro nemici cibernetici. Devasta truppe tecnologiche.',
+    con:'Inutile contro bersagli biologici puri o creature magiche. Il Master definisce cosa è tecnologico.'},
+
+  // ─ ANIME ─
+  {id:'sp_bolla_tempo',    tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'anime',
+    nome:'Bolla di Tempo',  bonus:8,
+    mec:'Congeli temporalmente un bersaglio per due round: non può agire, muoversi né difendersi attivamente. La sua Difesa scende al solo valore di CORPO per tutta la durata, poiché non può reagire. Alla fine di ogni suo turno, il bersaglio effettua un tiro di MENTE contro la tua MENTE per liberarsi anticipatamente.',
+    pro:'Rimuove completamente un bersaglio dalla scena per almeno un round, anche un boss.',
+    con:'Singolo bersaglio. Il più costoso del sistema. I nemici con MENTE alta si liberano frequentemente.'},
+
+  // ─ NOIR ─
+  {id:'sp_nebbia_londra',  tipo:'mg',lvl:1,min:6, stat:'MENTE',stile:'noir',
+    nome:'Nebbia di Londra',bonus:2,
+    mec:'Crei una zona di nebbia densa di cinque metri di raggio centrata su un punto entro quindici metri da te. I tiri di attacco diretti all\'interno o attraverso la nebbia subiscono meno tre. La nebbia persiste per tre round o finché non viene dissipata da vento forte o magia specifica.',
+    pro:'Protezione di gruppo dal fuoco nemico. Copre ritirate tattiche o avanzate silenziose.',
+    con:'Penalizza anche gli alleati che combattono nella nebbia. Nulla ferma i danni da magie ad area.'},
+
+  // ─ CANTRIP ANIMA aggiuntivo ─
+  {id:'ct_lamento_oscuro', tipo:'ct',lvl:0,  min:0, stat:'ANIMA',stile:'horror',
+    nome:'Lamento Oscuro',  bonus:1,
+    mec:'Un urlo di energia oscura si scaglia sul bersaglio, alimentato dall\'ANIMA invece che dalla MENTE. Permette ai personaggi con forte investimento in ANIMA di avere un cantrip offensivo nella loro caratteristica principale senza sacrificare punti in MENTE.',
+    pro:'Cantrip offensivo basato su ANIMA. Ideale per build animistiche pure.',
+    con:'Stessa efficacia di un cantrip standard. Meccanicamente identico ad altri cantrip, differisce solo per stat.'},
 
 // ═══ MOSTRI ESEMPIO ═══
 // Talenti con ID corretti (armi_pesanti, armi_letali, gate_mb, gate_ma)

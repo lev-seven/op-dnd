@@ -59,7 +59,7 @@ async function ghPut(path,content,token,accId,isMaster,accName){
 ═══════════════════════════════════════════ */
 const WCAT_BONUS={A:1,B:2,C:3,D:4};
 const SPELL_BONUS={ct:1,1:2,2:4,3:6,4:8};   // FIX #2: ct era 0
-const SPELL_COST={1:1,2:2,3:3,4:4};
+const SPELL_COST={1:1,2:1,3:2,4:2};   // L1-L2=1 slot, L3-L4=2 slot
 const SPELL_MINS={1:6,2:8,3:10,4:12};
 const MAX_TALENTI=4;
 const MAX_AUGMENTI=2;
@@ -70,7 +70,12 @@ const G=window;
 function tById(id){return(G.TALENTS||[]).find(t=>t.id===id);}
 function talCap(c){return c.talenti.includes("cap_15")?15:c.talenti.includes("cap_12")?12:10;}
 function creationCap(c){return((c.level||1)<=1)?CAP_CREAZIONE:talCap(c);}
-function hpMax(c){return(c.corpo||0)+(c.mente||0)+(c.anima||0);}
+function hpMax(c){
+  const base=(c.corpo||0)+(c.mente||0)+(c.anima||0);
+  const pattoPenalty=hasTalent(c,'patto_abisso')?3:0;
+  return Math.max(1,base-pattoPenalty);
+}
+function shortRestSlotRecovery(c){return Math.max(1,Math.floor(Math.max(c.mente||0,c.anima||0)/4));}
 function hpPct(c){const mx=hpMax(c);return mx>0?Math.max(0,Math.min(1,(c.hpCurrent||0)/mx)):0;}
 function woundTier(c){
   const mx=hpMax(c),lost=mx-(c.hpCurrent||0),t=Math.floor(mx/3);
@@ -594,7 +599,11 @@ function ActionsTab({c,up,isMaster}){
   const restorePerk=id=>{if(getPU(id)>0)up({perkUses:{...(c.perkUses||{}),[id]:getPU(id)-1}});};
   const riposo=type=>{
     if(type==="lungo")up({hpCurrent:hpMax(c),slotUsati:0,heroPoints:2,perkUses:{},conditions:[]});
-    else up({hpCurrent:Math.min(hpMax(c),(c.hpCurrent||0)+(c.corpo||0))});
+    else{
+      const recoverSlots=shortRestSlotRecovery(c)+(hasTalent(c,'patto_abisso')?1:0);
+      up({hpCurrent:Math.min(hpMax(c),(c.hpCurrent||0)+(c.corpo||0)),
+          slotUsati:Math.max(0,(c.slotUsati||0)-recoverSlots)});
+    }
   };
   const resetCombat=()=>{const np={...(c.perkUses||{})};[...selT,...selA].forEach(x=>{if(hasPU(x))np[x.id]=0;});up({perkUses:np});};
   const catCol={accesso:"var(--gold)",limite:"var(--cyan)",corpo:"var(--red)",mente:"var(--blue)",anima:"var(--purple)",ibrido:"var(--green)"};
@@ -602,7 +611,7 @@ function ActionsTab({c,up,isMaster}){
   const stileIcons={universale:"\u2b21",fantasy:"\u2694",cyberpunk:"\u25c8",noir:"\u25c9",horror:"\u263d",anime:"\u26a1","post-ap":"\u2622"};
   return<div style={{animation:"fadeIn 0.15s ease"}}>
     <div style={{display:"flex",gap:5,marginBottom:12}}>
-      <button onClick={()=>riposo("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(232,160,48,0.3)",background:"rgba(232,160,48,0.08)",color:"var(--gold)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"\u2600\ufe0f"} Riposo Breve<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>+CORPO HP</span></button>
+      <button onClick={()=>riposo("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(232,160,48,0.3)",background:"rgba(232,160,48,0.08)",color:"var(--gold)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"\u2600\ufe0f"} Riposo Breve<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>+CORPO HP · +{shortRestSlotRecovery(c)+(hasTalent(c,"patto_abisso")?1:0)} slot</span></button>
       <button onClick={()=>riposo("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.08)",color:"var(--blue)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"🌙"} Riposo Lungo<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>Tutto ripristinato</span></button>
       <button onClick={resetCombat} title="Reset perk 1x/combat" style={{width:50,borderRadius:7,border:"1px solid var(--b1)",background:"var(--s3)",color:"var(--tx3)",fontSize:11,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"\u2694\ufe0f"}<br/><span style={{fontSize:7}}>reset</span></button>
     </div>
@@ -683,7 +692,7 @@ function SpellsTab({c,up,isMaster}){
       {redundant&&<div style={{color:"var(--cyan)",fontSize:9,marginTop:3}}>{"\u2b50"} Magia Base + MENTE≥10: +1 aggiuntivo ai tiri L1-L2 (✦IM visibile sulle card)</div>}
     </div>}
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-      <Sec>Cantrip {nCt}/2 (+{SPELL_BONUS.ct}, illimitati)</Sec>
+      <Sec>Cantrip {nCt}/2 (+{SPELL_BONUS.ct} al tiro, illimitati, senza costo slot)</Sec>
       {isMaster&&<button onClick={()=>setSpellModal(true)} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
     </div>
     {nCt<2&&<select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
@@ -936,7 +945,7 @@ function ManualPage({onBack}){
         <span style={{marginLeft:"auto",fontSize:9,color:"var(--cyan)",fontFamily:"JetBrains Mono",opacity:0.7}}>Tabelle T1–T8 in fondo ↓</span>
       </div>
 
-      <div ref={scrollRef} style={{flex:1,overflowY:"auto",padding:"14px 18px 100px",maxWidth:900,margin:"0 auto",width:"100%"}}>
+      <div ref={scrollRef} style={{flex:1,overflowY:"auto",padding:"14px 18px 140px",maxWidth:900,margin:"0 auto",width:"100%"}}>
 
         {/* ── FILOSOFIA ── */}
         <div style={{...s.box,background:"linear-gradient(135deg,rgba(232,160,48,0.08),rgba(232,160,48,0.03))",borderColor:"rgba(232,160,48,0.25)",marginTop:4}}>
@@ -946,7 +955,7 @@ function ManualPage({onBack}){
 
         {/* ── 1. CARATTERISTICHE ── */}
         <div style={s.sec}>1. Caratteristiche &amp; Creazione</div>
-        <p style={s.p}>Un personaggio è definito da tre caratteristiche fondamentali<WR n={1}/>. <span style={s.hl}>CORPO</span> governa la forza fisica, la resistenza ai traumi e la capacità di incassare i danni — è la caratteristica del guerriero, del tank, di chi vuole stare in prima linea. I Punti Vita massimi del personaggio equivalgono alla somma di CORPO + MENTE + ANIMA, ma è CORPO a determinare la difesa base contro gli attacchi fisici e la quantità di HP recuperata durante un Riposo Breve. <span style={s.hl}>MENTE</span> rappresenta l'intelligenza, la precisione, le conoscenze tecniche e la padronanza della magia arcana: chi ha MENTE alta lancia incantesimi con maggiore potenza, si interfaccia con sistemi complessi e, in caso di parità nell'iniziativa, agisce sempre per primo. <span style={s.hl}>ANIMA</span> incarna la forza di volontà, il carisma e la connessione spirituale: è la stat delle magie animistiche e delle benedizioni, dell'intimidazione fisica e psicologica, e della resistenza al terrore e alla coercizione. I personaggi con ANIMA alta ispirano, spaventano e proteggono spiritualmente i loro compagni.</p>
+        <p style={s.p}>Un personaggio è definito da tre caratteristiche fondamentali<WR n={1}/>. <span style={s.hl}>CORPO</span> rappresenta la preparazione fisica nella sua interezza: forza, agilità, coordinazione, resistenza ai traumi e capacità di reagire in fretta. Non misura quanto sei grande o massiccio, ma quanto il tuo corpo è allenato, scattante e pronto a sopravvivere — è la caratteristica del guerriero, del tank, di chi vuole stare in prima linea. I Punti Vita massimi del personaggio equivalgono alla somma di CORPO + MENTE + ANIMA, ma è CORPO a determinare la difesa base contro gli attacchi fisici e la quantità di HP recuperata durante un Riposo Breve. <span style={s.hl}>MENTE</span> misura la lucidità mentale in tutte le sue forme: non solo la cultura accademica, ma anche il pensiero rapido forgiato dall'esperienza di vita, l'istinto di sopravvivenza affinato in anni di situazioni pericolose, la capacità di leggere una situazione e adattarsi in tempo reale. Chi ha MENTE alta lancia incantesimi con maggiore potenza, si interfaccia con sistemi complessi e, a parità di iniziativa, agisce sempre per primo. Un personaggio può avere MENTE alta perché ha studiato tomi antichi, o perché ha passato anni a sopravvivere per strada: il risultato meccanico è identico. <span style={s.hl}>ANIMA</span> è il cuore di ciò che non si può addestrare facilmente: la forza di volontà pura, il carisma naturale, la capacità di connettersi con le persone e con il mondo che ti circonda. È la stat dell'interazione — con gli umani, con il soprannaturale, con la realtà stessa. Governa le magie animistiche, l'intimidazione, la persuasione e la resistenza psicologica al terrore e alla coercizione. Chi ha ANIMA alta cambia le stanze in cui entra.</p>
         <p style={s.p}>Alla creazione, ogni giocatore distribuisce <span style={s.hl}>12 punti</span> tra le tre caratteristiche, con un minimo obbligatorio di 1 e un massimo di 7 per stat — il cosiddetto cap di creazione al livello 1. I Punti Vita di partenza equivalgono alla somma risultante, tipicamente intorno a 12. Il primo talento viene scelto liberamente durante la creazione e non richiede prerequisiti. Nota bene: valori di caratteristica molto bassi non sono neutri. Una stat uguale a 0 impone −2 a tutti i tiri che la utilizzano, mentre una stat tra 1 e 2 impone −1. Costruire un personaggio iperspecializzato significa accettare consapevolmente queste penalità sulle stat sacrificate.</p>
         <div style={s.formula}>{"HP max = CORPO + MENTE + ANIMA\nCap creazione (Lv 1): min 1 — max 7 per stat — 12 punti totali da distribuire"}</div>
 
@@ -969,14 +978,14 @@ function ManualPage({onBack}){
 
         {/* ── 5. MAGIE ── */}
         <div style={s.sec}>5. Sistema delle Magie</div>
-        <p style={s.p}>Le magie sono più potenti delle armi ma consumano <span style={s.hl}>slot-punti</span><WR n={4}/> — una riserva di energia magica che si esaurisce durante la giornata e si recupera soltanto con un Riposo Lungo. Il numero di slot-punti disponibili dipende dalla caratteristica magica più alta del personaggio, secondo la formula <span style={{color:"var(--gold)",fontFamily:"JetBrains Mono"}}>max(MENTE, ANIMA) − 2</span><WR n={5}/>. Un personaggio con MENTE 8 dispone di 6 slot-punti: sufficienti per sei lanci di Livello 1, tre di Livello 2, o combinazioni miste a piacere fino all'esaurimento del pool.</p>
-        <p style={s.p}>Le magie si dividono in <span style={s.hl}>Cantrip</span> e quattro Livelli di potenza. I Cantrip non consumano slot, possono essere lanciati un numero illimitato di volte e forniscono +1 al tiro — esattamente quanto un'arma di Categoria A. Ogni personaggio può avere al massimo due Cantrip equipaggiati contemporaneamente. Sono il fallback del mago: quando gli slot si esauriscono, i Cantrip garantiscono che il personaggio rimanga utile in combattimento senza tornare a dover impugnare una spada. Le <span style={s.hl}>Magie di Livello 1</span> danno +2 al tiro (come Cat B) e costano 1 slot-punto. Il <span style={s.hl}>Livello 2</span> dà +4 al tiro e costa 2 slot-punti — già superiore a Cat C. Il <span style={s.hl}>Livello 3</span> dà +6 e costa 3 slot-punti. Il <span style={s.hl}>Livello 4</span>, il culmine assoluto del potere magico, dà +8 al tiro e costa 4 slot-punti: il doppio di Cat D, ma con un costo che svuota rapidamente anche il pool più ampio.</p>
+        <p style={s.p}>Le magie sono più potenti delle armi ma consumano <span style={s.hl}>slot-punti</span><WR n={4}/> — una riserva di energia magica che si esaurisce durante la giornata e si recupera soltanto con un Riposo Lungo. Il numero di slot disponibili dipende dalla caratteristica magica più alta del personaggio, secondo la formula <span style={{color:"var(--gold)",fontFamily:"JetBrains Mono"}}>max(MENTE, ANIMA) − 2</span><WR n={5}/>. Un personaggio con MENTE 8 dispone di 6 slot: sufficienti per sei lanci di Livello 1 o 2 (o mix), oppure tre lanci di Livello 3 o 4. Con un Riposo Breve si recuperano automaticamente alcuni slot — un numero pari a max(1, floor(stat / 4)): con MENTE 8 sono 2 slot per riposo.</p>
+        <p style={s.p}>Le magie si dividono in <span style={s.hl}>Cantrip</span> e quattro Livelli di potenza. I Cantrip non consumano slot, possono essere lanciati un numero illimitato di volte e forniscono +1 al tiro — esattamente quanto un'arma di Categoria A. Ogni personaggio può avere al massimo due Cantrip equipaggiati contemporaneamente. Sono il fallback del mago: quando gli slot si esauriscono, i Cantrip garantiscono che il personaggio rimanga utile in combattimento senza tornare a dover impugnare una spada. Le <span style={s.hl}>Magie di Livello 1</span> danno +2 al tiro (come Cat B) e costano 1 slot. Il <span style={s.hl}>Livello 2</span> dà +4 al tiro — già superiore a Cat C — e costa anch'esso 1 slot: stesso costo del Livello 1, ma più potente. Il <span style={s.hl}>Livello 3</span> dà +6 e costa 2 slot. Il <span style={s.hl}>Livello 4</span>, il culmine assoluto del potere magico, dà +8 al tiro e costa anch'esso 2 slot. I Livelli 3 e 4 costano il doppio dei Livelli 1 e 2: una scelta deliberata che concentra la potenza in pochi lanci decisivi.</p>
         <p style={s.p}>L'accesso alle magie è regolato da talenti. Il talento <span style={s.hl}>Magia Base</span> sblocca i Livelli 1 e 2. Il talento <span style={s.hl}>Magia Avanzata</span> (che richiede Magia Base come prerequisito) sblocca i Livelli 3 e 4. Esiste però un'alternativa naturale a Magia Base: un personaggio che raggiunge <span style={s.hl}>MENTE uguale o superiore a 10</span> ottiene automaticamente accesso a Livello 1 e 2 tramite l'Intuizione Magica, liberando un prezioso slot talento per specializzazioni diverse. I Livelli 3 e 4 richiedono sempre e comunque il talento Magia Avanzata — non esiste alternativa a questo requisito, nemmeno con MENTE altissima.</p>
         <div style={s.note}><span style={{fontFamily:"Cinzel",fontWeight:700}}>Bonus Intuizione Magica (FIX v2):</span> Se un personaggio possiede sia MENTE ≥ 10 <em>sia</em> il talento Magia Base, i due requisiti non si cancellano a vicenda. Al contrario, la combinazione di intuito naturale e studio formale conferisce un +1 aggiuntivo a tutti i tiri con magie di Livello 1 e Livello 2 — ricompensando concretamente chi ha investito in entrambe le vie di accesso. Questo bonus è visibile sulle card delle magie come <strong>✦IM</strong>.</div>
 
         {/* ── 6. CONFRONTO ── */}
         <div style={s.sec}>6. Armi e Magie a confronto</div>
-        <p style={s.p}>Il principio fondamentale del sistema è l'asimmetria intenzionale<WR n={6}/>: le armi producono danno costante e illimitato, le magie producono danno maggiore ma si esauriscono. Questo non è un difetto di bilanciamento — è la scelta di design più importante di C.O.R.E. La simulazione matematica su sei round di combattimento mostra che un guerriero con Categoria C e CORPO 7 produce nella media la stessa quantità di danni totali di un mago che lancia magie di Livello 1 in sequenza con MENTE 7: entrambi producono circa 79–87 punti di danno su sei round contro un bersaglio con difesa 5. Il delta è inferiore al 10%.</p>
+        <p style={s.p}>Il principio fondamentale del sistema è l'asimmetria intenzionale<WR n={6}/>: le armi producono danno costante e illimitato, le magie producono danno maggiore ma si esauriscono. Questo non è un difetto di bilanciamento — è la scelta di design più importante di C.O.R.E. La simulazione matematica su sei round di combattimento mostra che un guerriero con Categoria C e CORPO 7 produce nella media la stessa quantità di danni totali di un mago che lancia magie di Livello 1 o 2 in sequenza con MENTE 7: con il nuovo sistema di slot (L1 e L2 costano entrambi 1 slot), il mago può permettersi di usare sempre L2 per +4, risultando leggermente più forte per round ma esaurendo comunque il pool. Il Riposo Breve recupera alcuni slot, rendendo il mago più resistente in avventure lunghe.</p>
         <p style={s.p}>La differenza è nella distribuzione: il mago picchia più forte nelle prime round grazie ai Livelli 2 e 3, poi cede terreno quando il pool si esaurisce e deve ricorrere ai Cantrip. Il guerriero invece mantiene esattamente lo stesso ritmo per l'intera durata dello scontro, indefinitamente, senza mai scendere sotto il suo massimo. Questo crea dinamiche tattiche reali: quando conviene consumare la magia di Livello 3 tenuta in riserva? La si usa sul minion di turno per chiudere lo scontro in fretta, o la si conserva per il boss della scena successiva?</p>
         <p style={s.p}>A livelli alti il vantaggio del mago in burst diventa più accentuato — una magia di Livello 4 supera di +4 l'attacco di Cat D — ma il pool si esaurisce ancora più rapidamente, rendendo il confronto ancor più strategico. La scelta tra guerriero e mago non è "quale è più forte", ma "quale stile di gioco si preferisce".</p>
 
@@ -1046,22 +1055,23 @@ function ManualPage({onBack}){
         <TblHdr n={4} label="Sistema Magie"/>
         <Tbl cols={["Livello","+Tiro","Costo slot","Stat minima","Accesso"]}
           rows={[
-            ["Cantrip","+1","0pt — illimitato","—","Sempre (max 2 equipaggiati)"],
-            ["L1","+2","1pt","Stat ≥ 6","Magia Base (talento) — oppure MENTE ≥ 10 (Intuizione Magica)"],
-            ["L2","+4","2pt","Stat ≥ 8","Magia Base (talento) — oppure MENTE ≥ 10 (Intuizione Magica)"],
-            ["L3","+6","3pt","Stat ≥ 10","Magia Avanzata obbligatorio — nessuna eccezione"],
-            ["L4","+8","4pt","Stat ≥ 12","Magia Avanzata obbligatorio — nessuna eccezione"],
+            ["Cantrip","+1","0 slot — illimitato","—","Sempre (max 2 equipaggiati)"],
+            ["L1","+2","1 slot","Stat ≥ 6","Magia Base (talento) — oppure MENTE ≥ 10 (Intuizione Magica)"],
+            ["L2","+4","1 slot","Stat ≥ 8","Magia Base (talento) — oppure MENTE ≥ 10 (Intuizione Magica)"],
+            ["L3","+6","2 slot","Stat ≥ 10","Magia Avanzata obbligatorio — nessuna eccezione"],
+            ["L4","+8","2 slot","Stat ≥ 12","Magia Avanzata obbligatorio — nessuna eccezione"],
           ]}/>
         <div style={{...s.box,fontSize:11,marginTop:-8,borderColor:"rgba(160,112,232,0.3)",background:"rgba(160,112,232,0.06)"}}>
           <span style={{color:"var(--purple)",fontWeight:700}}>Bonus Intuizione Magica:</span> MENTE ≥ 10 + talento Magia Base attivi simultaneamente → +1 aggiuntivo a tutti i tiri L1–L2 (indicato come ✦IM sulle card della scheda personaggio).
         </div>
 
         {/* T5 */}
-        <TblHdr n={5} label="Pool Slot per Stat (max(MENTE, ANIMA) − 2)"/>
-        <Tbl cols={["max(MENTE,ANIMA)","Pool pt","L1 lanci max","L2 lanci max","L3 lanci max","L4 lanci max"]}
+        <TblHdr n={5} label="Pool Slot per Stat · Riposo Breve recupera max(1, floor(stat/4)) slot"/>
+        <Tbl cols={["max(MENTE,ANIMA)","Pool slot","L1 max (1 slot)","L2 max (1 slot)","L3 max (2 slot)","L4 max (2 slot)"]}
           rows={[3,4,5,6,7,8,9,10,11,12].map(stat=>{
             const pool=Math.max(0,stat-2);
-            return[stat+"",pool+"",pool+"",""+Math.floor(pool/2),""+Math.floor(pool/3),""+Math.floor(pool/4)];
+            const rec=Math.max(1,Math.floor(stat/4));
+            return[stat+"  (+"+rec+"/rest)",pool+"",pool+"",pool+"",""+Math.floor(pool/2),""+Math.floor(pool/2)];
           })}/>
         <div style={{...s.box,fontSize:11,marginTop:-8}}>
           I lanci "max" indicano il numero massimo usando <em>solo</em> quel livello. In pratica si mischiano i livelli liberamente fino ad esaurimento del pool. Il pool si recupera interamente solo con un Riposo Lungo.
@@ -1074,12 +1084,12 @@ function ManualPage({onBack}){
             ["Cantrip (magia)","+1",""+(6.5+10+1-5).toFixed(1)+" avg","Illimitata","0 (accesso libero)"],
             ["Cat A (arma)","+1",""+(6.5+10+1-5).toFixed(1)+" avg","Illimitata","0"],
             ["Cat B (arma)","+2",""+(6.5+10+2-5).toFixed(1)+" avg","Illimitata","0"],
-            ["L1 (magia)","+2",""+(6.5+10+2-5).toFixed(1)+" avg","Limitata — 1pt/cast","1 (Magia Base o MENTE≥10)"],
+            ["L1 (magia)","+2",""+(6.5+10+2-5).toFixed(1)+" avg","Limitata — 1 slot/cast","1 (Magia Base o MENTE≥10)"],
             ["Cat C (arma)","+3",""+(6.5+10+3-5).toFixed(1)+" avg","Illimitata","0 con CORPO≥6"],
-            ["L2 (magia)","+4",""+(6.5+10+4-5).toFixed(1)+" avg","Limitata — 2pt/cast","1 (Magia Base o MENTE≥10)"],
+            ["L2 (magia)","+4",""+(6.5+10+4-5).toFixed(1)+" avg","Limitata — 1 slot/cast","1 (Magia Base o MENTE≥10) — stesso costo di L1"],
             ["Cat D (arma)","+4",""+(6.5+10+4-5).toFixed(1)+" avg","Illimitata","1 (Armi Letali) + CORPO≥10"],
-            ["L3 (magia)","+6",""+(6.5+10+6-5).toFixed(1)+" avg","Limitata — 3pt/cast","2 (Magia Base + Avanzata)"],
-            ["L4 (magia)","+8",""+(6.5+10+8-5).toFixed(1)+" avg","Limitata — 4pt/cast","2 (Magia Base + Avanzata)"],
+            ["L3 (magia)","+6",""+(6.5+10+6-5).toFixed(1)+" avg","Limitata — 2 slot/cast","2 (Magia Base + Avanzata)"],
+            ["L4 (magia)","+8",""+(6.5+10+8-5).toFixed(1)+" avg","Limitata — 2 slot/cast","2 (Magia Base + Avanzata)"],
           ]}/>
 
         {/* T7 */}
