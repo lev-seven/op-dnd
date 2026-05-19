@@ -32,7 +32,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef}=React;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const CORE_VERSION='2.3.1';
+const CORE_VERSION='2.4.0';
 const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
@@ -86,7 +86,7 @@ function pushCustomItem(type,item){const arr=getCustomItems(type);if(!arr.find(x
 ;(function(){["talent","augment","spell"].forEach(type=>{getCustomItems(type).forEach(item=>{const g=type==="talent"?G.TALENTS:type==="augment"?G.AUGMENTS:G.SPELLS;if(g&&!g.find(x=>x.id===item.id))g.push(item);});});})();
 function newCoreChar(n){return{id:uid(),name:n||"Nuovo PG",system:"core",level:1,corpo:4,mente:4,anima:4,hpCurrent:12,competenza:null,armaCat:"B",armaPerk:"b1",armaNome:"",armaDist:false,armaMagi:false,scudo:0,armatura:0,talenti:[],augmenti:[],magie:[],conditions:[],heroPoints:2,perkUses:{},slotUsati:0,notes:"",backstory:""};}
 const SS={inp:{background:"var(--s3)",border:"1px solid var(--b1)",borderRadius:6,color:"var(--tx)",fontFamily:"Outfit",fontSize:13,padding:"6px 9px",outline:"none",boxSizing:"border-box"},btn:{borderRadius:6,border:"1px solid var(--b2)",background:"none",color:"var(--tx2)",fontFamily:"Outfit",fontSize:12,fontWeight:500,padding:"6px 12px",cursor:"pointer"},gold:{borderRadius:6,border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:12,cursor:"pointer",letterSpacing:0.5,textAlign:"center"},green:{borderRadius:6,border:"1.5px solid rgba(72,200,138,0.4)",background:"rgba(72,200,138,0.08)",color:"var(--green)",fontFamily:"Cinzel",fontWeight:700,fontSize:12,cursor:"pointer",textAlign:"center"},card:{background:"var(--s1)",border:"1px solid var(--b1)",borderRadius:10,padding:12,marginBottom:8},po:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.88)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},pc:{background:"linear-gradient(180deg,var(--s1),var(--bg))",border:"1.5px solid rgba(232,160,48,0.3)",borderRadius:12,padding:"18px 16px",width:"100%",maxWidth:440,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"}};
-const TABNAV=[{id:"sheet",ic:"⚔",lb:"Scheda"},{id:"actions",ic:"★",lb:"Azioni"},{id:"spells",ic:"✦",lb:"Magie"},{id:"dice",ic:"◈",lb:"Dadi"},{id:"notes",ic:"✎",lb:"Note"},{id:"save",ic:"↓",lb:"Salva"}];
+const TABNAV=[{id:"sheet",ic:"⚔️",lb:"Scheda"},{id:"actions",ic:"🎭",lb:"Azioni"},{id:"spells",ic:"📕",lb:"Magie"},{id:"dice",ic:"🎲",lb:"Dadi"},{id:"notes",ic:"📜",lb:"Note"},{id:"save",ic:"💾",lb:"Salva"}];
 
 
 function App(){
@@ -162,7 +162,7 @@ function LoginScreen({manifest,onAuth}){
       <input value={user} onChange={e=>setUser(e.target.value)} placeholder="Nome utente..." onKeyDown={e=>e.key==="Enter"&&check()} style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px",marginBottom:10}}/>
       <div style={{position:"relative",marginBottom:16}}>
         <input type={show?"text":"password"} value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px 44px 12px 12px"}}/>
-        <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"var(--tx3)",fontSize:16,cursor:"pointer"}}>{show?"H":"V"}</button>
+        <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"var(--tx3)",fontSize:16,cursor:"pointer"}}>{show?"👁️":"🙈"}</button>
       </div>
       {err&&<p style={{color:"var(--red)",fontSize:12,marginBottom:12}}>{err}</p>}
       <button onClick={check} style={{...SS.gold,width:"100%",padding:"12px 0",fontSize:15}}>Entra</button>
@@ -193,12 +193,12 @@ function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad,onManual,
       </div>)}
       {chars.length===0&&<p style={{textAlign:"center",color:"var(--tx3)",fontStyle:"italic",padding:"20px 0"}}>Nessun PG Core trovato.</p>}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:16}}>
-        <button onClick={onNew} style={{...SS.gold,padding:"14px 0",fontSize:13}}>+ Nuovo PG</button>
-        <button onClick={onManual} style={{...SS.btn,padding:"14px 0",fontSize:13,borderColor:"rgba(232,160,48,0.3)",color:"var(--gold)"}}>Manuale</button>
+        <button onClick={onNew} style={{...SS.gold,padding:"14px 0",fontSize:13}}>✨ Nuovo PG</button>
+        <button onClick={onManual} style={{...SS.btn,padding:"14px 0",fontSize:13,borderColor:"rgba(232,160,48,0.3)",color:"var(--gold)"}}>📖 Manuale</button>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:8}}>
-        <button onClick={onCompendium} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(160,112,232,0.3)",color:"var(--purple)"}}>Compendio</button>
-        <button onClick={onHomebrew} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(64,200,200,0.3)",color:"var(--cyan)"}}>Homebrew</button>
+        <button onClick={onCompendium} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(160,112,232,0.3)",color:"var(--purple)"}}>📚 Compendio</button>
+        <button onClick={onHomebrew} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(64,200,200,0.3)",color:"var(--cyan)"}}>🔧 Homebrew</button>
       </div>
     </div>
   </div>;
@@ -208,8 +208,142 @@ function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad,onManual,
 function Sec({children,style:extra}){return<h3 style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:"var(--gold)",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px",...extra}}>{children}</h3>;}
 function Pill({on,dim,color,onClick,title,children}){const c=color||"var(--gold)";return<span onClick={dim?null:onClick} title={title} style={{fontSize:11,padding:"4px 10px",borderRadius:20,cursor:dim?"default":"pointer",border:"1px solid "+(on?c:"var(--b1)"),background:on?c+"18":"var(--s3)",color:on?c:"var(--tx2)",opacity:dim?0.25:1,transition:"all 0.15s",userSelect:"none",display:"inline-block",marginBottom:3}}>{children}</span>;}
 function CoreField({label,children}){return<div style={{marginBottom:8}}><label style={{display:"block",fontSize:9,fontWeight:600,color:"var(--tx3)",letterSpacing:1,textTransform:"uppercase",marginBottom:3,fontFamily:"Cinzel"}}>{label}</label>{children}</div>;}
+
+/* ═══════════════════════════════════════════
+   SESSION VIEW — Scheda da tavolo, ottimizzata per la sessione di gioco
+   Design: lettura rapida, dado facile, no edit mode
+   ═══════════════════════════════════════════ */
+function SessionView({c,up,setViewMode}){
+  const[dResult,setDResult]=useState(null);
+  const mx=hpMax(c),pct=hpPct(c),tier=woundTier(c),wi=wInfo(tier);
+  const hc=pct>0.6?"var(--green)":pct>0.3?"var(--gold)":"var(--red)";
+  const tierColor=[null,"var(--gold)","var(--red)","#c03030"][tier];
+  const slots=maxSlots(c);const used=c.slotUsati||0;const avail=Math.max(0,slots-used);
+  const allSp=G.SPELLS||[];const selSp=(c.magie||[]).map(id=>allSp.find(s=>s.id===id)).filter(Boolean);
+  const allT=G.TALENTS||[];const selT=(c.talenti||[]).map(id=>allT.find(t=>t.id===id)).filter(Boolean);
+  const roll=(label,mod)=>{const d=Math.floor(Math.random()*12)+1;setDResult({label,d,mod,total:d+mod,nat12:d===12,nat1:d===1});};
+  const ripBrieve=()=>{const rec=shortRestSlotRecovery(c);up({hpCurrent:Math.min(mx,(c.hpCurrent||0)+(c.corpo||0)),slotUsati:Math.max(0,used-rec)});};
+  const ripLungo=()=>up({hpCurrent:mx,slotUsati:0,heroPoints:2,perkUses:{},conditions:[]});
+  const useSlot=cost=>{if(used+cost<=slots)up({slotUsati:used+cost});};
+  const statRow=(label,key,col)=>{const v=c[key]||0;const isC=c.competenza===key;return(
+    <div style={{display:"flex",alignItems:"center",gap:6,padding:"6px 0",borderBottom:"1px solid var(--b1)"}}>
+      <span style={{fontFamily:"Cinzel",fontSize:9,fontWeight:700,letterSpacing:1,color:col,width:48,flexShrink:0}}>{label}</span>
+      <span style={{fontFamily:"JetBrains Mono",fontSize:26,fontWeight:700,color:col,width:36,textAlign:"center"}}>{v}</span>
+      {isC&&<span style={{fontSize:9,color:"var(--cyan)",fontFamily:"JetBrains Mono",background:"rgba(64,200,200,0.1)",padding:"2px 6px",borderRadius:3}}>+{compBonus(c)} comp</span>}
+      <span style={{flex:1}}/>
+      <button onClick={()=>roll(label,(v)+(isC?compBonus(c):0))} style={{padding:"6px 14px",borderRadius:6,border:"1.5px solid "+col+"66",background:col+"12",color:col,fontFamily:"Cinzel",fontWeight:700,fontSize:10,cursor:"pointer"}}>Tira</button>
+    </div>
+  );};
+  return<div style={{animation:"fadeIn 0.2s ease",paddingBottom:24}}>
+    {/* ── HP BLOCK ─────────────────── */}
+    <div style={{background:"var(--s2)",borderRadius:10,padding:"12px 14px",marginBottom:10,border:"1px solid "+(tier>0?tierColor+"55":"var(--b1)")}}>
+      <div style={{display:"flex",alignItems:"baseline",gap:8,marginBottom:6}}>
+        <span style={{fontFamily:"JetBrains Mono",fontSize:42,fontWeight:900,color:hc,lineHeight:1}}>{c.hpCurrent||0}</span>
+        <span style={{fontFamily:"JetBrains Mono",fontSize:16,color:"var(--tx3)"}}>/ {mx} HP</span>
+        {tier>0&&<span style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:tierColor,marginLeft:4,animation:tier===3?"pulse 1.5s infinite":undefined}}>{wi.nome.toUpperCase()}</span>}
+        <span style={{flex:1}}/>
+        <span style={{fontSize:13,display:"flex",gap:2}}>
+          {[0,1,2].map(i=><span key={i} onClick={()=>{const hp=c.heroPoints||0;if(i<hp)up({heroPoints:hp-1});else if(i===hp&&hp<3)up({heroPoints:hp+1});}} style={{cursor:"pointer",opacity:i<(c.heroPoints||0)?1:0.2}}>{⭐}</span>)}
+        </span>
+      </div>
+      <div style={{height:8,background:"var(--bg)",borderRadius:4,overflow:"hidden",marginBottom:10}}>
+        <div style={{height:"100%",borderRadius:4,width:(pct*100)+"%",background:hc,transition:"width 0.4s"}}/>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:4}}>
+        {[-5,-1,1,5].map(n=><button key={n} onClick={()=>up({hpCurrent:Math.max(0,Math.min(mx,(c.hpCurrent||0)+n))})} style={{padding:"6px 0",borderRadius:5,border:"1px solid "+(n>0?"rgba(72,200,138,0.4)":"rgba(224,80,80,0.4)"),background:n>0?"rgba(72,200,138,0.1)":"rgba(224,80,80,0.1)",color:n>0?"var(--green)":"var(--red)",fontSize:13,fontFamily:"JetBrains Mono",fontWeight:700,cursor:"pointer"}}>{n>0?"+"+n:n}</button>)}
+        <button onClick={()=>up({hpCurrent:mx})} style={{padding:"6px 0",borderRadius:5,border:"1px solid rgba(88,144,232,0.4)",background:"rgba(88,144,232,0.08)",color:"var(--blue)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer"}}>Full</button>
+      </div>
+    </div>
+
+    {/* ── STAT + QUICK ROLL ────────── */}
+    <div style={{background:"var(--s2)",borderRadius:10,padding:"10px 14px",marginBottom:10,border:"1px solid var(--b1)"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+        <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--tx3)",letterSpacing:1}}>STATISTICHE</span>
+        <div style={{display:"flex",gap:6,fontSize:9,fontFamily:"JetBrains Mono",color:"var(--tx3)"}}>
+          <span>ATK +{atkBonus(c)}</span><span>DEF {(c.corpo||0)+totalDefBonus(c)}</span>
+        </div>
+      </div>
+      {statRow("CORPO","corpo","var(--red)")}
+      {statRow("MENTE","mente","var(--blue)")}
+      {statRow("ANIMA","anima","var(--purple)")}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:4,marginTop:8}}>
+        <button onClick={()=>roll("Attacco",atkBonus(c))} style={{padding:"8px 0",borderRadius:6,border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer"}}>⚔️ Attacco +{atkBonus(c)}</button>
+        <button onClick={()=>roll("Iniziativa",initBonus(c))} style={{padding:"8px 0",borderRadius:6,border:"1.5px solid rgba(64,200,200,0.3)",background:"rgba(64,200,200,0.06)",color:"var(--cyan)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer"}}>⚡ Iniziativa +{initBonus(c)}</button>
+      </div>
+    </div>
+
+    {/* ── RISULTATO DADO ───────────── */}
+    {dResult&&<div style={{background:"var(--s1)",borderRadius:10,padding:"12px",marginBottom:10,border:"1.5px solid "+(dResult.nat12?"var(--gold)":dResult.nat1?"var(--red)":"var(--b1)"),textAlign:"center",animation:"fadeIn 0.2s ease"}}>
+      <div style={{fontSize:9,color:"var(--tx3)",fontFamily:"Cinzel",marginBottom:2}}>{dResult.label}</div>
+      <div style={{fontSize:52,fontWeight:900,fontFamily:"JetBrains Mono",color:dResult.nat12?"var(--gold)":dResult.nat1?"var(--red)":"var(--tx)",lineHeight:1}}>{dResult.total}</div>
+      <div style={{fontSize:11,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginTop:3}}>[{dResult.d}]{dResult.mod!==0?(dResult.mod>0?" + "+dResult.mod:" - "+Math.abs(dResult.mod)):""}</div>
+      {dResult.nat12&&<div style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}}>★★ CRITICO ★★</div>}
+      {dResult.nat1&&<div style={{color:"var(--red)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}}>☠️ FUMBLE</div>}
+    </div>}
+
+    {/* ── SLOT MAGIA ───────────────── */}
+    {slots>0&&<div style={{background:"var(--s2)",borderRadius:10,padding:"10px 14px",marginBottom:10,border:"1px solid var(--b1)"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+        <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--purple)",letterSpacing:1}}>✨ SLOT MAGIA</span>
+        <span style={{fontFamily:"JetBrains Mono",fontSize:16,fontWeight:700,color:avail===0?"var(--red)":avail<=2?"var(--gold)":"var(--green)"}}>{avail}/{slots}</span>
+      </div>
+      <div style={{display:"flex",gap:4,marginBottom:8,flexWrap:"wrap"}}>
+        {Array.from({length:slots}).map((_,i)=><div key={i} onClick={()=>i>=used?up({slotUsati:i+1}):up({slotUsati:i})} style={{width:20,height:20,borderRadius:"50%",background:i<used?"var(--b2)":"var(--purple)",opacity:i<used?0.25:1,cursor:"pointer",transition:"all 0.15s",border:"1.5px solid "+(i<used?"var(--b1)":"rgba(160,112,232,0.5)")}}/>)}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:4}}>
+        {[{lv:1,cost:1},{lv:2,cost:1},{lv:3,cost:2},{lv:4,cost:2}].map(({lv,cost})=><button key={lv} onClick={()=>avail>=cost&&useSlot(cost)} style={{padding:"5px 0",borderRadius:5,border:"1.5px solid rgba(224,80,80,0.3)",background:avail<cost?"transparent":"rgba(224,80,80,0.08)",color:avail<cost?"var(--b2)":"var(--red)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:avail>=cost?"pointer":"default",lineHeight:1.3}}>L{lv}<br/><span style={{fontSize:8}}>-{cost}</span></button>)}
+      </div>
+      <button onClick={()=>up({slotUsati:0})} style={{width:"100%",marginTop:6,padding:"5px 0",borderRadius:5,border:"1.5px solid rgba(72,200,138,0.3)",background:"rgba(72,200,138,0.06)",color:"var(--green)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer"}}>Recupera tutti</button>
+    </div>}
+
+    {/* ── MAGIE RAPIDE ─────────────── */}
+    {selSp.length>0&&<div style={{background:"var(--s2)",borderRadius:10,padding:"10px 14px",marginBottom:10,border:"1px solid var(--b1)"}}>
+      <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--blue)",letterSpacing:1,display:"block",marginBottom:8}}>📕 MAGIE</span>
+      {selSp.map(sp=>{
+        const statK=(sp.stat||"MENTE").toLowerCase();const sv=c[statK]||0;
+        const cB=c.competenza===statK?compBonus(c):0;const bon=spellBonus(sp,c);
+        const tot=sv+cB+bon;
+        return<div key={sp.id} style={{display:"flex",alignItems:"center",gap:6,padding:"5px 0",borderBottom:"1px solid var(--b1)"}}>
+          <div style={{flex:1,minWidth:0}}>
+            <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:11,color:"var(--tx)"}}>{sp.nome}</span>
+            <span style={{fontSize:9,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginLeft:6}}>1d12+{tot} (avg {(6.5+tot).toFixed(0)})</span>
+          </div>
+          {spellCost(sp)>0&&<span style={{fontSize:9,color:"var(--purple)",fontFamily:"JetBrains Mono"}}>{spellCost(sp)}sl</span>}
+          <button onClick={()=>roll(sp.nome,tot)} style={{padding:"4px 10px",borderRadius:5,border:"1.5px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.06)",color:"var(--blue)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer"}}>🎲</button>
+        </div>;
+      })}
+    </div>}
+
+    {/* ── TALENTI ATTIVI ───────────── */}
+    {selT.length>0&&<div style={{background:"var(--s2)",borderRadius:10,padding:"10px 14px",marginBottom:10,border:"1px solid var(--b1)"}}>
+      <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--gold)",letterSpacing:1,display:"block",marginBottom:6}}>★ TALENTI</span>
+      {selT.map(t=><div key={t.id} style={{marginBottom:6,paddingBottom:6,borderBottom:"1px solid var(--b1)"}}>
+        <div style={{fontFamily:"Cinzel",fontWeight:700,fontSize:11,color:"var(--tx)",marginBottom:2}}>{t.nome}</div>
+        {t.perk&&<div style={{fontSize:10,color:"var(--cyan)",lineHeight:1.4}}>⭐ {t.perk}</div>}
+        {!t.perk&&<div style={{fontSize:10,color:"var(--tx3)",lineHeight:1.4}}>{t.desc}</div>}
+      </div>)}
+    </div>}
+
+    {/* ── CONDIZIONI ───────────────── */}
+    {(c.conditions||[]).length>0&&<div style={{background:"rgba(224,80,80,0.06)",borderRadius:10,padding:"10px 14px",marginBottom:10,border:"1px solid rgba(224,80,80,0.25)"}}>
+      <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--red)",letterSpacing:1,display:"block",marginBottom:6}}>CONDIZIONI ATTIVE</span>
+      <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+        {(c.conditions||[]).map(cond=>{const cd=(G.CONDITIONS||[]).find(x=>x.id===cond.id);return<span key={cond.id} onClick={()=>up({conditions:(c.conditions||[]).filter(x=>x.id!==cond.id)})} style={{padding:"4px 10px",borderRadius:16,border:"1px solid rgba(224,80,80,0.4)",background:"rgba(224,80,80,0.1)",color:"var(--red)",fontSize:11,cursor:"pointer"}} title={cd?.effetto||""}>{cd?.nome||cond.id} ×</span>;})}
+      </div>
+      {(c.conditions||[]).length>=3&&<div style={{fontSize:9,color:"var(--red)",fontFamily:"JetBrains Mono",marginTop:4}}>3+ condizioni: -2 a tutti i tiri</div>}
+    </div>}
+
+    {/* ── RIPOSI ───────────────────── */}
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+      <button onClick={ripBrieve} style={{padding:"10px 0",borderRadius:8,border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.08)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer",lineHeight:1.5}}>☀️ Riposo Breve<br/><span style={{fontSize:8,fontWeight:400,opacity:0.7}}>+{c.corpo||0} HP, +{shortRestSlotRecovery(c)} slot</span></button>
+      <button onClick={ripLungo} style={{padding:"10px 0",borderRadius:8,border:"1.5px solid rgba(88,144,232,0.4)",background:"rgba(88,144,232,0.08)",color:"var(--blue)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer",lineHeight:1.5}}>🌙 Riposo Lungo<br/><span style={{fontSize:8,fontWeight:400,opacity:0.7}}>Tutto ripristinato</span></button>
+    </div>
+  </div>;
+}
+
 function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewChar,setCharMeta,onBack}){
   const[tab,setTab]=useState("sheet");const[saving,setSaving]=useState(false);
+  const[viewMode,setViewMode]=useState(false);
   const mx=hpMax(c),pct=hpPct(c),tier=woundTier(c),wi=wInfo(tier);
   const hc=pct>0.6?"var(--green)":pct>0.3?"var(--gold)":"var(--red)";
   const tierColor=[null,"var(--gold)","var(--red)","#c03030"][tier]||null;
@@ -230,15 +364,22 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
           <span style={{fontSize:9,color:"var(--tx3)"}}>Lv</span>
           <input type="number" value={c.level||1} onChange={e=>up({level:Math.max(1,Math.min(15,parseInt(e.target.value)||1))})} style={{...SS.inp,width:34,textAlign:"center",fontSize:13,fontWeight:700,color:"var(--gold)",padding:"3px"}} min="1" max="15"/>
         </div>
+        <button onClick={()=>setViewMode(v=>!v)} style={{padding:"3px 8px",borderRadius:5,border:"1.5px solid "+(viewMode?"var(--cyan)":"rgba(232,160,48,0.3)"),background:viewMode?"rgba(64,200,200,0.12)":"rgba(232,160,48,0.08)",color:viewMode?"var(--cyan)":"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:9,cursor:"pointer",letterSpacing:0.5,whiteSpace:"nowrap"}}>{viewMode?"✏️ Modifica":"🎮 Sessione"}</button>
         <span style={{fontSize:8,fontFamily:"JetBrains Mono",color:"var(--gold)",background:"var(--gbg)",padding:"2px 5px",borderRadius:3}}>v{CORE_VERSION}</span>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr) 2fr",gap:5,marginBottom:6}}>
         {[["CORPO","corpo"],["MENTE","mente"],["ANIMA","anima"]].map(([l,k])=>{
           const val=c[k]||0;const cap=creationCap(c);const pen=statPen(val);
-          return<div key={k} style={{textAlign:"center",background:"var(--s3)",borderRadius:6,padding:"4px",border:"1px solid "+(pen<0?"rgba(224,80,80,0.5)":"var(--b1)")}}>
-            <div style={{fontSize:8,fontWeight:600,letterSpacing:1,color:"var(--tx3)"}}>{l}</div>
-            <input type="number" value={val} onChange={e=>{const nv=Math.max(1,Math.min(cap,parseInt(e.target.value)||1));up({[k]:nv});}} style={{width:42,background:"none",border:"none",color:pen<0?"var(--red)":"var(--tx)",fontFamily:"JetBrains Mono",fontSize:22,fontWeight:500,textAlign:"center",outline:"none"}} min="1" max={cap}/>
-            {pen<0&&<div style={{fontSize:8,color:"var(--red)",fontFamily:"JetBrains Mono",lineHeight:1}}>{pen}</div>}
+          const isComp=c.competenza===k;
+          const toggleComp=()=>up({competenza:isComp?null:k});
+          return<div key={k} style={{textAlign:"center",background:"var(--s3)",borderRadius:6,padding:"4px 4px 2px",border:"1px solid "+(isComp?"rgba(64,200,200,0.5)":pen<0?"rgba(224,80,80,0.5)":"var(--b1)"),position:"relative",transition:"border-color 0.2s"}}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:3}}>
+              <span style={{fontSize:8,fontWeight:600,letterSpacing:1,color:isComp?"var(--cyan)":"var(--tx3)"}}>{l}</span>
+              <span onClick={toggleComp} title={isComp?"Rimuovi competenza":"Imposta competenza "+l} style={{fontSize:11,cursor:"pointer",color:isComp?"var(--cyan)":"var(--b2)",lineHeight:1,transition:"color 0.15s",userSelect:"none"}}>{isComp?"★":"☆"}</span>
+            </div>
+            <input type="number" value={val} onChange={e=>{const nv=Math.max(1,Math.min(cap,parseInt(e.target.value)||1));up({[k]:nv});}} style={{width:42,background:"none",border:"none",color:pen<0?"var(--red)":isComp?"var(--cyan)":"var(--tx)",fontFamily:"JetBrains Mono",fontSize:22,fontWeight:500,textAlign:"center",outline:"none"}} min="1" max={cap}/>
+            {isComp&&<div style={{fontSize:7,color:"var(--cyan)",fontFamily:"JetBrains Mono",lineHeight:1,marginTop:1}}>+{compBonus(c)} comp</div>}
+            {!isComp&&pen<0&&<div style={{fontSize:8,color:"var(--red)",fontFamily:"JetBrains Mono",lineHeight:1}}>{pen}</div>}
           </div>;
         })}
         <div style={{background:"var(--s3)",borderRadius:6,padding:"4px 8px",border:"1px solid "+(tier>0?tierColor+"44":"var(--b1)")}}>
@@ -261,30 +402,33 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
         <span>INIT +{initBonus(c)}</span><span>MOV {movement(c)}m</span>
         <span style={{color:slotsLeft===0&&slots>0?"var(--red)":slots>0?"var(--purple)":"var(--tx3)"}}>SLOT {slotsLeft}/{slots}</span>
         <span style={{marginLeft:"auto",display:"flex",gap:3}}>
-          {[0,1,2].map(i=><span key={i} onClick={()=>{const hp=c.heroPoints||0;if(i<hp)up({heroPoints:hp-1});else if(i===hp&&hp<3)up({heroPoints:hp+1});}} style={{fontSize:14,cursor:"pointer",opacity:i<(c.heroPoints||0)?1:0.2}}>*</span>)}
+          {[0,1,2].map(i=><span key={i} onClick={()=>{const hp=c.heroPoints||0;if(i<hp)up({heroPoints:hp-1});else if(i===hp&&hp<3)up({heroPoints:hp+1});}} style={{fontSize:16,cursor:"pointer",opacity:i<(c.heroPoints||0)?1:0.2,filter:i<(c.heroPoints||0)?"drop-shadow(0 0 4px var(--gold))":"none"}}>{i<(c.heroPoints||0)?"⭐":"☆"}</span>)}
           <span style={{fontSize:8,color:"var(--gold)",marginLeft:2}}>PE</span>
         </span>
       </div>
     </div>
-    <div style={{flex:1,overflowY:"auto",padding:14,paddingBottom:80}}>
-      {tab==="sheet"&&<SheetTab c={c} up={up}/>}
-      {tab==="actions"&&<ActionsTab c={c} up={up} isMaster={isMaster}/>}
-      {tab==="spells"&&<SpellsTab c={c} up={up} isMaster={isMaster}/>}
-      {tab==="dice"&&<DiceTab c={c}/>}
-      {tab==="notes"&&<NotesTab c={c} up={up}/>}
-      {tab==="save"&&<div style={{textAlign:"center",padding:40,color:"var(--tx3)",fontFamily:"Cinzel"}}>{saving?"Salvataggio in corso...":"Salvato!"}</div>}
+    <div style={{flex:1,overflowY:"auto",padding:14,paddingBottom:"calc(90px + var(--safe-bottom))"}}>
+      {viewMode
+        ?<SessionView c={c} up={up} setViewMode={setViewMode}/>
+        :<>{tab==="sheet"&&<SheetTab c={c} up={up}/>}
+        {tab==="actions"&&<ActionsTab c={c} up={up} isMaster={isMaster}/>}
+        {tab==="spells"&&<SpellsTab c={c} up={up} isMaster={isMaster}/>}
+        {tab==="dice"&&<DiceTab c={c}/>}
+        {tab==="notes"&&<NotesTab c={c} up={up}/>}
+        {tab==="save"&&<div style={{textAlign:"center",padding:40,color:"var(--tx3)",fontFamily:"Cinzel"}}>{saving?"Salvataggio in corso...":"Salvato!"}</div>}</>
+      }
     </div>
-    <nav style={{position:"fixed",bottom:0,left:0,right:0,display:"flex",background:"rgba(12,12,16,0.98)",borderTop:"1px solid var(--b1)",zIndex:60,paddingBottom:"var(--safe-bottom)"}}>
+    {!viewMode&&<nav style={{position:"fixed",bottom:0,left:0,right:0,display:"flex",background:"rgba(12,12,16,0.98)",borderTop:"1px solid var(--b1)",zIndex:60,paddingBottom:"var(--safe-bottom)"}}>
       {TABNAV.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"8px 0 6px",background:"transparent",border:"none",borderTop:tab===t.id?"2px solid var(--gold)":"2px solid transparent",color:tab===t.id?"var(--gold)":"var(--tx3)",minHeight:52,cursor:"pointer"}}>
         <span style={{fontSize:16,fontWeight:700}}>{t.ic}</span>
         <span style={{fontSize:8,marginTop:2,fontFamily:"Cinzel",fontWeight:tab===t.id?600:400}}>{t.lb}</span>
       </button>)}
-    </nav>
+    </nav>}
   </div>;
 }
 function SheetTab({c,up}){
   const perks=(G.WPERKS||{})[c.armaCat]||[];const ap=perks.find(p=>p.id===c.armaPerk);
-  return<div style={{animation:"fadeIn 0.15s ease"}}>
+  return<div style={{animation:"fadeIn 0.15s ease",paddingBottom:24}}>
     <Sec>Competenza</Sec>
     <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:8}}>
       <Pill on={!c.competenza} onClick={()=>up({competenza:null})}>Nessuna</Pill>
@@ -333,7 +477,7 @@ function CoreItemCard({item,color,onRemove,perkUses,hasPerkUse,onUsePerk,onResto
         {!open&&<p style={{fontSize:10,color:"var(--tx2)",marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{item.desc}</p>}
       </div>
       <button onClick={()=>setOpen(!open)} style={{width:22,height:22,borderRadius:"50%",border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:9,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{open?"^":"v"}</button>
-      <button onClick={onRemove} style={{width:22,height:22,borderRadius:"50%",border:"1px solid rgba(224,80,80,0.3)",background:"rgba(224,80,80,0.08)",color:"var(--red)",fontSize:11,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>x</button>
+      <button onClick={onRemove} style={{width:22,height:22,borderRadius:"50%",border:"1px solid rgba(224,80,80,0.3)",background:"rgba(224,80,80,0.08)",color:"var(--red)",fontSize:11,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
     </div>
     {open&&<div style={{marginTop:8,borderTop:"1px solid var(--b1)",paddingTop:8}}>
       <p style={{fontSize:11,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>{item.desc}</p>
@@ -408,7 +552,7 @@ function CoreSpellCard({spell,onRemove,c}){
         </div>
         {rollRes&&<div style={{textAlign:"center",padding:"10px 0",borderRadius:6,background:"var(--bg)",border:"1.5px solid "+(rollRes.nat12?"var(--gold)":rollRes.nat1?"var(--red)":"var(--b1)"),animation:"fadeIn 0.2s ease"}}>
           <div style={{fontSize:38,fontWeight:900,fontFamily:"JetBrains Mono",color:rollRes.nat12?"var(--gold)":rollRes.nat1?"var(--red)":"var(--tx)"}}>{rollRes.total}</div>
-          <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"JetBrains Mono"}}>dado [{rollRes.d}] + {totalB}{rollRes.nat12?" *** CRITICO ***":rollRes.nat1?" FUMBLE":""}</div>
+          <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"JetBrains Mono"}}>dado [{rollRes.d}] + {totalB}{rollRes.nat12?" ★★ CRITICO ★★":rollRes.nat1?" ☠️ FUMBLE":""}</div>
         </div>}
       </div>}
     </div>}
@@ -432,11 +576,11 @@ function ActionsTab({c,up,isMaster}){
   const resetCombat=()=>{const np={...(c.perkUses||{})};[...selT,...selA].forEach(x=>{if(hasPU(x))np[x.id]=0;});up({perkUses:np});};
   const catCol={accesso:"var(--gold)",limite:"var(--cyan)",corpo:"var(--red)",mente:"var(--blue)",anima:"var(--purple)",ibrido:"var(--green)"};
   const catLbl={accesso:"Accessi",limite:"Limiti",corpo:"CORPO",mente:"MENTE",anima:"ANIMA",ibrido:"Ibrido"};
-  return<div style={{animation:"fadeIn 0.15s ease"}}>
+  return<div style={{animation:"fadeIn 0.15s ease",paddingBottom:24}}>
     <div style={{display:"flex",gap:5,marginBottom:12}}>
-      <button onClick={()=>riposo("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(232,160,48,0.3)",background:"rgba(232,160,48,0.07)",color:"var(--gold)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer",lineHeight:1.4}}>Riposo Breve<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>+CORPO HP, +{shortRestSlotRecovery(c)} slot</span></button>
-      <button onClick={()=>riposo("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.07)",color:"var(--blue)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer",lineHeight:1.4}}>Riposo Lungo<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>Tutto ripristinato</span></button>
-      <button onClick={resetCombat} style={{width:50,borderRadius:7,border:"1px solid var(--b1)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>Reset<br/><span style={{fontSize:7}}>combat</span></button>
+      <button onClick={()=>riposo("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(232,160,48,0.3)",background:"rgba(232,160,48,0.07)",color:"var(--gold)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer",lineHeight:1.4}}>☀️ Riposo Breve<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>+CORPO HP, +{shortRestSlotRecovery(c)} slot</span></button>
+      <button onClick={()=>riposo("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.07)",color:"var(--blue)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer",lineHeight:1.4}}>🌙 Riposo Lungo<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>Tutto ripristinato</span></button>
+      <button onClick={resetCombat} style={{width:50,borderRadius:7,border:"1px solid var(--b1)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>⚔️ Reset<br/><span style={{fontSize:7}}>combat</span></button>
     </div>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
       <Sec>Talenti {c.talenti.length}/{MAX_TALENTI}</Sec>
@@ -479,7 +623,7 @@ function SpellsTab({c,up,isMaster}){
   const removeSpell=id=>up({magie:c.magie.filter(x=>x!==id)});
   const useSlot=lvl=>{const cost=SPELL_COST[lvl]||1;if(used+cost<=ms)up({slotUsati:used+cost});};
   const restoreAll=()=>up({slotUsati:0});
-  return<div style={{animation:"fadeIn 0.15s ease"}}>
+  return<div style={{animation:"fadeIn 0.15s ease",paddingBottom:24}}>
     {ms>0&&<div style={{background:"var(--s2)",borderRadius:8,padding:"10px 12px",marginBottom:12,border:"1px solid var(--b1)"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
         <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--gold)"}}>SLOT MAGIA</span>
@@ -530,7 +674,7 @@ function SpellsTab({c,up,isMaster}){
 function DiceTab({c}){
   const[result,setResult]=useState(null);
   const roll=(label,mod)=>{const r=Math.floor(Math.random()*12)+1;setResult({label,roll:r,mod,total:r+mod,nat12:r===12,nat1:r===1});};
-  return<div style={{animation:"fadeIn 0.15s ease"}}>
+  return<div style={{animation:"fadeIn 0.15s ease",paddingBottom:24}}>
     <Sec>Tiro Rapido d12</Sec>
     <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:6,marginBottom:12}}>
       <button onClick={()=>roll("Attacco",atkBonus(c))} style={{...SS.gold,padding:"14px 0"}}>Attacco +{atkBonus(c)}</button>
@@ -548,7 +692,7 @@ function DiceTab({c}){
   </div>;
 }
 function NotesTab({c,up}){
-  return<div style={{animation:"fadeIn 0.15s ease"}}>
+  return<div style={{animation:"fadeIn 0.15s ease",paddingBottom:24}}>
     <Sec>Note</Sec><textarea value={c.notes||""} onChange={e=>up({notes:e.target.value})} placeholder="Appunti di sessione..." style={{...SS.inp,width:"100%",minHeight:180,resize:"vertical",lineHeight:1.6,marginBottom:14}}/>
     <Sec>Backstory</Sec><textarea value={c.backstory||""} onChange={e=>up({backstory:e.target.value})} placeholder="Background del personaggio..." style={{...SS.inp,width:"100%",minHeight:180,resize:"vertical",lineHeight:1.6}}/>
   </div>;
@@ -652,14 +796,54 @@ function CompendiumPage({onBack}){
       <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Compendio</h2>
     </div>
     <div style={{flexShrink:0,padding:"8px 14px",borderBottom:"1px solid var(--b1)",background:"var(--s2)"}}>
-      <div style={{display:"flex",gap:4,marginBottom:6,overflowX:"auto"}}>{tabs.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{...SS.btn,padding:"4px 10px",fontSize:11,borderColor:tab===t.id?"var(--gold)":"var(--b1)",color:tab===t.id?"var(--gold)":"var(--tx3)",background:tab===t.id?"rgba(232,160,48,0.1)":"none",whiteSpace:"nowrap"}}>{t.lb}</button>)}</div>
+      <div style={{display:"flex",gap:4,marginBottom:6,overflowX:"auto"}}>{tabs.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{...SS.btn,padding:"4px 10px",fontSize:11,borderColor:tab===t.id?"var(--gold)":"var(--b1)",color:tab===t.id?"var(--gold)":"var(--tx3)",background:tab===t.id?"rgba(232,160,48,0.1)":"none",whiteSpace:"nowrap"}}>{t.ic&&<span style={{marginRight:3}}>{t.ic}</span>}{t.lb}</button>)}</div>
       <div style={{display:"flex",gap:6}}>
         <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cerca..." style={{...SS.inp,flex:1,fontSize:12}}/>
         {tab!=="monsters"&&<select value={stileF} onChange={e=>setStileF(e.target.value)} style={{...SS.inp,width:110,fontSize:11}}><option value="all">Tutti</option>{Object.entries(G.STILI||{}).map(([k,v])=><option key={k} value={k}>{v.icon+" "+v.lbl}</option>)}</select>}
       </div>
     </div>
-    <div style={{flex:1,overflowY:"auto",padding:"12px 14px 120px"}}>{content}</div>
+    <div style={{flex:1,overflowY:"auto",padding:"12px 14px 180px"}}>{content}</div>
     {detail&&<InfoModal item={detail.item} type={detail.type} onClose={()=>setDetail(null)}/>}
+  </div>;
+}
+
+
+/* ═══ Dado nel Compendio (senza PG selezionato) ═══ */
+function CompendiumDiceRoller({spell}){
+  const[roll,setRoll]=useState(null);
+  const bonus=spellBonus(spell,null);
+  const statKey=(spell.stat||"MENTE");
+  const doRoll=(e)=>{
+    e.stopPropagation();
+    const d=Math.floor(Math.random()*12)+1;
+    setRoll({d,total:d+bonus,nat12:d===12,nat1:d===1});
+  };
+  return<div style={{background:"var(--s3)",borderRadius:6,padding:"8px 10px",border:"1px solid var(--b1)",marginBottom:8}}>
+    <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",marginBottom:roll?6:0}}>
+      <div style={{flex:1,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx2)",lineHeight:1.7}}>
+        <span style={{color:"var(--tx3)"}}>Tiro: </span>
+        1d12 + <span style={{color:"var(--gold)",fontWeight:700}}>{statKey}</span> + {spell.tipo==="ct"?"ct":"L"+(spell.lvl||0)}(+{bonus})
+        {" = 1d12+[tua "+statKey+"]+"}<span style={{color:"var(--gold)",fontWeight:700}}>{bonus}</span>
+        <span style={{color:"var(--tx3)",fontSize:9}}> · avg base {(6.5+bonus).toFixed(1)}</span>
+      </div>
+      <button onClick={doRoll} style={{padding:"5px 14px",borderRadius:6,border:"1.5px solid var(--gold)",
+        background:"rgba(232,160,48,0.12)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,
+        fontSize:11,cursor:"pointer",flexShrink:0}}>🎲 Tira d12</button>
+    </div>
+    {roll&&<div style={{textAlign:"center",padding:"8px 0",borderRadius:6,background:"var(--bg)",
+      border:"1.5px solid "+(roll.nat12?"var(--gold)":roll.nat1?"var(--red)":"var(--b1)"),
+      animation:"fadeIn 0.2s ease"}}>
+      <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"Cinzel",marginBottom:2}}>dado solo (senza stat PG)</div>
+      <div style={{fontSize:34,fontWeight:900,fontFamily:"JetBrains Mono",
+        color:roll.nat12?"var(--gold)":roll.nat1?"var(--red)":"var(--tx)"}}>
+        {roll.d}<span style={{fontSize:16,color:"var(--tx3)"}}> +{bonus} = </span>{roll.total}
+      </div>
+      <div style={{fontSize:9,color:"var(--tx3)",fontFamily:"JetBrains Mono"}}>
+        aggiungici il valore di {statKey} del personaggio
+        {roll.nat12&&<span style={{color:"var(--gold)"}}> ★★ CRITICO ★★</span>}
+        {roll.nat1&&<span style={{color:"var(--red)"}}> ☠️ FUMBLE</span>}
+      </div>
+    </div>}
   </div>;
 }
 
@@ -684,6 +868,9 @@ function InfoModal({item,type,onClose}){
       {isMonster&&item.lore&&<p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.7,marginBottom:10,fontStyle:"italic",padding:"8px 12px",background:"var(--s3)",borderRadius:6,borderLeft:"3px solid rgba(224,80,80,0.4)"}}>{item.lore}</p>}
       {item.desc&&<p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>{item.desc}</p>}
       {item.mec&&!isMonster&&<div style={{fontSize:12,color:"var(--tx)",padding:"8px 10px",background:"var(--s3)",borderRadius:6,marginBottom:8,lineHeight:1.5}}>{item.mec}</div>}
+      {/* Dado nel Compendio — senza PG, mostra solo 1d12 + bonus */}
+      {type==="spell"&&<CompendiumDiceRoller spell={item}/>}
+
       {isMonster&&<div style={{background:"var(--s3)",borderRadius:6,padding:"10px 12px",marginBottom:8}}>
         <div style={{fontFamily:"Cinzel",fontSize:11,color:"var(--gold)",marginBottom:8,letterSpacing:1}}>SCHEDA PRECOMPILATA</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,marginBottom:8}}>
