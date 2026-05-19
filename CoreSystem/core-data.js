@@ -1,6 +1,6 @@
 // ============================================================
-//  C.O.R.E. — Compact Open Rules Engine 
-//  core-data.js — File Dati Completo
+//  C.O.R.E. -- Compact Open Rules Engine
+//  core-data.js -- File Dati Completo
 //  Versione corretta: bonus armi/magie allineati alle costanti app
 // ============================================================
 
@@ -86,37 +86,37 @@ var ARMORS = [
 // NOTA: i valori bonus qui sono allineati alle costanti WCAT_BONUS dell'app (A:1 B:2 C:3 D:4).
 var WCAT = {
   A:{ nome:'Leggera',    bonus:1, req:null,            svan:'Danno singolo basso. Usare due armi A richiede il talento Doppia Impugnatura.', initMod:0 },
-  B:{ nome:'Standard',   bonus:2, req:null,            svan:'Nessuno — bilanciata per eccellenza.', initMod:0 },
-  C:{ nome:'Pesante',    bonus:3, req:'armi_pesanti',  svan:'Richiede CORPO≥6 o il talento Armi Pesanti. Ingombrante — difficile nasconderla.', initMod:0 },
-  D:{ nome:'Devastante', bonus:4, req:'armi_letali',   svan:'Richiede CORPO≥10 + talento Armi Letali obbligatorio. Due mani: no scudo. -1 iniziativa.', initMod:-1 },
-  DX:{ nome:'Leggendaria', bonus:5, req:'armi_letali', svan:'−2 iniziativa. Richiede Armi Letali + Limite Elevato + CORPO 12. Solo via upgrade da Cat D.', initMod:-2 }
+  B:{ nome:'Standard',   bonus:2, req:null,            svan:'Nessuno -- bilanciata per eccellenza.', initMod:0 },
+  C:{ nome:'Pesante',    bonus:3, req:'armi_pesanti',  svan:'Richiede CORPO>=6 o il talento Armi Pesanti. Ingombrante -- difficile nasconderla.', initMod:0 },
+  D:{ nome:'Devastante', bonus:4, req:'armi_letali',   svan:'Richiede CORPO>=10 + talento Armi Letali obbligatorio. Due mani: no scudo. -1 iniziativa.', initMod:-1 },
+  DX:{ nome:'Leggendaria', bonus:5, req:'armi_letali', svan:'-2 iniziativa. Richiede Armi Letali + Limite Elevato + CORPO 12. Solo via upgrade da Cat D.', initMod:-2 }
 };
 
 var WPERKS = {
 A:[
   {id:'a_vel',nome:'Velocità',          stile:'universale',desc:'Attacchi non provocano reazioni di opportunità.',pro:'+1 iniziativa. Mobilità tattica.',con:'Nessun bonus al danno.',evolveIn:'b_vel'},
   {id:'a_pen',nome:'Penetrazione',      stile:'universale',desc:'Ignora 1 punto di DEF del bersaglio su ogni attacco.',pro:'Utile contro qualsiasi difesa.',con:'Effetto minimo su nemici con DEF bassa.',evolveIn:'b_pen'},
-  {id:'a_sto',nome:'Stordimento',       stile:'universale',desc:'Su colpo: bersaglio −1 al prossimo tiro.',pro:'Debuff costante su ogni colpo.',con:'Effetto moderato, non cumulabile.',evolveIn:'b_sto'},
+  {id:'a_sto',nome:'Stordimento',       stile:'universale',desc:'Su colpo: bersaglio -1 al prossimo tiro.',pro:'Debuff costante su ogni colpo.',con:'Effetto moderato, non cumulabile.',evolveIn:'b_sto'},
   {id:'a_pre',nome:'Precisione',        stile:'universale',desc:'Il danno non può essere inferiore a 2 su attacco riuscito.',pro:'Garantisce danno minimo.',con:'Inutile contro DEF molto bassa.',evolveIn:'b_pre'},
   {id:'a_res',nome:'Resilienza',        stile:'universale',desc:'+1 alla DEF finché questa arma è impugnata.',pro:'Difesa passiva costante.',con:'Perdi il bonus se disarmato.',evolveIn:'b_res'},
   {id:'fa_a1',nome:'Lama Sacra',        stile:'fantasy',   desc:'+1 danno contro non-morti e demoni. La lama emette luce fioca entro 5m.',pro:'Situazionalmente molto forte.',con:'Inutile contro nemici non-oscuri.',evolveIn:'fa_b1'},
   {id:'cy_a1',nome:'Impulso Digitale',  stile:'cyberpunk', desc:'Su colpo: 1 impianto del bersaglio va offline per 1 round.',pro:'Disabilita impianti chiave.',con:'Inutile contro nemici senza tecnologia.',evolveIn:'cy_b1'},
-  {id:'ho_a1',nome:'Veleno Radicato',   stile:'horror',    desc:'Su colpo: bersaglio Avvelenato 1 round (−1 ai tiri).',pro:'Debuff immediato ogni colpo.',con:'Breve durata.',evolveIn:'ho_b1'},
+  {id:'ho_a1',nome:'Veleno Radicato',   stile:'horror',    desc:'Su colpo: bersaglio Avvelenato 1 round (-1 ai tiri).',pro:'Debuff immediato ogni colpo.',con:'Breve durata.',evolveIn:'ho_b1'},
   {id:'no_a1',nome:'Colpo Silenzioso',  stile:'noir',      desc:'Attacchi non producono suono udibile oltre 5m.',pro:'Stealth offensiva pura.',con:'Nessun bonus meccanico al danno.',evolveIn:'no_b1'},
   {id:'an_a1',nome:'Slancio di Ki',     stile:'anime',     desc:'Su colpo: spinge il bersaglio di 1m e non può usare reazioni per 1 round.',pro:'Controllo posizionale immediato.',con:'Bassa gittata della spinta.',evolveIn:'an_b1'},
 ],
 B:[
   {id:'b_vel',nome:'Velocità Superiore',stile:'universale',desc:'+2 iniziativa. Puoi muoverti di 1m prima o dopo l\'attacco senza usare azione.',pro:'Mobilità + iniziativa forti.',con:'Bonus al danno assente.',evolveIn:'c_vel',daId:'a_vel'},
   {id:'b_pen',nome:'Penetrazione Profonda',stile:'universale',desc:'Ignora 2 punti DEF. Attacchi contano come magici.',pro:'Valore contro armature e immunità.',con:'Meno utile contro DEF bassa.',evolveIn:'c_pen',daId:'a_pen'},
-  {id:'b_sto',nome:'Stordimento Pesante',stile:'universale',desc:'Su colpo: applica Rallentato 1 round.',pro:'Condizione vera, non solo −1.',con:'Singola condizione, 1 round.',evolveIn:'c_sto',daId:'a_sto'},
+  {id:'b_sto',nome:'Stordimento Pesante',stile:'universale',desc:'Su colpo: applica Rallentato 1 round.',pro:'Condizione vera, non solo -1.',con:'Singola condizione, 1 round.',evolveIn:'c_sto',daId:'a_sto'},
   {id:'b_pre',nome:'Colpo Garantito',  stile:'universale',desc:'Danno minimo 3. 1x/combat: ritira il dado se ottieni 1–3.',pro:'Affidabilità + ritiro emergenza.',con:'1 uso del ritiro per combat.',evolveIn:'c_pre',daId:'a_pre'},
   {id:'b_res',nome:'Guardia Solida',   stile:'universale',desc:'+1 DEF + +1 ai tiri CORPO per resistere a condizioni fisiche.',pro:'Difesa e resistenza combinate.',con:'Richiede di impugnare l\'arma.',evolveIn:'c_res',daId:'a_res'},
   {id:'b_cnt',nome:'Contrattacco',     stile:'universale',desc:'Quando un nemico ti manca in mischia: +2 al tuo prossimo attacco contro di lui.',pro:'Punisce le mancanze nemiche.',con:'Solo mischia, condizionale.',evolveIn:'c_cnt'},
   {id:'fa_b1',nome:'Lama Sacra Maggiore',stile:'fantasy', desc:'+2 danno vs oscurità. 1x/combat: rimuovi 1 condizione oscura al colpo.',pro:'Molto forte in campagne horror/dark.',con:'Situazionale fuori contesto.',evolveIn:'fa_c1',daId:'fa_a1'},
   {id:'fa_b2',nome:'Runa Minore',      stile:'fantasy',   desc:'1x/combat: imbui l\'arma con un elemento (fuoco/freddo/fulmine) per +1 danno di quel tipo.',pro:'Flessibilità elementale.',con:'Solo 1 uso, 1 tipo a volta.',evolveIn:'fa_c2'},
-  {id:'cy_b1',nome:'EMP Localizzato',  stile:'cyberpunk', desc:'Su colpo: tutti gli impianti del bersaglio offline 1r + −1 tiri se ne usa.',pro:'Disabilita sistemi multipli.',con:'1 round, poi tutto torna.',evolveIn:'cy_c1',daId:'cy_a1'},
+  {id:'cy_b1',nome:'EMP Localizzato',  stile:'cyberpunk', desc:'Su colpo: tutti gli impianti del bersaglio offline 1r + -1 tiri se ne usa.',pro:'Disabilita sistemi multipli.',con:'1 round, poi tutto torna.',evolveIn:'cy_c1',daId:'cy_a1'},
   {id:'cy_b2',nome:'Mirino Integrato', stile:'cyberpunk', desc:'+1 tiri a distanza. Ignora copertura leggera.',pro:'Specializzazione cecchino immediata.',con:'Solo a distanza.',evolveIn:'cy_c2'},
-  {id:'ho_b1',nome:'Veleno Potenziato',stile:'horror',    desc:'Su colpo: Avvelenato 2 round + −1 CORPO per HP/Difesa durante durata.',pro:'Debuff esteso e composto.',con:'2 round, poi scade.',evolveIn:'ho_c1',daId:'ho_a1'},
+  {id:'ho_b1',nome:'Veleno Potenziato',stile:'horror',    desc:'Su colpo: Avvelenato 2 round + -1 CORPO per HP/Difesa durante durata.',pro:'Debuff esteso e composto.',con:'2 round, poi scade.',evolveIn:'ho_c1',daId:'ho_a1'},
   {id:'ho_b2',nome:'Aura Necrotica',   stile:'horror',    desc:'I non-morti entro 3m ignorano il portatore e non attaccano automaticamente.',pro:'Utilissimo in dungeon/horror.',con:'Non controlla i non-morti, solo neutralità.',evolveIn:'ho_c2'},
   {id:'no_b1',nome:'Fantasma',         stile:'noir',      desc:'Silenzioso. 1x/combat: attacca da angolo cieco → +2 tiro, non riveli posizione.',pro:'Stealth offensiva + bonus colpo.',con:'1 uso.',evolveIn:'no_c1',daId:'no_a1'},
   {id:'no_b2',nome:'Parole Taglienti', stile:'noir',      desc:'1x/combat: attacco verbale (portata voce) che infligge danno normale senza corpo a corpo.',pro:'Danno a distanza senza arco.',con:'1 uso, narrativamente vincolato.',evolveIn:'no_c2'},
@@ -125,7 +125,7 @@ B:[
 ],
 C:[
   {id:'c_vel',nome:'Velocità Estrema',  stile:'universale',desc:'+2 iniziativa. Attacca e muoviti nella stessa azione senza penalità.',pro:'Mobilità piena in combattimento.',con:'Nessun bonus al danno.',evolveIn:'d_vel',daId:'b_vel'},
-  {id:'c_pen',nome:'Perforante',        stile:'universale',desc:'Ignora 3 DEF. Se danno ≥ 4: riduce DEF bersaglio di 1 per tutto il combat.',pro:'Armor break permanente.',con:'Richiede danno ≥ 4.',evolveIn:'d_pen',daId:'b_pen'},
+  {id:'c_pen',nome:'Perforante',        stile:'universale',desc:'Ignora 3 DEF. Se danno >= 4: riduce DEF bersaglio di 1 per tutto il combat.',pro:'Armor break permanente.',con:'Richiede danno >= 4.',evolveIn:'d_pen',daId:'b_pen'},
   {id:'c_sto',nome:'Colpo Disabilitante',stile:'universale',desc:'Su colpo: applica Stordito 1 round 1x/combat (bersaglio perde l\'azione).',pro:'Condizione grave, azione persa.',con:'1 uso.',evolveIn:'d_sto',daId:'b_sto'},
   {id:'c_pre',nome:'Colpo Infallibile', stile:'universale',desc:'Danno minimo 4. Su 12 naturale: +3 danno bonus.',pro:'Min alto + critico potenziato.',con:'Critico sempre raro (8%).',evolveIn:'d_pre',daId:'b_pre'},
   {id:'c_res',nome:'Fortezza',          stile:'universale',desc:'+2 DEF + immune a Indebolito mentre impugni questa arma.',pro:'Immunità a condizione comune.',con:'Solo se impugnata.',evolveIn:'d_res',daId:'b_res'},
@@ -139,7 +139,7 @@ C:[
   {id:'cy_c3',nome:'Modifica Adattiva', stile:'cyberpunk',desc:'1x/sessione: rimodella funzione arma (+2 a un tipo di attacco per 1 scena, GM approva).',pro:'Flessibilità situazionale enorme.',con:'1 uso. GM deve approvare.',evolveIn:'cy_d3'},
   {id:'ho_c1',nome:'Veleno Abissale',   stile:'horror',   desc:'Su colpo: Avvelenato 3 round + 1 danno necrotico extra per round.',pro:'Danno nel tempo forte.',con:'3 round, poi scade.',evolveIn:'ho_d1',daId:'ho_b1'},
   {id:'ho_c2',nome:'Signore dei Non-Morti',stile:'horror',desc:'I non-morti ti ignorano. 1x/combat: un gregario non-morto esegue 1 azione per te.',pro:'Controllo parziale non-morti.',con:'Solo gregari.',evolveIn:'ho_d2',daId:'ho_b2'},
-  {id:'ho_c3',nome:'Maledizione Minore',stile:'horror',   desc:'Su 12 naturale: bersaglio Maledetto 3 round (−1 tutti i tiri, cure dimezzate).',pro:'Maledizione potente su critico.',con:'Solo su 12 naturale.',evolveIn:'ho_d3'},
+  {id:'ho_c3',nome:'Maledizione Minore',stile:'horror',   desc:'Su 12 naturale: bersaglio Maledetto 3 round (-1 tutti i tiri, cure dimezzate).',pro:'Maledizione potente su critico.',con:'Solo su 12 naturale.',evolveIn:'ho_d3'},
   {id:'no_c1',nome:'Ombra Perfetta',    stile:'noir',     desc:'Attacchi sempre silenziosi. 1x/combat: colpisci e rimani nascosto.',pro:'Stealth offensiva piena.',con:'1 uso del rimani-nascosto.',evolveIn:'no_d1',daId:'no_b1'},
   {id:'no_c2',nome:'Lingua Affilata',   stile:'noir',     desc:'1x/combat: attacco verbale che infligge danno normale + Spaventato 1r OPPURE distrae 1 nemico 1r.',pro:'Danno + condizione o distrazione.',con:'1 uso, narrativo.',evolveIn:'no_d2',daId:'no_b2'},
   {id:'no_c3',nome:'Informatore',       stile:'noir',     desc:'Se osservi 1 round prima del combat: GM rivela tier ferite + 1 debolezza del bersaglio scelto.',pro:'Info tattica gratuita.',con:'Richiede azione di osservazione.',evolveIn:'no_d3'},
@@ -148,25 +148,25 @@ C:[
   {id:'an_c3',nome:'Aura Eroica',       stile:'anime',    desc:'Sotto metà HP: +2 a tutti i tiri di attacco + alleati che ti vedono +1 ai loro tiri.',pro:'Rimonta e buff gruppo.',con:'Solo sotto metà HP.',evolveIn:'an_d3'},
 ],
 D:[
-  {id:'d_vel',nome:'Tempesta di Lame',  stile:'universale',desc:'+3 iniziativa. 1x/combat: attacca due volte nello stesso turno (seconda a −2).',pro:'Doppio attacco + massima init.',con:'−2 al secondo tiro.',daId:'c_vel'},
+  {id:'d_vel',nome:'Tempesta di Lame',  stile:'universale',desc:'+3 iniziativa. 1x/combat: attacca due volte nello stesso turno (seconda a -2).',pro:'Doppio attacco + massima init.',con:'-2 al secondo tiro.',daId:'c_vel'},
   {id:'d_pen',nome:'Sfondamento',       stile:'universale',desc:'Su colpo: ignora completamente la DEF del bersaglio per quel turno 1x/combat.',pro:'Danno netto su turno chiave.',con:'1 uso.',daId:'c_pen'},
   {id:'d_sto',nome:'Terrore Incarnato', stile:'universale',desc:'Su colpo: scegli tra Stordito 1r / Spaventato 2r / Rallentato 2r.',pro:'Condizione a scelta.',con:'Richiede di colpire.',daId:'c_sto'},
   {id:'d_pre',nome:'Colpo Mortale',     stile:'universale',desc:'Danno minimo 5. Su 12 naturale: il bersaglio non può agire nel round successivo.',pro:'Critico devastante.',con:'12 nat solo 8%.',daId:'c_pre'},
   {id:'d_res',nome:'Baluardo',          stile:'universale',desc:'+2 DEF + 1x/combat: reazione per dimezzare il danno di un attacco subito.',pro:'Difesa + salvataggio emergenza.',con:'1 uso del dimezza-danno.',daId:'c_res'},
   {id:'d_cnt',nome:'Contrattacco Devastante',stile:'universale',desc:'Quando un nemico ti manca: contrattacca come reazione con +3 al tiro.',pro:'Contrattacco potenziato.',con:'Solo quando il nemico manca.',daId:'c_cnt'},
   {id:'d_dev',nome:'Turbine',           stile:'universale',desc:'1x/combat: attacca TUTTI i nemici entro 3m con un singolo tiro.',pro:'Area enorme, bersagli multipli.',con:'1 uso.',daId:'c_dev'},
-  {id:'d_spe',nome:'Frantumazione',     stile:'universale',desc:'Su danno ≥ 5: riduce DEF bersaglio di 1 per il combat (max −2 cumulabile).',pro:'Armor break progressivo.',con:'Richiede danno ≥ 5.'},
+  {id:'d_spe',nome:'Frantumazione',     stile:'universale',desc:'Su danno >= 5: riduce DEF bersaglio di 1 per il combat (max -2 cumulabile).',pro:'Armor break progressivo.',con:'Richiede danno >= 5.'},
   {id:'fa_d1',nome:'Execrator',         stile:'fantasy',  desc:'+4 danno vs oscurità. 1x/combat: Giudizio → bersaglio perde condizioni positive e non le recupera per 2r.',pro:'Devastante vs oscurità.',con:'Situazionale.',daId:'fa_c1'},
   {id:'fa_d2',nome:'Runa Cosmica',      stile:'fantasy',  desc:'Danno elementale sempre attivo (scegli tipo). 1x/combat: +3 elementale + effetto a tutti entro 2m.',pro:'Danno elementale aoe.',con:'1 uso dell\'area.',daId:'fa_c2'},
   {id:'fa_d3',nome:'Forma Vera',        stile:'fantasy',  desc:'+2 a tutti i tiri di attacco + impossibile essere disarmati. L\'arma rivela la sua natura spirituale.',pro:'Bonus fisso + inviolabilità.',con:'Nessun bonus al danno diretto.',daId:'fa_c3'},
   {id:'fa_d4',nome:'Ira degli Antichi', stile:'fantasy',  desc:'1x/combat: se danno > metà HP bersaglio → anche Spaventato 2 round.',pro:'Condizione enorme su colpo forte.',con:'1 uso, dipende dal danno.'},
   {id:'cy_d1',nome:'God Mode',          stile:'cyberpunk',desc:'1x/combat: disabilita TUTTO entro 5m (impianti, droni, armi tech) per 2 round.',pro:'Shutdown area totale.',con:'1 uso, solo vs tech.',daId:'cy_c1'},
   {id:'cy_d2',nome:'Sniper Perfetto',   stile:'cyberpunk',desc:'+3 tiri a distanza + ignora qualsiasi tipo di copertura.',pro:'Cecchino invulnerabile a cover.',con:'Solo a distanza.',daId:'cy_c2'},
-  {id:'cy_d3',nome:'Protocollo Omega',  stile:'cyberpunk',desc:'1x/combat: l\'arma attacca autonomamente un secondo bersaglio a −2 senza usare la tua azione.',pro:'Attacco bonus senza azione.',con:'1 uso, −2 al tiro.',daId:'cy_c3'},
+  {id:'cy_d3',nome:'Protocollo Omega',  stile:'cyberpunk',desc:'1x/combat: l\'arma attacca autonomamente un secondo bersaglio a -2 senza usare la tua azione.',pro:'Attacco bonus senza azione.',con:'1 uso, -2 al tiro.',daId:'cy_c3'},
   {id:'cy_d4',nome:'Broadcast di Panico',stile:'cyberpunk',desc:'Su colpo su bersaglio con impianti neurali: trasmette panico → tutti i nemici entro 3m Spaventati 1r.',pro:'Aoe psicologica da 1 colpo.',con:'Solo vs bersagli con neurali.'},
   {id:'ho_d1',nome:'Veleno della Fine', stile:'horror',   desc:'Su colpo: Avvelenato 4 round + 2 danno necrotico/round + cure magiche dimezzate per durata.',pro:'DoT devastante + anti-cura.',con:'4 round di durata.',daId:'ho_c1'},
   {id:'ho_d2',nome:'Necromante Istintivo',stile:'horror', desc:'Controlli non-morti fino a tier normale. 1x/sessione: controlla 1 elite per 1 scena.',pro:'Esercito di non-morti.',con:'1 uso elite per sessione.',daId:'ho_c2'},
-  {id:'ho_d3',nome:'Grande Maledizione',stile:'horror',   desc:'Su colpo: Maledetto 5 round (−2 tutti i tiri). Nessuna cura funziona per tutta la durata.',pro:'Maledizione lunga + anti-cura.',con:'Richiede di colpire.',daId:'ho_c3'},
+  {id:'ho_d3',nome:'Grande Maledizione',stile:'horror',   desc:'Su colpo: Maledetto 5 round (-2 tutti i tiri). Nessuna cura funziona per tutta la durata.',pro:'Maledizione lunga + anti-cura.',con:'Richiede di colpire.',daId:'ho_c3'},
   {id:'ho_d4',nome:'Drenaggio',         stile:'horror',   desc:'Su ogni colpo: recuperi 1 HP. Su critico: recuperi HP pari al danno inflitto diviso 2.',pro:'Sostentamento in combat.',con:'Critico per heal massimo.'},
   {id:'no_d1',nome:'Il Fantasma',       stile:'noir',     desc:'Sempre silenzioso e non rintracciabile. 1x/combat: diventa invisibile 1 round dopo aver colpito.',pro:'Invisibilità tattica.',con:'1 round, 1 uso.',daId:'no_c1'},
   {id:'no_d2',nome:'Artista della Parola',stile:'noir',   desc:'1x/combat: attacco verbale che colpisce TUTTI i nemici che possono sentirti con un tiro unico.',pro:'Danno area senza corpo a corpo.',con:'1 uso, solo chi sente.',daId:'no_c2'},
@@ -182,7 +182,7 @@ DX:[
   {id:'dx_dre',nome:'Drenaggio Vitale', stile:'universale',desc:'Su ogni colpo riuscito: recuperi HP pari al danno inflitto diviso 2.',pro:'Sostentamento massimo in combat.',con:'Dipende dal danno inflitto.'},
   {id:'dx_fra',nome:'Frattura',         stile:'universale',desc:'1x/combat: il bersaglio non può usare abilità speciali, magie o perk per 2 round.',pro:'Shutdown completo 2 round.',con:'1 uso.'},
   {id:'dx_eco',nome:'Eco del Colpo',    stile:'universale',desc:'Il danno si replica su un secondo bersaglio entro 3m a metà valore (stesso tiro).',pro:'Danno automatico su secondo bersaglio.',con:'Metà valore, richiede bersaglio vicino.'},
-  {id:'dx_con',nome:'Consumo',          stile:'universale',desc:'Su colpo: bersaglio perde 1 slot magia OPPURE 1 uso perk. Se non ne ha: −2 tutti i tiri per 1 round.',pro:'Drain risorse universale.',con:'Effetto minore se bersaglio ha già usato le risorse.'},
+  {id:'dx_con',nome:'Consumo',          stile:'universale',desc:'Su colpo: bersaglio perde 1 slot magia OPPURE 1 uso perk. Se non ne ha: -2 tutti i tiri per 1 round.',pro:'Drain risorse universale.',con:'Effetto minore se bersaglio ha già usato le risorse.'},
 ],
 };
 
@@ -210,90 +210,90 @@ var INCOMPATIBILITIES = [
   
 var SPELLS = [
   // ── CANTRIP ── bonus:0, min:0, illimitati (max 2 equipaggiati)
-  {id:'c01',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Fiamma Minore',     bonus:0,mec:'Una fiamma sottile nasce dal palmo e si scaglia in un getto di calore concentrato. Oltre a colpire il bersaglio, può accendere materiali combustibili a distanza e fornisce luce stabile nel buio. Tiro MENTE contro CORPO — il fuoco lascia segni.',                         pro:'Offensivo e narrativo.',           con:'Danno basso, raggio corto.'},
+  {id:'c01',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Fiamma Minore',     bonus:0,mec:'Una fiamma sottile nasce dal palmo e si scaglia in un getto di calore concentrato. Oltre a colpire il bersaglio, può accendere materiali combustibili a distanza e fornisce luce stabile nel buio. Tiro MENTE contro CORPO -- il fuoco lascia segni.',                         pro:'Offensivo e narrativo.',           con:'Danno basso, raggio corto.'},
   {id:'c02',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Scudo Arcano',      bonus:0,mec:'Come reazione a un attacco magico in arrivo, erigi una pellicola arcana che assorbe parte dell\'impatto. Concede più tre alla Difesa contro il prossimo attacco magico ricevuto in questo round. Non richiede azione.',                   pro:'Gratuito, non usa azione.',        con:'Solo vs magie.'},
-  {id:'c03',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'universale',nome:'Messaggio Mentale', bonus:0,mec:'Comprimi un pensiero in una piccola sfera di luce e la invii verso chiunque tu conosca entro un chilometro. La sfera arriva in pochi secondi. Il ricevente sente le parole nella propria mente — nessuno interposta può intercettarla.',              pro:'Comunicazione segreta.',           con:'Solo frasi brevi.'},
-  {id:'c04',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'universale',nome:'Disturbo',          bonus:0,mec:'Distorci brevemente la concentrazione del bersaglio con interferenza mentale. Tiro MENTE contro MENTE — se riesce, il bersaglio subisce meno uno al prossimo tiro che effettua prima del tuo prossimo turno.',                     pro:'Debuff economico.',                con:'Effetto lieve.'},
+  {id:'c03',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'universale',nome:'Messaggio Mentale', bonus:0,mec:'Comprimi un pensiero in una piccola sfera di luce e la invii verso chiunque tu conosca entro un chilometro. La sfera arriva in pochi secondi. Il ricevente sente le parole nella propria mente -- nessuno interposta può intercettarla.',              pro:'Comunicazione segreta.',           con:'Solo frasi brevi.'},
+  {id:'c04',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'universale',nome:'Disturbo',          bonus:0,mec:'Distorci brevemente la concentrazione del bersaglio con interferenza mentale. Tiro MENTE contro MENTE -- se riesce, il bersaglio subisce meno uno al prossimo tiro che effettua prima del tuo prossimo turno.',                     pro:'Debuff economico.',                con:'Effetto lieve.'},
   {id:'c05',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'universale',nome:'Luce',              bonus:0,mec:'Fai schioccare le dita e una sfera di luce bianca appare nell\'aria vicino a te, illuminando tutto nel raggio di dieci metri come piena luce diurna. La sfera fluttua obbedendo ai tuoi pensieri e dura finché non la dissolvi.',                                                pro:'Sempre utile.',                    con:'Nessun effetto combat.'},
-  {id:'c06',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Gelo',              bonus:0,mec:'Un soffio di aria gelida scaturisce dalle mani e si condensa in cristalli di ghiaccio volanti verso il bersaglio. Tiro MENTE contro CORPO — può rallentare il bersaglio o rendere scivoloso il terreno sotto di lui.',              pro:'Danno + debuff difesa.',           con:'Brevissima durata.'},
-  {id:'c07',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Spinta Arcana',     bonus:0,mec:'Un\'onda invisibile di forza arcana si espande dalla mano aperta e colpisce il bersaglio con l\'impatto di un pugno invisibile. Spinge e destabilizza. Tiro MENTE contro CORPO — il bersaglio colpito indietreggia di un metro.',                               pro:'Posizionamento tattico.',          con:'Zero danno.'},
-  {id:'c08',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'universale',nome:'Nebbia',            bonus:0,mec:'Exhali aria che si trasforma in nebbia densa entro cinque metri. La nebbia blocca la visione diretta — qualsiasi attacco che la attraversa subisce meno uno al tiro. Persiste per due round se non dissipata dal vento.',                                   pro:'Ostacola in area.',                con:'Ostacola anche alleati.'},
+  {id:'c06',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Gelo',              bonus:0,mec:'Un soffio di aria gelida scaturisce dalle mani e si condensa in cristalli di ghiaccio volanti verso il bersaglio. Tiro MENTE contro CORPO -- può rallentare il bersaglio o rendere scivoloso il terreno sotto di lui.',              pro:'Danno + debuff difesa.',           con:'Brevissima durata.'},
+  {id:'c07',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Spinta Arcana',     bonus:0,mec:'Un\'onda invisibile di forza arcana si espande dalla mano aperta e colpisce il bersaglio con l\'impatto di un pugno invisibile. Spinge e destabilizza. Tiro MENTE contro CORPO -- il bersaglio colpito indietreggia di un metro.',                               pro:'Posizionamento tattico.',          con:'Zero danno.'},
+  {id:'c08',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'universale',nome:'Nebbia',            bonus:0,mec:'Exhali aria che si trasforma in nebbia densa entro cinque metri. La nebbia blocca la visione diretta -- qualsiasi attacco che la attraversa subisce meno uno al tiro. Persiste per due round se non dissipata dal vento.',                                   pro:'Ostacola in area.',                con:'Ostacola anche alleati.'},
   {id:'c09',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'noir',      nome:'Occhio di Mente',   bonus:0,mec:'Estendi i sensi mentali come tentacoli invisibili nell\'area circostante. Per un round percepisci la presenza emotiva di tutte le menti senzienti entro venti metri, anche attraverso muri sottili. Il GM ti avvisa di presenze nascoste.',              pro:'Info tattica e narrativa.',        con:'Zero danno.'},
   {id:'c10',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Guardia Arcana',    bonus:0,mec:'Intreccia un filo di magia difensiva intorno a un alleato entro cinque metri. Fino al tuo prossimo turno, il primo attacco che lo colpisce subisce meno due al danno finale dopo i calcoli normali.',                             pro:'Buffer rapido.',                   con:'Dura 1 round.'},
-  {id:'c11',tipo:'ct',lvl:0,min:0,stat:'ANIMA',stile:'fantasy',   nome:'Benedizione Minore',bonus:0,mec:'Posando una mano su chi soffre, incanalai una scintilla di vita attraverso il tocco. Ripristina uno o due Punti Vita a un bersaglio a contatto. Non guarisce ferite gravi né elimina condizioni — rallenta solo il deterioramento.',                               pro:'Supporto immediato gratuito.',     con:'Solo +1, 1 alleato.'},
+  {id:'c11',tipo:'ct',lvl:0,min:0,stat:'ANIMA',stile:'fantasy',   nome:'Benedizione Minore',bonus:0,mec:'Posando una mano su chi soffre, incanalai una scintilla di vita attraverso il tocco. Ripristina uno o due Punti Vita a un bersaglio a contatto. Non guarisce ferite gravi né elimina condizioni -- rallenta solo il deterioramento.',                               pro:'Supporto immediato gratuito.',     con:'Solo +1, 1 alleato.'},
   {id:'c12',tipo:'ct',lvl:0,min:0,stat:'ANIMA',stile:'fantasy',   nome:'Parola di Conforto',bonus:0,mec:'Alcune parole dette nel tono giusto fanno più di una medicina. Rivolgi una frase a un alleato vicino: se sceglie di accettarla, recupera una condizione psicologica minore o ottiene più uno al prossimo tiro morale.',             pro:'Utility gratuita.',                con:'Solo condizioni minori.'},
-  {id:'c13',tipo:'ct',lvl:0,min:0,stat:'ANIMA',stile:'noir',      nome:'Empatia Arcana',    bonus:0,mec:'Apri brevemente la mente alle emozioni altrui come un ricevitore sintonizzato. Per un round sai con certezza se il bersaglio è ostile, timoroso, calmo o nasconde qualcosa — senza comunicazione verbale.',                  pro:'Leggi lo stato d\'animo.',         con:'Solo emozioni.'},
-  {id:'c14',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'horror',    nome:'Tocco Necrotico',   bonus:0,mec:'Allungi la mano e convoglii energia che prosciuga la vitalità del bersaglio. Tiro MENTE contro CORPO — il danno necrotico non causa ferite fisiche visibili ma esaurisce dall\'interno.',                  pro:'Danno e auto-cura dual use.',      con:'Richiede tocco.'},
-  {id:'c15',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'cyberpunk', nome:'Impulso Digitale',  bonus:0,mec:'Emetti un breve impulso di frequenze elettromagnetiche mirate verso il sistema nervoso cibernetico del bersaglio. Tiro MENTE contro MENTE — se riesce, il bersaglio perde l\'uso di un impianto cibernetico per un round.',                 pro:'Utility digitale gratuita.',       con:'Solo dispositivi semplici.'},
-  {id:'c16',tipo:'ct',lvl:0,min:0,stat:'ANIMA',stile:'anime',     nome:'Aura Minacciosa',   bonus:0,mec:'Concentri la tua energia verso l\'esterno in un\'aura di pressione psicologica. I nemici che ti guardano sentono qualcosa di sbagliato — qualcosa di troppo sicuro di sé. Tiro ANIMA contro MENTE — applica Spaventato per un round.',              pro:'Setup confronti.',                 con:'+2 a 1 tiro solo.'},
+  {id:'c13',tipo:'ct',lvl:0,min:0,stat:'ANIMA',stile:'noir',      nome:'Empatia Arcana',    bonus:0,mec:'Apri brevemente la mente alle emozioni altrui come un ricevitore sintonizzato. Per un round sai con certezza se il bersaglio è ostile, timoroso, calmo o nasconde qualcosa -- senza comunicazione verbale.',                  pro:'Leggi lo stato d\'animo.',         con:'Solo emozioni.'},
+  {id:'c14',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'horror',    nome:'Tocco Necrotico',   bonus:0,mec:'Allungi la mano e convoglii energia che prosciuga la vitalità del bersaglio. Tiro MENTE contro CORPO -- il danno necrotico non causa ferite fisiche visibili ma esaurisce dall\'interno.',                  pro:'Danno e auto-cura dual use.',      con:'Richiede tocco.'},
+  {id:'c15',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'cyberpunk', nome:'Impulso Digitale',  bonus:0,mec:'Emetti un breve impulso di frequenze elettromagnetiche mirate verso il sistema nervoso cibernetico del bersaglio. Tiro MENTE contro MENTE -- se riesce, il bersaglio perde l\'uso di un impianto cibernetico per un round.',                 pro:'Utility digitale gratuita.',       con:'Solo dispositivi semplici.'},
+  {id:'c16',tipo:'ct',lvl:0,min:0,stat:'ANIMA',stile:'anime',     nome:'Aura Minacciosa',   bonus:0,mec:'Concentri la tua energia verso l\'esterno in un\'aura di pressione psicologica. I nemici che ti guardano sentono qualcosa di sbagliato -- qualcosa di troppo sicuro di sé. Tiro ANIMA contro MENTE -- applica Spaventato per un round.',              pro:'Setup confronti.',                 con:'+2 a 1 tiro solo.'},
   {id:'c17',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Veleno di Contatto',bonus:0,mec:'Un sottile strato di veleno magico appare sulla tua mano o su una superficie che tocchi. Il primo bersaglio a contatto subisce avvelenamento: meno uno a tutti i tiri per due round se fallisce un tiro di CORPO contro la tua ANIMA.',       pro:'Danno nel tempo senza slot.',      con:'Solo 1 attacco.'},
   {id:'c18',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'universale',nome:'Senso Etereo',      bonus:0,mec:'Estendi la percezione verso piani adiacenti al fisico. Per un round senti la presenza di entità soprannaturali, oggetti incantati o luoghi di potere entro trenta metri. Il GM ti avvisa se qualcosa di rilevante è nell\'area.',                                 pro:'Esplorazione e sorveglianza.',     con:'Non distingue amici da nemici.'},
 
   // ── LIVELLO 1 ── bonus:+2, min stat:6, costo:1pt
-  {id:'m01',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Dardo Magico',       bonus:2,mec:'Un dardo di energia pura si forma tra le dita e scatta verso il bersaglio con traiettoria perfetta. Non richiede di mirare — il dardo segue il bersaglio automaticamente finché è nel campo visivo. Difficile da schivare, facile da usare.',                           pro:'Garantisce danno.',                con:'Danno moderato.'},
-  {id:'m02',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Sonno',              bonus:2,mec:'Sussurri arcani si insinuano nella mente del bersaglio e ne appesantiscono la coscienza come piombo. Tiro MENTE contro MENTE — in caso di successo il bersaglio cade addormentato per un round o finché non subisce danno.',                     pro:'Neutralizza senza danno.',         con:'ANIMA alta resiste.'},
-  {id:'m03',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Presa Arcana',       bonus:2,mec:'Mani invisibili di forza arcana afferrano il bersaglio e lo bloccano in posizione. Tiro MENTE contro CORPO — se riesce, il bersaglio non può muoversi per un round ma può ancora attaccare con meno uno al tiro.',                          pro:'Controllo del campo.',             con:'CORPO alto resiste.'},
-  {id:'m04',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Cura Ferite',        bonus:2,mec:'Canalizzai energia vitale attraverso le mani posate sul paziente. Ripristina Punti Vita pari a quattro più il tuo bonus di competenza ANIMA. Non funziona su non-morti e non cura malattie o veleni — solo danni fisici.',                        pro:'Healing diretto.',                 con:'Richiede tocco.'},
+  {id:'m01',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Dardo Magico',       bonus:2,mec:'Un dardo di energia pura si forma tra le dita e scatta verso il bersaglio con traiettoria perfetta. Non richiede di mirare -- il dardo segue il bersaglio automaticamente finché è nel campo visivo. Difficile da schivare, facile da usare.',                           pro:'Garantisce danno.',                con:'Danno moderato.'},
+  {id:'m02',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Sonno',              bonus:2,mec:'Sussurri arcani si insinuano nella mente del bersaglio e ne appesantiscono la coscienza come piombo. Tiro MENTE contro MENTE -- in caso di successo il bersaglio cade addormentato per un round o finché non subisce danno.',                     pro:'Neutralizza senza danno.',         con:'ANIMA alta resiste.'},
+  {id:'m03',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Presa Arcana',       bonus:2,mec:'Mani invisibili di forza arcana afferrano il bersaglio e lo bloccano in posizione. Tiro MENTE contro CORPO -- se riesce, il bersaglio non può muoversi per un round ma può ancora attaccare con meno uno al tiro.',                          pro:'Controllo del campo.',             con:'CORPO alto resiste.'},
+  {id:'m04',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Cura Ferite',        bonus:2,mec:'Canalizzai energia vitale attraverso le mani posate sul paziente. Ripristina Punti Vita pari a quattro più il tuo bonus di competenza ANIMA. Non funziona su non-morti e non cura malattie o veleni -- solo danni fisici.',                        pro:'Healing diretto.',                 con:'Richiede tocco.'},
   {id:'m05',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Scudo di Forza',     bonus:2,mec:'Un disco di forza solidificata si materializza davanti a te. Fino al tuo prossimo turno, aggiunge tre alla tua Difesa contro tutti gli attacchi in arrivo, fisici e magici. Sparisce dopo aver assorbito il primo colpo.',                                            pro:'Difesa per 2 round.',              con:'Costa 1 azione.'},
   {id:'m06',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Frecce Magiche',     bonus:2,mec:'Tre piccole frecce di luce si materializzano nell\'aria e saettano verso il bersaglio o verso bersagli separati a tua scelta. Ogni freccia tira indipendentemente con più uno al tiro ciascuna. Utile contro più nemici ravvicinati.',                     pro:'Multi-target.',                    con:'-2 per dardo rispetto a L1 standard.'},
-  {id:'m07',tipo:'mg',lvl:1,min:6,stat:'ANIMA',stile:'horror',   nome:'Voce del Terrore',   bonus:2,mec:'La tua voce si trasforma in qualcosa di non umano — frequenze che il cervello non può ignorare. Tiro ANIMA contro ANIMA — il bersaglio acquisisce Spaventato per due round. Funziona anche oltre la vista diretta se ti sente.',                         pro:'Infligge condizione.',             con:'Richiede vittoria.'},
+  {id:'m07',tipo:'mg',lvl:1,min:6,stat:'ANIMA',stile:'horror',   nome:'Voce del Terrore',   bonus:2,mec:'La tua voce si trasforma in qualcosa di non umano -- frequenze che il cervello non può ignorare. Tiro ANIMA contro ANIMA -- il bersaglio acquisisce Spaventato per due round. Funziona anche oltre la vista diretta se ti sente.',                         pro:'Infligge condizione.',             con:'Richiede vittoria.'},
   {id:'m08',tipo:'mg',lvl:1,min:6,stat:'ANIMA',stile:'anime',    nome:'Ispirazione Arcana', bonus:2,mec:'Intreccia un filo dorato di energia arcana intorno a un alleato entro dieci metri. Il prossimo tiro che effettua ottiene un bonus pari al tuo bonus di competenza ANIMA. Si consuma al primo utilizzo.',                       pro:'Bonus in momenti cruciali.',       con:'Solo 1 tiro.'},
   {id:'m09',tipo:'mg',lvl:1,min:6,stat:'ANIMA',stile:'fantasy',  nome:'Canto di Guarigione',bonus:2,mec:'Intoni poche note di un canto antico che risuonano nella carne. Tutti gli alleati entro dieci metri recuperano due Punti Vita. Non è un guaritore completo: è il respiro di sollievo che mantiene in piedi chi è ancora in piedi.',                       pro:'Healing basato su ANIMA.',         con:'Richiede tocco.'},
-  {id:'m10',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'cyberpunk',nome:'Aggancio',           bonus:2,mec:'Un gancio di energia arcana scatta verso il bersaglio entro venti metri. Tiro MENTE contro CORPO — se riesce, lo tiri verso di te di tre metri o lo fai cadere a terra se resiste al movimento.',                 pro:'Utility digitale.',                con:'Solo sistemi semplici.'},
-  {id:'m11',tipo:'mg',lvl:1,min:6,stat:'ANIMA',stile:'horror',   nome:'Grido Straniante',   bonus:2,mec:'Emetti un urlo soprannaturale che colpisce la mente invece del corpo. Tiro ANIMA contro MENTE — in caso di successo il bersaglio è Stordito per un round: perde la prossima azione e subisce meno uno ai tiri per un round aggiuntivo.', pro:'Area burst ANIMA.',               con:'Raggio piccolo.'},
+  {id:'m10',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'cyberpunk',nome:'Aggancio',           bonus:2,mec:'Un gancio di energia arcana scatta verso il bersaglio entro venti metri. Tiro MENTE contro CORPO -- se riesce, lo tiri verso di te di tre metri o lo fai cadere a terra se resiste al movimento.',                 pro:'Utility digitale.',                con:'Solo sistemi semplici.'},
+  {id:'m11',tipo:'mg',lvl:1,min:6,stat:'ANIMA',stile:'horror',   nome:'Grido Straniante',   bonus:2,mec:'Emetti un urlo soprannaturale che colpisce la mente invece del corpo. Tiro ANIMA contro MENTE -- in caso di successo il bersaglio è Stordito per un round: perde la prossima azione e subisce meno uno ai tiri per un round aggiuntivo.', pro:'Area burst ANIMA.',               con:'Raggio piccolo.'},
   {id:'m12',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'fantasy',  nome:'Cura a Distanza',    bonus:2,mec:'Estendi una mano e da essa parte un filo di luce che raggiunge un alleato entro quindici metri. Ripristina tre Punti Vita a distanza senza toccare. Puoi usarla mentre sei impegnato in combattimento diretto.',                      pro:'Healing sicuro a distanza.',       con:'Stessa quantità di Cura Ferite.'},
-  {id:'m43',tipo:'mg',lvl:1,min:6,stat:'ANIMA',stile:'horror',   nome:'Maledizione di Setta',bonus:2,mec:'Pronunci una formula di vincolazione tratta da un rituale antico. Tiro ANIMA contro ANIMA — il bersaglio acquisisce Maledetto per tre round: meno uno a tutti i tiri finché la maledizione non viene spezzata o decade naturalmente.',pro:'Amplificatore per effetti paura.',con:'Solo vs resistenza, no danno.'},
-  {id:'m48',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'anime',    nome:'Analisi Tattica',    bonus:2,mec:'In un secondo di concentrazione intensa analizzi la situazione tattica circostante. Ottieni informazioni sulle debolezze di un bersaglio — il GM rivela il suo Wound Tier attuale e il tipo di difese principali che possiede.',pro:'Info + bonus attacco.',con:'Solo 1 bersaglio.'},
+  {id:'m43',tipo:'mg',lvl:1,min:6,stat:'ANIMA',stile:'horror',   nome:'Maledizione di Setta',bonus:2,mec:'Pronunci una formula di vincolazione tratta da un rituale antico. Tiro ANIMA contro ANIMA -- il bersaglio acquisisce Maledetto per tre round: meno uno a tutti i tiri finché la maledizione non viene spezzata o decade naturalmente.',pro:'Amplificatore per effetti paura.',con:'Solo vs resistenza, no danno.'},
+  {id:'m48',tipo:'mg',lvl:1,min:6,stat:'MENTE',stile:'anime',    nome:'Analisi Tattica',    bonus:2,mec:'In un secondo di concentrazione intensa analizzi la situazione tattica circostante. Ottieni informazioni sulle debolezze di un bersaglio -- il GM rivela il suo Wound Tier attuale e il tipo di difese principali che possiede.',pro:'Info + bonus attacco.',con:'Solo 1 bersaglio.'},
 
   // ── LIVELLO 2 ── bonus:+4, min stat:8, costo:2pt
   {id:'m13',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'fantasy',  nome:'Palla di Fuoco',    bonus:4,mec:'Comprimi energia calorica in una sfera che scagli verso il punto scelto entro trenta metri. Quando esplode, colpisce tutti i bersagli nel raggio di tre metri con il danno completo. I bersagli ai bordi possono tentare CORPO per dimezzarlo.',                   pro:'Multi-target, danno elevato.',     con:'Colpisce alleati.'},
-  {id:'m14',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'universale',nome:'Invisibilità',     bonus:4,mec:'Il tuo corpo si piega fuori dalla percezione visibile — luce e sguardi scivolano intorno a te. Rimani invisibile finché attacchi o lanci un\'altra magia. Qualsiasi mossa dopo l\'invisibilità concede più due al primo attacco.',                               pro:'Elusione totale.',                 con:'Si annulla al primo attacco.'},
-  {id:'m15',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'universale',nome:'Telecinesi',       bonus:4,mec:'Estendi la volontà verso un oggetto o persona entro venti metri. Tiro MENTE contro CORPO — se riesce, puoi spostare il bersaglio di tre metri in qualsiasi direzione o tenerlo fermo per un round contro la sua volontà.',          pro:'Versatile.',                       con:'Non vs CORPO altissimo.'},
+  {id:'m14',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'universale',nome:'Invisibilità',     bonus:4,mec:'Il tuo corpo si piega fuori dalla percezione visibile -- luce e sguardi scivolano intorno a te. Rimani invisibile finché attacchi o lanci un\'altra magia. Qualsiasi mossa dopo l\'invisibilità concede più due al primo attacco.',                               pro:'Elusione totale.',                 con:'Si annulla al primo attacco.'},
+  {id:'m15',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'universale',nome:'Telecinesi',       bonus:4,mec:'Estendi la volontà verso un oggetto o persona entro venti metri. Tiro MENTE contro CORPO -- se riesce, puoi spostare il bersaglio di tre metri in qualsiasi direzione o tenerlo fermo per un round contro la sua volontà.',          pro:'Versatile.',                       con:'Non vs CORPO altissimo.'},
   {id:'m16',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'fantasy',  nome:'Lama Magica',       bonus:4,mec:'Una lama di energia magica si materializza nella tua mano e rimane finché non la dissolvi. Conta come arma fisica con il tuo bonus MENTE. Può colpire entità incorporee e non viene rimossa da disarmo fisico.',                pro:'Buff potente.',                    con:'Solo 1 attacco.'},
-  {id:'m17',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'noir',     nome:'Blocco del Pensiero',bonus:4,mec:'Un muro psichico invisibile scende sulla mente del bersaglio. Tiro MENTE contro MENTE — in caso di successo il bersaglio non può usare abilità psichiche, magie mentali o comunicazione telepatica per due round.',                      pro:'Silenzia caster.',                 con:'Solo vs caster.'},
-  {id:'m18',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'universale',nome:'Volo',             bonus:4,mec:'Il corpo si alleggerisce fino a diventare quasi senza peso. Per tre round puoi muoverti in qualsiasi direzione tridimensionale a velocità normale — su, di lato, in diagonale. Puoi planare anche in caso di caduta.',                                       pro:'Mobilità aerea.',                  con:'Attacchi fisici lo annullano.'},
+  {id:'m17',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'noir',     nome:'Blocco del Pensiero',bonus:4,mec:'Un muro psichico invisibile scende sulla mente del bersaglio. Tiro MENTE contro MENTE -- in caso di successo il bersaglio non può usare abilità psichiche, magie mentali o comunicazione telepatica per due round.',                      pro:'Silenzia caster.',                 con:'Solo vs caster.'},
+  {id:'m18',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'universale',nome:'Volo',             bonus:4,mec:'Il corpo si alleggerisce fino a diventare quasi senza peso. Per tre round puoi muoverti in qualsiasi direzione tridimensionale a velocità normale -- su, di lato, in diagonale. Puoi planare anche in caso di caduta.',                                       pro:'Mobilità aerea.',                  con:'Attacchi fisici lo annullano.'},
   {id:'m19',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'fantasy',  nome:'Benedizione',       bonus:4,mec:'Invochi una benedizione genuina su un alleato o su te stesso. Per due round il bersaglio ottiene più uno a tutti i tiri di qualsiasi tipo. Non cumulabile con altre benedizioni attive dello stesso tipo.',                          pro:'Buff di gruppo.',                  con:'Richiede alleati vicini.'},
   {id:'m20',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'fantasy',  nome:"Legame dell'Anima", bonus:4,mec:'1d12+ANIMA+4: condividi metà del danno ricevuto da 1 alleato.',              pro:'Protezione per alleato.',          con:'Rischioso se alleato subisce tanto.'},
   {id:'m21',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'noir',     nome:"Voce dell'Autorità",bonus:4,mec:'1d12+ANIMA+4 vs ANIMA. Vinci: trattato come autorità per 10 min.',          pro:'Charm narrativo.',                 con:'Zero danno.'},
-  {id:'m22',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'cyberpunk',nome:'Overload Neurale',  bonus:4,mec:'Sovraccarichi il sistema nervoso cibernetico del bersaglio con un picco di tensione mirato. Tiro MENTE contro MENTE — se riesce, il bersaglio perde accesso a tutti gli impianti tecnologici per due round mentre il sistema si riavvia.',       pro:'Counter cyberware.',               con:'Solo vs augmentati.'},
-  {id:'m23',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'horror',   nome:'Barriera di Spine', bonus:4,mec:'Dal terreno sotto i piedi del bersaglio emergono spine di energia solidificata. Tiro ANIMA contro CORPO — se riesce il danno normale, il bersaglio è anche Rallentato per un round: movimenti dimezzati e meno uno ai tiri fisici.',             pro:'Difesa che punisce.',              con:'Solo mischia.'},
+  {id:'m22',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'cyberpunk',nome:'Overload Neurale',  bonus:4,mec:'Sovraccarichi il sistema nervoso cibernetico del bersaglio con un picco di tensione mirato. Tiro MENTE contro MENTE -- se riesce, il bersaglio perde accesso a tutti gli impianti tecnologici per due round mentre il sistema si riavvia.',       pro:'Counter cyberware.',               con:'Solo vs augmentati.'},
+  {id:'m23',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'horror',   nome:'Barriera di Spine', bonus:4,mec:'Dal terreno sotto i piedi del bersaglio emergono spine di energia solidificata. Tiro ANIMA contro CORPO -- se riesce il danno normale, il bersaglio è anche Rallentato per un round: movimenti dimezzati e meno uno ai tiri fisici.',             pro:'Difesa che punisce.',              con:'Solo mischia.'},
   {id:'m24',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'anime',    nome:"Eco dell'Anima",    bonus:4,mec:'1d12+ANIMA+4: ripeti tipo attacco riuscito di un alleato questo round.',     pro:'Sinergia di gruppo.',              con:'Richiede alleato abbia già colpito.'},
   {id:'m44',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'horror',   nome:'Visione Cosmica',   bonus:4,mec:'Apri temporaneamente la mente a dimensioni che l\'occhio normale non vede. Per un round percepisci tutto l\'invisibile e il soprannaturale nell\'area. Il GM rivela qualsiasi entità o effetto magico attivo entro trenta metri.',                 pro:'Debuff MENTE pesante.',            con:'Immune se MENTE >= 7.'},
   {id:'m45',tipo:'mg',lvl:2,min:8,stat:'MENTE',stile:'horror',   nome:'Rito del Sangue',   bonus:4,mec:'Tracci un simbolo con il tuo sangue e invochi un legame vitale con il bersaglio. Per due round, metà di ogni danno che il bersaglio ti infligge viene riflesso su di lui come danno necrotico. Il rito è visibile e può essere interrotto.',                        pro:'Elimina fallimenti magici.',       con:'Costa 3 HP. Visibile.'},
-  {id:'m49',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'anime',    nome:'Aura di Supremazia',bonus:4,mec:'Un\'aura visibile di energia guerriera si espande da te in un raggio di cinque metri. Tutti gli alleati nell\'area ottengono più due ai tiri di attacco per due round. Tu non benefici dell\'aura — l\'energia fluisce verso gli altri.',pro:'Area debuff ANIMA.',           con:'Se ANIMA inferiore, effetto ribaltato.'},
+  {id:'m49',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'anime',    nome:'Aura di Supremazia',bonus:4,mec:'Un\'aura visibile di energia guerriera si espande da te in un raggio di cinque metri. Tutti gli alleati nell\'area ottengono più due ai tiri di attacco per due round. Tu non benefici dell\'aura -- l\'energia fluisce verso gli altri.',pro:'Area debuff ANIMA.',           con:'Se ANIMA inferiore, effetto ribaltato.'},
   {id:'m51',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'universale',nome:"Catene dell'Anima",bonus:4,mec:'1d12+ANIMA+4 vs ANIMA. Vinci: Rallentato 2 round.',                         pro:'Controllo del campo.',             con:'Solo rallentamento.'},
   {id:'m52',tipo:'mg',lvl:2,min:8,stat:'ANIMA',stile:'fantasy',  nome:'Patto di Sangue',  bonus:4,mec:'Stringi un accordo magico vincolante con un alleato volontario. Finché siete entrambi coscienti entro venti metri, quando uno dei due subisce danno, l\'altro può scegliere di assorbire la metà. Il patto si spezza a fine scontro.',pro:'Equalizza sopravvivenza.',         con:'Se uno è debole, rischia.'},
 
   // ── LIVELLO 3 ── bonus:+6, min stat:10, costo:3pt
-  {id:'m25',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'fantasy',  nome:'Fulmine',          bonus:6,mec:'Chiami un fulmine dalla volta celeste — o dall\'energia statica accumulata se sei al chiuso. Si abbatte sul bersaglio principale e può saltare su un secondo bersaglio entro cinque metri con tiro a meno due. Il rombo è udibile a cento metri.',               pro:'Danno altissimo in linea.',        con:'Richiede allineamento.'},
-  {id:'m26',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'horror',   nome:'Controllo Mentale',bonus:6,mec:'Penetri nella mente del bersaglio e prendi il controllo delle intenzioni immediate. Tiro MENTE contro MENTE — in caso di successo dirigi le sue azioni per un round. Il bersaglio non combatte l\'effetto — non sa di essere controllato.',    pro:'Nemico diventa alleato temp.',     con:'1 round.'},
+  {id:'m25',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'fantasy',  nome:'Fulmine',          bonus:6,mec:'Chiami un fulmine dalla volta celeste -- o dall\'energia statica accumulata se sei al chiuso. Si abbatte sul bersaglio principale e può saltare su un secondo bersaglio entro cinque metri con tiro a meno due. Il rombo è udibile a cento metri.',               pro:'Danno altissimo in linea.',        con:'Richiede allineamento.'},
+  {id:'m26',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'horror',   nome:'Controllo Mentale',bonus:6,mec:'Penetri nella mente del bersaglio e prendi il controllo delle intenzioni immediate. Tiro MENTE contro MENTE -- in caso di successo dirigi le sue azioni per un round. Il bersaglio non combatte l\'effetto -- non sa di essere controllato.',    pro:'Nemico diventa alleato temp.',     con:'1 round.'},
   {id:'m27',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'fantasy',  nome:'Muro di Ghiaccio', bonus:6,mec:'Un muro di ghiaccio alto due metri si erge istantaneamente lungo una linea di cinque metri. Blocca il passaggio fisico e chiunque tenti di sfondarlo subisce danno da freddo. Fornisce copertura agli alleati e dura tre round.',                            pro:'Divide il campo.',                 con:'No danno.'},
-  {id:'m28',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'anime',    nome:'Tempesta di Lame', bonus:6,mec:'Invochi la tecnica segreta e scateni un turbine di lame di energia che si espande in un cerchio di quattro metri intorno a te. Ogni nemico nel raggio subisce il danno completo senza tiro separato — la tempesta colpisce tutto indiscriminatamente.',                            pro:'Area devastante.',                 con:'Colpisce alleati vicini.'},
-  {id:'m29',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'horror',   nome:'Maledizione',      bonus:6,mec:'Pronunci parole di maledizione antiche che si incidono nell\'aura del bersaglio. Tiro ANIMA contro ANIMA — se riesce, il bersaglio subisce meno due a tutti i tiri per tre round e qualsiasi magia di cura che lo colpisce è dimezzata.',pro:'Debuff permanente.',             con:'Richiede vittoria.'},
+  {id:'m28',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'anime',    nome:'Tempesta di Lame', bonus:6,mec:'Invochi la tecnica segreta e scateni un turbine di lame di energia che si espande in un cerchio di quattro metri intorno a te. Ogni nemico nel raggio subisce il danno completo senza tiro separato -- la tempesta colpisce tutto indiscriminatamente.',                            pro:'Area devastante.',                 con:'Colpisce alleati vicini.'},
+  {id:'m29',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'horror',   nome:'Maledizione',      bonus:6,mec:'Pronunci parole di maledizione antiche che si incidono nell\'aura del bersaglio. Tiro ANIMA contro ANIMA -- se riesce, il bersaglio subisce meno due a tutti i tiri per tre round e qualsiasi magia di cura che lo colpisce è dimezzata.',pro:'Debuff permanente.',             con:'Richiede vittoria.'},
   {id:'m30',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'horror',   nome:'Aura di Morte',    bonus:6,mec:'Un\'aura di energia necrotica si espande da te in un raggio di cinque metri. Tutti i nemici nell\'aura subiscono uno danno necrotico all\'inizio di ogni loro turno per due round. Chi entra nell\'area lo subisce immediatamente.',                 pro:'Debuff crescente.',                con:'Nemici possono allontanarsi.'},
-  {id:'m31',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'horror',   nome:'Anima in Prestito',bonus:6,mec:'Invochi uno spirito disposto a prestare le sue capacità per un round. Lo spirito può compiere una qualsiasi azione al posto tuo nello stesso turno — attaccare, spostare oggetti, distrarre. Poi scompare. Non puoi controllarne le intenzioni profonde.',pro:'Salvataggio immediato.',          con:'Tiro difficile.'},
+  {id:'m31',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'horror',   nome:'Anima in Prestito',bonus:6,mec:'Invochi uno spirito disposto a prestare le sue capacità per un round. Lo spirito può compiere una qualsiasi azione al posto tuo nello stesso turno -- attaccare, spostare oggetti, distrarre. Poi scompare. Non puoi controllarne le intenzioni profonde.',pro:'Salvataggio immediato.',          con:'Tiro difficile.'},
   {id:'m32',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'anime',    nome:'Grido di Guerra',  bonus:6,mec:'Emetti un grido che incanalai la volontà di combattimento pura. Tutti gli alleati entro dieci metri che possono sentirti ottengono più uno al danno su ogni attacco per due round. Non cumulabile con un secondo Grido attivo.',             pro:'Buff massiccio.',                  con:'Dura 2 round.'},
-  {id:'m33',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'cyberpunk',nome:'Hacking di Massa', bonus:6,mec:'Prendi il controllo simultaneo di tutti i dispositivi tecnologici in un raggio di dieci metri. Telecamere si spengono, porte si aprono, droni si riavviano. Tiro MENTE contro la complessità del sistema — il GM valuta la difficoltà.',      pro:'Dominio tecno in area.',           con:'Organici immuni.'},
+  {id:'m33',tipo:'mg',lvl:3,min:10,stat:'MENTE',stile:'cyberpunk',nome:'Hacking di Massa', bonus:6,mec:'Prendi il controllo simultaneo di tutti i dispositivi tecnologici in un raggio di dieci metri. Telecamere si spengono, porte si aprono, droni si riavviano. Tiro MENTE contro la complessità del sistema -- il GM valuta la difficoltà.',      pro:'Dominio tecno in area.',           con:'Organici immuni.'},
   {id:'m34',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'anime',    nome:'Urlo Berserker',   bonus:6,mec:'Lasci andare ogni inibizione mentale e ti scagli nel combattimento con forza bruta potenziata magicamente. Per due round il tuo attacco ottiene più due al danno fisico finale, ma la tua Difesa scende di due per la stessa durata.',            pro:'Offensiva devastante.',            con:'Esaurimento post-uso.'},
   {id:'m46',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'horror',   nome:"Richiamo dell'Antico",bonus:6,mec:'1d12+ANIMA+6 vs 10: tutti entro raggio: ANIMA vs 10 o Spaventato 1 round.',pro:'Area paura potentissima.',       con:'Entità può restare (GM).'},
-  {id:'m50',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'anime',    nome:'Tecnica Ultimo Stadio',bonus:6,mec:'Spingiti oltre ogni limite fisico con un picco di ki concentrato. Il prossimo attacco ottiene più quattro al tiro e ignora il bonus di scudo del bersaglio. Dopo l\'uso sei Affaticato per un round — meno uno ai tiri.',      pro:'Danno max garantito.',             con:'1 uso per sessione.'},
+  {id:'m50',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'anime',    nome:'Tecnica Ultimo Stadio',bonus:6,mec:'Spingiti oltre ogni limite fisico con un picco di ki concentrato. Il prossimo attacco ottiene più quattro al tiro e ignora il bonus di scudo del bersaglio. Dopo l\'uso sei Affaticato per un round -- meno uno ai tiri.',      pro:'Danno max garantito.',             con:'1 uso per sessione.'},
   {id:'m53',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'universale',nome:'Scudo di Gruppo', bonus:6,mec:'Estendi una barriera di forza arcana su tutti gli alleati entro quindici metri. Fino al tuo prossimo turno, ogni alleato coperto da questa magia ottiene più due alla Difesa contro il prossimo attacco che riceve.',        pro:'Buff difensivo di gruppo.',        con:'Costa azione.'},
   {id:'m54',tipo:'mg',lvl:3,min:10,stat:'ANIMA',stile:'anime',    nome:'Volontà del Conquistatore',bonus:6,mec:'La tua presenza sul campo di battaglia diventa un fatto schiacciante. Tutti i nemici che possono vederti devono superare ANIMA contro la tua ANIMA o subiscono Spaventato per due round. Chi già ti conosce ottiene meno uno al tiro.',pro:'Area intimidazione.',con:'Slot L3 richiesto.'},
 
   // ── LIVELLO 4 ── bonus:+8, min stat:12, costo:4pt
   {id:'m35',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'fantasy',  nome:'Resurrezione',     bonus:8,mec:'Il confine tra vita e morte è spesso solo una questione di volontà e di energia sufficiente. Riporti alla vita un alleato caduto entro un minuto dalla morte con tre Punti Vita. La magia è istantanea ma lascia il resurreto debilitato per un giorno.',            pro:'Salva dalla morte.',               con:'1 uso.'},
   {id:'m36',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'universale',nome:'Teletrasporto',   bonus:8,mec:'Disintegri lo spazio tra due punti noti e ti sposti istantaneamente. La destinazione deve essere un luogo che conosci o che vedi chiaramente. Non funziona attraverso barriere magiche. Porta con te fino a due persone a contatto.',                           pro:'Fuga o riposizionamento.',         con:'Devi conoscere il luogo.'},
-  {id:'m37',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'anime',    nome:'Nova Arcana',      bonus:8,mec:'Canalizzai l\'intera riserva di energia arcana e la scagli verso l\'esterno in un\'esplosione sferica di sei metri centrata su di te. Tutto nel raggio subisce il danno completo — alleati inclusi. Tu sei immune all\'esplosione.',           pro:'Danno devastante.',                con:'Esaurisce tutto.'},
-  {id:'m38',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'universale',nome:'Arresto del Tempo',bonus:8,mec:'Il tempo rallenta fino a fermarsi per tutto ciò che non sei tu. Per due round completi sei l\'unico essere ad agire. Puoi effettuare due turni normali consecutivi — poi il tempo riprende e tutti i round successivi tornano normali.',                         pro:'Un round extra.',                  con:'1 uso.'},
-  {id:'m39',tipo:'mg',lvl:4,min:12,stat:'ANIMA',stile:'horror',   nome:'Dominio',          bonus:8,mec:'Penetri così a fondo nella mente del bersaglio da impiantare volontà e comandi come se fossero suoi. Tiro MENTE contro MENTE — se riesce, controlli completamente le azioni del bersaglio per due round.',     pro:'Controllo totale.',                con:'Richiede vittoria.'},
+  {id:'m37',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'anime',    nome:'Nova Arcana',      bonus:8,mec:'Canalizzai l\'intera riserva di energia arcana e la scagli verso l\'esterno in un\'esplosione sferica di sei metri centrata su di te. Tutto nel raggio subisce il danno completo -- alleati inclusi. Tu sei immune all\'esplosione.',           pro:'Danno devastante.',                con:'Esaurisce tutto.'},
+  {id:'m38',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'universale',nome:'Arresto del Tempo',bonus:8,mec:'Il tempo rallenta fino a fermarsi per tutto ciò che non sei tu. Per due round completi sei l\'unico essere ad agire. Puoi effettuare due turni normali consecutivi -- poi il tempo riprende e tutti i round successivi tornano normali.',                         pro:'Un round extra.',                  con:'1 uso.'},
+  {id:'m39',tipo:'mg',lvl:4,min:12,stat:'ANIMA',stile:'horror',   nome:'Dominio',          bonus:8,mec:'Penetri così a fondo nella mente del bersaglio da impiantare volontà e comandi come se fossero suoi. Tiro MENTE contro MENTE -- se riesce, controlli completamente le azioni del bersaglio per due round.',     pro:'Controllo totale.',                con:'Richiede vittoria.'},
   {id:'m40',tipo:'mg',lvl:4,min:12,stat:'ANIMA',stile:'horror',   nome:"Sacrificio d'Anima",bonus:8,mec:'Spendi 2 HP per ogni 1 HP curato agli alleati in raggio. 1x/riposo.',      pro:'Healing massiccio.',               con:'Costa i tuoi HP.'},
-  {id:'m41',tipo:'mg',lvl:4,min:12,stat:'ANIMA',stile:'horror',   nome:'Grande Maledizione',bonus:8,mec:'Pronunci le sette parole della Grande Maledizione — nessuno le stesse in ordine identico due volte. Il bersaglio subisce Maledetto per cinque round: meno due a tutti i tiri, nessuna cura magica funziona, ogni fallimento costa un HP.',             pro:'Permanente.',                      con:'Effetto specifico col GM.'},
+  {id:'m41',tipo:'mg',lvl:4,min:12,stat:'ANIMA',stile:'horror',   nome:'Grande Maledizione',bonus:8,mec:'Pronunci le sette parole della Grande Maledizione -- nessuno le stesse in ordine identico due volte. Il bersaglio subisce Maledetto per cinque round: meno due a tutti i tiri, nessuna cura magica funziona, ogni fallimento costa un HP.',             pro:'Permanente.',                      con:'Effetto specifico col GM.'},
   {id:'m42',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'cyberpunk',nome:'Trasferimento Coscienza',bonus:8,mec:'La tua coscienza abbandona il corpo fisico e si trasferisce in un sistema digitale entro venti metri. Per due round controlli quel sistema dall\'interno. Il tuo corpo originale è incosciente e vulnerabile durante il trasferimento.',      pro:'Infiltrazione totale.',            con:'Il tuo corpo è vulnerabile.'},
-  {id:'m47',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'horror',   nome:'Frammentazione Cosmica',bonus:8,mec:'Crei una frattura nel tessuto della realtà locale. Tutto ciò che si trova entro tre metri dal punto scelto deve superare MENTE contro la tua MENTE o viene parzialmente dissolto — subisce il danno completo e perde un\'azione nel round successivo.',      pro:'Raddoppia fallimenti critici.',    con:'Se fallisci: -1 MENTE.'},
-  {id:'m55',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'universale',nome:'Disintegrazione', bonus:8,mec:'Concentri un fascio di energia pura e lo scagli sul bersaglio. Se il danno supera la metà dei Punti Vita massimi del bersaglio, viene ridotto in polvere — non si può curare né resurrezione: è semplicemente finita. Contro personaggi principali, il GM valuta l\'effetto narrativo.',         pro:'Ignora armatura, danno doppio.',   con:'Non ignora scudo.'},
+  {id:'m47',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'horror',   nome:'Frammentazione Cosmica',bonus:8,mec:'Crei una frattura nel tessuto della realtà locale. Tutto ciò che si trova entro tre metri dal punto scelto deve superare MENTE contro la tua MENTE o viene parzialmente dissolto -- subisce il danno completo e perde un\'azione nel round successivo.',      pro:'Raddoppia fallimenti critici.',    con:'Se fallisci: -1 MENTE.'},
+  {id:'m55',tipo:'mg',lvl:4,min:12,stat:'MENTE',stile:'universale',nome:'Disintegrazione', bonus:8,mec:'Concentri un fascio di energia pura e lo scagli sul bersaglio. Se il danno supera la metà dei Punti Vita massimi del bersaglio, viene ridotto in polvere -- non si può curare né resurrezione: è semplicemente finita. Contro personaggi principali, il GM valuta l\'effetto narrativo.',         pro:'Ignora armatura, danno doppio.',   con:'Non ignora scudo.'},
 
 
-  // ─── NUOVE MAGIE — meccaniche da altri sistemi GDR ───
+  // ─── NUOVE MAGIE -- meccaniche da altri sistemi GDR ───
 
   // ─ HORROR ─
   {id:'sp_furto_vitale',   tipo:'mg',lvl:2,min:8, stat:'MENTE',stile:'horror',
@@ -393,7 +393,7 @@ var TALENTS = [
   {id:'t51',cat:'corpo',stile:'universale',req:null,nome:'Doppia Impugnatura',  desc:'Combatti con due armi leggere simultaneamente sacrificando la difesa per il potenziale offensivo doppio. Non puoi usare scudo. Attacchi 2 volte per turno con -3 ciascuno. Se entrambi mancano sei Indebolito (CORPO -1) per 1 round.',pro:'2 attacchi per turno. Alto potenziale di danno con attacchi fortunati.',con:'No scudo. -3 per attacco. Se entrambi mancano: Indebolito 1 round.'},
   {id:'t52',cat:'corpo',stile:'universale',req:null,nome:'Colpo Critico',       desc:'Hai affinato la tecnica fino al punto in cui i tuoi colpi critici fanno qualcosa di piu. Quando ottieni un 12 naturale sul d12, il danno dell\'attacco fisico include +4 danno bonus fisso in aggiunta al risultato normale.',                   pro:'Passivo. +4 danno extra su 12 naturale (circa 8% dei tiri).',               con:'Solo su 12 naturale. Non influenza nessun altro aspetto del combattimento.'},
   // ── MENTE ──
-  {id:'t09',cat:'mente',stile:'noir',      req:null,nome:'Analisi del Nemico',  desc:'Ogni nemico ha una debolezza. Se spendi un round intero ad osservare senza attaccare, il GM ti rivela un tratto tattico o una debolezza sfruttabile del bersaglio scelto — stat critica, immunita, tecnica ricorrente.',     pro:'Info tattica gratuita. Svela tratti, stat critiche, o pattern di combattimento.',          con:'Richiede un round senza attaccare. Il GM decide cosa rivelare e quanto e specifico.'},
+  {id:'t09',cat:'mente',stile:'noir',      req:null,nome:'Analisi del Nemico',  desc:'Ogni nemico ha una debolezza. Se spendi un round intero ad osservare senza attaccare, il GM ti rivela un tratto tattico o una debolezza sfruttabile del bersaglio scelto -- stat critica, immunita, tecnica ricorrente.',     pro:'Info tattica gratuita. Svela tratti, stat critiche, o pattern di combattimento.',          con:'Richiede un round senza attaccare. Il GM decide cosa rivelare e quanto e specifico.'},
   {id:'t10',cat:'mente',stile:'horror',    req:null,nome:'Resistenza Mentale',  desc:'La tua mente e un muro. Tentativi di manipolazione magica, controllo mentale e distorsione cognitiva trovano una resistenza insolita. Ottieni +3 alla difesa contro magie mentali e sei immune alla condizione Confuso.',           pro:'Difesa +3 vs magie mentali. Immune a Confuso. Essenziale in sessioni horror.',                   con:'Solo contro magie mentali. Nessun effetto su attacchi fisici o sociali.'},
   {id:'t11',cat:'mente',stile:'noir',      req:null,nome:'Memoria Eidettica',   desc:'La tua memoria e un archivio permanente, non un appunto sbiadito. Ricordi con precisione assoluta tutto cio che hai visto, sentito o letto. Il GM non puo farti perdere informazioni acquisite nel corso dell\'avventura.',                           pro:'Nessuna perdita di informazioni acquisite. Potente per investigatori e diplomatici.',        con:'Puramente narrativo. Nessun effetto meccanico in combattimento.'},
   {id:'t12',cat:'mente',stile:'noir',      req:null,nome:'Polimata',            desc:'Hai coltivato una conoscenza abbastanza ampia da saper rispondere su argomenti diversissimi. Ottieni +3 a tutti i tiri MENTE che riguardano conoscenza, ricerca e identificazione di oggetti, fenomeni o individui.',          pro:'MENTE +3 su conoscenza, identificazione e ricerca. Essenziale per investigatori.',             con:'Solo tiri di conoscenza. Zero vantaggio in combattimento.'},
@@ -467,8 +467,8 @@ var TALENTS = [
 
   {id:'marchio_cacciatore',cat:'mente', stile:'universale',req:null,
     nome:'Marchio del Cacciatore',
-    desc:'Studiare un bersaglio prima di colpirlo non è codardìa: è professionalità. Hai imparato a osservare i dettagli che contano — la postura, le aperture nell\'equipaggiamento, il ritmo della respirazione. Una volta che hai il tuo bersaglio nel mirino, lo conosci meglio di quanto lui conosca se stesso.',
-    perk:'All\'inizio del combattimento, o come azione intera, designa un bersaglio visibile come tua preda. Fino alla fine del combattimento ottieni più due ai tiri di attacco contro di lui e puoi sempre valutare visivamente il suo stato di salute — se ha ferite leggere, gravi o è in condizioni critiche. Il marchio cade alla morte del bersaglio.',
+    desc:'Studiare un bersaglio prima di colpirlo non è codardìa: è professionalità. Hai imparato a osservare i dettagli che contano -- la postura, le aperture nell\'equipaggiamento, il ritmo della respirazione. Una volta che hai il tuo bersaglio nel mirino, lo conosci meglio di quanto lui conosca se stesso.',
+    perk:'All\'inizio del combattimento, o come azione intera, designa un bersaglio visibile come tua preda. Fino alla fine del combattimento ottieni più due ai tiri di attacco contro di lui e puoi sempre valutare visivamente il suo stato di salute -- se ha ferite leggere, gravi o è in condizioni critiche. Il marchio cade alla morte del bersaglio.',
     pro:'Bonus fisso costante contro il bersaglio prioritario. Informazione tattica gratuita.',
     con:'Solo contro un bersaglio alla volta. Cambiarlo richiede un\'azione intera.'},
 
@@ -483,14 +483,14 @@ var TALENTS = [
     nome:'Limite Ultimo',
     desc:'C\'è un fuoco che brucia più forte quando si è sull\'orlo della sconfitta. Ogni ferita subita alimenta una riserva di potere disperato che, al momento giusto, si scatena in un\'esplosione di violenza pura. Non è tecnica: è sopravvivenza.',
     perk:'Guadagni una Carica Limite ogni volta che le tue ferite peggiorano di livello, fino a un massimo di tre cariche. Le cariche si conservano tra un combattimento e l\'altro. Quando hai almeno due cariche, puoi spenderle tutte come azione: il tuo prossimo attacco ottiene un bonus aggiuntivo pari al numero di cariche moltiplicato per quattro. Le cariche si azzerano dopo l\'uso.',
-    pro:'Con tre cariche il bonus aggiuntivo è dodici — devastante. Si attiva naturalmente subendo danni.',
+    pro:'Con tre cariche il bonus aggiuntivo è dodici -- devastante. Si attiva naturalmente subendo danni.',
     con:'Con tre cariche sei in Stato Critico: meno due a tutti i tiri di base. Richiede di essere feriti per attivarsi.'},
 
   {id:'patto_abisso',     cat:'mente',  stile:'horror',    req:null,
     nome:'Patto dell\'Abisso',
-    desc:'Hai consegnato qualcosa di irrecuperabile in cambio di potere. Forse un momento di disperazione. Forse una scelta ponderata. L\'entità con cui hai stretto questo accordo è reale, presente, e ha un interesse nel tenerti in vita — almeno per ora. I tre Punti Vita che mancano non torneranno mai.',
+    desc:'Hai consegnato qualcosa di irrecuperabile in cambio di potere. Forse un momento di disperazione. Forse una scelta ponderata. L\'entità con cui hai stretto questo accordo è reale, presente, e ha un interesse nel tenerti in vita -- almeno per ora. I tre Punti Vita che mancano non torneranno mai.',
     pro:'Più uno permanente a tutte le magie. Un slot magico recuperato automaticamente dopo ogni Riposo Breve.',
-    con:'Meno tre Punti Vita massimi permanenti — le soglie di ferita cambiano di conseguenza. L\'entità è un antagonista narrativo che il Master utilizza.'},
+    con:'Meno tre Punti Vita massimi permanenti -- le soglie di ferita cambiano di conseguenza. L\'entità è un antagonista narrativo che il Master utilizza.'},
 
   {id:'adrenalina_pura',  cat:'corpo',  stile:'universale',req:null,
     nome:'Adrenalina Pura',
@@ -518,7 +518,7 @@ var TALENTS = [
   {id:'conoscenza_proibita',cat:'mente',stile:'horror',   req:null,
     nome:'Conoscenza Proibita',
     desc:'Hai letto ciò che non andava letto. Ora certe cose ti sono chiare in modo terrificante: i pattern nascosti nel caos, le connessioni che nessuno vuole vedere, la struttura fredda di ciò che sta dietro la realtà. Ti ha cambiato in qualcosa che il mondo non era pronto ad avere.',
-    perk:'Un numero di volte per Riposo Lungo pari al tuo valore di ANIMA: quando fallisci un tiro di magia o di MENTE, puoi trasformarlo in successo. Se lo fai, subisci due punti di danno psichico — perdi due Punti Vita massimi fino al prossimo Riposo Lungo.',
+    perk:'Un numero di volte per Riposo Lungo pari al tuo valore di ANIMA: quando fallisci un tiro di magia o di MENTE, puoi trasformarlo in successo. Se lo fai, subisci due punti di danno psichico -- perdi due Punti Vita massimi fino al prossimo Riposo Lungo.',
     pro:'Garantisce successi nei momenti decisivi. La frequenza di utilizzo scala con ANIMA.',
     con:'Ogni uso riduce i Punti Vita massimi di due fino al riposo. Abusato, porta rapidamente alla soglia critica.'},
 
@@ -526,19 +526,19 @@ var TALENTS = [
   {id:'istinto_sopravvivenza',cat:'mente',stile:'noir',   req:null,
     nome:'Istinto di Sopravvivenza',
     desc:'La città insegna cose che i libri non possono insegnare. Dopo abbastanza anni a guardarti le spalle, certe cose le senti prima di vederle. L\'ombra che si muove in modo sbagliato. Il silenzio che precede l\'agguato. Quella sensazione allo stomaco che precede sempre il momento in cui tutto va storto.',
-    perk:'Passivo: non puoi essere colto di sorpresa — sei sempre presente nell\'iniziativa. 1x/sessione, puoi dichiarare di notare qualcosa che normalmente richiederebbe un tiro di MENTE: il Master decide cosa e quanto dettaglio.',
+    perk:'Passivo: non puoi essere colto di sorpresa -- sei sempre presente nell\'iniziativa. 1x/sessione, puoi dichiarare di notare qualcosa che normalmente richiederebbe un tiro di MENTE: il Master decide cosa e quanto dettaglio.',
     pro:'Immunità agli agguati. Percezione gratuita una volta per sessione.',
     con:'Puramente difensivo e informativo. Nessun effetto diretto offensivo.'},
 
   {id:'parole_piombo',    cat:'anima',  stile:'noir',     req:null,
     nome:'Parole di Piombo',
     desc:'Alcune persone non hanno bisogno di estrarre un\'arma per essere pericolose. Il modo in cui guardano qualcuno è sufficiente. La voce che non si alza mai, le parole scelte con chirurgica precisione, il silenzio nel posto giusto: tutto comunica una cosa sola, con assoluta chiarezza.',
-    perk:'Puoi usare ANIMA al posto di CORPO per i tiri di intimidazione e per imporre condizioni psicologiche a bersagli intelligenti. 1x/combat: come azione, effettua un tiro di ANIMA contro la MENTE del bersaglio. In caso di successo, il bersaglio non ti attacca nel round corrente — anche se è già in posizione di farlo.',
+    perk:'Puoi usare ANIMA al posto di CORPO per i tiri di intimidazione e per imporre condizioni psicologiche a bersagli intelligenti. 1x/combat: come azione, effettua un tiro di ANIMA contro la MENTE del bersaglio. In caso di successo, il bersaglio non ti attacca nel round corrente -- anche se è già in posizione di farlo.',
     pro:'Trasforma ANIMA in una risorsa offensiva. Ferma attacchi senza usare slot magici.',
     con:'Solo contro bersagli intelligenti capaci di comprendere una minaccia sociale. Inutile contro bestie o automi.'},
 
 
-  /* ═══ SPECIALIZZAZIONI — ARMI ═══
+  /* ═══ SPECIALIZZAZIONI -- ARMI ═══
      Aggiungono il bonus di Competenza ai tiri con armi specifiche.
      Non si cumulano con la Competenza principale se copre gia' la stessa stat.
      Richiedono una Competenza attiva per essere utili.
@@ -546,22 +546,22 @@ var TALENTS = [
   {id:'spec_cat_a',cat:'corpo',stile:'universale',
    nome:'Precisione Leggera',
    desc:'Hai affinato la tecnica con le armi leggere fino a farne un\'estensione naturale. Aggiungi il tuo bonus di Competenza a tutti i tiri di attacco con armi Categoria A.',
-   pro:'+Comp ai tiri Cat A — ottimo per build MENTE/ANIMA che usano armi',
+   pro:'+Comp ai tiri Cat A -- ottimo per build MENTE/ANIMA che usano armi',
    con:'Solo Cat A. Non si cumula con Comp CORPO gia\ attiva.'},
   {id:'spec_cat_b',cat:'corpo',stile:'universale',
    nome:'Disciplina da Combattimento',
    desc:'Anni di pratica con le armi standard ti hanno dato padronanza completa della categoria. Aggiungi il tuo bonus di Competenza a tutti i tiri di attacco con armi Categoria B.',
-   pro:'+Comp ai tiri Cat B — la categoria piu usata in assoluto',
+   pro:'+Comp ai tiri Cat B -- la categoria piu usata in assoluto',
    con:'Solo Cat B. Non si cumula con Comp CORPO.'},
   {id:'spec_cat_c',cat:'corpo',stile:'universale',req:'armi_pesanti',
    nome:'Maestria Pesante',
    desc:'Porti le armi pesanti con la stessa fluidita con cui un altro porta un coltello. Aggiungi il tuo bonus di Competenza a tutti i tiri di attacco con armi Categoria C.',
-   pro:'+Comp ai tiri Cat C — trasforma un guerriero pesante in un mostro',
+   pro:'+Comp ai tiri Cat C -- trasforma un guerriero pesante in un mostro',
    con:'Richiede Armi Pesanti. Non si cumula con Comp CORPO.'},
   {id:'spec_cat_d',cat:'corpo',stile:'universale',req:'armi_letali',
    nome:'Arte del Devastatore',
-   desc:'Non e\ solo forza — e\ tecnica applicata alla devastazione assoluta. Aggiungi il tuo bonus di Competenza ai tiri con armi Categoria D.',
-   pro:'+Comp ai tiri Cat D — massimizza la categoria piu\ alta',
+   desc:'Non e\ solo forza -- e\ tecnica applicata alla devastazione assoluta. Aggiungi il tuo bonus di Competenza ai tiri con armi Categoria D.',
+   pro:'+Comp ai tiri Cat D -- massimizza la categoria piu\ alta',
    con:'Richiede Armi Letali. Non si cumula con Comp CORPO.'},
   {id:'spec_distanza',cat:'corpo',stile:'universale',
    nome:'Occhio del Cecchino',
@@ -579,34 +579,34 @@ var TALENTS = [
    pro:'+Comp quando l\'arma usa MENTE come stat di attacco',
    con:'Solo armi con toggle Magica attivo.'},
 
-  /* ═══ SPECIALIZZAZIONI — MAGIE ═══
+  /* ═══ SPECIALIZZAZIONI -- MAGIE ═══
      Aggiungono Competenza ai tiri con magie specifiche.
      Non si cumulano con Comp MENTE/ANIMA se quella stat e\ gia\ la tua competenza principale.
   ═══════════════════════════════ */
   {id:'spec_cantrip',cat:'mente',stile:'universale',
    nome:'Maestro dei Cantrip',
    desc:'I tuoi cantrip hanno la stessa precisione e potenza di una magia di livello, frutto di pratica ossessiva sulle fondamenta. Aggiungi il tuo bonus di Competenza a tutti i tiri con cantrip.',
-   pro:'+Comp su tutti i cantrip illimitati — fortissimo su build orientate ai cantrip',
+   pro:'+Comp su tutti i cantrip illimitati -- fortissimo su build orientate ai cantrip',
    con:'Solo cantrip. Non si cumula con Comp MENTE/ANIMA gia\ attiva sulla stessa stat.'},
   {id:'spec_magia_L12',cat:'mente',stile:'universale',req:'gate_mb',
    nome:'Magia Precisa',
    desc:'Le magie di primo e secondo livello escono con chirurgica precisione, come se ogni formula fosse perfettamente incisa nella memoria. Aggiungi il tuo bonus di Competenza ai tiri con magie L1 e L2.',
-   pro:'+Comp su L1-L2 — le magie piu usate e ricorrenti in combattimento',
+   pro:'+Comp su L1-L2 -- le magie piu usate e ricorrenti in combattimento',
    con:'Solo L1-L2. Richiede Magia Base.'},
   {id:'spec_magia_L34',cat:'mente',stile:'universale',req:'gate_ma',
    nome:'Grande Incantatore',
-   desc:'Le magie piu potenti perdono il loro costo cognitivo nelle tue mani — le esegui con la stessa fluidita delle basi. Aggiungi il tuo bonus di Competenza ai tiri con magie L3 e L4.',
-   pro:'+Comp su L3-L4 — massimizza le magie piu devastanti',
+   desc:'Le magie piu potenti perdono il loro costo cognitivo nelle tue mani -- le esegui con la stessa fluidita delle basi. Aggiungi il tuo bonus di Competenza ai tiri con magie L3 e L4.',
+   pro:'+Comp su L3-L4 -- massimizza le magie piu devastanti',
    con:'Solo L3-L4. Richiede Magia Avanzata. Investimento pesante (2 talenti).'},
   {id:'spec_magia_mente',cat:'mente',stile:'universale',req:'gate_mb',
    nome:'Arcanista Preciso',
    desc:'Le formule arcane basate sulla volonta intellettuale fluiscono attraverso di te con precisione assoluta. Aggiungi il tuo bonus di Competenza a tutte le magie con stat MENTE (cantrip inclusi).',
-   pro:'+Comp a TUTTE le magie MENTE — copre ogni livello con una sola scelta',
+   pro:'+Comp a TUTTE le magie MENTE -- copre ogni livello con una sola scelta',
    con:'Solo magie MENTE. Richiede Magia Base.'},
   {id:'spec_magia_anima',cat:'anima',stile:'universale',req:'gate_mb',
    nome:'Animista Esperto',
    desc:'La connessione con le energie dell\'ANIMA e\ diventata cosi\ profonda che ogni incantesimo animistico amplifica la tua essenza. Aggiungi il tuo bonus di Competenza a tutte le magie con stat ANIMA.',
-   pro:'+Comp a TUTTE le magie ANIMA — ideale per build pure ANIMA',
+   pro:'+Comp a TUTTE le magie ANIMA -- ideale per build pure ANIMA',
    con:'Solo magie ANIMA. Richiede Magia Base.'},
 ];
 
@@ -632,21 +632,21 @@ var AUGMENTS = [
   {id:'aug_cm',stile:'horror',tipo:'Biomod',nome:'Carne Modulata',desc:'Il tuo tessuto connettivo e stato reso parzialmente malleabile attraverso modifiche biologiche avanzate. Puoi rimodellare masse muscolari e arti per adattarli a compiti specifici nell\'arco di una scena.',pro:'Rimodella arto (Cat A, strumento, superficie).',con:'-1 ANIMA permanente. Temperature estreme: -2 tiri.',manutenzione:null,perk:'Adattamento: 1x/sessione, rimodella un arto per ottenere +3 a un tipo di tiro CORPO per 1 scena.'},
   {id:'aug_nm',stile:'horror',tipo:'Neurologia',nome:'Nervo Morto',desc:'Una porzione del tuo sistema nervoso e stata deliberatamente desensibilizzata ai segnali di dolore. Continui a funzionare in condizioni che bloccherebbero fisicamente chiunque altro.',pro:'Immune penalità Ferito. +1 CORPO resistenza.',con:'Non senti danni minori. Ferite nascoste (GM).',manutenzione:null,perk:'Resistenza al Dolore: 1x/combat, ignora una condizione per 1 round.'},
   {id:'aug_sc',stile:'horror',tipo:'Patto',nome:'Sigillo Corrotto',desc:'Un sigillo magico oscuro e stato inciso nella tua pelle da qualcuno che conosceva rituali che non avrebbe dovuto conoscere. Trasferisce parte del malfunzionamento arcano su chi ti colpisce.',pro:'+2 a tipo tiro scelto. Sempre attivo.',con:'Ad ogni uso: d6, su 1 entità guarda attraverso te.',manutenzione:null,perk:'Marchio Ardente: 1x/combat, il bersaglio che colpisci subisce -1 a tutti i tiri per 2 round.'},
-  {id:'aug_mk',stile:'horror',tipo:'Patto Cosmico',nome:"Marchio dell'Antico",desc:'Il simbolo di un\'entita cosmica e stato impresso nella tua aura in modo permanente. Chi ti fissa troppo a lungo sente qualcosa di sbagliato — qualcosa che non appartiene a questo piano.',pro:'+2 ANIMA vs entità cosmiche. Percepisci elder god 500m.',con:'-1 MENTE per sessione. Sogni cosmici.',manutenzione:'Rituali mensili.',perk:'Terrore Cosmico: 1x/sessione, ANIMA vs ANIMA di tutti entro 5m, chi perde è Spaventato 1 round.'},
+  {id:'aug_mk',stile:'horror',tipo:'Patto Cosmico',nome:"Marchio dell'Antico",desc:'Il simbolo di un\'entita cosmica e stato impresso nella tua aura in modo permanente. Chi ti fissa troppo a lungo sente qualcosa di sbagliato -- qualcosa che non appartiene a questo piano.',pro:'+2 ANIMA vs entità cosmiche. Percepisci elder god 500m.',con:'-1 MENTE per sessione. Sogni cosmici.',manutenzione:'Rituali mensili.',perk:'Terrore Cosmico: 1x/sessione, ANIMA vs ANIMA di tutti entro 5m, chi perde è Spaventato 1 round.'},
   {id:'aug_oc2',stile:'horror',tipo:'Biomod Cosmico',nome:'Occhio del Caos',desc:'Un occhio alieno di origine sconosciuta e stato impiantato in sostituzione di uno dei tuoi. Vede pattern che gli occhi umani filtrano automaticamente, comprese probabilita e possibilita imminenti.',pro:'+3 percezione soprannaturale. 50% futuro 1x/combat.',con:'-1 ANIMA permanente. Visioni non controllabili.',manutenzione:null,perk:'Visione del Caos: 1x/combat, 50% (d6 >= 4) di prevedere il prossimo tiro nemico e annullarlo.'},
   {id:'aug_sang',stile:'horror',tipo:'Rituale di Setta',nome:'Legame di Sangue',desc:'Il tuo sangue contiene frammenti di un rituale collettivo che ti connette psichicamente agli altri membri della setta in modo permanente. Quando hai bisogno di forza, loro la sentono.',pro:'Senti membri 1 km. +2 ANIMA rituali collettivi.',con:'Setta ti localizza sempre. GM ha accesso pensieri.',manutenzione:'Rito mensile.',perk:'Rete Psichica: 1x/combat, un membro della setta entro 1km ti dà +2 al prossimo tiro.'},
-  {id:'aug_corp',stile:'horror',tipo:'Corruzione',nome:'Corruzione Benedetta',desc:'Il tuo corpo porta tracce visibili di corruzione magica — vene che pulsano in colori sbagliati, cicatrici che cambiano forma. La corruzione pero e stata trasformata in energia offensiva.',pro:'+1 CORPO, +1 ANIMA. Rigenera 1 HP/round sotto metà HP.',con:'Rigenerazione: d6, su 1 tratto orrorifico. Non-umano.',manutenzione:null,perk:'Rigetto Violento: quando rigeneri HP, 1x/combat il nemico più vicino subisce 2 danni.'},
-  {id:'aug_voc',stile:'horror',tipo:'Rituale di Setta',nome:"Voce dell'Abisso",desc:'Un rituale di setta ha modificato le tue corde vocali in modo permanente. A volte, quando parli, chi ascolta sente qualcosa di diverso da cio che hai detto — qualcosa che vuole obbedire.',pro:'+3 ANIMA intimidazione. Vero Nome: entità non attacca 1 round.',con:'-2 ANIMA social normali. Attira attenzione entità.',manutenzione:null,perk:'Comando Abissale: 1x/sessione, pronuncia un ordine: ANIMA vs ANIMA, il bersaglio esegue 1 azione semplice.'},
+  {id:'aug_corp',stile:'horror',tipo:'Corruzione',nome:'Corruzione Benedetta',desc:'Il tuo corpo porta tracce visibili di corruzione magica -- vene che pulsano in colori sbagliati, cicatrici che cambiano forma. La corruzione pero e stata trasformata in energia offensiva.',pro:'+1 CORPO, +1 ANIMA. Rigenera 1 HP/round sotto metà HP.',con:'Rigenerazione: d6, su 1 tratto orrorifico. Non-umano.',manutenzione:null,perk:'Rigetto Violento: quando rigeneri HP, 1x/combat il nemico più vicino subisce 2 danni.'},
+  {id:'aug_voc',stile:'horror',tipo:'Rituale di Setta',nome:"Voce dell'Abisso",desc:'Un rituale di setta ha modificato le tue corde vocali in modo permanente. A volte, quando parli, chi ascolta sente qualcosa di diverso da cio che hai detto -- qualcosa che vuole obbedire.',pro:'+3 ANIMA intimidazione. Vero Nome: entità non attacca 1 round.',con:'-2 ANIMA social normali. Attira attenzione entità.',manutenzione:null,perk:'Comando Abissale: 1x/sessione, pronuncia un ordine: ANIMA vs ANIMA, il bersaglio esegue 1 azione semplice.'},
   // ANIME
   {id:'aug_lr',stile:'anime',tipo:'Neurologia',nome:'Limitatore Rimosso',desc:'Un blocco mentale artificiale che limitava le prestazioni fisiche e stato rimosso chirurgicamente. Il risultato e accesso a picchi di performance prima soppressi, a costo di una certa instabilita.',pro:'1x/combat: stat bonus x1.5 per 1 round.',con:'-5 HP dopo. Incomp. Riflessi Neurali / Gate dell\'Anima.',manutenzione:null,perk:'Sovraccarico: quando usi il Limitatore, il primo attacco del round extra ha +3.'},
   {id:'aug_fd',stile:'anime',tipo:'Biomod',nome:'Forma Duale',desc:'Una forma alternativa biologica dorme nel tuo DNA, attivabile con concentrazione. La trasformazione non e cosmetics: muta la struttura ossea e muscolare in qualcosa di piu adatto al combattimento.',pro:'1x/combat: +2 tiri, +2 HP temp per 3 round.',con:'Dopo: Indebolito (CORPO) 2 round. Aspetto cambia.',manutenzione:null,perk:'Metamorfosi Offensiva: nella Forma Duale, i tuoi attacchi fisici infliggono +2 danni.'},
   {id:'aug_ck',stile:'anime',tipo:'Spirituale',nome:'Core di Ki',desc:'Una riserva di energia spirituale e stata aperta e stabilizzata all\'interno del tuo corpo attraverso meditazione intensiva e rituale. Il ki e ora un serbatoio che puoi svuotare in esplosioni precise.',pro:'+2 attacchi magici. Usa stat più alta per magie.',con:'2 magie consecutive: -2 HP. Ki visibile.',manutenzione:null,perk:'Esplosione di Ki: 1x/combat, il tuo prossimo attacco magico colpisce anche 1 bersaglio adiacente.'},
-  {id:'aug_asc',stile:'anime',tipo:'Ascensione',nome:'Forma Ascesa',desc:'Hai toccato la tua vera forma, anche solo brevemente. Nella forma ascesa irradi un\'aura che cambia la chimica del combattimento intorno a te — il tuo gruppo combatte meglio semplicemente standoti vicino.',pro:'1x/sessione: +4 tiri, +5 HP temp per 4 round. Attacchi magici.',con:'Dopo: Stordito 1 round, poi -3 tiri 2 round. No con Forma Duale.',manutenzione:null,perk:'Aura Divina: nella Forma Ascesa, alleati entro 5m hanno +1 a tutti i tiri.'},
+  {id:'aug_asc',stile:'anime',tipo:'Ascensione',nome:'Forma Ascesa',desc:'Hai toccato la tua vera forma, anche solo brevemente. Nella forma ascesa irradi un\'aura che cambia la chimica del combattimento intorno a te -- il tuo gruppo combatte meglio semplicemente standoti vicino.',pro:'1x/sessione: +4 tiri, +5 HP temp per 4 round. Attacchi magici.',con:'Dopo: Stordito 1 round, poi -3 tiri 2 round. No con Forma Duale.',manutenzione:null,perk:'Aura Divina: nella Forma Ascesa, alleati entro 5m hanno +1 a tutti i tiri.'},
   {id:'aug_spirit',stile:'anime',tipo:'Spirituale',nome:"Spirito dell'Arma",desc:'L\'arma che porti ha sviluppato una coscienza propria, forgiata dai combattimenti che avete condiviso. A volte agisce da sola, non perche sia magica, ma perche ha imparato.',pro:'+2 attacchi fisici. +1 iniziativa. 1x/sessione nega critico.',con:'Spirito ha volontà propria (GM). Se distrutta: -bonus 1 sessione.',manutenzione:'Cura narrativa.',perk:'Risonanza: 1x/combat, l\'arma agisce da sola come azione bonus (Cat A, +2 attacco).'},
   {id:'aug_gate',stile:'anime',tipo:'Energia Interiore',nome:"Gate dell'Anima",desc:'I tuoi canali energetici interni sono stati potenziati attraverso training specifico. Quando apri il flusso di energia, la tua presenza amplifica chi ti e vicino.',pro:'+1 tutti tiri. Azione: apri gate +4 attacco 1 round.',con:'Gate: -3 HP. 3+ aperture/sessione: -1 CORPO. Incomp. Limitatore Rimosso.',manutenzione:'Meditazione. Senza: -5 HP.',perk:'Canale Aperto: quando apri il Gate, il prossimo alleato che attacca il tuo bersaglio ha +2.'},
   {id:'aug_manif',stile:'anime',tipo:'Manifestazione',nome:"Eco dell'Anima",desc:'Una manifestazione psichica della tua essenza esiste come presenza semi-indipendente a pochi metri da te. Percepisce minacce e reagisce in modo autonomo a pericoli imminenti.',pro:'Azione bonus Cat A a 5m. +2 ANIMA social. 1x/sessione intercetta.',con:'Danno all\'eco = danno a te. Visibile.',manutenzione:null,perk:'Eco Protettivo: 1x/combat, l\'eco intercetta un attacco a un alleato entro 5m.'},
   // UNIVERSALE / NOIR / POST-AP
-  {id:'aug_ws',stile:'universale',tipo:'Biologico',nome:'Cicatrice della Guerra',desc:'Le tue cicatrici di guerra non sono solo estetiche — il tuo sistema immunitario e adattivo le ha trasformate in memoria del combattimento. Contro chi ti ha gia ferito sei piu pericoloso.',pro:'+1 CORPO. Immune Ferito in primo combat/sessione.',con:'-1 ANIMA vs non-combattenti. Trigger: -1 MENTE 1 round.',manutenzione:null,perk:'Veterano: 1x/combat, +2 al prossimo tiro contro un nemico che ti ha già colpito.'},
+  {id:'aug_ws',stile:'universale',tipo:'Biologico',nome:'Cicatrice della Guerra',desc:'Le tue cicatrici di guerra non sono solo estetiche -- il tuo sistema immunitario e adattivo le ha trasformate in memoria del combattimento. Contro chi ti ha gia ferito sei piu pericoloso.',pro:'+1 CORPO. Immune Ferito in primo combat/sessione.',con:'-1 ANIMA vs non-combattenti. Trigger: -1 MENTE 1 round.',manutenzione:null,perk:'Veterano: 1x/combat, +2 al prossimo tiro contro un nemico che ti ha già colpito.'},
   {id:'aug_ps',stile:'universale',tipo:'Protesi',nome:'Protesi Specializzata',desc:'Una protesi progettata non per sostituire ma per eccellere in un compito specifico, scelto al momento dell\'installazione. In quella funzione, la meccanica supera nettamente il biologico.',pro:'+3 a tipo specifico tiro CORPO.',con:'-1 altri tiri CORPO.',manutenzione:'Manutenzione mensile.',perk:'Specializzazione Estrema: per il tipo scelto, 1x/combat il tiro ha minimo 6 sul d12.'},
   {id:'aug_mi',stile:'noir',tipo:'Neurologia',nome:'Mente da Investigatore',desc:'Un condizionamento cognitivo intensivo ha ristrutturato il modo in cui il tuo cervello elabora le scene. Noti cio che gli altri non notano, e a volte e abbastanza per cambiare tutto.',pro:'GM dice se hai perso qualcosa. +2 MENTE vs illusioni.',con:'-1 ANIMA in situazioni emotive.',manutenzione:null,perk:'Deduzione Lampo: 1x/sessione, il GM rivela 1 indizio critico sulla scena.'},
   {id:'aug_it',stile:'post-ap',tipo:'Biologico',nome:'Immunizzazione Tossica',desc:'Il tuo organismo e stato esposto gradualmente a una vasta gamma di tossine ambientali e biologiche, sviluppando una risposta adattiva che la maggior parte delle persone non possiede.',pro:'Immune ambienti tossici. +3 vs veleni.',con:'-1 cure magiche/alchemiche.',manutenzione:null,perk:'Metabolismo Adattivo: 1x/sessione, ignora 1 effetto ambientale per 1 ora.'},
@@ -656,7 +656,7 @@ var AUGMENTS = [
   // max 2 tra modifiche corporee E oggetti (cap condiviso)
   // ═══════════════════════════════════════════════════
 
-  // ─── FANTASY — Oggetti Magici ───
+  // ─── FANTASY -- Oggetti Magici ───
 
   {id:'aug_om01',stile:'fantasy',tipo:'Anello Magico',
     nome:'Anello della Rapidità',
@@ -686,7 +686,7 @@ var AUGMENTS = [
     nome:'Amuleto di Protezione',
     desc:'Talismano di ossidiana con sigilli protettivi incisi. Assorbe parte dell\'impatto di ogni colpo, come un\'armatura invisibile.',
     pro:'+1 alla Difesa permanente finché indossato. Non sostituisce armatura fisica.',
-    con:'Richiede essere indossato visibilmente — chi lo vede sa che sei protetto.',
+    con:'Richiede essere indossato visibilmente -- chi lo vede sa che sei protetto.',
     manutenzione:null,perk:null},
 
   {id:'aug_om05',stile:'fantasy',tipo:'Anello Magico',
@@ -696,7 +696,7 @@ var AUGMENTS = [
     con:'In piena luce intensa, -1 ai tiri di percezione visiva per abbagliamento.',
     manutenzione:null,perk:null},
 
-  // ─── CYBERPUNK — Dispositivi Tecnologici ───
+  // ─── CYBERPUNK -- Dispositivi Tecnologici ───
 
   {id:'aug_dt01',stile:'cyberpunk',tipo:'Dispositivo Tecnologico',
     nome:'Micro-Telecamera a Fibra',
@@ -718,14 +718,14 @@ var AUGMENTS = [
     nome:'Scanner Medico Portatile',
     desc:'Apparecchio diagnostico medico-militare. Scansiona il corpo di un paziente in trenta secondi e fornisce una diagnosi completa inclusa toxicologia.',
     pro:'+3 a tutti i tiri di medicina e diagnosi. Identifica veleni e agenti biologici.',
-    con:'Il risultato richiede interpretazione — chi non ha competenze mediche può fraintendere i dati.',
+    con:'Il risultato richiede interpretazione -- chi non ha competenze mediche può fraintendere i dati.',
     manutenzione:null,perk:null},
 
   {id:'aug_dt04',stile:'cyberpunk',tipo:'Dispositivo Tecnologico',
     nome:'Telefono Criptato Militare',
     desc:'Comunicazioni a prova di intercettazione con crittografia quantistica. Non tracciabile con mezzi convenzionali.',
     pro:'Comunicazioni sicure e non tracciabili. Include GPS oscurato e sistema di messaggi autodistruttivi.',
-    con:'Se sequestrato, l\'unità si distrugge automaticamente — perdendo anche i dati memorizzati.',
+    con:'Se sequestrato, l\'unità si distrugge automaticamente -- perdendo anche i dati memorizzati.',
     manutenzione:null,perk:null},
 
   {id:'aug_dt05',stile:'cyberpunk',tipo:'Dispositivo Tecnologico',
@@ -735,13 +735,13 @@ var AUGMENTS = [
     con:'Richiede line-of-sight verso il bersaglio. Inutile attraverso muri spessi.',
     manutenzione:null,perk:null},
 
-  // ─── NOIR — Strumenti da Investigatore ───
+  // ─── NOIR -- Strumenti da Investigatore ───
 
   {id:'aug_ni01',stile:'noir',tipo:'Strumento Investigativo',
     nome:'Lente di Ingrandimento da Detective',
     desc:'Lente professionale di cristallo ottico con graduazioni. Vecchio strumento, arte antica. Nelle mani giuste, niente sfugge.',
     pro:'1x/sessione, individua automaticamente un dettaglio nascosto o una prova che altrimenti richiederebbe un tiro difficile.',
-    con:'Richiede almeno un minuto di esame — inutile in combattimento o situazioni concitate.',
+    con:'Richiede almeno un minuto di esame -- inutile in combattimento o situazioni concitate.',
     manutenzione:null,
     perk:'Occhio da Detective: 1x/sessione, il GM rivela un indizio o dettaglio nascosto nella scena esaminata.'},
 
@@ -763,16 +763,16 @@ var AUGMENTS = [
     nome:'Macchina Fotografica Discreta',
     desc:'Fotocamera di piccolo formato con obiettivo lungo. Scatta in silenzio, sviluppo in camera oscura portatile inclusa.',
     pro:'Prove fotografiche di qualità. +2 ai tiri di persuasione quando si presentano prove visive.',
-    con:'Pellicola limitata — massimo ventiquattro scatti per rullino. Sviluppo richiede attrezzatura.',
+    con:'Pellicola limitata -- massimo ventiquattro scatti per rullino. Sviluppo richiede attrezzatura.',
     manutenzione:'Rullino da cambiare ogni 24 scatti.',perk:null},
 
-  // ─── HORROR — Oggetti Maledetti & Reliquie ───
+  // ─── HORROR -- Oggetti Maledetti & Reliquie ───
 
   {id:'aug_hc01',stile:'horror',tipo:'Oggetto Maledetto',
     nome:'Specchio Nero',
     desc:'Lastra di ossidiana levigata che non riflette il presente ma mostra frammenti del passato recente del luogo. I volti nell\'immagine sembrano consapevoli di chi guarda.',
     pro:'1x/sessione, il GM mostra cosa è accaduto in questo luogo nelle ultime ventiquattro ore.',
-    con:'Chi guarda troppo a lungo — più di un minuto — acquisisce la condizione Spaventato senza possibilità di tiro.',
+    con:'Chi guarda troppo a lungo -- più di un minuto -- acquisisce la condizione Spaventato senza possibilità di tiro.',
     manutenzione:null,
     perk:'Visione del Passato: 1x/sessione, il GM rivela un evento recente accaduto nel luogo corrente.'},
 
@@ -795,12 +795,12 @@ var AUGMENTS = [
   {id:'aug_hc04',stile:'horror',tipo:'Reliquia Maledetta',
     nome:"Occhio di Vetro del Profeta",
     desc:'Occhio artificiale di vetro soffiato con una pupilla che si muove indipendentemente. Il proprietario originale era cieco ma vedeva cose che i vedenti non possono vedere.',
-    pro:'1x/sessione, hai una visione profetica confusa su un evento imminente — il GM fornisce un\'immagine criptica del futuro prossimo.',
-    con:"Le visioni non si possono controllare — arrivano anche di notte, interrompendo il sonno. Un Riposo Lungo non è garantito.",
+    pro:'1x/sessione, hai una visione profetica confusa su un evento imminente -- il GM fornisce un\'immagine criptica del futuro prossimo.',
+    con:"Le visioni non si possono controllare -- arrivano anche di notte, interrompendo il sonno. Un Riposo Lungo non è garantito.",
     manutenzione:null,
     perk:"Profezia Confusa: 1x/sessione, il GM fornisce un'immagine simbolica di qualcosa che accadrà entro la sessione corrente."},
 
-  // ─── LOVECRAFTIANO — Artefatti Cosmici ───
+  // ─── LOVECRAFTIANO -- Artefatti Cosmici ───
 
   {id:'aug_lv01',stile:'horror',tipo:'Artefatto Cosmico',
     nome:'Frammento di R\'lyeh',
@@ -812,16 +812,16 @@ var AUGMENTS = [
 
   {id:'aug_lv02',stile:'horror',tipo:'Artefatto Cosmico',
     nome:'Maschera di Nyarlathotep',
-    desc:'Maschera rituale senza lineamenti fissi — la faccia cambia a seconda di chi la guarda. Indossarla permette di assumere l\'aspetto di chiunque si desideri. Il costo è una parte di sé.',
+    desc:'Maschera rituale senza lineamenti fissi -- la faccia cambia a seconda di chi la guarda. Indossarla permette di assumere l\'aspetto di chiunque si desideri. Il costo è una parte di sé.',
     pro:'1x/sessione, assumi perfettamente le sembianze di una persona che hai osservato per almeno un minuto. Voce e aspetto inclusi. Dura un\'ora.',
-    con:'Ogni utilizzo richiede un tiro di ANIMA (difficoltà 8). In caso di fallimento perdi temporaneamente la certezza della propria identità — il GM gestisce le conseguenze narrative.',
+    con:'Ogni utilizzo richiede un tiro di ANIMA (difficoltà 8). In caso di fallimento perdi temporaneamente la certezza della propria identità -- il GM gestisce le conseguenze narrative.',
     manutenzione:null,
-    perk:"Volto del Messaggero: 1x/sessione, assumi le sembianze di chiunque tu abbia osservato di persona. Tiro ANIMA≥8 o conseguenze narrative."},
+    perk:"Volto del Messaggero: 1x/sessione, assumi le sembianze di chiunque tu abbia osservato di persona. Tiro ANIMA>=8 o conseguenze narrative."},
 
   {id:'aug_lv03',stile:'horror',tipo:'Testo Proibito',
-    nome:'Necronomicon — Frammento Tradotto',
-    desc:'Non il libro originale — nessuno l\'ha mai visto intero e restato sano di mente. Un frammento di traduzione, sufficiente per fare cose che non avrebbero dovuto essere possibili.',
-    pro:'Sblocca accesso a magie di Livello 3 e 4 senza il talento Magia Avanzata. Solo per rituali — non in combattimento.',
+    nome:'Necronomicon -- Frammento Tradotto',
+    desc:'Non il libro originale -- nessuno l\'ha mai visto intero e restato sano di mente. Un frammento di traduzione, sufficiente per fare cose che non avrebbero dovuto essere possibili.',
+    pro:'Sblocca accesso a magie di Livello 3 e 4 senza il talento Magia Avanzata. Solo per rituali -- non in combattimento.',
     con:'-1 HP massimo permanente per ogni magia di livello 3-4 lanciata tramite il frammento. Non recuperabile.',
     manutenzione:'Ogni lettura prolungata richiede un tiro di MENTE (difficoltà 7) o si acquisisce una condizione narrativa.',
     perk:'Rituale Proibito: fuori combattimento, puoi lanciare magie L3-L4 senza Magia Avanzata. -1 HP max per lancio, permanente.'},
@@ -834,7 +834,7 @@ var AUGMENTS = [
     pro:'Quando infliggi danno in mischia, recuperi un Punto Vita per ogni quattro punti di danno inflitti.',
     con:'In prossimità di sangue versato, un tiro di ANIMA (difficoltà 6) è necessario per non essere distratto.',
     manutenzione:null,
-    perk:'Drenaggio: passivo — recuperi 1 HP ogni 4 punti di danno inflitto in mischia.'},
+    perk:'Drenaggio: passivo -- recuperi 1 HP ogni 4 punti di danno inflitto in mischia.'},
 
   {id:'aug_vp02',stile:'horror',tipo:'Reliquia Vampirica',
     nome:'Mantello della Notte Eterna',
@@ -847,7 +847,7 @@ var AUGMENTS = [
     nome:'Guanti di Sangue Ghiacciato',
     desc:'Guanti in pelle nera imbevuta di sangue vampirico cristallizzato. Il tocco è freddo come marmo. Intensificano le magie del sangue e della vita.',
     pro:'+2 a tutte le magie necromantiche e di drenaggio vitale. Furto Vitale recupera il doppio degli HP.',
-    con:'Chi li indossa non sente il caldo corporeo altrui — piccole conseguenze sociali e sensoriali.',
+    con:'Chi li indossa non sente il caldo corporeo altrui -- piccole conseguenze sociali e sensoriali.',
     manutenzione:null,perk:null},
 
   // ─── ZOMBIE / POST-APOCALISSE ───
@@ -856,9 +856,9 @@ var AUGMENTS = [
     nome:'Siero T-Virus Indebolito',
     desc:'Versione diluita e stabilizzata del virus responsabile delle epidemie zombie. Invece di uccidere e trasformare, in piccole dosi potenzia il corpo temporaneamente.',
     pro:'1x/sessione: +3 CORPO e +5 HP temporanei per tre round. Dopo i tre round, -2 CORPO per un round.',
-    con:'Ogni somministrazione richiede un tiro di CORPO (difficoltà 6) — in caso di fallimento, il personaggio entra in uno stato di furia incontrollata per un round (il GM gestisce le azioni).',
+    con:'Ogni somministrazione richiede un tiro di CORPO (difficoltà 6) -- in caso di fallimento, il personaggio entra in uno stato di furia incontrollata per un round (il GM gestisce le azioni).',
     manutenzione:'Una dose per sessione. Più dosi aumentano il rischio di mutazione permanente.',
-    perk:'Surge Biologico: 1x/sessione, +3 CORPO e +5 HP temp per 3 round, poi -2 CORPO per 1 round. Tiro CORPO≥6 o furia.'},
+    perk:'Surge Biologico: 1x/sessione, +3 CORPO e +5 HP temp per 3 round, poi -2 CORPO per 1 round. Tiro CORPO>=6 o furia.'},
 
   {id:'aug_zm02',stile:'post-ap',tipo:'Equipaggiamento Tattico',
     nome:'Maschera Anti-Infetto Militare',
@@ -881,14 +881,14 @@ var AUGMENTS = [
 // ═══ MOSTRI ESEMPIO ═══
 // Talenti con ID corretti (armi_pesanti, armi_letali, gate_mb, gate_ma)
 var MONSTERS = [
-  /* ═══════ GREGARI — HP 4-8, stat 2-4, 1 colpo ═══════ */
+  /* ═══════ GREGARI -- HP 4-8, stat 2-4, 1 colpo ═══════ */
   {id:'mon01',nome:'Goblin',tier:'gregario',stile:'fantasy',corpo:3,mente:2,anima:1,hp:6,armaCat:'A',defBonus:0,competenza:null,talenti:[],magie:[],
    lore:'Piccole creature verdognole che vivono in tane sotterranee. Codardi da soli, pericolosi in branco. Usano trappole e numeri al posto del coraggio.',
    desc:'Creatura gregaria debole ma rapida. Attacca in gruppo e fugge se solo.',
    abilita:'Se in gruppo con altri 2+ goblin: +1 al tiro di attacco (branco). Fugge se HP scende a 1.',
    speciale:null},
   {id:'mon02',nome:'Scheletro',tier:'gregario',stile:'fantasy',corpo:3,mente:1,anima:1,hp:5,armaCat:'A',defBonus:0,competenza:null,talenti:[],magie:[],
-   lore:'Resti animati da magia necrotica residua. Nessuna coscienza, nessuna paura, nessun dolore — solo la compulsione di distruggere i vivi.',
+   lore:'Resti animati da magia necrotica residua. Nessuna coscienza, nessuna paura, nessun dolore -- solo la compulsione di distruggere i vivi.',
    desc:'Non-morto scheletrico. Immune alle condizioni psicologiche.',
    abilita:'Immune a Spaventato e Charme. Vulnerabile a danni contundenti (+1 danno). Immune a veleno.',
    speciale:null},
@@ -903,7 +903,7 @@ var MONSTERS = [
    abilita:'Tiro ANIMA vs 8 se subisce danni critici: se fallisce, fugge o si arrende. +1 attacco se ha un ostaggio.',
    speciale:null},
   {id:'mon_gr5',nome:'Cultista',tier:'gregario',stile:'horror',corpo:2,mente:2,anima:4,hp:6,armaCat:'A',defBonus:0,competenza:'anima',talenti:[],magie:['ct_lamento_oscuro'],
-   lore:'Devoto convinto che il sacrificio porti ricompense da entita oltre la comprensione umana. Non teme la morte propria — teme di deludere il suo dio.',
+   lore:'Devoto convinto che il sacrificio porti ricompense da entita oltre la comprensione umana. Non teme la morte propria -- teme di deludere il suo dio.',
    desc:'Seguace fanatico con accesso a magia oscura basica.',
    abilita:'Immune a Spaventato (fanatico). Cantrip Lamento Oscuro (ANIMA 4, +1 tiro). Muore senza ritirarsi se a meno di meta HP.',
    speciale:null},
@@ -913,11 +913,11 @@ var MONSTERS = [
    abilita:'Immune a danni fisici normali (richiede magie o armi incantate). Cantrip Disturbo (MENTE 3). Vulnerabile ad ANIMA: magie ANIMA infliggono +2 danno.',
    speciale:null},
 
-  /* ═══════ NORMALI — HP 9-16, stat 4-7, 2-3 colpi ═══════ */
+  /* ═══════ NORMALI -- HP 9-16, stat 4-7, 2-3 colpi ═══════ */
   {id:'mon04',nome:'Cavaliere Corrotto',tier:'normale',stile:'fantasy',corpo:7,mente:3,anima:2,hp:12,armaCat:'C',defBonus:3,competenza:'corpo',talenti:['armi_pesanti'],magie:[],
    lore:'Un tempo servitore onorevole, corrotto dalla magia oscura o da un patto sbagliato. Il suo senso dell\'onore e ora un guscio vuoto a servizio del potere.',
    desc:'Guerriero pesantemente armato. Difficile da abbattere.',
-   abilita:'Armatura pesante +3 DEF. Competenza CORPO +3. 1x/combat: Carica — attacca con +2 al tiro e spinge il bersaglio di 2m (se colpisce).',
+   abilita:'Armatura pesante +3 DEF. Competenza CORPO +3. 1x/combat: Carica -- attacca con +2 al tiro e spinge il bersaglio di 2m (se colpisce).',
    speciale:'Resistenza Oscura: primo attacco magico ogni combat riduce il danno di 2.'},
   {id:'mon05',nome:'Cultista Maggiore',tier:'normale',stile:'horror',corpo:3,mente:4,anima:7,hp:14,armaCat:'B',defBonus:0,competenza:'anima',talenti:['gate_mb'],magie:['m07','m04'],
    lore:'Un convertito di vecchia data che ha assistito a riti proibiti abbastanza a lungo da toccare qualcosa di reale. Il suo sguardo non e piu del tutto umano.',
@@ -927,27 +927,27 @@ var MONSTERS = [
   {id:'mon06',nome:'Cyborg Mercenario',tier:'normale',stile:'cyberpunk',corpo:6,mente:5,anima:2,hp:12,armaCat:'C',defBonus:1,competenza:'corpo',talenti:['interfaccia_neurale'],magie:[],
    lore:'Ex-soldato riconvertito in mercenario con impianti militari di seconda mano. Lavora per chiunque paghi abbastanza e non fa domande.',
    desc:'Combattente potenziato con impianti militari.',
-   abilita:'Competenza CORPO +3. Impianti: +1 DEF, visione notturna. 1x/combat: Scarica EMP — tutti i sistemi tecnologici entro 3m si riavviano (turno perso per chi li usa).',
+   abilita:'Competenza CORPO +3. Impianti: +1 DEF, visione notturna. 1x/combat: Scarica EMP -- tutti i sistemi tecnologici entro 3m si riavviano (turno perso per chi li usa).',
    speciale:'Targeting Avanzato: 1x/combat, ignora bonus scudo del bersaglio su un attacco.'},
   {id:'mon_n4',nome:'Samurai Nemico',tier:'normale',stile:'anime',corpo:7,mente:3,anima:5,hp:13,armaCat:'C',defBonus:1,competenza:'corpo',talenti:['contrattacco'],magie:[],
    lore:'Guerriero disciplinato legato a un codice d\'onore sovvertito. Combatte con eleganza mortale e non mostra misericordia a chi considera indegno.',
    desc:'Combattente esperto con tecnica di contrattacco.',
-   abilita:'Competenza CORPO +3. 1x/combat: Contrattacco — se un attacco lo manca, risponde immediatamente con un attacco gratuito. DEF +1 (postura).',
+   abilita:'Competenza CORPO +3. 1x/combat: Contrattacco -- se un attacco lo manca, risponde immediatamente con un attacco gratuito. DEF +1 (postura).',
    speciale:'Postura del Vuoto: se non si muove in un round, DEF +2 per quel round.'},
   {id:'mon_n5',nome:'Detective Corrotto',tier:'normale',stile:'noir',corpo:4,mente:7,anima:4,hp:11,armaCat:'B',defBonus:0,competenza:'mente',talenti:['istinto_sopravvivenza'],magie:[],
    lore:'Un investigatore che ha visto troppo e ha scelto il lato sbagliato. Usa la sua conoscenza della legge per aggirarla sistematicamente.',
    desc:'Investigatore nemico con alto MENTE e tattiche dirty.',
-   abilita:'Competenza MENTE +3. 1x/combat: Parole Taglienti — tiro MENTE vs MENTE, se vince applica -1 al prossimo tiro del bersaglio (parole che destabilizzano). Sempre va per primo (alta INIT).',
+   abilita:'Competenza MENTE +3. 1x/combat: Parole Taglienti -- tiro MENTE vs MENTE, se vince applica -1 al prossimo tiro del bersaglio (parole che destabilizzano). Sempre va per primo (alta INIT).',
    speciale:'Conoscenza Criminale: sa sempre dove si trovano oggetti nascosti o uscite di emergenza (narrativo).'},
   {id:'mon_n6',nome:'Vampiro',tier:'normale',stile:'horror',corpo:6,mente:4,anima:6,hp:14,armaCat:'B',defBonus:0,competenza:'corpo',talenti:['patto_abisso'],magie:['c14'],
    lore:'Non-morto intellettuale che si e adattato a secoli di sopravvivenza. Freddo, calcolatore, e sempre tre mosse avanti. Non ama essere disturbato.',
    desc:'Non-morto con tocco necrotico e rigenerazione.',
    abilita:'Rigenerazione: recupera 2 HP all\'inizio di ogni turno (non al sole o fuoco). Tocco Necrotico cantrip (MENTE 4, +1). Vulnerabile a fuoco (+2 danno) e luce solare.',
-   speciale:'Fascino Vampirico: 1x/combat, tiro ANIMA vs ANIMA — se vince, bersaglio non attacca per 1 round (Charme).'},
+   speciale:'Fascino Vampirico: 1x/combat, tiro ANIMA vs ANIMA -- se vince, bersaglio non attacca per 1 round (Charme).'},
 
-  /* ═══════ ELITE — HP 17-25, stat 7-11, 4-6 colpi ═══════ */
+  /* ═══════ ELITE -- HP 17-25, stat 7-11, 4-6 colpi ═══════ */
   {id:'mon07',nome:'Drago Giovane',tier:'elite',stile:'fantasy',corpo:10,mente:6,anima:7,hp:23,armaCat:'D',defBonus:4,competenza:'corpo',talenti:['armi_letali','limite_ultimo'],magie:['m13'],
-   lore:'Non ancora adulto ma gia letale. Ogni drago giovane sta sviluppando una personalita propria — certo di essere superiore a tutte le forme di vita inferiori, incluso te.',
+   lore:'Non ancora adulto ma gia letale. Ogni drago giovane sta sviluppando una personalita propria -- certo di essere superiore a tutte le forme di vita inferiori, incluso te.',
    desc:'Drago in crescita con soffio e artigli devastanti.',
    abilita:'CORPO 10 + Armi Letali: Cat D. Competenza CORPO +5. Armatura naturale +4 DEF. Palla di Fuoco (L2, MENTE 6, +4 tiro, 1 slot). Soffio di Fuoco: attacco Cat D che colpisce tutti in un cono di 6m (1x/combat).',
    speciale:'Volo: ignora terreno difficile e attacchi corpo a corpo se in aria (DEF +1). Terrore Draconico: creature con CORPO o ANIMA inferiore a 6 devono superare tiro vs 10 o subiscono Spaventato.'},
@@ -955,55 +955,55 @@ var MONSTERS = [
    lore:'Esistito per centinaia di anni, ogni decennio piu cinico e piu potente. Ha visto empiri nascere e cadere, e pensa di avere tutto il tempo del mondo.',
    desc:'Antico vampiro con pieno accesso alla magia mentale.',
    abilita:'Competenza ANIMA +4. Rigenerazione 3 HP/turno. Tocco Necrotico, Voce del Terrore (L1), Controllo Mentale (L3, 2 slot). Pool slot: 7. Immune Spaventato. Vulnerabile luce solare/fuoco.',
-   speciale:'Trasformazione: 1x/combat si trasforma in nebbia — invulnerabile per 1 round, poi riemerge.'},
+   speciale:'Trasformazione: 1x/combat si trasforma in nebbia -- invulnerabile per 1 round, poi riemerge.'},
   {id:'mon_e3',nome:'Hacker Militare',tier:'elite',stile:'cyberpunk',corpo:5,mente:11,anima:4,hp:17,armaCat:'B',defBonus:0,competenza:'mente',talenti:['interfaccia_neurale','recupero_arcano'],magie:['m22','m33','c15'],
-   lore:'Specialista di guerra informatica che non ha mai sparato un colpo — non ce bisogno. Dentro la rete giusta, puo spegnere una citta intera da una sedia.',
+   lore:'Specialista di guerra informatica che non ha mai sparato un colpo -- non ce bisogno. Dentro la rete giusta, puo spegnere una citta intera da una sedia.',
    desc:'Especialista cybernetico con controllo totale delle tecnologie.',
    abilita:'MENTE 11: Intuizione Magica + accesso magie. Competenza MENTE +5. Overload Neurale (L2, +5 IM), Hacking di Massa (L3, 2slot), Impulso Digitale cantrip. Pool slot: 9. Recupero Arcano: recupera 1 slot/round se non attaccato.',
    speciale:'God Mode: 1x/combat, puo spegnere tutti i dispositivi tecnologici nell\'area (30m) per 2 round.'},
   {id:'mon_e4',nome:'Maestro del Dojo Nemico',tier:'elite',stile:'anime',corpo:9,mente:7,anima:8,hp:22,armaCat:'C',defBonus:2,competenza:'corpo',talenti:['contrattacco','furia','adrenalina_pura'],magie:['m50'],
-   lore:'Guerriero che ha dedicato decenni alla perfezione del combattimento. Il suo dojo e un tempio di disciplina — e la sua sconfitta e qualcosa che non riesce a concepire.',
+   lore:'Guerriero che ha dedicato decenni alla perfezione del combattimento. Il suo dojo e un tempio di disciplina -- e la sua sconfitta e qualcosa che non riesce a concepire.',
    desc:'Maestro delle arti marziali con tecniche di livello alto.',
    abilita:'Competenza CORPO +4. DEF +2 (postura). Contrattacco (perk), Furia: +2 danno per 2 round. Tecnica Ultimo Stadio (L3, 2slot): prossimo attacco +4 tiro. Adrenalina Pura: 1x/fight ignora condizioni.',
    speciale:'Mille Pugni: 1x/combat, effettua 2 attacchi in un turno al -1 ciascuno.'},
   {id:'mon_e5',nome:'Fantasma dell Abisso',tier:'elite',stile:'horror',corpo:4,mente:8,anima:11,hp:18,armaCat:'A',defBonus:0,competenza:'anima',talenti:['gate_mb','gate_ma','conoscenza_proibita'],magie:['m07','m29','m39','c14'],
-   lore:'Non e un fantasma nel senso comune — e un frammento di coscienza di qualcosa di cosmico, intrappolato tra i piani. Sa cose che gli esseri mortali non dovrebbero sapere.',
+   lore:'Non e un fantasma nel senso comune -- e un frammento di coscienza di qualcosa di cosmico, intrappolato tra i piani. Sa cose che gli esseri mortali non dovrebbero sapere.',
    desc:'Entita cosmica parzialmente incorporea con magia piena.',
    abilita:'Competenza ANIMA +5. Immune danni fisici non-magici. Magie L1-L4: Voce del Terrore, Maledizione, Dominio. Pool slot: 9. Cantrip Tocco Necrotico. Incorporeo: DEF +3 contro attacchi non-magici.',
-   speciale:'Conoscenza Proibita: conosce debolezze di ogni PG (narrativo) — il GM puo dichiarare che attacca il punto debole.'},
+   speciale:'Conoscenza Proibita: conosce debolezze di ogni PG (narrativo) -- il GM puo dichiarare che attacca il punto debole.'},
 
-  /* ═══════ BOSS — HP 26-45, stat 10-15, 8-15 colpi ═══════ */
+  /* ═══════ BOSS -- HP 26-45, stat 10-15, 8-15 colpi ═══════ */
   {id:'mon09',nome:'Lich Antico',tier:'boss',stile:'horror',corpo:8,mente:14,anima:12,hp:38,armaCat:'C',defBonus:3,competenza:'mente',talenti:['gate_mb','gate_ma','patto_abisso','conoscenza_proibita'],magie:['m25','m26','m29','m41','m47','c14'],
    lore:'Un tempo il piu grande stregone della sua era, ora qualcosa di radicalmente altro. Duecento anni di lichdom hanno sostituito ogni emozione umana con logica e ambizione cosmica pura.',
    desc:'Incantatore non-morto supremo. Immune a quasi tutto. Richiede un piano.',
    abilita:'MENTE 14: pool slot enorme (12pt). Competenza MENTE +7. Immune Veleno, Spaventato, Necrotico. Fulmine, Controllo Mentale, Maledizione, Grande Maledizione, Frammentazione Cosmica, Tocco Necrotico. DEF = 8+3 = 11. Rigenerazione 3 HP/round.',
-   speciale:'Resistenza Magica: 1x/round puo ignorare completamente un singolo effetto magico. Filocosmos: se ridotto a 0 HP, torna a 3 HP la volta successiva (ha nascosto il suo Lich Phylactery — i giocatori devono trovarlo e distruggerlo prima di poter uccidere il Lich).'},
+   speciale:'Resistenza Magica: 1x/round puo ignorare completamente un singolo effetto magico. Filocosmos: se ridotto a 0 HP, torna a 3 HP la volta successiva (ha nascosto il suo Lich Phylactery -- i giocatori devono trovarlo e distruggerlo prima di poter uccidere il Lich).'},
   {id:'mon10',nome:'Shogun Demoniaco',tier:'boss',stile:'anime',corpo:13,mente:9,anima:11,hp:42,armaCat:'D',defBonus:5,competenza:'corpo',talenti:['armi_letali','furia','contrattacco','limite_ultimo'],magie:['m32','m28'],
    lore:'Conquistatore che ha stretto un patto con forze demoniache per ottenere potere assoluto. Il suo esercito ha raso al suolo tre regni. Il quarto lo teme ancora.',
    desc:'Generale demoniaco con statistiche massime e tecnica devastante.',
    abilita:'CORPO 13: Cat D garantita. Competenza CORPO +6. DEF = 13+5 = 18. Furia: +2 danno per 2 round. Contrattacco. Tempesta di Lame (L3, 2slot): tutti entro 4m subiscono danno. Grido di Guerra (L3): +1 danno alleati. Pool slot: 9.',
    speciale:'Forma Demoniaca: quando scende sotto 15 HP, il suo CORPO sale a 15 e guadagna +2 danno permanente fino a fine scontro. Ira Assoluta: se un alleato cade, effettua immediatamente un attacco extra gratuito fuori turno.'},
   {id:'mon_b3',nome:'Sovrano dell Abisso',tier:'boss',stile:'horror',corpo:9,mente:12,anima:15,hp:40,armaCat:'C',defBonus:2,competenza:'anima',talenti:['gate_mb','gate_ma','patto_abisso','conoscenza_proibita'],magie:['m39','m41','m47','m30','c14','m07'],
-   lore:'Non viene da questo piano di esistenza. E stato invocato, e ora vuole restare. Il suo corpo fisico e un prestito — la vera entita e qualcosa che la mente umana non riesce a visualizzare completamente.',
+   lore:'Non viene da questo piano di esistenza. E stato invocato, e ora vuole restare. Il suo corpo fisico e un prestito -- la vera entita e qualcosa che la mente umana non riesce a visualizzare completamente.',
    desc:'Entita cosmica al massimo delle capacita magiche e psichiche.',
    abilita:'ANIMA 15: pool slot 13pt. Competenza ANIMA +7. Immune a danni non-magici, Spaventato, Veleno. Dominio (L4, 2slot), Grande Maledizione (L4), Frammentazione Cosmica (L4), Aura di Morte (L3), Voce del Terrore (L1), Tocco Necrotico. DEF = 9+2 = 11.',
    speciale:'Aura Abissale: tutti i PG a 5m subiscono -1 a tutti i tiri mentre sono in quella zona. Piena Manifestazione: 1x/combat, come azione bonus lancia gratuitamente una magia L1-L2 senza usare slot.'},
   {id:'mon_b4',nome:'Imperatore Cibernetico',tier:'boss',stile:'cyberpunk',corpo:10,mente:15,anima:8,hp:36,armaCat:'D',defBonus:6,competenza:'mente',talenti:['interfaccia_neurale','cap_15','gate_mb','gate_ma'],magie:['m33','m22','m42','c15'],
-   lore:'CEO di una megacorporazione che ha trasferito il 70% della sua coscienza in un corpo sintetico. Non si considera piu umano — e questo lo ha liberato da qualunque remora.',
+   lore:'CEO di una megacorporazione che ha trasferito il 70% della sua coscienza in un corpo sintetico. Non si considera piu umano -- e questo lo ha liberato da qualunque remora.',
    desc:'Ibridazione perfetta tra uomo e macchina al picco delle capacita.',
    abilita:'MENTE 15: pool slot 13pt. Competenza MENTE +7. DEF = 10+6 = 16. Hacking di Massa (L3), Overload Neurale (L2), Trasferimento Coscienza (L4): se ridotto a 0 HP puo trasferirsi in un altro sistema entro 20m (1x). Impulso Digitale cantrip.',
-   speciale:'Corpo Sintetico: immune a veleni e magie psicologiche. Protocollo Omega: sotto 10 HP, il corpo sintetico si potenzia automaticamente — DEF +3 e +2 attacco per 3 round (disperazione meccanica). Upgrade in tempo reale: ogni 3 round guadagna una nuova resistenza casuale (GM decide).'},
+   speciale:'Corpo Sintetico: immune a veleni e magie psicologiche. Protocollo Omega: sotto 10 HP, il corpo sintetico si potenzia automaticamente -- DEF +3 e +2 attacco per 3 round (disperazione meccanica). Upgrade in tempo reale: ogni 3 round guadagna una nuova resistenza casuale (GM decide).'},
   {id:'mon_b5',nome:'Il Padrino',tier:'boss',stile:'noir',corpo:7,mente:13,anima:12,hp:32,armaCat:'B',defBonus:2,competenza:'anima',talenti:['istinto_sopravvivenza','parole_piombo','gate_mb','limite_ultimo'],magie:['m17','m26','m07'],
-   lore:'Non ha bisogno di uccidere personalmente — non da decenni. Ma quando decide di scendere in campo lui stesso, e perche ha gia vinto in quattro mosse diverse. Il terrore e il suo vero potere.',
+   lore:'Non ha bisogno di uccidere personalmente -- non da decenni. Ma quando decide di scendere in campo lui stesso, e perche ha gia vinto in quattro mosse diverse. Il terrore e il suo vero potere.',
    desc:'Capo criminale supremo con intelligenza tattica e controllo mentale.',
-   abilita:'Competenza ANIMA +6. Blocco del Pensiero (L2, 1slot), Controllo Mentale (L3, 2slot), Voce del Terrore (L1). Pool slot: 11. Parole Piombo: tiro ANIMA vs ANIMA come azione — se vince, applica Spaventato. DEF = 7+2 = 9. MENTE 13 alta iniziativa.',
-   speciale:'Rete di Contatti: 1x/combat, chiama rinforzi — arrivano 2 Tirapiedi (gregari) al prossimo turno. Non Si Tocca: la prima volta che scende sotto 15 HP, un lacche si getta davanti assorbendo un attacco per lui (1x, narrativo).'}
+   abilita:'Competenza ANIMA +6. Blocco del Pensiero (L2, 1slot), Controllo Mentale (L3, 2slot), Voce del Terrore (L1). Pool slot: 11. Parole Piombo: tiro ANIMA vs ANIMA come azione -- se vince, applica Spaventato. DEF = 7+2 = 9. MENTE 13 alta iniziativa.',
+   speciale:'Rete di Contatti: 1x/combat, chiama rinforzi -- arrivano 2 Tirapiedi (gregari) al prossimo turno. Non Si Tocca: la prima volta che scende sotto 15 HP, un lacche si getta davanti assorbendo un attacco per lui (1x, narrativo).'}
 ];
 
 var WEAPONS = [
 
   // ════════════════════════════════
-  //  CATEGORIA A  (+1) — Leggere
+  //  CATEGORIA A  (+1) -- Leggere
   // ════════════════════════════════
 
   // ─ FANTASY / D&D ─
@@ -1046,7 +1046,7 @@ var WEAPONS = [
    req:null,elemento:null,
    desc:"Filo monomolecolare su impugnatura ceramica. Taglia quasi tutto.",perkSpeciale:null},
   {id:'w_a10',nome:'Spike Subderminico',nomeLore:null,cat:'A',tipo:'Corp. a Corp.',stile:'cyberpunk',
-   danno:'Perforante',portata:'Mischia',peso:'—',mani:'1h',rarita:'Non comune',
+   danno:'Perforante',portata:'Mischia',peso:'--',mani:'1h',rarita:'Non comune',
    req:'Augment cibernetico',elemento:null,
    desc:'Lame retraibili impiantate nelle nocche o negli avambracci.',perkSpeciale:null},
 
@@ -1089,7 +1089,7 @@ var WEAPONS = [
    desc:'Lama a scatto, molla silenziosa. Non sporchi le dita.',perkSpeciale:null},
 
   // ════════════════════════════════
-  //  CATEGORIA B  (+2) — Standard
+  //  CATEGORIA B  (+2) -- Standard
   // ════════════════════════════════
 
   // ─ FANTASY / D&D ─
@@ -1179,161 +1179,172 @@ var WEAPONS = [
    desc:'Il ragionamento finale di chi vuole risposte senza spargere sangue.',perkSpeciale:null},
 
   // ════════════════════════════════════════════════
-  //  CATEGORIA C  (+3) — Pesanti, CORPO≥6 o talento
+  //  CATEGORIA C  (+3) -- Pesanti, CORPO>=6 o talento
   // ════════════════════════════════════════════════
 
   // ─ FANTASY / D&D ─
   {id:'w_c01',nome:'Spadone',         nomeLore:null,cat:'C',tipo:'Spada',     stile:'fantasy',
    danno:'Tagliente',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Non comune',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Taglia attraverso armatura e uomini con la stessa indifferenza.',perkSpeciale:null},
   {id:'w_c02',nome:'Grande Ascia',    nomeLore:null,cat:'C',tipo:'Ascia',     stile:'fantasy',
    danno:'Tagliente',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Non comune',
-   req:'CORPO ≥ 6',elemento:null,
-   desc:"Pura distruzione. Non c'è eleganza — solo il risultato.",perkSpeciale:null},
+   req:'CORPO >= 6',elemento:null,
+   desc:"Pura distruzione. Non c'è eleganza -- solo il risultato.",perkSpeciale:null},
   {id:'w_c03',nome:'Grande Mazza',    nomeLore:null,cat:'C',tipo:'Mazza',     stile:'fantasy',
    danno:'Contundente',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Non comune',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Spiana armature. Non serve tagliare se puoi appiattire.',perkSpeciale:null},
   {id:'w_c04',nome:'Alabarda',        nomeLore:null,cat:'C',tipo:'Asta con Lama',stile:'fantasy',
    danno:'Tagliente',portata:'Mischia (3m)',peso:'Pesante',mani:'2h',rarita:'Non comune',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Il dominio delle formazioni militari. Taglia, colpisce, e tiene a distanza.',perkSpeciale:null},
   {id:'w_c05',nome:'Arco Lungo',      nomeLore:null,cat:'C',tipo:'Arco',      stile:'fantasy',
    danno:'Perforante',portata:'80m',peso:'Medio',mani:'2h',rarita:'Non comune',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Portata straordinaria. Nelle mani giuste, cambia il risultato delle battaglie.',perkSpeciale:null},
   {id:'w_c06',nome:'Balestra Pesante',nomeLore:null,cat:'C',tipo:'Balestra',  stile:'fantasy',
    danno:'Perforante',portata:'60m',peso:'Pesante',mani:'2h',rarita:'Non comune',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Perfora piastre di acciaio. Ricarica lenta, ma il primo colpo raramente fallisce.',perkSpeciale:null},
 
   // ─ CYBERPUNK RED ─
   {id:'w_c07',nome:'Fucile d\'Assalto',nomeLore:null,cat:'C',tipo:'Fucile',   stile:'cyberpunk',
    danno:'Perforante',portata:'100m',peso:'Pesante',mani:'2h',rarita:'Raro',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:"Cadenza elevata, precisione militare. L'arma dei soldier-for-hire seri.",perkSpeciale:null},
   {id:'w_c08',nome:'Pistola Pesante HMG',nomeLore:null,cat:'C',tipo:'Pistola',stile:'cyberpunk',
    danno:'Perforante',portata:'30m',peso:'Pesante',mani:'versatile',rarita:'Raro',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Calibro .50 modificato. Ciò che colpisce non si rialza facilmente.',perkSpeciale:null},
   {id:'w_c09',nome:'Monokatana',       nomeLore:null,cat:'C',tipo:'Spada',    stile:'cyberpunk',
    danno:'Tagliente',portata:'Mischia',peso:'Medio',mani:'2h',rarita:'Raro',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Lama a piena lunghezza con filo monomolecolare. Taglia veicoli leggeri.',perkSpeciale:null},
 
   // ─ ANIME ─
   {id:'w_c10',nome:'Nodachi',          nomeLore:null,cat:'C',tipo:'Spada',    stile:'anime',
    danno:'Tagliente',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Raro',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:"Spada di campo lunga quanto un uomo. Ogni fendente ha il peso della storia.",perkSpeciale:null},
   {id:'w_c11',nome:"Odachi della Tempesta",nomeLore:null,cat:'C',tipo:'Spada',stile:'anime',
    danno:'Tagliente',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Raro',
-   req:'CORPO ≥ 6',elemento:'Fulmine',
+   req:'CORPO >= 6',elemento:'Fulmine',
    desc:'Forgiata durante un temporale. Arde di scariche elettrostatiche sui bordi.',perkSpeciale:null},
 
   // ─ HORROR / DEMONOLOGIA ─
   {id:'w_c12',nome:'Falce della Mietitrice',nomeLore:null,cat:'C',tipo:'Falce',stile:'horror',
    danno:'Necromantico',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Raro',
-   req:'CORPO ≥ 6',elemento:'Oscuro',
+   req:'CORPO >= 6',elemento:'Oscuro',
    desc:'Fredda al tatto anche d\'estate. Chi viene colpito percepisce la propria fine.',perkSpeciale:null},
   {id:'w_c13',nome:'Marchio del Divoratore',nomeLore:null,cat:'C',tipo:'Maglio',stile:'horror',
    danno:'Contundente',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Raro',
-   req:'CORPO ≥ 6',elemento:'Demonico',
+   req:'CORPO >= 6',elemento:'Demonico',
    desc:'Coperto di rune demoniche. Rompe le barriere magiche e le ossa con uguale facilità.',perkSpeciale:null},
 
   // ─ NOIR ─
   {id:'w_c14',nome:'Tommy Gun',        nomeLore:null,cat:'C',tipo:'Mitra',    stile:'noir',
    danno:'Perforante',portata:'30m',peso:'Pesante',mani:'2h',rarita:'Non comune',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Il suono dell\'era del proibizionismo. Sessanta colpi di argomento inattaccabile.',perkSpeciale:null},
   {id:'w_c15',nome:'Fucile da Cecchino',nomeLore:null,cat:'C',tipo:'Fucile',  stile:'noir',
    danno:'Perforante',portata:'200m',peso:'Pesante',mani:'2h',rarita:'Raro',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'Freddo, distante, inevitabile. Porta la morte con puntualità svizzera.',perkSpeciale:null},
   {id:'w_c16',nome:'Revolver Magnum',  nomeLore:null,cat:'C',tipo:'Revolver', stile:'noir',
    danno:'Perforante',portata:'30m',peso:'Pesante',mani:'versatile',rarita:'Non comune',
-   req:'CORPO ≥ 6',elemento:null,
+   req:'CORPO >= 6',elemento:null,
    desc:'.44 Magnum. Chi viene colpito ha già finito di essere un problema.',perkSpeciale:null},
 
   // ══════════════════════════════════════════════════════════════════
-  //  CATEGORIA D  (+4) — Devastanti, CORPO≥10 + Armi Letali
+  //  CATEGORIA D  (+4) -- Devastanti, CORPO>=10 + Armi Letali
   //  ★ ARMI LEGGENDARIE CON NOME E PERK SPECIALE ★
   // ══════════════════════════════════════════════════════════════════
 
-  // ─ FANTASY — Leggendarie ─
-  {id:'w_d01',nome:'Spadone',nomeLore:'Spezzamondi',cat:'D',tipo:'Spada',     stile:'fantasy',
+  // ─ FANTASY -- Leggendarie ─
+  // --- CAT DX Solo via upgrade da Cat D ═══
+  // --- Cat D perkless - installa perk dalla lista D
+  {id:'wd_01',cat:'D',stile:'fantasy',nome:'Spadone da Guerra',nomeLore:null,tipo:'Lama',danno:'3d6',portata:'Mischia',peso:'Pesante',mani:'2H',rarita:'Comune',req:null,elemento:null,desc:'Lama enorme in acciaio temperato. Devastante nelle mani giuste.',perkSpeciale:null},
+  {id:'wd_02',cat:'D',stile:'fantasy',nome:'Ascia da Battaglia',nomeLore:null,tipo:'Ascia',danno:'3d6',portata:'Mischia',peso:'Pesante',mani:'2H',rarita:'Comune',req:null,elemento:null,desc:'Lama asimmetrica che sfrutta il peso per colpi circolari. Temuta in battaglia.',perkSpeciale:null},
+  {id:'wd_03',cat:'D',stile:'fantasy',nome:'Martello di Guerra',nomeLore:null,tipo:'Contundente',danno:'3d6',portata:'Mischia',peso:'Pesante',mani:'2H',rarita:'Comune',req:null,elemento:null,desc:'Testa in ferro massiccio su manico lungo. Rompe armature e ossa.',perkSpeciale:null},
+  {id:'wd_04',cat:'D',stile:'cyberpunk',nome:'Fucile Assalto HX',nomeLore:null,tipo:'Arma da Fuoco',danno:'3d6',portata:'Lunga',peso:'Pesante',mani:'2H',rarita:'Non comune',req:null,elemento:null,desc:'Fucile militare ad alta cadenza. Senza modifiche e gia letale.',perkSpeciale:null},
+  {id:'wd_05',cat:'D',stile:'cyberpunk',nome:'Cannone a Ioni',nomeLore:null,tipo:'Energetico',danno:'3d6',portata:'Media',peso:'Pesante',mani:'2H',rarita:'Raro',req:null,elemento:'elettrico',desc:'Emette impulsi ionici concentrati che danneggiano anche bersagli vicini.',perkSpeciale:null},
+  {id:'wd_06',cat:'D',stile:'horror',nome:'Falce del Crepuscolo',nomeLore:null,tipo:'Falce',danno:'3d6',portata:'Mischia',peso:'Pesante',mani:'2H',rarita:'Non comune',req:null,elemento:'necrotico',desc:'Forgiata dove molti sono morti violentemente. Il ferro ha assorbito qualcosa.',perkSpeciale:null},
+  {id:'wd_07',cat:'D',stile:'noir',nome:'Fucile da Cecchino',nomeLore:null,tipo:'Arma da Fuoco',danno:'3d6',portata:'Estrema',peso:'Pesante',mani:'2H',rarita:'Non comune',req:null,elemento:null,desc:'Canna fuori standard, mirino di precisione. Chi lo usa sparisce prima del rumore.',perkSpeciale:null},
+  {id:'wd_08',cat:'D',stile:'anime',nome:'Odachi',nomeLore:null,tipo:'Lama',danno:'3d6',portata:'Mischia',peso:'Pesante',mani:'2H',rarita:'Non comune',req:null,elemento:null,desc:'Spada lunga oltre ogni misura pratica. Richiede tecnica e dedizione assoluta.',perkSpeciale:null},
+  // Cat DX - solo via upgrade da Cat D
+  {id:'w_d01',upgradeOnly:true,nome:'Spadone',nomeLore:'Spezzamondi',cat:'DX',tipo:'Spada',     stile:'fantasy',
    danno:'Tagliente + Radioso',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:'Radioso',
+   req:'CORPO >= 10 + Armi Letali',elemento:'Radioso',
    desc:'Forgiata durante l\'eclissi di un dio morente. Emette una deflagrazione di luce a ogni colpo che accieca tutto ciò che si trova entro due metri.',
    perkSpeciale:{nome:'Furia Solare',tipo:'1x/combat',
      desc:'Quando colpisci, ogni nemico entro 2m subisce metà del danno inferto come onda d\'urto radiosa. Non colpisce alleati.',malus:null}},
 
-  {id:'w_d02',nome:'Arco',nomeLore:'Arco di Asteria',cat:'D',tipo:'Arco',    stile:'fantasy',
+  {id:'w_d02',upgradeOnly:true,nome:'Arco',nomeLore:'Arco di Asteria',cat:'DX',tipo:'Arco',    stile:'fantasy',
    danno:'Perforante + Lunare',portata:'150m',peso:'Leggero',mani:'2h',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:'Lunare',
+   req:'CORPO >= 10 + Armi Letali',elemento:'Lunare',
    desc:'Legno lunare bianco, corda di filo di stelle. Le frecce lasciano una scia argentea e non possono essere schivate da bersagli con MENTE inferiore a 8.',
    perkSpeciale:{nome:'Freccia Inevitabile',tipo:'1x/sessione',
      desc:'Scocca una freccia che ignora completamente la Difesa del bersaglio. Il danno è applicato direttamente agli HP.',malus:null}},
 
-  {id:'w_d03',nome:'Maglio',nomeLore:'Tuono Silente',cat:'D',tipo:'Maglio',   stile:'fantasy',
+  {id:'w_d03',upgradeOnly:true,nome:'Maglio',nomeLore:'Tuono Silente',cat:'DX',tipo:'Maglio',   stile:'fantasy',
    danno:'Contundente + Fulmine',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:'Fulmine',
-   desc:'Ferro nero che emette un rombo sordo a ogni colpo. Al contatto scarica in silenzio — il nemico non sente il tonfo, ma si ritrova a terra.',
+   req:'CORPO >= 10 + Armi Letali',elemento:'Fulmine',
+   desc:'Ferro nero che emette un rombo sordo a ogni colpo. Al contatto scarica in silenzio -- il nemico non sente il tonfo, ma si ritrova a terra.',
    perkSpeciale:{nome:'Scarica Paralizzante',tipo:'1x/combat',
      desc:'Il prossimo colpo a segno impone la condizione Stordito per 2 round senza tiro di resistenza.',malus:null}},
 
-  // ─ CYBERPUNK — Leggendarie ─
-  {id:'w_d04',nome:'Lama Cybernetica',nomeLore:'Mantide',cat:'D',tipo:'Lama Impiantata',stile:'cyberpunk',
-   danno:'Tagliente',portata:'Mischia',peso:'—',mani:'1h',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali + Augment cibernetico',elemento:null,
+  // ─ CYBERPUNK -- Leggendarie ─
+  {id:'w_d04',upgradeOnly:true,nome:'Lama Cybernetica',nomeLore:'Mantide',cat:'DX',tipo:'Lama Impiantata',stile:'cyberpunk',
+   danno:'Tagliente',portata:'Mischia',peso:'--',mani:'1h',rarita:'Leggendario',
+   req:'CORPO >= 10 + Armi Letali + Augment cibernetico',elemento:null,
    desc:'Lame ad apertura pneumatica impiantate nell\'avambraccio. Si dispiegano in 0.3 secondi. Non esiste guardia che le aspetti.',
    perkSpeciale:{nome:'Dispiegamento Istantaneo',tipo:'passivo',
      desc:'Non puoi mai essere colto di sorpresa mentre Mantide è impiantata. Il primo attacco di ogni combattimento ottiene +2 al tiro.',malus:null}},
 
-  {id:'w_d05',nome:'Fucile ad Alta Energia',nomeLore:'Ragnarok-7',cat:'D',tipo:'Fucile Prototipo',stile:'cyberpunk',
+  {id:'w_d05',upgradeOnly:true,nome:'Fucile ad Alta Energia',nomeLore:'Ragnarok-7',cat:'DX',tipo:'Fucile Prototipo',stile:'cyberpunk',
    danno:'Energetico + Plasma',portata:'300m',peso:'Pesante',mani:'2h',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:'Plasma',
-   desc:'Arma militare prototipo. Ogni colpo richiede 3 secondi di ricarica — ma ciò che colpisce smette di esistere come unità coerente di materia.',
+   req:'CORPO >= 10 + Armi Letali',elemento:'Plasma',
+   desc:'Arma militare prototipo. Ogni colpo richiede 3 secondi di ricarica -- ma ciò che colpisce smette di esistere come unità coerente di materia.',
    perkSpeciale:{nome:'Colpo di Plasma',tipo:'1x/combat',
      desc:'Un colpo ignora completamente armature e scudi. La DEF del bersaglio è considerata zero per quel calcolo del danno.',malus:null}},
 
-  // ─ ANIME — Leggendarie ─
-  {id:'w_d06',nome:'Nodachi',nomeLore:'Occhio del Drago',cat:'D',tipo:'Spada', stile:'anime',
+  // ─ ANIME -- Leggendarie ─
+  {id:'w_d06',upgradeOnly:true,nome:'Nodachi',nomeLore:'Occhio del Drago',cat:'DX',tipo:'Spada', stile:'anime',
    danno:'Tagliente + Fuoco',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:'Fuoco',
+   req:'CORPO >= 10 + Armi Letali',elemento:'Fuoco',
    desc:'Forgiata nel nucleo di un vulcano da un fabbro che aveva fatto un patto. Filamenti di magma scorrono lungo la lama e non si spengono mai.',
    perkSpeciale:{nome:'Passo del Drago',tipo:'1x/combat',
      desc:'Dopo aver abbattuto un nemico, puoi muoverti fino a 5m e effettuare immediatamente un secondo attacco completo nel tuo turno.',malus:null}},
 
-  {id:'w_d07',nome:'Katana',nomeLore:'Fato Infranto',cat:'D',tipo:'Spada',    stile:'anime',
+  {id:'w_d07',upgradeOnly:true,nome:'Katana',nomeLore:'Fato Infranto',cat:'DX',tipo:'Spada',    stile:'anime',
    danno:'Tagliente + Vuoto',portata:'Mischia',peso:'Medio',mani:'versatile',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:'Vuoto',
+   req:'CORPO >= 10 + Armi Letali',elemento:'Vuoto',
    desc:'Spezzata e riformata con tecnica proibita. L\'impugnatura è tenuta insieme da bende di seta nera. Taglia attraverso il ki, non solo la carne.',
    perkSpeciale:{nome:'Recisione del Ki',tipo:'1x/sessione',
      desc:'Un colpo annulla il prossimo perk o magia che il bersaglio avrebbe usato quel giorno. Il GM decide quale effetto specifico viene reciso.',malus:null}},
 
-  // ─ HORROR / DEMONOLOGIA — Leggendarie Maledette ─
-  {id:'w_d08',nome:'Falce',nomeLore:'Lama del Vuoto',cat:'D',tipo:'Falce',    stile:'horror',
+  // ─ HORROR / DEMONOLOGIA -- Leggendarie Maledette ─
+  {id:'w_d08',upgradeOnly:true,nome:'Falce',nomeLore:'Lama del Vuoto',cat:'DX',tipo:'Falce',    stile:'horror',
    danno:'Necromantico',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:'Oscuro',
-   desc:'Non si sa da dove viene. Chiunque la abbia impugnata riferisce lo stesso sogno — un corridoio infinito e qualcosa che cammina verso di loro.',
+   req:'CORPO >= 10 + Armi Letali',elemento:'Oscuro',
+   desc:'Non si sa da dove viene. Chiunque la abbia impugnata riferisce lo stesso sogno -- un corridoio infinito e qualcosa che cammina verso di loro.',
    perkSpeciale:{nome:'Mietitore',tipo:'1x/combat',
      desc:'Se il colpo porta il bersaglio a 0 HP, recuperi HP pari al tuo CORPO. L\'anima del bersaglio alimenta la lama.',
-     malus:'−1 ANIMA permanente finché equipaggiata. Ogni notte il portatore sogna la propria morte.'}},
+     malus:'-1 ANIMA permanente finché equipaggiata. Ogni notte il portatore sogna la propria morte.'}},
 
-  {id:'w_d09',nome:'Pugnale Rituale',nomeLore:'Marchio di Abaddon',cat:'D',tipo:'Pugnale',stile:'horror',
+  {id:'w_d09',upgradeOnly:true,nome:'Pugnale Rituale',nomeLore:'Marchio di Abaddon',cat:'DX',tipo:'Pugnale',stile:'horror',
    danno:'Demonico',portata:'Mischia / 8m',peso:'Leggero',mani:'1h',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:'Demonico',
+   req:'CORPO >= 10 + Armi Letali',elemento:'Demonico',
    desc:'Iscritto con il vero nome di un demone minore. Chi viene ferito sente qualcosa cominciare a muoversi dall\'interno.',
    perkSpeciale:{nome:'Segnatura Demoniaca',tipo:'1x/sessione',
      desc:'Chi viene ferito acquisisce la condizione Spaventato per l\'intera scena (non solo 2 round). Tiro ANIMA vs ANIMA+6 per resistere.',
      malus:'Il portatore non recupera più di 2 slot magici per Riposo Breve.'}},
 
-  // ─ NOIR — Leggendaria ─
-  {id:'w_d10',nome:'Revolver',nomeLore:'Il Giustiziere',cat:'D',tipo:'Revolver',stile:'noir',
+  // ─ NOIR -- Leggendaria ─
+  {id:'w_d10',upgradeOnly:true,nome:'Revolver',nomeLore:'Il Giustiziere',cat:'DX',tipo:'Revolver',stile:'noir',
    danno:'Perforante',portata:'40m',peso:'Pesante',mani:'versatile',rarita:'Leggendario',
-   req:'CORPO ≥ 10 + Armi Letali',elemento:null,
+   req:'CORPO >= 10 + Armi Letali',elemento:null,
    desc:'Calcio in ebano, canna allungata, dodici tacche. Non ne manca una. Dicono che i colpi trovino sempre il bersaglio se la causa è giusta.',
    perkSpeciale:{nome:'Colpo del Giustiziere',tipo:'1x/sessione',
      desc:'Dichiara un bersaglio come il tuo obiettivo di giustizia (motivazione narrativa obbligatoria). Il prossimo colpo contro di lui è automaticamente critico e ignora la Difesa. Il GM approva la motivazione.',malus:null}},
@@ -1369,9 +1380,9 @@ var HERO_POINT = {
     'I Punti Eroe non si accumulano tra sessioni.'
   ],
   esempi: [
-    {azione:'Il bardo salta dal balcone, afferra il lampadario e oscilla verso il nemico cantando.', esito:'Successo automatico — azione spettacolare e coerente col personaggio.'},
-    {azione:'Il guerriero vuole tagliare in due il drago con un solo colpo.', esito:'Bonus tra +1 e +6 al tiro — il GM sceglie il valore in base alla potenza dell\'azione descritta.'},
-    {azione:'Il ladro vuole che ci sia una finestra aperta nel muro del castello.', esito:'Successo — il giocatore aggiunge un dettaglio narrativo ragionevole.'},
-    {azione:'Il mago sta per morire: "Il mio maestro mi ha insegnato un ultimo trucco."', esito:'Nega il colpo mortale — resta a 1 HP con una motivazione narrativa.'}
+    {azione:'Il bardo salta dal balcone, afferra il lampadario e oscilla verso il nemico cantando.', esito:'Successo automatico -- azione spettacolare e coerente col personaggio.'},
+    {azione:'Il guerriero vuole tagliare in due il drago con un solo colpo.', esito:'Bonus tra +1 e +6 al tiro -- il GM sceglie il valore in base alla potenza dell\'azione descritta.'},
+    {azione:'Il ladro vuole che ci sia una finestra aperta nel muro del castello.', esito:'Successo -- il giocatore aggiunge un dettaglio narrativo ragionevole.'},
+    {azione:'Il mago sta per morire: "Il mio maestro mi ha insegnato un ultimo trucco."', esito:'Nega il colpo mortale -- resta a 1 HP con una motivazione narrativa.'}
   ]
 };
