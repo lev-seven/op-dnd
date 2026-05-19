@@ -32,7 +32,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef}=React;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const CORE_VERSION='2.9.0';
+const CORE_VERSION='3.0.0';
 const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
@@ -49,6 +49,7 @@ async function ghPut(path,content,token,accId,isMaster,accName){
   return(await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)})).ok;
 }
 const WCAT_BONUS={A:1,B:2,C:3,D:4,DX:5};
+const UPGRADE_COSTS={A:{to:"B",oro:2,tempo:"4 ore"},B:{to:"C",oro:20,tempo:"1 giorno"},C:{to:"D",oro:80,tempo:"3 giorni"},D:{to:"DX",oro:400,tempo:"1 settimana",note:"+ materiali rari"}};
 const SPELL_BONUS={ct:1,1:2,2:4,3:6,4:8};
 const SPELL_COST={1:1,2:1,3:2,4:2};
 const SPELL_MINS={1:6,2:8,3:10,4:12};
@@ -469,6 +470,25 @@ function SheetTab({c,up}){
     </div>
     <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:6}}>{perks.map(p=>{const stileIcons={fantasy:"⚔",cyberpunk:"⚡",horror:"💀",noir:"🔍",anime:"✨",universale:""};const ic=stileIcons[p.stile]||"";return<Pill key={p.id} on={c.armaPerk===p.id} onClick={()=>up({armaPerk:p.id})} title={p.desc}>{ic&&<span style={{fontSize:9,marginRight:2}}>{ic}</span>}{p.daId&&<span style={{fontSize:8,color:"var(--cyan)",marginRight:2}}>↑</span>}{p.nome}</Pill>;})}</div>
     {ap&&<div style={{fontSize:11,color:"var(--tx2)",padding:"6px 8px",background:"var(--s3)",borderRadius:6,marginBottom:8,lineHeight:1.5}}>{ap.daId&&<span style={{fontSize:9,color:"var(--cyan)",marginRight:4}}>↑ evoluzione da {(G.WPERKS||{})[c.armaCat]?.find?.(x=>x.id===ap.daId)?.nome||ap.daId}</span>}<em style={{color:"var(--green)"}}>{ap.nome}</em> — {ap.desc}{ap.evolveIn&&<span style={{fontSize:9,color:"var(--tx3)",marginLeft:6}}>→ evolve in perk Cat superiore</span>}</div>}
+    {(()=>{
+      const uc=UPGRADE_COSTS[c.armaCat];
+      const catOrder=['A','B','C','D','DX'];
+      const nextCat=uc?uc.to:null;
+      const canNext=nextCat&&canUseCat(c,nextCat);
+      if(!uc)return null;
+      return<div style={{background:"var(--s3)",border:"1px solid var(--b1)",borderRadius:8,padding:"8px 10px",marginBottom:8}}>
+        <div style={{fontSize:10,color:"var(--tx3)",textTransform:"uppercase",letterSpacing:1,marginBottom:6}}>Upgrade Arma</div>
+        <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap",marginBottom:6}}>
+          <span style={{fontFamily:"Cinzel",fontSize:11,color:"var(--gold)"}}>Cat {c.armaCat}</span>
+          <span style={{color:"var(--tx3)"}}>→</span>
+          <span style={{fontFamily:"Cinzel",fontSize:11,color:canNext?"var(--cyan)":"var(--red)"}}>{nextCat}</span>
+          <span style={{fontSize:10,color:"var(--tx3)",marginLeft:4}}>{uc.oro} Oro · {uc.tempo}{uc.note?' · '+uc.note:''}</span>
+        </div>
+        {c.armaPerk&&<div style={{fontSize:10,color:"var(--red)",marginBottom:6}}>⚠ Il perk attuale verrà rimosso</div>}
+        {!canNext&&<div style={{fontSize:10,color:"var(--red)",marginBottom:6}}>Requisiti mancanti per Cat {nextCat}</div>}
+        <button onClick={()=>{if(!window.confirm('Upgrade Cat '+c.armaCat+' → '+nextCat+'? Il perk verrà rimosso. Costo: '+uc.oro+' Oro + '+uc.tempo+'.'))return;up({armaCat:nextCat,armaPerk:null});}} style={{fontSize:10,padding:"4px 10px",borderRadius:4,border:"1px solid var(--cyan)",background:"transparent",color:"var(--cyan)",cursor:"pointer",fontFamily:"Cinzel"}}>Conferma Upgrade</button>
+      </div>;
+    })()}
     <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
       <Pill on={c.armaDist} onClick={()=>up({armaDist:!c.armaDist})}>A distanza</Pill>
       <Pill on={c.armaMagi} onClick={()=>up({armaMagi:!c.armaMagi})}>Magica (MENTE)</Pill>
@@ -1075,6 +1095,21 @@ function HomebrewGuide({onBack}){
       <div style={{fontFamily:"Cinzel",fontSize:13,fontWeight:700,color:"var(--gold)",margin:"16px 0 8px",paddingBottom:5,borderBottom:"1px solid var(--b1)"}}>Aggiungere in-session (Master)</div>
       <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6}}>Dalla scheda, tab Azioni o Magie, usa il pulsante Homebrew. Il contenuto viene salvato in localStorage e visibile subito a tutti i tab.</p>
 
+    <div style={{marginBottom:20}}>
+      <h3 style={{color:"var(--cyan)",fontFamily:"Cinzel",fontSize:14,marginBottom:8}}>UPGRADE ARMA — Progressione A → DX</h3>
+      <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>
+        Qualsiasi arma può essere potenziata progressivamente di categoria, dalla A alla DX. Ogni upgrade richiede un fabbro/tecnico qualificato, materiali e tempo. Il perk installato viene <strong style={{color:"var(--red)"}}>rimosso</strong> durante l'upgrade — il meccanismo interno viene rifatto da zero. Dopo l'upgrade puoi installare un nuovo perk della categoria superiore.
+      </p>
+      <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>
+        <strong style={{color:"var(--gold)"}}>Requisiti:</strong> per usare l'arma upgradata senza penalità devi soddisfare i requisiti della nuova categoria (CORPO e talento). Se non li soddisfi, l'arma è tecnicamente tua — l'hai pagata e fatta potenziare — ma la usi con penalità: Cat C senza req <strong>-2 tiro</strong>, Cat D senza Armi Letali <strong>-3 tiro + conta come Cat C</strong>, Cat DX senza req <strong>-4 tiro + 1 HP per attacco</strong>.
+      </p>
+      <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>
+        L'upgrade è irreversibile. Non si può tornare a una categoria inferiore. Il percorso massimo è A → B → C → D → DX — non si possono saltare categorie.
+      </p>
+      <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6}}>
+        <strong style={{color:"var(--gold)"}}>Upgrade D → DX:</strong> trasforma l'arma in un oggetto leggendario unico. Il Master può assegnare un nome proprio e un perkSpeciale narrativo all'arma, riflettendo la sua storia. Dopo l'upgrade puoi installare un perk dalla lista DX separatamente.
+      </p>
+    </div>
     <div style={{marginBottom:20}}>
       <h3 style={{color:"var(--gold)",fontFamily:"Cinzel",fontSize:14,marginBottom:8}}>ECONOMIA — Prezzi Indicativi</h3>
       <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>Il sistema usa tre valute: <strong style={{color:"var(--gold)"}}>Oro (O)</strong>, <strong style={{color:"var(--tx1)"}}>Argento (A)</strong>, <strong style={{color:"#cd7f32"}}>Bronzo (B)</strong>. 1 Oro = 10 Argento = 100 Bronzo. I prezzi sono indicativi — il Master può adattarli al setting.</p>
