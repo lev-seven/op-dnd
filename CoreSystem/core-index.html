@@ -32,7 +32,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef}=React;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const CORE_VERSION='3.2.0';
+const CORE_VERSION='3.3.0';
 const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
@@ -59,7 +59,7 @@ function tById(id){return(G.TALENTS||[]).find(t=>t.id===id);}
 function hasTalent(c,id){return(c.talenti||[]).includes(id);}
 function intuizioneMagica(c){return(c.mente||0)>=10;}
 function hpMax(c){const base=(c.corpo||0)+(c.mente||0)+(c.anima||0);return Math.max(1,base-(hasTalent(c,"patto_abisso")?3:0));}
-function shortRestSlotRecovery(c){return Math.max(1,Math.floor(Math.max(c.mente||0,c.anima||0)/4));}
+function shortRestSlotRecovery(c){return Math.max(1,Math.floor(Math.max(c.mente||0,c.anima||0)/3));}
 function hpPct(c){const mx=hpMax(c);return mx>0?Math.max(0,Math.min(1,(c.hpCurrent||0)/mx)):0;}
 function woundTier(c){const mx=hpMax(c),lost=mx-(c.hpCurrent||0),t=Math.floor(mx/3);if((c.hpCurrent||0)<=0)return 3;if(lost>=t*2)return 2;if(lost>=t)return 1;return 0;}
 function wInfo(t){return(G.WOUND_TIERS||[])[Math.min(t,3)]||{nome:"?",penalita:0,desc:""};}
@@ -97,7 +97,7 @@ function spellSpecComp(sp,c){
   if(tipo==="mg"&&lvl>=3&&hasTalent(c,"spec_magia_L34"))return cb;
   return 0;
 }
-function atkBonus(c){const stat=c.armaMagi?(c.mente||0):(c.corpo||0);const wB=WCAT_BONUS[c.armaCat]||0;const comp=(c.competenza===(c.armaMagi?"mente":"corpo"))?compBonus(c):0;const spec=weaponSpecComp(c);const dxPen=(c.armaCat==="DX"&&!canUseCat(c,"DX"))?-4:0;return stat+wB+comp+spec+dxPen;}
+function atkBonus(c){const isSint=c.armaPerk&&(c.armaPerk==="c_sin"||c.armaPerk==="d_sin"||c.armaPerk==="b_sin");const stat=isSint?Math.max(c.corpo||0,c.mente||0,c.anima||0):(c.armaMagi?(c.mente||0):(c.corpo||0));const wB=WCAT_BONUS[c.armaCat]||0;const comp=(c.competenza===(c.armaMagi?"mente":"corpo"))?compBonus(c):0;const spec=weaponSpecComp(c);const dxPen=(c.armaCat==="DX"&&!canUseCat(c,"DX"))?-4:0;return stat+wB+comp+spec+dxPen;}
 function ctBonus(c){if(hasTalent(c,"gate_ma"))return 2;if(hasTalent(c,"gate_mb"))return 1;return 0;}
 function spellBonus(sp,c){const base=sp.tipo==="ct"?ctBonus(c):(SPELL_BONUS[sp.lvl]||0);const im=(c&&sp.tipo==="mg"&&(sp.lvl||0)<=2&&intuizioneMagica(c)&&hasTalent(c,"gate_mb"))?1:0;const spec=spellSpecComp(sp,c);return base+im+spec;}
 function spellCost(sp){return sp.tipo==="ct"?0:(SPELL_COST[sp.lvl]||1);}
@@ -158,13 +158,13 @@ function App(){
   useEffect(()=>{if(screen==="list"&&accId&&ghToken)loadAllChars();},[screen,accId,ghToken]);
   return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"var(--bg)"}}>
     {loading&&<Loader/>}
-    {!loading&&screen==="login"&&<LoginScreen manifest={manifest} onAuth={async(id)=>{setAccId(id);const tk=await decTk();if(tk)setGhToken(tk);setScreen("list");}}/>}
+    {!loading&&screen==="login"&&<LoginScreen manifest={manifest} onAuth={async(id)=>{setAccId(id);const tk=await decTk();if(tk)setGhToken(tk);setScreen("list");}} onManual={()=>setScreen("manual")}/>}
     {!loading&&screen==="list"&&<CharList acc={acc} isMaster={isMaster} chars={chars} loadingChars={loadingChars}
       onBack={()=>{window.location.href=BASE()+"/";}}
       onNew={()=>{setChar(newCoreChar(""));setCharMeta(null);setScreen("sheet");}}
       onLoad={async(owner,file)=>{const c=await loadChar(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");}}
       onManual={()=>setScreen("manual")} onCompendium={()=>setScreen("compendium")} onHomebrew={()=>setScreen("homebrew")}/>}
-    {!loading&&screen==="manual"&&<ManualPage onBack={()=>setScreen("list")}/>}
+    {!loading&&screen==="manual"&&<ManualPage onBack={()=>setScreen(accId?"list":"login")}/>}
     {!loading&&screen==="compendium"&&<CompendiumPage onBack={()=>setScreen("list")}/>}
     {!loading&&screen==="homebrew"&&<HomebrewGuide onBack={()=>setScreen("list")}/>}
     {!loading&&screen==="sheet"&&char&&<CoreSheet c={char} up={up} acc={acc} charMeta={charMeta} ghToken={ghToken} isMaster={isMaster} accId={accId} saveChar={saveChar} saveNewChar={saveNewChar} setCharMeta={setCharMeta} onBack={()=>{setChar(null);setCharMeta(null);setScreen("list");}}/>}
@@ -172,7 +172,7 @@ function App(){
   </div>;
 }
 function Loader(){return<div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"var(--app-h)"}}><div style={{textAlign:"center"}}><div style={{width:40,height:40,border:"3px solid var(--b1)",borderTop:"3px solid var(--gold)",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/><p style={{color:"var(--gold)",fontFamily:"Cinzel",fontSize:14}}>Caricamento...</p></div></div>;}
-function LoginScreen({manifest,onAuth}){
+function LoginScreen({manifest,onAuth,onManual}){
   const[user,setUser]=useState("");const[pw,setPw]=useState("");const[err,setErr]=useState("");const[show,setShow]=useState(false);
   const accs=manifest?.accounts||[];
   const check=async()=>{
@@ -193,7 +193,8 @@ function LoginScreen({manifest,onAuth}){
       </div>
       {err&&<p style={{color:"var(--red)",fontSize:12,marginBottom:12}}>{err}</p>}
       <button onClick={check} style={{...SS.gold,width:"100%",padding:"12px 0",fontSize:15}}>Entra</button>
-      <button onClick={()=>window.location.href=BASE()+"/"} style={{marginTop:16,background:"none",border:"none",color:"var(--tx3)",fontSize:11,cursor:"pointer"}}>← Torna a Classic</button>
+      <button onClick={()=>onManual&&onManual()} style={{display:"block",width:"100%",marginTop:16,padding:"10px 0",background:"rgba(232,160,48,0.08)",border:"1px solid rgba(232,160,48,0.25)",borderRadius:8,color:"var(--gold)",fontSize:12,cursor:"pointer",fontFamily:"Cinzel"}}>📖 Leggi il Manuale senza accedere</button>
+    <button onClick={()=>window.location.href=BASE()+"/"} style={{marginTop:10,background:"none",border:"none",color:"var(--tx3)",fontSize:11,cursor:"pointer"}}>← Torna a Classic</button>
     </div>
   </div>;
 }
@@ -248,7 +249,7 @@ function SessionView({c,up,setViewMode}){
   const slots=maxSlots(c);const used=c.slotUsati||0;const avail=Math.max(0,slots-used);
   const allSp=G.SPELLS||[];const selSp=(c.magie||[]).map(id=>allSp.find(s=>s.id===id)).filter(Boolean);
   const allT=G.TALENTS||[];const selT=(c.talenti||[]).map(id=>allT.find(t=>t.id===id)).filter(Boolean);
-  const roll=(label,mod)=>{const d=Math.floor(Math.random()*12)+1;setDResult({label,d,mod,total:d+mod,nat12:d===12,nat1:d===1});if(label==="Attacco"&&c.armaCat==="DX"&&!canUseCat(c,"DX")){up({hpCurrent:Math.max(0,(c.hpCurrent||0)-1)});}};
+  const roll=(label,mod)=>{const wPen=condPenalty(c);const tPen=woundTier(c)===1?-1:woundTier(c)===2?-2:0;const totalMod=mod+wPen+tPen;const d=Math.floor(Math.random()*12)+1;setDResult({label,d,mod:totalMod,total:d+totalMod,nat12:d===12,nat1:d===1,wPen,tPen});if(label==="Attacco"&&c.armaCat==="DX"&&!canUseCat(c,"DX")){up({hpCurrent:Math.max(0,(c.hpCurrent||0)-1)});}};
   const ripBrieve=()=>{const rec=shortRestSlotRecovery(c);up({hpCurrent:Math.min(mx,(c.hpCurrent||0)+(c.corpo||0)),slotUsati:Math.max(0,used-rec)});};
   const ripLungo=()=>up({hpCurrent:mx,slotUsati:0,heroPoints:2,perkUses:{},conditions:[]});
   const useSlot=cost=>{if(used+cost<=slots)up({slotUsati:used+cost});};
@@ -290,6 +291,7 @@ function SessionView({c,up,setViewMode}){
           <span style={{color:weaponSpecComp(c)>0?"var(--gold)":"var(--tx3)"}}>ATK +{atkBonus(c)}{weaponSpecComp(c)>0&&<span style={{fontSize:8,color:"var(--gold)"}}> ★</span>}</span><span>DEF {(c.corpo||0)+totalDefBonus(c)}</span>
         </div>
       </div>
+      {(()=>{const tot=(c.corpo||0)+(c.mente||0)+(c.anima||0);const extra=Math.max(0,tot-12);return extra===0?null:<div style={{fontSize:9,color:"var(--cyan)",textAlign:"right",padding:"1px 4px",fontFamily:"JetBrains Mono"}}>punti distribuiti: {tot} (+{extra})</div>;})()}
       {statRow("CORPO","corpo","var(--red)")}
       {statRow("MENTE","mente","var(--blue)")}
       {statRow("ANIMA","anima","var(--purple)")}
@@ -306,6 +308,7 @@ function SessionView({c,up,setViewMode}){
       <div style={{fontSize:11,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginTop:3}}>[{dResult.d}]{dResult.mod!==0?(dResult.mod>0?" + "+dResult.mod:" - "+Math.abs(dResult.mod)):""}</div>
       {dResult.nat12&&<div style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}}>★★ CRITICO ★★</div>}
       {dResult.nat1&&<div style={{color:"var(--red)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}}>☠️ FUMBLE</div>}
+      {(dResult.wPen||dResult.tPen)&&<div style={{fontSize:9,color:"var(--red)",fontFamily:"Cinzel",marginTop:2}}>{dResult.tPen?"ferite "+dResult.tPen:""}{dResult.wPen&&dResult.tPen?" | ":""}{dResult.wPen?"cond "+dResult.wPen:""}</div>}
     </div>}
 
     {/* ── SLOT MAGIA ───────────────── */}
