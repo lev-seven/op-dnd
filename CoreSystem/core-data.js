@@ -1,5 +1,5 @@
 // ============================================================
-//  C.O.R.E. — Compact Open Rules Engine
+//  C.O.R.E. — Compact Open Rules Engine 
 //  core-data.js — File Dati Completo
 //  Versione corretta: bonus armi/magie allineati alle costanti app
 // ============================================================
