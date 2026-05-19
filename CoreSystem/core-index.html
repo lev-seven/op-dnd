@@ -219,11 +219,11 @@ function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad,onManual,
       {chars.length===0&&<p style={{textAlign:"center",color:"var(--tx3)",fontStyle:"italic",padding:"20px 0"}}>Nessun PG Core trovato.</p>}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:16}}>
         <button onClick={onNew} style={{...SS.gold,padding:"14px 0",fontSize:13}}>✨ Nuovo PG</button>
-        <button onClick={onManual} style={{...SS.btn,padding:"14px 0",fontSize:13,borderColor:"rgba(232,160,48,0.3)",color:"var(--gold)"}}>\uD83D\uDCD6 Manuale</button>
+        <button onClick={onManual} style={{...SS.btn,padding:"14px 0",fontSize:13,borderColor:"rgba(232,160,48,0.3)",color:"var(--gold)"}}>📖 Manuale</button>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:8}}>
-        <button onClick={onCompendium} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(160,112,232,0.3)",color:"var(--purple)"}}>\uD83D\uDCDA Compendio</button>
-        <button onClick={onHomebrew} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(64,200,200,0.3)",color:"var(--cyan)"}}>\uD83D\uDD27 Homebrew</button>
+        <button onClick={onCompendium} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(160,112,232,0.3)",color:"var(--purple)"}}>📚 Compendio</button>
+        <button onClick={onHomebrew} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(64,200,200,0.3)",color:"var(--cyan)"}}>🔧 Homebrew</button>
       </div>
     </div>
   </div>;
@@ -323,7 +323,7 @@ function SessionView({c,up,setViewMode}){
 
     {/* ── MAGIE RAPIDE ─────────────── */}
     {selSp.length>0&&<div style={{background:"var(--s2)",borderRadius:10,padding:"10px 14px",marginBottom:10,border:"1px solid var(--b1)"}}>
-      <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--blue)",letterSpacing:1,display:"block",marginBottom:8}}>\uD83D\uDCD5 MAGIE</span>
+      <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--blue)",letterSpacing:1,display:"block",marginBottom:8}}>📕 MAGIE</span>
       {selSp.map(sp=>{
         const statK=(sp.stat||"MENTE").toLowerCase();const sv=c[statK]||0;
         const cB=c.competenza===statK?compBonus(c):0;const bon=spellBonus(sp,c);
@@ -334,7 +334,7 @@ function SessionView({c,up,setViewMode}){
             <span style={{fontSize:9,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginLeft:6}}>1d12+{tot} (avg {(6.5+tot).toFixed(0)})</span>
           </div>
           {spellCost(sp)>0&&<span style={{fontSize:9,color:"var(--purple)",fontFamily:"JetBrains Mono"}}>{spellCost(sp)}sl</span>}
-          <button onClick={()=>roll(sp.nome,tot)} style={{padding:"4px 10px",borderRadius:5,border:"1.5px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.06)",color:"var(--blue)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer"}}>\uD83C\uDFB2</button>
+          <button onClick={()=>roll(sp.nome,tot)} style={{padding:"4px 10px",borderRadius:5,border:"1.5px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.06)",color:"var(--blue)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer"}}>🎲</button>
         </div>;
       })}
     </div>}
@@ -361,7 +361,7 @@ function SessionView({c,up,setViewMode}){
     {/* ── RIPOSI ───────────────────── */}
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
       <button onClick={ripBrieve} style={{padding:"10px 0",borderRadius:8,border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.08)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer",lineHeight:1.5}}>☀️ Riposo Breve<br/><span style={{fontSize:8,fontWeight:400,opacity:0.7}}>+{c.corpo||0} HP, +{shortRestSlotRecovery(c)} slot</span></button>
-      <button onClick={ripLungo} style={{padding:"10px 0",borderRadius:8,border:"1.5px solid rgba(88,144,232,0.4)",background:"rgba(88,144,232,0.08)",color:"var(--blue)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer",lineHeight:1.5}}>\uD83C\uDF19 Riposo Lungo<br/><span style={{fontSize:8,fontWeight:400,opacity:0.7}}>Tutto ripristinato</span></button>
+      <button onClick={ripLungo} style={{padding:"10px 0",borderRadius:8,border:"1.5px solid rgba(88,144,232,0.4)",background:"rgba(88,144,232,0.08)",color:"var(--blue)",fontFamily:"Cinzel",fontWeight:700,fontSize:11,cursor:"pointer",lineHeight:1.5}}>🌙 Riposo Lungo<br/><span style={{fontSize:8,fontWeight:400,opacity:0.7}}>Tutto ripristinato</span></button>
     </div>
   </div>;
 }
@@ -604,7 +604,7 @@ function ActionsTab({c,up,isMaster}){
   return<div style={{animation:"fadeIn 0.15s ease",paddingBottom:24}}>
     <div style={{display:"flex",gap:5,marginBottom:12}}>
       <button onClick={()=>riposo("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(232,160,48,0.3)",background:"rgba(232,160,48,0.07)",color:"var(--gold)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer",lineHeight:1.4}}>☀️ Riposo Breve<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>+CORPO HP, +{shortRestSlotRecovery(c)} slot</span></button>
-      <button onClick={()=>riposo("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.07)",color:"var(--blue)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer",lineHeight:1.4}}>\uD83C\uDF19 Riposo Lungo<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>Tutto ripristinato</span></button>
+      <button onClick={()=>riposo("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.07)",color:"var(--blue)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer",lineHeight:1.4}}>🌙 Riposo Lungo<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>Tutto ripristinato</span></button>
       <button onClick={resetCombat} style={{width:50,borderRadius:7,border:"1px solid var(--b1)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>⚔️ Reset<br/><span style={{fontSize:7}}>combat</span></button>
     </div>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
@@ -853,7 +853,7 @@ function CompendiumDiceRoller({spell}){
       </div>
       <button onClick={doRoll} style={{padding:"5px 14px",borderRadius:6,border:"1.5px solid var(--gold)",
         background:"rgba(232,160,48,0.12)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,
-        fontSize:11,cursor:"pointer",flexShrink:0}}>\uD83C\uDFB2 Tira d12</button>
+        fontSize:11,cursor:"pointer",flexShrink:0}}>🎲 Tira d12</button>
     </div>
     {roll&&<div style={{textAlign:"center",padding:"8px 0",borderRadius:6,background:"var(--bg)",
       border:"1.5px solid "+(roll.nat12?"var(--gold)":roll.nat1?"var(--red)":"var(--b1)"),
