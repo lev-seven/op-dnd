@@ -291,7 +291,7 @@ var TALENTS = [
   {id:'t56',cat:'ibrido',stile:'fantasy',  req:null,nome:'Legame Familiare',    desc:'Hai un familiare. +2 tiri MENTE esplorazione. 1x/combat intercetta 1 attacco (muore, torna dopo riposo lungo).',pro:'Difesa + esplorazione.',con:'Se muore, 1 riposo senza bonus.'}
 ];
 
-// ═══ AUGMENTS / MIGLIORAMENTI FISICI (max 3) ═══
+// ═══ AUGMENTS / MIGLIORAMENTI FISICI (max 2) ═══
 var AUGMENTS = [
   // CYBERPUNK
   {id:'aug_oc',stile:'cyberpunk',tipo:'Cyberware',nome:'Occhi Cybertici',desc:'HUD integrato, zoom 10x, visione notturna.',pro:'+2 tiri MENTE visivi. Visione notturna.',con:'Visibili (LED). -1 ANIMA in contesti conservatori.',manutenzione:'Calibrazione mensile.',perk:'Scansione Tattica: 1x/combat, MENTE vs ANIMA per rivelare 1 stat nascosta del bersaglio.'},

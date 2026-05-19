@@ -18,7 +18,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-@media(max-width:767px){.pill-wrap{gap:3px!important}input,select,textarea{font-size:16px!important}}
+@media(max-width:767px){input,select,textarea{font-size:16px!important}}
 @media(min-width:768px){html{zoom:1.15}}
 @media(min-width:1200px){html{zoom:1.25}}
 </style>
@@ -39,105 +39,139 @@ async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.sub
 function hex2b(h){const b=new Uint8Array(h.length/2);for(let i=0;i<h.length;i+=2)b[i/2]=parseInt(h.substr(i,2),16);return b;}
 async function aesDec(stored,passHash){try{const{i,d}=JSON.parse(stored);const k=await crypto.subtle.importKey("raw",hex2b(passHash).slice(0,32),{name:"AES-GCM"},false,["decrypt"]);const dec=await crypto.subtle.decrypt({name:"AES-GCM",iv:new Uint8Array(i)},k,new Uint8Array(d));return new TextDecoder().decode(dec);}catch{return null;}}
 async function ghPut(path,content,token,accId,isMaster,accName){
-  if(!isMaster&&accId){const allowed=path==="data/manifest.json"||path.startsWith(`data/${accId}/`);if(!allowed)return false;}
+  if(!isMaster&&accId){if(!(path==="data/manifest.json"||path.startsWith("data/"+accId+"/")))return false;}
   const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
-  const api=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
-  const hd={"Authorization":`token ${token}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
-  let sha=null;try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok){sha=(await r.json()).sha;}}catch{}
-  const body={message:`[${accName||accId||"?"}] Update ${path}`,content:btoa(unescape(encodeURIComponent(content)))};
+  const api="https://api.github.com/repos/"+user+"/"+repo+"/contents/"+path;
+  const hd={"Authorization":"token "+token,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+  let sha=null;try{const r=await fetch(api+"?t="+Date.now(),{headers:{...hd,"If-None-Match":""},cache:"no-store"});if(r.ok)sha=(await r.json()).sha;}catch{}
+  const body={message:"["+(accName||accId||"?")+"] Update "+path,content:btoa(unescape(encodeURIComponent(content)))};
   if(sha)body.sha=sha;
   return(await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)})).ok;
 }
 
-/* ═══ CORE HELPERS ═══ */
-const G=window;
-function tById(id){return(G.TALENTS||[]).find(t=>t.id===id)}
-function sById(id){return(G.SPELLS||[]).find(s=>s.id===id)}
-function aById(id){return(G.AUGMENTS||[]).find(a=>a.id===id)}
-function catCap(c){return c.talenti.includes('cap_15')?15:c.talenti.includes('cap_12')?12:10}
-function hpMax(c){return c.corpo+c.mente+c.anima}
-function hpPct(c){const mx=hpMax(c);return mx>0?Math.max(0,c.hpCurrent/mx):0;}
-function woundTier(c){const mx=hpMax(c),lost=mx-c.hpCurrent,t=Math.floor(mx/3);if(c.hpCurrent<=0)return 3;if(lost>=t*2)return 2;if(lost>=t)return 1;return 0;}
-function wInfo(t){return(G.WOUND_TIERS||[])[Math.min(t,3)]||{nome:'?',penalita:0,desc:''};}
-function maxSlots(c){return Math.max(0,Math.max(c.mente,c.anima)-2)}
-function hasTalent(c,id){return c.talenti.includes(id)}
-function canUseCat(c,cat){const w=G.WCAT[cat];return!w.req||hasTalent(c,w.req)}
-function armorData(id){return(G.ARMORS||[])[id]||G.ARMORS[0]}
-function shieldData(id){return(G.SHIELDS||[]).find(s=>s.id===id)||G.SHIELDS[0]}
-function totalDefBonus(c){return armorData(c.armatura).bonus+shieldData(c.scudo).bonus}
-function totalPenMente(c){return armorData(c.armatura).penMente+shieldData(c.scudo).penMente}
-function totalPenAnima(c){return armorData(c.armatura).penAnima+shieldData(c.scudo).penAnima}
-function movement(c){return armorData(c.armatura).movimento}
-function compBonus(c){if(!c.competenza)return 0;const sv=c[c.competenza]||0;return Math.max(1,Math.floor(sv/2));}
-function initBonus(c){if(!c.competenza)return 0;return c[c.competenza]+compBonus(c)+(G.WCAT[c.armaCat]?.initMod||0);}
-function atkBonus(c){const stat=c.armaMagi?c.mente:c.corpo;const comp=(c.competenza===(c.armaMagi?'mente':'corpo'))?compBonus(c):0;return stat+(G.WCAT[c.armaCat]?.bonus||0)+comp;}
-function defCorpo(c){return c.corpo+totalDefBonus(c)}
-function displayName(f){return f.replace(/-(classic|core)\.json$/,"").replace(/\.json$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());}
+/* ═══════════════════════════════════════════
+   COSTANTI BILANCIAMENTO  (override core-data.js)
+   Armi:  Cat A+1  B+2  C+3  D+4  — illimitate
+   Magie: ct+0  L1+2(1pt)  L2+4(2pt)  L3+6(3pt)  L4+8(4pt)
+   Stat min: L1≥6  L2≥8  L3≥10  L4≥12
+   Cap creazione: max 7/stat al livello 1
+═══════════════════════════════════════════ */
+const WCAT_BONUS={A:1,B:2,C:3,D:4};
+const SPELL_BONUS={ct:0,1:2,2:4,3:6,4:8};
+const SPELL_COST={1:1,2:2,3:3,4:4};
+const SPELL_MINS={1:6,2:8,3:10,4:12};
+const MAX_TALENTI=4;
+const MAX_AUGMENTI=2;
+const CAP_CREAZIONE=7;
 
-/* ═══ CUSTOM COMPENDIO — localStorage ═══ */
-function getCustomItems(type){try{return JSON.parse(localStorage.getItem('core_custom_'+type)||'[]');}catch{return[];}}
+/* ═══ HELPERS ═══ */
+const G=window;
+function tById(id){return(G.TALENTS||[]).find(t=>t.id===id);}
+function talCap(c){return c.talenti.includes("cap_15")?15:c.talenti.includes("cap_12")?12:10;}
+function creationCap(c){return((c.level||1)<=1)?CAP_CREAZIONE:talCap(c);}
+function hpMax(c){return(c.corpo||0)+(c.mente||0)+(c.anima||0);}
+function hpPct(c){const mx=hpMax(c);return mx>0?Math.max(0,Math.min(1,(c.hpCurrent||0)/mx)):0;}
+function woundTier(c){
+  const mx=hpMax(c),lost=mx-(c.hpCurrent||0),t=Math.floor(mx/3);
+  if((c.hpCurrent||0)<=0)return 3;if(lost>=t*2)return 2;if(lost>=t)return 1;return 0;
+}
+function wInfo(t){return(G.WOUND_TIERS||[])[Math.min(t,3)]||{nome:"?",penalita:0,desc:""};}
+function maxSlots(c){return Math.max(0,Math.max(c.mente||0,c.anima||0)-2);}
+function hasTalent(c,id){return(c.talenti||[]).includes(id);}
+function intuizioneMagica(c){return(c.mente||0)>=10;}
+function armorData(c){return(G.ARMORS||[])[c.armatura||(c.armatura===0?0:0)]||(G.ARMORS||[])[0]||{bonus:0,penMente:0,penAnima:0,movimento:9};}
+function shieldData(c){return(G.SHIELDS||[]).find(s=>s.id===c.scudo)||(G.SHIELDS||[])[0]||{bonus:0,penMente:0,penAnima:0};}
+function totalDefBonus(c){return armorData(c).bonus+shieldData(c).bonus;}
+function totalPenMente(c){return armorData(c).penMente+shieldData(c).penMente;}
+function totalPenAnima(c){return armorData(c).penAnima+shieldData(c).penAnima;}
+function movement(c){return armorData(c).movimento||9;}
+function compBonus(c){if(!c.competenza)return 0;const sv=c[c.competenza]||0;return Math.max(1,Math.floor(sv/2));}
+function initBonus(c){if(!c.competenza)return 0;return(c[c.competenza]||0)+compBonus(c)+((G.WCAT||{})[c.armaCat]?.initMod||0);}
+function atkBonus(c){
+  const stat=c.armaMagi?(c.mente||0):(c.corpo||0);
+  const wB=WCAT_BONUS[c.armaCat]||((G.WCAT||{})[c.armaCat]?.bonus||0);
+  const comp=(c.competenza===(c.armaMagi?"mente":"corpo"))?compBonus(c):0;
+  return stat+wB+comp;
+}
+function defCorpo(c){return(c.corpo||0)+totalDefBonus(c);}
+function spellBonus(sp){return sp.tipo==="ct"?0:(SPELL_BONUS[sp.lvl]||0);}
+function spellCost(sp){return sp.tipo==="ct"?0:(SPELL_COST[sp.lvl]||1);}
+function spellMinStat(sp){return sp.tipo==="ct"?0:(SPELL_MINS[sp.lvl]||3);}
+function statPen(v){return v<=0?-2:v<=2?-1:0;}
+function condPenalty(c){return((c.conditions||[]).length>=3)?-2:0;}
+function canUseCat(c,cat){
+  if(cat==="A"||cat==="B")return true;
+  if(cat==="C")return(c.corpo||0)>=6||hasTalent(c,"armi_pesanti");
+  if(cat==="D")return(c.corpo||0)>=10&&hasTalent(c,"armi_letali");
+  return!((G.WCAT||{})[cat]?.req)||hasTalent(c,(G.WCAT||{})[cat]?.req);
+}
+function canLearnSpell(c,sp){
+  if(sp.tipo==="ct")return true;
+  const lvl=sp.lvl;
+  const statVal=(sp.stat==="ANIMA"?(c.anima||0):(c.mente||0));
+  if(statVal<(SPELL_MINS[lvl]||3))return false;
+  if(lvl<=2)return hasTalent(c,"gate_mb")||intuizioneMagica(c);
+  return hasTalent(c,"gate_ma");
+}
+function displayName(f){return f.replace(/-(classic|core)\.json$/,"").replace(/\.json$/,"").replace(/_/g," ").replace(/\b\w/g,x=>x.toUpperCase());}
+
+/* ═══ CUSTOM COMPENDIO localStorage ═══ */
+function getCustomItems(type){try{return JSON.parse(localStorage.getItem("core_custom_"+type)||"[]");}catch{return[];}}
 function pushCustomItem(type,item){
-  const arr=getCustomItems(type);
-  if(!arr.find(x=>x.id===item.id))arr.push(item);
-  localStorage.setItem('core_custom_'+type,JSON.stringify(arr));
-  const g=type==='talent'?G.TALENTS:type==='augment'?G.AUGMENTS:G.SPELLS;
+  const arr=getCustomItems(type);if(!arr.find(x=>x.id===item.id))arr.push(item);
+  localStorage.setItem("core_custom_"+type,JSON.stringify(arr));
+  const g=type==="talent"?G.TALENTS:type==="augment"?G.AUGMENTS:G.SPELLS;
   if(g&&!g.find(x=>x.id===item.id))g.push(item);
 }
-// Merge custom items into globals on startup
 ;(function initCustomItems(){
-  ['talent','augment','spell'].forEach(type=>{
+  ["talent","augment","spell"].forEach(type=>{
     getCustomItems(type).forEach(item=>{
-      const g=type==='talent'?G.TALENTS:type==='augment'?G.AUGMENTS:G.SPELLS;
+      const g=type==="talent"?G.TALENTS:type==="augment"?G.AUGMENTS:G.SPELLS;
       if(g&&!g.find(x=>x.id===item.id))g.push(item);
     });
   });
 })();
 
-/* ═══ NEW CHAR ═══ */
-function newCoreChar(n){return{id:uid(),name:n||"Nuovo PG",system:"core",corpo:4,mente:4,anima:4,hpCurrent:12,competenza:null,armaCat:"B",armaPerk:"b1",armaNome:"",armaDist:false,armaMagi:false,scudo:0,armatura:0,talenti:[],augmenti:[],magie:[],conditions:[],heroPoints:2,perkUses:{},slotUsati:0,notes:"",backstory:""};}
+function newCoreChar(n){return{
+  id:uid(),name:n||"Nuovo PG",system:"core",level:1,
+  corpo:4,mente:4,anima:4,hpCurrent:12,
+  competenza:null,armaCat:"B",armaPerk:"b1",armaNome:"",armaDist:false,armaMagi:false,
+  scudo:0,armatura:0,talenti:[],augmenti:[],magie:[],conditions:[],heroPoints:2,
+  perkUses:{},slotUsati:0,notes:"",backstory:""
+};}
 
-/* ═══ STYLES ═══ */
 const SS={
-  inp:{background:'var(--s3)',border:'1px solid var(--b1)',borderRadius:6,color:'var(--tx)',fontFamily:'Outfit',fontSize:13,padding:'6px 9px',outline:'none',boxSizing:'border-box'},
-  btn:{borderRadius:6,border:'1px solid var(--b2)',background:'none',color:'var(--tx2)',fontFamily:'Outfit',fontSize:12,fontWeight:500,padding:'6px 12px',cursor:'pointer'},
-  gold:{borderRadius:6,border:'1.5px solid rgba(232,160,48,0.4)',background:'rgba(232,160,48,0.1)',color:'var(--gold)',fontFamily:'Cinzel',fontWeight:700,fontSize:12,cursor:'pointer',letterSpacing:0.5,textAlign:'center'},
-  green:{borderRadius:6,border:'1.5px solid rgba(72,200,138,0.4)',background:'rgba(72,200,138,0.08)',color:'var(--green)',fontFamily:'Cinzel',fontWeight:700,fontSize:12,cursor:'pointer',textAlign:'center'},
-  red:{borderRadius:6,border:'1.5px solid rgba(224,80,80,0.3)',background:'rgba(224,80,80,0.08)',color:'var(--red)',fontFamily:'Cinzel',fontWeight:700,fontSize:12,cursor:'pointer',textAlign:'center'},
-  card:{background:'var(--s1)',border:'1px solid var(--b1)',borderRadius:10,padding:12,marginBottom:8},
-  po:{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.88)',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:999,padding:14},
-  pc:{background:'linear-gradient(180deg,var(--s1),var(--bg))',border:'1.5px solid rgba(232,160,48,0.3)',borderRadius:12,padding:'18px 16px',width:'100%',maxWidth:440,boxShadow:'0 12px 48px rgba(0,0,0,0.6)'},
+  inp:{background:"var(--s3)",border:"1px solid var(--b1)",borderRadius:6,color:"var(--tx)",fontFamily:"Outfit",fontSize:13,padding:"6px 9px",outline:"none",boxSizing:"border-box"},
+  btn:{borderRadius:6,border:"1px solid var(--b2)",background:"none",color:"var(--tx2)",fontFamily:"Outfit",fontSize:12,fontWeight:500,padding:"6px 12px",cursor:"pointer"},
+  gold:{borderRadius:6,border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:12,cursor:"pointer",letterSpacing:0.5,textAlign:"center"},
+  green:{borderRadius:6,border:"1.5px solid rgba(72,200,138,0.4)",background:"rgba(72,200,138,0.08)",color:"var(--green)",fontFamily:"Cinzel",fontWeight:700,fontSize:12,cursor:"pointer",textAlign:"center"},
+  card:{background:"var(--s1)",border:"1px solid var(--b1)",borderRadius:10,padding:12,marginBottom:8},
+  po:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.88)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},
+  pc:{background:"linear-gradient(180deg,var(--s1),var(--bg))",border:"1.5px solid rgba(232,160,48,0.3)",borderRadius:12,padding:"18px 16px",width:"100%",maxWidth:440,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"},
 };
-const TABS=[{id:"sheet",icon:"⚔️",label:"Scheda"},{id:"actions",icon:"🎭",label:"Azioni"},{id:"spells",icon:"📕",label:"Magie"},{id:"dice",icon:"🎲",label:"Dadi"},{id:"notes",icon:"📜",label:"Note"},{id:"save",icon:"💾",label:"Salva"}];
+const TABS=[
+  {id:"sheet",icon:"\u2694\ufe0f",label:"Scheda"},
+  {id:"actions",icon:"\ud83c\udfad",label:"Azioni"},
+  {id:"spells",icon:"\ud83d\udcd5",label:"Magie"},
+  {id:"dice",icon:"\ud83c\udfb2",label:"Dadi"},
+  {id:"notes",icon:"\ud83d\udcdc",label:"Note"},
+  {id:"save",icon:"\ud83d\udcbe",label:"Salva"}
+];
 
-/* ═══════════════════════════════════════════════════════
-   APP
-═══════════════════════════════════════════════════════ */
+/* ══════════════ APP ══════════════ */
 function App(){
-  const[screen,setScreen]=useState("init");
-  const[manifest,setManifest]=useState(null);
-  const[accId,setAccId]=useState(null);
-  const[ghToken,setGhToken]=useState(null);
-  const[char,setChar]=useState(null);
-  const[charMeta,setCharMeta]=useState(null);
-  const[loading,setLoading]=useState(true);
-  const[chars,setChars]=useState([]);
-  const[loadingChars,setLoadingChars]=useState(false);
-  const[toast,setToast]=useState(null);
-  const fileRef=useRef(null);
+  const[screen,setScreen]=useState("init");const[manifest,setManifest]=useState(null);
+  const[accId,setAccId]=useState(null);const[ghToken,setGhToken]=useState(null);
+  const[char,setChar]=useState(null);const[charMeta,setCharMeta]=useState(null);
+  const[loading,setLoading]=useState(true);const[chars,setChars]=useState([]);
+  const[loadingChars,setLoadingChars]=useState(false);const[toast,setToast]=useState(null);
 
-  const ENC_TOKEN='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
-  const decToken=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC_TOKEN,h);}catch{return null;}};
+  const ENC='{"i":[5,170,185,0,120,150,2,170,111,56,153,240],"d":[99,191,61,134,207,114,167,103,79,15,137,76,15,159,247,79,239,75,171,144,32,229,210,227,107,168,22,47,40,79,93,7,150,213,255,74,224,254,20,46,180,100,113,171,93,123,79,39,146,125,6,65,122,52,153,122,191,93,144,66,111,142,124,91,6,54,203,44,91,121,125,158,51,17,116,241,47,74,159,125,139,198,36,6,1,243,121,130,128,78,149,196,79,56,93,105,226,45,151,112,161,86,65,142,181,80,111,155,77]}';
+  const decTk=async()=>{try{const h=await H("ttrpg-tk-2026");return await aesDec(ENC,h);}catch{return null;}};
 
   useEffect(()=>{(async()=>{
     const m=await fetchJ(BASE()+"/data/manifest.json");setManifest(m);
-    try{
-      const auth=JSON.parse(sessionStorage.getItem("core_auth"));
-      if(auth&&auth.accId&&(Date.now()-auth.ts)<3600000){
-        setAccId(auth.accId);
-        const tk=await decToken();if(tk)setGhToken(tk);
-        setScreen("list");setLoading(false);return;
-      }
-    }catch{}
+    try{const a=JSON.parse(sessionStorage.getItem("core_auth"));if(a&&a.accId&&Date.now()-a.ts<3600000){setAccId(a.accId);const tk=await decTk();if(tk)setGhToken(tk);setScreen("list");setLoading(false);return;}}catch{}
     setScreen("login");setLoading(false);
   })();},[]);
 
@@ -147,68 +181,46 @@ function App(){
 
   const listChars=async(owner)=>{
     const u=new URL(BASE());const user=u.hostname.split(".")[0];const repo=u.pathname.replace(/^\/|\/$/g,"");
-    const hd=ghToken?{"Authorization":`token ${ghToken}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}:{"Accept":"application/vnd.github+json"};
-    try{
-      const r=await fetch(`https://api.github.com/repos/${user}/${repo}/contents/data/${owner}?t=`+Date.now(),{headers:hd,cache:"no-store"});
-      if(!r.ok)return[];const files=await r.json();if(!Array.isArray(files))return[];
-      return files.filter(f=>f.name.endsWith("-core.json")&&f.type==="file").map(f=>({file:f.name,name:displayName(f.name)}));
-    }catch{return[];}
+    const hd=ghToken?{"Authorization":"token "+ghToken,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}:{"Accept":"application/vnd.github+json"};
+    try{const r=await fetch("https://api.github.com/repos/"+user+"/"+repo+"/contents/data/"+owner+"?t="+Date.now(),{headers:hd,cache:"no-store"});if(!r.ok)return[];const f=await r.json();if(!Array.isArray(f))return[];return f.filter(f=>f.name.endsWith("-core.json")&&f.type==="file").map(f=>({file:f.name,name:displayName(f.name)}));}catch{return[];}
   };
-
   const loadAllChars=async()=>{
-    setLoadingChars(true);
-    const secs=[];
-    const own=await listChars(accId);
-    if(own.length)secs.push({label:"I Miei PG",owner:accId,chars:own,color:"var(--gold)"});
-    if(isMaster){for(const a of(manifest?.accounts?.filter(x=>x.id!==accId)||[])){const ch=await listChars(a.id);if(ch.length)secs.push({label:`PG di ${a.name}`,owner:a.id,chars:ch,color:a.color||"var(--blue)"});}}
+    setLoadingChars(true);const secs=[];
+    const own=await listChars(accId);if(own.length)secs.push({label:"I Miei PG",owner:accId,chars:own,color:"var(--gold)"});
+    if(isMaster)for(const a of(manifest?.accounts?.filter(x=>x.id!==accId)||[])){const ch=await listChars(a.id);if(ch.length)secs.push({label:"PG di "+a.name,owner:a.id,chars:ch,color:a.color||"var(--blue)"});}
     setChars(secs);setLoadingChars(false);
   };
-
   const loadChar=async(owner,file)=>{
-    setLoading(true);const raw=await fetchJ(`${BASE()}/data/${owner}/${file}`);setLoading(false);
+    setLoading(true);const raw=await fetchJ(BASE()+"/data/"+owner+"/"+file);setLoading(false);
     if(!raw)return null;const ch=raw.character||raw;
-    if(ch.corpo!==undefined)return ch;return null;
+    if(ch.corpo!==undefined){if(!ch.level)ch.level=1;if(!ch.perkUses)ch.perkUses={};if(ch.slotUsati===undefined)ch.slotUsati=0;return ch;}return null;
   };
-
-  const saveChar=async(owner,file,charObj)=>{
-    if(!ghToken)return false;
-    const payload={account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj};
-    return await ghPut(`data/${owner}/${file}`,JSON.stringify(payload,null,2),ghToken,accId,isMaster,acc?.name);
-  };
+  const saveChar=async(owner,file,charObj)=>{if(!ghToken)return false;return await ghPut("data/"+owner+"/"+file,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);};
   const saveNewChar=async(charObj)=>{
     if(!ghToken||!accId)return null;
     const fname=charObj.name.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")+"-core.json";
-    const ok=await ghPut(`data/${accId}/${fname}`,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);
-    if(!ok)return null;
-    setToast("PG Core creato!");setTimeout(()=>setToast(null),4000);
-    return{owner:accId,file:fname};
+    const ok=await ghPut("data/"+accId+"/"+fname,JSON.stringify({account:acc?.name,accountId:accId,exportedAt:new Date().toISOString(),character:charObj},null,2),ghToken,accId,isMaster,acc?.name);
+    if(!ok)return null;setToast("PG Core creato!");setTimeout(()=>setToast(null),4000);return{owner:accId,file:fname};
   };
-
   useEffect(()=>{if(screen==="list"&&accId&&ghToken)loadAllChars();},[screen,accId,ghToken]);
 
-  return(
-    <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"var(--bg)"}}>
-      {loading&&<Loader/>}
-      {!loading&&screen==="login"&&<LoginScreen manifest={manifest} onAuth={async(id)=>{setAccId(id);const tk=await decToken();if(tk)setGhToken(tk);setScreen("list");}}/>}
-      {!loading&&screen==="list"&&<CharList acc={acc} isMaster={isMaster} chars={chars} loadingChars={loadingChars}
-        onBack={()=>{window.location.href=BASE()+"/";}}
-        onNew={()=>{setChar(newCoreChar(""));setCharMeta(null);setScreen("sheet");}}
-        onLoad={async(owner,file)=>{const c=await loadChar(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");}}
-        onManual={()=>setScreen("manual")}
-        onCompendium={()=>setScreen("compendium")}
-        onHomebrew={()=>setScreen("homebrew")}/>}
-      {!loading&&screen==="manual"&&<ManualPage onBack={()=>setScreen("list")}/>}
-      {!loading&&screen==="compendium"&&<CompendiumPage onBack={()=>setScreen("list")}/>}
-      {!loading&&screen==="homebrew"&&<HomebrewGuide onBack={()=>setScreen("list")}/>}
-      {!loading&&screen==="sheet"&&char&&<CoreSheet c={char} up={up} acc={acc} charMeta={charMeta} ghToken={ghToken} isMaster={isMaster} accId={accId} saveChar={saveChar} saveNewChar={saveNewChar} setCharMeta={setCharMeta} onBack={()=>{setChar(null);setCharMeta(null);setScreen("list");}}/>}
-      {toast&&<div style={{position:"fixed",bottom:30,left:"50%",transform:"translateX(-50%)",zIndex:100,padding:"10px 20px",borderRadius:8,background:"var(--s1)",border:"1.5px solid rgba(72,200,138,0.4)",color:"var(--green)",fontFamily:"Cinzel",fontSize:12,fontWeight:700,boxShadow:"0 6px 24px rgba(0,0,0,0.5)"}}>✅ {toast}</div>}
-    </div>
-  );
+  return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"var(--bg)"}}>
+    {loading&&<Loader/>}
+    {!loading&&screen==="login"&&<LoginScreen manifest={manifest} onAuth={async(id)=>{setAccId(id);const tk=await decTk();if(tk)setGhToken(tk);setScreen("list");}}/>}
+    {!loading&&screen==="list"&&<CharList acc={acc} isMaster={isMaster} chars={chars} loadingChars={loadingChars}
+      onBack={()=>{window.location.href=BASE()+"/";}} onNew={()=>{setChar(newCoreChar(""));setCharMeta(null);setScreen("sheet");}}
+      onLoad={async(owner,file)=>{const c=await loadChar(owner,file);if(c){setChar(c);setCharMeta({owner,file});setScreen("sheet");}else alert("Errore caricamento.");}}
+      onManual={()=>setScreen("manual")} onCompendium={()=>setScreen("compendium")} onHomebrew={()=>setScreen("homebrew")}/>}
+    {!loading&&screen==="manual"&&<ManualPage onBack={()=>setScreen("list")}/>}
+    {!loading&&screen==="compendium"&&<CompendiumPage onBack={()=>setScreen("list")}/>}
+    {!loading&&screen==="homebrew"&&<HomebrewGuide onBack={()=>setScreen("list")}/>}
+    {!loading&&screen==="sheet"&&char&&<CoreSheet c={char} up={up} acc={acc} charMeta={charMeta} ghToken={ghToken} isMaster={isMaster} accId={accId} saveChar={saveChar} saveNewChar={saveNewChar} setCharMeta={setCharMeta} onBack={()=>{setChar(null);setCharMeta(null);setScreen("list");}}/>}
+    {toast&&<div style={{position:"fixed",bottom:30,left:"50%",transform:"translateX(-50%)",zIndex:100,padding:"10px 20px",borderRadius:8,background:"var(--s1)",border:"1.5px solid rgba(72,200,138,0.4)",color:"var(--green)",fontFamily:"Cinzel",fontSize:12,fontWeight:700}}>{toast}</div>}
+  </div>;
 }
 
 function Loader(){return<div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"var(--app-h)"}}><div style={{textAlign:"center"}}><div style={{width:40,height:40,border:"3px solid var(--b1)",borderTop:"3px solid var(--gold)",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 16px"}}/><p style={{color:"var(--gold)",fontFamily:"Cinzel",fontSize:14}}>Caricamento...</p></div></div>;}
 
-/* ═══ LOGIN ═══ */
 function LoginScreen({manifest,onAuth}){
   const[user,setUser]=useState("");const[pw,setPw]=useState("");const[err,setErr]=useState("");const[show,setShow]=useState(false);
   const accs=manifest?.accounts||[];
@@ -219,810 +231,657 @@ function LoginScreen({manifest,onAuth}){
     const hashed=await H(pw+"$ttrpg-op-2026$");const dh=await H(hashed);
     if(dh===found.ix)onAuth(found.id);else setErr("Password errata");
   };
-  return<div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"var(--app-h)",padding:"0 20px"}}><div style={{textAlign:"center",maxWidth:340,width:"100%"}}>
-    <h1 style={{fontFamily:"Cinzel",fontSize:28,fontWeight:900,color:"var(--gold)",marginBottom:4,letterSpacing:3}}>C.O.R.E.</h1>
-    <p style={{color:"var(--tx3)",fontSize:11,fontFamily:"JetBrains Mono",marginBottom:30}}>Compact Open Rules Engine</p>
-    <input value={user} onChange={e=>setUser(e.target.value)} placeholder="Nome utente..." onKeyDown={e=>e.key==="Enter"&&check()} style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px",marginBottom:10}}/>
-    <div style={{position:"relative",marginBottom:16}}>
-      <input type={show?"text":"password"} value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px 44px 12px 12px"}}/>
-      <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"var(--tx3)",fontSize:16,cursor:"pointer"}}>{show?"🙈":"👁"}</button>
-    </div>
-    {err&&<p style={{color:"var(--red)",fontSize:12,marginBottom:12}}>{err}</p>}
-    <button onClick={check} style={{...SS.gold,width:"100%",padding:"12px 0",fontSize:15}}>Entra</button>
-    <button onClick={()=>window.location.href=BASE()+"/"} style={{marginTop:16,background:"none",border:"none",color:"var(--tx3)",fontSize:11,cursor:"pointer",fontFamily:"Outfit"}}>← Torna a Classic</button>
-  </div></div>;
-}
-
-/* ═══ CHAR LIST ═══ */
-function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad,onManual,onCompendium,onHomebrew}){
-  if(loadingChars)return<div style={{display:"flex",flexDirection:"column",height:"var(--app-h)"}}>
-    <div style={{padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
-      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>←</button>
-      <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)",flex:1}}>{acc?.name}</h2>
-      <span style={{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono"}}>C.O.R.E.</span>
-    </div>
-    <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center"}}>
-      <div style={{textAlign:"center"}}><div style={{width:36,height:36,border:"3px solid var(--b1)",borderTop:"3px solid var(--gold)",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 14px"}}/><p style={{color:"var(--gold)",fontFamily:"Cinzel",fontSize:12}}>Caricamento PG...</p></div>
+  return<div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"var(--app-h)",padding:"0 20px"}}>
+    <div style={{textAlign:"center",maxWidth:340,width:"100%"}}>
+      <h1 style={{fontFamily:"Cinzel",fontSize:28,fontWeight:900,color:"var(--gold)",marginBottom:4,letterSpacing:3}}>C.O.R.E.</h1>
+      <p style={{color:"var(--tx3)",fontSize:11,fontFamily:"JetBrains Mono",marginBottom:30}}>Compact Open Rules Engine</p>
+      <input value={user} onChange={e=>setUser(e.target.value)} placeholder="Nome utente..." onKeyDown={e=>e.key==="Enter"&&check()} style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px",marginBottom:10}}/>
+      <div style={{position:"relative",marginBottom:16}}>
+        <input type={show?"text":"password"} value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px 44px 12px 12px"}}/>
+        <button onClick={()=>setShow(!show)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"var(--tx3)",fontSize:16,cursor:"pointer"}}>{show?"\ud83d\ude48":"\ud83d\udc41"}</button>
+      </div>
+      {err&&<p style={{color:"var(--red)",fontSize:12,marginBottom:12}}>{err}</p>}
+      <button onClick={check} style={{...SS.gold,width:"100%",padding:"12px 0",fontSize:15}}>Entra</button>
+      <button onClick={()=>window.location.href=BASE()+"/"} style={{marginTop:16,background:"none",border:"none",color:"var(--tx3)",fontSize:11,cursor:"pointer",fontFamily:"Outfit"}}>{"\u2190"} Torna a Classic</button>
     </div>
   </div>;
+}
 
+function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad,onManual,onCompendium,onHomebrew}){
+  const hdr=<div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
+    <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
+    <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)",flex:1}}>{acc?.name}</h2>
+    {isMaster&&<span style={{fontSize:9,color:"var(--gold)",opacity:0.6,fontFamily:"Cinzel"}}>Master</span>}
+    <span style={{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono",background:"var(--gbg)",padding:"3px 8px",borderRadius:4}}>C.O.R.E.</span>
+    <button onClick={()=>window.open(BASE()+"/CoreSystem/core-initiative.html","_blank")} style={{width:32,height:32,borderRadius:"50%",border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>{"\u2694\ufe0f"}</button>
+  </div>;
+  if(loadingChars)return<div style={{display:"flex",flexDirection:"column",height:"var(--app-h)"}}>{hdr}<div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{textAlign:"center"}}><div style={{width:36,height:36,border:"3px solid var(--b1)",borderTop:"3px solid var(--gold)",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 14px"}}/><p style={{color:"var(--gold)",fontFamily:"Cinzel",fontSize:12}}>Caricamento PG...</p></div></div></div>;
   return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}}>
-    <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
-      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>←</button>
-      <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)",flex:1}}>{acc?.name}</h2>
-      {isMaster&&<span style={{fontSize:9,color:"var(--gold)",opacity:0.6,fontFamily:"Cinzel"}}>👑 Master</span>}
-      <span style={{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono",background:"var(--gbg)",padding:"3px 8px",borderRadius:4}}>C.O.R.E.</span>
-      <button onClick={()=>window.open(BASE()+"/CoreSystem/core-initiative.html","_blank")} style={{width:32,height:32,borderRadius:"50%",border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>⚔️</button>
-    </div>
+    {hdr}
     <div style={{flex:1,overflowY:"auto",padding:18,paddingBottom:100}}>
       {chars.map((sec,si)=><div key={si} style={{marginBottom:20}}>
-        <div style={{borderLeft:`3px solid ${sec.color}`,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
+        <div style={{borderLeft:"3px solid "+sec.color,paddingLeft:8,marginBottom:8}}><span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:11,color:sec.color,letterSpacing:1}}>{sec.label.toUpperCase()}</span></div>
         <div style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:8}}>
           {sec.chars.map((gc,i)=><button key={i} onClick={()=>onLoad(sec.owner,gc.file)} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:10,border:"1px solid var(--b1)",background:"var(--s1)",cursor:"pointer",textAlign:"left",width:"100%"}}>
             <div style={{width:36,height:36,borderRadius:8,background:"var(--gbg)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"Cinzel",fontWeight:900,fontSize:16,color:"var(--gold)",flexShrink:0}}>{gc.name?gc.name[0]:"?"}</div>
-            <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:14,color:"var(--tx)"}}>{gc.name}</span>
-            <span style={{marginLeft:"auto",color:"var(--tx3)",fontSize:14}}>→</span>
+            <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:14,color:"var(--tx)",flex:1}}>{gc.name}</span>
+            <span style={{color:"var(--tx3)",fontSize:14}}>{"\u2192"}</span>
           </button>)}
         </div>
       </div>)}
       {chars.length===0&&<p style={{textAlign:"center",color:"var(--tx3)",fontStyle:"italic",padding:"20px 0"}}>Nessun PG Core trovato.</p>}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:16}}>
-        <button onClick={onNew} style={{...SS.gold,padding:"14px 0",fontSize:13}}>✨ Nuovo PG</button>
-        <button onClick={onManual} style={{...SS.btn,padding:"14px 0",fontSize:13,borderColor:"rgba(232,160,48,0.3)",color:"var(--gold)"}}>📖 Manuale</button>
+        <button onClick={onNew} style={{...SS.gold,padding:"14px 0",fontSize:13}}>{"\u2728"} Nuovo PG</button>
+        <button onClick={onManual} style={{...SS.btn,padding:"14px 0",fontSize:13,borderColor:"rgba(232,160,48,0.3)",color:"var(--gold)"}}>{"\ud83d\udcd6"} Manuale</button>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:8}}>
-        <button onClick={onCompendium} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(160,112,232,0.3)",color:"var(--purple)"}}>📚 Compendio</button>
-        <button onClick={onHomebrew} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(64,200,200,0.3)",color:"var(--cyan)"}}>🔧 Homebrew</button>
+        <button onClick={onCompendium} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(160,112,232,0.3)",color:"var(--purple)"}}>{"\ud83d\udcda"} Compendio</button>
+        <button onClick={onHomebrew} style={{...SS.btn,padding:"12px 0",fontSize:12,borderColor:"rgba(64,200,200,0.3)",color:"var(--cyan)"}}>{"\ud83d\udd27"} Homebrew</button>
       </div>
     </div>
   </div>;
 }
 
-/* ═══════════════════════════════════════════════════════
-   CORE SHEET
-═══════════════════════════════════════════════════════ */
+/* ══════════════ CORE SHEET ══════════════ */
 function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewChar,setCharMeta,onBack}){
-  const[tab,setTab]=useState("sheet");
-  const[saving,setSaving]=useState(false);
-  const[detail,setDetail]=useState(null);
-
+  const[tab,setTab]=useState("sheet");const[saving,setSaving]=useState(false);
   const mx=hpMax(c),pct=hpPct(c),tier=woundTier(c),wi=wInfo(tier);
   const hc=pct>0.6?"var(--green)":pct>0.3?"var(--gold)":"var(--red)";
+  const tierColor=[null,"var(--gold)","var(--red)","#c03030"][tier]||null;
+  const cond=condPenalty(c);
+  const slots=maxSlots(c);const slotsLeft=Math.max(0,slots-(c.slotUsati||0));
 
   const doSave=async()=>{
-    if(!ghToken)return;setSaving(true);
-    let ok;
-    if(charMeta){ok=await saveChar(charMeta.owner,charMeta.file,c);}
+    if(!ghToken)return;setSaving(true);let ok;
+    if(charMeta)ok=await saveChar(charMeta.owner,charMeta.file,c);
     else{const res=await saveNewChar(c);ok=!!res;if(res)setCharMeta(res);}
-    setSaving(false);
-    if(ok)setTimeout(()=>setTab("sheet"),1500);
+    setSaving(false);if(ok)setTimeout(()=>setTab("sheet"),1500);
   };
   useEffect(()=>{if(tab==="save"&&!saving)doSave();},[tab]);
-
   const NAV=56;
 
-  // wound tier meta
-  const tierColor=[null,"var(--gold)","var(--red)","#c03030"][tier]||null;
-  const tierLabel=tier===0?"":`${wi.nome.toUpperCase()} ${wi.penalita?`— ${wi.desc}`:"— non agisce, 3 round"}`;
-
-  return(
-    <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"var(--bg)"}}>
-      {/* HEADER */}
-      <div style={{flexShrink:0,padding:"10px 16px",borderBottom:"1px solid var(--b1)",background:"var(--s1)"}}>
-        {/* NAME + BACK */}
-        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
-          <button onClick={()=>{if(confirm("Hai salvato?"))onBack();}} style={{...SS.btn,padding:"4px 8px",fontSize:12}}>←</button>
-          <input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,flex:1,fontFamily:"Cinzel",fontSize:17,fontWeight:700,color:"var(--gold)",background:"transparent",border:"none",padding:"2px 4px"}}/>
-          <span style={{fontSize:9,fontFamily:"JetBrains Mono",color:"var(--gold)",background:"var(--gbg)",padding:"2px 6px",borderRadius:4}}>CORE</span>
+  return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden",background:"var(--bg)"}}>
+    <div style={{flexShrink:0,padding:"10px 16px",borderBottom:"1px solid var(--b1)",background:"var(--s1)"}}>
+      {/* Nome + livello */}
+      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+        <button onClick={()=>{if(confirm("Hai salvato?"))onBack();}} style={{...SS.btn,padding:"4px 8px",fontSize:12}}>{"\u2190"}</button>
+        <input value={c.name} onChange={e=>up({name:e.target.value})} style={{...SS.inp,flex:1,fontFamily:"Cinzel",fontSize:17,fontWeight:700,color:"var(--gold)",background:"transparent",border:"none",padding:"2px 4px"}}/>
+        <div style={{display:"flex",alignItems:"center",gap:3}}>
+          <span style={{fontSize:9,color:"var(--tx3)"}}>Lv</span>
+          <input type="number" value={c.level||1} onChange={e=>up({level:Math.max(1,Math.min(15,parseInt(e.target.value)||1))})} style={{...SS.inp,width:36,textAlign:"center",fontSize:13,fontWeight:700,color:"var(--gold)",padding:"3px"}} min="1" max="15"/>
         </div>
-        {/* STATS + HP */}
-        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr) 2fr",gap:6,marginBottom:6}}>
-          {[["CORPO","corpo"],["MENTE","mente"],["ANIMA","anima"]].map(([l,k])=>(
-            <div key={k} style={{textAlign:"center",background:"var(--s3)",borderRadius:6,padding:"4px",border:"1px solid var(--b1)"}}>
-              <div style={{fontSize:9,fontWeight:600,letterSpacing:1,color:"var(--tx3)",textTransform:"uppercase"}}>{l}</div>
-              <input type="number" value={c[k]} onChange={e=>{const v=Math.max(1,Math.min(catCap(c),parseInt(e.target.value)||1));up({[k]:v,hpCurrent:Math.min(c.hpCurrent,c.corpo+c.mente+c.anima+(v-c[k])),});}} style={{width:44,background:"none",border:"none",color:"var(--tx)",fontFamily:"JetBrains Mono",fontSize:22,fontWeight:500,textAlign:"center",outline:"none"}}/>
-            </div>
-          ))}
-          {/* HP PANEL */}
-          <div style={{background:"var(--s3)",borderRadius:6,padding:"4px 8px",border:`1px solid ${tier>0?tierColor+"44":"var(--b1)"}`,transition:"border-color 0.3s"}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <span style={{fontSize:9,fontWeight:600,color:"var(--tx3)"}}>HP {c.hpCurrent}/{mx}</span>
-              <span style={{fontSize:10,fontFamily:"JetBrains Mono",fontWeight:700,color:hc}}>{wi.nome}</span>
-            </div>
-            <div style={{height:6,background:"var(--bg)",borderRadius:3,overflow:"hidden",margin:"4px 0"}}>
-              <div style={{height:"100%",borderRadius:3,width:`${pct*100}%`,background:hc,transition:"width 0.3s"}}/>
-            </div>
-            {/* Wound tier description */}
-            {tier>0&&<div style={{fontSize:9,color:tierColor,fontFamily:"Cinzel",fontWeight:700,textAlign:"center",letterSpacing:0.5,marginBottom:3,animation:tier===3?"pulse 1.5s infinite":undefined}}>{tierLabel}</div>}
-            <div style={{display:"flex",gap:3}}>
-              {[-5,-1,1,5].map(n=><button key={n} onClick={()=>up({hpCurrent:Math.max(0,Math.min(mx,c.hpCurrent+n))})} style={{flex:1,padding:"2px 0",borderRadius:4,border:`1px solid ${n>0?"rgba(72,200,138,0.3)":"rgba(224,80,80,0.3)"}`,background:n>0?"rgba(72,200,138,0.08)":"rgba(224,80,80,0.08)",color:n>0?"var(--green)":"var(--red)",fontSize:11,fontFamily:"JetBrains Mono",fontWeight:600,cursor:"pointer"}}>{n>0?`+${n}`:n}</button>)}
-            </div>
+        <span style={{fontSize:9,fontFamily:"JetBrains Mono",color:"var(--gold)",background:"var(--gbg)",padding:"2px 6px",borderRadius:4}}>CORE</span>
+      </div>
+      {/* Stat + HP */}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr) 2fr",gap:6,marginBottom:6}}>
+        {[["CORPO","corpo"],["MENTE","mente"],["ANIMA","anima"]].map(([l,k])=>{
+          const val=c[k]||0;const cap=creationCap(c);const pen=statPen(val);
+          return<div key={k} style={{textAlign:"center",background:"var(--s3)",borderRadius:6,padding:"4px",border:"1px solid "+(pen<0?"rgba(224,80,80,0.5)":"var(--b1)"),transition:"border-color 0.2s"}}>
+            <div style={{fontSize:9,fontWeight:600,letterSpacing:1,color:"var(--tx3)",textTransform:"uppercase"}}>{l}</div>
+            <input type="number" value={val} onChange={e=>{const nv=Math.max(1,Math.min(cap,parseInt(e.target.value)||1));up({[k]:nv,hpCurrent:Math.min(c.hpCurrent,hpMax(c)+(nv-val))});}} style={{width:44,background:"none",border:"none",color:pen<0?"var(--red)":"var(--tx)",fontFamily:"JetBrains Mono",fontSize:22,fontWeight:500,textAlign:"center",outline:"none"}} min="1" max={cap}/>
+            {pen<0&&<div style={{fontSize:8,color:"var(--red)",fontFamily:"JetBrains Mono",lineHeight:1}}>{pen}</div>}
+          </div>;
+        })}
+        {/* HP panel */}
+        <div style={{background:"var(--s3)",borderRadius:6,padding:"4px 8px",border:"1px solid "+(tier>0?tierColor+"44":"var(--b1)"),transition:"border-color 0.3s"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <span style={{fontSize:9,fontWeight:600,color:"var(--tx3)"}}>HP {c.hpCurrent}/{mx}</span>
+            <span style={{fontSize:10,fontFamily:"JetBrains Mono",fontWeight:700,color:hc}}>{wi.nome}</span>
+          </div>
+          <div style={{height:6,background:"var(--bg)",borderRadius:3,overflow:"hidden",margin:"4px 0"}}>
+            <div style={{height:"100%",borderRadius:3,width:(pct*100)+"%",background:hc,transition:"width 0.3s"}}/>
+          </div>
+          {tier>0&&<div style={{fontSize:9,color:tierColor,fontFamily:"Cinzel",fontWeight:700,textAlign:"center",letterSpacing:0.5,marginBottom:3,animation:tier===3?"pulse 1.5s infinite":undefined}}>{wi.nome.toUpperCase()}{wi.penalita?" — "+wi.desc:" — non agisce, 3 round"}</div>}
+          <div style={{display:"flex",gap:3}}>
+            {[-5,-1,1,5].map(n=><button key={n} onClick={()=>up({hpCurrent:Math.max(0,Math.min(mx,(c.hpCurrent||0)+n))})} style={{flex:1,padding:"2px 0",borderRadius:4,border:"1px solid "+(n>0?"rgba(72,200,138,0.3)":"rgba(224,80,80,0.3)"),background:n>0?"rgba(72,200,138,0.08)":"rgba(224,80,80,0.08)",color:n>0?"var(--green)":"var(--red)",fontSize:11,fontFamily:"JetBrains Mono",fontWeight:600,cursor:"pointer"}}>{n>0?"+"+n:n}</button>)}
           </div>
         </div>
-        {/* QUICK STATS */}
-        <div style={{display:"flex",gap:4,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)",alignItems:"center",flexWrap:"wrap"}}>
-          <span>ATK +{atkBonus(c)}</span>
-          <span>DEF {defCorpo(c)}</span>
-          {c.competenza&&<span style={{color:"var(--cyan)"}}>COMP +{compBonus(c)}</span>}
-          <span>INIT +{initBonus(c)}</span>
-          <span>MOV {movement(c)}m</span>
-          <span>SLOT {Math.max(0,maxSlots(c)-(c.slotUsati||0))}/{maxSlots(c)}</span>
-          {/* Hero Points */}
-          <span style={{marginLeft:"auto",display:"flex",gap:3,alignItems:"center"}}>
-            {Array.from({length:3}).map((_,i)=><span key={i} onClick={()=>{const hp=c.heroPoints||0;if(i<hp)up({heroPoints:hp-1});else if(i===hp&&hp<3)up({heroPoints:hp+1});}} style={{fontSize:16,cursor:"pointer",opacity:i<(c.heroPoints||0)?1:0.2}}>⭐</span>)}
-            <span style={{fontSize:9,color:"var(--gold)",marginLeft:2}}>PE</span>
-          </span>
-        </div>
       </div>
-
-      {/* CONTENT — padding bottom generoso per non nascondere nulla sotto le tab */}
-      <div style={{flex:1,overflowY:"auto",padding:14,paddingBottom:`calc(${NAV+80}px + var(--safe-bottom))`}}>
-        {tab==="sheet"&&<SheetTab c={c} up={up}/>}
-        {tab==="actions"&&<ActionsTab c={c} up={up} isMaster={isMaster}/>}
-        {tab==="spells"&&<SpellsTab c={c} up={up} isMaster={isMaster}/>}
-        {tab==="dice"&&<DiceTab c={c} up={up}/>}
-        {tab==="notes"&&<NotesTab c={c} up={up}/>}
-        {tab==="save"&&<div style={{textAlign:"center",padding:40,color:"var(--tx3)"}}>{saving?"⏳ Salvataggio...":"✓ Salvato"}</div>}
+      {/* Quick stats row */}
+      <div style={{display:"flex",gap:4,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)",alignItems:"center",flexWrap:"wrap"}}>
+        <span>ATK +{atkBonus(c)+cond}</span>
+        <span>DEF {defCorpo(c)}</span>
+        {c.competenza&&<span style={{color:"var(--cyan)"}}>COMP +{compBonus(c)}</span>}
+        <span>INIT +{initBonus(c)+cond}</span>
+        <span>MOV {movement(c)}m</span>
+        <span style={{color:slotsLeft===0&&slots>0?"var(--red)":slots>0?"var(--purple)":"var(--tx3)"}}>SLOT {slotsLeft}/{slots}pt</span>
+        {cond!==0&&<span style={{color:"var(--red)",fontWeight:700}}>{"\u26a0"}{cond} cond</span>}
+        <span style={{marginLeft:"auto",display:"flex",gap:3,alignItems:"center"}}>
+          {Array.from({length:3}).map((_,i)=><span key={i} onClick={()=>{const hp=c.heroPoints||0;if(i<hp)up({heroPoints:hp-1});else if(i===hp&&hp<3)up({heroPoints:hp+1});}} style={{fontSize:16,cursor:"pointer",opacity:i<(c.heroPoints||0)?1:0.2}}>{"\u2b50"}</span>)}
+          <span style={{fontSize:9,color:"var(--gold)",marginLeft:2}}>PE</span>
+        </span>
       </div>
-
-      {/* NAV */}
-      <nav style={{position:"fixed",bottom:0,left:0,right:0,display:"flex",background:"rgba(12,12,16,0.98)",borderTop:"1px solid var(--b1)",zIndex:60,paddingBottom:"var(--safe-bottom)"}}>
-        {TABS.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"8px 0 6px",background:"transparent",border:"none",borderTop:tab===t.id?"2px solid var(--gold)":"2px solid transparent",color:tab===t.id?"var(--gold)":"var(--tx3)",fontFamily:"Outfit",minHeight:NAV,cursor:"pointer"}}>
-          <span style={{fontSize:18}}>{t.icon}</span>
-          <span style={{fontSize:8,marginTop:3,fontWeight:tab===t.id?600:400}}>{t.label}</span>
-        </button>)}
-      </nav>
-
-      {detail&&<InfoModal item={detail.item} type={detail.type} onClose={()=>setDetail(null)}/>}
+      {(c.level||1)<=1&&<div style={{fontSize:9,color:"var(--tx3)",textAlign:"center",marginTop:3,fontFamily:"JetBrains Mono"}}>Creazione Lv1: max {CAP_CREAZIONE}/stat · 12 punti totali</div>}
     </div>
-  );
+
+    <div style={{flex:1,overflowY:"auto",padding:14,paddingBottom:"calc("+(NAV+80)+"px + var(--safe-bottom))"}}>
+      {tab==="sheet"&&<SheetTab c={c} up={up}/>}
+      {tab==="actions"&&<ActionsTab c={c} up={up} isMaster={isMaster}/>}
+      {tab==="spells"&&<SpellsTab c={c} up={up} isMaster={isMaster}/>}
+      {tab==="dice"&&<DiceTab c={c} up={up}/>}
+      {tab==="notes"&&<NotesTab c={c} up={up}/>}
+      {tab==="save"&&<div style={{textAlign:"center",padding:40,color:"var(--tx3)"}}>{saving?"\u23f3 Salvataggio...":"\u2713 Salvato"}</div>}
+    </div>
+
+    <nav style={{position:"fixed",bottom:0,left:0,right:0,display:"flex",background:"rgba(12,12,16,0.98)",borderTop:"1px solid var(--b1)",zIndex:60,paddingBottom:"var(--safe-bottom)"}}>
+      {TABS.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"8px 0 6px",background:"transparent",border:"none",borderTop:tab===t.id?"2px solid var(--gold)":"2px solid transparent",color:tab===t.id?"var(--gold)":"var(--tx3)",fontFamily:"Outfit",minHeight:NAV,cursor:"pointer"}}>
+        <span style={{fontSize:18}}>{t.icon}</span>
+        <span style={{fontSize:8,marginTop:3,fontWeight:tab===t.id?600:400}}>{t.label}</span>
+      </button>)}
+    </nav>
+  </div>;
 }
+
+/* ═══ ATOMS ═══ */
+function Sec({children,style:extra}){return<h3 style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:"var(--gold)",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px",...extra}}>{children}</h3>;}
+function Pill({on,dim,color,onClick,title,children}){const c=color||"var(--gold)";return<span onClick={dim?null:onClick} title={title} style={{fontSize:11,padding:"4px 10px",borderRadius:20,cursor:dim?"default":"pointer",border:"1px solid "+(on?c:"var(--b1)"),background:on?c+"18":"var(--s3)",color:on?c:"var(--tx2)",opacity:dim?0.22:1,transition:"all 0.15s",userSelect:"none"}}>{children}</span>;}
+function CoreField({label,children}){return<div style={{marginBottom:8}}><label style={{display:"block",fontSize:9,fontWeight:600,color:"var(--tx3)",letterSpacing:1,textTransform:"uppercase",marginBottom:3,fontFamily:"Cinzel"}}>{label}</label>{children}</div>;}
 
 /* ═══ SHEET TAB ═══ */
 function SheetTab({c,up}){
-  const perks=G.WPERKS[c.armaCat]||[];
-  const activePerk=perks.find(p=>p.id===c.armaPerk);
-  return(
-    <div style={{animation:"fadeIn 0.15s ease"}}>
-      <Sec>Competenza</Sec>
-      <div style={{display:"flex",gap:4,marginBottom:6,flexWrap:"wrap",alignItems:"center"}}>
-        <Pill on={!c.competenza} onClick={()=>up({competenza:null})}>Nessuna</Pill>
-        {["corpo","mente","anima"].map(s=><Pill key={s} on={c.competenza===s} onClick={()=>up({competenza:s})}>{s.toUpperCase()} +{c.competenza===s?compBonus(c):Math.max(1,Math.floor((c[s]||0)/2))}</Pill>)}
-      </div>
-      {c.competenza&&<div style={{fontSize:11,color:"var(--tx2)",padding:"6px 10px",background:"var(--s3)",borderRadius:6,marginBottom:12,border:"1px solid var(--b1)",fontFamily:"JetBrains Mono"}}>
-        {c.competenza.toUpperCase()} {c[c.competenza]} → Bonus +{compBonus(c)} (tutti i tiri con {c.competenza.toUpperCase()})
-      </div>}
-      <Sec>Arma</Sec>
-      <div style={{display:"flex",gap:6,marginBottom:8,flexWrap:"wrap",alignItems:"center"}}>
-        <input value={c.armaNome} onChange={e=>up({armaNome:e.target.value})} placeholder="Nome arma..." style={{...SS.inp,flex:1,minWidth:120}}/>
-        <select value={c.armaCat} onChange={e=>{const v=e.target.value;up({armaCat:v,armaPerk:(G.WPERKS[v]||[])[0]?.id||null});}} style={{...SS.inp,width:140}}>
-          {Object.entries(G.WCAT).map(([k,v])=><option key={k} value={k} disabled={!canUseCat(c,k)}>{`Cat ${k} — ${v.nome} +${v.bonus}`}</option>)}
-        </select>
-      </div>
-      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:6}}>
-        {perks.map(p=><Pill key={p.id} on={c.armaPerk===p.id} onClick={()=>up({armaPerk:p.id})} title={p.desc}>{p.nome}</Pill>)}
-      </div>
-      {activePerk&&<div style={{fontSize:11,color:"var(--tx2)",padding:"6px 8px",background:"var(--s3)",borderRadius:6,marginBottom:8,border:"1px solid var(--b1)"}}><em style={{color:"var(--green)"}}>{activePerk.nome}</em> — {activePerk.desc}</div>}
-      <div style={{display:"flex",gap:6,marginBottom:12}}>
-        <Pill on={c.armaDist} onClick={()=>up({armaDist:!c.armaDist})}>A distanza</Pill>
-        <Pill on={c.armaMagi} onClick={()=>up({armaMagi:!c.armaMagi})}>Magica (MENTE)</Pill>
-      </div>
-      <Sec>Armatura</Sec>
-      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:12}}>
-        {G.ARMORS.map(a=><Pill key={a.id} on={c.armatura===a.id} onClick={()=>{if(a.req&&c.corpo<a.req){alert(`Richiede CORPO ${a.req}+`);return;}up({armatura:a.id});}} title={a.note}>{`${a.nome} +${a.bonus}`}</Pill>)}
-      </div>
-      <Sec>Scudo</Sec>
-      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:12}}>
-        {G.SHIELDS.map(s=>{const blocked=s.rest&&!s.rest.includes(c.armaCat);return<Pill key={s.id} on={c.scudo===s.id} onClick={()=>{if(blocked)return;up({scudo:s.id});}} dim={blocked} title={s.note}>{s.nome}</Pill>;})}
-      </div>
-      {/* RIEPILOGO */}
-      <div style={{...SS.card,fontFamily:"JetBrains Mono",fontSize:11}}>
-        {[
-          ["⚔ Attacco avg",`1d12+${atkBonus(c)} = ${(6.5+atkBonus(c)).toFixed(1)}`,"var(--gold)"],
-          ["🛡 Difesa CORPO",defCorpo(c),"var(--green)"],
-          c.competenza&&["🎯 Competenza",`${c.competenza.toUpperCase()} +${compBonus(c)} (stat ${c[c.competenza]})`,"var(--cyan)"],
-          ["⚡ Iniziativa",`1d12+${initBonus(c)}`,"var(--cyan)"],
-          (totalPenMente(c)||totalPenAnima(c))&&["Penalità",`${totalPenMente(c)?`MENTE -${totalPenMente(c)} `:""}${totalPenAnima(c)?`ANIMA -${totalPenAnima(c)}`:""}`,"var(--red)"],
-        ].filter(Boolean).map(([label,val,col],i)=>(
-          <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"2px 0",borderBottom:"1px solid rgba(255,255,255,0.03)"}}>
-            <span style={{color:"var(--tx3)"}}>{label}</span>
-            <span style={{color:col}}>{val}</span>
-          </div>
-        ))}
-      </div>
+  const perks=(G.WPERKS||{})[c.armaCat]||[];
+  const ap=perks.find(p=>p.id===c.armaPerk);
+  return<div style={{animation:"fadeIn 0.15s ease"}}>
+    <Sec>Competenza</Sec>
+    <div style={{display:"flex",gap:4,marginBottom:6,flexWrap:"wrap"}}>
+      <Pill on={!c.competenza} onClick={()=>up({competenza:null})}>Nessuna</Pill>
+      {["corpo","mente","anima"].map(s=><Pill key={s} on={c.competenza===s} onClick={()=>up({competenza:s})}>{s.toUpperCase()} +{c.competenza===s?compBonus(c):Math.max(1,Math.floor((c[s]||0)/2))}</Pill>)}
     </div>
-  );
-}
-
-/* ═══ HELPER COMPONENTS ═══ */
-
-function CoreField({label,children}){
-  return<div style={{marginBottom:8}}>
-    <label style={{display:"block",fontSize:9,fontWeight:600,color:"var(--tx3)",letterSpacing:1,textTransform:"uppercase",marginBottom:3,fontFamily:"Cinzel"}}>{label}</label>
-    {children}
+    {c.competenza&&<div style={{fontSize:11,color:"var(--tx2)",padding:"6px 10px",background:"var(--s3)",borderRadius:6,marginBottom:12,border:"1px solid var(--b1)",fontFamily:"JetBrains Mono"}}>{c.competenza.toUpperCase()} {c[c.competenza]} {"\u2192"} +{compBonus(c)} a tutti i tiri {c.competenza.toUpperCase()}</div>}
+    <Sec>Arma</Sec>
+    <div style={{display:"flex",gap:6,marginBottom:8,flexWrap:"wrap"}}>
+      <input value={c.armaNome} onChange={e=>up({armaNome:e.target.value})} placeholder="Nome arma..." style={{...SS.inp,flex:1,minWidth:120}}/>
+      <select value={c.armaCat} onChange={e=>{const v=e.target.value;up({armaCat:v,armaPerk:((G.WPERKS||{})[v]||[])[0]?.id||null});}} style={{...SS.inp,width:165}}>
+        {Object.entries(G.WCAT||{}).map(([k,v])=>{const av=canUseCat(c,k);return<option key={k} value={k} disabled={!av}>{"Cat "+k+" +"+(WCAT_BONUS[k]||v.bonus)+" — "+v.nome+(av?"":"  \ud83d\udd12")}</option>;})}
+      </select>
+    </div>
+    <div style={{fontSize:10,color:"var(--tx3)",marginBottom:6,fontFamily:"JetBrains Mono",lineHeight:1.6}}>
+      {"Cat C: "+((c.corpo||0)>=6?"✓ CORPO≥6":"CORPO≥6 o Armi Pesanti")+"  ·  Cat D: "+((c.corpo||0)>=10&&hasTalent(c,"armi_letali")?"✓ OK":"CORPO≥10 + Armi Letali")}
+    </div>
+    <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:6}}>{perks.map(p=><Pill key={p.id} on={c.armaPerk===p.id} onClick={()=>up({armaPerk:p.id})} title={p.desc}>{p.nome}</Pill>)}</div>
+    {ap&&<div style={{fontSize:11,color:"var(--tx2)",padding:"6px 8px",background:"var(--s3)",borderRadius:6,marginBottom:8,border:"1px solid var(--b1)"}}><em style={{color:"var(--green)"}}>{ap.nome}</em> — {ap.desc}</div>}
+    <div style={{display:"flex",gap:6,marginBottom:12}}>
+      <Pill on={c.armaDist} onClick={()=>up({armaDist:!c.armaDist})}>A distanza</Pill>
+      <Pill on={c.armaMagi} onClick={()=>up({armaMagi:!c.armaMagi})}>Magica (MENTE)</Pill>
+    </div>
+    <Sec>Armatura</Sec>
+    <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:12}}>
+      {(G.ARMORS||[]).map(a=><Pill key={a.id} on={c.armatura===a.id} onClick={()=>{if(a.req&&(c.corpo||0)<a.req){alert("Richiede CORPO "+a.req+"+");return;}up({armatura:a.id});}} title={a.note}>{a.nome+" +"+a.bonus}</Pill>)}
+    </div>
+    <Sec>Scudo</Sec>
+    <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:12}}>
+      {(G.SHIELDS||[]).map(s=>{const bl=s.rest&&!s.rest.includes(c.armaCat);return<Pill key={s.id} on={c.scudo===s.id} onClick={()=>{if(bl)return;up({scudo:s.id});}} dim={bl} title={s.note}>{s.nome}</Pill>;})}
+    </div>
+    <div style={{...SS.card,fontFamily:"JetBrains Mono",fontSize:11}}>
+      <div style={{fontFamily:"Cinzel",fontSize:10,color:"var(--gold)",letterSpacing:1,marginBottom:8}}>RIEPILOGO</div>
+      {[
+        ["\u2694 Cat "+c.armaCat+" — Attacco","1d12+"+atkBonus(c)+" = "+(6.5+atkBonus(c)).toFixed(1)+" avg, ILLIMITATO","var(--gold)"],
+        ["\ud83d\udee1 Difesa CORPO",defCorpo(c),"var(--green)"],
+        c.competenza&&["\ud83c\udfaf Comp.",""+c.competenza.toUpperCase()+" +"+compBonus(c)+" (stat "+c[c.competenza]+")","var(--cyan)"],
+        ["\u26a1 Iniziativa","1d12+"+initBonus(c),"var(--cyan)"],
+        maxSlots(c)>0&&["\u2728 Slot magia",maxSlots(c)+"pt tot | L1:1pt L2:2pt L3:3pt L4:4pt","var(--purple)"],
+        (totalPenMente(c)||totalPenAnima(c))&&["Pen. arm.",(totalPenMente(c)?"-"+totalPenMente(c)+" MENTE ":"")+(totalPenAnima(c)?"-"+totalPenAnima(c)+" ANIMA":""),"var(--red)"],
+      ].filter(Boolean).map(([lbl,val,col],i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"3px 0",borderBottom:"1px solid rgba(255,255,255,0.03)"}}><span style={{color:"var(--tx3)"}}>{lbl}</span><span style={{color:col}}>{val}</span></div>)}
+    </div>
   </div>;
 }
 
-function CoreItemCard({item,type,color,onRemove,perkUses,hasPerkUse,onUsePerk,onRestorePerk}){
+/* ═══ CORE ITEM CARD (talenti & miglioramenti) ═══ */
+function CoreItemCard({item,color,onRemove,perkUses,hasPerkUse,onUsePerk,onRestorePerk}){
   const[open,setOpen]=useState(false);
   const perkUsed=hasPerkUse&&perkUses>=1;
   const stileInfo=(G.STILI||{})[item.stile]||{};
-  const catLabels={accesso:"⚡ Accesso",limite:"⬆ Limite",corpo:"CORPO",mente:"MENTE",anima:"ANIMA",ibrido:"Ibrido"};
-  const badge=item.cat?catLabels[item.cat]||item.cat:item.tipo||"";
-  return(
-    <div style={{background:"var(--s2)",borderRadius:9,padding:"10px 12px",marginBottom:6,border:`1px solid ${color}33`,borderLeft:`3px solid ${color}`,opacity:perkUsed?0.72:1,transition:"opacity 0.2s"}}>
-      <div style={{display:"flex",alignItems:"center",gap:6}}>
-        <div style={{flex:1,minWidth:0}}>
-          <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
-            <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:13,color:"var(--tx)"}}>{item.nome}</span>
-            {badge&&<span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:`${color}15`,color:color,border:`1px solid ${color}33`}}>{badge}</span>}
-            {stileInfo.icon&&<span style={{fontSize:9,color:"var(--tx3)"}}>{stileInfo.icon}</span>}
-          </div>
-          {!open&&<p style={{fontSize:10,color:"var(--tx2)",marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",lineHeight:1.4}}>{item.desc}</p>}
+  const catLbl={accesso:"\u26a1 Accesso",limite:"\u2b06 Limite",corpo:"CORPO",mente:"MENTE",anima:"ANIMA",ibrido:"Ibrido"};
+  const badge=item.cat?catLbl[item.cat]||item.cat:item.tipo||"";
+  return<div style={{background:"var(--s2)",borderRadius:9,padding:"10px 12px",marginBottom:6,border:"1px solid "+color+"33",borderLeft:"3px solid "+color,opacity:perkUsed?0.72:1,transition:"opacity 0.2s"}}>
+    <div style={{display:"flex",alignItems:"center",gap:6}}>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
+          <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:13,color:"var(--tx)"}}>{item.nome}</span>
+          {badge&&<span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:color+"15",color:color,border:"1px solid "+color+"33"}}>{badge}</span>}
+          {stileInfo.icon&&<span style={{fontSize:9,color:"var(--tx3)"}}>{stileInfo.icon}</span>}
         </div>
-        <button onClick={()=>setOpen(!open)} style={{width:24,height:24,borderRadius:"50%",border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{open?"▲":"▼"}</button>
-        <button onClick={onRemove} style={{width:24,height:24,borderRadius:"50%",border:"1px solid rgba(224,80,80,0.3)",background:"rgba(224,80,80,0.08)",color:"var(--red)",fontSize:11,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+        {!open&&<p style={{fontSize:10,color:"var(--tx2)",marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",lineHeight:1.4}}>{item.desc}</p>}
       </div>
-      {open&&(
-        <div style={{marginTop:8,borderTop:"1px solid var(--b1)",paddingTop:8}}>
-          <p style={{fontSize:11,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>{item.desc}</p>
-          {(item.pro||item.con)&&(
-            <div style={{display:"flex",gap:8,marginBottom:8}}>
-              {item.pro&&<div style={{flex:1,fontSize:10,color:"var(--green)",lineHeight:1.4}}>✔ {item.pro}</div>}
-              {item.con&&<div style={{flex:1,fontSize:10,color:"var(--red)",lineHeight:1.4}}>✘ {item.con}</div>}
-            </div>
-          )}
-          {item.perk&&(
-            <div style={{padding:"7px 10px",borderRadius:6,background:"rgba(64,200,200,0.07)",border:"1px solid rgba(64,200,200,0.2)",marginBottom:6}}>
-              <p style={{fontSize:11,color:"var(--cyan)",lineHeight:1.5,marginBottom:hasPerkUse?6:0}}>⭐ {item.perk}</p>
-              {hasPerkUse&&(
-                <div style={{display:"flex",alignItems:"center",gap:6}}>
-                  <div style={{width:12,height:12,borderRadius:"50%",background:perkUses>=1?"var(--b2)":"var(--cyan)",border:`1.5px solid ${perkUses>=1?"var(--tx3)":"var(--cyan)"}`,opacity:perkUses>=1?0.3:1}}/>
-                  <span style={{fontSize:9,color:"var(--tx3)",flex:1}}>1x/combat</span>
-                  {!perkUsed&&<button onClick={onUsePerk} style={{padding:"3px 9px",borderRadius:4,border:"1px solid rgba(72,200,138,0.4)",background:"rgba(72,200,138,0.1)",color:"var(--green)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer"}}>Usa</button>}
-                  {perkUses>0&&<button onClick={onRestorePerk} style={{padding:"3px 7px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,cursor:"pointer"}}>↺</button>}
-                </div>
-              )}
-            </div>
-          )}
-          {item.manutenzione&&<p style={{fontSize:9,color:"var(--gold)",padding:"4px 6px",borderRadius:3,background:"rgba(232,160,48,0.08)",border:"1px solid rgba(232,160,48,0.2)"}}>⚠ Manutenzione: {item.manutenzione}</p>}
-          {item.req&&<p style={{fontSize:9,color:"var(--tx3)",marginTop:4}}>Richiede: {tById(item.req)?.nome||item.req}</p>}
-        </div>
-      )}
+      <button onClick={()=>setOpen(!open)} style={{width:24,height:24,borderRadius:"50%",border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{open?"\u25b2":"\u25bc"}</button>
+      <button onClick={onRemove} style={{width:24,height:24,borderRadius:"50%",border:"1px solid rgba(224,80,80,0.3)",background:"rgba(224,80,80,0.08)",color:"var(--red)",fontSize:11,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{"\u2715"}</button>
     </div>
-  );
+    {open&&<div style={{marginTop:8,borderTop:"1px solid var(--b1)",paddingTop:8}}>
+      <p style={{fontSize:11,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>{item.desc}</p>
+      {(item.pro||item.con)&&<div style={{display:"flex",gap:8,marginBottom:8}}>
+        {item.pro&&<div style={{flex:1,fontSize:10,color:"var(--green)",lineHeight:1.4}}>{"\u2714"} {item.pro}</div>}
+        {item.con&&<div style={{flex:1,fontSize:10,color:"var(--red)",lineHeight:1.4}}>{"\u2718"} {item.con}</div>}
+      </div>}
+      {item.perk&&<div style={{padding:"7px 10px",borderRadius:6,background:"rgba(64,200,200,0.07)",border:"1px solid rgba(64,200,200,0.2)",marginBottom:6}}>
+        <p style={{fontSize:11,color:"var(--cyan)",lineHeight:1.5,marginBottom:hasPerkUse?6:0}}>{"\u2b50"} {item.perk}</p>
+        {hasPerkUse&&<div style={{display:"flex",alignItems:"center",gap:6}}>
+          <div style={{width:12,height:12,borderRadius:"50%",background:perkUses>=1?"var(--b2)":"var(--cyan)",border:"1.5px solid "+(perkUses>=1?"var(--tx3)":"var(--cyan)"),opacity:perkUses>=1?0.3:1}}/>
+          <span style={{fontSize:9,color:"var(--tx3)",flex:1}}>1x/combat</span>
+          {!perkUsed&&<button onClick={onUsePerk} style={{padding:"3px 9px",borderRadius:4,border:"1px solid rgba(72,200,138,0.4)",background:"rgba(72,200,138,0.1)",color:"var(--green)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer"}}>Usa</button>}
+          {perkUses>0&&<button onClick={onRestorePerk} style={{padding:"3px 7px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,cursor:"pointer"}}>{"\u21ba"}</button>}
+        </div>}
+      </div>}
+      {item.manutenzione&&<p style={{fontSize:9,color:"var(--gold)",padding:"4px 6px",borderRadius:3,background:"rgba(232,160,48,0.08)",border:"1px solid rgba(232,160,48,0.2)"}}>{"\u26a0"} {item.manutenzione}</p>}
+      {item.req&&<p style={{fontSize:9,color:"var(--tx3)",marginTop:4}}>Richiede: {tById(item.req)?.nome||item.req}</p>}
+    </div>}
+  </div>;
 }
 
+/* ═══ CORE SPELL CARD ═══ */
 function CoreSpellCard({spell,onRemove}){
   const[open,setOpen]=useState(false);
   const stileInfo=(G.STILI||{})[spell.stile]||{};
-  const lvlLabel=spell.tipo==="ct"?"Cantrip":`L${spell.lvl}`;
   const col=spell.stat==="ANIMA"?"var(--purple)":"var(--blue)";
-  return(
-    <div style={{background:"var(--s2)",borderRadius:8,padding:"9px 11px",marginBottom:5,border:`1px solid ${col}22`,borderLeft:`3px solid ${col}`}}>
-      <div style={{display:"flex",alignItems:"center",gap:6}}>
-        <div style={{flex:1,minWidth:0}}>
-          <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
-            <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:12,color:"var(--tx)"}}>{spell.nome}</span>
-            <span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:`${col}15`,color:col}}>{lvlLabel}</span>
-            <span style={{fontSize:8,color:"var(--tx3)"}}>{spell.stat}</span>
-            {stileInfo.icon&&<span style={{fontSize:9,color:"var(--tx3)"}}>{stileInfo.icon}</span>}
-          </div>
-          {!open&&<p style={{fontSize:10,color:"var(--tx2)",marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{spell.mec}</p>}
+  const bonus=spellBonus(spell);const cost=spellCost(spell);const minS=spellMinStat(spell);
+  return<div style={{background:"var(--s2)",borderRadius:8,padding:"9px 11px",marginBottom:5,border:"1px solid "+col+"22",borderLeft:"3px solid "+col}}>
+    <div style={{display:"flex",alignItems:"center",gap:6}}>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
+          <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:12,color:"var(--tx)"}}>{spell.nome}</span>
+          <span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:col+"15",color:col}}>{spell.tipo==="ct"?"Cantrip":"L"+spell.lvl}</span>
+          {bonus>0&&<span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:"rgba(232,160,48,0.15)",color:"var(--gold)",fontFamily:"JetBrains Mono",fontWeight:700}}>+{bonus}</span>}
+          {cost>0&&<span style={{fontSize:8,padding:"1px 5px",borderRadius:3,background:"rgba(160,112,232,0.12)",color:"var(--purple)",fontFamily:"JetBrains Mono"}}>{cost}pt</span>}
+          <span style={{fontSize:8,color:"var(--tx3)"}}>{spell.stat}</span>
+          {stileInfo.icon&&<span style={{fontSize:9,color:"var(--tx3)"}}>{stileInfo.icon}</span>}
         </div>
-        <button onClick={()=>setOpen(!open)} style={{width:24,height:24,borderRadius:"50%",border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{open?"▲":"▼"}</button>
-        <button onClick={onRemove} style={{width:24,height:24,borderRadius:"50%",border:"1px solid rgba(224,80,80,0.3)",background:"rgba(224,80,80,0.08)",color:"var(--red)",fontSize:11,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+        {!open&&<p style={{fontSize:10,color:"var(--tx2)",marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{spell.mec}</p>}
       </div>
-      {open&&(
-        <div style={{marginTop:8,borderTop:"1px solid var(--b1)",paddingTop:8}}>
-          <p style={{fontSize:11,fontFamily:"JetBrains Mono",color:"var(--tx)",lineHeight:1.6,marginBottom:6}}>{spell.mec}</p>
-          {(spell.pro||spell.con)&&(
-            <div style={{display:"flex",gap:8,marginBottom:4}}>
-              {spell.pro&&<div style={{flex:1,fontSize:10,color:"var(--green)",lineHeight:1.4}}>✔ {spell.pro}</div>}
-              {spell.con&&<div style={{flex:1,fontSize:10,color:"var(--red)",lineHeight:1.4}}>✘ {spell.con}</div>}
-            </div>
-          )}
-          {spell.tipo==="mg"&&<p style={{fontSize:9,color:"var(--tx3)",marginTop:2}}>Req. {spell.stat} ≥{spell.min} · +{spell.bonus} al tiro</p>}
-        </div>
-      )}
+      <button onClick={()=>setOpen(!open)} style={{width:24,height:24,borderRadius:"50%",border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:10,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{open?"\u25b2":"\u25bc"}</button>
+      <button onClick={onRemove} style={{width:24,height:24,borderRadius:"50%",border:"1px solid rgba(224,80,80,0.3)",background:"rgba(224,80,80,0.08)",color:"var(--red)",fontSize:11,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{"\u2715"}</button>
     </div>
-  );
+    {open&&<div style={{marginTop:8,borderTop:"1px solid var(--b1)",paddingTop:8}}>
+      <p style={{fontSize:11,fontFamily:"JetBrains Mono",color:"var(--tx)",lineHeight:1.6,marginBottom:6}}>{spell.mec}</p>
+      {(spell.pro||spell.con)&&<div style={{display:"flex",gap:8,marginBottom:4}}>
+        {spell.pro&&<div style={{flex:1,fontSize:10,color:"var(--green)",lineHeight:1.4}}>{"\u2714"} {spell.pro}</div>}
+        {spell.con&&<div style={{flex:1,fontSize:10,color:"var(--red)",lineHeight:1.4}}>{"\u2718"} {spell.con}</div>}
+      </div>}
+      {spell.tipo==="mg"&&<p style={{fontSize:9,color:"var(--tx3)",marginTop:2,fontFamily:"JetBrains Mono"}}>Req. {spell.stat}{"\u2265"}{minS} · +{bonus} tiro · {cost}pt slot</p>}
+    </div>}
+  </div>;
 }
 
-/* ═══ ADD TO COMPENDIO MODALS (Master only) ═══ */
-
+/* ═══ ADD TO COMPENDIO (Master) ═══ */
 function AddToCompendioModal({type,onClose,onAdd}){
   const isT=type==="talent";
   const[f,setF]=useState({id:(isT?"t":"a")+"_cust_"+uid(),nome:"",cat:isT?"corpo":"",tipo:!isT?"Biomod":"",stile:"universale",desc:"",pro:"",con:"",perk:"",manutenzione:"",req:""});
   const[addChar,setAddChar]=useState(true);
   const save=()=>{
     if(!f.nome.trim()||!f.desc.trim())return;
-    const item={id:f.id,nome:f.nome.trim(),stile:f.stile,desc:f.desc,pro:f.pro||"",con:f.con||"",
-      perk:f.perk||null,req:isT?(f.req||null):undefined,
-      cat:isT?f.cat:undefined,tipo:!isT?f.tipo:undefined,
-      manutenzione:!isT?(f.manutenzione||null):undefined};
-    Object.keys(item).forEach(k=>item[k]===undefined&&delete item[k]);
+    const item={id:f.id,nome:f.nome.trim(),stile:f.stile,desc:f.desc,pro:f.pro||"",con:f.con||"",perk:f.perk||null};
+    if(isT){item.cat=f.cat;if(f.req)item.req=f.req;}else{item.tipo=f.tipo;if(f.manutenzione)item.manutenzione=f.manutenzione;}
     onAdd(item,addChar);
   };
-  return(
-    <div style={SS.po} onClick={onClose}>
-      <div style={{...SS.pc,maxWidth:420,maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-          <span style={{fontFamily:"Cinzel",fontSize:13,fontWeight:700,color:"var(--gold)"}}>+ {isT?"Talento":"Miglioramento"} al Compendio</span>
-          <button onClick={onClose} style={{background:"none",border:"none",color:"var(--red)",fontSize:15,cursor:"pointer"}}>✕</button>
-        </div>
-        <CoreField label="Nome *"><input value={f.nome} onChange={e=>setF({...f,nome:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="Nome..."/></CoreField>
-        {isT&&<CoreField label="Categoria"><select value={f.cat} onChange={e=>setF({...f,cat:e.target.value})} style={{...SS.inp,width:"100%"}}>{["accesso","limite","corpo","mente","anima","ibrido"].map(c=><option key={c} value={c}>{c}</option>)}</select></CoreField>}
-        {!isT&&<CoreField label="Tipo"><input value={f.tipo} onChange={e=>setF({...f,tipo:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Cyberware, Biomod..."/></CoreField>}
-        <CoreField label="Stile"><select value={f.stile} onChange={e=>setF({...f,stile:e.target.value})} style={{...SS.inp,width:"100%"}}>{Object.entries(G.STILI||{}).map(([k,v])=><option key={k} value={k}>{v.icon} {v.lbl}</option>)}</select></CoreField>
-        <CoreField label="Descrizione *"><textarea value={f.desc} onChange={e=>setF({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:60,resize:"vertical"}} placeholder="Effetto..."/></CoreField>
-        <div style={{display:"flex",gap:6}}>
-          <CoreField label="PRO"><input value={f.pro} onChange={e=>setF({...f,pro:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="Vantaggio..."/></CoreField>
-          <CoreField label="CON"><input value={f.con} onChange={e=>setF({...f,con:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="Svantaggio..."/></CoreField>
-        </div>
-        <CoreField label="Perk (usa '1x/combat:' per uso tracciato)"><input value={f.perk} onChange={e=>setF({...f,perk:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. 1x/combat: ..."/></CoreField>
-        {!isT&&<CoreField label="Manutenzione"><input value={f.manutenzione} onChange={e=>setF({...f,manutenzione:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="opzionale..."/></CoreField>}
-        {isT&&<CoreField label="Richiede (ID talento, opzionale)"><input value={f.req} onChange={e=>setF({...f,req:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. gate_mb"/></CoreField>}
-        <label style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:"var(--tx2)",marginBottom:10,cursor:"pointer"}}>
-          <input type="checkbox" checked={addChar} onChange={e=>setAddChar(e.target.checked)} style={{accentColor:"var(--gold)"}}/>
-          Aggiungi anche al personaggio corrente
-        </label>
-        <button onClick={save} style={{...SS.green,width:"100%",padding:"9px 0",fontSize:13}}>✓ Salva nel Compendio</button>
-        <p style={{fontSize:9,color:"var(--tx3)",textAlign:"center",marginTop:6}}>Salvato in localStorage — visibile subito nel selettore</p>
+  return<div style={SS.po} onClick={onClose}>
+    <div style={{...SS.pc,maxWidth:420,maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+        <span style={{fontFamily:"Cinzel",fontSize:13,fontWeight:700,color:"var(--gold)"}}>{isT?"+ Talento":"+ Miglioramento"} al Compendio</span>
+        <button onClick={onClose} style={{background:"none",border:"none",color:"var(--red)",fontSize:15,cursor:"pointer"}}>{"\u2715"}</button>
       </div>
+      <CoreField label="Nome *"><input value={f.nome} onChange={e=>setF({...f,nome:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="Nome..."/></CoreField>
+      {isT&&<CoreField label="Categoria"><select value={f.cat} onChange={e=>setF({...f,cat:e.target.value})} style={{...SS.inp,width:"100%"}}>{["accesso","limite","corpo","mente","anima","ibrido"].map(c=><option key={c} value={c}>{c}</option>)}</select></CoreField>}
+      {!isT&&<CoreField label="Tipo"><input value={f.tipo} onChange={e=>setF({...f,tipo:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. Cyberware, Biomod..."/></CoreField>}
+      <CoreField label="Stile"><select value={f.stile} onChange={e=>setF({...f,stile:e.target.value})} style={{...SS.inp,width:"100%"}}>{Object.entries(G.STILI||{}).map(([k,v])=><option key={k} value={k}>{v.icon} {v.lbl}</option>)}</select></CoreField>
+      <CoreField label="Descrizione *"><textarea value={f.desc} onChange={e=>setF({...f,desc:e.target.value})} style={{...SS.inp,width:"100%",minHeight:60,resize:"vertical"}} placeholder="Effetto..."/></CoreField>
+      <div style={{display:"flex",gap:6}}>
+        <CoreField label="PRO"><input value={f.pro} onChange={e=>setF({...f,pro:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="..."/></CoreField>
+        <CoreField label="CON"><input value={f.con} onChange={e=>setF({...f,con:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="..."/></CoreField>
+      </div>
+      <CoreField label="Perk (1x/combat: per tracciato)"><input value={f.perk} onChange={e=>setF({...f,perk:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. 1x/combat: ..."/></CoreField>
+      {!isT&&<CoreField label="Manutenzione"><input value={f.manutenzione} onChange={e=>setF({...f,manutenzione:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="opzionale..."/></CoreField>}
+      {isT&&<CoreField label="Richiede ID talento (opz.)"><input value={f.req} onChange={e=>setF({...f,req:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="es. gate_mb"/></CoreField>}
+      <label style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:"var(--tx2)",marginBottom:10,cursor:"pointer"}}>
+        <input type="checkbox" checked={addChar} onChange={e=>setAddChar(e.target.checked)} style={{accentColor:"var(--gold)"}}/>Aggiungi anche al personaggio corrente
+      </label>
+      <button onClick={save} style={{...SS.green,width:"100%",padding:"9px 0",fontSize:13}}>{"\u2713"} Salva nel Compendio</button>
+      <p style={{fontSize:9,color:"var(--tx3)",textAlign:"center",marginTop:6}}>Salvato in localStorage — visibile subito nel selettore</p>
     </div>
-  );
+  </div>;
 }
 
 function AddSpellModal({onClose,onAdd}){
-  const[f,setF]=useState({id:"sp_cust_"+uid(),nome:"",tipo:"ct",lvl:1,stat:"MENTE",min:3,stile:"universale",bonus:0,mec:"",pro:"",con:""});
+  const[f,setF]=useState({id:"sp_cust_"+uid(),nome:"",tipo:"ct",lvl:1,stat:"MENTE",stile:"universale",mec:"",pro:"",con:""});
   const[addChar,setAddChar]=useState(true);
+  const lvl=parseInt(f.lvl)||1;
+  const autoBonus=f.tipo==="ct"?0:(SPELL_BONUS[lvl]||0);
+  const autoMin=f.tipo==="ct"?0:(SPELL_MINS[lvl]||3);
+  const autoCost=f.tipo==="ct"?0:(SPELL_COST[lvl]||1);
   const save=()=>{
     if(!f.nome.trim()||!f.mec.trim())return;
-    const item={...f,nome:f.nome.trim(),lvl:parseInt(f.lvl)||1,min:parseInt(f.min)||3,bonus:parseInt(f.bonus)||0};
-    onAdd(item,addChar);
+    onAdd({...f,nome:f.nome.trim(),lvl,bonus:autoBonus,min:autoMin},addChar);
   };
-  return(
-    <div style={SS.po} onClick={onClose}>
-      <div style={{...SS.pc,maxWidth:420,maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-          <span style={{fontFamily:"Cinzel",fontSize:13,fontWeight:700,color:"var(--gold)"}}>+ Magia al Compendio</span>
-          <button onClick={onClose} style={{background:"none",border:"none",color:"var(--red)",fontSize:15,cursor:"pointer"}}>✕</button>
-        </div>
-        <CoreField label="Nome *"><input value={f.nome} onChange={e=>setF({...f,nome:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="Nome magia..."/></CoreField>
-        <div style={{display:"flex",gap:6}}>
-          <CoreField label="Tipo"><select value={f.tipo} onChange={e=>setF({...f,tipo:e.target.value})} style={{...SS.inp}}><option value="ct">Cantrip</option><option value="mg">Magia</option></select></CoreField>
-          {f.tipo==="mg"&&<><CoreField label="Lv"><input type="number" value={f.lvl} onChange={e=>setF({...f,lvl:e.target.value})} style={{...SS.inp,width:46,textAlign:"center"}} min="1" max="4"/></CoreField><CoreField label="+Bonus"><input type="number" value={f.bonus} onChange={e=>setF({...f,bonus:e.target.value})} style={{...SS.inp,width:46,textAlign:"center"}}/></CoreField></>}
-        </div>
-        <div style={{display:"flex",gap:6}}>
-          <CoreField label="Stat"><select value={f.stat} onChange={e=>setF({...f,stat:e.target.value})} style={{...SS.inp}}><option>MENTE</option><option>ANIMA</option></select></CoreField>
-          {f.tipo==="mg"&&<CoreField label="Min Stat"><input type="number" value={f.min} onChange={e=>setF({...f,min:e.target.value})} style={{...SS.inp,width:55,textAlign:"center"}} min="1"/></CoreField>}
-          <CoreField label="Stile"><select value={f.stile} onChange={e=>setF({...f,stile:e.target.value})} style={{...SS.inp}}>{Object.entries(G.STILI||{}).map(([k,v])=><option key={k} value={k}>{v.icon} {v.lbl}</option>)}</select></CoreField>
-        </div>
-        <CoreField label="Meccanica / Effetto *"><textarea value={f.mec} onChange={e=>setF({...f,mec:e.target.value})} style={{...SS.inp,width:"100%",minHeight:60,resize:"vertical"}} placeholder="Formula, effetto, CD..."/></CoreField>
-        <div style={{display:"flex",gap:6}}>
-          <CoreField label="PRO"><input value={f.pro} onChange={e=>setF({...f,pro:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="..."/></CoreField>
-          <CoreField label="CON"><input value={f.con} onChange={e=>setF({...f,con:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="..."/></CoreField>
-        </div>
-        <label style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:"var(--tx2)",marginBottom:10,cursor:"pointer"}}>
-          <input type="checkbox" checked={addChar} onChange={e=>setAddChar(e.target.checked)} style={{accentColor:"var(--gold)"}}/>
-          Aggiungi al personaggio corrente
-        </label>
-        <button onClick={save} style={{...SS.green,width:"100%",padding:"9px 0",fontSize:13}}>✓ Salva nel Compendio</button>
-        <p style={{fontSize:9,color:"var(--tx3)",textAlign:"center",marginTop:6}}>Visibile subito nel selettore delle magie</p>
+  return<div style={SS.po} onClick={onClose}>
+    <div style={{...SS.pc,maxWidth:420,maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+        <span style={{fontFamily:"Cinzel",fontSize:13,fontWeight:700,color:"var(--gold)"}}>+ Magia al Compendio</span>
+        <button onClick={onClose} style={{background:"none",border:"none",color:"var(--red)",fontSize:15,cursor:"pointer"}}>{"\u2715"}</button>
       </div>
+      <CoreField label="Nome *"><input value={f.nome} onChange={e=>setF({...f,nome:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="Nome magia..."/></CoreField>
+      <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+        <CoreField label="Tipo"><select value={f.tipo} onChange={e=>setF({...f,tipo:e.target.value})} style={{...SS.inp}}><option value="ct">Cantrip</option><option value="mg">Magia</option></select></CoreField>
+        {f.tipo==="mg"&&<CoreField label="Lv"><input type="number" value={f.lvl} onChange={e=>setF({...f,lvl:e.target.value})} style={{...SS.inp,width:46,textAlign:"center"}} min="1" max="4"/></CoreField>}
+        <CoreField label="Stat"><select value={f.stat} onChange={e=>setF({...f,stat:e.target.value})} style={{...SS.inp}}><option>MENTE</option><option>ANIMA</option></select></CoreField>
+        <CoreField label="Stile"><select value={f.stile} onChange={e=>setF({...f,stile:e.target.value})} style={{...SS.inp}}>{Object.entries(G.STILI||{}).map(([k,v])=><option key={k} value={k}>{v.icon} {v.lbl}</option>)}</select></CoreField>
+      </div>
+      {f.tipo==="mg"&&<div style={{padding:"6px 10px",borderRadius:6,background:"rgba(232,160,48,0.08)",border:"1px solid rgba(232,160,48,0.2)",marginBottom:8,fontSize:10,fontFamily:"JetBrains Mono",color:"var(--gold)"}}>Auto: +{autoBonus} tiro · stat{"\u2265"}{autoMin} · costo {autoCost}pt</div>}
+      <CoreField label="Meccanica / Effetto *"><textarea value={f.mec} onChange={e=>setF({...f,mec:e.target.value})} style={{...SS.inp,width:"100%",minHeight:60,resize:"vertical"}} placeholder="Formula, effetto, CD..."/></CoreField>
+      <div style={{display:"flex",gap:6}}>
+        <CoreField label="PRO"><input value={f.pro} onChange={e=>setF({...f,pro:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="..."/></CoreField>
+        <CoreField label="CON"><input value={f.con} onChange={e=>setF({...f,con:e.target.value})} style={{...SS.inp,width:"100%"}} placeholder="..."/></CoreField>
+      </div>
+      <label style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:"var(--tx2)",marginBottom:10,cursor:"pointer"}}>
+        <input type="checkbox" checked={addChar} onChange={e=>setAddChar(e.target.checked)} style={{accentColor:"var(--gold)"}}/>Aggiungi al personaggio corrente
+      </label>
+      <button onClick={save} style={{...SS.green,width:"100%",padding:"9px 0",fontSize:13}}>{"\u2713"} Salva nel Compendio</button>
     </div>
-  );
+  </div>;
 }
 
-/* ═══════════════════════════════════════════════════════
-   ACTIONS TAB — redesigned
-═══════════════════════════════════════════════════════ */
+/* ══════════════ ACTIONS TAB ══════════════ */
 function ActionsTab({c,up,isMaster}){
-  const[custModal,setCustModal]=useState(null); // 'talent' | 'augment' | null
-
-  const allT=G.TALENTS||[];
-  const allA=G.AUGMENTS||[];
-
-  const selTalents=c.talenti.map(id=>allT.find(t=>t.id===id)).filter(Boolean);
-  const selAugments=c.augmenti.map(id=>allA.find(a=>a.id===id)).filter(Boolean);
+  const[custModal,setCustModal]=useState(null);
+  const allT=G.TALENTS||[];const allA=G.AUGMENTS||[];
+  const selT=c.talenti.map(id=>allT.find(t=>t.id===id)).filter(Boolean);
+  const selA=c.augmenti.map(id=>allA.find(a=>a.id===id)).filter(Boolean);
   const availT=allT.filter(t=>!c.talenti.includes(t.id));
   const availA=allA.filter(a=>!c.augmenti.includes(a.id));
-
-  // Perk use helpers
   const getPU=id=>c.perkUses?.[id]||0;
   const hasPU=item=>(item.perk||"").includes("1x/");
   const usePerk=id=>up({perkUses:{...(c.perkUses||{}),[id]:getPU(id)+1}});
   const restorePerk=id=>{if(getPU(id)>0)up({perkUses:{...(c.perkUses||{}),[id]:getPU(id)-1}});};
-
-  // Riposo
   const riposo=type=>{
-    const u={};
-    if(type==="lungo"){
-      u.hpCurrent=hpMax(c);u.slotUsati=0;u.heroPoints=2;u.perkUses={};u.conditions=[];
-    }else{
-      u.hpCurrent=Math.min(hpMax(c),c.hpCurrent+c.corpo);
-    }
-    up(u);
+    if(type==="lungo")up({hpCurrent:hpMax(c),slotUsati:0,heroPoints:2,perkUses:{},conditions:[]});
+    else up({hpCurrent:Math.min(hpMax(c),(c.hpCurrent||0)+(c.corpo||0))});
   };
-  const resetCombat=()=>{
-    const np={...(c.perkUses||{})};
-    [...selTalents,...selAugments].forEach(x=>{if(hasPU(x))np[x.id]=0;});
-    up({perkUses:np});
-  };
-
-  // Talent category colors
+  const resetCombat=()=>{const np={...(c.perkUses||{})};[...selT,...selA].forEach(x=>{if(hasPU(x))np[x.id]=0;});up({perkUses:np});};
   const catCol={accesso:"var(--gold)",limite:"var(--cyan)",corpo:"var(--red)",mente:"var(--blue)",anima:"var(--purple)",ibrido:"var(--green)"};
-  const catLabels={accesso:"⚡ Accessi",limite:"⬆ Limiti",corpo:"CORPO",mente:"MENTE",anima:"ANIMA",ibrido:"Ibrido"};
-  const stileIcons={universale:"⬡",fantasy:"⚔",cyberpunk:"◈",noir:"◉",horror:"☽",anime:"⚡","post-ap":"☢"};
-
-  return(
-    <div style={{animation:"fadeIn 0.15s ease"}}>
-      {/* REST ROW */}
-      <div style={{display:"flex",gap:5,marginBottom:12}}>
-        <button onClick={()=>riposo("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(232,160,48,0.3)",background:"rgba(232,160,48,0.08)",color:"var(--gold)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>☀️ Riposo Breve<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>+CORPO HP</span></button>
-        <button onClick={()=>riposo("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.08)",color:"var(--blue)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>🌙 Riposo Lungo<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>Tutto ripristinato</span></button>
-        <button onClick={resetCombat} title="Resetta usi perk 1x/combat" style={{width:50,borderRadius:7,border:"1px solid var(--b1)",background:"var(--s3)",color:"var(--tx3)",fontSize:11,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>⚔️<br/><span style={{fontSize:7}}>reset</span></button>
-      </div>
-
-      {/* ─── TALENTI ─── */}
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-        <Sec>Talenti {c.talenti.length}/5</Sec>
-        {isMaster&&<button onClick={()=>setCustModal("talent")} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
-      </div>
-      {c.talenti.length<5&&(
-        <select onChange={e=>{if(e.target.value&&c.talenti.length<5){up({talenti:[...c.talenti,e.target.value]});e.target.value="";} }} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
-          <option value="">+ Seleziona talento da aggiungere...</option>
-          {["accesso","limite","corpo","mente","anima","ibrido"].map(cat=>{
-            const items=availT.filter(t=>t.cat===cat);
-            if(!items.length)return null;
-            return<optgroup key={cat} label={catLabels[cat]||cat}>
-              {items.map(t=><option key={t.id} value={t.id} disabled={!!(t.req&&!hasTalent(c,t.req))}>{t.nome}{t.req&&!hasTalent(c,t.req)?" 🔒":""}</option>)}
-            </optgroup>;
-          })}
-        </select>
-      )}
-      {selTalents.map(t=>(
-        <CoreItemCard key={t.id} item={t} type="talent" color={catCol[t.cat]||"var(--gold)"}
-          onRemove={()=>up({talenti:c.talenti.filter(id=>id!==t.id)})}
-          perkUses={getPU(t.id)} hasPerkUse={hasPU(t)}
-          onUsePerk={()=>usePerk(t.id)} onRestorePerk={()=>restorePerk(t.id)}/>
-      ))}
-      {c.talenti.length===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"6px 0 10px"}}>Nessun talento selezionato.</p>}
-
-      {/* ─── AUGMENTI ─── */}
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6,marginTop:14}}>
-        <Sec>Miglioramenti {c.augmenti.length}/3</Sec>
-        {isMaster&&<button onClick={()=>setCustModal("augment")} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
-      </div>
-      {c.augmenti.length>=3&&(
-        <div style={{padding:"8px 10px",borderRadius:6,background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.25)",marginBottom:8,fontSize:11,color:"#e08080",lineHeight:1.5}}>
-          ⚠ <strong>Rischio Umanità</strong> — 3 modifiche: -1 ANIMA social. Inizio sessione: ANIMA vs 8.
-        </div>
-      )}
-      {c.augmenti.length<3&&(
-        <select onChange={e=>{if(e.target.value&&c.augmenti.length<3){up({augmenti:[...c.augmenti,e.target.value]});e.target.value="";} }} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
-          <option value="">+ Seleziona miglioramento da aggiungere...</option>
-          {Object.keys(G.STILI||{}).map(stile=>{
-            const items=availA.filter(a=>a.stile===stile);
-            if(!items.length)return null;
-            return<optgroup key={stile} label={`${stileIcons[stile]||""} ${(G.STILI[stile]?.lbl)||stile}`}>
-              {items.map(a=><option key={a.id} value={a.id}>{a.nome} — {a.tipo}</option>)}
-            </optgroup>;
-          })}
-        </select>
-      )}
-      {selAugments.map(a=>(
-        <CoreItemCard key={a.id} item={a} type="augment" color="var(--red)"
-          onRemove={()=>up({augmenti:c.augmenti.filter(id=>id!==a.id)})}
-          perkUses={getPU(a.id)} hasPerkUse={hasPU(a)}
-          onUsePerk={()=>usePerk(a.id)} onRestorePerk={()=>restorePerk(a.id)}/>
-      ))}
-      {c.augmenti.length===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"6px 0 10px"}}>Nessun miglioramento selezionato.</p>}
-
-      {/* ─── CONDIZIONI ─── */}
-      <Sec style={{marginTop:14}}>Condizioni (max 2)</Sec>
-      <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
-        {(G.CONDITIONS||[]).map(cond=>{
-          const active=c.conditions?.find(x=>x.id===cond.id);
-          return<Pill key={cond.id} on={!!active} onClick={()=>{
-            if(active)up({conditions:(c.conditions||[]).filter(x=>x.id!==cond.id)});
-            else{let conds=[...(c.conditions||[]),{id:cond.id,rounds:2}];if(conds.length>2)conds=conds.slice(-2);up({conditions:conds});}
-          }} title={cond.effetto}>{cond.nome}</Pill>;
-        })}
-      </div>
-
-      {/* Custom modals */}
-      {custModal&&<AddToCompendioModal type={custModal} onClose={()=>setCustModal(null)}
-        onAdd={(item,addChar)=>{
-          pushCustomItem(custModal,item);
-          if(addChar){if(custModal==="talent"&&c.talenti.length<5)up({talenti:[...c.talenti,item.id]});else if(custModal==="augment"&&c.augmenti.length<3)up({augmenti:[...c.augmenti,item.id]});}
-          setCustModal(null);
-        }}/>}
+  const catLabels={accesso:"\u26a1 Accessi",limite:"\u2b06 Limiti",corpo:"CORPO",mente:"MENTE",anima:"ANIMA",ibrido:"Ibrido"};
+  const stileIcons={universale:"\u2b21",fantasy:"\u2694",cyberpunk:"\u25c8",noir:"\u25c9",horror:"\u263d",anime:"\u26a1","post-ap":"\u2622"};
+  return<div style={{animation:"fadeIn 0.15s ease"}}>
+    {/* Riposi */}
+    <div style={{display:"flex",gap:5,marginBottom:12}}>
+      <button onClick={()=>riposo("breve")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(232,160,48,0.3)",background:"rgba(232,160,48,0.08)",color:"var(--gold)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"\u2600\ufe0f"} Riposo Breve<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>+CORPO HP</span></button>
+      <button onClick={()=>riposo("lungo")} style={{flex:1,padding:"8px 0",borderRadius:7,border:"1px solid rgba(88,144,232,0.3)",background:"rgba(88,144,232,0.08)",color:"var(--blue)",fontSize:10,fontWeight:700,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"🌙"} Riposo Lungo<br/><span style={{fontSize:8,opacity:0.7,fontWeight:400}}>Tutto ripristinato</span></button>
+      <button onClick={resetCombat} title="Reset perk 1x/combat" style={{width:50,borderRadius:7,border:"1px solid var(--b1)",background:"var(--s3)",color:"var(--tx3)",fontSize:11,fontFamily:"Cinzel",cursor:"pointer",lineHeight:1.4}}>{"\u2694\ufe0f"}<br/><span style={{fontSize:7}}>reset</span></button>
     </div>
-  );
+
+    {/* Talenti */}
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+      <Sec>Talenti {c.talenti.length}/{MAX_TALENTI}</Sec>
+      {isMaster&&<button onClick={()=>setCustModal("talent")} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
+    </div>
+    {c.talenti.length<MAX_TALENTI&&<select onChange={e=>{if(e.target.value&&c.talenti.length<MAX_TALENTI){up({talenti:[...c.talenti,e.target.value]});e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
+      <option value="">+ Seleziona talento...</option>
+      {["accesso","limite","corpo","mente","anima","ibrido"].map(cat=>{const items=availT.filter(t=>t.cat===cat);if(!items.length)return null;return<optgroup key={cat} label={catLabels[cat]||cat}>{items.map(t=><option key={t.id} value={t.id} disabled={!!(t.req&&!hasTalent(c,t.req))}>{t.nome+(t.req&&!hasTalent(c,t.req)?" \ud83d\udd12":"")}</option>)}</optgroup>;})}
+    </select>}
+    {selT.map(t=><CoreItemCard key={t.id} item={t} color={catCol[t.cat]||"var(--gold)"}
+      onRemove={()=>up({talenti:c.talenti.filter(id=>id!==t.id)})}
+      perkUses={getPU(t.id)} hasPerkUse={hasPU(t)} onUsePerk={()=>usePerk(t.id)} onRestorePerk={()=>restorePerk(t.id)}/>)}
+    {c.talenti.length===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"6px 0 10px"}}>Nessun talento selezionato.</p>}
+
+    {/* Miglioramenti */}
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6,marginTop:14}}>
+      <Sec>Miglioramenti {c.augmenti.length}/{MAX_AUGMENTI}</Sec>
+      {isMaster&&<button onClick={()=>setCustModal("augment")} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
+    </div>
+    {c.augmenti.length>=MAX_AUGMENTI&&<div style={{padding:"8px 10px",borderRadius:6,background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.25)",marginBottom:8,fontSize:11,color:"#e08080",lineHeight:1.5}}>
+      {"\u26a0"} <strong>Limite raggiunto</strong> — max {MAX_AUGMENTI} modifiche. Ulteriori solo su scelta narrativa del Master.
+    </div>}
+    {c.augmenti.length<MAX_AUGMENTI&&<select onChange={e=>{if(e.target.value&&c.augmenti.length<MAX_AUGMENTI){up({augmenti:[...c.augmenti,e.target.value]});e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
+      <option value="">+ Seleziona miglioramento...</option>
+      {Object.keys(G.STILI||{}).map(stile=>{const items=availA.filter(a=>a.stile===stile);if(!items.length)return null;return<optgroup key={stile} label={(stileIcons[stile]||"")+" "+((G.STILI[stile]?.lbl)||stile)}>{items.map(a=><option key={a.id} value={a.id}>{a.nome} — {a.tipo}</option>)}</optgroup>;})}
+    </select>}
+    {selA.map(a=><CoreItemCard key={a.id} item={a} color="var(--red)"
+      onRemove={()=>up({augmenti:c.augmenti.filter(id=>id!==a.id)})}
+      perkUses={getPU(a.id)} hasPerkUse={hasPU(a)} onUsePerk={()=>usePerk(a.id)} onRestorePerk={()=>restorePerk(a.id)}/>)}
+    {c.augmenti.length===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"6px 0 10px"}}>Nessun miglioramento selezionato.</p>}
+
+    {/* Condizioni */}
+    <Sec style={{marginTop:14}}>Condizioni</Sec>
+    {(c.conditions||[]).length>=3&&<div style={{fontSize:10,color:"var(--red)",padding:"4px 8px",borderRadius:4,background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.25)",marginBottom:6,fontFamily:"JetBrains Mono"}}>{"\u26a0"} 3+ condizioni attive: -2 a tutti i tiri</div>}
+    <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+      {(G.CONDITIONS||[]).map(cond=>{const active=(c.conditions||[]).find(x=>x.id===cond.id);return<Pill key={cond.id} on={!!active} onClick={()=>{if(active)up({conditions:(c.conditions||[]).filter(x=>x.id!==cond.id)});else up({conditions:[...(c.conditions||[]),{id:cond.id,rounds:2}]});}} title={cond.effetto}>{cond.nome}</Pill>;})}
+    </div>
+
+    {custModal&&<AddToCompendioModal type={custModal} onClose={()=>setCustModal(null)}
+      onAdd={(item,addC)=>{pushCustomItem(custModal,item);if(addC){if(custModal==="talent"&&c.talenti.length<MAX_TALENTI)up({talenti:[...c.talenti,item.id]});else if(custModal==="augment"&&c.augmenti.length<MAX_AUGMENTI)up({augmenti:[...c.augmenti,item.id]});}setCustModal(null);}}/>}
+  </div>;
 }
 
-/* ═══════════════════════════════════════════════════════
-   SPELLS TAB — redesigned
-═══════════════════════════════════════════════════════ */
+/* ══════════════ SPELLS TAB — slot-cost per level ══════════════ */
 function SpellsTab({c,up,isMaster}){
   const[spellModal,setSpellModal]=useState(false);
-
-  const ms=maxSlots(c);
-  const used=c.slotUsati||0;
-  const avail=Math.max(0,ms-used);
-  const hasMb=hasTalent(c,"gate_mb");
-  const haMa=hasTalent(c,"gate_ma");
+  const ms=maxSlots(c);const used=c.slotUsati||0;const avail=Math.max(0,ms-used);
+  const hasMb=hasTalent(c,"gate_mb");const hasMa=hasTalent(c,"gate_ma");const hasIM=intuizioneMagica(c);
+  const canL12=hasMb||hasIM;const canL34=hasMa;
+  const redundant=hasMb&&hasIM;
 
   const allSp=G.SPELLS||[];
-  const selSpells=c.magie.map(id=>allSp.find(s=>s.id===id)).filter(Boolean);
-  const nCt=selSpells.filter(s=>s.tipo==="ct").length;
-  const nMg=selSpells.filter(s=>s.tipo==="mg").length;
+  const selSp=c.magie.map(id=>allSp.find(s=>s.id===id)).filter(Boolean);
+  const nCt=selSp.filter(s=>s.tipo==="ct").length;
 
   const availCt=allSp.filter(s=>s.tipo==="ct"&&!c.magie.includes(s.id));
-  const availMg=lvl=>{
-    if(lvl<=2&&!hasMb)return[];
-    if(lvl>=3&&!haMa)return[];
-    return allSp.filter(s=>s.tipo==="mg"&&s.lvl===lvl&&!c.magie.includes(s.id)&&(s.stat==="ANIMA"?c.anima:c.mente)>=s.min);
-  };
+  const availMg=lvl=>allSp.filter(s=>s.tipo==="mg"&&s.lvl===lvl&&!c.magie.includes(s.id)&&canLearnSpell(c,s));
 
-  const addSpell=id=>{
-    const sp=allSp.find(s=>s.id===id);if(!sp)return;
-    if(sp.tipo==="ct"&&nCt>=2)return;
-    if(sp.tipo==="mg"&&nMg>=ms)return;
-    up({magie:[...c.magie,id]});
-  };
+  const addSpell=id=>{const sp=allSp.find(s=>s.id===id);if(!sp)return;if(sp.tipo==="ct"&&nCt>=2)return;up({magie:[...c.magie,id]});};
   const removeSpell=id=>up({magie:c.magie.filter(x=>x!==id)});
-  const useSlot=()=>{if(used<ms)up({slotUsati:used+1});};
-  const restoreSlot=()=>{if(used>0)up({slotUsati:used-1});};
+
+  const useSlot=lvl=>{const cost=SPELL_COST[lvl]||1;if(used+cost<=ms)up({slotUsati:used+cost});};
+  const restoreBy=cost=>{if(used>=cost)up({slotUsati:used-cost});};
   const restoreAll=()=>up({slotUsati:0});
 
-  return(
-    <div style={{animation:"fadeIn 0.15s ease"}}>
-
-      {/* SLOT TRACKER */}
-      {(hasMb||haMa)&&ms>0&&(
-        <div style={{background:"var(--s2)",borderRadius:8,padding:"10px 12px",marginBottom:12,border:"1px solid var(--b1)"}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-            <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--gold)",letterSpacing:1}}>SLOT MAGIA</span>
-            <span style={{fontFamily:"JetBrains Mono",fontSize:13,fontWeight:700,color:avail===0?"var(--red)":"var(--green)"}}>{avail}/{ms}</span>
-          </div>
-          <div style={{display:"flex",gap:5,marginBottom:8,flexWrap:"wrap"}}>
-            {Array.from({length:ms}).map((_,i)=>(
-              <div key={i} style={{width:14,height:14,borderRadius:"50%",background:i<used?"var(--b2)":"var(--gold)",border:`1.5px solid ${i<used?"var(--b1)":"var(--gold)"}`,opacity:i<used?0.25:1,transition:"all 0.2s"}}/>
-            ))}
-          </div>
-          <div style={{display:"flex",gap:5}}>
-            <button onClick={useSlot} disabled={used>=ms} style={{flex:2,padding:"5px 0",borderRadius:5,border:"1.5px solid rgba(224,80,80,0.3)",background:"rgba(224,80,80,0.08)",color:"var(--red)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:"pointer",opacity:used>=ms?0.35:1}}>− Usa Slot</button>
-            <button onClick={restoreSlot} disabled={used===0} style={{flex:1,padding:"5px 0",borderRadius:5,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:12,cursor:"pointer",opacity:used===0?0.35:1}}>↺</button>
-            <button onClick={restoreAll} style={{flex:2,padding:"5px 0",borderRadius:5,border:"1.5px solid rgba(72,200,138,0.3)",background:"rgba(72,200,138,0.08)",color:"var(--green)",fontSize:10,fontFamily:"Cinzel",cursor:"pointer"}}>Ripristina tutti</button>
-          </div>
-        </div>
-      )}
-
-      {/* ─── CANTRIP ─── */}
+  return<div style={{animation:"fadeIn 0.15s ease"}}>
+    {/* Slot tracker */}
+    {ms>0&&<div style={{background:"var(--s2)",borderRadius:8,padding:"10px 12px",marginBottom:12,border:"1px solid var(--b1)"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-        <Sec>Cantrip {nCt}/2</Sec>
-        {isMaster&&<button onClick={()=>setSpellModal(true)} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
+        <span style={{fontFamily:"Cinzel",fontSize:10,fontWeight:700,color:"var(--gold)",letterSpacing:1}}>SLOT MAGIA (punti)</span>
+        <span style={{fontFamily:"JetBrains Mono",fontSize:14,fontWeight:700,color:avail===0?"var(--red)":avail<=2?"var(--gold)":"var(--green)"}}>{avail}/{ms}pt</span>
       </div>
-      {nCt<2&&(
-        <select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
-          <option value="">+ Aggiungi cantrip...</option>
-          {availCt.map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"♦":"✦"} {s.nome} ({s.stat})</option>)}
-        </select>
-      )}
-      {selSpells.filter(s=>s.tipo==="ct").map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)}/>)}
-      {nCt===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"4px 0 10px"}}>Nessun cantrip selezionato.</p>}
+      <div style={{display:"flex",gap:4,marginBottom:8,flexWrap:"wrap"}}>
+        {Array.from({length:ms}).map((_,i)=><div key={i} style={{width:14,height:14,borderRadius:"50%",background:i<used?"var(--b2)":"var(--gold)",border:"1.5px solid "+(i<used?"var(--b1)":"var(--gold)"),opacity:i<used?0.2:1,transition:"all 0.2s"}}/>)}
+      </div>
+      {/* Bottoni consuma per livello */}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:4,marginBottom:6}}>
+        {[1,2,3,4].map(lvl=>{const cost=SPELL_COST[lvl];const lvlOk=lvl<=2?canL12:canL34;const dis=!lvlOk||avail<cost;return<button key={lvl} onClick={()=>!dis&&useSlot(lvl)} style={{padding:"5px 0",borderRadius:5,border:"1.5px solid rgba(224,80,80,0.3)",background:dis?"rgba(255,255,255,0.03)":"rgba(224,80,80,0.08)",color:dis?"var(--b2)":"var(--red)",fontSize:10,fontFamily:"Cinzel",fontWeight:700,cursor:dis?"default":"pointer",lineHeight:1.3}}>L{lvl}<br/><span style={{fontSize:8,opacity:0.7}}>{"−"+cost+"pt"}</span></button>;})}
+      </div>
+      <div style={{display:"flex",gap:5}}>
+        {[1,2,3,4].map(lvl=>{const cost=SPELL_COST[lvl];const dis=used<cost;return<button key={lvl} onClick={()=>!dis&&restoreBy(cost)} style={{flex:1,padding:"3px 0",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--tx3)",fontSize:9,cursor:dis?"default":"pointer",opacity:dis?0.3:1}}>+{cost}pt</button>;})}
+        <button onClick={restoreAll} style={{flex:2,padding:"3px 0",borderRadius:4,border:"1.5px solid rgba(72,200,138,0.3)",background:"rgba(72,200,138,0.06)",color:"var(--green)",fontSize:9,fontFamily:"Cinzel",cursor:"pointer"}}>{"\u21ba"} Tutti</button>
+      </div>
+    </div>}
 
-      {/* ─── MAGIE PER LIVELLO ─── */}
-      {(hasMb||haMa)&&(
-        <>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6,marginTop:12}}>
-            <Sec>Magie {nMg}/{ms}</Sec>
-          </div>
-          {[1,2,3,4].map(lvl=>{
-            if(lvl<=2&&!hasMb)return null;
-            if(lvl>=3&&!haMa)return null;
-            const lvlSpells=selSpells.filter(s=>s.tipo==="mg"&&s.lvl===lvl);
-            const av=availMg(lvl);
-            const canAdd=nMg<ms;
-            return(
-              <div key={lvl} style={{marginBottom:10}}>
-                <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginBottom:5,paddingLeft:2}}>
-                  L{lvl} <span style={{color:"var(--gold)"}}>+{lvl-1}</span>
-                  {lvl<=2?" (Magia Base)":" (Magia Avanzata)"}
-                </div>
-                {canAdd&&av.length>0&&(
-                  <select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:6,fontSize:10}}>
-                    <option value="">+ Aggiungi L{lvl}...</option>
-                    {av.map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"♦":"✦"} {s.nome}</option>)}
-                  </select>
-                )}
-                {lvlSpells.map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)}/>)}
-              </div>
-            );
-          })}
-        </>
-      )}
+    {/* Intuizione Magica banner */}
+    {hasIM&&<div style={{padding:"6px 10px",borderRadius:6,background:"rgba(160,112,232,0.08)",border:"1px solid rgba(160,112,232,0.25)",marginBottom:8,fontSize:10}}>
+      <span style={{color:"var(--purple)",fontFamily:"Cinzel",fontWeight:700}}>{"\u2728"} Intuizione Magica</span>
+      <span style={{color:"var(--tx3)",marginLeft:6}}>MENTE{"\u226510"}: accesso automatico L1-L2</span>
+      {redundant&&<div style={{color:"var(--gold)",fontSize:9,marginTop:3}}>{"\u26a0"} Hai anche Magia Base — talento ridondante, sostituibile con Magia Avanzata</div>}
+    </div>}
 
-      {!hasMb&&!haMa&&(
-        <div style={{padding:"16px",borderRadius:8,background:"var(--s2)",border:"1px solid var(--b1)",textAlign:"center",marginTop:8}}>
-          <p style={{fontSize:11,color:"var(--tx3)"}}>Seleziona il talento <span style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700}}>Magia Base</span> per accedere alle magie L1-L2.</p>
-        </div>
-      )}
-
-      {spellModal&&<AddSpellModal onClose={()=>setSpellModal(false)}
-        onAdd={(item,addChar)=>{
-          pushCustomItem("spell",item);
-          if(addChar)up({magie:[...c.magie,item.id]});
-          setSpellModal(false);
-        }}/>}
+    {/* Cantrip */}
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+      <Sec>Cantrip {nCt}/2 (+0, illimitati)</Sec>
+      {isMaster&&<button onClick={()=>setSpellModal(true)} style={{fontSize:9,padding:"3px 9px",borderRadius:4,border:"1px solid var(--b2)",background:"var(--s3)",color:"var(--gold)",cursor:"pointer",fontFamily:"Cinzel",fontWeight:700}}>+ Compendio</button>}
     </div>
-  );
+    {nCt<2&&<select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:8,fontSize:11}}>
+      <option value="">+ Aggiungi cantrip...</option>
+      {availCt.map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"\u2666":"\u2726"} {s.nome} ({s.stat})</option>)}
+    </select>}
+    {selSp.filter(s=>s.tipo==="ct").map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)}/>)}
+    {nCt===0&&<p style={{fontSize:11,color:"var(--tx3)",fontStyle:"italic",padding:"4px 0 10px"}}>Nessun cantrip selezionato.</p>}
+
+    {/* Magie L1-L2 */}
+    {canL12&&<>
+      <Sec style={{marginTop:12}}>Magie L1-L2 {!hasMb&&hasIM?"(Intuizione Magica)":""}</Sec>
+      {[1,2].map(lvl=>{
+        const bonus=SPELL_BONUS[lvl];const cost=SPELL_COST[lvl];const minS=SPELL_MINS[lvl];
+        const lvlSp=selSp.filter(s=>s.tipo==="mg"&&s.lvl===lvl);const av=availMg(lvl);
+        return<div key={lvl} style={{marginBottom:10}}>
+          <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginBottom:5,paddingLeft:2,display:"flex",gap:8}}>
+            <span style={{color:"var(--blue)"}}>L{lvl}</span>
+            <span style={{color:"var(--gold)"}}>+{bonus} tiro</span>
+            <span style={{color:"var(--purple)"}}>{cost}pt slot</span>
+            <span>stat{"\u2265"}{minS}</span>
+          </div>
+          {av.length>0&&<select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:6,fontSize:10}}>
+            <option value="">+ Aggiungi L{lvl} (+{bonus}, costo {cost}pt)...</option>
+            {av.map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"\u2666":"\u2726"} {s.nome} ({s.stat})</option>)}
+          </select>}
+          {lvlSp.map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)}/>)}
+        </div>;
+      })}
+    </>}
+
+    {/* Magie L3-L4 */}
+    {canL34&&<>
+      <Sec style={{marginTop:12}}>Magie L3-L4 (Magia Avanzata)</Sec>
+      {[3,4].map(lvl=>{
+        const bonus=SPELL_BONUS[lvl];const cost=SPELL_COST[lvl];const minS=SPELL_MINS[lvl];
+        const lvlSp=selSp.filter(s=>s.tipo==="mg"&&s.lvl===lvl);const av=availMg(lvl);
+        return<div key={lvl} style={{marginBottom:10}}>
+          <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"JetBrains Mono",marginBottom:5,paddingLeft:2,display:"flex",gap:8}}>
+            <span style={{color:"var(--red)"}}>L{lvl}</span>
+            <span style={{color:"var(--gold)"}}>+{bonus} tiro</span>
+            <span style={{color:"var(--purple)"}}>{cost}pt slot</span>
+            <span>stat{"\u2265"}{minS}</span>
+          </div>
+          {av.length>0&&<select onChange={e=>{if(e.target.value){addSpell(e.target.value);e.target.value="";}}} style={{...SS.inp,width:"100%",marginBottom:6,fontSize:10}}>
+            <option value="">+ Aggiungi L{lvl} (+{bonus}, costo {cost}pt)...</option>
+            {av.map(s=><option key={s.id} value={s.id}>{s.stat==="ANIMA"?"\u2666":"\u2726"} {s.nome} ({s.stat})</option>)}
+          </select>}
+          {lvlSp.map(s=><CoreSpellCard key={s.id} spell={s} onRemove={()=>removeSpell(s.id)}/>)}
+        </div>;
+      })}
+    </>}
+
+    {!canL12&&!canL34&&<div style={{padding:"16px",borderRadius:8,background:"var(--s2)",border:"1px solid var(--b1)",textAlign:"center",marginTop:8}}>
+      <p style={{fontSize:11,color:"var(--tx3)"}}>Seleziona <span style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700}}>Magia Base</span> o raggiungi <span style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700}}>MENTE 10</span> per le magie L1-L2.</p>
+    </div>}
+
+    {spellModal&&<AddSpellModal onClose={()=>setSpellModal(false)}
+      onAdd={(item,addC)=>{pushCustomItem("spell",item);if(addC)up({magie:[...c.magie,item.id]});setSpellModal(false);}}/>}
+  </div>;
 }
 
 /* ═══ DICE TAB ═══ */
 function DiceTab({c,up}){
   const[result,setResult]=useState(null);
   const roll=(label,mod)=>{const r=Math.floor(Math.random()*12)+1;setResult({label,roll:r,mod,total:r+mod,nat12:r===12,nat1:r===1});};
-  return(
-    <div style={{animation:"fadeIn 0.15s ease"}}>
-      <Sec>Tiro Rapido d12</Sec>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:6,marginBottom:12}}>
-        <button onClick={()=>roll("Attacco",atkBonus(c))} style={{...SS.gold,padding:"14px 0"}}>⚔ Attacco +{atkBonus(c)}</button>
-        <button onClick={()=>roll("Iniziativa",initBonus(c))} style={{...SS.gold,padding:"14px 0"}}>⚡ Iniziativa +{initBonus(c)}</button>
-        {["corpo","mente","anima"].map(s=><button key={s} onClick={()=>roll(`Tiro ${s.toUpperCase()}`,c[s]+(c.competenza===s?compBonus(c):0))} style={{...SS.btn,padding:"12px 0"}}>{s.toUpperCase()} +{c[s]+(c.competenza===s?compBonus(c):0)}</button>)}
-        <button onClick={()=>roll("d12 nudo",0)} style={{...SS.btn,padding:"12px 0"}}>d12 nudo</button>
-      </div>
-      {result&&(
-        <div style={{textAlign:"center",padding:20,background:"var(--s1)",borderRadius:10,border:`1.5px solid ${result.nat12?"var(--gold)":result.nat1?"var(--red)":"var(--b1)"}`,marginBottom:12}}>
-          <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"Cinzel",marginBottom:4}}>{result.label}</div>
-          <div style={{fontSize:48,fontWeight:900,fontFamily:"JetBrains Mono",color:result.nat12?"var(--gold)":result.nat1?"var(--red)":"var(--tx)"}}>{result.total}</div>
-          <div style={{fontSize:11,color:"var(--tx3)",fontFamily:"JetBrains Mono"}}>[{result.roll}]{result.mod!==0&&(result.mod>0?` + ${result.mod}`:` - ${Math.abs(result.mod)}`)}</div>
-          {result.nat12&&<div style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}}>★ CRITICO ★</div>}
-          {result.nat1&&<div style={{color:"var(--red)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}}>✗ FALLIMENTO ✗</div>}
-        </div>
-      )}
+  return<div style={{animation:"fadeIn 0.15s ease"}}>
+    <Sec>Tiro Rapido d12</Sec>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:6,marginBottom:12}}>
+      <button onClick={()=>roll("Attacco",atkBonus(c))} style={{...SS.gold,padding:"14px 0"}}>{"\u2694"} ATK +{atkBonus(c)}</button>
+      <button onClick={()=>roll("Iniziativa",initBonus(c))} style={{...SS.gold,padding:"14px 0"}}>{"\u26a1"} INIT +{initBonus(c)}</button>
+      {["corpo","mente","anima"].map(s=><button key={s} onClick={()=>roll("Tiro "+s.toUpperCase(),(c[s]||0)+(c.competenza===s?compBonus(c):0))} style={{...SS.btn,padding:"12px 0"}}>{s.toUpperCase()} +{(c[s]||0)+(c.competenza===s?compBonus(c):0)}</button>)}
+      <button onClick={()=>roll("d12 nudo",0)} style={{...SS.btn,padding:"12px 0"}}>d12 nudo</button>
     </div>
-  );
+    {result&&<div style={{textAlign:"center",padding:20,background:"var(--s1)",borderRadius:10,border:"1.5px solid "+(result.nat12?"var(--gold)":result.nat1?"var(--red)":"var(--b1)"),marginBottom:12}}>
+      <div style={{fontSize:10,color:"var(--tx3)",fontFamily:"Cinzel",marginBottom:4}}>{result.label}</div>
+      <div style={{fontSize:48,fontWeight:900,fontFamily:"JetBrains Mono",color:result.nat12?"var(--gold)":result.nat1?"var(--red)":"var(--tx)"}}>{result.total}</div>
+      <div style={{fontSize:11,color:"var(--tx3)",fontFamily:"JetBrains Mono"}}>[{result.roll}]{result.mod!==0&&(result.mod>0?" + "+result.mod:" - "+Math.abs(result.mod))}</div>
+      {result.nat12&&<div style={{color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}}>{"\u2605"} CRITICO {"\u2605"}</div>}
+      {result.nat1&&<div style={{color:"var(--red)",fontFamily:"Cinzel",fontWeight:700,marginTop:4}}>{"\u2717"} FALLIMENTO {"\u2717"}</div>}
+    </div>}
+  </div>;
 }
 
 /* ═══ NOTES TAB ═══ */
 function NotesTab({c,up}){
-  return(
-    <div style={{animation:"fadeIn 0.15s ease"}}>
-      <Sec>Note di Sessione</Sec>
-      <textarea value={c.notes||""} onChange={e=>up({notes:e.target.value})} placeholder="Appunti..." style={{...SS.inp,width:"100%",minHeight:200,resize:"vertical",lineHeight:1.6,marginBottom:14}}/>
-      <Sec>Backstory</Sec>
-      <textarea value={c.backstory||""} onChange={e=>up({backstory:e.target.value})} placeholder="Background..." style={{...SS.inp,width:"100%",minHeight:200,resize:"vertical",lineHeight:1.6}}/>
-    </div>
-  );
+  return<div style={{animation:"fadeIn 0.15s ease"}}>
+    <Sec>Note di Sessione</Sec>
+    <textarea value={c.notes||""} onChange={e=>up({notes:e.target.value})} placeholder="Appunti..." style={{...SS.inp,width:"100%",minHeight:200,resize:"vertical",lineHeight:1.6,marginBottom:14}}/>
+    <Sec>Backstory</Sec>
+    <textarea value={c.backstory||""} onChange={e=>up({backstory:e.target.value})} placeholder="Background..." style={{...SS.inp,width:"100%",minHeight:200,resize:"vertical",lineHeight:1.6}}/>
+  </div>;
 }
 
-/* ═══ COMMON ═══ */
-function Sec({children,style:extra}){
-  return<h3 style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:"var(--gold)",letterSpacing:2,textTransform:"uppercase",margin:"14px 0 8px",...extra}}>{children}</h3>;
-}
-function Pill({on,dim,color,onClick,title,children}){
-  const c=color||"var(--gold)";
-  return<span onClick={dim?null:onClick} title={title} style={{fontSize:11,padding:"4px 10px",borderRadius:20,cursor:dim?"default":"pointer",border:`1px solid ${on?c:"var(--b1)"}`,background:on?`${c}18`:"var(--s3)",color:on?c:"var(--tx2)",opacity:dim?0.22:1,transition:"all 0.15s",userSelect:"none"}}>{children}</span>;
+/* ══════════════ COMPENDIUM PAGE ══════════════ */
+function CompendiumPage({onBack}){
+  const[tab,setTab]=useState("spells");const[search,setSearch]=useState("");const[stileF,setStileF]=useState("all");const[detail,setDetail]=useState(null);
+  const tabs=[{id:"spells",label:"Magie",icon:"\ud83d\udcd5"},{id:"talents",label:"Talenti",icon:"\ud83c\udfad"},{id:"augments",label:"Modifiche",icon:"\u26a1"},{id:"weapons",label:"Armi",icon:"\u2694\ufe0f"},{id:"monsters",label:"Mostri",icon:"\ud83d\udc79"}];
+  const q=search.toLowerCase();
+  const mSt=item=>stileF==="all"||item.stile===stileF;
+  const mS=item=>(item.nome||"").toLowerCase().includes(q)||(item.desc||"").toLowerCase().includes(q)||(item.mec||"").toLowerCase().includes(q);
+  const Card=({item,type})=>{
+    const bonus=type==="spell"?spellBonus(item):null;const cost=type==="spell"?spellCost(item):null;
+    return<div onClick={()=>setDetail({item,type})} style={{...SS.card,cursor:"pointer",borderLeft:"3px solid "+(type==="spell"?"var(--purple)":type==="talent"?"var(--blue)":type==="augment"?"var(--red)":type==="monster"?"var(--red)":"var(--gold)")}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
+        <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:13,color:"var(--tx)"}}>{item.nome}</span>
+        <div style={{display:"flex",gap:4,alignItems:"center"}}>
+          {bonus!==null&&bonus>0&&<span style={{fontSize:8,padding:"1px 4px",borderRadius:3,background:"rgba(232,160,48,0.15)",color:"var(--gold)",fontFamily:"JetBrains Mono",fontWeight:700}}>+{bonus}</span>}
+          {cost>0&&<span style={{fontSize:8,padding:"1px 4px",borderRadius:3,background:"rgba(160,112,232,0.12)",color:"var(--purple)",fontFamily:"JetBrains Mono"}}>{cost}pt</span>}
+          <span style={{fontSize:9,color:"var(--tx3)"}}>{(G.STILI||{})[item.stile]?.icon||""}</span>
+        </div>
+      </div>
+      <p style={{fontSize:11,color:"var(--tx2)",lineHeight:1.4,margin:0}}>{item.desc||item.mec||""}</p>
+      {type==="monster"&&<div style={{fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)",marginTop:4}}>{item.tier} · C{item.corpo}/M{item.mente}/A{item.anima} · HP {item.hp}</div>}
+    </div>;
+  };
+  let content=[];
+  if(tab==="spells"){
+    const items=(G.SPELLS||[]).filter(s=>mSt(s)&&mS(s));
+    const grouped={};items.forEach(s=>{const k=s.tipo==="ct"?"Cantrip":"Livello "+s.lvl;if(!grouped[k])grouped[k]=[];grouped[k].push(s);});
+    Object.entries(grouped).forEach(([lbl,sps])=>{content.push(<div key={lbl} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px",letterSpacing:1}}>{lbl}</div>);content.push(<div key={lbl+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{sps.map(item=><Card key={item.id} item={item} type="spell"/>)}</div>);});
+  }else if(tab==="talents"){
+    const items=(G.TALENTS||[]).filter(t=>mSt(t)&&mS(t));
+    const cats=["accesso","limite","corpo","mente","anima","ibrido"];
+    const lbls={accesso:"\u26a1 Accessi",limite:"\u2b06 Limiti",corpo:"CORPO",mente:"MENTE",anima:"ANIMA",ibrido:"Ibrido"};
+    cats.forEach(cat=>{const ts=items.filter(t=>t.cat===cat);if(!ts.length)return;content.push(<div key={cat} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px",letterSpacing:1}}>{lbls[cat]||cat}</div>);content.push(<div key={cat+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{ts.map(item=><Card key={item.id} item={item} type="talent"/>)}</div>);});
+  }else if(tab==="augments"){
+    const items=(G.AUGMENTS||[]).filter(a=>mSt(a)&&mS(a));
+    content.push(<div key="ag" style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{items.map(item=><Card key={item.id} item={item} type="augment"/>)}</div>);
+  }else if(tab==="weapons"){
+    content.push(<div key="note" style={{padding:"8px 12px",borderRadius:6,background:"rgba(232,160,48,0.06)",border:"1px solid rgba(232,160,48,0.2)",marginBottom:10,fontSize:11,color:"var(--tx2)",lineHeight:1.6}}>
+      <strong style={{color:"var(--gold)"}}>Bilanciamento:</strong> le armi sono illimitate ma con bonus fissi. Le magie hanno bonus maggiori ma consumano slot-punti.
+    </div>);
+    Object.entries(G.WCAT||{}).forEach(([k,v])=>{const b=WCAT_BONUS[k]||v.bonus;content.push(<div key={k} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px"}}>{"Cat "+k+" +"+b+" — "+v.nome}</div>);content.push(<div key={k+"p"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{(G.WPERKS?.[k]||[]).map(p=><div key={p.id} style={{...SS.card,borderLeft:"3px solid var(--gold)"}}><span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:13,color:"var(--tx)"}}>{p.nome}</span><p style={{fontSize:11,color:"var(--tx2)",margin:"4px 0"}}>{p.desc}</p><div style={{display:"flex",gap:4}}><span style={{fontSize:10,color:"var(--green)"}}>✔ {p.pro}</span><span style={{fontSize:10,color:"var(--red)"}}>✘ {p.con}</span></div></div>)}</div>);});
+  }else if(tab==="monsters"){
+    const items=(G.MONSTERS||[]).filter(m=>mS(m));
+    ["gregario","normale","elite","boss"].forEach(tier=>{const ms=items.filter(m=>m.tier===tier);if(!ms.length)return;content.push(<div key={tier} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px",letterSpacing:1,textTransform:"uppercase"}}>{tier}</div>);content.push(<div key={tier+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{ms.map(item=><Card key={item.id} item={item} type="monster"/>)}</div>);});
+  }
+  return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}}>
+    <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
+      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
+      <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Compendio</h2>
+    </div>
+    <div style={{flexShrink:0,padding:"8px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s2)"}}>
+      <div style={{display:"flex",gap:4,marginBottom:6,overflowX:"auto"}}>{tabs.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{...SS.btn,padding:"4px 10px",fontSize:11,borderColor:tab===t.id?"var(--gold)":"var(--b1)",color:tab===t.id?"var(--gold)":"var(--tx3)",background:tab===t.id?"rgba(232,160,48,0.1)":"none",whiteSpace:"nowrap"}}>{t.icon} {t.label}</button>)}</div>
+      <div style={{display:"flex",gap:6}}>
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cerca..." style={{...SS.inp,flex:1,fontSize:12}}/>
+        <select value={stileF} onChange={e=>setStileF(e.target.value)} style={{...SS.inp,width:110,fontSize:11}}><option value="all">Tutti stili</option>{Object.entries(G.STILI||{}).map(([k,v])=><option key={k} value={k}>{v.icon+" "+v.lbl}</option>)}</select>
+      </div>
+    </div>
+    <div style={{flex:1,overflowY:"auto",padding:"12px 18px 160px"}}>{content}</div>
+    {detail&&<InfoModal item={detail.item} type={detail.type} onClose={()=>setDetail(null)}/>}
+  </div>;
 }
 
 /* ═══ INFO MODAL ═══ */
 function InfoModal({item,type,onClose}){
   if(!item)return null;
-  const stile=G.STILI?.[item.stile]||{lbl:"?",icon:"?"};
-  return(
-    <div style={SS.po} onClick={onClose}>
-      <div style={{...SS.pc,maxWidth:480,maxHeight:"80vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-          <span style={{fontFamily:"Cinzel",fontSize:15,fontWeight:700,color:"var(--gold)"}}>{item.nome}</span>
-          <button onClick={onClose} style={{background:"none",border:"none",color:"var(--red)",fontSize:16,cursor:"pointer"}}>✕</button>
-        </div>
-        <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:8}}>
-          <span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(232,160,48,0.1)",color:"var(--gold)",border:"1px solid rgba(232,160,48,0.2)"}}>{stile.icon+" "+stile.lbl}</span>
-          {type==="spell"&&<span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(160,112,232,0.1)",color:"var(--purple)"}}>{item.tipo==="ct"?"Cantrip":`L${item.lvl} +${item.bonus} · ${item.stat} ≥${item.min}`}</span>}
-          {type==="talent"&&<span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(88,144,232,0.1)",color:"var(--blue)"}}>{item.cat}</span>}
-          {type==="augment"&&<span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(224,80,80,0.1)",color:"var(--red)"}}>{item.tipo}</span>}
-        </div>
-        {item.desc&&<p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>{item.desc}</p>}
-        {item.mec&&<div style={{fontSize:12,color:"var(--tx)",padding:"8px 10px",background:"var(--s3)",borderRadius:6,marginBottom:8,fontFamily:"JetBrains Mono",lineHeight:1.5}}>{item.mec}</div>}
-        <div style={{display:"flex",gap:6,marginBottom:6}}>
-          {item.pro&&<div style={{flex:1,fontSize:11,padding:"6px 8px",borderRadius:6,background:"rgba(72,200,138,0.08)",border:"1px solid rgba(72,200,138,0.2)",color:"var(--green)"}}>✔ {item.pro}</div>}
-          {item.con&&<div style={{flex:1,fontSize:11,padding:"6px 8px",borderRadius:6,background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.2)",color:"var(--red)"}}>✘ {item.con}</div>}
-        </div>
-        {item.manutenzione&&<div style={{fontSize:10,color:"var(--gold)",padding:"4px 8px",background:"rgba(232,160,48,0.08)",borderRadius:4,marginTop:4}}>⚠ Manutenzione: {item.manutenzione}</div>}
-        {item.perk&&<div style={{fontSize:11,color:"var(--cyan)",padding:"6px 8px",background:"rgba(64,200,200,0.08)",borderRadius:4,marginTop:4,border:"1px solid rgba(64,200,200,0.15)",lineHeight:1.4}}>⭐ PERK: {item.perk}</div>}
-        {item.req&&<div style={{fontSize:10,color:"var(--tx3)",marginTop:4}}>Richiede: {tById(item.req)?.nome||item.req}</div>}
+  const stile=(G.STILI||{})[item.stile]||{lbl:"?",icon:"?"};
+  const bonus=type==="spell"?spellBonus(item):null;const cost=type==="spell"?spellCost(item):null;
+  return<div style={SS.po} onClick={onClose}>
+    <div style={{...SS.pc,maxWidth:480,maxHeight:"80vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+        <span style={{fontFamily:"Cinzel",fontSize:15,fontWeight:700,color:"var(--gold)"}}>{item.nome}</span>
+        <button onClick={onClose} style={{background:"none",border:"none",color:"var(--red)",fontSize:16,cursor:"pointer"}}>{"\u2715"}</button>
       </div>
+      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:8}}>
+        <span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(232,160,48,0.1)",color:"var(--gold)",border:"1px solid rgba(232,160,48,0.2)"}}>{stile.icon+" "+stile.lbl}</span>
+        {type==="spell"&&<><span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(160,112,232,0.1)",color:"var(--purple)"}}>{item.tipo==="ct"?"Cantrip":"L"+item.lvl}</span>{bonus>0&&<span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(232,160,48,0.15)",color:"var(--gold)",fontFamily:"JetBrains Mono",fontWeight:700}}>+{bonus}</span>}{cost>0&&<span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(160,112,232,0.12)",color:"var(--purple)",fontFamily:"JetBrains Mono"}}>{cost}pt</span>}</>}
+        {type==="talent"&&<span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(88,144,232,0.1)",color:"var(--blue)"}}>{item.cat}</span>}
+        {type==="augment"&&<span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"rgba(224,80,80,0.1)",color:"var(--red)"}}>{item.tipo}</span>}
+      </div>
+      {item.desc&&<p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>{item.desc}</p>}
+      {item.mec&&<div style={{fontSize:12,color:"var(--tx)",padding:"8px 10px",background:"var(--s3)",borderRadius:6,marginBottom:8,fontFamily:"JetBrains Mono",lineHeight:1.5}}>{item.mec}</div>}
+      <div style={{display:"flex",gap:6,marginBottom:6}}>
+        {item.pro&&<div style={{flex:1,fontSize:11,padding:"6px 8px",borderRadius:6,background:"rgba(72,200,138,0.08)",border:"1px solid rgba(72,200,138,0.2)",color:"var(--green)"}}>✔ {item.pro}</div>}
+        {item.con&&<div style={{flex:1,fontSize:11,padding:"6px 8px",borderRadius:6,background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.2)",color:"var(--red)"}}>✘ {item.con}</div>}
+      </div>
+      {item.manutenzione&&<div style={{fontSize:10,color:"var(--gold)",padding:"4px 8px",background:"rgba(232,160,48,0.08)",borderRadius:4,marginTop:4}}>{"\u26a0"} Manutenzione: {item.manutenzione}</div>}
+      {item.perk&&<div style={{fontSize:11,color:"var(--cyan)",padding:"6px 8px",background:"rgba(64,200,200,0.08)",borderRadius:4,marginTop:4,border:"1px solid rgba(64,200,200,0.15)",lineHeight:1.4}}>{"\u2b50"} PERK: {item.perk}</div>}
+      {item.req&&<div style={{fontSize:10,color:"var(--tx3)",marginTop:4}}>Richiede: {tById(item.req)?.nome||item.req}</div>}
     </div>
-  );
-}
-
-/* ═══ COMPENDIUM PAGE ═══ */
-function CompendiumPage({onBack}){
-  const[tab,setTab]=useState("spells");
-  const[search,setSearch]=useState("");
-  const[stileF,setStileF]=useState("all");
-  const[detail,setDetail]=useState(null);
-  const tabs=[{id:"spells",label:"Magie",icon:"📕"},{id:"talents",label:"Talenti",icon:"🎭"},{id:"augments",label:"Modifiche",icon:"⚡"},{id:"weapons",label:"Armi",icon:"⚔️"},{id:"monsters",label:"Mostri",icon:"👹"}];
-  const q=search.toLowerCase();
-  const matchStile=item=>stileF==="all"||item.stile===stileF;
-  const matchSearch=item=>(item.nome||"").toLowerCase().includes(q)||(item.desc||"").toLowerCase().includes(q)||(item.mec||"").toLowerCase().includes(q);
-  const renderCards=(items,type)=>items.map(item=>(
-    <div key={item.id} onClick={()=>setDetail({item,type})} style={{...SS.card,cursor:"pointer",borderLeft:`3px solid ${type==="spell"?"var(--purple)":type==="talent"?"var(--blue)":type==="augment"?"var(--red)":type==="monster"?"var(--red)":"var(--gold)"}`,transition:"border-color 0.15s"}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
-        <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:13,color:"var(--tx)"}}>{item.nome}</span>
-        <span style={{fontSize:9,color:"var(--tx3)",fontFamily:"JetBrains Mono"}}>{(G.STILI?.[item.stile]?.icon||"")+" "+(G.STILI?.[item.stile]?.lbl||"")}</span>
-      </div>
-      <p style={{fontSize:11,color:"var(--tx2)",lineHeight:1.4,margin:0}}>{item.desc||item.mec||""}</p>
-      {type==="monster"&&<div style={{fontSize:10,fontFamily:"JetBrains Mono",color:"var(--tx3)",marginTop:4}}>{item.tier} · C{item.corpo}/M{item.mente}/A{item.anima} · HP {item.hp}</div>}
-    </div>
-  ));
-  let content=[];
-  if(tab==="spells"){
-    const items=(G.SPELLS||[]).filter(s=>matchStile(s)&&matchSearch(s));
-    const grouped={};items.forEach(s=>{const k=s.tipo==="ct"?"Cantrip":`Livello ${s.lvl}`;if(!grouped[k])grouped[k]=[];grouped[k].push(s);});
-    Object.entries(grouped).forEach(([label,spells])=>{
-      content.push(<div key={label} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px",letterSpacing:1}}>{label}</div>);
-      content.push(<div key={label+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{renderCards(spells,"spell")}</div>);
-    });
-  }else if(tab==="talents"){
-    const items=(G.TALENTS||[]).filter(t=>matchStile(t)&&matchSearch(t));
-    const cats=["accesso","limite","corpo","mente","anima","ibrido"];
-    const labels={accesso:"⚡ Accessi",limite:"⬆ Limiti",corpo:"CORPO",mente:"MENTE",anima:"ANIMA",ibrido:"Ibrido"};
-    cats.forEach(cat=>{const ts=items.filter(t=>t.cat===cat);if(!ts.length)return;
-      content.push(<div key={cat} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px",letterSpacing:1}}>{labels[cat]||cat}</div>);
-      content.push(<div key={cat+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{renderCards(ts,"talent")}</div>);
-    });
-  }else if(tab==="augments"){
-    const items=(G.AUGMENTS||[]).filter(a=>matchStile(a)&&matchSearch(a));
-    content.push(<div key="ag" style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{renderCards(items,"augment")}</div>);
-  }else if(tab==="weapons"){
-    Object.entries(G.WCAT||{}).forEach(([k,v])=>{
-      content.push(<div key={k} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px"}}>{`Cat ${k} — ${v.nome} +${v.bonus}`}</div>);
-      content.push(<div key={k+"p"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>
-        {(G.WPERKS?.[k]||[]).map(p=><div key={p.id} style={{...SS.card,borderLeft:"3px solid var(--gold)"}}>
-          <span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:13,color:"var(--tx)"}}>{p.nome}</span>
-          <p style={{fontSize:11,color:"var(--tx2)",margin:"4px 0"}}>{p.desc}</p>
-          <div style={{display:"flex",gap:4}}>
-            <span style={{fontSize:10,color:"var(--green)"}}>✔ {p.pro}</span>
-            <span style={{fontSize:10,color:"var(--red)"}}>✘ {p.con}</span>
-          </div>
-        </div>)}
-      </div>);
-    });
-  }else if(tab==="monsters"){
-    const items=(G.MONSTERS||[]).filter(m=>matchSearch(m));
-    const tiers=["gregario","normale","elite","boss"];
-    tiers.forEach(tier=>{const ms=items.filter(m=>m.tier===tier);if(!ms.length)return;
-      content.push(<div key={tier} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px",letterSpacing:1,textTransform:"uppercase"}}>{tier}</div>);
-      content.push(<div key={tier+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{renderCards(ms,"monster")}</div>);
-    });
-  }
-  return(
-    <div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}}>
-      <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
-        <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>←</button>
-        <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Compendio</h2>
-      </div>
-      <div style={{flexShrink:0,padding:"8px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s2)"}}>
-        <div style={{display:"flex",gap:4,marginBottom:6,overflowX:"auto"}}>
-          {tabs.map(t=><button key={t.id} onClick={()=>setTab(t.id)} style={{...SS.btn,padding:"4px 10px",fontSize:11,borderColor:tab===t.id?"var(--gold)":"var(--b1)",color:tab===t.id?"var(--gold)":"var(--tx3)",background:tab===t.id?"rgba(232,160,48,0.1)":"none",whiteSpace:"nowrap"}}>{t.icon} {t.label}</button>)}
-        </div>
-        <div style={{display:"flex",gap:6}}>
-          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cerca..." style={{...SS.inp,flex:1,fontSize:12}}/>
-          <select value={stileF} onChange={e=>setStileF(e.target.value)} style={{...SS.inp,width:110,fontSize:11}}>
-            <option value="all">Tutti stili</option>
-            {Object.entries(G.STILI||{}).map(([k,v])=><option key={k} value={k}>{v.icon+" "+v.lbl}</option>)}
-          </select>
-        </div>
-      </div>
-      <div style={{flex:1,overflowY:"auto",padding:"12px 18px 160px"}}>{content}</div>
-      {detail&&<InfoModal item={detail.item} type={detail.type} onClose={()=>setDetail(null)}/>}
-    </div>
-  );
+  </div>;
 }
 
 /* ═══ HOMEBREW GUIDE ═══ */
@@ -1030,21 +889,26 @@ function HomebrewGuide({onBack}){
   const s={sec:{fontFamily:"Cinzel",fontSize:14,fontWeight:700,color:"var(--gold)",letterSpacing:1,margin:"20px 0 10px",paddingBottom:6,borderBottom:"1px solid var(--b1)"},p:{fontSize:13,color:"var(--tx2)",lineHeight:1.7,marginBottom:10},box:{background:"var(--s2)",border:"1px solid var(--b1)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--tx2)",lineHeight:1.6},warn:{background:"rgba(224,80,80,0.08)",border:"1px solid rgba(224,80,80,0.2)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"#e08080",lineHeight:1.6},good:{background:"rgba(72,200,138,0.08)",border:"1px solid rgba(72,200,138,0.2)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--green)",lineHeight:1.6}};
   return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}}>
     <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
-      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>←</button>
+      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
       <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--cyan)"}}>Guida Homebrew</h2>
     </div>
     <div style={{flex:1,overflowY:"auto",padding:"12px 18px 80px",maxWidth:800,margin:"0 auto",width:"100%"}}>
-      <div style={s.sec}>Filosofia del Bilanciamento</div>
-      <p style={s.p}>Ogni elemento in C.O.R.E. ha un PRO e un CON espliciti. Non esistono scelte "migliori" — solo scelte diverse con trade-off diversi. Quando crei contenuti homebrew, rispetta questo principio.</p>
+      <div style={s.sec}>Filosofia Bilanciamento</div>
+      <p style={s.p}>Armi e magie sono asimmetriche per design. Le armi fanno danno costante illimitato. Le magie fanno più danno ma si esauriscono. Non cercare di pareggiarle: hanno trade-off diversi.</p>
+      <div style={{...s.box,fontFamily:"JetBrains Mono",fontSize:11,lineHeight:1.8}}>
+        ARMI:  Cat A +1 · B +2 · C +3 · D +4  (illimitate){"\n"}
+        MAGIE: Cantrip +0 · L1 +2 (1pt) · L2 +4 (2pt) · L3 +6 (3pt) · L4 +8 (4pt){"\n"}
+        Pool slot = max(MENTE,ANIMA)−2  (es. MENTE 10 = 8pt)
+      </div>
       <div style={s.sec}>Regole d'Oro</div>
-      <div style={s.good}>✔ Ogni bonus deve avere un costo proporzionale<br/>✔ Confronta sempre con contenuti esistenti dello stesso livello<br/>✔ PRO e CON devono essere entrambi meccanicamente rilevanti<br/>✔ Un talento non deve essere strettamente migliore di un altro<br/>✔ Usa le 3 stat (CORPO/MENTE/ANIMA) come unici riferimenti</div>
-      <div style={s.warn}>✘ Mai bonus superiori a +5 senza costi enormi<br/>✘ Mai effetti permanenti senza condizioni o limiti d'uso<br/>✘ Mai dare accesso a Cat C/D o magie L3-4 senza talento Accesso<br/>✘ Mai creare condizioni che durano più di 3 round<br/>✘ Mai usare termini come Percezione, Furtività — solo CORPO/MENTE/ANIMA</div>
+      <div style={s.good}>✔ Rispetta i bonus per livello: non superarli{"\n"}✔ Effetti debilitanti: durata ≤3 round{"\n"}✔ PRO e CON entrambi meccanicamente rilevanti{"\n"}✔ Un talento non deve essere strettamente migliore di un altro</div>
+      <div style={s.warn}>✘ Non superare i bonus della tabella standard{"\n"}✘ Non effetti permanenti senza grandi costi{"\n"}✘ Non ignorare il requisito stat minima per le magie{"\n"}✘ Non cantrip con effetti da magia L1+</div>
       <div style={s.sec}>Aggiungere in-session (Master)</div>
-      <p style={s.p}>Dalla scheda del PG, nella tab Azioni o Magie, se sei Master vedrai il bottone <strong style={{color:"var(--gold)"}}>+ Compendio</strong>. Compila il form e l'elemento sarà disponibile subito nel selettore di quel personaggio e di tutti i futuri PG su questo dispositivo.</p>
+      <p style={s.p}>Dalla scheda, tab Azioni o Magie, il bottone <strong style={{color:"var(--gold)"}}>+ Compendio</strong> apre il form. I bonus e min-stat vengono calcolati automaticamente dal livello scelto. Salvato in localStorage, visibile subito per tutti i PG su quel dispositivo.</p>
       <div style={{...s.box,fontFamily:"JetBrains Mono",fontSize:11}}>
-        PERK con uso tracciato: scrivi "1x/combat:" nel campo Perk.<br/>
-        Esempio: "1x/combat: se colpisci, il nemico subisce Stordito 1 round."<br/>
-        Il bottone Usa/↺ apparirà automaticamente nella card del PG.
+        PERK tracciato: scrivi "1x/combat:" nel campo Perk.{"\n"}
+        Es: "1x/combat: se colpisci, il nemico subisce Stordito 1 round."{"\n"}
+        Il bottone Usa/↺ appare automaticamente nella card del PG.
       </div>
     </div>
   </div>;
@@ -1053,65 +917,76 @@ function HomebrewGuide({onBack}){
 /* ═══ MANUAL PAGE ═══ */
 function ManualPage({onBack}){
   const R=G.CORE_RULES||{};const W=G.WOUND_TIERS||[];const HP=G.HERO_POINT||{};
-  const WC=G.WCAT||{};const AR=G.ARMORS||[];const SH=G.SHIELDS||[];const CO=G.CONDITIONS||[];
-  if(!G.WCAT){return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column"}}>
+  const AR=G.ARMORS||[];const SH=G.SHIELDS||[];const CO=G.CONDITIONS||[];
+  if(!G.WCAT)return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column"}}>
     <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
-      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>←</button>
+      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
       <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Manuale</h2>
     </div>
-    <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
-      <p style={{color:"var(--red)",textAlign:"center",fontSize:13}}>⚠️ core-data.js non caricato.</p>
-    </div>
-  </div>;}
+    <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}><p style={{color:"var(--red)",textAlign:"center",fontSize:13}}>{"\u26a0\ufe0f"} core-data.js non caricato.</p></div>
+  </div>;
+
   const s={sec:{fontFamily:"Cinzel",fontSize:14,fontWeight:700,color:"var(--gold)",letterSpacing:1,margin:"20px 0 10px",paddingBottom:6,borderBottom:"1px solid var(--b1)"},p:{fontSize:13,color:"var(--tx2)",lineHeight:1.7,marginBottom:10},box:{background:"var(--s2)",border:"1px solid var(--b1)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--tx2)",lineHeight:1.6},formula:{background:"var(--s3)",borderLeft:"3px solid var(--gold)",borderRadius:6,padding:"10px 14px",fontFamily:"JetBrains Mono",fontSize:13,color:"var(--gold)",marginBottom:10},tbl:{width:"100%",borderCollapse:"collapse",marginBottom:12,fontSize:12},th:{background:"var(--s3)",color:"var(--tx2)",fontFamily:"Cinzel",fontSize:10,letterSpacing:1,padding:"7px 10px",textAlign:"left",border:"1px solid var(--b1)"},td:{padding:"6px 10px",border:"1px solid var(--b1)",color:"var(--tx2)"}};
   const Tbl=({cols,rows})=><table style={s.tbl}><thead><tr>{cols.map((c,i)=><th key={i} style={s.th}>{c}</th>)}</tr></thead><tbody>{(rows||[]).map((r,i)=><tr key={i}>{r.map((c,j)=><td key={j} style={{...s.td,...(j===0?{color:"var(--gold)",fontFamily:"JetBrains Mono",fontSize:11}:{})}}>{c||"—"}</td>)}</tr>)}</tbody></table>;
+
   return<div style={{height:"var(--app-h)",display:"flex",flexDirection:"column",overflow:"hidden"}}>
     <div style={{flexShrink:0,padding:"14px 18px",borderBottom:"1px solid var(--b1)",background:"var(--s1)",display:"flex",alignItems:"center",gap:10}}>
-      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>←</button>
+      <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
       <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)"}}>Manuale C.O.R.E.</h2>
     </div>
     <div style={{flex:1,overflowY:"auto",padding:"12px 18px 80px",maxWidth:900,margin:"0 auto",width:"100%"}}>
       <div style={{...s.box,background:"linear-gradient(135deg,rgba(232,160,48,0.08),rgba(232,160,48,0.03))",borderColor:"rgba(232,160,48,0.25)"}}>
         <div style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",marginBottom:6}}>Filosofia</div>
-        <p style={{...s.p,margin:0}}>Un dado, tre caratteristiche, regole modulari. La complessità cresce col personaggio, non con le regole.</p>
+        <p style={{...s.p,margin:0}}>Un dado, tre caratteristiche, regole modulari. Armi = costante illimitato. Magie = burst limitato. La complessità cresce col personaggio, non con le regole.</p>
       </div>
-      <div style={s.sec}>1. Caratteristiche</div>
-      <Tbl cols={["Stat","Governa","Difende vs"]} rows={[["CORPO","Forza, resistenza, fisico","Attacchi fisici"],["MENTE","Intelligenza, magia, tech","Magie mentali, hacking"],["ANIMA","Carisma, volontà, spirito","Magie sociali, paura"]]}/>
-      <div style={s.sec}>2. HP e Creazione</div>
-      <div style={s.formula}>HP = CORPO + MENTE + ANIMA</div>
-      <p style={s.p}>12 punti da distribuire (min 1/stat, cap 10). 1 Talento iniziale. Max 2 cantrip. Competenza: scegli 1 stat. Arma: nome + categoria + perk.</p>
-      <div style={s.sec}>3. Meccanica d12</div>
-      <div style={s.formula}>Risultato = 1d12 + Stat + Modificatori · Danno = Risultato - Difesa (min 0)</div>
-      <div style={s.sec}>4. Competenza e Iniziativa</div>
-      <p style={s.p}>Scegli 1 stat alla creazione. Il bonus scala col valore:</p>
-      <Tbl cols={["Stat","Bonus Competenza"]} rows={(R.compTable||[]).map(r=>[r.stat,`+${r.bonus}`])}/>
-      <div style={s.formula}>Iniziativa = 1d12 + Stat di Competenza + Bonus Competenza</div>
-      <div style={s.sec}>5. Ferite</div>
-      <Tbl cols={["Tier","Stato HP","Penalità"]} rows={W.map(w=>[w.nome,w.tier===0?"Pieno":w.tier===1?">= 1/3 persi":w.tier===2?">= 2/3 persi":"0 HP",w.penalita===null?"Non agisce. 3 round.":w.penalita===0?"—":`${w.penalita} tutti i tiri`])}/>
-      <div style={s.sec}>6. Armi</div>
-      <Tbl cols={["Cat","+Attacco","Restrizioni"]} rows={Object.entries(WC).map(([k,v])=>[`Cat ${k}`,`+${v.bonus}`,v.req?(tById(v.req)?.nome||"?")+" richiesto":"—"])}/>
-      <div style={s.sec}>7. Armature & Scudi</div>
-      <Tbl cols={["Armatura","+Difesa","Penalità","Req"]} rows={AR.map(a=>[a.nome,`+${a.bonus}`,a.penMente?`-${a.penMente} MENTE`:"—",a.req?`CORPO ${a.req}+`:"—"])}/>
-      <Tbl cols={["Scudo","+Difesa","Penalità","Restrizioni"]} rows={SH.map(sh=>[sh.nome,`+${sh.bonus}`,sh.penMente?`-${sh.penMente} MENTE`+(sh.penAnima?`, -${sh.penAnima} ANIMA`:""):"—",sh.rest?`Solo Cat ${sh.rest.join("/")}`:sh.id===0?"":"—"])}/>
-      <div style={s.sec}>8. Condizioni (max 2)</div>
-      <Tbl cols={["Condizione","Effetto","Durata"]} rows={CO.map(c=>[c.nome,c.effetto,c.durata])}/>
-      <div style={s.sec}>9. Magie</div>
-      <div style={s.formula}>Slot = max(MENTE, ANIMA) - 2</div>
-      <Tbl cols={["Livello","+Tiro","Req Stat","Talento"]} rows={[["Cantrip","+0","—","—"],["L1","+0","≥3","Magia Base"],["L2","+1","≥4","Magia Base"],["L3","+2","≥5","Magia Avanzata"],["L4","+3","≥6","Magia Avanzata"]]}/>
-      <div style={s.sec}>10. Punto Eroe ⭐</div>
-      <p style={s.p}>Ogni PG inizia la sessione con {HP.maxPerSession||2} Punti Eroe.</p>
-      <div style={s.box}>{(HP.rules||[]).map((r,i)=><p key={i} style={{margin:"4px 0",fontSize:12}}>→ {r}</p>)}</div>
-      <div style={s.sec}>11. Riposi</div>
+      <div style={s.sec}>1. Caratteristiche & Creazione</div>
+      <div style={s.formula}>HP = CORPO + MENTE + ANIMA · Cap Lv1: max {CAP_CREAZIONE}/stat · 12 punti totali</div>
+      <Tbl cols={["Stat","Governa","Difende vs"]} rows={[["CORPO","Forza, resistenza","Attacchi fisici"],["MENTE","Intelligenza, magia, tech","Magie mentali"],["ANIMA","Carisma, volontà","Magie sociali, paura"]]}/>
+      <p style={s.p}>12 punti da distribuire alla creazione (min 1/stat, max 7/stat al Lv1). 1 Talento iniziale. Max 2 cantrip. Competenza: scegli 1 stat. Arma: nome + categoria + perk.</p>
+      <div style={s.sec}>2. Meccanica d12</div>
+      <div style={s.formula}>Risultato = 1d12 + Stat + Modificatori · Danno = Risultato − Difesa (min 0)</div>
+      <div style={s.sec}>3. Categorie Arma — illimitate</div>
+      <Tbl cols={["Cat","+Attacco","Requisito"]} rows={[["A","+1","Sempre"],["B","+2","Sempre"],["C","+3","CORPO≥6 o Armi Pesanti (talento)"],["D","+4","CORPO≥10 + Armi Letali (talento, obbligatorio)"]]}/>
+      <div style={s.sec}>4. Magie — Sistema Slot-Punti</div>
+      <div style={s.formula}>Slot-punti = max(MENTE, ANIMA) − 2 · Ogni magia consuma punti pari al livello</div>
+      <Tbl cols={["Livello","+Tiro","Costo Slot","Min Stat","Accesso"]} rows={[
+        ["Cantrip","+0","0pt","—","Sempre (max 2)"],
+        ["L1","+2","1pt","Stat≥6","Magia Base o MENTE≥10 (Intuizione Magica)"],
+        ["L2","+4","2pt","Stat≥8","Magia Base o MENTE≥10 (Intuizione Magica)"],
+        ["L3","+6","3pt","Stat≥10","Magia Avanzata (obbligatorio, nessuna eccezione)"],
+        ["L4","+8","4pt","Stat≥12","Magia Avanzata (obbligatorio, nessuna eccezione)"],
+      ]}/>
+      <div style={{...s.box,fontSize:11}}><strong style={{color:"var(--purple)"}}>Intuizione Magica:</strong> MENTE≥10 sblocca L1-L2 automaticamente, liberando un talento per Magia Avanzata. L3-L4 richiedono SEMPRE Magia Avanzata.</div>
+      <div style={s.sec}>5. Confronto Armi vs Magie (stat 10)</div>
+      <Tbl cols={["Tipo","Bonus tiro","Danno avg","Disponibilità"]} rows={[
+        ["Cat D (guerriero)","+4",""+(6.5+10+4).toFixed(1),"Illimitata — punto forte"],
+        ["L4 (mago, 2 lanci)","+8",""+(6.5+10+8).toFixed(1),"2× per sessione (8pt pool)"],
+        ["Cantrip (backup mago)","+0",""+(6.5+10).toFixed(1),"Illimitata — backup"],
+      ]}/>
+      <div style={s.sec}>6. Ferite</div>
+      <Tbl cols={["Tier","Stato HP","Penalità"]} rows={W.map(w=>[w.nome,w.tier===0?"Pieno":w.tier===1?"≥1/3 persi":w.tier===2?"≥2/3 persi":"0 HP",w.penalita===null?"Non agisce, 3 round.":w.penalita===0?"—":w.penalita+" a tutti i tiri"])}/>
+      <div style={{...s.box,fontSize:11,color:"var(--red)"}}>3+ condizioni attive: −2 a tutti i tiri (globale)</div>
+      <div style={s.sec}>7. Progressione (cap Lv 15)</div>
+      <Tbl cols={["Evento","Momento"]} rows={[
+        ["12pt (max "+CAP_CREAZIONE+"/stat) + 1 talento","Lv 1 — Creazione"],
+        ["+1 stat a scelta","Lv 2,4,6,8,10,12,14"],
+        ["+1 Talento (2°/"+MAX_TALENTI+")","Lv 5"],
+        ["+1 Talento (3°/"+MAX_TALENTI+")","Lv 9"],
+        ["+1 Talento (4° e ultimo)","Lv 13"],
+        ["Modifiche corporee (max "+MAX_AUGMENTI+")","Narrative, decide Master"],
+      ]}/>
+      <div style={s.sec}>8. Riposi</div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}}>
-        <div style={s.box}><strong style={{color:"var(--tx)"}}>Riposo Breve</strong> (10 min)<br/>+CORPO HP</div>
-        <div style={s.box}><strong style={{color:"var(--tx)"}}>Riposo Lungo</strong> (8 ore)<br/>Tutti HP + slot + Punti Eroe</div>
+        <div style={s.box}><strong style={{color:"var(--tx)"}}>Riposo Breve</strong><br/>+CORPO HP · Slot non recuperati</div>
+        <div style={s.box}><strong style={{color:"var(--tx)"}}>Riposo Lungo</strong><br/>HP + slot + perkUses + condizioni: tutto ripristinato</div>
       </div>
-      <div style={s.sec}>12. Progressione</div>
-      <Tbl cols={["Avanzamento","Frequenza"]} rows={[["+1 a una stat","Milestone narrativo"],["+1 talento (max 5)","Ogni 3-5 sessioni"],["+1 modifica (max 3)","Milestone o in-world"]]}/>
+      <div style={s.sec}>9. Punti Eroe ⭐</div>
+      <p style={s.p}>Partenza: 2 PE · Cap: 3 PE · Non si recuperano automaticamente — il Master li concede a discrezione per giocata eccezionale. Effetto: +1 a +6 al tiro, o successo automatico.</p>
     </div>
   </div>;
 }
 
+/* ══════════════ BOOTSTRAP ══════════════ */
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
 </script>
 </body>
