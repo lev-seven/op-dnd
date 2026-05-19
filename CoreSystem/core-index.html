@@ -32,7 +32,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef}=React;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const CORE_VERSION='2.8.0';
+const CORE_VERSION='2.9.0';
 const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
@@ -96,7 +96,7 @@ function spellSpecComp(sp,c){
   if(tipo==="mg"&&lvl>=3&&hasTalent(c,"spec_magia_L34"))return cb;
   return 0;
 }
-function atkBonus(c){const stat=c.armaMagi?(c.mente||0):(c.corpo||0);const wB=WCAT_BONUS[c.armaCat]||0;const comp=(c.competenza===(c.armaMagi?"mente":"corpo"))?compBonus(c):0;const spec=weaponSpecComp(c);return stat+wB+comp+spec;}
+function atkBonus(c){const stat=c.armaMagi?(c.mente||0):(c.corpo||0);const wB=WCAT_BONUS[c.armaCat]||0;const comp=(c.competenza===(c.armaMagi?"mente":"corpo"))?compBonus(c):0;const spec=weaponSpecComp(c);const dxPen=(c.armaCat==="DX"&&!canUseCat(c,"DX"))?-4:0;return stat+wB+comp+spec+dxPen;}
 function spellBonus(sp,c){const base=sp.tipo==="ct"?SPELL_BONUS.ct:(SPELL_BONUS[sp.lvl]||0);const im=(c&&sp.tipo==="mg"&&(sp.lvl||0)<=2&&intuizioneMagica(c)&&hasTalent(c,"gate_mb"))?1:0;const spec=spellSpecComp(sp,c);return base+im+spec;}
 function spellCost(sp){return sp.tipo==="ct"?0:(SPELL_COST[sp.lvl]||1);}
 function spellMinStat(sp){return sp.tipo==="ct"?0:(SPELL_MINS[sp.lvl]||3);}
@@ -109,7 +109,7 @@ function displayName(f){return f.replace(/-(classic|core)\.json$/,"").replace(/\
 function getCustomItems(type){try{return JSON.parse(localStorage.getItem("core_custom_"+type)||"[]");}catch{return[];}}
 function pushCustomItem(type,item){const arr=getCustomItems(type);if(!arr.find(x=>x.id===item.id))arr.push(item);localStorage.setItem("core_custom_"+type,JSON.stringify(arr));const g=type==="talent"?G.TALENTS:type==="augment"?G.AUGMENTS:G.SPELLS;if(g&&!g.find(x=>x.id===item.id))g.push(item);}
 ;(function(){["talent","augment","spell"].forEach(type=>{getCustomItems(type).forEach(item=>{const g=type==="talent"?G.TALENTS:type==="augment"?G.AUGMENTS:G.SPELLS;if(g&&!g.find(x=>x.id===item.id))g.push(item);});});})();
-function newCoreChar(n){return{id:uid(),name:n||"Nuovo PG",system:"core",level:1,corpo:4,mente:4,anima:4,hpCurrent:12,competenza:null,armaCat:"B",armaPerk:"b1",armaNome:"",armaDist:false,armaMagi:false,scudo:0,armatura:0,talenti:[],augmenti:[],magie:[],conditions:[],heroPoints:2,perkUses:{},slotUsati:0,notes:"",backstory:""};}
+function newCoreChar(n){return{id:uid(),name:n||"Nuovo PG",system:"core",level:1,corpo:4,mente:4,anima:4,hpCurrent:12,competenza:null,armaCat:"B",armaPerk:"b1",armaNome:"",armaDist:false,armaMagi:false,scudo:0,armatura:0,talenti:[],augmenti:[],magie:[],conditions:[],heroPoints:2,perkUses:{},slotUsati:0,notes:"",backstory:"",borsa:{oro:0,argento:0,bronzo:0}};}
 const SS={inp:{background:"var(--s3)",border:"1px solid var(--b1)",borderRadius:6,color:"var(--tx)",fontFamily:"Outfit",fontSize:13,padding:"6px 9px",outline:"none",boxSizing:"border-box"},btn:{borderRadius:6,border:"1px solid var(--b2)",background:"none",color:"var(--tx2)",fontFamily:"Outfit",fontSize:12,fontWeight:500,padding:"6px 12px",cursor:"pointer"},gold:{borderRadius:6,border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",fontFamily:"Cinzel",fontWeight:700,fontSize:12,cursor:"pointer",letterSpacing:0.5,textAlign:"center"},green:{borderRadius:6,border:"1.5px solid rgba(72,200,138,0.4)",background:"rgba(72,200,138,0.08)",color:"var(--green)",fontFamily:"Cinzel",fontWeight:700,fontSize:12,cursor:"pointer",textAlign:"center"},card:{background:"var(--s1)",border:"1px solid var(--b1)",borderRadius:10,padding:12,marginBottom:8},po:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.88)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:999,padding:14},pc:{background:"linear-gradient(180deg,var(--s1),var(--bg))",border:"1.5px solid rgba(232,160,48,0.3)",borderRadius:12,padding:"18px 16px",width:"100%",maxWidth:440,boxShadow:"0 12px 48px rgba(0,0,0,0.6)"}};
 const TABNAV=[{id:"sheet",ic:"⚔️",lb:"Scheda"},{id:"actions",ic:"\uD83C\uDFAD",lb:"Azioni"},{id:"spells",ic:"\uD83D\uDCD5",lb:"Magie"},{id:"dice",ic:"\uD83C\uDFB2",lb:"Dadi"},{id:"notes",ic:"\uD83D\uDCDC",lb:"Note"},{id:"save",ic:"\uD83D\uDCBE",lb:"Salva"}];
 
@@ -246,7 +246,7 @@ function SessionView({c,up,setViewMode}){
   const slots=maxSlots(c);const used=c.slotUsati||0;const avail=Math.max(0,slots-used);
   const allSp=G.SPELLS||[];const selSp=(c.magie||[]).map(id=>allSp.find(s=>s.id===id)).filter(Boolean);
   const allT=G.TALENTS||[];const selT=(c.talenti||[]).map(id=>allT.find(t=>t.id===id)).filter(Boolean);
-  const roll=(label,mod)=>{const d=Math.floor(Math.random()*12)+1;setDResult({label,d,mod,total:d+mod,nat12:d===12,nat1:d===1});};
+  const roll=(label,mod)=>{const d=Math.floor(Math.random()*12)+1;setDResult({label,d,mod,total:d+mod,nat12:d===12,nat1:d===1});if(label==="Attacco"&&c.armaCat==="DX"&&!canUseCat(c,"DX")){up({hpCurrent:Math.max(0,(c.hpCurrent||0)-1)});}};
   const ripBrieve=()=>{const rec=shortRestSlotRecovery(c);up({hpCurrent:Math.min(mx,(c.hpCurrent||0)+(c.corpo||0)),slotUsati:Math.max(0,used-rec)});};
   const ripLungo=()=>up({hpCurrent:mx,slotUsati:0,heroPoints:2,perkUses:{},conditions:[]});
   const useSlot=cost=>{if(used+cost<=slots)up({slotUsati:used+cost});};
@@ -717,9 +717,23 @@ function DiceTab({c}){
   </div>;
 }
 function NotesTab({c,up}){
+  const b=c.borsa||{oro:0,argento:0,bronzo:0};
+  const updB=(k,v)=>up({borsa:{...b,[k]:Math.max(0,parseInt(v)||0)}});
   return<div style={{animation:"fadeIn 0.15s ease",paddingBottom:24}}>
-    <Sec>Note</Sec><textarea value={c.notes||""} onChange={e=>up({notes:e.target.value})} placeholder="Appunti di sessione..." style={{...SS.inp,width:"100%",minHeight:180,resize:"vertical",lineHeight:1.6,marginBottom:14}}/>
-    <Sec>Backstory</Sec><textarea value={c.backstory||""} onChange={e=>up({backstory:e.target.value})} placeholder="Background del personaggio..." style={{...SS.inp,width:"100%",minHeight:180,resize:"vertical",lineHeight:1.6}}/>
+    <Sec>Borsa</Sec>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:16}}>
+      {[["oro","🟡"],["argento","⚪"],["bronzo","🟠"]].map(([k,ic])=>
+        <div key={k} style={{background:"var(--s3)",borderRadius:8,padding:"10px 8px",textAlign:"center",border:"1px solid var(--b1)"}}>
+          <div style={{fontSize:16,marginBottom:4}}>{ic}</div>
+          <div style={{fontSize:10,color:"var(--tx3)",textTransform:"uppercase",letterSpacing:1,marginBottom:6}}>{k}</div>
+          <input type="number" min="0" value={b[k]||0} onChange={e=>updB(k,e.target.value)}
+            style={{...SS.inp,width:"100%",textAlign:"center",fontSize:18,fontWeight:700,padding:"4px 0"}}/>
+        </div>
+      )}
+    </div>
+    <div style={{fontSize:10,color:"var(--tx3)",textAlign:"right",marginBottom:16}}>1 oro = 10 argento = 100 bronzo</div>
+    <Sec>Note</Sec><textarea value={c.notes||""} onChange={e=>up({notes:e.target.value})} placeholder="Appunti di sessione..." style={{...SS.inp,width:"100%",minHeight:140,resize:"vertical",lineHeight:1.6,marginBottom:14}}/>
+    <Sec>Backstory</Sec><textarea value={c.backstory||""} onChange={e=>up({backstory:e.target.value})} placeholder="Background del personaggio..." style={{...SS.inp,width:"100%",minHeight:140,resize:"vertical",lineHeight:1.6}}/>
   </div>;
 }
 
@@ -1060,6 +1074,59 @@ function HomebrewGuide({onBack}){
       <div style={{background:"var(--s2)",border:"1px solid var(--b1)",borderRadius:8,padding:"10px 14px",marginBottom:10,fontSize:12,color:"var(--tx2)",lineHeight:1.6}}>Rispetta i bonus per livello. Effetti debilitanti: durata max 3 round. PRO e CON entrambi rilevanti. Un talento non deve essere strettamente migliore di un altro.</div>
       <div style={{fontFamily:"Cinzel",fontSize:13,fontWeight:700,color:"var(--gold)",margin:"16px 0 8px",paddingBottom:5,borderBottom:"1px solid var(--b1)"}}>Aggiungere in-session (Master)</div>
       <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6}}>Dalla scheda, tab Azioni o Magie, usa il pulsante Homebrew. Il contenuto viene salvato in localStorage e visibile subito a tutti i tab.</p>
+
+    <div style={{marginBottom:20}}>
+      <h3 style={{color:"var(--gold)",fontFamily:"Cinzel",fontSize:14,marginBottom:8}}>ECONOMIA — Prezzi Indicativi</h3>
+      <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,marginBottom:8}}>Il sistema usa tre valute: <strong style={{color:"var(--gold)"}}>Oro (O)</strong>, <strong style={{color:"var(--tx1)"}}>Argento (A)</strong>, <strong style={{color:"#cd7f32"}}>Bronzo (B)</strong>. 1 Oro = 10 Argento = 100 Bronzo. I prezzi sono indicativi — il Master può adattarli al setting.</p>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:11}}>
+        <tbody>
+          {[
+            ["VITA QUOTIDIANA","",""],
+            ["Pasto in taverna","2-5 B",""],
+            ["Pernottamento (ostello)","5 B",""],
+            ["Pernottamento (camera privata)","2-5 A",""],
+            ["Settimana di vitto","5 A",""],
+            ["Affitto mensile (città)","3-5 O",""],
+            ["Cavallo da lavoro","30 O",""],
+            ["Passaggio su nave","5-50 O","distanza"],
+            ["ARMI","",""],
+            ["Arma Cat A","10-50 B","comune"],
+            ["Arma Cat B","1-5 O","standard"],
+            ["Arma Cat C","15-50 O","pesante"],
+            ["Arma Cat D (base)","100-300 O","devastante"],
+            ["Arma DX","solo via upgrade","non acquistabile"],
+            ["PERK — INSTALLAZIONE","",""],
+            ["Perk Cat A","60 B + 2 ore",""],
+            ["Perk Cat B","8 O + 4 ore",""],
+            ["Perk Cat C","30 O + 1 giorno",""],
+            ["Perk Cat D","100 O + 2 giorni",""],
+            ["Perk Cat DX","500 O + 3 giorni","+ materiali rari"],
+            ["UPGRADE CATEGORIA","",""],
+            ["A → B","2 O + 4 ore",""],
+            ["B → C","20 O + 1 giorno",""],
+            ["C → D","80 O + 3 giorni",""],
+            ["D → DX","400 O + 1 settimana","+ materiali rari"],
+            ["AUGMENTI","",""],
+            ["Cyberware minore","50-200 O",""],
+            ["Cyberware maggiore","500+ O",""],
+            ["Oggetto magico comune","20-100 O",""],
+            ["Oggetto magico raro","200-1000 O",""],
+            ["SERVIZI","",""],
+            ["Guaritore (ferite lievi)","5 A",""],
+            ["Guaritore (ferite gravi)","2-5 O",""],
+            ["Fabbro (riparazione)","1-5 A",""],
+            ["Fabbro (su misura)","5-50 O",""],
+          ].map(([v,c2,n],i)=>v.match(/^[A-Z]/)&&!c2?
+            <tr key={i}><td colSpan={3} style={{paddingTop:8,paddingBottom:2,color:"var(--cyan)",fontWeight:700,fontSize:10,letterSpacing:1,textTransform:"uppercase"}}>{v}</td></tr>:
+            <tr key={i} style={{borderBottom:"1px solid var(--b1)"}}>
+              <td style={{padding:"3px 4px",color:"var(--tx2)"}}>{v}</td>
+              <td style={{padding:"3px 8px",color:"var(--gold)",textAlign:"right",whiteSpace:"nowrap"}}>{c2}</td>
+              <td style={{padding:"3px 4px",color:"var(--tx3)",fontSize:10}}>{n}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
     </div>
   </div>;
 }
