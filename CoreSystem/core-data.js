@@ -142,103 +142,7 @@ var INCOMPATIBILITIES = [
 // bonus = bonus fisso al tiro d12 (da costanti app: ct:0 L1:+2 L2:+4 L3:+6 L4:+8)
 // min   = stat minima richiesta (ct:0 L1:6 L2:8 L3:10 L4:12)
 // Le magie sono più potenti delle armi di pari livello, ma consumano slot-punti.
-  // ─── TALENTI AZIONE (nuovi: meccaniche da altri sistemi GDR) ───
-
-  // ─ UNIVERSALI ─
-  {id:'furia',            cat:'corpo',  stile:'universale',req:null,
-    nome:'Furia',
-    desc:'Esistono combattenti che non cercano la vittoria con la tecnica, ma con la ferocia pura. Quando entri in stato di furia, il tuo corpo supera ogni limitazione razionale: percepisci il dolore come qualcosa di distante, i tuoi colpi diventano devastanti e imprevedibili. La mente smette di ragionare e il corpo prende il controllo.',
-    perk:'1x/combat: entra in furia come azione libera. Per tre round: i tuoi attacchi infliggono due punti di danno aggiuntivi al risultato finale. In compenso, la tua Difesa scende di due punti per tutta la durata. Non puoi spendere slot magici né lanciare incantesimi mentre sei in furia, a meno che una magia non indichi esplicitamente il contrario.',
-    pro:'Danno aggiuntivo fisso garantito per tre round.',
-    con:'Difesa ridotta di due punti. Nessuna magia per tre round. Non cumulabile con Adrenalina Pura nello stesso turno.'},
-
-  {id:'contrattacco',     cat:'corpo',  stile:'universale',req:'armi_pesanti',
-    nome:'Contrattacco',
-    desc:'Non tutti i guerrieri aspettano il proprio turno in silenzio. Hai sviluppato un istinto raro: sentire il momento preciso in cui il nemico ha sbagliato l\'angolo di attacco e sfruttarlo prima ancora che lui se ne accorga. La guardia di un avversario impreciso diventa la tua apertura.',
-    perk:'1x/combat: quando un nemico ti attacca in mischia e il suo tiro totale è inferiore alla tua Difesa, esegui immediatamente un attacco di risposta fuori dal tuo turno, con tutti i tuoi normali bonus. Non è possibile usare questa risposta contro attacchi a distanza o incantesimi.',
-    pro:'Trasforma i mancati nemici in opportunità offensive. Più forte contro avversari aggressivi.',
-    con:'Richiede che il nemico ti attacchi in mischia e manchi. Inutile contro combattenti a distanza.'},
-
-  {id:'zufolo_bardico',   cat:'anima',  stile:'universale',req:null,
-    nome:'Zufolo Bardico',
-    desc:'Che sia una ballata improvvisata, un discorso fulmineo o un gesto nel momento giusto, sai toccare qualcosa di profondo in chi ti sta accanto. Il tuo talento non è distruttivo: è quella voce che fa sembrare possibile l\'impossibile anche a chi non ci crede.',
-    perk:'1x/combat: designa un alleato entro dieci metri. Prima che effettui il suo prossimo tiro, aggiunge al risultato un bonus pari al tuo valore di ANIMA. Puoi dichiararlo dopo che il dado è stato tirato ma prima che l\'esito venga risolto.',
-    pro:'Bonus scalabile con ANIMA. Applicabile ad attacchi fisici, magici, difese o prove.',
-    con:'Richiede alleati in prossimità. Nessun effetto diretto su te stesso. Solo una volta per combattimento.'},
-
-  {id:'marchio_cacciatore',cat:'mente', stile:'universale',req:null,
-    nome:'Marchio del Cacciatore',
-    desc:'Studiare un bersaglio prima di colpirlo non è codardìa: è professionalità. Hai imparato a osservare i dettagli che contano — la postura, le aperture nell\'equipaggiamento, il ritmo della respirazione. Una volta che hai il tuo bersaglio nel mirino, lo conosci meglio di quanto lui conosca se stesso.',
-    perk:'All\'inizio del combattimento, o come azione intera, designa un bersaglio visibile come tua preda. Fino alla fine del combattimento ottieni più due ai tiri di attacco contro di lui e puoi sempre valutare visivamente il suo stato di salute — se ha ferite leggere, gravi o è in condizioni critiche. Il marchio cade alla morte del bersaglio.',
-    pro:'Bonus fisso costante contro il bersaglio prioritario. Informazione tattica gratuita.',
-    con:'Solo contro un bersaglio alla volta. Cambiarlo richiede un\'azione intera.'},
-
-  {id:'recupero_arcano',  cat:'mente',  stile:'universale',req:'gate_mb',
-    nome:'Recupero Arcano',
-    desc:'La magia non proviene solo dai libri. Proviene dall\'esperienza, dalla resilienza, dalla capacità di trovare quiete nel caos. Sai meditare anche in condizioni difficili, recuperando le energie spirituali più velocemente degli altri.',
-    perk:'1x/sessione: durante o subito dopo un Riposo Breve, recuperi slot magici aggiuntivi pari alla metà del tuo valore di MENTE, arrotondato per difetto (minimo uno).',
-    pro:'Con MENTE alta recuperi slot significativi ogni sessione.',
-    con:'Una sola volta per sessione, non per ogni Riposo Breve. Richiede Magia Base.'},
-
-  {id:'limite_ultimo',    cat:'ibrido', stile:'universale',req:null,
-    nome:'Limite Ultimo',
-    desc:'C\'è un fuoco che brucia più forte quando si è sull\'orlo della sconfitta. Ogni ferita subita alimenta una riserva di potere disperato che, al momento giusto, si scatena in un\'esplosione di violenza pura. Non è tecnica: è sopravvivenza.',
-    perk:'Guadagni una Carica Limite ogni volta che le tue ferite peggiorano di livello, fino a un massimo di tre cariche. Le cariche si conservano tra un combattimento e l\'altro. Quando hai almeno due cariche, puoi spenderle tutte come azione: il tuo prossimo attacco ottiene un bonus aggiuntivo pari al numero di cariche moltiplicato per quattro. Le cariche si azzerano dopo l\'uso.',
-    pro:'Con tre cariche il bonus aggiuntivo è dodici — devastante. Si attiva naturalmente subendo danni.',
-    con:'Con tre cariche sei in Stato Critico: meno due a tutti i tiri di base. Richiede di essere feriti per attivarsi.'},
-
-  {id:'patto_abisso',     cat:'mente',  stile:'horror',    req:null,
-    nome:'Patto dell\'Abisso',
-    desc:'Hai consegnato qualcosa di irrecuperabile in cambio di potere. Forse un momento di disperazione. Forse una scelta ponderata. L\'entità con cui hai stretto questo accordo è reale, presente, e ha un interesse nel tenerti in vita — almeno per ora. I tre Punti Vita che mancano non torneranno mai.',
-    pro:'Più uno permanente a tutte le magie. Un slot magico recuperato automaticamente dopo ogni Riposo Breve.',
-    con:'Meno tre Punti Vita massimi permanenti — le soglie di ferita cambiano di conseguenza. L\'entità è un antagonista narrativo che il Master utilizza.'},
-
-  {id:'adrenalina_pura',  cat:'corpo',  stile:'universale',req:null,
-    nome:'Adrenalina Pura',
-    desc:'Ci sono persone che in situazioni normali sono già letali. E poi ci sono quelle che, quando la tensione raggiunge il culmine, trovano una marcia in più che non dovrebbero avere. Non è magia. Non è allenamento. È il corpo che si rifiuta di perdere.',
-    perk:'1x/combat: nel tuo turno, dopo aver già effettuato un attacco, esegui immediatamente un secondo attacco con gli stessi bonus. Non è utilizzabile quando sei in Stato Critico.',
-    pro:'Doppio attacco in un singolo turno. Con armi di categoria alta il danno potenziale è enorme.',
-    con:'Una volta per combattimento. Impossibile in Stato Critico. Non cumulabile con Furia nello stesso turno.'},
-
-  // ─ CYBERPUNK ─
-  {id:'interfaccia_neurale',cat:'mente',stile:'cyberpunk',req:null,
-    nome:'Interfaccia Neurale',
-    desc:'Il tuo sistema nervoso è stato modificato per comunicare direttamente con le reti digitali. Non hai bisogno di terminali o interfacce fisiche. In un mondo dove la tecnologia ha colonizzato ogni superficie, questo ti rende qualcosa di pericolosamente versatile.',
-    perk:'1x/combat: hackera un dispositivo tecnologico o un nemico con ciberware entro dieci metri. Effettua un tiro di MENTE contro la sua MENTE. In caso di successo scegli uno: il dispositivo si disattiva per un round, il nemico perde due punti di Difesa per due round, oppure ottieni accesso a informazioni riservate che il bersaglio voleva tenere segrete.',
-    pro:'Versatile contro nemici cibernetici. Può fornire informazioni tattiche o vantaggio meccanico.',
-    con:'Inutile contro bersagli puramente biologici o magici. La complessità del sistema è decisa dal Master.'},
-
-  {id:'protocollo_emergenza',cat:'corpo',stile:'cyberpunk',req:null,
-    nome:'Protocollo di Emergenza',
-    desc:'Il tuo corpo incorpora sistemi di stabilizzazione automatica progettati per situazioni estreme. Non è magia: è ingegneria. Quando la situazione diventa critica, entrano in azione senza che tu debba fare nulla.',
-    perk:'Passivo: quando entri in Stato Critico per la prima volta in un combattimento, recuperi immediatamente Punti Vita pari a CORPO diviso due, arrotondato per eccesso, e la condizione Rallentato scompare se era attiva. Funziona una sola volta per Riposo Lungo.',
-    pro:'Buffer automatico nel momento più pericoloso. Zero costo di azione, si attiva da solo.',
-    con:'Solo in Stato Critico. Una volta per Riposo Lungo. Non evita l\'Incapacitazione se il danno è sufficiente in un singolo colpo.'},
-
-  // ─ HORROR ─
-  {id:'conoscenza_proibita',cat:'mente',stile:'horror',   req:null,
-    nome:'Conoscenza Proibita',
-    desc:'Hai letto ciò che non andava letto. Ora certe cose ti sono chiare in modo terrificante: i pattern nascosti nel caos, le connessioni che nessuno vuole vedere, la struttura fredda di ciò che sta dietro la realtà. Ti ha cambiato in qualcosa che il mondo non era pronto ad avere.',
-    perk:'Un numero di volte per Riposo Lungo pari al tuo valore di ANIMA: quando fallisci un tiro di magia o di MENTE, puoi trasformarlo in successo. Se lo fai, subisci due punti di danno psichico — perdi due Punti Vita massimi fino al prossimo Riposo Lungo.',
-    pro:'Garantisce successi nei momenti decisivi. La frequenza di utilizzo scala con ANIMA.',
-    con:'Ogni uso riduce i Punti Vita massimi di due fino al riposo. Abusato, porta rapidamente alla soglia critica.'},
-
-  // ─ NOIR ─
-  {id:'istinto_sopravvivenza',cat:'mente',stile:'noir',   req:null,
-    nome:'Istinto di Sopravvivenza',
-    desc:'La città insegna cose che i libri non possono insegnare. Dopo abbastanza anni a guardarti le spalle, certe cose le senti prima di vederle. L\'ombra che si muove in modo sbagliato. Il silenzio che precede l\'agguato. Quella sensazione allo stomaco che precede sempre il momento in cui tutto va storto.',
-    perk:'Passivo: non puoi essere colto di sorpresa — sei sempre presente nell\'iniziativa. 1x/sessione, puoi dichiarare di notare qualcosa che normalmente richiederebbe un tiro di MENTE: il Master decide cosa e quanto dettaglio.',
-    pro:'Immunità agli agguati. Percezione gratuita una volta per sessione.',
-    con:'Puramente difensivo e informativo. Nessun effetto diretto offensivo.'},
-
-  {id:'parole_piombo',    cat:'anima',  stile:'noir',     req:null,
-    nome:'Parole di Piombo',
-    desc:'Alcune persone non hanno bisogno di estrarre un\'arma per essere pericolose. Il modo in cui guardano qualcuno è sufficiente. La voce che non si alza mai, le parole scelte con chirurgica precisione, il silenzio nel posto giusto: tutto comunica una cosa sola, con assoluta chiarezza.',
-    perk:'Puoi usare ANIMA al posto di CORPO per i tiri di intimidazione e per imporre condizioni psicologiche a bersagli intelligenti. 1x/combat: come azione, effettua un tiro di ANIMA contro la MENTE del bersaglio. In caso di successo, il bersaglio non ti attacca nel round corrente — anche se è già in posizione di farlo.',
-    pro:'Trasforma ANIMA in una risorsa offensiva. Ferma attacchi senza usare slot magici.',
-    con:'Solo contro bersagli intelligenti capaci di comprendere una minaccia sociale. Inutile contro bestie o automi.'},
-
-
+  
 var SPELLS = [
   // ── CANTRIP ── bonus:0, min:0, illimitati (max 2 equipaggiati)
   {id:'c01',tipo:'ct',lvl:0,min:0,stat:'MENTE',stile:'fantasy',   nome:'Fiamma Minore',     bonus:0,mec:'1d12+MENTE vs CORPO (fuoco). Luce, accende oggetti.',                         pro:'Offensivo e narrativo.',           con:'Danno basso, raggio corto.'},
@@ -400,6 +304,103 @@ var TALENTS = [
   {id:'t42',cat:'ibrido',stile:'post-ap', req:null,nome:'Sopravvivenza Estrema',desc:'+3 tiri CORPO sopravvivenza. Non puoi perderti. 1x/giorno trova risorse.',pro:'Indispensabile in aree ostili.', con:'Inutile in ambienti urbani.'},
   {id:'t49',cat:'ibrido',stile:'anime',   req:null,nome:'Tecnica Segreta',     desc:'1x/sessione: dichiara nome tecnica, +5 prossimo tiro. Narrativamente vincolata.',pro:'Bonus enorme nel momento giusto.',con:'1 uso. Deve essere coerente.'},
   {id:'t56',cat:'ibrido',stile:'fantasy',  req:null,nome:'Legame Familiare',    desc:'Hai un familiare. +2 tiri MENTE esplorazione. 1x/combat intercetta 1 attacco (muore, torna dopo riposo lungo).',pro:'Difesa + esplorazione.',con:'Se muore, 1 riposo senza bonus.'}
+
+// ─── TALENTI AZIONE (nuovi: meccaniche da altri sistemi GDR) ───
+
+  // ─ UNIVERSALI ─
+  {id:'furia',            cat:'corpo',  stile:'universale',req:null,
+    nome:'Furia',
+    desc:'Esistono combattenti che non cercano la vittoria con la tecnica, ma con la ferocia pura. Quando entri in stato di furia, il tuo corpo supera ogni limitazione razionale: percepisci il dolore come qualcosa di distante, i tuoi colpi diventano devastanti e imprevedibili. La mente smette di ragionare e il corpo prende il controllo.',
+    perk:'1x/combat: entra in furia come azione libera. Per tre round: i tuoi attacchi infliggono due punti di danno aggiuntivi al risultato finale. In compenso, la tua Difesa scende di due punti per tutta la durata. Non puoi spendere slot magici né lanciare incantesimi mentre sei in furia, a meno che una magia non indichi esplicitamente il contrario.',
+    pro:'Danno aggiuntivo fisso garantito per tre round.',
+    con:'Difesa ridotta di due punti. Nessuna magia per tre round. Non cumulabile con Adrenalina Pura nello stesso turno.'},
+
+  {id:'contrattacco',     cat:'corpo',  stile:'universale',req:'armi_pesanti',
+    nome:'Contrattacco',
+    desc:'Non tutti i guerrieri aspettano il proprio turno in silenzio. Hai sviluppato un istinto raro: sentire il momento preciso in cui il nemico ha sbagliato l\'angolo di attacco e sfruttarlo prima ancora che lui se ne accorga. La guardia di un avversario impreciso diventa la tua apertura.',
+    perk:'1x/combat: quando un nemico ti attacca in mischia e il suo tiro totale è inferiore alla tua Difesa, esegui immediatamente un attacco di risposta fuori dal tuo turno, con tutti i tuoi normali bonus. Non è possibile usare questa risposta contro attacchi a distanza o incantesimi.',
+    pro:'Trasforma i mancati nemici in opportunità offensive. Più forte contro avversari aggressivi.',
+    con:'Richiede che il nemico ti attacchi in mischia e manchi. Inutile contro combattenti a distanza.'},
+
+  {id:'zufolo_bardico',   cat:'anima',  stile:'universale',req:null,
+    nome:'Zufolo Bardico',
+    desc:'Che sia una ballata improvvisata, un discorso fulmineo o un gesto nel momento giusto, sai toccare qualcosa di profondo in chi ti sta accanto. Il tuo talento non è distruttivo: è quella voce che fa sembrare possibile l\'impossibile anche a chi non ci crede.',
+    perk:'1x/combat: designa un alleato entro dieci metri. Prima che effettui il suo prossimo tiro, aggiunge al risultato un bonus pari al tuo valore di ANIMA. Puoi dichiararlo dopo che il dado è stato tirato ma prima che l\'esito venga risolto.',
+    pro:'Bonus scalabile con ANIMA. Applicabile ad attacchi fisici, magici, difese o prove.',
+    con:'Richiede alleati in prossimità. Nessun effetto diretto su te stesso. Solo una volta per combattimento.'},
+
+  {id:'marchio_cacciatore',cat:'mente', stile:'universale',req:null,
+    nome:'Marchio del Cacciatore',
+    desc:'Studiare un bersaglio prima di colpirlo non è codardìa: è professionalità. Hai imparato a osservare i dettagli che contano — la postura, le aperture nell\'equipaggiamento, il ritmo della respirazione. Una volta che hai il tuo bersaglio nel mirino, lo conosci meglio di quanto lui conosca se stesso.',
+    perk:'All\'inizio del combattimento, o come azione intera, designa un bersaglio visibile come tua preda. Fino alla fine del combattimento ottieni più due ai tiri di attacco contro di lui e puoi sempre valutare visivamente il suo stato di salute — se ha ferite leggere, gravi o è in condizioni critiche. Il marchio cade alla morte del bersaglio.',
+    pro:'Bonus fisso costante contro il bersaglio prioritario. Informazione tattica gratuita.',
+    con:'Solo contro un bersaglio alla volta. Cambiarlo richiede un\'azione intera.'},
+
+  {id:'recupero_arcano',  cat:'mente',  stile:'universale',req:'gate_mb',
+    nome:'Recupero Arcano',
+    desc:'La magia non proviene solo dai libri. Proviene dall\'esperienza, dalla resilienza, dalla capacità di trovare quiete nel caos. Sai meditare anche in condizioni difficili, recuperando le energie spirituali più velocemente degli altri.',
+    perk:'1x/sessione: durante o subito dopo un Riposo Breve, recuperi slot magici aggiuntivi pari alla metà del tuo valore di MENTE, arrotondato per difetto (minimo uno).',
+    pro:'Con MENTE alta recuperi slot significativi ogni sessione.',
+    con:'Una sola volta per sessione, non per ogni Riposo Breve. Richiede Magia Base.'},
+
+  {id:'limite_ultimo',    cat:'ibrido', stile:'universale',req:null,
+    nome:'Limite Ultimo',
+    desc:'C\'è un fuoco che brucia più forte quando si è sull\'orlo della sconfitta. Ogni ferita subita alimenta una riserva di potere disperato che, al momento giusto, si scatena in un\'esplosione di violenza pura. Non è tecnica: è sopravvivenza.',
+    perk:'Guadagni una Carica Limite ogni volta che le tue ferite peggiorano di livello, fino a un massimo di tre cariche. Le cariche si conservano tra un combattimento e l\'altro. Quando hai almeno due cariche, puoi spenderle tutte come azione: il tuo prossimo attacco ottiene un bonus aggiuntivo pari al numero di cariche moltiplicato per quattro. Le cariche si azzerano dopo l\'uso.',
+    pro:'Con tre cariche il bonus aggiuntivo è dodici — devastante. Si attiva naturalmente subendo danni.',
+    con:'Con tre cariche sei in Stato Critico: meno due a tutti i tiri di base. Richiede di essere feriti per attivarsi.'},
+
+  {id:'patto_abisso',     cat:'mente',  stile:'horror',    req:null,
+    nome:'Patto dell\'Abisso',
+    desc:'Hai consegnato qualcosa di irrecuperabile in cambio di potere. Forse un momento di disperazione. Forse una scelta ponderata. L\'entità con cui hai stretto questo accordo è reale, presente, e ha un interesse nel tenerti in vita — almeno per ora. I tre Punti Vita che mancano non torneranno mai.',
+    pro:'Più uno permanente a tutte le magie. Un slot magico recuperato automaticamente dopo ogni Riposo Breve.',
+    con:'Meno tre Punti Vita massimi permanenti — le soglie di ferita cambiano di conseguenza. L\'entità è un antagonista narrativo che il Master utilizza.'},
+
+  {id:'adrenalina_pura',  cat:'corpo',  stile:'universale',req:null,
+    nome:'Adrenalina Pura',
+    desc:'Ci sono persone che in situazioni normali sono già letali. E poi ci sono quelle che, quando la tensione raggiunge il culmine, trovano una marcia in più che non dovrebbero avere. Non è magia. Non è allenamento. È il corpo che si rifiuta di perdere.',
+    perk:'1x/combat: nel tuo turno, dopo aver già effettuato un attacco, esegui immediatamente un secondo attacco con gli stessi bonus. Non è utilizzabile quando sei in Stato Critico.',
+    pro:'Doppio attacco in un singolo turno. Con armi di categoria alta il danno potenziale è enorme.',
+    con:'Una volta per combattimento. Impossibile in Stato Critico. Non cumulabile con Furia nello stesso turno.'},
+
+  // ─ CYBERPUNK ─
+  {id:'interfaccia_neurale',cat:'mente',stile:'cyberpunk',req:null,
+    nome:'Interfaccia Neurale',
+    desc:'Il tuo sistema nervoso è stato modificato per comunicare direttamente con le reti digitali. Non hai bisogno di terminali o interfacce fisiche. In un mondo dove la tecnologia ha colonizzato ogni superficie, questo ti rende qualcosa di pericolosamente versatile.',
+    perk:'1x/combat: hackera un dispositivo tecnologico o un nemico con ciberware entro dieci metri. Effettua un tiro di MENTE contro la sua MENTE. In caso di successo scegli uno: il dispositivo si disattiva per un round, il nemico perde due punti di Difesa per due round, oppure ottieni accesso a informazioni riservate che il bersaglio voleva tenere segrete.',
+    pro:'Versatile contro nemici cibernetici. Può fornire informazioni tattiche o vantaggio meccanico.',
+    con:'Inutile contro bersagli puramente biologici o magici. La complessità del sistema è decisa dal Master.'},
+
+  {id:'protocollo_emergenza',cat:'corpo',stile:'cyberpunk',req:null,
+    nome:'Protocollo di Emergenza',
+    desc:'Il tuo corpo incorpora sistemi di stabilizzazione automatica progettati per situazioni estreme. Non è magia: è ingegneria. Quando la situazione diventa critica, entrano in azione senza che tu debba fare nulla.',
+    perk:'Passivo: quando entri in Stato Critico per la prima volta in un combattimento, recuperi immediatamente Punti Vita pari a CORPO diviso due, arrotondato per eccesso, e la condizione Rallentato scompare se era attiva. Funziona una sola volta per Riposo Lungo.',
+    pro:'Buffer automatico nel momento più pericoloso. Zero costo di azione, si attiva da solo.',
+    con:'Solo in Stato Critico. Una volta per Riposo Lungo. Non evita l\'Incapacitazione se il danno è sufficiente in un singolo colpo.'},
+
+  // ─ HORROR ─
+  {id:'conoscenza_proibita',cat:'mente',stile:'horror',   req:null,
+    nome:'Conoscenza Proibita',
+    desc:'Hai letto ciò che non andava letto. Ora certe cose ti sono chiare in modo terrificante: i pattern nascosti nel caos, le connessioni che nessuno vuole vedere, la struttura fredda di ciò che sta dietro la realtà. Ti ha cambiato in qualcosa che il mondo non era pronto ad avere.',
+    perk:'Un numero di volte per Riposo Lungo pari al tuo valore di ANIMA: quando fallisci un tiro di magia o di MENTE, puoi trasformarlo in successo. Se lo fai, subisci due punti di danno psichico — perdi due Punti Vita massimi fino al prossimo Riposo Lungo.',
+    pro:'Garantisce successi nei momenti decisivi. La frequenza di utilizzo scala con ANIMA.',
+    con:'Ogni uso riduce i Punti Vita massimi di due fino al riposo. Abusato, porta rapidamente alla soglia critica.'},
+
+  // ─ NOIR ─
+  {id:'istinto_sopravvivenza',cat:'mente',stile:'noir',   req:null,
+    nome:'Istinto di Sopravvivenza',
+    desc:'La città insegna cose che i libri non possono insegnare. Dopo abbastanza anni a guardarti le spalle, certe cose le senti prima di vederle. L\'ombra che si muove in modo sbagliato. Il silenzio che precede l\'agguato. Quella sensazione allo stomaco che precede sempre il momento in cui tutto va storto.',
+    perk:'Passivo: non puoi essere colto di sorpresa — sei sempre presente nell\'iniziativa. 1x/sessione, puoi dichiarare di notare qualcosa che normalmente richiederebbe un tiro di MENTE: il Master decide cosa e quanto dettaglio.',
+    pro:'Immunità agli agguati. Percezione gratuita una volta per sessione.',
+    con:'Puramente difensivo e informativo. Nessun effetto diretto offensivo.'},
+
+  {id:'parole_piombo',    cat:'anima',  stile:'noir',     req:null,
+    nome:'Parole di Piombo',
+    desc:'Alcune persone non hanno bisogno di estrarre un\'arma per essere pericolose. Il modo in cui guardano qualcuno è sufficiente. La voce che non si alza mai, le parole scelte con chirurgica precisione, il silenzio nel posto giusto: tutto comunica una cosa sola, con assoluta chiarezza.',
+    perk:'Puoi usare ANIMA al posto di CORPO per i tiri di intimidazione e per imporre condizioni psicologiche a bersagli intelligenti. 1x/combat: come azione, effettua un tiro di ANIMA contro la MENTE del bersaglio. In caso di successo, il bersaglio non ti attacca nel round corrente — anche se è già in posizione di farlo.',
+    pro:'Trasforma ANIMA in una risorsa offensiva. Ferma attacchi senza usare slot magici.',
+    con:'Solo contro bersagli intelligenti capaci di comprendere una minaccia sociale. Inutile contro bestie o automi.'},
+
 ];
 
 // ═══ AUGMENTS / MIGLIORAMENTI FISICI (max 2) ═══
@@ -556,7 +557,7 @@ var HERO_POINT = {
     'Ogni PG inizia la sessione con 2 Punti Eroe (cap: 3).',
     'Il giocatore descrive un\'azione drammatica, narrativa, eroica o disperata.',
     'Il GM valuta la descrizione: se è coerente col personaggio e la scena, l\'azione riesce automaticamente senza tiro.',
-    'Se il GM ritiene che l\'azione sia troppo potente per un successo automatico, concede invece +6 al tiro.',
+    'Se il GM ritiene che l\'azione sia troppo potente per un successo automatico, concede invece un bonus tra +1 e +6 al tiro, a sua discrezione.',
     'Il Punto Eroe si consuma in entrambi i casi.',
     'Un Punto Eroe può anche essere speso per: negare un colpo mortale (resti a 1 HP), aggiungere un dettaglio narrativo alla scena (con approvazione GM), oppure agire fuori turno con una reazione narrativa.',
     'Il GM può assegnare un Punto Eroe extra come ricompensa per giocate particolarmente creative o eroiche (max 3 totali).',
@@ -564,7 +565,7 @@ var HERO_POINT = {
   ],
   esempi: [
     {azione:'Il bardo salta dal balcone, afferra il lampadario e oscilla verso il nemico cantando.', esito:'Successo automatico — azione spettacolare e coerente col personaggio.'},
-    {azione:'Il guerriero vuole tagliare in due il drago con un solo colpo.', esito:'+6 al tiro — troppo potente per un successo automatico, ma il bonus è enorme.'},
+    {azione:'Il guerriero vuole tagliare in due il drago con un solo colpo.', esito:'Bonus tra +1 e +6 al tiro — il GM sceglie il valore in base alla potenza dell\'azione descritta.'},
     {azione:'Il ladro vuole che ci sia una finestra aperta nel muro del castello.', esito:'Successo — il giocatore aggiunge un dettaglio narrativo ragionevole.'},
     {azione:'Il mago sta per morire: "Il mio maestro mi ha insegnato un ultimo trucco."', esito:'Nega il colpo mortale — resta a 1 HP con una motivazione narrativa.'}
   ]

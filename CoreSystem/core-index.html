@@ -33,6 +33,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef}=React;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const CORE_VERSION='2.2.0';
 const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
@@ -245,7 +246,7 @@ function LoginScreen({manifest,onAuth}){
   return<div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"var(--app-h)",padding:"0 20px"}}>
     <div style={{textAlign:"center",maxWidth:340,width:"100%"}}>
       <h1 style={{fontFamily:"Cinzel",fontSize:28,fontWeight:900,color:"var(--gold)",marginBottom:4,letterSpacing:3}}>C.O.R.E.</h1>
-      <p style={{color:"var(--tx3)",fontSize:11,fontFamily:"JetBrains Mono",marginBottom:30}}>Compact Open Rules Engine</p>
+      <p style={{color:"var(--tx3)",fontSize:11,fontFamily:"JetBrains Mono",marginBottom:30}}>Compact Open Rules Engine <span style={{opacity:0.5}}>· v{CORE_VERSION}</span></p>
       <input value={user} onChange={e=>setUser(e.target.value)} placeholder="Nome utente..." onKeyDown={e=>e.key==="Enter"&&check()} style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px",marginBottom:10}}/>
       <div style={{position:"relative",marginBottom:16}}>
         <input type={show?"text":"password"} value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&check()} placeholder="Password..." style={{...SS.inp,width:"100%",fontSize:15,textAlign:"center",padding:"12px 44px 12px 12px"}}/>
@@ -263,7 +264,7 @@ function CharList({acc,isMaster,chars,loadingChars,onBack,onNew,onLoad,onManual,
     <button onClick={onBack} style={{...SS.btn,padding:"6px 10px"}}>{"\u2190"}</button>
     <h2 style={{fontFamily:"Cinzel",fontSize:16,color:"var(--gold)",flex:1}}>{acc?.name}</h2>
     {isMaster&&<span style={{fontSize:9,color:"var(--gold)",opacity:0.6,fontFamily:"Cinzel"}}>Master</span>}
-    <span style={{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono",background:"var(--gbg)",padding:"3px 8px",borderRadius:4}}>C.O.R.E.</span>
+    <span style={{fontSize:10,color:"var(--gold)",fontFamily:"JetBrains Mono",background:"var(--gbg)",padding:"3px 8px",borderRadius:4}}>C.O.R.E. <span style={{opacity:0.55}}>v{CORE_VERSION}</span></span>
     <button onClick={()=>window.open(BASE()+"/CoreSystem/core-initiative.html","_blank")} style={{width:32,height:32,borderRadius:"50%",border:"1.5px solid rgba(232,160,48,0.4)",background:"rgba(232,160,48,0.1)",color:"var(--gold)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,cursor:"pointer",flexShrink:0}}>{"\u2694\ufe0f"}</button>
   </div>;
   if(loadingChars)return<div style={{display:"flex",flexDirection:"column",height:"var(--app-h)"}}>{hdr}<div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{textAlign:"center"}}><div style={{width:36,height:36,border:"3px solid var(--b1)",borderTop:"3px solid var(--gold)",borderRadius:"50%",animation:"spin 1s linear infinite",margin:"0 auto 14px"}}/><p style={{color:"var(--gold)",fontFamily:"Cinzel",fontSize:12}}>Caricamento PG...</p></div></div></div>;
@@ -320,7 +321,7 @@ function CoreSheet({c,up,acc,charMeta,ghToken,isMaster,accId,saveChar,saveNewCha
           <span style={{fontSize:9,color:"var(--tx3)"}}>Lv</span>
           <input type="number" value={c.level||1} onChange={e=>up({level:Math.max(1,Math.min(15,parseInt(e.target.value)||1))})} style={{...SS.inp,width:36,textAlign:"center",fontSize:13,fontWeight:700,color:"var(--gold)",padding:"3px"}} min="1" max="15"/>
         </div>
-        <span style={{fontSize:9,fontFamily:"JetBrains Mono",color:"var(--gold)",background:"var(--gbg)",padding:"2px 6px",borderRadius:4}}>CORE</span>
+        <span style={{fontSize:9,fontFamily:"JetBrains Mono",color:"var(--gold)",background:"var(--gbg)",padding:"2px 6px",borderRadius:4}}>CORE <span style={{opacity:0.5}}>v{CORE_VERSION}</span></span>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr) 2fr",gap:6,marginBottom:6}}>
         {[["CORPO","corpo"],["MENTE","mente"],["ANIMA","anima"]].map(([l,k])=>{
@@ -1016,7 +1017,7 @@ function ManualPage({onBack}){
 
         {/* ── 10. PUNTI EROE ── */}
         <div style={s.sec}>10. Punti Eroe ⭐</div>
-        <p style={s.p}>Ogni personaggio comincia ogni sessione con <span style={s.hl}>2 Punti Eroe</span>, con un massimo assoluto di 3 (non accumulabili tra sessioni). Spendere un Punto Eroe significa alzarsi in piedi e fare qualcosa di memorabile: il giocatore descrive un'azione drammatica, eroica o disperata, coerente con il personaggio e la situazione. Se il GM valuta la descrizione autentica e narrativamente interessante, l'azione <span style={{color:"var(--green)",fontWeight:700}}>riesce automaticamente senza tiro di dado</span>. Se è troppo potente per un successo garantito ma merita comunque di essere premiata, il GM può convertire il Punto Eroe in un bonus di <span style={{color:"var(--gold)",fontWeight:700}}>+6 al tiro</span>. In entrambi i casi il Punto Eroe si consuma.</p>
+        <p style={s.p}>Ogni personaggio comincia ogni sessione con <span style={s.hl}>2 Punti Eroe</span>, con un massimo assoluto di 3 (non accumulabili tra sessioni). Spendere un Punto Eroe significa alzarsi in piedi e fare qualcosa di memorabile: il giocatore descrive un'azione drammatica, eroica o disperata, coerente con il personaggio e la situazione. Se il GM valuta la descrizione autentica e narrativamente interessante, l'azione <span style={{color:"var(--green)",fontWeight:700}}>riesce automaticamente senza tiro di dado</span>. Se è troppo potente per un successo garantito ma merita comunque di essere premiata, il GM può concedere invece un bonus tra <span style={{color:"var(--gold)",fontWeight:700}}>+1 e +6 al tiro</span>, a sua discrezione. In entrambi i casi il Punto Eroe si consuma.</p>
         <p style={s.p}>Oltre all'azione drammatica, un Punto Eroe può essere speso per: negare un colpo che avrebbe portato il personaggio a 0 HP (resta a 1 HP con una giustificazione narrativa — "il pendente di mia nonna ha fermato la lama"), aggiungere un dettaglio alla scena coerente con la fiction ("voglio che ci sia una finestra aperta in quel muro"), o agire fuori dal proprio turno con una reazione narrativa. Il Master può assegnare Punti Eroe extra come ricompensa per giocate particolarmente creative, coraggiose o commoventi — fino al cap di 3. I Punti Eroe non si portano alla sessione successiva: ogni sessione si ricomincia da 2.</p>
 
         {/* ══ APPENDICE TABELLE ══ */}
