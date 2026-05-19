@@ -513,7 +513,233 @@ var AUGMENTS = [
   {id:'aug_ws',stile:'universale',tipo:'Biologico',nome:'Cicatrice della Guerra',desc:'Segni permanenti.',pro:'+1 CORPO. Immune Ferito in primo combat/sessione.',con:'-1 ANIMA vs non-combattenti. Trigger: -1 MENTE 1 round.',manutenzione:null,perk:'Veterano: 1x/combat, +2 al prossimo tiro contro un nemico che ti ha già colpito.'},
   {id:'aug_ps',stile:'universale',tipo:'Protesi',nome:'Protesi Specializzata',desc:'Protesi per scopo preciso.',pro:'+3 a tipo specifico tiro CORPO.',con:'-1 altri tiri CORPO.',manutenzione:'Manutenzione mensile.',perk:'Specializzazione Estrema: per il tipo scelto, 1x/combat il tiro ha minimo 6 sul d12.'},
   {id:'aug_mi',stile:'noir',tipo:'Neurologia',nome:'Mente da Investigatore',desc:'Condizionamento cognitivo.',pro:'GM dice se hai perso qualcosa. +2 MENTE vs illusioni.',con:'-1 ANIMA in situazioni emotive.',manutenzione:null,perk:'Deduzione Lampo: 1x/sessione, il GM rivela 1 indizio critico sulla scena.'},
-  {id:'aug_it',stile:'post-ap',tipo:'Biologico',nome:'Immunizzazione Tossica',desc:'Corpo adattato a tossine.',pro:'Immune ambienti tossici. +3 vs veleni.',con:'-1 cure magiche/alchemiche.',manutenzione:null,perk:'Metabolismo Adattivo: 1x/sessione, ignora 1 effetto ambientale per 1 ora.'}
+  {id:'aug_it',stile:'post-ap',tipo:'Biologico',nome:'Immunizzazione Tossica',desc:'Corpo adattato a tossine.',pro:'Immune ambienti tossici. +3 vs veleni.',con:'-1 cure magiche/alchemiche.',manutenzione:null,perk:'Metabolismo Adattivo: 1x/sessione, ignora 1 effetto ambientale per 1 ora.'},
+  // ═══════════════════════════════════════════════════
+  // OGGETTI MAGICI, ARTEFATTI & DISPOSITIVI
+  // tipo: specifica la natura dell'oggetto
+  // max 2 tra modifiche corporee E oggetti (cap condiviso)
+  // ═══════════════════════════════════════════════════
+
+  // ─── FANTASY — Oggetti Magici ───
+
+  {id:'aug_om01',stile:'fantasy',tipo:'Anello Magico',
+    nome:'Anello della Rapidità',
+    desc:'Fascia d\'oro con un rubino che pulsa al ritmo del cuore. Chi lo indossa pensa e reagisce più velocemente.',
+    pro:'+1 a tutti i tiri di iniziativa e +1 MENTE permanente finché indossato.',
+    con:'Se rimosso, il vantaggio cessa immediatamente. Non cumulabile con altri anelli.',
+    manutenzione:null,
+    perk:'Scatto: 1x/sessione, puoi agire prima di chiunque altro nel round corrente, indipendentemente dall\'iniziativa.'},
+
+  {id:'aug_om02',stile:'fantasy',tipo:'Collana Magica',
+    nome:'Collana del Guardiano',
+    desc:'Pendente di cristallo contenente un minuscolo scudo di energia solidificata. Si frantuma assorbendo un colpo, poi si ricostituisce lentamente.',
+    pro:'Una volta per sessione, nega automaticamente un colpo critico (il danno viene ridotto a zero).',
+    con:'Dopo l\'uso, perde potere fino al Riposo Lungo.',
+    manutenzione:null,
+    perk:'Scudo Cristallino: 1x/sessione, nega un colpo critico subito.'},
+
+  {id:'aug_om03',stile:'fantasy',tipo:'Pergamena',
+    nome:'Pergamena di Individuazione',
+    desc:'Papiro antico ricoperto di simboli che reagiscono alla presenza di entità nascoste. Si consuma a ogni uso ma un esperto può riscriverla.',
+    pro:'1x/sessione, rivela tutte le creature invisibili, celate o travestite entro venti metri per un round.',
+    con:'La pergamena si consuma dopo il terzo utilizzo e deve essere riscritta da un mago.',
+    manutenzione:'Rinnovare ogni tre usi tramite un mago o un alchimista.',
+    perk:'Occhio Veggente: 1x/sessione, rivela invisibili e nascosti entro 20m per un round.'},
+
+  {id:'aug_om04',stile:'fantasy',tipo:'Amuleto Magico',
+    nome:'Amuleto di Protezione',
+    desc:'Talismano di ossidiana con sigilli protettivi incisi. Assorbe parte dell\'impatto di ogni colpo, come un\'armatura invisibile.',
+    pro:'+1 alla Difesa permanente finché indossato. Non sostituisce armatura fisica.',
+    con:'Richiede essere indossato visibilmente — chi lo vede sa che sei protetto.',
+    manutenzione:null,perk:null},
+
+  {id:'aug_om05',stile:'fantasy',tipo:'Anello Magico',
+    nome:'Anello della Vista Oscura',
+    desc:'Pietra nera incastonata in argento. Indossandolo gli occhi assumono una lieve luminescenza. Il buio cessa di essere un ostacolo.',
+    pro:'Visione nel buio perfetta fino a venti metri. Nessuna penalità per oscurità totale.',
+    con:'In piena luce intensa, -1 ai tiri di percezione visiva per abbagliamento.',
+    manutenzione:null,perk:null},
+
+  // ─── CYBERPUNK — Dispositivi Tecnologici ───
+
+  {id:'aug_dt01',stile:'cyberpunk',tipo:'Dispositivo Tecnologico',
+    nome:'Micro-Telecamera a Fibra',
+    desc:'Telecamera grande quanto un bottone, trasmette in tempo reale a qualsiasi dispositivo entro due chilometri. Audio e video in HD.',
+    pro:'Sorveglianza e raccolta prove da remoto. Rilevabile solo con scanner avanzati.',
+    con:'Batteria di quattro ore. Rilevabile se il segnale viene intercettato.',
+    manutenzione:'Ricarica ogni quattro ore d\'uso.',
+    perk:'Sorveglianza: il personaggio può lasciare la telecamera attiva e monitorarla da remoto tramite qualsiasi schermo.'},
+
+  {id:'aug_dt02',stile:'cyberpunk',tipo:'Dispositivo Tecnologico',
+    nome:'Jammer EMP Tascabile',
+    desc:'Piccolo dispositivo che emette un impulso elettromagnetico localizzato. Disabilita qualsiasi elettronica non schermata nel raggio d\'azione.',
+    pro:'1x/sessione, disabilita tutti i dispositivi elettronici entro cinque metri per un round.',
+    con:'Disabilita anche i propri dispositivi. Gli impianti ciberware del portatore vengono temporaneamente offline.',
+    manutenzione:'Si ricarica automaticamente in otto ore.',
+    perk:'Impulso EMP: 1x/sessione, disabilita tutta l\'elettronica entro 5m per un round (inclusa la propria).'},
+
+  {id:'aug_dt03',stile:'cyberpunk',tipo:'Dispositivo Tecnologico',
+    nome:'Scanner Medico Portatile',
+    desc:'Apparecchio diagnostico medico-militare. Scansiona il corpo di un paziente in trenta secondi e fornisce una diagnosi completa inclusa toxicologia.',
+    pro:'+3 a tutti i tiri di medicina e diagnosi. Identifica veleni e agenti biologici.',
+    con:'Il risultato richiede interpretazione — chi non ha competenze mediche può fraintendere i dati.',
+    manutenzione:null,perk:null},
+
+  {id:'aug_dt04',stile:'cyberpunk',tipo:'Dispositivo Tecnologico',
+    nome:'Telefono Criptato Militare',
+    desc:'Comunicazioni a prova di intercettazione con crittografia quantistica. Non tracciabile con mezzi convenzionali.',
+    pro:'Comunicazioni sicure e non tracciabili. Include GPS oscurato e sistema di messaggi autodistruttivi.',
+    con:'Se sequestrato, l\'unità si distrugge automaticamente — perdendo anche i dati memorizzati.',
+    manutenzione:null,perk:null},
+
+  {id:'aug_dt05',stile:'cyberpunk',tipo:'Dispositivo Tecnologico',
+    nome:'Microfono Direzionale da Lunga Gittata',
+    desc:'Capta e amplifica conversazioni fino a cento metri di distanza filtrando il rumore ambientale. Standard delle agenzie di intelligence.',
+    pro:'Ascoltare conversazioni private fino a 100m. Registrazione integrata.',
+    con:'Richiede line-of-sight verso il bersaglio. Inutile attraverso muri spessi.',
+    manutenzione:null,perk:null},
+
+  // ─── NOIR — Strumenti da Investigatore ───
+
+  {id:'aug_ni01',stile:'noir',tipo:'Strumento Investigativo',
+    nome:'Lente di Ingrandimento da Detective',
+    desc:'Lente professionale di cristallo ottico con graduazioni. Vecchio strumento, arte antica. Nelle mani giuste, niente sfugge.',
+    pro:'1x/sessione, individua automaticamente un dettaglio nascosto o una prova che altrimenti richiederebbe un tiro difficile.',
+    con:'Richiede almeno un minuto di esame — inutile in combattimento o situazioni concitate.',
+    manutenzione:null,
+    perk:'Occhio da Detective: 1x/sessione, il GM rivela un indizio o dettaglio nascosto nella scena esaminata.'},
+
+  {id:'aug_ni02',stile:'noir',tipo:'Strumento Investigativo',
+    nome:'Kit da Scassinatore Professionale',
+    desc:'Trousse di attrezzi di precisione per serrature meccaniche ed elettroniche. Ogni attrezzo è bilanciato e silenziato.',
+    pro:'+3 a tutti i tiri per aprire serrature, cassaforti e sistemi di sicurezza meccanici.',
+    con:'Non funziona su sistemi biometrici o a riconoscimento vocale senza accessori aggiuntivi.',
+    manutenzione:null,perk:null},
+
+  {id:'aug_ni03',stile:'noir',tipo:'Strumento Investigativo',
+    nome:'Registratore a Filo',
+    desc:'Piccolo apparecchio nascondibile nell\'interno della giacca. Dodici ore di autonomia. Prove ammissibili in molte giurisdizioni.',
+    pro:'Registra ogni conversazione entro tre metri senza possibilità di negazione plausibile. Prova inconfutabile.',
+    con:'Se trovato durante una perquisizione, può compromettere tutto il lavoro investigativo.',
+    manutenzione:'Cambio filo ogni dodici ore di registrazione.',perk:null},
+
+  {id:'aug_ni04',stile:'noir',tipo:'Strumento Investigativo',
+    nome:'Macchina Fotografica Discreta',
+    desc:'Fotocamera di piccolo formato con obiettivo lungo. Scatta in silenzio, sviluppo in camera oscura portatile inclusa.',
+    pro:'Prove fotografiche di qualità. +2 ai tiri di persuasione quando si presentano prove visive.',
+    con:'Pellicola limitata — massimo ventiquattro scatti per rullino. Sviluppo richiede attrezzatura.',
+    manutenzione:'Rullino da cambiare ogni 24 scatti.',perk:null},
+
+  // ─── HORROR — Oggetti Maledetti & Reliquie ───
+
+  {id:'aug_hc01',stile:'horror',tipo:'Oggetto Maledetto',
+    nome:'Specchio Nero',
+    desc:'Lastra di ossidiana levigata che non riflette il presente ma mostra frammenti del passato recente del luogo. I volti nell\'immagine sembrano consapevoli di chi guarda.',
+    pro:'1x/sessione, il GM mostra cosa è accaduto in questo luogo nelle ultime ventiquattro ore.',
+    con:'Chi guarda troppo a lungo — più di un minuto — acquisisce la condizione Spaventato senza possibilità di tiro.',
+    manutenzione:null,
+    perk:'Visione del Passato: 1x/sessione, il GM rivela un evento recente accaduto nel luogo corrente.'},
+
+  {id:'aug_hc02',stile:'horror',tipo:'Oggetto Maledetto',
+    nome:'Bambola Voodoo Legata',
+    desc:'Bambolina di paglia e cera nera contenente un capello o unghia del bersaglio. La connessione è reale e bidirezionale.',
+    pro:'1x/sessione, infliggi due punti di danno a distanza illimitata a un bersaglio a cui appartiene il materiale biologico contenuto.',
+    con:'Se la bambola viene distrutta mentre è in uso, il portatore subisce lo stesso danno.',
+    manutenzione:'Richiede materiale biologico fresco del bersaglio per essere usata.',
+    perk:'Maledizione a Distanza: 1x/sessione, infliggi 2 danni a qualsiasi distanza al bersaglio legato.'},
+
+  {id:'aug_hc03',stile:'horror',tipo:'Libro Maledetto',
+    nome:'Libro delle Ombre',
+    desc:'Raccolta di conoscenze proibite rilegata in pelle di origine sconosciuta. Ogni pagina rivela un segreto che non si sarebbe dovuto sapere. Non è sicuro tenerlo.',
+    pro:'+2 a tutti i tiri di magie oscure e necromantiche. Sblocca accesso narrativo a rituali rari.',
+    con:'-1 ANIMA permanente finché si possiede il libro. L\'ANIMA torna al valore normale se ci si libera di esso.',
+    manutenzione:null,
+    perk:'Conoscenza Proibita: +2 a tutte le magie oscure. Il portatore conosce automaticamente rituali che normalmente richiederebbero ricerca.'},
+
+  {id:'aug_hc04',stile:'horror',tipo:'Reliquia Maledetta',
+    nome:"Occhio di Vetro del Profeta",
+    desc:'Occhio artificiale di vetro soffiato con una pupilla che si muove indipendentemente. Il proprietario originale era cieco ma vedeva cose che i vedenti non possono vedere.',
+    pro:'1x/sessione, hai una visione profetica confusa su un evento imminente — il GM fornisce un\'immagine criptica del futuro prossimo.',
+    con:"Le visioni non si possono controllare — arrivano anche di notte, interrompendo il sonno. Un Riposo Lungo non è garantito.",
+    manutenzione:null,
+    perk:"Profezia Confusa: 1x/sessione, il GM fornisce un'immagine simbolica di qualcosa che accadrà entro la sessione corrente."},
+
+  // ─── LOVECRAFTIANO — Artefatti Cosmici ───
+
+  {id:'aug_lv01',stile:'horror',tipo:'Artefatto Cosmico',
+    nome:'Frammento di R\'lyeh',
+    desc:'Pietra non-euclidea di colore impossibile da descrivere. Gli angoli non tornano. Tenerla troppo a lungo porta a pensieri di apertura, vastità e fame.',
+    pro:'+2 a tutte le magie. Il portatore percepisce la presenza di entità soprannaturali entro cento metri.',
+    con:'-2 ANIMA permanente finché si possiede il frammento. ANIMA torna al normale se ci se ne libera.',
+    manutenzione:null,
+    perk:"Risonanza Cosmica: il portatore sente la presenza di qualsiasi entità soprannaturale entro 100m anche senza tiro. Il GM lo avvisa."},
+
+  {id:'aug_lv02',stile:'horror',tipo:'Artefatto Cosmico',
+    nome:'Maschera di Nyarlathotep',
+    desc:'Maschera rituale senza lineamenti fissi — la faccia cambia a seconda di chi la guarda. Indossarla permette di assumere l\'aspetto di chiunque si desideri. Il costo è una parte di sé.',
+    pro:'1x/sessione, assumi perfettamente le sembianze di una persona che hai osservato per almeno un minuto. Voce e aspetto inclusi. Dura un\'ora.',
+    con:'Ogni utilizzo richiede un tiro di ANIMA (difficoltà 8). In caso di fallimento perdi temporaneamente la certezza della propria identità — il GM gestisce le conseguenze narrative.',
+    manutenzione:null,
+    perk:"Volto del Messaggero: 1x/sessione, assumi le sembianze di chiunque tu abbia osservato di persona. Tiro ANIMA≥8 o conseguenze narrative."},
+
+  {id:'aug_lv03',stile:'horror',tipo:'Testo Proibito',
+    nome:'Necronomicon — Frammento Tradotto',
+    desc:'Non il libro originale — nessuno l\'ha mai visto intero e restato sano di mente. Un frammento di traduzione, sufficiente per fare cose che non avrebbero dovuto essere possibili.',
+    pro:'Sblocca accesso a magie di Livello 3 e 4 senza il talento Magia Avanzata. Solo per rituali — non in combattimento.',
+    con:'-1 HP massimo permanente per ogni magia di livello 3-4 lanciata tramite il frammento. Non recuperabile.',
+    manutenzione:'Ogni lettura prolungata richiede un tiro di MENTE (difficoltà 7) o si acquisisce una condizione narrativa.',
+    perk:'Rituale Proibito: fuori combattimento, puoi lanciare magie L3-L4 senza Magia Avanzata. -1 HP max per lancio, permanente.'},
+
+  // ─── VAMPIRICO ───
+
+  {id:'aug_vp01',stile:'horror',tipo:'Reliquia Vampirica',
+    nome:'Medaglione del Sangue Antico',
+    desc:'Ciondolo di ematite riempito di sangue condensato di una stirpe vampirica estinta. Chi lo indossa acquisisce una minima connessione con quella fame.',
+    pro:'Quando infliggi danno in mischia, recuperi un Punto Vita per ogni quattro punti di danno inflitti.',
+    con:'In prossimità di sangue versato, un tiro di ANIMA (difficoltà 6) è necessario per non essere distratto.',
+    manutenzione:null,
+    perk:'Drenaggio: passivo — recuperi 1 HP ogni 4 punti di danno inflitto in mischia.'},
+
+  {id:'aug_vp02',stile:'horror',tipo:'Reliquia Vampirica',
+    nome:'Mantello della Notte Eterna',
+    desc:'Tessuto nero come l\'assenza di luce. Nelle ore notturne assorbe l\'oscurità diventando parte di essa. Di giorno è solo un mantello molto elegante.',
+    pro:'Di notte o in ambienti bui: invisibilità totale mentre sei immobile. -2 ai tiri di individuazione nemici anche in movimento.',
+    con:'Di giorno o in ambienti illuminati: nessun beneficio. Il mantello emette un lieve odore metallico.',
+    manutenzione:null,perk:null},
+
+  {id:'aug_vp03',stile:'horror',tipo:'Reliquia Vampirica',
+    nome:'Guanti di Sangue Ghiacciato',
+    desc:'Guanti in pelle nera imbevuta di sangue vampirico cristallizzato. Il tocco è freddo come marmo. Intensificano le magie del sangue e della vita.',
+    pro:'+2 a tutte le magie necromantiche e di drenaggio vitale. Furto Vitale recupera il doppio degli HP.',
+    con:'Chi li indossa non sente il caldo corporeo altrui — piccole conseguenze sociali e sensoriali.',
+    manutenzione:null,perk:null},
+
+  // ─── ZOMBIE / POST-APOCALISSE ───
+
+  {id:'aug_zm01',stile:'post-ap',tipo:'Composto Biologico',
+    nome:'Siero T-Virus Indebolito',
+    desc:'Versione diluita e stabilizzata del virus responsabile delle epidemie zombie. Invece di uccidere e trasformare, in piccole dosi potenzia il corpo temporaneamente.',
+    pro:'1x/sessione: +3 CORPO e +5 HP temporanei per tre round. Dopo i tre round, -2 CORPO per un round.',
+    con:'Ogni somministrazione richiede un tiro di CORPO (difficoltà 6) — in caso di fallimento, il personaggio entra in uno stato di furia incontrollata per un round (il GM gestisce le azioni).',
+    manutenzione:'Una dose per sessione. Più dosi aumentano il rischio di mutazione permanente.',
+    perk:'Surge Biologico: 1x/sessione, +3 CORPO e +5 HP temp per 3 round, poi -2 CORPO per 1 round. Tiro CORPO≥6 o furia.'},
+
+  {id:'aug_zm02',stile:'post-ap',tipo:'Equipaggiamento Tattico',
+    nome:'Maschera Anti-Infetto Militare',
+    desc:'Respiratore a filtri multipli standard CDC-Tier3. Protegge da gas, veleni, spore, agenti biologici e airborne pathogeni. Usata dai team di contenimento.',
+    pro:'Immunità a veleni inalatori, gas e malattie trasmesse per via aerea. +2 vs qualsiasi effetto chimico o biologico.',
+    con:'Riduce la percezione auditiva (-1 ai tiri di ascolto). Visibilità laterale ridotta.',
+    manutenzione:'Filtri da cambiare ogni otto ore di utilizzo continuativo.',perk:null},
+
+  {id:'aug_zm03',stile:'post-ap',tipo:'Impianto Biologico',
+    nome:'Organo di Riserva Sintetico',
+    desc:'Organo secondario impiantato chirurgicamente che funge da backup. Se il cuore o il fegato cedono, l\'organo sintetico prende il controllo per qualche ora.',
+    pro:'+4 HP massimi permanenti. Una volta per Riposo Lungo, quando scendi a zero HP, il sistema si attiva automaticamente e ti riporta a due HP invece di incapacitarti.',
+    con:'L\'operazione richiede un chirurgo qualificato e lascia una cicatrice visibile.',
+    manutenzione:'Controllo medico mensile consigliato. Se trascurato, il bonus HP scende a +2.',
+    perk:'Sistema di Backup: 1x/Riposo Lungo, quando scendi a 0 HP ti stabilizzi automaticamente a 2 HP invece di incapacitarti.'},
+
+
 ];
 
 // ═══ MOSTRI ESEMPIO ═══
@@ -536,6 +762,353 @@ var MONSTERS = [
 ];
 
 // ═══ WOUND TIERS ═══
+
+/* ═══════════════════════════════════════════════════════════════════════
+   WEAPONS — Arsenale Completo C.O.R.E.
+   Campi: id, nome, nomeLore (solo leggendarie), cat (A/B/C/D),
+          tipo, stile, danno, portata, peso, mani, rarita,
+          req (opz.), elemento (opz.), desc, perkSpeciale (opz.)
+   perkSpeciale = { nome, tipo, desc, malus? }
+═══════════════════════════════════════════════════════════════════════ */
+var WEAPONS = [
+
+  // ════════════════════════════════
+  //  CATEGORIA A  (+1) — Leggere
+  // ════════════════════════════════
+
+  // ─ FANTASY / D&D ─
+  {id:'w_a01',nome:'Pugnale',         nomeLore:null,cat:'A',tipo:'Pugnale',   stile:'fantasy',
+   danno:'Perforante',portata:'Mischia / 5m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Lama corta e affilata. Versatile, affidabile, silenziosa.',perkSpeciale:null},
+  {id:'w_a02',nome:'Ascia Leggera',   nomeLore:null,cat:'A',tipo:'Ascia',     stile:'fantasy',
+   danno:'Tagliente',portata:'Mischia / 5m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Testa affilata, bilanciata per il lancio.',perkSpeciale:null},
+  {id:'w_a03',nome:'Martello Leggero',nomeLore:null,cat:'A',tipo:'Mazza',     stile:'fantasy',
+   danno:'Contundente',portata:'Mischia / 5m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Testa metallica piccola, impugnatura corta.',perkSpeciale:null},
+  {id:'w_a04',nome:'Falce Corta',     nomeLore:null,cat:'A',tipo:'Lama',      stile:'fantasy',
+   danno:'Tagliente',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Lama incurvata, usata anche come attrezzo agricolo.',perkSpeciale:null},
+  {id:'w_a05',nome:'Balestra a Mano', nomeLore:null,cat:'A',tipo:'Balestra',  stile:'fantasy',
+   danno:'Perforante',portata:'20m',peso:'Leggero',mani:'1h',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:'Compatta, silenziosa, facile da nascondere.',perkSpeciale:null},
+  {id:'w_a06',nome:'Giavellotto',     nomeLore:null,cat:'A',tipo:'Asta',      stile:'fantasy',
+   danno:'Perforante',portata:'Mischia / 10m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Lancia leggera da lancio, efficace a distanza ravvicinata.',perkSpeciale:null},
+
+  // ─ CYBERPUNK RED ─
+  {id:'w_a07',nome:'Micro-Pistola',   nomeLore:null,cat:'A',tipo:'Pistola',   stile:'cyberpunk',
+   danno:'Perforante',portata:'10m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Piccola, silenziabile, facile da nascondere in un interno coscia.',perkSpeciale:null},
+  {id:'w_a08',nome:'Taser',           nomeLore:null,cat:'A',tipo:'Energia',   stile:'cyberpunk',
+   danno:'Elettrico',portata:'Mischia / 3m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:'Elettrico',
+   desc:'Scarica a impulso che stordisce invece di uccidere.',perkSpeciale:null},
+  {id:'w_a09',nome:'Lama Monofilo',   nomeLore:null,cat:'A',tipo:'Lama',      stile:'cyberpunk',
+   danno:'Tagliente',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:"Filo monomolecolare su impugnatura ceramica. Taglia quasi tutto.",perkSpeciale:null},
+  {id:'w_a10',nome:'Spike Subderminico',nomeLore:null,cat:'A',tipo:'Corp. a Corp.',stile:'cyberpunk',
+   danno:'Perforante',portata:'Mischia',peso:'—',mani:'1h',rarita:'Non comune',
+   req:'Augment cibernetico',elemento:null,
+   desc:'Lame retraibili impiantate nelle nocche o negli avambracci.',perkSpeciale:null},
+
+  // ─ ANIME ─
+  {id:'w_a11',nome:'Kunai',           nomeLore:null,cat:'A',tipo:'Pugnale da Lancio',stile:'anime',
+   danno:'Perforante',portata:'Mischia / 8m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Lama da lancio a forma di anello. Icona del combattimento ninja.',perkSpeciale:null},
+  {id:'w_a12',nome:'Shuriken (x5)',   nomeLore:null,cat:'A',tipo:'Lancio',    stile:'anime',
+   danno:'Tagliente',portata:'10m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Stelle di metallo. Si lanciano con precisione fulminea, set di cinque.',perkSpeciale:null},
+  {id:'w_a13',nome:'Tantō',           nomeLore:null,cat:'A',tipo:'Pugnale',   stile:'anime',
+   danno:'Perforante',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:'Pugnale tradizionale giapponese. Onore e funzione in ogni centimetro di lama.',perkSpeciale:null},
+
+  // ─ HORROR / DEMONOLOGIA ─
+  {id:'w_a14',nome:"Spina d'Osso",    nomeLore:null,cat:'A',tipo:'Pugnale',   stile:'horror',
+   danno:'Necromantico',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Non comune',
+   req:null,elemento:'Oscuro',
+   desc:'Ricavata dalle ossa di qualcosa che non andava ucciso. Ancora calda al tatto.',perkSpeciale:null},
+  {id:'w_a15',nome:'Ago Rituale',     nomeLore:null,cat:'A',tipo:'Pugnale',   stile:'horror',
+   danno:'Perforante',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:'Lungo e sottile, usato in cerimonie di cui è meglio ignorare i dettagli.',perkSpeciale:null},
+
+  // ─ NOIR ─
+  {id:'w_a16',nome:'Derringer',       nomeLore:null,cat:'A',tipo:'Pistola',   stile:'noir',
+   danno:'Perforante',portata:'5m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Due colpi, nessuna scusa. Si nasconde in un portasigarette.',perkSpeciale:null},
+  {id:'w_a17',nome:'Tirapugni Ottone',nomeLore:null,cat:'A',tipo:'Corp. a Corp.',stile:'noir',
+   danno:'Contundente',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Il messaggio più diretto che esista. Economico e invariabilmente efficace.',perkSpeciale:null},
+  {id:'w_a18',nome:'Stiletto da Gangster',nomeLore:null,cat:'A',tipo:'Pugnale',stile:'noir',
+   danno:'Perforante',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Lama a scatto, molla silenziosa. Non sporchi le dita.',perkSpeciale:null},
+
+  // ════════════════════════════════
+  //  CATEGORIA B  (+2) — Standard
+  // ════════════════════════════════
+
+  // ─ FANTASY / D&D ─
+  {id:'w_b01',nome:'Spada Lunga',     nomeLore:null,cat:'B',tipo:'Spada',     stile:'fantasy',
+   danno:'Tagliente',portata:'Mischia',peso:'Medio',mani:'versatile',rarita:'Comune',
+   req:null,elemento:null,
+   desc:"L'arma dell'avventuriero. Bilanciata, affidabile, adatta a qualsiasi situazione.",perkSpeciale:null},
+  {id:'w_b02',nome:'Fioretto',        nomeLore:null,cat:'B',tipo:'Spada',     stile:'fantasy',
+   danno:'Perforante',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Velocità e precisione. Ogni affondo è un\'equazione, non una bravata.',perkSpeciale:null},
+  {id:'w_b03',nome:'Ascia da Guerra', nomeLore:null,cat:'B',tipo:'Ascia',     stile:'fantasy',
+   danno:'Tagliente',portata:'Mischia',peso:'Medio',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'La preferita di chi non ama le sottigliezze.',perkSpeciale:null},
+  {id:'w_b04',nome:'Lancia',          nomeLore:null,cat:'B',tipo:'Asta',      stile:'fantasy',
+   danno:'Perforante',portata:'Mischia (3m)',peso:'Medio',mani:'versatile',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Gittata superiore in mischia. Terrificante in formazione.',perkSpeciale:null},
+  {id:'w_b05',nome:'Martello da Guerra',nomeLore:null,cat:'B',tipo:'Mazza',   stile:'fantasy',
+   danno:'Contundente',portata:'Mischia',peso:'Medio',mani:'versatile',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Spacca armature. Non è il genere di arma che perdona.',perkSpeciale:null},
+  {id:'w_b06',nome:'Arco Corto',      nomeLore:null,cat:'B',tipo:'Arco',      stile:'fantasy',
+   danno:'Perforante',portata:'40m',peso:'Leggero',mani:'2h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Mobilità e cadenza di fuoco. Il prediletto dei ranger.',perkSpeciale:null},
+  {id:'w_b07',nome:'Balestra',        nomeLore:null,cat:'B',tipo:'Balestra',  stile:'fantasy',
+   danno:'Perforante',portata:'30m',peso:'Medio',mani:'2h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Nessun addestramento necessario. Punta e spara.',perkSpeciale:null},
+  {id:'w_b08',nome:'Tridente',        nomeLore:null,cat:'B',tipo:'Asta',      stile:'fantasy',
+   danno:'Perforante',portata:'Mischia (3m)',peso:'Medio',mani:'versatile',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:'Tre punte, tre possibilità di perforare qualcosa di importante.',perkSpeciale:null},
+
+  // ─ CYBERPUNK RED ─
+  {id:'w_b09',nome:'Pistola Standard',nomeLore:null,cat:'B',tipo:'Pistola',   stile:'cyberpunk',
+   danno:'Perforante',portata:'25m',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:"9mm semi-automatica. L'arma di servizio del ciberpunk che vuole sopravvivere.",perkSpeciale:null},
+  {id:'w_b10',nome:'SMG Compatta',    nomeLore:null,cat:'B',tipo:'Mitra',     stile:'cyberpunk',
+   danno:'Perforante',portata:'20m',peso:'Leggero',mani:'1h',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:'Raffica corta, alto rateo. Si impugna con una mano, meglio con due.',perkSpeciale:null},
+  {id:'w_b11',nome:'Katana Monofilamento',nomeLore:null,cat:'B',tipo:'Spada', stile:'cyberpunk',
+   danno:'Tagliente',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:'Ceramica rinforzata con filo monomolecolare sul bordo.',perkSpeciale:null},
+
+  // ─ ANIME ─
+  {id:'w_b12',nome:'Katana',          nomeLore:null,cat:'B',tipo:'Spada',     stile:'anime',
+   danno:'Tagliente',portata:'Mischia',peso:'Leggero',mani:'versatile',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:'La via della spada. Velocità, eleganza, un taglio che non lascia dubbi.',perkSpeciale:null},
+  {id:'w_b13',nome:'Naginata',        nomeLore:null,cat:'B',tipo:'Asta con Lama',stile:'anime',
+   danno:'Tagliente',portata:'Mischia (3m)',peso:'Medio',mani:'2h',rarita:'Non comune',
+   req:null,elemento:null,
+   desc:"L'arma dei guerrieri eleganti. Portata e grazia in egual misura.",perkSpeciale:null},
+  {id:'w_b14',nome:'Guanti da Combattimento',nomeLore:null,cat:'B',tipo:'Corp. a Corp.',stile:'anime',
+   danno:'Contundente',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Rinforzati con metallo o ki. Ogni pugno è una sentenza.',perkSpeciale:null},
+
+  // ─ HORROR / DEMONOLOGIA ─
+  {id:'w_b15',nome:"Daga d'Argento",  nomeLore:null,cat:'B',tipo:'Pugnale',   stile:'horror',
+   danno:'Perforante',portata:'Mischia / 5m',peso:'Leggero',mani:'1h',rarita:'Non comune',
+   req:null,elemento:'Sacro',
+   desc:'Fusa con argento puro e benedetta. Brucia ciò che non dovrebbe esistere.',perkSpeciale:null},
+  {id:'w_b16',nome:'Lama Rituale Oscura',nomeLore:null,cat:'B',tipo:'Pugnale', stile:'horror',
+   danno:'Necromantico',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Raro',
+   req:null,elemento:'Oscuro',
+   desc:'Incisa con simboli di potere che nessuno dovrebbe saper leggere.',perkSpeciale:null},
+
+  // ─ NOIR ─
+  {id:'w_b17',nome:'Revolver .38',    nomeLore:null,cat:'B',tipo:'Revolver',  stile:'noir',
+   danno:'Perforante',portata:'20m',peso:'Medio',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Sei colpi, sei decisioni. Il classico di chi non si fida delle pistole moderne.',perkSpeciale:null},
+  {id:'w_b18',nome:'Fucile a Pompa Corto',nomeLore:null,cat:'B',tipo:'Fucile',stile:'noir',
+   danno:'Tagliente',portata:'10m',peso:'Medio',mani:'2h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Nessuno discute con un cal.12 a meno di dieci metri.',perkSpeciale:null},
+  {id:'w_b19',nome:'Manganello',      nomeLore:null,cat:'B',tipo:'Mazza',     stile:'noir',
+   danno:'Contundente',portata:'Mischia',peso:'Leggero',mani:'1h',rarita:'Comune',
+   req:null,elemento:null,
+   desc:'Il ragionamento finale di chi vuole risposte senza spargere sangue.',perkSpeciale:null},
+
+  // ════════════════════════════════════════════════
+  //  CATEGORIA C  (+3) — Pesanti, CORPO≥6 o talento
+  // ════════════════════════════════════════════════
+
+  // ─ FANTASY / D&D ─
+  {id:'w_c01',nome:'Spadone',         nomeLore:null,cat:'C',tipo:'Spada',     stile:'fantasy',
+   danno:'Tagliente',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Non comune',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Taglia attraverso armatura e uomini con la stessa indifferenza.',perkSpeciale:null},
+  {id:'w_c02',nome:'Grande Ascia',    nomeLore:null,cat:'C',tipo:'Ascia',     stile:'fantasy',
+   danno:'Tagliente',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Non comune',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:"Pura distruzione. Non c'è eleganza — solo il risultato.",perkSpeciale:null},
+  {id:'w_c03',nome:'Grande Mazza',    nomeLore:null,cat:'C',tipo:'Mazza',     stile:'fantasy',
+   danno:'Contundente',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Non comune',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Spiana armature. Non serve tagliare se puoi appiattire.',perkSpeciale:null},
+  {id:'w_c04',nome:'Alabarda',        nomeLore:null,cat:'C',tipo:'Asta con Lama',stile:'fantasy',
+   danno:'Tagliente',portata:'Mischia (3m)',peso:'Pesante',mani:'2h',rarita:'Non comune',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Il dominio delle formazioni militari. Taglia, colpisce, e tiene a distanza.',perkSpeciale:null},
+  {id:'w_c05',nome:'Arco Lungo',      nomeLore:null,cat:'C',tipo:'Arco',      stile:'fantasy',
+   danno:'Perforante',portata:'80m',peso:'Medio',mani:'2h',rarita:'Non comune',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Portata straordinaria. Nelle mani giuste, cambia il risultato delle battaglie.',perkSpeciale:null},
+  {id:'w_c06',nome:'Balestra Pesante',nomeLore:null,cat:'C',tipo:'Balestra',  stile:'fantasy',
+   danno:'Perforante',portata:'60m',peso:'Pesante',mani:'2h',rarita:'Non comune',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Perfora piastre di acciaio. Ricarica lenta, ma il primo colpo raramente fallisce.',perkSpeciale:null},
+
+  // ─ CYBERPUNK RED ─
+  {id:'w_c07',nome:'Fucile d\'Assalto',nomeLore:null,cat:'C',tipo:'Fucile',   stile:'cyberpunk',
+   danno:'Perforante',portata:'100m',peso:'Pesante',mani:'2h',rarita:'Raro',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:"Cadenza elevata, precisione militare. L'arma dei soldier-for-hire seri.",perkSpeciale:null},
+  {id:'w_c08',nome:'Pistola Pesante HMG',nomeLore:null,cat:'C',tipo:'Pistola',stile:'cyberpunk',
+   danno:'Perforante',portata:'30m',peso:'Pesante',mani:'versatile',rarita:'Raro',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Calibro .50 modificato. Ciò che colpisce non si rialza facilmente.',perkSpeciale:null},
+  {id:'w_c09',nome:'Monokatana',       nomeLore:null,cat:'C',tipo:'Spada',    stile:'cyberpunk',
+   danno:'Tagliente',portata:'Mischia',peso:'Medio',mani:'2h',rarita:'Raro',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Lama a piena lunghezza con filo monomolecolare. Taglia veicoli leggeri.',perkSpeciale:null},
+
+  // ─ ANIME ─
+  {id:'w_c10',nome:'Nodachi',          nomeLore:null,cat:'C',tipo:'Spada',    stile:'anime',
+   danno:'Tagliente',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Raro',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:"Spada di campo lunga quanto un uomo. Ogni fendente ha il peso della storia.",perkSpeciale:null},
+  {id:'w_c11',nome:"Odachi della Tempesta",nomeLore:null,cat:'C',tipo:'Spada',stile:'anime',
+   danno:'Tagliente',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Raro',
+   req:'CORPO ≥ 6',elemento:'Fulmine',
+   desc:'Forgiata durante un temporale. Arde di scariche elettrostatiche sui bordi.',perkSpeciale:null},
+
+  // ─ HORROR / DEMONOLOGIA ─
+  {id:'w_c12',nome:'Falce della Mietitrice',nomeLore:null,cat:'C',tipo:'Falce',stile:'horror',
+   danno:'Necromantico',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Raro',
+   req:'CORPO ≥ 6',elemento:'Oscuro',
+   desc:'Fredda al tatto anche d\'estate. Chi viene colpito percepisce la propria fine.',perkSpeciale:null},
+  {id:'w_c13',nome:'Marchio del Divoratore',nomeLore:null,cat:'C',tipo:'Maglio',stile:'horror',
+   danno:'Contundente',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Raro',
+   req:'CORPO ≥ 6',elemento:'Demonico',
+   desc:'Coperto di rune demoniche. Rompe le barriere magiche e le ossa con uguale facilità.',perkSpeciale:null},
+
+  // ─ NOIR ─
+  {id:'w_c14',nome:'Tommy Gun',        nomeLore:null,cat:'C',tipo:'Mitra',    stile:'noir',
+   danno:'Perforante',portata:'30m',peso:'Pesante',mani:'2h',rarita:'Non comune',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Il suono dell\'era del proibizionismo. Sessanta colpi di argomento inattaccabile.',perkSpeciale:null},
+  {id:'w_c15',nome:'Fucile da Cecchino',nomeLore:null,cat:'C',tipo:'Fucile',  stile:'noir',
+   danno:'Perforante',portata:'200m',peso:'Pesante',mani:'2h',rarita:'Raro',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'Freddo, distante, inevitabile. Porta la morte con puntualità svizzera.',perkSpeciale:null},
+  {id:'w_c16',nome:'Revolver Magnum',  nomeLore:null,cat:'C',tipo:'Revolver', stile:'noir',
+   danno:'Perforante',portata:'30m',peso:'Pesante',mani:'versatile',rarita:'Non comune',
+   req:'CORPO ≥ 6',elemento:null,
+   desc:'.44 Magnum. Chi viene colpito ha già finito di essere un problema.',perkSpeciale:null},
+
+  // ══════════════════════════════════════════════════════════════════
+  //  CATEGORIA D  (+4) — Devastanti, CORPO≥10 + Armi Letali
+  //  ★ ARMI LEGGENDARIE CON NOME E PERK SPECIALE ★
+  // ══════════════════════════════════════════════════════════════════
+
+  // ─ FANTASY — Leggendarie ─
+  {id:'w_d01',nome:'Spadone',nomeLore:'Spezzamondi',cat:'D',tipo:'Spada',     stile:'fantasy',
+   danno:'Tagliente + Radioso',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:'Radioso',
+   desc:'Forgiata durante l\'eclissi di un dio morente. Emette una deflagrazione di luce a ogni colpo che accieca tutto ciò che si trova entro due metri.',
+   perkSpeciale:{nome:'Furia Solare',tipo:'1x/combat',
+     desc:'Quando colpisci, ogni nemico entro 2m subisce metà del danno inferto come onda d\'urto radiosa. Non colpisce alleati.',malus:null}},
+
+  {id:'w_d02',nome:'Arco',nomeLore:'Arco di Asteria',cat:'D',tipo:'Arco',    stile:'fantasy',
+   danno:'Perforante + Lunare',portata:'150m',peso:'Leggero',mani:'2h',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:'Lunare',
+   desc:'Legno lunare bianco, corda di filo di stelle. Le frecce lasciano una scia argentea e non possono essere schivate da bersagli con MENTE inferiore a 8.',
+   perkSpeciale:{nome:'Freccia Inevitabile',tipo:'1x/sessione',
+     desc:'Scocca una freccia che ignora completamente la Difesa del bersaglio. Il danno è applicato direttamente agli HP.',malus:null}},
+
+  {id:'w_d03',nome:'Maglio',nomeLore:'Tuono Silente',cat:'D',tipo:'Maglio',   stile:'fantasy',
+   danno:'Contundente + Fulmine',portata:'Mischia',peso:'Pesante',mani:'2h',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:'Fulmine',
+   desc:'Ferro nero che emette un rombo sordo a ogni colpo. Al contatto scarica in silenzio — il nemico non sente il tonfo, ma si ritrova a terra.',
+   perkSpeciale:{nome:'Scarica Paralizzante',tipo:'1x/combat',
+     desc:'Il prossimo colpo a segno impone la condizione Stordito per 2 round senza tiro di resistenza.',malus:null}},
+
+  // ─ CYBERPUNK — Leggendarie ─
+  {id:'w_d04',nome:'Lama Cybernetica',nomeLore:'Mantide',cat:'D',tipo:'Lama Impiantata',stile:'cyberpunk',
+   danno:'Tagliente',portata:'Mischia',peso:'—',mani:'1h',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali + Augment cibernetico',elemento:null,
+   desc:'Lame ad apertura pneumatica impiantate nell\'avambraccio. Si dispiegano in 0.3 secondi. Non esiste guardia che le aspetti.',
+   perkSpeciale:{nome:'Dispiegamento Istantaneo',tipo:'passivo',
+     desc:'Non puoi mai essere colto di sorpresa mentre Mantide è impiantata. Il primo attacco di ogni combattimento ottiene +2 al tiro.',malus:null}},
+
+  {id:'w_d05',nome:'Fucile ad Alta Energia',nomeLore:'Ragnarok-7',cat:'D',tipo:'Fucile Prototipo',stile:'cyberpunk',
+   danno:'Energetico + Plasma',portata:'300m',peso:'Pesante',mani:'2h',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:'Plasma',
+   desc:'Arma militare prototipo. Ogni colpo richiede 3 secondi di ricarica — ma ciò che colpisce smette di esistere come unità coerente di materia.',
+   perkSpeciale:{nome:'Colpo di Plasma',tipo:'1x/combat',
+     desc:'Un colpo ignora completamente armature e scudi. La DEF del bersaglio è considerata zero per quel calcolo del danno.',malus:null}},
+
+  // ─ ANIME — Leggendarie ─
+  {id:'w_d06',nome:'Nodachi',nomeLore:'Occhio del Drago',cat:'D',tipo:'Spada', stile:'anime',
+   danno:'Tagliente + Fuoco',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:'Fuoco',
+   desc:'Forgiata nel nucleo di un vulcano da un fabbro che aveva fatto un patto. Filamenti di magma scorrono lungo la lama e non si spengono mai.',
+   perkSpeciale:{nome:'Passo del Drago',tipo:'1x/combat',
+     desc:'Dopo aver abbattuto un nemico, puoi muoverti fino a 5m e effettuare immediatamente un secondo attacco completo nel tuo turno.',malus:null}},
+
+  {id:'w_d07',nome:'Katana',nomeLore:'Fato Infranto',cat:'D',tipo:'Spada',    stile:'anime',
+   danno:'Tagliente + Vuoto',portata:'Mischia',peso:'Medio',mani:'versatile',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:'Vuoto',
+   desc:'Spezzata e riformata con tecnica proibita. L\'impugnatura è tenuta insieme da bende di seta nera. Taglia attraverso il ki, non solo la carne.',
+   perkSpeciale:{nome:'Recisione del Ki',tipo:'1x/sessione',
+     desc:'Un colpo annulla il prossimo perk o magia che il bersaglio avrebbe usato quel giorno. Il GM decide quale effetto specifico viene reciso.',malus:null}},
+
+  // ─ HORROR / DEMONOLOGIA — Leggendarie Maledette ─
+  {id:'w_d08',nome:'Falce',nomeLore:'Lama del Vuoto',cat:'D',tipo:'Falce',    stile:'horror',
+   danno:'Necromantico',portata:'Mischia (2m)',peso:'Pesante',mani:'2h',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:'Oscuro',
+   desc:'Non si sa da dove viene. Chiunque la abbia impugnata riferisce lo stesso sogno — un corridoio infinito e qualcosa che cammina verso di loro.',
+   perkSpeciale:{nome:'Mietitore',tipo:'1x/combat',
+     desc:'Se il colpo porta il bersaglio a 0 HP, recuperi HP pari al tuo CORPO. L\'anima del bersaglio alimenta la lama.',
+     malus:'−1 ANIMA permanente finché equipaggiata. Ogni notte il portatore sogna la propria morte.'}},
+
+  {id:'w_d09',nome:'Pugnale Rituale',nomeLore:'Marchio di Abaddon',cat:'D',tipo:'Pugnale',stile:'horror',
+   danno:'Demonico',portata:'Mischia / 8m',peso:'Leggero',mani:'1h',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:'Demonico',
+   desc:'Iscritto con il vero nome di un demone minore. Chi viene ferito sente qualcosa cominciare a muoversi dall\'interno.',
+   perkSpeciale:{nome:'Segnatura Demoniaca',tipo:'1x/sessione',
+     desc:'Chi viene ferito acquisisce la condizione Spaventato per l\'intera scena (non solo 2 round). Tiro ANIMA vs ANIMA+6 per resistere.',
+     malus:'Il portatore non recupera più di 2 slot magici per Riposo Breve.'}},
+
+  // ─ NOIR — Leggendaria ─
+  {id:'w_d10',nome:'Revolver',nomeLore:'Il Giustiziere',cat:'D',tipo:'Revolver',stile:'noir',
+   danno:'Perforante',portata:'40m',peso:'Pesante',mani:'versatile',rarita:'Leggendario',
+   req:'CORPO ≥ 10 + Armi Letali',elemento:null,
+   desc:'Calcio in ebano, canna allungata, dodici tacche. Non ne manca una. Dicono che i colpi trovino sempre il bersaglio se la causa è giusta.',
+   perkSpeciale:{nome:'Colpo del Giustiziere',tipo:'1x/sessione',
+     desc:'Dichiara un bersaglio come il tuo obiettivo di giustizia (motivazione narrativa obbligatoria). Il prossimo colpo contro di lui è automaticamente critico e ignora la Difesa. Il GM approva la motivazione.',malus:null}},
+];
+
 var WOUND_TIERS = [
   {tier:0, nome:'Integro',      penalita:0,    desc:'Nessuna penalità.'},
   {tier:1, nome:'Ferito',       penalita:-1,   desc:'-1 a tutti i tiri.'},
