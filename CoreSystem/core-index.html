@@ -786,7 +786,7 @@ function NotesTab({c,up}){
 /* ══════════════ COMPENDIUM PAGE ══════════════ */
 function CompendiumPage({onBack}){
   const[tab,setTab]=useState("spells");const[search,setSearch]=useState("");const[stileF,setStileF]=useState("all");const[detail,setDetail]=useState(null);
-  const tabs=[{id:"spells",label:"Magie",icon:"\ud83d\udcd5"},{id:"talents",label:"Talenti",icon:"\ud83c\udfad"},{id:"augments",label:"Modifiche",icon:"\u26a1"},{id:"weapons",label:"Armi",icon:"\u2694\ufe0f"},{id:"monsters",label:"Mostri",icon:"\ud83d\udc79"}];
+  const tabs=[{id:"spells",label:"Magie",icon:"\ud83d\udcd5"},{id:"talents",label:"Talenti",icon:"\ud83c\udfad"},{id:"augments",label:"Oggetti & Mod.",icon:"\u26a1"},{id:"weapons",label:"Armi",icon:"\u2694\ufe0f"},{id:"monsters",label:"Mostri",icon:"\ud83d\udc79"}];
   const q=search.toLowerCase();
   const mSt=item=>stileF==="all"||item.stile===stileF;
   const mS=item=>(item.nome||"").toLowerCase().includes(q)||(item.desc||"").toLowerCase().includes(q)||(item.mec||"").toLowerCase().includes(q);
@@ -817,13 +817,162 @@ function CompendiumPage({onBack}){
     cats.forEach(cat=>{const ts=items.filter(t=>t.cat===cat);if(!ts.length)return;content.push(<div key={cat} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px",letterSpacing:1}}>{lbls[cat]||cat}</div>);content.push(<div key={cat+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{ts.map(item=><Card key={item.id} item={item} type="talent"/>)}</div>);});
   }else if(tab==="augments"){
     const items=(G.AUGMENTS||[]).filter(a=>mSt(a)&&mS(a));
-    content.push(<div key="ag" style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{items.map(item=><Card key={item.id} item={item} type="augment"/>)}</div>);
-  }else if(tab==="weapons"){
-    content.push(<div key="note" style={{padding:"8px 12px",borderRadius:6,background:"rgba(232,160,48,0.06)",border:"1px solid rgba(232,160,48,0.2)",marginBottom:10,fontSize:11,color:"var(--tx2)",lineHeight:1.6}}>
-      <strong style={{color:"var(--gold)"}}>Bilanciamento:</strong> le armi sono illimitate ma con bonus fissi. Le magie hanno bonus maggiori ma consumano slot-punti.
-    </div>);
-    Object.entries(G.WCAT||{}).forEach(([k,v])=>{const b=WCAT_BONUS[k]||v.bonus;content.push(<div key={k} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px"}}>{"Cat "+k+" +"+b+" — "+v.nome}</div>);content.push(<div key={k+"p"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{(G.WPERKS?.[k]||[]).map(p=><div key={p.id} style={{...SS.card,borderLeft:"3px solid var(--gold)"}}><span style={{fontFamily:"Cinzel",fontWeight:700,fontSize:13,color:"var(--tx)"}}>{p.nome}</span><p style={{fontSize:11,color:"var(--tx2)",margin:"4px 0"}}>{p.desc}</p><div style={{display:"flex",gap:4}}><span style={{fontSize:10,color:"var(--green)"}}>✔ {p.pro}</span><span style={{fontSize:10,color:"var(--red)"}}>✘ {p.con}</span></div></div>)}</div>);});
-  }else if(tab==="monsters"){
+    // Group by macro-categoria
+    const auGrps=[
+      {lbl:"🔬 Modifiche Corporee",col:"var(--red)",   keys:["Cyberware","Biomod","Protesi","Neurologico","Biologico","Genetico","Impianto Biologico","Composto Biologico","Equipaggiamento Tattico"]},
+      {lbl:"✨ Oggetti Magici",    col:"var(--purple)",keys:["Anello Magico","Collana Magica","Pergamena","Amuleto Magico","Oggetto Magico"]},
+      {lbl:"💻 Dispositivi Tech", col:"var(--cyan)",  keys:["Dispositivo Tecnologico"]},
+      {lbl:"🔍 Strumenti",        col:"var(--blue)",  keys:["Strumento Investigativo"]},
+      {lbl:"💀 Oggetti Maledetti",col:"var(--gold)",  keys:["Oggetto Maledetto","Reliquia Maledetta","Libro Maledetto","Testo Proibito","Reliq Maledetta"]},
+      {lbl:"🌀 Artefatti Cosmici",col:"#a070e8",      keys:["Artefatto Cosmico","Patto Cosmico","Biomod Cosmico"]},
+      {lbl:"🧛 Reliquie Vampiriche",col:"#c04040",   keys:["Reliquia Vampirica"]},
+    ];
+    const usedItems=new Set();
+    auGrps.forEach(({lbl,col,keys})=>{
+      const grpItems=items.filter(a=>keys.includes(a.tipo)&&!usedItems.has(a.id));
+      if(!grpItems.length)return;
+      grpItems.forEach(a=>usedItems.add(a.id));
+      content.push(<div key={lbl} style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:col,margin:"14px 0 6px",letterSpacing:1,borderBottom:"1px solid "+col+"44",paddingBottom:4}}>{lbl}</div>);
+      content.push(<div key={lbl+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{grpItems.map(item=><Card key={item.id} item={item} type="augment"/>)}</div>);
+    });
+    const remaining=items.filter(a=>!usedItems.has(a.id));
+    if(remaining.length){
+      content.push(<div key="rem" style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:"var(--tx3)",margin:"14px 0 6px"}}>Altri</div>);
+      content.push(<div key="remg" style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{remaining.map(item=><Card key={item.id} item={item} type="augment"/>)}</div>);
+    }
+  
+}else if(tab==="weapons"){
+  const wList=(G.WEAPONS||[]).filter(m=>mSt(m)&&mS(m));
+  // Rarity config
+  const rCol={
+    'Comune':'var(--tx3)','Non comune':'var(--green)',
+    'Raro':'var(--blue)','Molto Raro':'var(--purple)','Leggendario':'var(--gold)'
+  };
+  const catCol={A:'var(--tx3)',B:'var(--cyan)',C:'var(--gold)',D:'var(--red)'};
+  const elemIco={Fuoco:'🔥',Fulmine:'⚡',Ghiaccio:'❄',Sacro:'✨',Oscuro:'☽',Demonico:'👁',
+    Plasma:'🔵',Lunare:'🌙',Radioso:'☀',Elettrico:'⚡',Vuoto:'◉',Necromantico:'💀',null:null};
+
+  // ── Categorie & Perk (existing view) ──
+  const CatsView=()=>(
+    <div>
+      <div style={{padding:'8px 12px',borderRadius:6,background:'rgba(232,160,48,0.06)',
+        border:'1px solid rgba(232,160,48,0.2)',marginBottom:10,fontSize:11,color:'var(--tx2)',lineHeight:1.6}}>
+        <strong style={{color:'var(--gold)'}}>Bilanciamento:</strong> le armi sono illimitate e con bonus fisso per categoria.
+        Le magie hanno bonus maggiori ma consumano slot-punti.
+      </div>
+      {Object.entries(G.WCAT||{}).map(([k,v])=>{const b=WCAT_BONUS[k]||v.bonus;return(
+        <div key={k}>
+          <div style={{fontFamily:'Cinzel',fontSize:12,color:'var(--gold)',margin:'12px 0 6px'}}>{'Cat '+k+' +'+b+' — '+v.nome}</div>
+          <div style={{display:'grid',gridTemplateColumns:window.innerWidth>=768?'repeat(2,1fr)':'1fr',gap:6}}>
+            {(G.WPERKS?.[k]||[]).map(p=><div key={p.id} style={{background:'var(--s1)',border:'1px solid var(--b1)',borderRadius:10,padding:12,borderLeft:'3px solid var(--gold)'}}>
+              <span style={{fontFamily:'Cinzel',fontWeight:700,fontSize:13,color:'var(--tx)'}}>{p.nome}</span>
+              <p style={{fontSize:11,color:'var(--tx2)',margin:'4px 0'}}>{p.desc}</p>
+              <div style={{display:'flex',gap:6}}>
+                <span style={{fontSize:10,color:'var(--green)'}}>✔ {p.pro}</span>
+                <span style={{fontSize:10,color:'var(--red)'}}>✘ {p.con}</span>
+              </div>
+            </div>)}
+          </div>
+        </div>
+      );})}
+    </div>
+  );
+
+  // ── Arsenale (new list view) ──
+  const WeaponCard=({w})=>{
+    const [open,setOpen]=React.useState(false);
+    const rc=rCol[w.rarita]||'var(--tx3)';
+    const cc=catCol[w.cat]||'var(--gold)';
+    const ei=elemIco[w.elemento];
+    const hasLore=!!w.nomeLore;
+    const hasPerk=!!w.perkSpeciale;
+    return(
+      <div onClick={()=>setOpen(!open)} style={{background:'var(--s1)',border:'1px solid var(--b1)',borderRadius:9,padding:'9px 12px',
+        marginBottom:5,cursor:'pointer',borderLeft:'3px solid '+rc}}>
+        <div style={{display:'flex',alignItems:'center',gap:6,flexWrap:'wrap'}}>
+          <span style={{fontFamily:'Cinzel',fontWeight:700,fontSize:12,color:'var(--tx)'}}>
+            {w.nome}{hasLore&&<span style={{color:'var(--gold)',fontStyle:'italic'}}> «{w.nomeLore}»</span>}
+          </span>
+          <span style={{fontSize:8,padding:'1px 5px',borderRadius:3,background:cc+'18',color:cc,fontFamily:'JetBrains Mono',fontWeight:700}}>
+            {'Cat '+w.cat+' +'+{A:1,B:2,C:3,D:4}[w.cat]}
+          </span>
+          <span style={{fontSize:8,padding:'1px 5px',borderRadius:3,background:rc+'18',color:rc}}>{w.rarita}</span>
+          <span style={{fontSize:8,padding:'1px 5px',borderRadius:3,background:'var(--s3)',color:'var(--tx3)'}}>{w.tipo}</span>
+          {ei&&<span style={{fontSize:11}}>{ei}</span>}
+          {hasPerk&&<span style={{fontSize:8,padding:'1px 5px',borderRadius:3,background:'rgba(232,160,48,0.15)',color:'var(--gold)'}}>★ Perk</span>}
+          {open?<span style={{marginLeft:'auto',fontSize:9,color:'var(--tx3)'}}>▲</span>:<span style={{marginLeft:'auto',fontSize:9,color:'var(--tx3)'}}>▼</span>}
+        </div>
+        <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:4,fontSize:10,color:'var(--tx3)',fontFamily:'JetBrains Mono'}}>
+          <span>⚔ {w.danno}</span>
+          <span>📏 {w.portata}</span>
+          <span>⚖ {w.peso}</span>
+          <span>🤝 {w.mani}</span>
+          {w.req&&<span style={{color:'var(--red)'}}>🔒 {w.req}</span>}
+        </div>
+        {open&&<div style={{marginTop:8,borderTop:'1px solid var(--b1)',paddingTop:8}}>
+          <p style={{fontSize:11,color:'var(--tx2)',lineHeight:1.6,marginBottom:6}}>{w.desc}</p>
+          {hasPerk&&<div style={{background:'rgba(232,160,48,0.07)',border:'1px solid rgba(232,160,48,0.25)',borderRadius:6,padding:'8px 10px',marginBottom:4}}>
+            <div style={{fontFamily:'Cinzel',fontSize:10,color:'var(--gold)',fontWeight:700,marginBottom:3}}>
+              ★ {w.perkSpeciale.nome} <span style={{fontWeight:400,fontSize:9,opacity:0.7}}>({w.perkSpeciale.tipo})</span>
+            </div>
+            <p style={{fontSize:11,color:'var(--tx)',lineHeight:1.5,margin:0}}>{w.perkSpeciale.desc}</p>
+            {w.perkSpeciale.malus&&<p style={{fontSize:10,color:'var(--red)',marginTop:4}}>⚠ Maledizione: {w.perkSpeciale.malus}</p>}
+          </div>}
+        </div>}
+      </div>
+    );
+  };
+
+  const ArsenaleView=()=>{
+    if(!G.WEAPONS||G.WEAPONS.length===0)
+      return <p style={{color:'var(--red)',padding:12}}>⚠ core-data.js non contiene WEAPONS.</p>;
+    return(
+      <div>
+        {['A','B','C','D'].map(cat=>{
+          const catW=wList.filter(w=>w.cat===cat);
+          if(!catW.length)return null;
+          const catInfo={A:'Leggere — nessun requisito',B:'Standard — nessun requisito',
+            C:'Pesanti — CORPO≥6 o Armi Pesanti',D:'Devastanti — CORPO≥10 + Armi Letali ★'};
+          return(
+            <div key={cat}>
+              <div style={{fontFamily:'Cinzel',fontSize:11,fontWeight:700,letterSpacing:1,
+                color:catCol[cat],margin:'14px 0 6px',paddingBottom:4,
+                borderBottom:'1px solid '+catCol[cat]+'44'}}>
+                {'CATEGORIA '+cat+' (+'+{A:1,B:2,C:3,D:4}[cat]+') — '+catInfo[cat]}
+              </div>
+              {catW.map(w=><WeaponCard key={w.id} w={w}/>)}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  // Tab toggle inside weapons
+  const [wMode,setWMode]=React.useState('arsenal');
+  content.push(
+    <div key="wtoggle" style={{display:'flex',gap:6,marginBottom:10}}>
+      <button onClick={()=>setWMode('arsenal')} style={{flex:1,padding:'7px',borderRadius:6,
+        border:'1.5px solid '+(wMode==='arsenal'?'var(--gold)':'var(--b1)'),
+        background:wMode==='arsenal'?'rgba(232,160,48,0.12)':'none',
+        color:wMode==='arsenal'?'var(--gold)':'var(--tx3)',fontFamily:'Cinzel',fontWeight:700,fontSize:11,cursor:'pointer'}}>
+        ⚔ Arsenale ({(G.WEAPONS||[]).filter(m=>mSt(m)&&mS(m)).length})
+      </button>
+      <button onClick={()=>setWMode('cats')} style={{flex:1,padding:'7px',borderRadius:6,
+        border:'1.5px solid '+(wMode==='cats'?'var(--cyan)':'var(--b1)'),
+        background:wMode==='cats'?'rgba(64,200,200,0.08)':'none',
+        color:wMode==='cats'?'var(--cyan)':'var(--tx3)',fontFamily:'Cinzel',fontWeight:700,fontSize:11,cursor:'pointer'}}>
+        🔧 Categorie & Perk
+      </button>
+    </div>
+  );
+  content.push(
+    <div key="wbody">
+      {wMode==='arsenal'?<ArsenaleView/>:<CatsView/>}
+    </div>
+  );
+
+}else if(tab==="monsters"){
     const items=(G.MONSTERS||[]).filter(m=>mS(m));
     ["gregario","normale","elite","boss"].forEach(tier=>{const ms=items.filter(m=>m.tier===tier);if(!ms.length)return;content.push(<div key={tier} style={{fontFamily:"Cinzel",fontSize:12,color:"var(--gold)",margin:"12px 0 6px",letterSpacing:1,textTransform:"uppercase"}}>{tier}</div>);content.push(<div key={tier+"g"} style={{display:"grid",gridTemplateColumns:window.innerWidth>=768?"repeat(2,1fr)":"1fr",gap:6}}>{ms.map(item=><Card key={item.id} item={item} type="monster"/>)}</div>);});
   }
