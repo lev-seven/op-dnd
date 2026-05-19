@@ -785,7 +785,7 @@ function NotesTab({c,up}){
 
 /* ══════════════ COMPENDIUM PAGE ══════════════ */
 function CompendiumPage({onBack}){
-  const[tab,setTab]=useState("spells");const[search,setSearch]=useState("");const[stileF,setStileF]=useState("all");const[detail,setDetail]=useState(null);
+  const[tab,setTab]=useState("spells");const[search,setSearch]=useState("");const[stileF,setStileF]=useState("all");const[detail,setDetail]=useState(null);const[wMode,setWMode]=useState("arsenal");
   const tabs=[{id:"spells",label:"Magie",icon:"\ud83d\udcd5"},{id:"talents",label:"Talenti",icon:"\ud83c\udfad"},{id:"augments",label:"Oggetti & Mod.",icon:"\u26a1"},{id:"weapons",label:"Armi",icon:"\u2694\ufe0f"},{id:"monsters",label:"Mostri",icon:"\ud83d\udc79"}];
   const q=search.toLowerCase();
   const mSt=item=>stileF==="all"||item.stile===stileF;
@@ -948,8 +948,6 @@ function CompendiumPage({onBack}){
     );
   };
 
-  // Tab toggle inside weapons
-  const [wMode,setWMode]=React.useState('arsenal');
   content.push(
     <div key="wtoggle" style={{display:'flex',gap:6,marginBottom:10}}>
       <button onClick={()=>setWMode('arsenal')} style={{flex:1,padding:'7px',borderRadius:6,
