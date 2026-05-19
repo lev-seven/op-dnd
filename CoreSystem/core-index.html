@@ -268,7 +268,7 @@ function SessionView({c,up,setViewMode}){
         {tier>0&&<span style={{fontFamily:"Cinzel",fontSize:11,fontWeight:700,color:tierColor,marginLeft:4,animation:tier===3?"pulse 1.5s infinite":undefined}}>{wi.nome.toUpperCase()}</span>}
         <span style={{flex:1}}/>
         <span style={{fontSize:13,display:"flex",gap:2}}>
-          {[0,1,2].map(i=><span key={i} onClick={()=>{const hp=c.heroPoints||0;if(i<hp)up({heroPoints:hp-1});else if(i===hp&&hp<3)up({heroPoints:hp+1});}} style={{cursor:"pointer",opacity:i<(c.heroPoints||0)?1:0.2}}>{⭐}</span>)}
+          {[0,1,2].map(i=><span key={i} onClick={()=>{const hp=c.heroPoints||0;if(i<hp)up({heroPoints:hp-1});else if(i===hp&&hp<3)up({heroPoints:hp+1});}} style={{cursor:"pointer",opacity:i<(c.heroPoints||0)?1:0.2,filter:i<(c.heroPoints||0)?"drop-shadow(0 0 4px var(--gold))":"none"}}>{i<(c.heroPoints||0)?"⭐":"☆"}</span>)}
         </span>
       </div>
       <div style={{height:8,background:"var(--bg)",borderRadius:4,overflow:"hidden",marginBottom:10}}>
