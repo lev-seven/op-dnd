@@ -32,7 +32,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 <script type="text/babel">
 const{useState,useEffect,useCallback,useRef}=React;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const CORE_VERSION='2.6.0';
+const CORE_VERSION='2.7.0';
 const BASE=()=>{let b=window.GITHUB_BASE||"";if(b.endsWith("/"))b=b.slice(0,-1);return b;};
 async function fetchJ(u){try{const r=await fetch(u+"?t="+Date.now());if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function H(s){const e=new TextEncoder().encode(s);const h=await crypto.subtle.digest("SHA-256",e);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,"0")).join("");}
@@ -48,7 +48,7 @@ async function ghPut(path,content,token,accId,isMaster,accName){
   if(sha)body.sha=sha;
   return(await fetch(api,{method:"PUT",headers:{...hd,"Content-Type":"application/json"},body:JSON.stringify(body)})).ok;
 }
-const WCAT_BONUS={A:1,B:2,C:3,D:4};
+const WCAT_BONUS={A:1,B:2,C:3,D:4,DX:5};
 const SPELL_BONUS={ct:1,1:2,2:4,3:6,4:8};
 const SPELL_COST={1:1,2:1,3:2,4:2};
 const SPELL_MINS={1:6,2:8,3:10,4:12};
@@ -102,7 +102,7 @@ function spellCost(sp){return sp.tipo==="ct"?0:(SPELL_COST[sp.lvl]||1);}
 function spellMinStat(sp){return sp.tipo==="ct"?0:(SPELL_MINS[sp.lvl]||3);}
 function statPen(v){return v<=0?-2:v<=2?-1:0;}
 function condPenalty(c){return((c.conditions||[]).length>=3)?-2:0;}
-function canUseCat(c,cat){if(cat==="A"||cat==="B")return true;if(cat==="C")return(c.corpo||0)>=6||hasTalent(c,"armi_pesanti");if(cat==="D")return(c.corpo||0)>=10&&hasTalent(c,"armi_letali");return true;}
+function canUseCat(c,cat){if(cat==="A"||cat==="B")return true;if(cat==="C")return(c.corpo||0)>=6||hasTalent(c,"armi_pesanti");if(cat==="D")return(c.corpo||0)>=10&&hasTalent(c,"armi_letali");if(cat==="DX")return(c.corpo||0)>=12&&hasTalent(c,"armi_letali");return true;}
 function canLearnSpell(c,sp){if(sp.tipo==="ct")return true;const sv=(sp.stat==="ANIMA"?(c.anima||0):(c.mente||0));if(sv<(SPELL_MINS[sp.lvl]||3))return false;if(sp.lvl<=2)return hasTalent(c,"gate_mb")||intuizioneMagica(c);return hasTalent(c,"gate_ma");}
 function creationCap(c){if((c.level||1)<=1)return CAP_CREAZIONE;return hasTalent(c,"cap_15")?15:hasTalent(c,"cap_12")?12:10;}
 function displayName(f){return f.replace(/-(classic|core)\.json$/,"").replace(/\.json$/,"").replace(/_/g," ").replace(/\b\w/g,x=>x.toUpperCase());}
@@ -467,8 +467,8 @@ function SheetTab({c,up}){
         {Object.entries(G.WCAT||{}).map(([k,v])=>{const av=canUseCat(c,k);return<option key={k} value={k} disabled={!av}>Cat {k} +{WCAT_BONUS[k]||0} — {v.nome}{av?"":" [req]"}</option>;})}
       </select>
     </div>
-    <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:6}}>{perks.map(p=><Pill key={p.id} on={c.armaPerk===p.id} onClick={()=>up({armaPerk:p.id})} title={p.desc}>{p.nome}</Pill>)}</div>
-    {ap&&<div style={{fontSize:11,color:"var(--tx2)",padding:"6px 8px",background:"var(--s3)",borderRadius:6,marginBottom:8,lineHeight:1.5}}><em style={{color:"var(--green)"}}>{ap.nome}</em> — {ap.desc}</div>}
+    <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:6}}>{perks.map(p=>{const stileIcons={fantasy:"⚔",cyberpunk:"⚡",horror:"💀",noir:"🔍",anime:"✨",universale:""};const ic=stileIcons[p.stile]||"";return<Pill key={p.id} on={c.armaPerk===p.id} onClick={()=>up({armaPerk:p.id})} title={p.desc}>{ic&&<span style={{fontSize:9,marginRight:2}}>{ic}</span>}{p.daId&&<span style={{fontSize:8,color:"var(--cyan)",marginRight:2}}>↑</span>}{p.nome}</Pill>;})}</div>
+    {ap&&<div style={{fontSize:11,color:"var(--tx2)",padding:"6px 8px",background:"var(--s3)",borderRadius:6,marginBottom:8,lineHeight:1.5}}>{ap.daId&&<span style={{fontSize:9,color:"var(--cyan)",marginRight:4}}>↑ evoluzione da {(G.WPERKS||{})[c.armaCat]?.find?.(x=>x.id===ap.daId)?.nome||ap.daId}</span>}<em style={{color:"var(--green)"}}>{ap.nome}</em> — {ap.desc}{ap.evolveIn&&<span style={{fontSize:9,color:"var(--tx3)",marginLeft:6}}>→ evolve in perk Cat superiore</span>}</div>}
     <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
       <Pill on={c.armaDist} onClick={()=>up({armaDist:!c.armaDist})}>A distanza</Pill>
       <Pill on={c.armaMagi} onClick={()=>up({armaMagi:!c.armaMagi})}>Magica (MENTE)</Pill>
