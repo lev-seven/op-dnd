@@ -745,31 +745,125 @@ var AUGMENTS = [
 // ═══ MOSTRI ESEMPIO ═══
 // Talenti con ID corretti (armi_pesanti, armi_letali, gate_mb, gate_ma)
 var MONSTERS = [
-  // GREGARI (HP 4-8, 1 colpo)
-  {id:'mon01',nome:'Goblin',tier:'gregario',corpo:3,mente:2,anima:1,hp:6,armaCat:'A',armaPerk:'a2',scudo:0,armatura:0,competenza:null,talenti:[],augmenti:[],magie:[],note:'Attacca in gruppo. Fugge se solo.'},
-  {id:'mon02',nome:'Scheletro',tier:'gregario',corpo:3,mente:1,anima:1,hp:5,armaCat:'A',armaPerk:'a3',scudo:0,armatura:0,competenza:null,talenti:[],augmenti:[],magie:[],note:'Immune Spaventato. Vulnerabile a danni contundenti.'},
-  {id:'mon03',nome:'Drone da Combattimento',tier:'gregario',corpo:2,mente:4,anima:0,hp:4,armaCat:'A',armaPerk:'a1',scudo:0,armatura:1,competenza:'mente',talenti:[],augmenti:[],magie:[],note:'A distanza. Esplode a 0 HP (2 danno a 3m).'},
-  // NORMALI (HP 12-20, 2-3 round)
-  {id:'mon04',nome:'Cavaliere Corrotto',tier:'normale',corpo:5,mente:3,anima:3,hp:16,armaCat:'B',armaPerk:'b2',scudo:1,armatura:2,competenza:'corpo',talenti:['t01'],augmenti:[],magie:[],note:'Pelle Dura riduce 1 danno. Scudo + armatura media.'},
-  {id:'mon05',nome:'Cultista Maggiore',tier:'normale',corpo:3,mente:5,anima:4,hp:12,armaCat:'A',armaPerk:'a4',scudo:0,armatura:0,competenza:'mente',talenti:['gate_mb'],augmenti:[],magie:['m01','m07'],note:'Lancia Dardo Magico (+2) e Voce del Terrore (+2). 1 slot-punto per L1.'},
-  {id:'mon06',nome:'Cyborg Mercenario',tier:'normale',corpo:5,mente:4,anima:2,hp:15,armaCat:'B',armaPerk:'b1',scudo:0,armatura:1,competenza:'corpo',talenti:[],augmenti:['aug_bm'],magie:[],note:'Braccio Meccanico: +2 CORPO attacchi.'},
-  // ELITE (HP 25-40, 4-6 round)
-  {id:'mon07',nome:'Drago Giovane',tier:'elite',corpo:8,mente:6,anima:4,hp:30,armaCat:'C',armaPerk:'c1',scudo:0,armatura:3,competenza:'corpo',talenti:['armi_pesanti','t01'],augmenti:['aug_sd'],magie:['m13'],note:'Soffio fuoco = Palla di Fuoco (+4). Pelle Dura + Armatura Pesante. Volo. Pool slot: max(6,4)-2=4pt.'},
-  {id:'mon08',nome:"Assassino dell'Ombra",tier:'elite',corpo:6,mente:7,anima:5,hp:25,armaCat:'C',armaPerk:'c5',scudo:0,armatura:1,competenza:'mente',talenti:['armi_pesanti','gate_mb','t14'],augmenti:['aug_rn'],magie:['m14','m17'],note:'Invisibilità (+4) + Blocco Pensiero (+4). Riflessi Neurali. Pool slot: max(7,5)-2=5pt.'},
-  // BOSS (HP 50-100, 6-10 round)
-  {id:'mon09',nome:'Lich Antico',tier:'boss',corpo:4,mente:10,anima:8,hp:60,armaCat:'A',armaPerk:'a5',scudo:0,armatura:0,competenza:'mente',talenti:['gate_mb','gate_ma','t13','cap_12','t10'],augmenti:['aug_ov','aug_rc','aug_mk'],magie:['m25','m29','m35','m47'],note:'Magie L3-L4 (+6/+8). Pool slot: max(10,8)-2=8pt. Concentrazione doppia (t13). Resistenza Mentale. 3 augment (solo boss, sopra il limite normale).'},
-  {id:'mon10',nome:'Shogun Demoniaco',tier:'boss',corpo:10,mente:6,anima:8,hp:80,armaCat:'D',armaPerk:'d3',scudo:0,armatura:3,competenza:'corpo',talenti:['armi_pesanti','armi_letali','t06','cap_12','t02'],augmenti:['aug_lr','aug_fd','aug_spirit'],magie:[],note:'Cat D +4. Furia + Limitatore Rimosso. Forma Duale. Spirito dell\'Arma. Puro combattente fisico. 3 augment (solo boss).'}
+  /* ═══════ GREGARI — HP 4-8, stat 2-4, 1 colpo ═══════ */
+  {id:'mon01',nome:'Goblin',tier:'gregario',stile:'fantasy',corpo:3,mente:2,anima:1,hp:6,armaCat:'A',defBonus:0,competenza:null,talenti:[],magie:[],
+   lore:'Piccole creature verdognole che vivono in tane sotterranee. Codardi da soli, pericolosi in branco. Usano trappole e numeri al posto del coraggio.',
+   desc:'Creatura gregaria debole ma rapida. Attacca in gruppo e fugge se solo.',
+   abilita:'Se in gruppo con altri 2+ goblin: +1 al tiro di attacco (branco). Fugge se HP scende a 1.',
+   speciale:null},
+  {id:'mon02',nome:'Scheletro',tier:'gregario',stile:'fantasy',corpo:3,mente:1,anima:1,hp:5,armaCat:'A',defBonus:0,competenza:null,talenti:[],magie:[],
+   lore:'Resti animati da magia necrotica residua. Nessuna coscienza, nessuna paura, nessun dolore — solo la compulsione di distruggere i vivi.',
+   desc:'Non-morto scheletrico. Immune alle condizioni psicologiche.',
+   abilita:'Immune a Spaventato e Charme. Vulnerabile a danni contundenti (+1 danno). Immune a veleno.',
+   speciale:null},
+  {id:'mon03',nome:'Drone da Combattimento',tier:'gregario',stile:'cyberpunk',corpo:3,mente:2,anima:1,hp:5,armaCat:'B',defBonus:1,competenza:null,talenti:[],magie:[],
+   lore:'Unita automatizzata di pattugliamento, prodotta in serie. Economica, sostituibile, e programmata per sparare prima di fare domande.',
+   desc:'Robot da combattimento economico. Vulnerabile a EMP e hacking.',
+   abilita:'Immune a Spaventato e Veleno. Vulnerabile a magie tecnologiche (-1 DEF contro impulsi EMP). Ricarica: se ucciso, 1x/combat un secondo drone identico puo arrivare (GM valuta).',
+   speciale:null},
+  {id:'mon_gr4',nome:'Teppista',tier:'gregario',stile:'noir',corpo:3,mente:2,anima:2,hp:6,armaCat:'B',defBonus:0,competenza:null,talenti:[],magie:[],
+   lore:'Criminale di basso rango. Vive per le piccole estorsioni e la violenza di quartiere. Impressionabile, segue ordini solo finche conviene.',
+   desc:'Criminale comune. Intimidabile facilmente.',
+   abilita:'Tiro ANIMA vs 8 se subisce danni critici: se fallisce, fugge o si arrende. +1 attacco se ha un ostaggio.',
+   speciale:null},
+  {id:'mon_gr5',nome:'Cultista',tier:'gregario',stile:'horror',corpo:2,mente:2,anima:4,hp:6,armaCat:'A',defBonus:0,competenza:'anima',talenti:[],magie:['ct_lamento_oscuro'],
+   lore:'Devoto convinto che il sacrificio porti ricompense da entita oltre la comprensione umana. Non teme la morte propria — teme di deludere il suo dio.',
+   desc:'Seguace fanatico con accesso a magia oscura basica.',
+   abilita:'Immune a Spaventato (fanatico). Cantrip Lamento Oscuro (ANIMA 4, +1 tiro). Muore senza ritirarsi se a meno di meta HP.',
+   speciale:null},
+  {id:'mon_gr6',nome:'Kimono Fantasma',tier:'gregario',stile:'anime',corpo:2,mente:3,anima:3,hp:5,armaCat:'A',defBonus:0,competenza:'mente',talenti:[],magie:['c04'],
+   lore:'Spirito vendicativo rimasto intrappolato nel mondo dei vivi. Appare come sagoma luminosa in abiti tradizionali. Vuole solo che qualcuno si ricordi di lui.',
+   desc:'Spirito incorporeo. Vulnerabile a magie di purificazione.',
+   abilita:'Immune a danni fisici normali (richiede magie o armi incantate). Cantrip Disturbo (MENTE 3). Vulnerabile ad ANIMA: magie ANIMA infliggono +2 danno.',
+   speciale:null},
+
+  /* ═══════ NORMALI — HP 9-16, stat 4-7, 2-3 colpi ═══════ */
+  {id:'mon04',nome:'Cavaliere Corrotto',tier:'normale',stile:'fantasy',corpo:7,mente:3,anima:2,hp:12,armaCat:'C',defBonus:3,competenza:'corpo',talenti:['armi_pesanti'],magie:[],
+   lore:'Un tempo servitore onorevole, corrotto dalla magia oscura o da un patto sbagliato. Il suo senso dell\'onore e ora un guscio vuoto a servizio del potere.',
+   desc:'Guerriero pesantemente armato. Difficile da abbattere.',
+   abilita:'Armatura pesante +3 DEF. Competenza CORPO +3. 1x/combat: Carica — attacca con +2 al tiro e spinge il bersaglio di 2m (se colpisce).',
+   speciale:'Resistenza Oscura: primo attacco magico ogni combat riduce il danno di 2.'},
+  {id:'mon05',nome:'Cultista Maggiore',tier:'normale',stile:'horror',corpo:3,mente:4,anima:7,hp:14,armaCat:'B',defBonus:0,competenza:'anima',talenti:['gate_mb'],magie:['m07','m04'],
+   lore:'Un convertito di vecchia data che ha assistito a riti proibiti abbastanza a lungo da toccare qualcosa di reale. Il suo sguardo non e piu del tutto umano.',
+   desc:'Cultista avanzato con accesso a magie di livello 1.',
+   abilita:'Competenza ANIMA +3. Voce del Terrore (L1, ANIMA 7, +2 tiro). Cura Ferite (L1). 2 slot magia totali.',
+   speciale:'Benedizione di Sangue: se un alleato muore entro 5m, recupera 3 HP (1x/combat).'},
+  {id:'mon06',nome:'Cyborg Mercenario',tier:'normale',stile:'cyberpunk',corpo:6,mente:5,anima:2,hp:12,armaCat:'C',defBonus:1,competenza:'corpo',talenti:['interfaccia_neurale'],magie:[],
+   lore:'Ex-soldato riconvertito in mercenario con impianti militari di seconda mano. Lavora per chiunque paghi abbastanza e non fa domande.',
+   desc:'Combattente potenziato con impianti militari.',
+   abilita:'Competenza CORPO +3. Impianti: +1 DEF, visione notturna. 1x/combat: Scarica EMP — tutti i sistemi tecnologici entro 3m si riavviano (turno perso per chi li usa).',
+   speciale:'Targeting Avanzato: 1x/combat, ignora bonus scudo del bersaglio su un attacco.'},
+  {id:'mon_n4',nome:'Samurai Nemico',tier:'normale',stile:'anime',corpo:7,mente:3,anima:5,hp:13,armaCat:'C',defBonus:1,competenza:'corpo',talenti:['contrattacco'],magie:[],
+   lore:'Guerriero disciplinato legato a un codice d\'onore sovvertito. Combatte con eleganza mortale e non mostra misericordia a chi considera indegno.',
+   desc:'Combattente esperto con tecnica di contrattacco.',
+   abilita:'Competenza CORPO +3. 1x/combat: Contrattacco — se un attacco lo manca, risponde immediatamente con un attacco gratuito. DEF +1 (postura).',
+   speciale:'Postura del Vuoto: se non si muove in un round, DEF +2 per quel round.'},
+  {id:'mon_n5',nome:'Detective Corrotto',tier:'normale',stile:'noir',corpo:4,mente:7,anima:4,hp:11,armaCat:'B',defBonus:0,competenza:'mente',talenti:['istinto_sopravvivenza'],magie:[],
+   lore:'Un investigatore che ha visto troppo e ha scelto il lato sbagliato. Usa la sua conoscenza della legge per aggirarla sistematicamente.',
+   desc:'Investigatore nemico con alto MENTE e tattiche dirty.',
+   abilita:'Competenza MENTE +3. 1x/combat: Parole Taglienti — tiro MENTE vs MENTE, se vince applica -1 al prossimo tiro del bersaglio (parole che destabilizzano). Sempre va per primo (alta INIT).',
+   speciale:'Conoscenza Criminale: sa sempre dove si trovano oggetti nascosti o uscite di emergenza (narrativo).'},
+  {id:'mon_n6',nome:'Vampiro',tier:'normale',stile:'horror',corpo:6,mente:4,anima:6,hp:14,armaCat:'B',defBonus:0,competenza:'corpo',talenti:['patto_abisso'],magie:['c14'],
+   lore:'Non-morto intellettuale che si e adattato a secoli di sopravvivenza. Freddo, calcolatore, e sempre tre mosse avanti. Non ama essere disturbato.',
+   desc:'Non-morto con tocco necrotico e rigenerazione.',
+   abilita:'Rigenerazione: recupera 2 HP all\'inizio di ogni turno (non al sole o fuoco). Tocco Necrotico cantrip (MENTE 4, +1). Vulnerabile a fuoco (+2 danno) e luce solare.',
+   speciale:'Fascino Vampirico: 1x/combat, tiro ANIMA vs ANIMA — se vince, bersaglio non attacca per 1 round (Charme).'},
+
+  /* ═══════ ELITE — HP 17-25, stat 7-11, 4-6 colpi ═══════ */
+  {id:'mon07',nome:'Drago Giovane',tier:'elite',stile:'fantasy',corpo:10,mente:6,anima:7,hp:23,armaCat:'D',defBonus:4,competenza:'corpo',talenti:['armi_letali','limite_ultimo'],magie:['m13'],
+   lore:'Non ancora adulto ma gia letale. Ogni drago giovane sta sviluppando una personalita propria — certo di essere superiore a tutte le forme di vita inferiori, incluso te.',
+   desc:'Drago in crescita con soffio e artigli devastanti.',
+   abilita:'CORPO 10 + Armi Letali: Cat D. Competenza CORPO +5. Armatura naturale +4 DEF. Palla di Fuoco (L2, MENTE 6, +4 tiro, 1 slot). Soffio di Fuoco: attacco Cat D che colpisce tutti in un cono di 6m (1x/combat).',
+   speciale:'Volo: ignora terreno difficile e attacchi corpo a corpo se in aria (DEF +1). Terrore Draconico: creature con CORPO o ANIMA inferiore a 6 devono superare tiro vs 10 o subiscono Spaventato.'},
+  {id:'mon_e2',nome:'Vampiro Anziano',tier:'elite',stile:'horror',corpo:9,mente:7,anima:9,hp:20,armaCat:'C',defBonus:2,competenza:'anima',talenti:['patto_abisso','furia'],magie:['m07','c14','m26'],
+   lore:'Esistito per centinaia di anni, ogni decennio piu cinico e piu potente. Ha visto empiri nascere e cadere, e pensa di avere tutto il tempo del mondo.',
+   desc:'Antico vampiro con pieno accesso alla magia mentale.',
+   abilita:'Competenza ANIMA +4. Rigenerazione 3 HP/turno. Tocco Necrotico, Voce del Terrore (L1), Controllo Mentale (L3, 2 slot). Pool slot: 7. Immune Spaventato. Vulnerabile luce solare/fuoco.',
+   speciale:'Trasformazione: 1x/combat si trasforma in nebbia — invulnerabile per 1 round, poi riemerge.'},
+  {id:'mon_e3',nome:'Hacker Militare',tier:'elite',stile:'cyberpunk',corpo:5,mente:11,anima:4,hp:17,armaCat:'B',defBonus:0,competenza:'mente',talenti:['interfaccia_neurale','recupero_arcano'],magie:['m22','m33','c15'],
+   lore:'Specialista di guerra informatica che non ha mai sparato un colpo — non ce bisogno. Dentro la rete giusta, puo spegnere una citta intera da una sedia.',
+   desc:'Especialista cybernetico con controllo totale delle tecnologie.',
+   abilita:'MENTE 11: Intuizione Magica + accesso magie. Competenza MENTE +5. Overload Neurale (L2, +5 IM), Hacking di Massa (L3, 2slot), Impulso Digitale cantrip. Pool slot: 9. Recupero Arcano: recupera 1 slot/round se non attaccato.',
+   speciale:'God Mode: 1x/combat, puo spegnere tutti i dispositivi tecnologici nell\'area (30m) per 2 round.'},
+  {id:'mon_e4',nome:'Maestro del Dojo Nemico',tier:'elite',stile:'anime',corpo:9,mente:7,anima:8,hp:22,armaCat:'C',defBonus:2,competenza:'corpo',talenti:['contrattacco','furia','adrenalina_pura'],magie:['m50'],
+   lore:'Guerriero che ha dedicato decenni alla perfezione del combattimento. Il suo dojo e un tempio di disciplina — e la sua sconfitta e qualcosa che non riesce a concepire.',
+   desc:'Maestro delle arti marziali con tecniche di livello alto.',
+   abilita:'Competenza CORPO +4. DEF +2 (postura). Contrattacco (perk), Furia: +2 danno per 2 round. Tecnica Ultimo Stadio (L3, 2slot): prossimo attacco +4 tiro. Adrenalina Pura: 1x/fight ignora condizioni.',
+   speciale:'Mille Pugni: 1x/combat, effettua 2 attacchi in un turno al -1 ciascuno.'},
+  {id:'mon_e5',nome:'Fantasma dell Abisso',tier:'elite',stile:'horror',corpo:4,mente:8,anima:11,hp:18,armaCat:'A',defBonus:0,competenza:'anima',talenti:['gate_mb','gate_ma','conoscenza_proibita'],magie:['m07','m29','m39','c14'],
+   lore:'Non e un fantasma nel senso comune — e un frammento di coscienza di qualcosa di cosmico, intrappolato tra i piani. Sa cose che gli esseri mortali non dovrebbero sapere.',
+   desc:'Entita cosmica parzialmente incorporea con magia piena.',
+   abilita:'Competenza ANIMA +5. Immune danni fisici non-magici. Magie L1-L4: Voce del Terrore, Maledizione, Dominio. Pool slot: 9. Cantrip Tocco Necrotico. Incorporeo: DEF +3 contro attacchi non-magici.',
+   speciale:'Conoscenza Proibita: conosce debolezze di ogni PG (narrativo) — il GM puo dichiarare che attacca il punto debole.'},
+
+  /* ═══════ BOSS — HP 26-45, stat 10-15, 8-15 colpi ═══════ */
+  {id:'mon09',nome:'Lich Antico',tier:'boss',stile:'horror',corpo:8,mente:14,anima:12,hp:38,armaCat:'C',defBonus:3,competenza:'mente',talenti:['gate_mb','gate_ma','patto_abisso','conoscenza_proibita'],magie:['m25','m26','m29','m41','m47','c14'],
+   lore:'Un tempo il piu grande stregone della sua era, ora qualcosa di radicalmente altro. Duecento anni di lichdom hanno sostituito ogni emozione umana con logica e ambizione cosmica pura.',
+   desc:'Incantatore non-morto supremo. Immune a quasi tutto. Richiede un piano.',
+   abilita:'MENTE 14: pool slot enorme (12pt). Competenza MENTE +7. Immune Veleno, Spaventato, Necrotico. Fulmine, Controllo Mentale, Maledizione, Grande Maledizione, Frammentazione Cosmica, Tocco Necrotico. DEF = 8+3 = 11. Rigenerazione 3 HP/round.',
+   speciale:'Resistenza Magica: 1x/round puo ignorare completamente un singolo effetto magico. Filocosmos: se ridotto a 0 HP, torna a 3 HP la volta successiva (ha nascosto il suo Lich Phylactery — i giocatori devono trovarlo e distruggerlo prima di poter uccidere il Lich).'},
+  {id:'mon10',nome:'Shogun Demoniaco',tier:'boss',stile:'anime',corpo:13,mente:9,anima:11,hp:42,armaCat:'D',defBonus:5,competenza:'corpo',talenti:['armi_letali','furia','contrattacco','limite_ultimo'],magie:['m32','m28'],
+   lore:'Conquistatore che ha stretto un patto con forze demoniache per ottenere potere assoluto. Il suo esercito ha raso al suolo tre regni. Il quarto lo teme ancora.',
+   desc:'Generale demoniaco con statistiche massime e tecnica devastante.',
+   abilita:'CORPO 13: Cat D garantita. Competenza CORPO +6. DEF = 13+5 = 18. Furia: +2 danno per 2 round. Contrattacco. Tempesta di Lame (L3, 2slot): tutti entro 4m subiscono danno. Grido di Guerra (L3): +1 danno alleati. Pool slot: 9.',
+   speciale:'Forma Demoniaca: quando scende sotto 15 HP, il suo CORPO sale a 15 e guadagna +2 danno permanente fino a fine scontro. Ira Assoluta: se un alleato cade, effettua immediatamente un attacco extra gratuito fuori turno.'},
+  {id:'mon_b3',nome:'Sovrano dell Abisso',tier:'boss',stile:'horror',corpo:9,mente:12,anima:15,hp:40,armaCat:'C',defBonus:2,competenza:'anima',talenti:['gate_mb','gate_ma','patto_abisso','conoscenza_proibita'],magie:['m39','m41','m47','m30','c14','m07'],
+   lore:'Non viene da questo piano di esistenza. E stato invocato, e ora vuole restare. Il suo corpo fisico e un prestito — la vera entita e qualcosa che la mente umana non riesce a visualizzare completamente.',
+   desc:'Entita cosmica al massimo delle capacita magiche e psichiche.',
+   abilita:'ANIMA 15: pool slot 13pt. Competenza ANIMA +7. Immune a danni non-magici, Spaventato, Veleno. Dominio (L4, 2slot), Grande Maledizione (L4), Frammentazione Cosmica (L4), Aura di Morte (L3), Voce del Terrore (L1), Tocco Necrotico. DEF = 9+2 = 11.',
+   speciale:'Aura Abissale: tutti i PG a 5m subiscono -1 a tutti i tiri mentre sono in quella zona. Piena Manifestazione: 1x/combat, come azione bonus lancia gratuitamente una magia L1-L2 senza usare slot.'},
+  {id:'mon_b4',nome:'Imperatore Cibernetico',tier:'boss',stile:'cyberpunk',corpo:10,mente:15,anima:8,hp:36,armaCat:'D',defBonus:6,competenza:'mente',talenti:['interfaccia_neurale','cap_15','gate_mb','gate_ma'],magie:['m33','m22','m42','c15'],
+   lore:'CEO di una megacorporazione che ha trasferito il 70% della sua coscienza in un corpo sintetico. Non si considera piu umano — e questo lo ha liberato da qualunque remora.',
+   desc:'Ibridazione perfetta tra uomo e macchina al picco delle capacita.',
+   abilita:'MENTE 15: pool slot 13pt. Competenza MENTE +7. DEF = 10+6 = 16. Hacking di Massa (L3), Overload Neurale (L2), Trasferimento Coscienza (L4): se ridotto a 0 HP puo trasferirsi in un altro sistema entro 20m (1x). Impulso Digitale cantrip.',
+   speciale:'Corpo Sintetico: immune a veleni e magie psicologiche. Protocollo Omega: sotto 10 HP, il corpo sintetico si potenzia automaticamente — DEF +3 e +2 attacco per 3 round (disperazione meccanica). Upgrade in tempo reale: ogni 3 round guadagna una nuova resistenza casuale (GM decide).'},
+  {id:'mon_b5',nome:'Il Padrino',tier:'boss',stile:'noir',corpo:7,mente:13,anima:12,hp:32,armaCat:'B',defBonus:2,competenza:'anima',talenti:['istinto_sopravvivenza','parole_piombo','gate_mb','limite_ultimo'],magie:['m17','m26','m07'],
+   lore:'Non ha bisogno di uccidere personalmente — non da decenni. Ma quando decide di scendere in campo lui stesso, e perche ha gia vinto in quattro mosse diverse. Il terrore e il suo vero potere.',
+   desc:'Capo criminale supremo con intelligenza tattica e controllo mentale.',
+   abilita:'Competenza ANIMA +6. Blocco del Pensiero (L2, 1slot), Controllo Mentale (L3, 2slot), Voce del Terrore (L1). Pool slot: 11. Parole Piombo: tiro ANIMA vs ANIMA come azione — se vince, applica Spaventato. DEF = 7+2 = 9. MENTE 13 alta iniziativa.',
+   speciale:'Rete di Contatti: 1x/combat, chiama rinforzi — arrivano 2 Tirapiedi (gregari) al prossimo turno. Non Si Tocca: la prima volta che scende sotto 15 HP, un lacche si getta davanti assorbendo un attacco per lui (1x, narrativo).'}
 ];
 
-// ═══ WOUND TIERS ═══
-
-/* ═══════════════════════════════════════════════════════════════════════
-   WEAPONS — Arsenale Completo C.O.R.E.
-   Campi: id, nome, nomeLore (solo leggendarie), cat (A/B/C/D),
-          tipo, stile, danno, portata, peso, mani, rarita,
-          req (opz.), elemento (opz.), desc, perkSpeciale (opz.)
-   perkSpeciale = { nome, tipo, desc, malus? }
-═══════════════════════════════════════════════════════════════════════ */
 var WEAPONS = [
 
   // ════════════════════════════════
