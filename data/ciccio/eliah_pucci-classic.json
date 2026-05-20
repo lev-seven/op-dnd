@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-20T20:32:22.774Z",
+  "exportedAt": "2026-05-20T20:33:48.230Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -11,7 +11,7 @@
     "ac": 18,
     "hpMax": 99,
     "hpCurrent": 99,
-    "hpTemp": 10,
+    "hpTemp": 0,
     "hpPerm": 0,
     "speed": 21,
     "passivePerception": 19,
