@@ -1,0 +1,44 @@
+{
+  "account": "Ciccio",
+  "accountId": "ciccio",
+  "exportedAt": "2026-05-20T08:48:12.226Z",
+  "character": {
+    "id": "mpdtiyrb1v64",
+    "name": "scheda pg",
+    "system": "core",
+    "level": 4,
+    "corpo": 10,
+    "mente": 7,
+    "anima": 4,
+    "hpCurrent": 12,
+    "competenza": null,
+    "armaCat": "B",
+    "armaPerk": "b_sto",
+    "armaNome": "Spada",
+    "armaDist": false,
+    "armaMagi": false,
+    "scudo": 1,
+    "armatura": 2,
+    "talenti": [
+      "armi_letali"
+    ],
+    "augmenti": [
+      "aug_oc"
+    ],
+    "magie": [
+      "c03",
+      "c05"
+    ],
+    "conditions": [],
+    "heroPoints": 1,
+    "perkUses": {},
+    "slotUsati": 0,
+    "notes": "",
+    "backstory": "",
+    "borsa": {
+      "oro": 0,
+      "argento": 0,
+      "bronzo": 0
+    }
+  }
+}
