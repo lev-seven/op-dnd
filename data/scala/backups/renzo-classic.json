@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-05-06T20:45:18.784Z",
+  "exportedAt": "2026-05-21T21:21:00.645Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -266,16 +266,6 @@
         "bonusHit": 0,
         "bonusDmg": 0,
         "bonusActive": false
-      },
-      {
-        "id": "mokhss4morhq",
-        "name": "Ah",
-        "stat": "FOR",
-        "damage": "1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6",
-        "type": "",
-        "bonusHit": 0,
-        "bonusDmg": 0,
-        "bonusActive": false
       }
     ],
     "abilities": [
@@ -526,7 +516,7 @@
         "type": "Azione",
         "desc": "Come azione, circondi il tuo corpo con questa armatura, facendo diventare la tua CA uguale a 13 + il tuo modificatore di Costituzione quando non indossi un'armatura. Questa armatura dura 8 ore. Non puoi usare di nuovo questa caratteristica fino a quando non completi un riposo lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
@@ -634,7 +624,7 @@
         "type": "Passiva",
         "desc": "",
         "maxUses": 17,
-        "uses": 0,
+        "uses": 14,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
@@ -750,7 +740,7 @@
           "m": null
         },
         "duration": "Istantanea",
-        "concentration": false,
+        "concentration": true,
         "desc": "Ombre simili a fiamme avvolgono il tuo corpo fino alla fine dell'incantesimo, rendendoti completamente invisibile agli altri. Le ombre trasformano la luce fioca entro 3 metri da te in oscurità, e la luce intensa nella stessa area in luce fioca.\nFinché l'incantesimo non termina, hai resistenza ai danni radianti. Inoltre, ogni volta che una creatura entro 3 metri da te ti colpisce con un attacco, le ombre si scagliano contro quella creatura, infliggendole 2d8 danni necrotici.",
         "higherLevels": null,
         "prepared": true
@@ -769,7 +759,7 @@
           "m": null
         },
         "duration": "Istantanea",
-        "concentration": false,
+        "concentration": true,
         "desc": "Tentacoli neri e contorti riempiono un'area di sei metri quadrati sul terreno, visibile a distanza. Per tutta la durata dell'evento, questi tentacoli trasformano il terreno circostante in un impervio ostacolo.\nQuando una creatura entra nell'area influenzata per la prima volta in un turno o inizia il suo turno lì, deve superare un tiro salvezza su Destrezza o subire 3d6 danni contundenti ed essere immobilizzata dai tentacoli fino alla fine dell'incantesimo. Una creatura che inizia il suo turno nell'area ed è già immobilizzata dai tentacoli subisce 3d6 danni contundenti.\nUna creatura immobilizzata dai tentacoli può usare la sua azione per effettuare una prova di Forza o Destrezza (a sua scelta) contro la CD del tuo tiro salvezza per gli incantesimi. In caso di successo, si libera",
         "higherLevels": null,
         "prepared": true
@@ -788,7 +778,7 @@
           "m": null
         },
         "duration": "Istantanea",
-        "concentration": false,
+        "concentration": true,
         "desc": "Cerchi di inviare una creatura che puoi vedere entro il raggio d'azione in un altro luogo di esistenza. Il bersaglio deve superare un tiro salvezza su Carisma o essere bandito.\nSe il bersaglio è nativo del piano di esistenza su cui ti trovi, lo bandisci in un semipiano innocuo. Mentre si trova lì, il bersaglio è incapacitato. Il bersaglio rimane lì finché l'incantesimo non termina, dopodiché riappare nello spazio che ha lasciato o nello spazio libero più vicino se quello spazio è occupato.\nSe il bersaglio è originario di un piano di esistenza diverso da quello in cui ti trovi, viene bandito con un debole schiocco e ritorna al suo piano di origine. Se l'incantesimo termina prima che sia trascorso 1 minuto, il bersaglio riappare nello spazio che ha lasciato o nello spazio libero più vicino, se quest'ultimo è occupato. Altrimenti, il bersaglio non ritorna.",
         "higherLevels": "Quando lanci questo incantesimo usando uno slot incantesimo di 5° livello o superiore, puoi bersagliare una creatura aggiuntiva per ogni livello di slot superiore al 4°.",
         "prepared": true
@@ -845,7 +835,7 @@
           "m": null
         },
         "duration": "Istantanea",
-        "concentration": false,
+        "concentration": true,
         "desc": "Questo incantesimo crea una sfera centrata su un punto a tua scelta entro il raggio d'azione. La sfera può avere un raggio fino a 12 metri. L'area all'interno di questa sfera è pervasa da un'oscurità magica e da una forza gravitazionale schiacciante.\nPer tutta la durata dell'incantesimo, l'area circostante diventa terreno difficile. Una creatura con scurovisione non può vedere attraverso l'oscurità magica e la luce non magica non può illuminarla. Nessun suono può essere prodotto all'interno dell'area né propagarsi attraverso di essa. Qualsiasi creatura o oggetto interamente all'interno della sfera è immune ai danni da tuono e le creature che si trovano interamente al suo interno diventano sorde. È impossibile lanciare un incantesimo che includa una componente verbale al suo interno.\nQualsiasi creatura che entri per la prima volta nell'area dell'incantesimo in un turno o che inizi il proprio turno al suo interno deve effettuare un tiro salvezza su Costituzione. La creatura subisce 8d10 danni da forza in caso di fallimento del tiro salvezza o la metà dei danni in caso di successo. Una creatura ridotta a 0 punti ferita da questo danno viene disintegrata. Una creatura disintegrata e tutto ciò che indossa e trasporta, ad eccezione degli oggetti magici, vengono ridotti in un mucchio di polvere grigia finissima.",
         "higherLevels": null,
         "prepared": true
