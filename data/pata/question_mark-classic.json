@@ -1,7 +1,7 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-05-21T21:21:05.718Z",
+  "exportedAt": "2026-05-27T22:21:28.826Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
@@ -364,7 +364,7 @@
         "type": "Passiva",
         "desc": "Caratteristica da incantatore: Carisma.",
         "maxUses": 2,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "cdStat": "CAR",
         "fav": true
@@ -463,7 +463,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": "custom",
-        "fav": false,
+        "fav": true,
         "cdCustom": 13
       },
       {
@@ -473,10 +473,10 @@
         "type": "Passiva",
         "desc": "Tasha's Hideous Laughter; 1 charge\nCause Fear; 1 charges\nMirror Image; 2 charges",
         "maxUses": 5,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": "custom",
-        "fav": false,
+        "fav": true,
         "cdCustom": 13
       },
       {
@@ -510,7 +510,7 @@
         "type": "Azione bonus",
         "desc": "Usi questa capacità un numero di volte pari al tuo Bonus Competenza; recuperi tutti gli usi con un riposo lungo.\nImbui un’arma a distanza con il tuo Haki. Il prossimo colpo riuscito entro 1 ora infligge +2d8 danni da forza. L’effetto termina al colpo a segno o allo scadere del tempo.",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -760,7 +760,60 @@
     ],
     "notes": "",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 5,
+        "roll1": 7,
+        "roll2": 1,
+        "chosen": 7,
+        "modifier": -2,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779912989752
+      },
+      {
+        "type": "d20",
+        "label": "Pistola (colpire)",
+        "total": 24,
+        "roll1": 9,
+        "roll2": 5,
+        "chosen": 9,
+        "modifier": 15,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779912859829
+      },
+      {
+        "type": "d20",
+        "label": "Bastonata extra (colpire)",
+        "total": 23,
+        "roll1": 8,
+        "roll2": 13,
+        "chosen": 8,
+        "modifier": 15,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779912352454
+      },
+      {
+        "type": "d20",
+        "label": "Lancia (colpire)",
+        "total": 21,
+        "roll1": 6,
+        "roll2": 11,
+        "chosen": 6,
+        "modifier": 15,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779912317145
+      }
+    ],
     "effects": []
   }
 }
