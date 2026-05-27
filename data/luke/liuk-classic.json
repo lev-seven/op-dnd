@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-13T15:06:38.351Z",
+  "exportedAt": "2026-05-27T21:27:36.174Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -152,7 +152,7 @@
       "slots": {
         "1": {
           "max": 4,
-          "used": 0
+          "used": 1
         },
         "2": {
           "max": 3,
@@ -184,7 +184,7 @@
         },
         "9": {
           "max": 13,
-          "used": 0
+          "used": 11
         }
       }
     },
@@ -298,7 +298,7 @@
         "type": "Passiva",
         "desc": "A partire dal 1 ° livello, si concentra il vostro obiettivo e l'uccisione di intenti su una creatura per colpire i loro punti deboli. Quando colpisci una creatura con un tiro di attacco usando un'arma da fuoco o una fionda, puoi contrassegnare il bersaglio per 1 minuto.\n\nLa prima volta su ciascuno dei tuoi giri che colpisci il nemico marcato e infliggi danni ad esso, incluso quando lo segni, aumenti quel danno di 1d4+sagg.mod.\n\nPuoi utilizzare questa funzione per contrassegnare una creatura un numero di volte uguale al tuo bonus di competenza e riacquisti tutti gli usi spesi quando finisci un lungo riposo.\n\nIl danno extra di questa funzione aumenta quando si raggiungono determinati livelli in questa classe: a 1d6 al 6° livello e a 1d8 al 14° livello.",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
@@ -461,7 +461,7 @@
         "type": "Azione bonus",
         "desc": "se manchi il  bersaglio puoi usare la tua azione bonus per curvare il proiettile e farlo rimbalzare su un altro nemico ",
         "maxUses": 4,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
@@ -590,7 +590,131 @@
     ],
     "notes": "",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "damage",
+        "label": "1d6",
+        "total": 2,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 2
+            }
+          ],
+          "bonus": 0,
+          "total": 2,
+          "formula": "1d6"
+        },
+        "timestamp": 1779913194376
+      },
+      {
+        "type": "damage",
+        "label": "1d8",
+        "total": 7,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 7
+            }
+          ],
+          "bonus": 0,
+          "total": 7,
+          "formula": "1d8"
+        },
+        "timestamp": 1779913189398
+      },
+      {
+        "type": "damage",
+        "label": "L'ammazza bambini (danno)",
+        "total": 16,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 6,
+              "value": 4
+            }
+          ],
+          "bonus": 6,
+          "total": 16,
+          "formula": "2d6+6"
+        },
+        "timestamp": 1779913100739
+      },
+      {
+        "type": "d20",
+        "label": "L'ammazza bambini (colpire)",
+        "total": 20,
+        "roll1": 12,
+        "roll2": 12,
+        "chosen": 12,
+        "modifier": 8,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779913076518
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 21,
+        "roll1": 18,
+        "roll2": 6,
+        "chosen": 18,
+        "modifier": 3,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779913055672
+      },
+      {
+        "type": "damage",
+        "label": "L'ammazza bambini (danno)",
+        "total": 10,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 1
+            },
+            {
+              "sides": 6,
+              "value": 3
+            }
+          ],
+          "bonus": 6,
+          "total": 10,
+          "formula": "2d6+6"
+        },
+        "timestamp": 1779911373725
+      },
+      {
+        "type": "d20",
+        "label": "L'ammazza bambini (colpire)",
+        "total": 25,
+        "roll1": 17,
+        "roll2": 18,
+        "chosen": 17,
+        "modifier": 8,
+        "mode": "svantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779911362679
+      }
+    ],
     "effects": []
   }
 }
