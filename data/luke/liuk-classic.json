@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-27T21:27:36.174Z",
+  "exportedAt": "2026-05-27T22:24:42.316Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -591,6 +591,19 @@
     "notes": "",
     "backstory": "",
     "diceLog": [
+      {
+        "type": "d20",
+        "label": "Prova DES",
+        "total": 16,
+        "roll1": 12,
+        "roll2": 17,
+        "chosen": 12,
+        "modifier": 4,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779918383735
+      },
       {
         "type": "damage",
         "label": "1d6",
