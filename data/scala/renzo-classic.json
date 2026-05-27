@@ -1,7 +1,7 @@
 {
   "account": "Scala",
   "accountId": "scala",
-  "exportedAt": "2026-05-21T21:21:03.092Z",
+  "exportedAt": "2026-05-27T22:06:29.181Z",
   "character": {
     "id": "mnhll4jfqr2z",
     "name": "RENZO",
@@ -222,19 +222,41 @@
     ],
     "attacks": [
       {
-        "id": "mnrifeqop4j5",
-        "name": "Eika slash",
-        "hit": 5,
-        "damage": "1d6 + 1",
-        "type": ""
-      },
-      {
         "id": "mnriiefaqpei",
         "name": "Yoru (Supreme Meito) Slash",
         "hit": 12,
         "damage": "1d6+1d6+3",
         "type": "se critico +2d6",
         "stat": ""
+      },
+      {
+        "id": "mpoh0zobbo5o",
+        "name": "Yoru (Supreme Meito) Slash + HAKI",
+        "stat": "",
+        "hit": 12,
+        "damage": "1d6+1d6+1d8+1d8+7",
+        "type": "",
+        "desc": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      },
+      {
+        "id": "mokcphpmo92k",
+        "name": "Great",
+        "stat": "",
+        "damage": "1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6",
+        "type": "",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
+      },
+      {
+        "id": "mnrifeqop4j5",
+        "name": "Eika slash",
+        "hit": 5,
+        "damage": "1d6 + 1",
+        "type": ""
       },
       {
         "id": "mokbudqj2w4k",
@@ -252,16 +274,6 @@
         "name": "Secondo soffio",
         "stat": "",
         "damage": "1d10+4",
-        "type": "",
-        "bonusHit": 0,
-        "bonusDmg": 0,
-        "bonusActive": false
-      },
-      {
-        "id": "mokcphpmo92k",
-        "name": "Great",
-        "stat": "",
-        "damage": "1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6+1d6",
         "type": "",
         "bonusHit": 0,
         "bonusDmg": 0,
@@ -516,7 +528,7 @@
         "type": "Azione",
         "desc": "Come azione, circondi il tuo corpo con questa armatura, facendo diventare la tua CA uguale a 13 + il tuo modificatore di Costituzione quando non indossi un'armatura. Questa armatura dura 8 ore. Non puoi usare di nuovo questa caratteristica fino a quando non completi un riposo lungo.",
         "maxUses": 1,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
@@ -624,7 +636,7 @@
         "type": "Passiva",
         "desc": "",
         "maxUses": 17,
-        "uses": 14,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
