@@ -1,16 +1,16 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-05-27T22:21:26.932Z",
+  "exportedAt": "2026-06-02T19:12:51.025Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
     "race": "Umano",
-    "level": 9,
+    "level": 10,
     "classes": "Devilforged",
     "ac": 16,
-    "hpMax": 65,
-    "hpCurrent": 65,
+    "hpMax": 70,
+    "hpCurrent": 70,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -525,6 +525,19 @@
         "uses": 0,
         "rest": "lungo",
         "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mpx0kmlwdc6r",
+        "name": "Deviazione Demoniaca",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Reazione",
+        "desc": "quando il bersaglio del tuo Marchio del Diavolo ti colpisce, puoi usare la tua reazione per tirare 1d6; con 4-6 l'attacco viene annullato e manca automaticamente.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "cdCustom": null,
         "fav": true
       }
     ],
