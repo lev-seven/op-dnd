@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-06-03T20:00:20.980Z",
+  "exportedAt": "2026-06-03T22:01:48.732Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -616,6 +616,45 @@
     "notes": "",
     "backstory": "",
     "diceLog": [
+      {
+        "type": "d20",
+        "label": "Percezione",
+        "total": 24,
+        "roll1": 4,
+        "roll2": 14,
+        "chosen": 14,
+        "modifier": 10,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780522481848
+      },
+      {
+        "type": "d20",
+        "label": "Rapidità di Mano",
+        "total": 13,
+        "roll1": 5,
+        "roll2": 18,
+        "chosen": 5,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780522355189
+      },
+      {
+        "type": "d20",
+        "label": "Prova FOR",
+        "total": 14,
+        "roll1": 13,
+        "roll2": 10,
+        "chosen": 13,
+        "modifier": 1,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780519032136
+      },
       {
         "type": "d20",
         "label": "Acrobazia",
