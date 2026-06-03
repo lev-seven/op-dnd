@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-06-03T19:06:15.472Z",
+  "exportedAt": "2026-06-03T19:08:51.931Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -240,6 +240,18 @@
         "bonusHit": 0,
         "bonusDmg": 2,
         "bonusActive": true
+      },
+      {
+        "id": "mpyfts4d463g",
+        "name": "Oni di ghiaccio ",
+        "stat": "",
+        "hit": 0,
+        "damage": "1d6",
+        "type": "perforante",
+        "desc": "Oni di ghiaccio. Una creatura soggetta a questo tipo di veleno deve superare un tiro salvezza su Costituzione con CD 16 o subire (1d6) danni da freddo e ammalarsi. La creatura malata deve ripetere il tiro salvezza all'inizio di ogni turno, subendo (1d6) danni da freddo in caso di fallimento. Finché questa malattia non termina, la creatura malata è sotto l'effetto dell'incantesimo confusione. Qualsiasi altra creatura che tocchi una creatura malata prima che si riprenda verrà soggetta al veleno dell'oni di ghiaccio e dovrà superare un tiro salvezza contro di esso. Questa malattia dura finché la creatura malata non supera un tiro salvezza contro di essa, ponendo fine all'effetto dell'incantesimo confusione sulla creatura.",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
       }
     ],
     "abilities": [
