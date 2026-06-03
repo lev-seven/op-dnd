@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-06-03T18:28:14.312Z",
+  "exportedAt": "2026-06-03T19:06:15.472Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -152,7 +152,7 @@
       "slots": {
         "1": {
           "max": 4,
-          "used": 1
+          "used": 0
         },
         "2": {
           "max": 3,
@@ -184,7 +184,7 @@
         },
         "9": {
           "max": 13,
-          "used": 11
+          "used": 0
         }
       }
     },
@@ -298,7 +298,7 @@
         "type": "Passiva",
         "desc": "A partire dal 1 ° livello, si concentra il vostro obiettivo e l'uccisione di intenti su una creatura per colpire i loro punti deboli. Quando colpisci una creatura con un tiro di attacco usando un'arma da fuoco o una fionda, puoi contrassegnare il bersaglio per 1 minuto.\n\nLa prima volta su ciascuno dei tuoi giri che colpisci il nemico marcato e infliggi danni ad esso, incluso quando lo segni, aumenti quel danno di 1d4+sagg.mod.\n\nPuoi utilizzare questa funzione per contrassegnare una creatura un numero di volte uguale al tuo bonus di competenza e riacquisti tutti gli usi spesi quando finisci un lungo riposo.\n\nIl danno extra di questa funzione aumenta quando si raggiungono determinati livelli in questa classe: a 1d6 al 6° livello e a 1d8 al 14° livello.",
         "maxUses": 4,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
@@ -461,7 +461,7 @@
         "type": "Azione bonus",
         "desc": "se manchi il  bersaglio puoi usare la tua azione bonus per curvare il proiettile e farlo rimbalzare su un altro nemico ",
         "maxUses": 4,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": null,
         "fav": false
@@ -577,7 +577,7 @@
         },
         "duration": "Istantanea",
         "concentration": false,
-        "desc": "danno base piu 1d6 per livello slot",
+        "desc": "Quando colpisci con un attacco con arma da fuoco o fionda, puoi spendere uno Slot Tattica per infliggere danni aggiuntivi a un bersaglio. Il danno extra è pari a 1d6 per uno Slot Tattica di 1° livello, più 1d6 per ogni Slot Tattica di livello superiore al 1°, fino a un massimo di 5d6.\n",
         "higherLevels": null,
         "prepared": true
       },
