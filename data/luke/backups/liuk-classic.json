@@ -1,16 +1,16 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-27T22:24:40.377Z",
+  "exportedAt": "2026-06-03T18:28:14.312Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
     "race": "Tontatta",
-    "level": 9,
+    "level": 10,
     "classes": "Marksman",
     "ac": 14,
-    "hpMax": 56,
-    "hpCurrent": 56,
+    "hpMax": 62,
+    "hpCurrent": 62,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -489,6 +489,19 @@
         "rest": "breve",
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mpyecn7y1cnd",
+        "name": "Trickshot",
+        "originId": "mp2in2kqs3hr",
+        "type": "Azione",
+        "desc": "una volta per turno puoi bersagliare una posizione specifica sul corpo di un nemico, purché il corpo del nemico abbia la posizione che vuoi bersagliare. Quando colpisci con un attacco con arma da fuoco o fionda, puoi aggiungere un effetto aggiuntivo in base alla posizione bersagliata. Una creatura bersaglio colpita da deve effettuare un tiro salvezza contro la tua CD del tiro salvezza Tattico.\n\nColpo al braccio. In caso di colpo a segno, il bersaglio deve superare un tiro salvezza su Costituzione o lasciare cadere un singolo oggetto a tua scelta che tiene in mano.\n\nColpo al corpo. Se il bersaglio colpisce, deve superare un tiro salvezza su Costituzione o subisce svantaggio su tutti i tiri salvezza su Destrezza e non può parlare fino all'inizio del tuo prossimo turno.\n\nColpo alla testa. Se il bersaglio colpisce, deve superare un tiro salvezza su Costituzione o diventare disorientato, come se fosse affetto dall'incantesimo Confusione, fino all'inizio del tuo prossimo turno.\n\nColpo alle gambe. In caso di colpo a segno, il bersaglio deve superare un tiro salvezza su Costituzione o cadere a terra prono.\n\nColpo d'ala. In caso di successo, il bersaglio deve effettuare un tiro salvezza su Costituzione o la sua velocità di volo si riduce a 0 fino all'inizio del tuo prossimo turno.\n\nPuoi aggiungere un effetto di tiro acrobatico un numero di volte pari al tuo bonus di competenza e recuperi tutti gli utilizzi al termine di un riposo lungo. Al 20° livello, puoi eseguire un tiro acrobatico un numero illimitato di volte, ma solo una volta per turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "SAG",
+        "cdCustom": null,
+        "fav": false
       }
     ],
     "spells": [
@@ -591,6 +604,25 @@
     "notes": "",
     "backstory": "",
     "diceLog": [
+      {
+        "type": "damage",
+        "label": "1d10",
+        "total": 4,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 10,
+              "value": 4
+            }
+          ],
+          "bonus": 0,
+          "total": 4,
+          "formula": "1d10"
+        },
+        "timestamp": 1780511030962
+      },
       {
         "type": "d20",
         "label": "Prova DES",
