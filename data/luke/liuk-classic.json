@@ -1,7 +1,7 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-06-03T19:08:53.823Z",
+  "exportedAt": "2026-06-03T19:34:21.814Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
@@ -616,6 +616,19 @@
     "notes": "",
     "backstory": "",
     "diceLog": [
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 20,
+        "roll1": 19,
+        "roll2": 11,
+        "chosen": 19,
+        "modifier": 1,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780515068265
+      },
       {
         "type": "damage",
         "label": "1d10",
