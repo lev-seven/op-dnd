@@ -1,7 +1,7 @@
 {
   "account": "Ciccio",
   "accountId": "ciccio",
-  "exportedAt": "2026-05-30T23:48:01.809Z",
+  "exportedAt": "2026-06-10T22:07:20.514Z",
   "character": {
     "id": "eliah_pucci_001",
     "name": "Eliah Pucci",
@@ -305,7 +305,7 @@
         "type": "Reazione",
         "desc": "Puoi creare soffici nuvole fluttuanti intorno a te per ridurre la velocità di caduta. Ottieni la capacità di lanciare Feather Fall. Dopo aver utilizzato questa abilità, non può essere riutilizzata fino a quando non completi un Riposo Breve o Lungo.",
         "maxUses": 1,
-        "uses": 0,
+        "uses": 1,
         "rest": "breve",
         "fav": false,
         "cdStat": null
