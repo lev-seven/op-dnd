@@ -1,16 +1,16 @@
 {
   "account": "Luke",
   "accountId": "luke",
-  "exportedAt": "2026-05-13T15:06:38.351Z",
+  "exportedAt": "2026-06-03T22:01:48.732Z",
   "character": {
     "id": "mp2i3e1h8twr",
     "name": "Liuk",
     "race": "Tontatta",
-    "level": 9,
+    "level": 10,
     "classes": "Marksman",
     "ac": 14,
-    "hpMax": 56,
-    "hpCurrent": 56,
+    "hpMax": 62,
+    "hpCurrent": 62,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -240,6 +240,18 @@
         "bonusHit": 0,
         "bonusDmg": 2,
         "bonusActive": true
+      },
+      {
+        "id": "mpyfts4d463g",
+        "name": "Oni di ghiaccio ",
+        "stat": "",
+        "hit": 0,
+        "damage": "1d6",
+        "type": "perforante",
+        "desc": "Oni di ghiaccio. Una creatura soggetta a questo tipo di veleno deve superare un tiro salvezza su Costituzione con CD 16 o subire (1d6) danni da freddo e ammalarsi. La creatura malata deve ripetere il tiro salvezza all'inizio di ogni turno, subendo (1d6) danni da freddo in caso di fallimento. Finché questa malattia non termina, la creatura malata è sotto l'effetto dell'incantesimo confusione. Qualsiasi altra creatura che tocchi una creatura malata prima che si riprenda verrà soggetta al veleno dell'oni di ghiaccio e dovrà superare un tiro salvezza contro di esso. Questa malattia dura finché la creatura malata non supera un tiro salvezza contro di essa, ponendo fine all'effetto dell'incantesimo confusione sulla creatura.",
+        "bonusHit": 0,
+        "bonusDmg": 0,
+        "bonusActive": false
       }
     ],
     "abilities": [
@@ -489,6 +501,19 @@
         "rest": "breve",
         "cdStat": null,
         "fav": false
+      },
+      {
+        "id": "mpyecn7y1cnd",
+        "name": "Trickshot",
+        "originId": "mp2in2kqs3hr",
+        "type": "Azione",
+        "desc": "una volta per turno puoi bersagliare una posizione specifica sul corpo di un nemico, purché il corpo del nemico abbia la posizione che vuoi bersagliare. Quando colpisci con un attacco con arma da fuoco o fionda, puoi aggiungere un effetto aggiuntivo in base alla posizione bersagliata. Una creatura bersaglio colpita da deve effettuare un tiro salvezza contro la tua CD del tiro salvezza Tattico.\n\nColpo al braccio. In caso di colpo a segno, il bersaglio deve superare un tiro salvezza su Costituzione o lasciare cadere un singolo oggetto a tua scelta che tiene in mano.\n\nColpo al corpo. Se il bersaglio colpisce, deve superare un tiro salvezza su Costituzione o subisce svantaggio su tutti i tiri salvezza su Destrezza e non può parlare fino all'inizio del tuo prossimo turno.\n\nColpo alla testa. Se il bersaglio colpisce, deve superare un tiro salvezza su Costituzione o diventare disorientato, come se fosse affetto dall'incantesimo Confusione, fino all'inizio del tuo prossimo turno.\n\nColpo alle gambe. In caso di colpo a segno, il bersaglio deve superare un tiro salvezza su Costituzione o cadere a terra prono.\n\nColpo d'ala. In caso di successo, il bersaglio deve effettuare un tiro salvezza su Costituzione o la sua velocità di volo si riduce a 0 fino all'inizio del tuo prossimo turno.\n\nPuoi aggiungere un effetto di tiro acrobatico un numero di volte pari al tuo bonus di competenza e recuperi tutti gli utilizzi al termine di un riposo lungo. Al 20° livello, puoi eseguire un tiro acrobatico un numero illimitato di volte, ma solo una volta per turno.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": "SAG",
+        "cdCustom": null,
+        "fav": false
       }
     ],
     "spells": [
@@ -564,7 +589,7 @@
         },
         "duration": "Istantanea",
         "concentration": false,
-        "desc": "danno base piu 1d6 per livello slot",
+        "desc": "Quando colpisci con un attacco con arma da fuoco o fionda, puoi spendere uno Slot Tattica per infliggere danni aggiuntivi a un bersaglio. Il danno extra è pari a 1d6 per uno Slot Tattica di 1° livello, più 1d6 per ogni Slot Tattica di livello superiore al 1°, fino a un massimo di 5d6.\n",
         "higherLevels": null,
         "prepared": true
       },
@@ -590,7 +615,241 @@
     ],
     "notes": "",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "d20",
+        "label": "Percezione",
+        "total": 24,
+        "roll1": 4,
+        "roll2": 14,
+        "chosen": 14,
+        "modifier": 10,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780522481848
+      },
+      {
+        "type": "d20",
+        "label": "Rapidità di Mano",
+        "total": 13,
+        "roll1": 5,
+        "roll2": 18,
+        "chosen": 5,
+        "modifier": 8,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780522355189
+      },
+      {
+        "type": "d20",
+        "label": "Prova FOR",
+        "total": 14,
+        "roll1": 13,
+        "roll2": 10,
+        "chosen": 13,
+        "modifier": 1,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780519032136
+      },
+      {
+        "type": "d20",
+        "label": "Acrobazia",
+        "total": 22,
+        "roll1": 2,
+        "roll2": 14,
+        "chosen": 14,
+        "modifier": 8,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780516655506
+      },
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 19,
+        "roll1": 18,
+        "roll2": 14,
+        "chosen": 18,
+        "modifier": 1,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780516519480
+      },
+      {
+        "type": "d20",
+        "label": "TS COS",
+        "total": 20,
+        "roll1": 19,
+        "roll2": 11,
+        "chosen": 19,
+        "modifier": 1,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1780515068265
+      },
+      {
+        "type": "damage",
+        "label": "1d10",
+        "total": 4,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 10,
+              "value": 4
+            }
+          ],
+          "bonus": 0,
+          "total": 4,
+          "formula": "1d10"
+        },
+        "timestamp": 1780511030962
+      },
+      {
+        "type": "d20",
+        "label": "Prova DES",
+        "total": 16,
+        "roll1": 12,
+        "roll2": 17,
+        "chosen": 12,
+        "modifier": 4,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779918383735
+      },
+      {
+        "type": "damage",
+        "label": "1d6",
+        "total": 2,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 2
+            }
+          ],
+          "bonus": 0,
+          "total": 2,
+          "formula": "1d6"
+        },
+        "timestamp": 1779913194376
+      },
+      {
+        "type": "damage",
+        "label": "1d8",
+        "total": 7,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 8,
+              "value": 7
+            }
+          ],
+          "bonus": 0,
+          "total": 7,
+          "formula": "1d8"
+        },
+        "timestamp": 1779913189398
+      },
+      {
+        "type": "damage",
+        "label": "L'ammazza bambini (danno)",
+        "total": 16,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 6
+            },
+            {
+              "sides": 6,
+              "value": 4
+            }
+          ],
+          "bonus": 6,
+          "total": 16,
+          "formula": "2d6+6"
+        },
+        "timestamp": 1779913100739
+      },
+      {
+        "type": "d20",
+        "label": "L'ammazza bambini (colpire)",
+        "total": 20,
+        "roll1": 12,
+        "roll2": 12,
+        "chosen": 12,
+        "modifier": 8,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779913076518
+      },
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 21,
+        "roll1": 18,
+        "roll2": 6,
+        "chosen": 18,
+        "modifier": 3,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779913055672
+      },
+      {
+        "type": "damage",
+        "label": "L'ammazza bambini (danno)",
+        "total": 10,
+        "isNat20": false,
+        "isNat1": false,
+        "rollResult": {
+          "results": [
+            {
+              "sides": 6,
+              "value": 1
+            },
+            {
+              "sides": 6,
+              "value": 3
+            }
+          ],
+          "bonus": 6,
+          "total": 10,
+          "formula": "2d6+6"
+        },
+        "timestamp": 1779911373725
+      },
+      {
+        "type": "d20",
+        "label": "L'ammazza bambini (colpire)",
+        "total": 25,
+        "roll1": 17,
+        "roll2": 18,
+        "chosen": 17,
+        "modifier": 8,
+        "mode": "svantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779911362679
+      }
+    ],
     "effects": []
   }
 }

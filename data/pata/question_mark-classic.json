@@ -1,16 +1,16 @@
 {
   "account": "Pata",
   "accountId": "pata",
-  "exportedAt": "2026-05-13T18:25:14.406Z",
+  "exportedAt": "2026-06-02T19:12:52.966Z",
   "character": {
     "id": "mnrpdaclenyq",
     "name": "Question mark",
     "race": "Umano",
-    "level": 9,
+    "level": 10,
     "classes": "Devilforged",
     "ac": 16,
-    "hpMax": 65,
-    "hpCurrent": 65,
+    "hpMax": 70,
+    "hpCurrent": 70,
     "hpTemp": 0,
     "hpPerm": 0,
     "speed": 9,
@@ -463,7 +463,7 @@
         "uses": 0,
         "rest": null,
         "cdStat": "custom",
-        "fav": false,
+        "fav": true,
         "cdCustom": 13
       },
       {
@@ -473,10 +473,10 @@
         "type": "Passiva",
         "desc": "Tasha's Hideous Laughter; 1 charge\nCause Fear; 1 charges\nMirror Image; 2 charges",
         "maxUses": 5,
-        "uses": 0,
+        "uses": 1,
         "rest": "lungo",
         "cdStat": "custom",
-        "fav": false,
+        "fav": true,
         "cdCustom": 13
       },
       {
@@ -486,7 +486,7 @@
         "type": "Azione bonus",
         "desc": "+3 danno e tiri per colpire",
         "maxUses": 4,
-        "uses": 1,
+        "uses": 0,
         "rest": "breve",
         "cdStat": null,
         "fav": true
@@ -498,7 +498,7 @@
         "type": "Passiva",
         "desc": "Non puoi riutilizzare questa capacità finché non completi un riposo breve o lungo.\nUna volta per turno, prima di effettuare un attacco a distanza, puoi attivare questa capacità:\nl’attacco ignora copertura e il modificatore di Destrezza alla CA del bersaglio, critico con 19–20 e, se colpisce, infligge +2d6 danni dello stesso tipo.",
         "maxUses": 1,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": null,
         "fav": true
@@ -522,9 +522,22 @@
         "type": "Azione bonus",
         "desc": "Non puoi riutilizzare questa capacità finché non completi un riposo lungo.\nQuando effettui un attacco a distanza, puoi infondere il proiettile con il tuo Haki:\nl’attacco infligge +4d8 danni da forza e ha gittata massima aumentata fino a 180 m (600 ft) senza svantaggio a lunga distanza.",
         "maxUses": 1,
-        "uses": 1,
+        "uses": 0,
         "rest": "lungo",
         "cdStat": null,
+        "fav": true
+      },
+      {
+        "id": "mpx0kmlwdc6r",
+        "name": "Deviazione Demoniaca",
+        "originId": "mnt6jmb4j6w6",
+        "type": "Reazione",
+        "desc": "quando il bersaglio del tuo Marchio del Diavolo ti colpisce, puoi usare la tua reazione per tirare 1d6; con 4-6 l'attacco viene annullato e manca automaticamente.",
+        "maxUses": -1,
+        "uses": 0,
+        "rest": null,
+        "cdStat": null,
+        "cdCustom": null,
         "fav": true
       }
     ],
@@ -760,7 +773,60 @@
     ],
     "notes": "",
     "backstory": "",
-    "diceLog": [],
+    "diceLog": [
+      {
+        "type": "d20",
+        "label": "TS FOR",
+        "total": 5,
+        "roll1": 7,
+        "roll2": 1,
+        "chosen": 7,
+        "modifier": -2,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779912989752
+      },
+      {
+        "type": "d20",
+        "label": "Pistola (colpire)",
+        "total": 24,
+        "roll1": 9,
+        "roll2": 5,
+        "chosen": 9,
+        "modifier": 15,
+        "mode": "vantaggio",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779912859829
+      },
+      {
+        "type": "d20",
+        "label": "Bastonata extra (colpire)",
+        "total": 23,
+        "roll1": 8,
+        "roll2": 13,
+        "chosen": 8,
+        "modifier": 15,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779912352454
+      },
+      {
+        "type": "d20",
+        "label": "Lancia (colpire)",
+        "total": 21,
+        "roll1": 6,
+        "roll2": 11,
+        "chosen": 6,
+        "modifier": 15,
+        "mode": "normale",
+        "isNat20": false,
+        "isNat1": false,
+        "timestamp": 1779912317145
+      }
+    ],
     "effects": []
   }
 }
